@@ -1,0 +1,24 @@
+/** { margin:0; padding:0; }*/
+
+#newsticker-demo { 
+width:276px; 
+background:#99CC00; 
+padding:5px 5px 0; 
+font-family:Verdana,Arial,Sans-Serif;
+font-size:12px;
+}
+
+#newsticker-demo a { text-decoration:none; }
+
+#newsticker-demo .title {
+text-align:center;
+font-size:14px;
+font-weight:bold;
+}
+
+.newsticker-jcarousellite { width:266px; }
+.newsticker-jcarousellite ul li{ list-style:none; display:block; padding-bottom:1px; margin-bottom:5px; }
+.newsticker-jcarousellite .info { float:right; width:260px; }
+.newsticker-jcarousellite .info span.cat { display: block; font-size:10px; color:#808080; }
+
+.clear { clear: both; }

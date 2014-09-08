@@ -1,0 +1,104 @@
+#menu {
+float: left;
+margin-bottom:5px;
+}
+
+/*
+ * @@ ATENÇÂO
+ * @@ AO ALTERAR O WIDTH DO MENU
+ * @@ ALTERE O ARQUIVO RESPONSÁVEL POR GERA-LO! DENTRO DO FRAMEWORK!
+*/
+#menu ul {
+list-style: none;
+margin: 0;
+padding: 0;
+width: 119px; /* Alteraï¿½ï¿½o: a medida anterior era 7em, q corresponde a 112px*/
+float: left;
+}
+
+#menu a, #menu h2 {
+font: 11px/16px "Trebuchet MS", Arial, Helvetica, sans-serif;
+display: block;
+border-width: 1px;
+border-style: none;
+margin: 0;
+padding: 3px 5px;
+cursor:pointer;
+padding-top:9px;
+padding-bottom:8px;
+
+
+/*border-color: #EEEEEE #EEEEEE #333333 #EEEEEE;*/
+}
+
+#menu h2 {
+color: #000000;
+background: url(../figuras/menu_on.gif);
+background-color:#E7F3FF;
+text-transform: uppercase;
+font-weight:bold;
+}
+
+
+#menu a {
+width:140px;
+padding-top:6px;
+padding-bottom:6px;
+
+color: #000000;
+text-decoration: none;
+border-left-color:#c9d9e5;
+border-left-style:solid;
+border-bottom-width:1px;
+
+border-right-color:#c9d9e5;
+border-right-style:solid;
+border-right-width:1px;
+
+border-bottom-color:#c9d9e5;
+border-bottom-style:solid;
+border-bottom-width:1px;
+
+background: #e3eef6;
+}
+
+#menu a:hover {
+color: #000000; /*Cor da Letra do Sub Menu*/
+border-left-color:#c9d9e5;
+border-left-style:solid;
+border-bottom-width:1px;
+
+border-right-color:#c9d9e5;
+border-right-style:solid;
+border-right-width:1px;
+
+border-bottom-color:#c9d9e5;
+border-bottom-style:solid;
+border-bottom-width:1px;
+
+/*background: url(../figuras/bg_submenu_22.gif);*/
+background: #d7e8f3; /*Cor do fundo do Sub Menu*/
+}
+
+#menu li {position: relative; z-index:900;}
+
+#menu ul ul {
+position: absolute;
+z-index: 800;
+}
+
+#menu ul ul ul  {
+position: absolute;
+top: 0;
+left: 151px;
+}
+
+div#menu ul ul,
+div#menu ul li:hover ul ul,
+div#menu ul ul li:hover ul ul
+{display: none; }
+
+div#menu ul li:hover ul,
+div#menu ul ul li:hover ul,
+div#menu ul ul ul li:hover ul
+{display: block;}

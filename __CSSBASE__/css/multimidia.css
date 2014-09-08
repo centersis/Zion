@@ -1,0 +1,93 @@
+.lista_midia {
+
+}
+
+.lista_midia_item a, .lista_midia_item a:visited {
+	color: #8ca86f;
+	background: #FFF;
+	border: 1px solid #424242;
+	width: 160px;
+        height: 120px;
+	min-height: 110px;
+	padding: 5px 0;
+	float: left;
+	margin: 3px;
+	text-decoration: none;
+	text-align: center;
+}
+
+.lista_midia_item a:hover, .lista_midia_item a:active {
+	border: 1px solid #9cbf79;
+	background: #FFF;
+	color: #9cbf79;
+}
+
+
+.lista_midia_interna {
+
+}
+
+.lista_midia_item_interna a, .lista_midia_item_interna a:visited {
+	color: #666;
+	background: #FFF;
+	border: 1px solid #424242;
+	width: 120px;
+	min-height: 82px;
+	padding: 5px 0;
+	float: left;
+	margin: 3px;
+	text-decoration: none;
+	text-align: center;
+}
+
+.lista_midia_item_interna a:hover, .lista_midia_item_interna a:active {
+	border: 1px solid #333;
+	background: #FFF;
+	color: #333;
+}
+
+table.lista_arquivos {
+	width: 100%;
+	border-collapse:collapse;
+	border:1px solid #424242;
+	font-size:12px;
+}
+table.lista_arquivos caption {
+	font: 1.8em/1.8em Arial, Helvetica, sans-serif;
+	text-align: left;
+	text-indent: 10px;
+	background: url(../figuras/lista_arquivo_bg_caption.jpg) right top;
+	height: 45px;
+	color: #FFAA00;
+}
+table.lista_arquivos thead th {
+	background: url(../figuras/lista_arquivo_bg_th.gif) repeat-x;
+	height: 25px;
+	color: #456b2a;
+	font-weight: bold;
+	padding: 0px 7px;
+	margin: 10px 0px 0px;
+	text-align: left;
+	border-right: 1px solid #424242;
+	border-bottom: 1px solid #424242;
+}
+
+table.lista_arquivos tbody th, table.lista_arquivos td {
+	font-size: 0.8em;
+	line-height: 1.4em;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #777777;
+	padding: 10px 7px;
+	border-top: 1px solid #424242;
+	border-right: 1px solid #424242;
+	text-align: left;
+}
+table.lista_arquivos a {
+	color: #777777;
+	font-weight: bold;
+	text-decoration: underline;
+}
+table.lista_arquivos a:hover {
+	color: #F8A704;
+	text-decoration: underline;
+}
