@@ -21,6 +21,11 @@ class Form
         return new FormInputTextoVo('texto');        
     }
     
+    public function data()
+    {
+        return new FormInputTextoVo('date');        
+    }
+    
     public function senha()
     {
         return new FormInputTextoVo('password');        
@@ -81,14 +86,16 @@ class Form
             throw new Exception('Atributo nome é obrigatório');
         }
         
-        $name        = 'name="'.$config->getNome().'"';        
-        $id          = ($config->getId() == '') ? 'id="'.$config->getNome().'" ' : 'id="'.$config->getId().'"';
-        $tipo        = 'type="'.strtolower($config->getTipo()).'"';
-        $value       = ' value="'.$config->getValor().'" ';
-        $size        = ($config->getLargura()) ? 'size="'.$config->getLargura().'"' : '';
-        $len         = (is_numeric($config->getMaximoCaracteres())) ? 'maxlength="'.$config->getMaximoCaracteres().'"' : '';
-        $complemento = $config->getComplemento();
-        $disable     = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $name         = 'name="'.$config->getNome().'"';        
+        $id           = ($config->getId() == '') ? 'id="'.$config->getNome().'" ' : 'id="'.$config->getId().'"';
+        $tipo         = 'type="'.strtolower($config->getTipo()).'"';
+        $value        = ' value="'.$config->getValor().'" ';
+        $size         = ($config->getLargura()) ? 'size="'.$config->getLargura().'"' : '';
+        $len          = (is_numeric($config->getMaximoCaracteres())) ? 'maxlength="'.$config->getMaximoCaracteres().'"' : '';
+        $complemento  = $config->getComplemento();
+        $disable      = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $placeholder  = ($config->getPlaceHolder() != '') ? 'placeholder="'.$config->getPlaceHolder().'"' : '';
+        $autocomplete = ($config->getAutoComplete() === false) ? 'autocomplete="off"' : '';
         
         if ($config->getMaiusculoMinusculo() == "ALTA") {
             $estiloCaixa = 'style="text-transform: uppercase;"';
@@ -99,7 +106,8 @@ class Form
             $estiloCaixa = '';
         }
 
-        $retorno = sprintf("<input %s %s %s %s %s %s %s %s %s/>", $name, $id, $tipo, $value, $size, $len, $estiloCaixa, $complemento, $disable);
+        $retorno = sprintf("<input %s %s %s %s %s %s %s %s %s %s %s/>", 
+        $name, $id, $tipo, $value, $size, $len, $estiloCaixa, $complemento, $disable, $placeholder, $autocomplete);
 
         return $retorno;
     }
@@ -110,10 +118,10 @@ class Form
             throw new Exception('Atributo nome é obrigatório');
         }
         
-        $name        = $config->getNome();        
+        $name        = 'name="'.$config->getNome().'"';        
         $id          = ($config->getId() == '') ? 'id="'.$config->getNome().'" ' : 'id="'.$config->getId().'"';
         $tipo        = 'type="'.strtolower($config->getTipo()).'"';
-        $value       = ' value="'.$config->getValor().'" ';
+        $value       = $config->getValor();
         $complemento = $config->getComplemento();
         $disable     = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
 

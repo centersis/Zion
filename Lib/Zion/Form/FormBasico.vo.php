@@ -10,10 +10,7 @@ abstract class FormBasicoVo
     private $disabled;
     private $complemento;
     private $atributos;
-    private $classCss;
-    private $obrigatorio;
-    private $converterHtml;
-    private $autoTrim;
+    private $classCss;    
         
     public function setId($id)
     {
@@ -112,38 +109,5 @@ abstract class FormBasicoVo
     public function getClassCss()
     {
         return $this->classCss;
-    }
-    
-    public function setObrigarorio($obrigatorio)
-    {
-        $this->obrigatorio = $obrigatorio;        
-        return $this;
-    }
-    
-    public function getObrigatorio()
-    {
-        return $this->obrigatorio;
-    }
-    
-    public function setConverterHtml($converterHtml)
-    {
-        $this->converterHtml = $converterHtml;
-        return $this;
-    }
-    
-    public function getConverterHtml()
-    {
-        return $this->converterHtml;
-    }
-    
-    public function setAutoTrim($autoTrim)
-    {
-        $this->autoTrim = $autoTrim;
-        return $this;
-    }
-    
-    public function getautoTrim()
-    {
-        return $this->autoTrim;
     }
 }

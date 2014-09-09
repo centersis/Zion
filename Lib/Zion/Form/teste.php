@@ -12,11 +12,15 @@ class teste extends Form
         $campos[] = $this->texto()
                 ->setNome('Pablo')
                 ->setId('vanni')
-                ->setValor('wakawaka');
+                ->setValor('wakawaka');               
         
-        $campos[] = $this->botaoSimples()
+        $campos[] = $this->data()
+                ->setValorMaximo('2014-09-09')
+                ->setNome('aniversario');
+        
+        $campos[] = $this->botaoSubmit()
                 ->setNome('Enviar')
-                ->setComplemento('onclick="alert(1)"');
+                ->setValor('Meu Botão Feliz');
 
         return $this->processarForm($campos);
     }
@@ -26,9 +30,11 @@ class teste extends Form
 try {
     $a = new teste();
     $campos = $a->escreve();
-
+    
+    echo '<form name="teste">';
     foreach ($campos as $html)
         echo $html;
+    echo '</form>';
 } catch (Exception $e) {
     echo $e->getMessage();
 }

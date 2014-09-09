@@ -12,6 +12,11 @@ class FormInputTextoVo extends FormBasicoVo
     private $valorMinimo;
     private $maiusculoMinusculo;
     private $mascara;
+    private $obrigatorio;
+    private $converterHtml;
+    private $autoTrim;
+    private $placeHolder;
+    private $autoComplete;
     
     public function __construct($tipo)
     {
@@ -104,5 +109,60 @@ class FormInputTextoVo extends FormBasicoVo
     public function getMascara()
     {
         return $this->mascara;
+    }
+    
+    public function setObrigarorio($obrigatorio)
+    {
+        $this->obrigatorio = $obrigatorio;        
+        return $this;
+    }
+    
+    public function getObrigatorio()
+    {
+        return $this->obrigatorio;
+    }
+    
+    public function setConverterHtml($converterHtml)
+    {
+        $this->converterHtml = $converterHtml;
+        return $this;
+    }
+    
+    public function getConverterHtml()
+    {
+        return $this->converterHtml;
+    }
+    
+    public function setAutoTrim($autoTrim)
+    {
+        $this->autoTrim = $autoTrim;
+        return $this;
+    }
+    
+    public function getAutoTrim()
+    {
+        return $this->autoTrim;
+    }
+    
+    public function setPlaceHolder($placeHolder)
+    {
+        $this->placeHolder = $placeHolder;
+        return $this;
+    }
+    
+    public function getPlaceHolder()
+    {
+        return $this->placeHolder;
+    }
+    
+    public function setAutoComplete($autoComplete)
+    {
+        $this->autoComplete = $autoComplete;
+        return $this;
+    }
+    
+    public function getAutoComplete()
+    {
+        return $this->autoComplete;
     }
 }
