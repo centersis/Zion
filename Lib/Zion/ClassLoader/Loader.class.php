@@ -9,9 +9,9 @@
  * de acordo com as diretrizes PSR-0 e PSR-4.
  * 
  */
- namespace Zion\Loader;
+ namespace Zion\ClassLoader;
  
-use Zion\ClassLoader\UniversalClassLoader;
+use \Zion\ClassLoader\UniversalClassLoader;
 
 class Loader
 {
