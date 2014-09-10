@@ -15,7 +15,6 @@ use \Zion\ClassLoader\UniversalClassLoader;
 
 class Loader
 {
-    public $APPLICATION_PATH    = 'C:/xampp/htdocs/auto_proto';
     public $LIBRARY_PATH        = 'C:/xampp/htdocs/Zion/Lib';
 
     public $SUFIXES             = array(".class", "", ".vo", ".interface");
