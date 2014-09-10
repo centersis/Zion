@@ -25,7 +25,7 @@ class Data{
      * Valida uma data/hora.
      * 
      * @param String $data Data/Hora a ser validada nos formatos d/m/Y ou Y-m-d, ambos suportam H:i:s.
-     * @return bool Verdadeiro se a data/hora for v·lida, False otherwise.
+     * @return bool Verdadeiro se a data/hora for v√°lida, False otherwise.
      */
     public function validaData($data)
     {
@@ -49,7 +49,7 @@ class Data{
      * Valida uma hora.
      * 
      * @param String $hora Hora a ser validada no formato H:i:s.
-     * @return bool Verdadeiro se a hora for v·lida, False otherwise.
+     * @return bool Verdadeiro se a hora for v√°lida, False otherwise.
      */
     public function validaHora($hora)
     {
@@ -61,10 +61,10 @@ class Data{
 
     /**
      * Data::convertData()
-     * Converte data/hora do formato Brasileiro para o Americano e vice-versa, se est· for v·lida. Detecta o formato atual e converte para o outro. N„o altera o formato da hora.
+     * Converte data/hora do formato Brasileiro para o Americano e vice-versa, se est√° for v√°lida. Detecta o formato atual e converte para o outro. N√£o altera o formato da hora.
      * 
      * @param $data Data/Hora a ser convertida
-     * @return String Data convertida, bool FALSE se a data n„o for v·lida.
+     * @return String Data convertida, bool FALSE se a data n√£o for v√°lida.
      */
     public function converteData($data)
     {
@@ -116,7 +116,7 @@ class Data{
     
     /**
      * Data::verificaDataIntervalo()
-     * Verifica se uma determinada data est· dentro de um intervalo informado. 
+     * Verifica se uma determinada data est√° dentro de um intervalo informado. 
      * 
      * @param String $data Data a ser verificada.
      * @param String $dataInicial Data Inicial do intervalo.
@@ -145,7 +145,6 @@ class Data{
         
         
     }
-    
     
     public function somaData($dataA, $dataB){
         
