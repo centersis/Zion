@@ -1,8 +1,13 @@
 <?php
 
 /**
- * @author TomaHawk / EDGE
+ * Data
+ * @author Feliphe Bueno - feliphezion@gmail.com
+ * @since 08/09/2014
  * @copyright 2014
+ * 
+ * Tratamento de Data e Hora.
+ * 
  */
 
 namespace Zion\Validacao;
@@ -272,12 +277,12 @@ class Data{
      * @param mixed $data Data a ser verificada. Em qualquer formato.
      * @return String Separador encontrado.
      */
-    public function getSeparador($data){
+    public function getSeparador($data)
+    {
 
         return(preg_match('[/]', $data) ? '/' : '-');
 
     }
-    
     
     /**
      * Data::getMesExt()
@@ -286,7 +291,8 @@ class Data{
      * @param String $mes Mês a ser convertido.
      * @return String Mês por extenso.
      */
-    public function getMesExt($mes){
+    public function getMesExt($mes)
+    {
         throw new RuntimeException("Método ainda não implementado.");
     }
 
@@ -297,7 +303,8 @@ class Data{
      * @param String $data Data a ser convertido.
      * @return String Mês por extenso.
      */   
-    public function getDataExt($data){
+    public function getDataExt($data)
+    {
         throw new RuntimeException("Método ainda não implementado.");
     }
 
