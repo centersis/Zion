@@ -1,7 +1,7 @@
 <?php
 include_once '../ClassLoader/Loader.class.php';
 
-new Zion\ClassLoader\
+new Zion\ClassLoader\Loader();
 
 header("Content-Type: text/html; charset=UTF-8", true);
 

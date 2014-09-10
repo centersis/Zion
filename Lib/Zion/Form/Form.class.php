@@ -21,57 +21,57 @@ class Form extends FormHtml
 
     public function texto()
     {
-        return new FormInputTextoVo('texto');
+        return new \Zion\Form\FormInputTextoVo('texto');
     }
 
     public function data()
     {
-        return new FormInputDateVo('date');
+        return new \Zion\Form\FormInputDateVo('date');
     }
 
     public function hora()
     {
-        return new FormInputDateVo('time');
+        return new \Zion\Form\FormInputDateVo('time');
     }
 
     public function senha()
     {
-        return new FormInputTextoVo('password');
+        return new \Zion\Form\FormInputTextoVo('password');
     }
 
     public function numero()
     {
-        return new FormInputNumberVo('number');
+        return new \Zion\Form\FormInputNumberVo('number');
     }
 
     public function float()
     {
-        return new FormInputTextoVo('moeda');
+        return new \Zion\Form\FormInputTextoVo('moeda');
     }
 
     public function botaoSimples()
     {
-        return new FormInputButtonVo('button');
+        return new \Zion\Form\FormInputButtonVo('button');
     }
     
     public function cpf()
     {
-        return new FormInputTextoVo('texto');
+        return new \Zion\Form\FormInputTextoVo('texto');
     }
     
     public function mail()
     {
-        return new FormInputTextoVo('email');
+        return new \Zion\Form\FormInputTextoVo('email');
     }
 
     public function botaoSubmit()
     {
-        return new FormInputButtonVo('bubmit');
+        return new \Zion\Form\FormInputButtonVo('bubmit');
     }
 
     public function botaoReset()
     {
-        return new FormInputButtonVo('reset');
+        return new \Zion\Form\FormInputButtonVo('reset');
     }
 
     public function processarForm(array $campos)
