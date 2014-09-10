@@ -1,16 +1,17 @@
 <?php
 include_once './FormBasico.vo.php';
 
-class FormInputNumberVo extends FormBasicoVo
+class FormInputFloatVo extends FormBasicoVo
 {
     private $tipoBasico;
     private $tipo;    
     private $valorMaximo;
     private $valorMinimo;
+    private $prefixo;
     
     public function __construct($tipo)
     {
-        $this->tipoBasico = 'number';
+        $this->tipoBasico = 'float';
         $this->tipo = $tipo;
     }
     
@@ -44,6 +45,17 @@ class FormInputNumberVo extends FormBasicoVo
     public function getValorMinimo()
     {
         return $this->valorMinimo;
+    }
+    
+    public function setPrefixo($prefixo)
+    {
+        $this->prefixo = $prefixo;
+        return $this;
+    }
+    
+    public function getPrefixo()
+    {
+        return $this->prefixo;
     }
     
     /**

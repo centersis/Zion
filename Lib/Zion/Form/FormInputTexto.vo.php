@@ -171,55 +171,55 @@ class FormInputTextoVo extends FormBasicoVo
      */    
     public function setId($id)
     {
-        $this->setId($id);        
+        parent::setId($id);        
         return $this;
     }
     
     public function setNome($nome)
     {
-        $this->setNome($nome);
+        parent::setNome($nome);
         return $this;
     }
     
     public function setIdentifica($identifica)
     {
-        $this->setIdentifica($identifica);       
+        parent::setIdentifica($identifica);       
         return $this;
     }
     
     public function setValor($valor)
     {
-        $this->setValor($valor);      
+        parent::setValor($valor);      
         return $this;
     }
     
     public function setValorPadrao($valorPadrao)
     {
-        $this->setValorPadrao($valorPadrao);        
+        parent::setValorPadrao($valorPadrao);        
         return $this;
     }
     
     public function setDisabled($disabled)
     {
-        $this->setDisabled($disabled);     
+        parent::setDisabled($disabled);     
         return $this;
     }
     
     public function setComplemento($complemento)
     {
-        $this->setComplemento($complemento);       
+        parent::setComplemento($complemento);       
         return $this;
     }
     
     public function setAtributos($atributos)
     {
-        $this->setAtributos($atributos);       
+        parent::setAtributos($atributos);       
         return $this;
     }
     
     public function setClassCss($classCss)
     {
-        $this->setClassCss($classCss);       
+        parent::setClassCss($classCss);       
         return $this;
     }
 }

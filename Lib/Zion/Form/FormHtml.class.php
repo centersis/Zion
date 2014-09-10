@@ -71,6 +71,27 @@ class FormHtml
 
         return $retorno;
     }
+    
+    protected function montaFloat(FormInputFloatVo $config)
+    {
+        if (empty($config->getNome())) {
+            throw new Exception('Atributo nome é obrigatório');
+        }
+
+        $name = 'name="' . $config->getNome() . '"';
+        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
+        $tipo = 'type="' . strtolower($config->getTipo()) . '"';
+        $value = $config->getValor();
+        $complemento = $config->getComplemento();
+        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $max = ($config->getValorMaximo()) ? 'max="' . $config->getValorMaximo() . '"' : '';
+        $min = ($config->getValorMinimo()) ? 'min="' . $config->getValorMinimo() . '"' : '';
+        $prefixo = $config->getPrefixo();
+
+        $retorno = sprintf("%s<input %s %s %s %s %s %s %s %s />", $prefixo, $name, $id, $tipo, $value, $max, $min, $complemento, $disable);
+
+        return $retorno;
+    }
 
     protected function montaButton(FormInputButtonVo $config)
     {
