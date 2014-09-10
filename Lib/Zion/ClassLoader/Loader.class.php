@@ -5,7 +5,7 @@
  * @since 08/09/2014
  * @copyright 2014
  * 
- * Carregamento autom·tico de classes, baseado no Autoload Component do Symfony
+ * Carregamento autom√°tico de classes, baseado no Autoload Component do Symfony
  * de acordo com as diretrizes PSR-0 e PSR-4.
  * 
  */
