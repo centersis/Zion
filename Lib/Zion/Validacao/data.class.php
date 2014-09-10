@@ -150,8 +150,7 @@ class Data{
         
         list($AnoA, $MesA, $DiaA)   = explode("-", $dataA);
         list($AnoB, $MesB, $DiaB)   = explode("-", $dataB);
-        
-        //return mktime(0,0,0,$MesA - $M, $Dia - $Dias, $Ano - $Anos);
+               //return mktime(0,0,0,$MesA - $M, $Dia - $Dias, $Ano - $Anos);
     }
 
 }
