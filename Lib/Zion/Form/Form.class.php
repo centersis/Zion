@@ -1,11 +1,6 @@
 <?php
 
-include_once './FormInputTexto.vo.php';
-include_once './FormInputButton.vo.php';
-include_once './FormInputDate.vo.php';
-include_once './FormHtml.class.php';
-include_once './FormInputNumber.vo.php';
-include_once './FormInputFloat.vo.php';
+namespace Zion\Form;
 
 class Form extends FormHtml
 {

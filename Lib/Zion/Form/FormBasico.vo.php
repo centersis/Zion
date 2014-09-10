@@ -1,4 +1,5 @@
 <?php
+namespace Zion\Form;
 
 abstract class FormBasicoVo
 {

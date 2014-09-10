@@ -1,8 +1,9 @@
 <?php
+include_once '../ClassLoader/Loader.class.php';
+
+new Zion\ClassLoader\
 
 header("Content-Type: text/html; charset=UTF-8", true);
-
-include_once './Form.class.php';
 
 class teste extends Form
 {
