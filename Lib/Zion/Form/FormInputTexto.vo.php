@@ -165,4 +165,61 @@ class FormInputTextoVo extends FormBasicoVo
     {
         return $this->autoComplete;
     }
+    
+    /**
+     * Sobrecarga de Metodos Básicos
+     */    
+    public function setId($id)
+    {
+        $this->setId($id);        
+        return $this;
+    }
+    
+    public function setNome($nome)
+    {
+        $this->setNome($nome);
+        return $this;
+    }
+    
+    public function setIdentifica($identifica)
+    {
+        $this->setIdentifica($identifica);       
+        return $this;
+    }
+    
+    public function setValor($valor)
+    {
+        $this->setValor($valor);      
+        return $this;
+    }
+    
+    public function setValorPadrao($valorPadrao)
+    {
+        $this->setValorPadrao($valorPadrao);        
+        return $this;
+    }
+    
+    public function setDisabled($disabled)
+    {
+        $this->setDisabled($disabled);     
+        return $this;
+    }
+    
+    public function setComplemento($complemento)
+    {
+        $this->setComplemento($complemento);       
+        return $this;
+    }
+    
+    public function setAtributos($atributos)
+    {
+        $this->setAtributos($atributos);       
+        return $this;
+    }
+    
+    public function setClassCss($classCss)
+    {
+        $this->setClassCss($classCss);       
+        return $this;
+    }
 }

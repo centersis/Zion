@@ -2,151 +2,174 @@
 
 include_once './FormInputTexto.vo.php';
 include_once './FormInputButton.vo.php';
+include_once './FormInputDate.vo.php';
+include_once './FormHtml.class.php';
+include_once './FormInputNumber.vo.php';
 
-class Form
+class Form extends FormHtml
 {
+    private $metodo;
     private $formValues;
     private $processarHtml;
     private $processarJs;
-    
+    private $formHtml;
+
     public function __construct()
     {
-        $this->formValues    = array();
+        $this->metodo = 'POST';
+        $this->formValues = array();
         $this->processarHtml = true;
-        $this->processarJs   = true;
+        $this->processarJs = true;
+        $this->formHtml = array();
     }
-    
+
     public function texto()
     {
-        return new FormInputTextoVo('texto');        
+        return new FormInputTextoVo('texto');
     }
-    
+
     public function data()
     {
-        return new FormInputTextoVo('date');        
+        return new FormInputDateVo('date');
     }
-    
+
+    public function hora()
+    {
+        return new FormInputDateVo('time');
+    }
+
     public function senha()
     {
-        return new FormInputTextoVo('password');        
+        return new FormInputTextoVo('password');
     }
-    
-    public function mail()
+
+    public function numero()
     {
-        return new FormInputTextoVo('email');        
+        return new FormInputNumberVo('number');
     }
-    
-    public function inteiro()
-    {
-        return new FormInputTextoVo('inteiro');        
-    }
-    
+
     public function float()
     {
-        return new FormInputTextoVo('moeda');        
+        return new FormInputTextoVo('moeda');
     }
-    
+
     public function botaoSimples()
     {
         return new FormInputButtonVo('button');
     }
     
+    public function cpf()
+    {
+        return new FormInputTextoVo('texto');
+    }
+    
+    public function mail()
+    {
+        return new FormInputTextoVo('email');
+    }
+
     public function botaoSubmit()
     {
         return new FormInputButtonVo('bubmit');
     }
-    
+
     public function botaoReset()
     {
         return new FormInputButtonVo('reset');
     }
- 
+
     public function processarForm(array $campos)
     {
         $htmlCampos = array();
-        
-        foreach ($campos as $objCampos){
-            
-            if($this->processarHtml){
-                switch ($objCampos->getTipoBasico()){
-                    case 'texto' : $htmlCampos[$objCampos->getNome()] = $this->montaInput($objCampos); break;
-                    case 'button': $htmlCampos[$objCampos->getNome()] = $this->montaButton($objCampos); break;
-                }                
-            }           
+
+        foreach ($campos as $objCampos) {
+
+            if ($this->processarHtml) {
+                switch ($objCampos->getTipoBasico()) {
+                    case 'texto' :
+                        $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
+                        break;
+                    case 'date' :
+                        $htmlCampos[$objCampos->getNome()] = $this->montaDate($objCampos);
+                        break;
+                    case 'date' :
+                        $objCampos->setMascara('000.000.000-00');
+                        $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
+                        break;
+                    case 'number' :                        
+                        $htmlCampos[$objCampos->getNome()] = $this->montaNumber($objCampos);
+                        break;
+                    case 'button':
+                        $htmlCampos[$objCampos->getNome()] = $this->montaButton($objCampos);
+                        break;
+                }
+            }
+
+            $this->formValues[$objCampos->getNome()] = $objCampos->getValor();
+        }
+
+        if ($this->processarHtml) {
+            $this->formHtml = $htmlCampos;
         }
         
-        if($this->processarHtml){
-            return $htmlCampos;
-        }
+        return $this;
     }
-    
-    private function montaInput(FormInputTextoVo $config)
+
+    public function retornaValor($metodo, $nome)
     {
-        if(empty($config->getNome())){
-            throw new Exception('Atributo nome é obrigatório');
-        }
-        
-        $name         = 'name="'.$config->getNome().'"';        
-        $id           = ($config->getId() == '') ? 'id="'.$config->getNome().'" ' : 'id="'.$config->getId().'"';
-        $tipo         = 'type="'.strtolower($config->getTipo()).'"';
-        $value        = ' value="'.$config->getValor().'" ';
-        $size         = ($config->getLargura()) ? 'size="'.$config->getLargura().'"' : '';
-        $len          = (is_numeric($config->getMaximoCaracteres())) ? 'maxlength="'.$config->getMaximoCaracteres().'"' : '';
-        $complemento  = $config->getComplemento();
-        $disable      = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
-        $placeholder  = ($config->getPlaceHolder() != '') ? 'placeholder="'.$config->getPlaceHolder().'"' : '';
-        $autocomplete = ($config->getAutoComplete() === false) ? 'autocomplete="off"' : '';
-        
-        if ($config->getMaiusculoMinusculo() == "ALTA") {
-            $estiloCaixa = 'style="text-transform: uppercase;"';
-        } else if ($config->getMaiusculoMinusculo() == "BAIXA") {
-            $estiloCaixa = 'style="text-transform: lowercase;"';
-        }
-        else{
-            $estiloCaixa = '';
+        $metodo = strtoupper($metodo);
+
+        switch ($metodo) {
+            case "POST" : $valor = @$_POST[$nome];
+                break;
+            case "GET" : $valor = @$_GET[$nome];
+                break;
+            case "REQUEST": $valor = @$_REQUEST[$nome];
+                break;
+            case "SESSION": $valor = @$_SESSION[$nome];
+                break;
+            case "COOKIE" : $valor = @$_COOKIE[$nome];
+                break;
+            case "FILES" : $valor = @$_FILES[$nome];
+                break;
+            default: $valor = null;
         }
 
-        $retorno = sprintf("<input %s %s %s %s %s %s %s %s %s %s %s/>", 
-        $name, $id, $tipo, $value, $size, $len, $estiloCaixa, $complemento, $disable, $placeholder, $autocomplete);
-
-        return $retorno;
+        return $valor;
     }
-    
-    private function montaButton(FormInputButtonVo $config)
+
+    public function setMetodo($metodo)
     {
-        if(empty($config->getNome())){
-            throw new Exception('Atributo nome é obrigatório');
-        }
-        
-        $name        = 'name="'.$config->getNome().'"';        
-        $id          = ($config->getId() == '') ? 'id="'.$config->getNome().'" ' : 'id="'.$config->getId().'"';
-        $tipo        = 'type="'.strtolower($config->getTipo()).'"';
-        $value       = $config->getValor();
-        $complemento = $config->getComplemento();
-        $disable     = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
-
-        $retorno = sprintf("<button %s %s %s %s %s>%s</button>", $name, $id, $tipo, $complemento, $disable, $value);
-
-        return $retorno;
+        $this->metodo = $metodo;
     }
-    
+
+    public function getMetodo()
+    {
+        return $this->metodo;
+    }
+
     public function set($nome, $valor)
     {
         $this->formValues[$nome] = $valor;
     }
-    
+
     public function get($nome)
     {
         return $this->formValues[$nome];
     }
-    
+
     public function setProcessarHtml($processarHtml)
     {
         $this->processarHtml = $processarHtml;
     }
-    
+
     public function setProcessarJs($processarJs)
     {
         $this->processarJs = $processarJs;
+    }
+
+    public function getFormHtml($nome = null)
+    {
+        return $nome  ? $this->formHtml[$nome] : $this->formHtml;
     }
 }
