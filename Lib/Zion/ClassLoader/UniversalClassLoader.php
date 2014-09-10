@@ -62,6 +62,7 @@ class UniversalClassLoader
 {
     private $namespaces = array();
     private $prefixes = array();
+    private $sufixes = NULL;
     private $namespaceFallbacks = array();
     private $prefixFallbacks = array();
     private $useIncludePath = false;
@@ -106,6 +107,16 @@ class UniversalClassLoader
     public function getPrefixes()
     {
         return $this->prefixes;
+    }
+
+    /**
+     * Gets the configured class sufixes.
+     *
+     * @return array A hash with class sufixes as keys and directories as values
+     */
+    public function getSufixes()
+    {
+        return $this->sufixes;
     }
 
     /**
@@ -227,6 +238,18 @@ class UniversalClassLoader
     }
 
     /**
+     * Registers a set of sufixes.
+     *
+     * @param array       $sufixes An array of sufixes.
+     *
+     * @api
+     */
+    public function registerSufixes($sufixes)
+    {
+        $this->sufixes = $sufixes;
+    }
+
+    /**
      * Registers this instance as an autoloader.
      *
      * @param bool    $prepend Whether to prepend the autoloader or not
@@ -249,7 +272,6 @@ class UniversalClassLoader
     {
         if ($file = $this->findFile($class)) {
             require $file;
-
             return true;
         }
     }
@@ -267,7 +289,7 @@ class UniversalClassLoader
             // namespaced class name
             $namespace = substr($class, 0, $pos);
             $className = substr($class, $pos + 1);
-            $normalizedClass = str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+            $normalizedClass = str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className);
             foreach ($this->namespaces as $ns => $dirs) {
                 if (0 !== strpos($namespace, $ns)) {
                     continue;
@@ -275,39 +297,56 @@ class UniversalClassLoader
 
                 foreach ($dirs as $dir) {
                     $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
-                    if (is_file($file)) {
-                        return $file;
+
+                    foreach($this->getSufixes() as $sufix){
+                        $sufixedFile = $file . $sufix . '.php';
+                        if(is_file($sufixedFile )) {
+                            return $sufixedFile;
+                        }
                     }
                 }
             }
 
             foreach ($this->namespaceFallbacks as $dir) {
                 $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
-                if (is_file($file)) {
-                    return $file;
+
+                foreach($this->getSufixes() as $sufix){
+                    $sufixedFile = $file . $sufix . '.php';
+                    if(is_file($sufixedFile )) {
+                        return $sufixedFile;
+                    }
                 }
             }
 
         } else {
             // PEAR-like class name
-            $normalizedClass = str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+            $normalizedClass = str_replace('_', DIRECTORY_SEPARATOR, $class);
             foreach ($this->prefixes as $prefix => $dirs) {
                 if (0 !== strpos($class, $prefix)) {
                     continue;
                 }
 
                 foreach ($dirs as $dir) {
+
                     $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
-                    if (is_file($file)) {
-                        return $file;
+
+                    foreach($this->getSufixes() as $sufix){
+                        $sufixedFile = $file . $sufix . '.php';
+                        if(is_file($sufixedFile )) {
+                            return $sufixedFile;
+                        }
                     }
                 }
             }
 
             foreach ($this->prefixFallbacks as $dir) {
                 $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
-                if (is_file($file)) {
-                    return $file;
+
+                foreach($this->getSufixes() as $sufix){
+                    $sufixedFile = $file . $sufix . '.php';
+                    if(is_file($sufixedFile )) {
+                        return $sufixedFile;
+                    }
                 }
             }
         }

@@ -146,12 +146,27 @@ class Data{
         
     }
     
-    public function somaData($dataA, $dataB){
+    public function somaData($dataA, $dataB)
+    {
+
+        $delim  = $this->getSeparador($dataA);
+        $delimB  = $this->getSeparador($dataB);
         
-        list($AnoA, $MesA, $DiaA)   = explode("-", $dataA);
-        list($AnoB, $MesB, $DiaB)   = explode("-", $dataB);
-        
-        return mktime(0,0,0,$MesA - $M, $Dia - $Dias, $Ano - $Anos);
+        if($delimB != $delim)
+            $dataB = $this->converteData($dataB);
+            
+            print $dataB;
+
+        list($anoA, $mesA, $diaA)   = explode($delim, $dataA);
+        list($anoB, $mesB, $diaB)   = explode($delim, $dataB);
+
+        return date('d-m-Y', mktime(0, 0, 0, ($mesA + $mesB), ($diaA + $diaB), ($anoA + ($anoB <= 15 ? $anoB : 0))));
+    }
+    
+    public function getSeparador($data){
+
+        return(preg_match('[/]', $data) ? '/' : '-');
+
     }
 
 }
