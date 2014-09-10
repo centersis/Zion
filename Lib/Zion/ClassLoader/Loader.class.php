@@ -17,7 +17,7 @@ class Loader
 {
     public $LIBRARY_PATH        = 'C:/xampp/htdocs/Zion/Lib';
 
-    public $SUFIXES             = array(".class", "", ".vo", ".interface");
+    public $SUFIXES             = array("", ".vo", ".class", ".interface");
 
     public function __construct()
     {
