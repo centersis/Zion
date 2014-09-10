@@ -1,5 +1,7 @@
 <?php
 
+namespace Zion\Form;
+
 class FormHtml
 {
     protected function montaTexto(FormInputTextoVo $config)

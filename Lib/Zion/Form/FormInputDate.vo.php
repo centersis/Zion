@@ -1,5 +1,6 @@
 <?php
-include_once './FormBasico.vo.php';
+
+namespace Zion\Form;
 
 class FormInputDateVo extends FormBasicoVo
 {
