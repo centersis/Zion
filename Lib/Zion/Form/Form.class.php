@@ -5,6 +5,7 @@ include_once './FormInputButton.vo.php';
 include_once './FormInputDate.vo.php';
 include_once './FormHtml.class.php';
 include_once './FormInputNumber.vo.php';
+include_once './FormInputFloat.vo.php';
 
 class Form extends FormHtml
 {
@@ -98,6 +99,9 @@ class Form extends FormHtml
                         break;
                     case 'number' :                        
                         $htmlCampos[$objCampos->getNome()] = $this->montaNumber($objCampos);
+                        break;
+                    case 'float' :                        
+                        $htmlCampos[$objCampos->getNome()] = $this->montaFloat($objCampos);
                         break;
                     case 'button':
                         $htmlCampos[$objCampos->getNome()] = $this->montaButton($objCampos);

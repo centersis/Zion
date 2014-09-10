@@ -14,17 +14,17 @@ class teste extends Form
         $this->setMetodo($metodo);
         
         $campos[] = $this->texto()
-                ->setNome('nome')
+                ->setNome('texto')
                 ->setValor($this->retornaValor($metodo, 'nome'))
                 ->setId('nome');               
         
         $campos[] = $this->data()
-                ->setNome('Data')
+                ->setNome('data')
                 ->setDataMaxima('2014-09-09')
                 ->setDataMinima('2014-09-08');  
         
         $campos[] = $this->hora()
-                ->setNome('Hora')
+                ->setNome('hora')
                 ->setDataMaxima('14:00'); 
         
         $campos[] = $this->senha()                
@@ -33,6 +33,11 @@ class teste extends Form
         
         $campos[] = $this->numero()
                 ->setNome('number')
+                ->setValorMinimo(10)
+                ->setValorMaximo(20);
+        
+        $campos[] = $this->float()
+                ->setNome('float')
                 ->setValorMinimo(10)
                 ->setValorMaximo(20);
         
@@ -50,18 +55,18 @@ try {
     $a = new teste();
     $campos = $a->formTeste();
     
-    echo '<form name="teste">';
+    echo '<form name="teste">'."\n";
     foreach ($campos->getFormHtml() as $html)
-        echo $html;
+        echo $html."\n";
     
     echo '<hr>';
     
-    echo $campos->get('nome');
-    $campos->set('nome', 'mijador');
+    echo $campos->get('texto');
+    $campos->set('texto', 'mijador');
     echo '<hr>';
-    echo $campos->get('nome');
+    echo $campos->get('texto');
     
-    echo '</form>';
+    echo "\n".'</form>';
 } catch (Exception $e) {
     echo $e->getMessage();
 }
