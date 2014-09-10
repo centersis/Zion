@@ -69,9 +69,6 @@ class Data{
     public function converteData($data)
     {
 
-        if($this->validaData($data) === false) 
-            return false;
-
         if(preg_match('[-]', $data)){
 
             $dExt    = explode('-', $data);
@@ -115,13 +112,29 @@ class Data{
     }
     
     /**
+     * Data::trocaSeparador()
+     * Detecta o separador automaticamente o substitui pelo inverso, seja [/] ou [-]. Idependente do formato.
+     * 
+     * @param String $data Data que terá os separadores trocados. Qualquer formato.
+     * @return String Data com os sepradores trocados.
+     */
+    public function trocaSeparador($data){
+
+        if($this->getSeparador($data) == "/"){
+            return preg_replace('[/]', '-', $data);
+        } else {
+            return preg_replace('[-]', '/', $data);
+        }
+    }
+    
+    /**
      * Data::verificaDataIntervalo()
      * Verifica se uma determinada data está dentro de um intervalo informado. 
      * 
      * @param String $data Data a ser verificada.
      * @param String $dataInicial Data Inicial do intervalo.
      * @param String $DataFinal Data Final do do intervalo.
-     * @return
+     * @return bool TRUE se a data estiver no intervalo, FALSE otherwise.
      */
     public function verificaDataIntervalo($data, $dataInicial, $DataFinal)
     {
@@ -131,7 +144,7 @@ class Data{
         if(preg_match('[/]', $DataFinal))     $DataFinal      = $this->converteData($DataFinal);
         
         if($this->validaData($data) and $this->validaData($dataInicial) and $this->validaData($DataFinal)){
-            
+
             if($data >= $dataInicial and $data <= $DataFinal){
                 return true;
             } else {
@@ -146,27 +159,146 @@ class Data{
         
     }
     
+    /**
+     * Data::somaData()
+     * Soma duas datas, considerando dias, meses e anos. Independente do formato.
+     * 
+     * @param String $dataA Uma das datas a serem somadas. Em qualquer formato.
+     * @param String $dataB Outra das datas a serem somadas. Em qualquer formato.
+     * @return String Resultado da soma das datas. No formato d/m/Y.
+     */
     public function somaData($dataA, $dataB)
     {
 
-        $delim  = $this->getSeparador($dataA);
-        $delimB  = $this->getSeparador($dataB);
-        
+        if($this->getSeparador($dataA) == "/")
+            $dataA = $this->converteData($dataA);
+
+        $delim      = $this->getSeparador($dataA);
+        $delimB     = $this->getSeparador($dataB);
+
         if($delimB != $delim)
             $dataB = $this->converteData($dataB);
             
-            print $dataB;
-
         list($anoA, $mesA, $diaA)   = explode($delim, $dataA);
         list($anoB, $mesB, $diaB)   = explode($delim, $dataB);
 
-        return date('d-m-Y', mktime(0, 0, 0, ($mesA + $mesB), ($diaA + $diaB), ($anoA + ($anoB <= 15 ? $anoB : 0))));
+        return date('d/m/Y', mktime(0, 0, 0, ($mesA + $mesB), ($diaA + $diaB), ($anoA + ($anoB <= 15 ? $anoB : 0))));
+    }
+
+    /**
+     * Data::subtraiData()
+     * Subtrai duas datas, considerando dias, meses e anos. Independente do formato.
+     * 
+     * @param String $dataA Uma das datas a serem subtraídas. Em qualquer formato.
+     * @param String $dataB Outra das datas a serem subtraídas. Em qualquer formato.
+     * @return String Resultado da subtração das datas. No formato d/m/Y.
+     */
+    public function subtraiData($dataA, $dataB)
+    {
+
+        if($this->getSeparador($dataA) == "/")
+            $dataA = $this->converteData($dataA);
+
+        $delim      = $this->getSeparador($dataA);
+        $delimB     = $this->getSeparador($dataB);
+
+        if($delimB != $delim)
+            $dataB = $this->converteData($dataB);
+
+        //Detecta qual valor é o mais alto para subtrair deste, evitando resultudos negativos.
+        if($dataA > $dataB){
+            $dataY = $dataA;
+            $dataX = $dataB;
+        } else {
+            $dataY = $dataB;
+            $dataX = $dataA;
+
+        }
+
+        list($anoA, $mesA, $diaA)   = explode($delim, $dataY);
+        list($anoB, $mesB, $diaB)   = explode($delim, $dataX);
+
+        return date('d/m/Y', mktime(0, 0, 0, ($mesA - $mesB), ($diaA - $diaB), ($anoA - ($anoB <= 60 ? $anoB : 0))));
     }
     
+    /**
+     * Data::somaHora()
+     * Soma horas distintas, considerando Horas, Minutos e Segundos.
+     * 
+     * @param mixed $horaA Uma das horas a serem somadas. No formato H:i:s
+     * @param mixed $horaB Outra das horas a serem somadas. No formato H:i:s
+     * @return String Resultado da soma das horas. No Formato H:i:s
+     */
+    public function somaHora($horaA, $horaB)
+    {
+        
+        list($hora, $min, $sec)     = explode(":", $horaA);
+        list($horaB, $minB, $secB)  = explode(":", $horaB);
+
+        return date('H:i:s', mktime(($hora + $horaB), ($min + $minB), ($sec + $secB)));
+    }
+
+    /**
+     * Data::subtraiHora()
+     * Subtrai horas distintas, considerando Horas, Minutos e Segundos.
+     * 
+     * @param mixed $horaA Uma das horas a serem subtraídas. No formato H:i:s
+     * @param mixed $horaB Outra das horas a serem subtraídas. No formato H:i:s
+     * @return String Resultado da subtração das horas. No Formato H:i:s
+     */
+    public function subtraiHora($horaA, $horaB)
+    {
+
+        //Detecta qual valor é o mais alto para subtrair deste, evitando resultudos negativos.
+        if($horaA > $horaB){
+            $horaY = $horaA;
+            $horaX = $horaB;
+        } else {
+            $horaY = $horaB;
+            $horaX = $horaA;
+
+        }
+
+        list($hora, $min, $sec)     = explode(":", $horaY);
+        list($horaB, $minB, $secB)  = explode(":", $horaX);
+
+        return date('H:i:s', mktime(($hora - $horaB), ($min - $minB), ($sec - $secB)));
+    }
+
+    /**
+     * Data::getSeparador()
+     * Detecta automaticamente o separador de uma data. Independente do formato.
+     * 
+     * @param mixed $data Data a ser verificada. Em qualquer formato.
+     * @return String Separador encontrado.
+     */
     public function getSeparador($data){
 
         return(preg_match('[/]', $data) ? '/' : '-');
 
+    }
+    
+    
+    /**
+     * Data::getMesExt()
+     * Retorna o equivalente por extenso de um mês númerico.
+     * 
+     * @param String $mes Mês a ser convertido.
+     * @return String Mês por extenso.
+     */
+    public function getMesExt($mes){
+        throw new RuntimeException("Método ainda não implementado.");
+    }
+
+    /**
+     * Data::getDataExt()
+     * Retorna o equivalente por extenso de uma data númerica.
+     * 
+     * @param String $data Data a ser convertido.
+     * @return String Mês por extenso.
+     */   
+    public function getDataExt($data){
+        throw new RuntimeException("Método ainda não implementado.");
     }
 
 }
