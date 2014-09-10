@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-class FormInputDateVo extends FormBasicoVo
+class FormInputDateVo extends \Zion\Form\FormBasicoVo
 {
     private $tipoBasico;
     private $tipo;    

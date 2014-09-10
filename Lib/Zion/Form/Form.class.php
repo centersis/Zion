@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-class Form extends FormHtml
+class Form extends \Zion\Form\FormHtml
 {
     private $metodo;
     private $formValues;

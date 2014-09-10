@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-class FormInputButtonVo extends FormBasicoVo
+class FormInputButtonVo extends \Zion\Form\FormBasicoVo
 {
     private $tipoBasico;
     private $tipo;

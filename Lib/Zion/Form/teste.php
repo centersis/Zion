@@ -5,7 +5,7 @@ new Zion\ClassLoader\Loader();
 
 header("Content-Type: text/html; charset=UTF-8", true);
 
-class teste extends Form
+class teste extends \Zion\Form\Form
 {
 
     public function formTeste()
