@@ -21,57 +21,57 @@ class Form extends \Zion\Form\FormHtml
 
     public function texto()
     {
-        return new \Zion\Form\FormInputTextoVo('texto');
+        return new \Zion\Form\FormInputTexto('texto');
     }
 
     public function data()
     {
-        return new \Zion\Form\FormInputDateVo('date');
+        return new \Zion\Form\FormInputDate('date');
     }
 
     public function hora()
     {
-        return new \Zion\Form\FormInputDateVo('time');
+        return new \Zion\Form\FormInputDate('time');
     }
 
     public function senha()
     {
-        return new \Zion\Form\FormInputTextoVo('password');
+        return new \Zion\Form\FormInputTexto('password');
     }
 
     public function numero()
     {
-        return new \Zion\Form\FormInputNumberVo('number');
+        return new \Zion\Form\FormInputNumber('number');
     }
 
     public function float()
     {
-        return new \Zion\Form\FormInputTextoVo('moeda');
+        return new \Zion\Form\FormInputTexto('moeda');
     }
 
     public function botaoSimples()
     {
-        return new \Zion\Form\FormInputButtonVo('button');
+        return new \Zion\Form\FormInputButton('button');
     }
     
     public function cpf()
     {
-        return new \Zion\Form\FormInputTextoVo('texto');
+        return new \Zion\Form\FormInputTexto('texto');
     }
     
     public function mail()
     {
-        return new \Zion\Form\FormInputTextoVo('email');
+        return new \Zion\Form\FormInputTexto('email');
     }
 
     public function botaoSubmit()
     {
-        return new \Zion\Form\FormInputButtonVo('bubmit');
+        return new \Zion\Form\FormInputButton('bubmit');
     }
 
     public function botaoReset()
     {
-        return new \Zion\Form\FormInputButtonVo('reset');
+        return new \Zion\Form\FormInputButton('reset');
     }
 
     public function processarForm(array $campos)
