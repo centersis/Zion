@@ -30,7 +30,7 @@ class Data{
      * Valida uma data/hora.
      * 
      * @param String $data Data/Hora a ser validada nos formatos d/m/Y ou Y-m-d, ambos suportam H:i:s.
-     * @return bool Verdadeiro se a data/hora for válida, False otherwise.
+     * @return bool TRUE se a data/hora for válida, False otherwise.
      */
     public function validaData($data)
     {
@@ -54,7 +54,7 @@ class Data{
      * Valida uma hora.
      * 
      * @param String $hora Hora a ser validada no formato H:i:s.
-     * @return bool Verdadeiro se a hora for válida, False otherwise.
+     * @return bool TRUE se a hora for válida, False otherwise.
      */
     public function validaHora($hora)
     {
@@ -123,7 +123,8 @@ class Data{
      * @param String $data Data que terá os separadores trocados. Qualquer formato.
      * @return String Data com os sepradores trocados.
      */
-    public function trocaSeparador($data){
+    public function trocaSeparador($data)
+    {
 
         if($this->getSeparador($data) == "/"){
             return preg_replace('[/]', '-', $data);
@@ -141,16 +142,16 @@ class Data{
      * @param String $DataFinal Data Final do do intervalo.
      * @return bool TRUE se a data estiver no intervalo, FALSE otherwise.
      */
-    public function verificaDataIntervalo($data, $dataInicial, $DataFinal)
+    public function verificaDataIntervalo($data, $dataInicial, $dataFinal)
     {
 
         if(preg_match('[/]', $data))          $data           = $this->converteData($data);
         if(preg_match('[/]', $dataInicial))   $dataInicial    = $this->converteData($dataInicial);
-        if(preg_match('[/]', $DataFinal))     $DataFinal      = $this->converteData($DataFinal);
+        if(preg_match('[/]', $dataFinal))     $dataFinal      = $this->converteData($dataFinal);
         
-        if($this->validaData($data) and $this->validaData($dataInicial) and $this->validaData($DataFinal)){
+        if($this->validaData($data) and $this->validaData($dataInicial) and $this->validaData($dataFinal)){
 
-            if($data >= $dataInicial and $data <= $DataFinal){
+            if($data >= $dataInicial and $data <= $dataFinal){
                 return true;
             } else {
                 return false;
