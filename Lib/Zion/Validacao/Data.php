@@ -3,7 +3,8 @@
 /**
  * Data
  * @author Feliphe Bueno - feliphezion@gmail.com
- * @since 08/09/2014
+ * @since 10/09/2014
+ * @version 1.0
  * @copyright 2014
  * 
  * Tratamento de Data e Hora.
