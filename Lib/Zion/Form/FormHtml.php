@@ -4,6 +4,7 @@ namespace Zion\Form;
 
 class FormHtml extends \Zion\Form\FormAtributos
 {
+
     protected function montaHidden(FormInputHidden $config)
     {
         if (empty($config->getNome())) {
@@ -148,61 +149,88 @@ class FormHtml extends \Zion\Form\FormAtributos
         }
 
         $inicio = $config->getInicio();
-        
+        $ordena = $config->getOrdena();
+
         $array = $config->getArray();
-        
+
         $tabela = $config->getTabela();
         $campoCod = $config->getCampoCod();
         $campoDesc = $config->getCampoDesc();
         $where = $config->getWhere();
         $sqlCompleto = $config->getSqlCompleto();
-        
+
         $name = 'name="' . $config->getNome() . '"';
         $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $value = $config->getValor();
         $complemento = $config->getComplemento();
         $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
-        $valor = $config->getValor();        
-        
-        if ($Inicio != ''){
-            $campo = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">'.$Inicio.'</option>';
+        $valor = $config->getValor();
+
+        if ($inicio != '') {
+            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
         }
-        
-        if($tabela and $campoCod and $campoDesc){
+
+        if ($tabela and $campoCod and $campoDesc) {
             $con = \Zion\Banco\Conexao::conectar();
-            
-            if (!empty($sqlCompleto)){
-                $Sql = $sqlCompleto;
+
+            if (!empty($sqlCompleto)) {
+                $sql = $sqlCompleto;
             } else {
-                $Sql = "SELECT $CampoCod, $CampoDesc FROM $Tabela $Condicao";
+                $sqlWhere = $where ? 'WHERE ' . $where : '';
+                $sql = 'SELECT ' . $campoCod . ', ' . $campoDesc . ' FROM ' . $tabela . ' ' . $sqlWhere;
             }
 
-            $Rs = $Con->executar($Sql);
+            $rs = $con->executar($sql);
 
-            while ($Linha = @mysqli_fetch_array($Rs))
-                $ArrayValores[$Linha[$CampoCod]] = $Linha[$CampoDesc];
+            while ($linha = $rs->fetch_array()) {
+                $array[$linha[$campoCod]] = $linha[$campoDesc];
+            }
         }
-        
-        
-        foreach ($vetor as $chave => $vale) {
-            $campo .= '<option value="'. $chave .'" ';
+
+        if (!is_bool($ordena)) {
+            $ordena = strtoupper($ordena);
+        }
+
+        $ordenaArray = function($vetor) {
+            $original = $vetor;
+
+            foreach ($vetor as $posicao => $string) {
+                $vetor[$posicao] = $this->removeAcentos($string);
+            }
+
+            natcasesort($vetor);
+
+            foreach ($vetor as $posicao => $string) {
+                $vetor[$posicao] = $original[$posicao];
+            }
+        };
+
+        if ($ordena !== false) {
+            if ($ordena == "ASC" or $ordena == "") {
+                $array = $ordenaArray($array);
+            } elseif ($ordena == "DESC") {
+                $array = array_reverse($ordenaArray($array));
+            }
+        }
+
+        foreach ($array as $chave => $vale) {
+            $opcoes .= '<option value="' . $chave . '" ';
 
             if ($eSelecionado === false) {
                 if ($valor == '') {
                     if ("{$config->getValorPadrao()}" === "$chave") {
                         $eSelecionado = true;
-                        $campo .= 'selected';
+                        $opcoes .= 'selected';
                     }
                 } elseif ("$chave" === "$valor") {
                     $eSelecionado = true;
-                    $campo .= 'selected';
+                    $opcoes .= 'selected';
                 }
             }
 
-            $campo .= ' > ' . $vale . ' </option>';
+            $opcoes .= ' > ' . $vale . ' </option>';
         }
 
-        $retorno = sprintf("<select %s %s %s %s %s %s %s %s >%s</select>", $name, $id, $value, $complemento, $disable);
+        $retorno = sprintf("<select %s %s %s %s %s %s %s %s >%s</select>", $name, $id, $complemento, $disable, $opcoes);
 
         return $retorno;
     }
