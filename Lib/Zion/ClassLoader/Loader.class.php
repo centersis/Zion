@@ -3,6 +3,7 @@
 /** Loader 
  * @author Feliphe Bueno - feliphezion@gmail.com
  * @since 08/09/2014
+ * @version 1.0
  * @copyright 2014
  * 
  * Carregamento automático de classes, baseado no Autoload Component do Symfony
