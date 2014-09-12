@@ -14,10 +14,20 @@ class teste extends \Zion\Form\Form
 
         $this->setMetodo($metodo);
         
+        $campos[] = $this->hidden()
+                ->setNome('escondido');
+        
         $campos[] = $this->texto()
                 ->setNome('texto')
-                ->setValor($this->retornaValor($metodo, 'nome'))
-                ->setId('nome');               
+                ->setValor($this->retornaValor($metodo, 'texto'))
+                ->setId('nome'); 
+        
+        $campos[] = $this->suggest()
+                ->setNome('suggest');
+        
+        $campos[] = $this->senha()                
+                ->setNome('senha')
+                ->setLargura('30');
         
         $campos[] = $this->data()
                 ->setNome('data')
@@ -26,14 +36,11 @@ class teste extends \Zion\Form\Form
         
         $campos[] = $this->hora()
                 ->setNome('hora')
-                ->setDataMaxima('14:00'); 
-        
-        $campos[] = $this->senha()                
-                ->setNome('senha')
-                ->setLargura('30');
+                ->setDataMaxima('14:00');                
         
         $campos[] = $this->numero()
                 ->setNome('number')
+                ->setValor('numero')
                 ->setValorMinimo(10)
                 ->setValorMaximo(20);
         
@@ -42,10 +49,34 @@ class teste extends \Zion\Form\Form
                 ->setValorMinimo(10)
                 ->setValorMaximo(20);
         
+        $campos[] = $this->cpf()
+                ->setNome('cpf');
+        
+        $campos[] = $this->cnpj()
+                 ->setNome('CNPJ');
+        
+        $campos[] = $this->cep()
+                 ->setNome('cep');
+        
+        $campos[] = $this->telefone()
+            ->setNome('telefone');
+        
+        $campos[] = $this->email()
+            ->setNome('email');
+        
         $campos[] = $this->botaoSubmit()
                 ->setNome('Enviar')
                 ->setMetodo($metodo)
                 ->setValor('Meu Botão Feliz');
+        
+        $campos[] = $this->botaoReset()
+                ->setNome('Reset')
+                ->setValor('Limpar');
+        
+        $campos[] = $this->botaoSimples()
+                ->setNome('BotaoSimples')
+                ->setValor('Sou um botão que da alert')
+                ->setComplemento('onclick="alert(1)"');
 
         return $this->processarForm($campos);
     }
@@ -57,8 +88,8 @@ try {
     $campos = $a->formTeste();
     
     echo '<form name="teste">'."\n";
-    foreach ($campos->getFormHtml() as $html)
-        echo $html."\n";
+    foreach ($campos->getFormHtml() as $nome=>$html)
+        echo $nome.": ".$html."<br>\n";
     
     echo '<hr>';
     
