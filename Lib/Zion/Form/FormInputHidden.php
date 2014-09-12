@@ -2,16 +2,14 @@
 
 namespace Zion\Form;
 
-class FormInputNumber extends \Zion\Form\FormBasico
+class FormInputHidden extends \Zion\Form\FormBasico
 {
     private $tipoHtml;
-    private $acao;
-    private $valorMaximo;
-    private $valorMinimo;
+    private $acao;   
     
     public function __construct($acao)
     {
-        $this->tipoHtml = 'number';
+        $this->tipoHtml = 'hidden';
         $this->acao = $acao;
     }
     
@@ -23,28 +21,6 @@ class FormInputNumber extends \Zion\Form\FormBasico
     public function getAcao()
     {
         return $this->acao;
-    }
-    
-    public function setValorMaximo($valorMaximo)
-    {
-        $this->valorMaximo = $valorMaximo;
-        return $this;
-    }
-    
-    public function getValorMaximo()
-    {
-        return $this->valorMaximo;
-    }
-    
-    public function setValorMinimo($valorMinimo)
-    {
-        $this->valorMinimo = $valorMinimo;
-        return $this;
-    }
-    
-    public function getValorMinimo()
-    {
-        return $this->valorMinimo;
     }
     
     /**

@@ -2,26 +2,19 @@
 
 namespace Zion\Form;
 
-class FormInputTexto extends \Zion\Form\FormBasico
+class FormInputSuggest extends \Zion\Form\FormBasico
 {
     private $tipoHtml;
     private $acao;
     private $largura;
-    private $maximoCaracteres;
-    private $minimoCaracteres;
-    private $valorMaximo;
-    private $valorMinimo;
     private $maiusculoMinusculo;
-    private $mascara;
-    private $obrigatorio;
     private $converterHtml;
     private $autoTrim;
     private $placeHolder;
-    private $autoComplete;
     
     public function __construct($acao)
     {
-        $this->tipoHtml = 'texto';
+        $this->tipoHtml = 'suggest';
         $this->acao = $acao;
     }
     
@@ -44,29 +37,7 @@ class FormInputTexto extends \Zion\Form\FormBasico
     public function getLargura()
     {
         return $this->largura;
-    }
-    
-    public function setMaximoCaracteres($maximoCaracteres)
-    {
-        $this->maximoCaracteres = $maximoCaracteres;
-        return $this;
-    }
-    
-    public function getMaximoCaracteres()
-    {
-        return $this->maximoCaracteres;
-    }
-    
-    public function setMinimoCaracteres($minimoCaracteres)
-    {
-        $this->minimoCaracteres = $minimoCaracteres;
-        return $this;
-    }
-    
-    public function getMinimoCaracteres()
-    {
-        return $this->minimoCaracteres;
-    }   
+    }  
     
     public function setMaiusculoMinusculo($maiusculoMinusculo)
     {
@@ -78,50 +49,6 @@ class FormInputTexto extends \Zion\Form\FormBasico
     {
         return $this->maiusculoMinusculo;
     } 
-    
-    public function setValorMinimo($valorMinimo)
-    {
-        $this->valorMinimo = $valorMinimo;
-        return $this;
-    }
-    
-    public function getValorMinimo()
-    {
-        return $this->valorMinimo;
-    }
-    
-    public function setValorMaximo($valorMaximo)
-    {
-        $this->valorMaximo = $valorMaximo;
-        return $this;
-    }
-    
-    public function getValorMaximo()
-    {
-        return $this->valorMaximo;
-    }
-    
-    public function setMascara($mascara)
-    {
-        $this->mascara = $mascara;
-        return $this;
-    }
-    
-    public function getMascara()
-    {
-        return $this->mascara;
-    }
-    
-    public function setObrigarorio($obrigatorio)
-    {
-        $this->obrigatorio = $obrigatorio;        
-        return $this;
-    }
-    
-    public function getObrigatorio()
-    {
-        return $this->obrigatorio;
-    }
     
     public function setConverterHtml($converterHtml)
     {
@@ -154,17 +81,6 @@ class FormInputTexto extends \Zion\Form\FormBasico
     public function getPlaceHolder()
     {
         return $this->placeHolder;
-    }
-    
-    public function setAutoComplete($autoComplete)
-    {
-        $this->autoComplete = $autoComplete;
-        return $this;
-    }
-    
-    public function getAutoComplete()
-    {
-        return $this->autoComplete;
     }
     
     /**

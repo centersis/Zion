@@ -4,25 +4,25 @@ namespace Zion\Form;
 
 class FormInputDate extends \Zion\Form\FormBasico
 {
-    private $tipoBasico;
-    private $tipo;    
+    private $tipoHtml;
+    private $acao; 
     private $dataMinima;
     private $dataMaxima;
     
-    public function __construct($tipo)
+    public function __construct($acao)
     {
-        $this->tipoBasico = 'date';
-        $this->tipo = $tipo;
+        $this->tipoHtml = 'date';
+        $this->acao = $acao;
     }
     
-    public function getTipoBasico()
+    public function getTipoHtml()
     {
-        return $this->tipoBasico;
+        return $this->tipoHtml;
     }
     
-    public function getTipo()
+    public function getAcao()
     {
-        return $this->tipo;
+        return $this->acao;
     }
     
     public function setDataMinima($dataMinima)

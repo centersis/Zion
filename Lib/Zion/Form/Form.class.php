@@ -18,10 +18,20 @@ class Form extends \Zion\Form\FormHtml
         $this->processarJs = true;
         $this->formHtml = array();
     }
+    
+    public function hidden()
+    {
+        return new \Zion\Form\FormInputHidden('hidden');
+    }
 
     public function texto()
     {
         return new \Zion\Form\FormInputTexto('texto');
+    }
+    
+    public function suggest()
+    {
+        return new \Zion\Form\FormInputSuggest('suggest');
     }
 
     public function data()
@@ -48,27 +58,82 @@ class Form extends \Zion\Form\FormHtml
     {
         return new \Zion\Form\FormInputTexto('moeda');
     }
-
-    public function botaoSimples()
-    {
-        return new \Zion\Form\FormInputButton('button');
-    }
     
     public function cpf()
     {
         return new \Zion\Form\FormInputTexto('texto');
     }
     
-    public function mail()
+    public function cnpj()
+    {
+        return new \Zion\Form\FormInputTexto('texto');
+    }
+    
+    public function cep()
+    {
+        return new \Zion\Form\FormInputTexto('texto');
+    }
+    
+    public function telefone()
+    {
+        return new \Zion\Form\FormInputTexto('texto');
+    }
+    
+    public function email()
     {
         return new \Zion\Form\FormInputTexto('email');
     }
-
+    
+    public function listArray()
+    {
+        return new \Zion\Form\FormSelect('array');
+    }
+    
+    public function listBanco()
+    {
+        return new \Zion\Form\FormSelect('banco');
+    }
+    
+    public function estado()
+    {
+        return new \Zion\Form\FormSelect('estado');
+    }
+    
+    public function mes()
+    {
+        return new \Zion\Form\FormSelect('mes');
+    }
+    
+    public function escolha()
+    {
+        return new \Zion\Form\FormInputTexto('email');
+    }
+    
+    public function textArea()
+    {
+        return new \Zion\Form\FormInputTexto('email');
+    }
+    
+    public function editor()
+    {
+        return new \Zion\Form\FormInputTexto('email');
+    }
+    
+    public function upload()
+    {
+        return new \Zion\Form\FormInputTexto('email');
+    }
+    
     public function botaoSubmit()
     {
         return new \Zion\Form\FormInputButton('bubmit');
     }
 
+    public function botaoSimples()
+    {
+        return new \Zion\Form\FormInputButton('button');
+    }
+    
     public function botaoReset()
     {
         return new \Zion\Form\FormInputButton('reset');
@@ -81,16 +146,18 @@ class Form extends \Zion\Form\FormHtml
         foreach ($campos as $objCampos) {
 
             if ($this->processarHtml) {
-                switch ($objCampos->getTipoBasico()) {
+                switch ($objCampos->getTipoHtml()) {
+                    case 'hidden' :
+                        $htmlCampos[$objCampos->getNome()] = $this->montaHidden($objCampos);
+                        break;
                     case 'texto' :
                         $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
+                        break;                    
+                    case 'suggest' :
+                        $htmlCampos[$objCampos->getNome()] = $this->montaSuggest($objCampos);
                         break;
                     case 'date' :
                         $htmlCampos[$objCampos->getNome()] = $this->montaDate($objCampos);
-                        break;
-                    case 'date' :
-                        $objCampos->setMascara('000.000.000-00');
-                        $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
                         break;
                     case 'number' :                        
                         $htmlCampos[$objCampos->getNome()] = $this->montaNumber($objCampos);
@@ -98,6 +165,10 @@ class Form extends \Zion\Form\FormHtml
                     case 'float' :                        
                         $htmlCampos[$objCampos->getNome()] = $this->montaFloat($objCampos);
                         break;
+                    case 'cpf' :
+                        $objCampos->setMascara('000.000.000-00');
+                        $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
+                        break;                    
                     case 'button':
                         $htmlCampos[$objCampos->getNome()] = $this->montaButton($objCampos);
                         break;

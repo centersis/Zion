@@ -1,73 +1,79 @@
-﻿<?php 
+<?php
+
 /**
-*	@copyright CenterSis
-*	@author Pablo Vanni - pablovanni@gmail.com
-*	@since 28/05/2007
-*	<br>Última Atualização: 28/05/2007<br>
- *   <br>Última Atualização: 22/05/2012<br>
-*	Autualizada Por: Pablo Vanni - pablovanni@gmail.com<br>
-*	@name Configurações de Acesso ao banco de dados
-* 	@version 2.0
-*  	@package Framework
-*/
+ * @copyright CenterSis
+ * @author Pablo Vanni - pablovanni@gmail.com
+ * @since 28/05/2007
+ * Última Atualização: 28/05/2007
+ * Última Atualização: 22/05/2012
+ * Autualizada Por: Pablo Vanni - pablovanni@gmail.com
+ * @name Configurações de Acesso ao banco de dados
+ * @version 3.0
+ * @package Framework
+ */
 
-class ConexaoConf 
-{ 
-    protected $User  = array();
-    protected $Senha = array();
-    protected $Banco = array();
-    protected $Host  = array();
-    
-    protected function __construct()
-    {                
-        $this->setUser('supremom_01',0);
-        $this->setSenha(']$66A8[w0tmb',0);
-        $this->setBanco('supremom_principal',0);
-        $this->setHost('localhost',0);
-        
-        $this->setUser('goemtorg_01',1);
-        $this->setSenha('EFL-631H4TX0',1);
-        $this->setBanco('goemtorg_principal',1);
-        $this->setHost('goemt.com.br',1);
+namespace Zion\Banco;
+
+class ConexaoConf
+{
+
+    private $user = array();
+    private $senha = array();
+    private $banco = array();
+    private $host = array();
+
+    public function __construct()
+    {
+
+        $this->setUser('desetemb_01', 'PADRAO');
+        $this->setSenha('!~2dIm[pO*Hh', 'PADRAO');
+        $this->setBanco('desetemb_secundario', 'PADRAO');
+        $this->setHost('localhost', 'PADRAO');
+
+        $this->setUser('goemtorg_01', 'GOE');
+        $this->setSenha('EFL-631H4TX0', 'GOE');
+        $this->setBanco('goemtorg_principal', 'GOE');
+        $this->setHost('goemt.com.br', 'GOE');
     }
 
-    public function setUser($Valor, $Conexao = 0)
+    public function setUser($Valor, $Conexao = 'PADRAO')
     {
-        $this->User[$Conexao] = $Valor;
+        $this->user[$Conexao] = $Valor;
     }
 
-    public function getUser($Conexao = 0)
+    public function getUser($Conexao = 'PADRAO')
     {
-        return $this->User[$Conexao];
+        return $this->user[$Conexao];
     }
 
-    public function setSenha($Valor, $Conexao = 0)
+    public function setSenha($Valor, $Conexao = 'PADRAO')
     {
-        $this->Senha[$Conexao] = $Valor;
+        $this->senha[$Conexao] = $Valor;
     }
 
-    public function getSenha($Conexao = 0)
+    public function getSenha($Conexao = 'PADRAO')
     {
-        return $this->Senha[$Conexao];
+        return $this->senha[$Conexao];
     }
 
-    public function setBanco($Valor, $Conexao = 0)
+    public function setBanco($Valor, $Conexao = 'PADRAO')
     {
-        $this->Banco[$Conexao] = $Valor;
+        $this->banco[$Conexao] = $Valor;
     }
 
-    public function getBanco($Conexao = 0)
+    public function getBanco($Conexao = 'PADRAO')
     {
-        return $this->Banco[$Conexao];
+        return $this->banco[$Conexao];
     }
 
-    public function setHost($Valor, $Conexao = 0)
+    public function setHost($Valor, $Conexao = 'PADRAO')
     {
-        $this->Host[$Conexao] = $Valor;
+        $this->host[$Conexao] = $Valor;
     }
 
-    public function getHost($Conexao = 0)
+    public function getHost($Conexao = 'PADRAO')
     {
-        return $this->Host[$Conexao];
-    }	
+        return $this->host[$Conexao];
+    }
+
 }
