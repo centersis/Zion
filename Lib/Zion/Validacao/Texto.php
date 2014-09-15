@@ -11,7 +11,8 @@
 
 namespace Zion\Validacao;
 
-class Texto{
+class Texto
+{
     
     public $keyWords = array("/SELECT/", "/INSERT/", "/UPDATE/", "/DELETE/", "/DROP/", "/ALTER/", "/ADD/", "/TABLE/", "/IF/", "/AND/", "/WHERE/", "/GROUP/", "/LIMIT/", 
                              "/JOIN/", "/IN/", "/INTO/", "/PROCEDURE/", "/WHILE/", "/WHEN/", "/TEHEN/", "/CASE/", "/LIKE/", "/KILL/");
@@ -146,7 +147,8 @@ class Texto{
      * @param String $texto Texto a ser tratado.
      * @return String Texto tratado e seguro para inserção no Banco de Dados.
      */
-    public function trata($texto){
+    public function trata($texto)
+    {
 
         $textoTratado = $texto;
         
@@ -164,7 +166,8 @@ class Texto{
      * @param String $texto Texto escapado a ser tratado.
      * @return String Texto sem caracteres de escape.
      */
-    public function desTrata($texto){
+    public function desTrata($texto)
+    {
         
         return stripslashes($texto);
     }

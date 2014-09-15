@@ -11,7 +11,8 @@
 
 namespace Zion\Validacao;
 
-class Tratamento{
+class Tratamento
+{
     
     /**
      * Tratamento::texto()
@@ -19,7 +20,8 @@ class Tratamento{
      * 
      * @return object()
      */
-    public function texto(){
+    public function texto()
+    {
         return new \Zion\Validacao\Texto();
     }
     
@@ -29,7 +31,8 @@ class Tratamento{
      * 
      * @return object()
      */
-    public function data(){
+    public function data()
+    {
         return new \Zion\Validacao\Data();
     }
     
@@ -39,7 +42,8 @@ class Tratamento{
      * 
      * @return object()
      */
-    public function numero(){
+    public function numero()
+    {
         return new \Zion\Validacao\Numero;
     }
 

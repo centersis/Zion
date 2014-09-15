@@ -13,7 +13,8 @@
 
 namespace Zion\Validacao;
 
-class Data{
+class Data
+{
     
     /**
      * Data::__construct()

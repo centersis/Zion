@@ -10,7 +10,8 @@
  */
 namespace Zion\Validacao;
 
-class Numero{
+class Numero
+{
     
     public $decimals    = array("/\./", "/,/");
     public $rDecimals   =  array("", ".");
@@ -20,7 +21,8 @@ class Numero{
      * 
      * @return void
      */
-    public function __construct(){
+    public function __construct()
+    {
 
     }
     
