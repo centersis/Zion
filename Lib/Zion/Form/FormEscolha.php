@@ -2,10 +2,12 @@
 
 namespace Zion\Form;
 
-class FormSelect extends \Zion\Form\FormBasico
+class FormEscolha extends \Zion\Form\FormBasico
 {
     private $tipoBase;
     private $acao;
+    private $multiplo;
+    private $expandido;
     private $ordena;
     private $array;
     private $inicio;
@@ -18,8 +20,12 @@ class FormSelect extends \Zion\Form\FormBasico
 
     public function __construct($acao)
     {
-        $this->tipoBase = 'select';
+        $this->tipoBase = 'escolha';
         $this->acao = $acao;
+        $this->expandido = false;
+        $this->multiplo = false;
+        $this->ordena = 'ASC';
+        $this->inicio = 'Selecione...';
     }
 
     public function getTipoBase()
@@ -32,6 +38,28 @@ class FormSelect extends \Zion\Form\FormBasico
         return $this->acao;
     }
 
+    public function getMiltiplo()
+    {
+        return $this->multiplo;
+    }
+
+    public function setMultiplo($multiplo)
+    {
+        $this->multiplo = $multiplo;
+        return $this;
+    }
+    
+    public function getExpandido()
+    {
+        return $this->expandido;
+    }
+
+    public function setExpandido($expandido)
+    {
+        $this->expandido = $expandido;
+        return $this;
+    }
+    
     public function getOrdena()
     {
         return $this->ordena;

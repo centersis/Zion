@@ -142,7 +142,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         return $retorno;
     }
 
-    protected function montaSelect(FormSelect $config)
+    protected function montaEscolha(FormEscolha $config)
     {
         if (empty($config->getNome())) {
             throw new Exception('Atributo nome é obrigatório');
@@ -150,7 +150,7 @@ class FormHtml extends \Zion\Form\FormAtributos
 
         $inicio = $config->getInicio();
         $ordena = $config->getOrdena();
-
+        
         $array = $config->getArray();
 
         $tabela = $config->getTabela();
@@ -158,17 +158,29 @@ class FormHtml extends \Zion\Form\FormAtributos
         $campoDesc = $config->getCampoDesc();
         $where = $config->getWhere();
         $sqlCompleto = $config->getSqlCompleto();
-
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        
+        $multiplo  = $config->getMiltiplo();
+        $Expandido = $config->getExpandido(); 
+        
         $valor = $config->getValor();
 
-        if ($inicio != '') {
-            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
+        //Define Tipo
+        $select = false;
+        $radio  = false;
+        $check  = false;
+        
+        if ($Expandido === true and $multiplo === true){
+            $radio = true;
+        }else if($Expandido === true and $multiplo === false){
+            $check = true;
+        } elseif($Expandido === false and $multiplo === false){
+            $select = true;
         }
         
+        if($select and $inicio != ''){
+            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
+        }
+                
         //É Selecionado ?
         $eSelecionado = false;
 
@@ -184,7 +196,7 @@ class FormHtml extends \Zion\Form\FormAtributos
 
             $rs = $con->executar($sql);
             
-            $array = array();
+            //$array = array();
             while ($linha = $rs->fetch_array()) {
                 $array[$linha[$campoCod]] = $linha[$campoDesc];
             }
@@ -220,25 +232,53 @@ class FormHtml extends \Zion\Form\FormAtributos
             }
         }
 
+        $name = 'name="' . $config->getNome() . '"';
+        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
+        $complemento = $config->getComplemento();
+        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        
+        if($select){
+            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>'; 
+        }
+        
+        $retorno = '';
+        
         foreach ($array as $chave => $vale) {
-            $opcoes .= '<option value="' . $chave . '" ';
+            
+            if ($select) { // Campo Select                           
+                $opcoes .= '<option value="' . $chave . '" ';
 
-            if ($eSelecionado === false) {
-                if ($valor == '') {
-                    if ("{$config->getValorPadrao()}" === "$chave") {
+                if ($eSelecionado === false) {
+                    if ($valor == '') {
+                        if ("{$config->getValorPadrao()}" === "$chave") {
+                            $eSelecionado = true;
+                            $opcoes .= 'selected';
+                        }
+                    } elseif ("$chave" === "$valor") {
                         $eSelecionado = true;
                         $opcoes .= 'selected';
                     }
-                } elseif ("$chave" === "$valor") {
-                    $eSelecionado = true;
-                    $opcoes .= 'selected';
                 }
+
+                $opcoes .= ' > ' . $vale . ' </option>';
             }
-
-            $opcoes .= ' > ' . $vale . ' </option>';
+            else {                 
+                if($check){
+                    $type = 'type="checkbox"';
+                    $name = $name.$chave;
+                    $id   = $name;
+                }else{
+                    $type = 'type="radio"';
+                    $id   = $name.$chave;
+                }
+                
+                $retorno .= sprintf("<label><input %s %s %s %s %s>%s</label>", $type, $name, $id, $complemento, $disable, $vale);
+            }
         }
-
-        $retorno = sprintf("<select %s %s %s %s>%s</select>", $name, $id, $complemento, $disable, $opcoes);
+        
+        if ($select) {
+            $retorno = sprintf("<select %s %s %s %s>%s</select>", $name, $id, $complemento, $disable, $opcoes);
+        }
 
         return $retorno;
     }

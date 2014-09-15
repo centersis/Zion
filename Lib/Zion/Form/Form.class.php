@@ -84,14 +84,9 @@ class Form extends \Zion\Form\FormHtml
         return new \Zion\Form\FormInputTexto('email');
     }
     
-    public function select()
-    {
-        return new \Zion\Form\FormSelect('select');
-    }
-    
     public function escolha()
     {
-        return new \Zion\Form\FormInputTexto('email');
+        return new \Zion\Form\FormEscolha('escolha');
     }
     
     public function textArea()
@@ -153,8 +148,8 @@ class Form extends \Zion\Form\FormHtml
                     case 'cpf' :
                         $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
                         break;    
-                    case 'select':
-                        $htmlCampos[$objCampos->getNome()] = $this->montaSelect($objCampos);
+                    case 'escolha':
+                        $htmlCampos[$objCampos->getNome()] = $this->montaEscolha($objCampos);
                         break;
                     case 'button':
                         $htmlCampos[$objCampos->getNome()] = $this->montaButton($objCampos);
