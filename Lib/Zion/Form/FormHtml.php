@@ -168,9 +168,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         if ($inicio != '') {
             $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
         }
+        
+        //É Selecionado ?
+        $eSelecionado = false;
 
         if ($tabela and $campoCod and $campoDesc) {
-            $con = \Zion\Banco\Conexao::conectar();
+            $con = \Zion\Banco\Conexao::conectar($config->getIdConexao());
 
             if (!empty($sqlCompleto)) {
                 $sql = $sqlCompleto;
@@ -180,7 +183,8 @@ class FormHtml extends \Zion\Form\FormAtributos
             }
 
             $rs = $con->executar($sql);
-
+            
+            $array = array();
             while ($linha = $rs->fetch_array()) {
                 $array[$linha[$campoCod]] = $linha[$campoDesc];
             }
@@ -191,10 +195,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         }
 
         $ordenaArray = function($vetor) {
+            
+            $texto = new \Zion\Validacao\Texto();
             $original = $vetor;
-
+            
             foreach ($vetor as $posicao => $string) {
-                $vetor[$posicao] = $this->removeAcentos($string);
+                $vetor[$posicao] = $texto->removerAcentos($string);
             }
 
             natcasesort($vetor);
@@ -202,6 +208,8 @@ class FormHtml extends \Zion\Form\FormAtributos
             foreach ($vetor as $posicao => $string) {
                 $vetor[$posicao] = $original[$posicao];
             }
+            
+            return $vetor;
         };
 
         if ($ordena !== false) {
@@ -230,7 +238,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $opcoes .= ' > ' . $vale . ' </option>';
         }
 
-        $retorno = sprintf("<select %s %s %s %s %s %s %s %s >%s</select>", $name, $id, $complemento, $disable, $opcoes);
+        $retorno = sprintf("<select %s %s %s %s>%s</select>", $name, $id, $complemento, $disable, $opcoes);
 
         return $retorno;
     }

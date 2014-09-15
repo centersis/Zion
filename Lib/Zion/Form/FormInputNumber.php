@@ -4,20 +4,20 @@ namespace Zion\Form;
 
 class FormInputNumber extends \Zion\Form\FormBasico
 {
-    private $tipoHtml;
+    private $tipoBase;
     private $acao;
     private $valorMaximo;
     private $valorMinimo;
     
     public function __construct($acao)
     {
-        $this->tipoHtml = 'number';
+        $this->tipoBase = 'number';
         $this->acao = $acao;
     }
     
-    public function getTipoHtml()
+    public function getTipoBase()
     {
-        return $this->tipoHtml;
+        return $this->tipoBase;
     }
     
     public function getAcao()

@@ -4,18 +4,18 @@ namespace Zion\Form;
 
 class FormInputHidden extends \Zion\Form\FormBasico
 {
-    private $tipoHtml;
+    private $tipoBase;
     private $acao;   
     
     public function __construct($acao)
     {
-        $this->tipoHtml = 'hidden';
+        $this->tipoBase = 'hidden';
         $this->acao = $acao;
     }
     
-    public function getTipoHtml()
+    public function getTipoBase()
     {
-        return $this->tipoHtml;
+        return $this->tipoBase;
     }
     
     public function getAcao()

@@ -4,7 +4,7 @@ namespace Zion\Form;
 
 class FormSelect extends \Zion\Form\FormBasico
 {
-    private $tipoHtml;
+    private $tipoBase;
     private $acao;
     private $ordena;
     private $array;
@@ -14,16 +14,17 @@ class FormSelect extends \Zion\Form\FormBasico
     private $campoDesc;
     private $where;
     private $sqlCompleto;
+    private $idConexao;
 
     public function __construct($acao)
     {
-        $this->tipoHtml = 'select';
+        $this->tipoBase = 'select';
         $this->acao = $acao;
     }
 
-    public function getTipoHtml()
+    public function getTipoBase()
     {
-        return $this->tipoHtml;
+        return $this->tipoBase;
     }
 
     public function getAcao()
@@ -116,6 +117,17 @@ class FormSelect extends \Zion\Form\FormBasico
     public function setSqlCompleto($sqlCompleto)
     {
         $this->sqlCompleto = $sqlCompleto;
+        return $this;
+    }
+    
+    public function getIdConexao()
+    {
+        return $this->idConexao;
+    }
+
+    public function setIdConexao($idConexao)
+    {
+        $this->idConexao = $idConexao;
         return $this;
     }
 
