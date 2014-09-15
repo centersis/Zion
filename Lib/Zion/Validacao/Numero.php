@@ -18,17 +18,18 @@ class Numero{
     /**
      * Numero::__construct()
      * 
-     * @return
+     * @return void
      */
     public function __construct(){
-        print $this->floatCliente('10000000555,66');
+
     }
     
     /**
      * Numero::floatCliente()
+     * Formata um numero float para o padrão de visualização do cliente.
      * 
-     * @param mixed $numero
-     * @return
+     * @param float $numero Numero float no padrão bancário.
+     * @return float no padrão de visualização do cliente.
      */
     public function floatCliente($numero)
     {
@@ -38,9 +39,10 @@ class Numero{
     
     /**
      * Numero::floatBoleto()
+     * Detecta o separador decimal e retorna um float no padrão bancário.
      * 
-     * @param mixed $numero
-     * @return
+     * @param float $numero Numero em qualquer formato.
+     * @return float Numero no padrão bancário.
      */
     public function floatBoleto($numero)
     {
@@ -71,10 +73,11 @@ class Numero{
     
     /**
      * Numero::intervalo()
-     * 
-     * @param mixed $numero
-     * @param mixed $min
-     * @param mixed $max
+     * Verifica se um determinado valor está dentro de um intervalo.
+     *  
+     * @param float $numero Valor a ser verificado. 
+     * @param float $min Valor minimo desejado. 
+     * @param float $max Valor máximo desejado.
      * @return
      */
     public function intervalo($numero, $min, $max)
