@@ -1,8 +1,12 @@
 <?php
 
 /**
- * @author TomaHawk / EDGE
+ * @author Feliphe Bueno - feliphezion@gmail.com
+ * @since 15/09/2014
+ * @version 1.0
  * @copyright 2014
+ * 
+ * Interface para integração com outras classes de tratamento de dados.
  */
 
 namespace Zion\Validacao;
