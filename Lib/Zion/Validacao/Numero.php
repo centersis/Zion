@@ -64,7 +64,7 @@ class Numero{
             return (float) sprintf('%01.2f', $numero);
 
         } else {
-            //Padrão desconhecido, variáveis infinitas, a qualidade desta projeção caiu abaixo de 30% e outras projeções não estão abertas para especulação.
+            //Padrão desconhecido, variáveis infinitas, a qualidade desta projeção caiu abaixo de 30% e outras projeções não estão abertas para especulações úteis.
             return (float) sprintf('%01.2f', $numero);
 
         }
