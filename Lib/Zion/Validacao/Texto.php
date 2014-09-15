@@ -23,7 +23,7 @@ class Texto{
      * Texto::__construct()
      * Construtor
      * 
-     * @return
+     * @return void
      */
     public function __construct()
     {
@@ -71,7 +71,7 @@ class Texto{
 
     /**
      * Texto::removerAcentos()
-     * Substitui os acentos com acento e cedilha de um texto, pelos seus equivalentes sem caracteres especiais.
+     * Substitui os caracteres com acento e cedilha de um texto, pelos seus equivalentes sem caracteres especiais.
      * 
      * @param String $texto Texto a ser tratado.
      * @return Texto com caracteres sem acentos e cedilha.
