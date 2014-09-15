@@ -4,7 +4,7 @@ namespace Zion\Form;
 
 class FormInputButton extends \Zion\Form\FormBasico
 {
-    private $tipoHtml;
+    private $tipoBase;
     private $acao;
     private $metodo;
     private $action;
@@ -12,13 +12,13 @@ class FormInputButton extends \Zion\Form\FormBasico
     
     public function __construct($acao)
     {
-        $this->tipoHtml = 'button';
+        $this->tipoBase = 'button';
         $this->acao = $acao;
     }
     
-    public function getTipoHtml()
+    public function getTipoBase()
     {
-        return $this->tipoHtml;
+        return $this->tipoBase;
     }
     
     public function getAcao()

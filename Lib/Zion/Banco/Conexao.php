@@ -43,7 +43,8 @@ class Conexao
         $this->setExcecao();
 
         //self::$link[$banco] = new mysqli($conf->getHost($banco), $conf->getUser($banco), $conf->getSenha($banco), $conf->getBanco($banco));
-        self::$link[$banco] = new mysqli('localhost', 'root', null, 'engine');
+        self::$link[$banco] = new \mysqli('localhost', 'root', null, 'engine');
+        self::$link[$banco]->set_charset("utf8");
     }
 
     private function setExcecao()

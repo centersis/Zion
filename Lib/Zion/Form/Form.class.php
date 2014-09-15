@@ -61,22 +61,22 @@ class Form extends \Zion\Form\FormHtml
     
     public function cpf()
     {
-        return new \Zion\Form\FormInputTexto('texto');
+        return new \Zion\Form\FormInputTexto('cpf');
     }
     
     public function cnpj()
     {
-        return new \Zion\Form\FormInputTexto('texto');
+        return new \Zion\Form\FormInputTexto('cnpj');
     }
     
     public function cep()
     {
-        return new \Zion\Form\FormInputTexto('texto');
+        return new \Zion\Form\FormInputTexto('cep');
     }
     
     public function telefone()
     {
-        return new \Zion\Form\FormInputTexto('texto');
+        return new \Zion\Form\FormInputTexto('telefone');
     }
     
     public function email()
@@ -84,24 +84,9 @@ class Form extends \Zion\Form\FormHtml
         return new \Zion\Form\FormInputTexto('email');
     }
     
-    public function listArray()
+    public function select()
     {
-        return new \Zion\Form\FormSelect('array');
-    }
-    
-    public function listBanco()
-    {
-        return new \Zion\Form\FormSelect('banco');
-    }
-    
-    public function estado()
-    {
-        return new \Zion\Form\FormSelect('estado');
-    }
-    
-    public function mes()
-    {
-        return new \Zion\Form\FormSelect('mes');
+        return new \Zion\Form\FormSelect('select');
     }
     
     public function escolha()
@@ -146,7 +131,7 @@ class Form extends \Zion\Form\FormHtml
         foreach ($campos as $objCampos) {
 
             if ($this->processarHtml) {
-                switch ($objCampos->getTipoHtml()) {
+                switch ($objCampos->getTipoBase()) {
                     case 'hidden' :
                         $htmlCampos[$objCampos->getNome()] = $this->montaHidden($objCampos);
                         break;
@@ -166,9 +151,11 @@ class Form extends \Zion\Form\FormHtml
                         $htmlCampos[$objCampos->getNome()] = $this->montaFloat($objCampos);
                         break;
                     case 'cpf' :
-                        $objCampos->setMascara('000.000.000-00');
                         $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
-                        break;                    
+                        break;    
+                    case 'select':
+                        $htmlCampos[$objCampos->getNome()] = $this->montaSelect($objCampos);
+                        break;
                     case 'button':
                         $htmlCampos[$objCampos->getNome()] = $this->montaButton($objCampos);
                         break;

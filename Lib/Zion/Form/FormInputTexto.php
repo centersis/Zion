@@ -4,7 +4,7 @@ namespace Zion\Form;
 
 class FormInputTexto extends \Zion\Form\FormBasico
 {
-    private $tipoHtml;
+    private $tipoBase;
     private $acao;
     private $largura;
     private $maximoCaracteres;
@@ -21,13 +21,13 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function __construct($acao)
     {
-        $this->tipoHtml = 'texto';
+        $this->tipoBase = 'texto';
         $this->acao = $acao;
     }
     
-    public function getTipoHtml()
+    public function getTipoBase()
     {
-        return $this->tipoHtml;
+        return $this->tipoBase;
     }
     
     public function getAcao()
