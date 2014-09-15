@@ -25,7 +25,27 @@ class Data{
     {
 
     }
-    
+
+    /** Data::dataHora()
+     * 	Retorna a Data e Hora Atual do Server no padrão Brasileiro.
+     * 
+     * 	@return String
+     */
+    public function dataHora()
+    {
+        return date("d/m/Y H:i:s");
+    }
+
+    /** Data::dataAtual()
+     * 	Retorna a Data Atual do Server no padrão Brasileiro.
+     * 
+     * 	@return String
+     */
+    public function dataAtual()
+    {
+        return date("d/m/Y");
+    }
+
     /**
      * Data::validaData()
      * Valida uma data/hora.
