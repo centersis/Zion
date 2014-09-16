@@ -5,22 +5,24 @@ namespace Zion\Form;
 class FormHtml extends \Zion\Form\FormAtributos
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     protected function montaHidden(FormInputHidden $config)
     {
         if (empty($config->getNome())) {
             throw new Exception('Atributo nome é obrigatório');
         }
 
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $tipo = 'type="' . strtolower($config->getAcao()) . '"';
-        $value = $config->getValor();
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
-
-        $retorno = sprintf("<input %s %s %s %s %s %s />", $name, $id, $tipo, $value, $complemento, $disable);
-
-        return $retorno;
+        return vsprintf("<input %s %s %s %s %s %s />", array(
+            $this->attr('name', $config->getNome()),
+            $this->attr('id', $config->getId()),
+            $this->attr('type', 'hidden'),
+            $this->attr('value', $config->getValor()),
+            $this->attr('complemento', $config->getComplemento()),
+            $this->attr('disabled', $config->getDisabled())));
     }
 
     protected function montaSuggest(FormInputSuggest $config)
@@ -28,27 +30,17 @@ class FormHtml extends \Zion\Form\FormAtributos
         if (empty($config->getNome())) {
             throw new Exception('Atributo nome é obrigatório');
         }
-
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $tipo = 'type="' . strtolower($config->getAcao()) . '"';
-        $value = ' value="' . $config->getValor() . '" ';
-        $size = ($config->getLargura()) ? 'size="' . $config->getLargura() . '"' : '';
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
-        $placeholder = ($config->getPlaceHolder() != '') ? 'placeholder="' . $config->getPlaceHolder() . '"' : '';
-
-        if ($config->getMaiusculoMinusculo() == "ALTA") {
-            $estiloCaixa = 'style="text-transform: uppercase;"';
-        } else if ($config->getMaiusculoMinusculo() == "BAIXA") {
-            $estiloCaixa = 'style="text-transform: lowercase;"';
-        } else {
-            $estiloCaixa = '';
-        }
-
-        $retorno = sprintf("<input %s %s %s %s %s %s %s %s %s/>", $name, $id, $tipo, $value, $size, $estiloCaixa, $complemento, $disable, $placeholder);
-
-        return $retorno;
+        
+        return vsprintf("<input %s %s %s %s %s %s %s %s %s/>", array(
+            $this->attr('name', $config->getNome()),
+            $this->attr('id', $config->getId()),
+            $this->attr('type', 'text'),
+            $this->attr('value', $config->getValor()),
+            $this->attr('size', $config->getValor()),
+            $this->attr('caixa', $config->getValor()),
+            $this->attr('placeholder', $config->getPlaceHolder()),
+            $this->attr('complemento', $config->getComplemento()),
+            $this->attr('disabled', $config->getDisabled())));
     }
 
     protected function montaTexto(FormInputTexto $config)
@@ -64,21 +56,22 @@ class FormHtml extends \Zion\Form\FormAtributos
         $size = ($config->getLargura()) ? 'size="' . $config->getLargura() . '"' : '';
         $len = (is_numeric($config->getMaximoCaracteres())) ? 'maxlength="' . $config->getMaximoCaracteres() . '"' : '';
         $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
         $placeholder = ($config->getPlaceHolder() != '') ? 'placeholder="' . $config->getPlaceHolder() . '"' : '';
         $autocomplete = ($config->getAutoComplete() === false) ? 'autocomplete="off"' : '';
 
-        if ($config->getMaiusculoMinusculo() == "ALTA") {
-            $estiloCaixa = 'style="text-transform: uppercase;"';
-        } else if ($config->getMaiusculoMinusculo() == "BAIXA") {
-            $estiloCaixa = 'style="text-transform: lowercase;"';
-        } else {
-            $estiloCaixa = '';
-        }
-
-        $retorno = sprintf("<input %s %s %s %s %s %s %s %s %s %s %s/>", $name, $id, $tipo, $value, $size, $len, $estiloCaixa, $complemento, $disable, $placeholder, $autocomplete);
-
-        return $retorno;
+        return vsprintf("<input %s %s %s %s %s %s %s %s %s %s %s/>", array(
+            $this->attr('name', $config->getNome()),
+            $this->attr('id', $config->getId()),
+            $this->attr('type', 'text'),
+            $this->attr('value', $config->getValor()),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('size', $config->getValor()),
+            $this->attr('caixa', $config->getValor()),
+            $this->attr('placeholder', $config->getPlaceHolder()),
+            $this->attr('complemento', $config->getComplemento()),
+            $this->attr('autocomplete', $config->getAutoComplete()),
+            $this->attr('disabled', $config->getDisabled())));
     }
 
     protected function montaDate(FormInputDate $config)
@@ -92,7 +85,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $tipo = 'type="' . strtolower($config->getAcao()) . '"';
         $value = $config->getValor();
         $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
         $max = ($config->getDataMaxima()) ? 'max="' . $config->getDataMaxima() . '"' : '';
         $min = ($config->getDataMinima()) ? 'min="' . $config->getDataMinima() . '"' : '';
 
@@ -112,7 +105,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $tipo = 'type="' . strtolower($config->getAcao()) . '"';
         $value = $config->getValor();
         $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
         $max = ($config->getValorMaximo()) ? 'max="' . $config->getValorMaximo() . '"' : '';
         $min = ($config->getValorMinimo()) ? 'min="' . $config->getValorMinimo() . '"' : '';
 
@@ -132,7 +125,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $tipo = 'type="' . strtolower($config->getAcao()) . '"';
         $value = $config->getValor();
         $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
         $max = ($config->getValorMaximo()) ? 'max="' . $config->getValorMaximo() . '"' : '';
         $min = ($config->getValorMinimo()) ? 'min="' . $config->getValorMinimo() . '"' : '';
         $prefixo = $config->getPrefixo();
@@ -150,7 +143,7 @@ class FormHtml extends \Zion\Form\FormAtributos
 
         $inicio = $config->getInicio();
         $ordena = $config->getOrdena();
-        
+
         $array = $config->getArray();
 
         $tabela = $config->getTabela();
@@ -158,29 +151,29 @@ class FormHtml extends \Zion\Form\FormAtributos
         $campoDesc = $config->getCampoDesc();
         $where = $config->getWhere();
         $sqlCompleto = $config->getSqlCompleto();
-        
-        $multiplo  = $config->getMiltiplo();
-        $Expandido = $config->getExpandido(); 
-        
+
+        $multiplo = $config->getMiltiplo();
+        $Expandido = $config->getExpandido();
+
         $valor = $config->getValor();
 
         //Define Tipo
         $select = false;
-        $radio  = false;
-        $check  = false;
-        
-        if ($Expandido === true and $multiplo === true){
-            $radio = true;
-        }else if($Expandido === true and $multiplo === false){
+        $radio = false;
+        $check = false;
+
+        if ($Expandido === true and $multiplo === true) {
             $check = true;
-        } elseif($Expandido === false and $multiplo === false){
+        } else if ($Expandido === true and $multiplo === false) {
+            $radio = true;
+        } elseif ($Expandido === false and $multiplo === false) {
             $select = true;
         }
-        
-        if($select and $inicio != ''){
+
+        if ($select and $inicio != '') {
             $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
         }
-                
+
         //É Selecionado ?
         $eSelecionado = false;
 
@@ -195,7 +188,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             }
 
             $rs = $con->executar($sql);
-            
+
             //$array = array();
             while ($linha = $rs->fetch_array()) {
                 $array[$linha[$campoCod]] = $linha[$campoDesc];
@@ -207,10 +200,10 @@ class FormHtml extends \Zion\Form\FormAtributos
         }
 
         $ordenaArray = function($vetor) {
-            
+
             $texto = new \Zion\Validacao\Texto();
             $original = $vetor;
-            
+
             foreach ($vetor as $posicao => $string) {
                 $vetor[$posicao] = $texto->removerAcentos($string);
             }
@@ -220,7 +213,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             foreach ($vetor as $posicao => $string) {
                 $vetor[$posicao] = $original[$posicao];
             }
-            
+
             return $vetor;
         };
 
@@ -235,16 +228,16 @@ class FormHtml extends \Zion\Form\FormAtributos
         $name = 'name="' . $config->getNome() . '"';
         $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
         $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
-        
-        if($select){
-            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>'; 
+        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
+
+        if ($select) {
+            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
         }
-        
+
         $retorno = '';
-        
+
         foreach ($array as $chave => $vale) {
-            
+
             if ($select) { // Campo Select                           
                 $opcoes .= '<option value="' . $chave . '" ';
 
@@ -261,21 +254,36 @@ class FormHtml extends \Zion\Form\FormAtributos
                 }
 
                 $opcoes .= ' > ' . $vale . ' </option>';
-            }
-            else {                 
-                if($check){
+            } else {
+                if ($check) {
+                    $checked = '';
                     $type = 'type="checkbox"';
-                    $name = $name.$chave;
-                    $id   = $name;
-                }else{
+                    $name = 'name="' . $config->getNome() . $chave . '"';
+                    $id = 'id="' . $config->getNome() . $chave . '"';
+                } else {
                     $type = 'type="radio"';
-                    $id   = $name.$chave;
+                    $id = 'id="' . $config->getNome() . $chave . '"';
+
+                    $checked = '';
+                    if ($eSelecionado === false) {
+                        if ($valor == '') {
+                            if ("{$config->getValorPadrao()}" === "$chave") {
+                                $eSelecionado = true;
+                                $checked = 'checked="checked"';
+                            }
+                        } elseif ("$chave" === "$valor") {
+                            $eSelecionado = true;
+                            $checked = 'checked="checked"';
+                        }
+                    }
                 }
-                
-                $retorno .= sprintf("<label><input %s %s %s %s %s>%s</label>", $type, $name, $id, $complemento, $disable, $vale);
+
+                $value = 'value="' . $chave . '"';
+
+                $retorno .= sprintf("<label><input %s %s %s %s %s %s %s>%s</label>", $type, $name, $id, $value, $complemento, $disable, $checked, $vale);
             }
         }
-        
+
         if ($select) {
             $retorno = sprintf("<select %s %s %s %s>%s</select>", $name, $id, $complemento, $disable, $opcoes);
         }
@@ -294,7 +302,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $tipo = 'type="' . strtolower($config->getAcao()) . '"';
         $value = $config->getValor();
         $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === false) ? 'disabled="disabled"' : '';
+        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
         $metodo = ($config->getMetodo()) ? 'formmethod="' . $config->getMetodo() . '"' : '';
         $action = ($config->getAction()) ? 'formaction="' . $config->getAction() . '"' : '';
         $target = ($config->getAction()) ? 'formtarget="' . $config->getAction() . '"' : '';
@@ -304,4 +312,15 @@ class FormHtml extends \Zion\Form\FormAtributos
         return $retorno;
     }
 
+    /**
+     * FormInputTexto::exception()
+     * Lança uma exceção caso o atributa receba um valor inválido.
+     * 
+     * @param String $attr Nome do atributo.
+     * @return void
+     */
+    public function exception($attr, $msg = '')
+    {
+        throw new \Exception("O valor informado para o atributo ". $attr ." nao é válido. ".$msg);
+    }
 }

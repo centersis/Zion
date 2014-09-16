@@ -12,6 +12,8 @@ class Form extends \Zion\Form\FormHtml
 
     public function __construct()
     {
+        parent::__construct();
+        
         $this->metodo = 'POST';
         $this->formValues = array();
         $this->processarHtml = true;
