@@ -226,4 +226,16 @@ class Form extends \Zion\Form\FormHtml
     {
         return $nome  ? $this->formHtml[$nome] : $this->formHtml;
     }
+    
+    /**
+     * FormInputTexto::exception()
+     * Lança uma exceção caso o atributa receba um valor inválido.
+     * 
+     * @param String $attr Nome do atributo.
+     * @return void
+     */
+    public function exception($attr, $msg = '')
+    {
+        throw new \Exception("O valor informado para o atributo ". $attr ." nao é válido. ".$msg);
+    }
 }
