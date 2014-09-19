@@ -1,6 +1,7 @@
 <?php
 
 namespace Zion\Form;
+use \Zion\Form\Exception\FormException as FormException;
 
 class FormInputHidden extends \Zion\Form\FormBasico
 {
@@ -26,57 +27,93 @@ class FormInputHidden extends \Zion\Form\FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */    
-        public function setId($id)
+    public function setId($id)
     {
-        parent::setId($id);        
-        return $this;
+        if(!empty($id)){
+            parent::setId($id);
+            return $this;
+        } else {
+            throw new FormException("id: Nenhum valor informado.");
+        }
     }
     
     public function setNome($nome)
     {
-        parent::setNome($nome);
-        return $this;
+        if(!empty($nome)){
+             parent::setNome($nome);
+            return $this;
+        } else {
+            throw new FormException("nome: Nenhum valor informado.");
+        }
     }
     
     public function setIdentifica($identifica)
     {
-        parent::setIdentifica($identifica);       
-        return $this;
+        if(!empty($identifica)){
+             parent::setIdentifica($identifica);
+            return $this;
+        } else {
+            throw new FormException("identifica: Nenhum valor informado.");
+        }
     }
     
     public function setValor($valor)
-    {
-        parent::setValor($valor);      
-        return $this;
+    {              
+        if(!empty($valor)){
+             parent::setValor($valor);
+            return $this;
+        } else {
+            throw new FormException("valor: Nenhum valor informado.");
+        }
     }
     
     public function setValorPadrao($valorPadrao)
     {
-        parent::setValorPadrao($valorPadrao);        
-        return $this;
+        if(!empty($valorPadrao)){
+             parent::setValorPadrao($valorPadrao);
+            return $this;
+        } else {
+            throw new FormException("valorPadrao: Nenhum valor informado.");
+        }
     }
     
     public function setDisabled($disabled)
     {
-        parent::setDisabled($disabled);     
-        return $this;
+        if(!empty($disabled)){
+             parent::setDisabled($disabled);
+            return $this;
+        } else {
+            throw new FormException("disabled: Nenhum valor informado.");
+        }
     }
     
     public function setComplemento($complemento)
     {
-        parent::setComplemento($complemento);       
-        return $this;
+        if(!empty($complemento)){
+             parent::setComplemento($complemento);
+            return $this;
+        } else {
+            throw new FormException("complemento: Nenhum valor informado.");
+        }
     }
-    
+
     public function setAtributos($atributos)
     {
-        parent::setAtributos($atributos);       
-        return $this;
+        if(!empty($atributos)){
+             parent::setAtributos($atributos);
+            return $this;
+        } else {
+            throw new FormException("atributos: Nenhum valor informado.");
+        }
     }
     
     public function setClassCss($classCss)
     {
-        parent::setClassCss($classCss);       
-        return $this;
+        if(!empty($classCss)){
+             parent::setClassCss($classCss);
+            return $this;
+        } else {
+            throw new FormException("classCss: Nenhum valor informado.");
+        }
     }
 }

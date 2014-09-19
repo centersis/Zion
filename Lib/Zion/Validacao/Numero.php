@@ -95,7 +95,14 @@ class Numero
         }
 
     }
+    
+    public function isFloat($numero)
+    {
+        if(preg_match('/[0-9]{1,3}[\.|,][0-9]{1,2}$/', $numero) and is_numeric($numero)){
+            return (is_float((float) $numero));
+        } else{
+            return false;
+        }        
+    }
 
 }
-
-?>

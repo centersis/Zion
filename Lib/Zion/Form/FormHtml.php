@@ -22,7 +22,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaHidden(FormInputHidden $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -34,7 +34,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaSuggest(FormInputSuggest $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -49,7 +49,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaTexto(FormInputTexto $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -66,7 +66,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaDateTime(FormInputDateTime $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -80,7 +80,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaNumber(FormInputNumber $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -94,7 +94,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaFloat(FormInputFloat $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -106,7 +106,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaEscolha(FormEscolha $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $inicio = $config->getInicio();
@@ -262,7 +262,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaButton(FormInputButton $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(

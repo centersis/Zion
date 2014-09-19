@@ -57,16 +57,18 @@ class Data
     public function validaData($data)
     {
 
-        if(preg_match('[-]', $data)){
+        if(preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$|^[0-9]{2}\/[0-9]{2}\/[0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)){
+            $f = "d/m/Y";
+        } elseif(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$|^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)) {
             $f = "Y-m-d";
         } else {
-             $f = "d/m/Y";
+            return false;
         }
-        
+
         if(preg_match('[:]', $data))
             $f .= " H:i:s";
-
-        $date   = \DateTime::createFromFormat($f, $data);
+        $this->validaHora('21:21:21');
+        $date   = @\DateTime::createFromFormat($f, $data);
         return (@$date->format($f) == $data ? true : false);
 
     }
