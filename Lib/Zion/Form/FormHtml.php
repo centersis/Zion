@@ -70,7 +70,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         }
 
         $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'date'),
+            $this->attr('type', $config->getAcao()),
             $this->attr('max', $config->getDataMaxima()),
             $this->attr('min', $config->getDataMinima())));
 

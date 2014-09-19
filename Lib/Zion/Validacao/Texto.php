@@ -13,24 +13,12 @@ namespace Zion\Validacao;
 
 class Texto
 {
-    
-    public $keyWords = array("/SELECT/", "/INSERT/", "/UPDATE/", "/DELETE/", "/DROP/", "/ALTER/", "/ADD/", "/TABLE/", "/IF/", "/AND/", "/WHERE/", "/GROUP/", "/LIMIT/", 
-                             "/JOIN/", "/IN/", "/INTO/", "/PROCEDURE/", "/WHILE/", "/WHEN/", "/TEHEN/", "/CASE/", "/LIKE/", "/KILL/");
 
-    public $safekeyWords = array("\SELECT", "\INSERT", "\UPDATE", "\DELETE", "\DROP", "\ALTER", "\ADD", "\TABLE", "\IF", "\AND", "\WHERE", "\GROUP", "\LIMIT", 
-                             "\JOIN", "\IN", "\INTO", "\PROCEDURE", "\WHILE", "\WHEN", "\TEHEN", "\CASE", "\LIKE", "\KILL");
-  
-    /**
-     * Texto::__construct()
-     * Construtor
-     * 
-     * @return void
-     */
-    public function __construct()
-    {
-        
-    }
-    
+    public $keyWords = array("/SELECT/", "/INSERT/", "/UPDATE/", "/DELETE/", "/DROP/", "/ALTER/", "/ADD/", "/TABLE/", "/IF/", "/AND/", "/WHERE/", "/GROUP/", "/LIMIT/",
+        "/JOIN/", "/IN/", "/INTO/", "/PROCEDURE/", "/WHILE/", "/WHEN/", "/TEHEN/", "/CASE/", "/LIKE/", "/KILL/");
+    public $safekeyWords = array("\SELECT", "\INSERT", "\UPDATE", "\DELETE", "\DROP", "\ALTER", "\ADD", "\TABLE", "\IF", "\AND", "\WHERE", "\GROUP", "\LIMIT",
+        "\JOIN", "\IN", "\INTO", "\PROCEDURE", "\WHILE", "\WHEN", "\TEHEN", "\CASE", "\LIKE", "\KILL");
+
     /**
      * Texto::converterTextoHtml()
      * Converte um texto com caracteres especias em caracteres HTML.
@@ -40,10 +28,10 @@ class Texto
      */
     public function converterTextoHtml($texto)
     {
-        
-        return @htmlspecialchars($texto, ENT_QUOTES);
+
+        return htmlspecialchars($texto, ENT_QUOTES);
     }
-    
+
     /**
      * Texto::converterHtmlTexto()
      * Converte um texto com caracteres HTML em caracteres especias. Inverso de Texto::converterTextoHtml(var).
@@ -53,9 +41,9 @@ class Texto
      */
     public function converterHtmlTexto($texto)
     {
-        return @htmlspecialchars_decode($texto, ENT_QUOTES);
+        return htmlspecialchars_decode($texto, ENT_QUOTES);
     }
-    
+
     /**
      * Texto::limtaTexto()
      * Trunca um texto de acordo com os parâmetros de inicio e comprimento.
@@ -67,7 +55,7 @@ class Texto
      */
     public function limtaTexto($texto, $start = false, $length = false)
     {
-        return @substr($texto, $start, $length);
+        return substr($texto, $start, $length);
     }
 
     /**
@@ -80,8 +68,11 @@ class Texto
     public function removerAcentos($texto)
     {
 
-        $especiais  = "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ";
-        $normais    = "aaaaeeiooouucAAAAEEIOOOUUC";
+        $especiais = "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ";
+        $normais = "aaaaeeiooouucAAAAEEIOOOUUC";
+
+        $keys = array();
+        $values = array();
 
         preg_match_all('/./u', $especiais, $keys);
         preg_match_all('/./u', $normais, $values);
@@ -89,7 +80,6 @@ class Texto
         $mapping = array_combine($keys[0], $values[0]);
 
         return strtr($texto, $mapping);
-
     }
 
     /**
@@ -115,7 +105,7 @@ class Texto
     {
         return utf8_decode($texto);
     }
-    
+
     /**
      * Texto::removeFormatacao()
      * Remove a formatação de um texto, como quebras de linha(\n) e tabs(\t).
@@ -127,7 +117,7 @@ class Texto
     {
         return preg_replace('/[\t\n\r\f\v]/', '', $texto);
     }
-    
+
     /**
      * Texto::removerEspacos()
      * Remove todos os espaços(\s\t) de um texto.
@@ -139,7 +129,7 @@ class Texto
     {
         return preg_replace('/[\s\t]/', '', $texto);
     }
-    
+
     /**
      * Texto::trata()
      * Trata um texto para prevenção de Injections, escapando aspas e keywords do Mysql.
@@ -151,11 +141,11 @@ class Texto
     {
 
         $textoTratado = $texto;
-        
-        if(preg_match('/["\']/', $texto)){
+
+        if (preg_match('/["\']/', $texto)) {
             $textoTratado = $this->escapaAspas($texto);
         }
-        
+
         return preg_replace($this->keyWords, $this->safekeyWords, $textoTratado);
     }
 
@@ -168,10 +158,10 @@ class Texto
      */
     public function desTrata($texto)
     {
-        
+
         return stripslashes($texto);
     }
-    
+
     /**
      * Texto::removeAspas()
      * Remove as aspas('' e "") de um texto.
@@ -183,7 +173,7 @@ class Texto
     {
         return preg_replace('/[\'"]/', '', $texto);
     }
-    
+
     /**
      * Texto::escapaAspas()
      * Escapa as aspas('' e "") de um texto, adcionando um caractere de escape(\).
@@ -197,5 +187,3 @@ class Texto
     }
 
 }
-
-?>
