@@ -207,7 +207,11 @@ class Form extends \Zion\Form\FormHtml
 
     public function set($nome, $valor)
     {
-        $this->formValues[$nome] = $valor;
+        if(!is_null($nome) or !is_null($nome)){
+            $this->formValues[$nome] = $valor;
+        } else {
+            throw new FormException("set: Falta um argumento.");
+        }
     }
 
     public function get($nome)
@@ -217,12 +221,20 @@ class Form extends \Zion\Form\FormHtml
 
     public function setProcessarHtml($processarHtml)
     {
-        $this->processarHtml = $processarHtml;
+        if(is_bool($processarHtml)){
+            $this->processarHtml = $processarHtml;
+        } else {
+            throw new FormException("processarHtml: O valor informado nao e um booleano.");
+        }
     }
 
     public function setProcessarJs($processarJs)
     {
-        $this->processarJs = $processarJs;
+        if(is_bool($processarJs)){
+            $this->processarJs = $processarJs;
+        } else {
+            throw new FormException("processarJs: O valor informado nao e um booleano.");
+        }        
     }
 
     public function getFormHtml($nome = null)
@@ -232,7 +244,11 @@ class Form extends \Zion\Form\FormHtml
 
     public function setNomeForm($nome)
     {
-        $this->nomeForm = $nome;
+        if(!is_null($nome)){
+            $this->nomeForm = $nome;
+        } else {
+            throw new FormException("nome: Nenhum valor informado.");
+        }        
     }
 
     public function getNomeForm()

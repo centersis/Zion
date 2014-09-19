@@ -207,9 +207,9 @@ class FormInputTexto extends FormBasico
     
     public function setAutoComplete($autoComplete)
     {
-        if($autoComplete == "ON" or $autoComplete == "OFF"){
-        $this->autoComplete = $autoComplete;
-        return $this;
+        if(is_bool($autoComplete)){
+            $this->autoComplete = $autoComplete;
+            return $this;
         } else {
             throw new FormException("autoComplete: Valor desconhecido: ". $autoComplete);
         }
