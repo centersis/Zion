@@ -10,19 +10,25 @@ class FormHtml extends \Zion\Form\FormAtributos
         parent::__construct();
     }
 
+    private function opcoesBasicas($config)
+    {
+        return array($this->attr('name', $config->getNome()),
+            $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
+            $this->attr('value', $config->getValor()),
+            $this->attr('complemento', $config->getComplemento()),
+            $this->attr('disabled', $config->getDisabled()));
+    }
+
     protected function montaHidden(FormInputHidden $config)
     {
         if (empty($config->getNome())) {
             throw new Exception('Atributo nome é obrigatório');
         }
 
-        return vsprintf("<input %s %s %s %s %s %s />", array(
-            $this->attr('name', $config->getNome()),
-            $this->attr('id', $config->getId()),
-            $this->attr('type', 'hidden'),
-            $this->attr('value', $config->getValor()),
-            $this->attr('complemento', $config->getComplemento()),
-            $this->attr('disabled', $config->getDisabled())));
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'hidden')));
+
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
     protected function montaSuggest(FormInputSuggest $config)
@@ -30,17 +36,14 @@ class FormHtml extends \Zion\Form\FormAtributos
         if (empty($config->getNome())) {
             throw new Exception('Atributo nome é obrigatório');
         }
-        
-        return vsprintf("<input %s %s %s %s %s %s %s %s %s/>", array(
-            $this->attr('name', $config->getNome()),
-            $this->attr('id', $config->getId()),
+
+        $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text'),
-            $this->attr('value', $config->getValor()),
-            $this->attr('size', $config->getValor()),
-            $this->attr('caixa', $config->getValor()),
-            $this->attr('placeholder', $config->getPlaceHolder()),
-            $this->attr('complemento', $config->getComplemento()),
-            $this->attr('disabled', $config->getDisabled())));
+            $this->attr('size', $config->getLargura()),
+            $this->attr('caixa', $config->getMaiusculoMinusculo()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
     protected function montaTexto(FormInputTexto $config)
@@ -49,49 +52,29 @@ class FormHtml extends \Zion\Form\FormAtributos
             throw new Exception('Atributo nome é obrigatório');
         }
 
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $tipo = 'type="' . strtolower($config->getAcao()) . '"';
-        $value = ' value="' . $config->getValor() . '" ';
-        $size = ($config->getLargura()) ? 'size="' . $config->getLargura() . '"' : '';
-        $len = (is_numeric($config->getMaximoCaracteres())) ? 'maxlength="' . $config->getMaximoCaracteres() . '"' : '';
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
-        $placeholder = ($config->getPlaceHolder() != '') ? 'placeholder="' . $config->getPlaceHolder() . '"' : '';
-        $autocomplete = ($config->getAutoComplete() === false) ? 'autocomplete="off"' : '';
-
-        return vsprintf("<input %s %s %s %s %s %s %s %s %s %s %s/>", array(
-            $this->attr('name', $config->getNome()),
-            $this->attr('id', $config->getId()),
+        $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text'),
-            $this->attr('value', $config->getValor()),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('size', $config->getValor()),
-            $this->attr('caixa', $config->getValor()),
+            $this->attr('size', $config->getLargura()),
+            $this->attr('caixa', $config->getMaiusculoMinusculo()),
             $this->attr('placeholder', $config->getPlaceHolder()),
-            $this->attr('complemento', $config->getComplemento()),
-            $this->attr('autocomplete', $config->getAutoComplete()),
-            $this->attr('disabled', $config->getDisabled())));
+            $this->attr('autocomplete', $config->getAutoComplete())));
+
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
-    protected function montaDate(FormInputDate $config)
+    protected function montaDateTime(FormInputDateTime $config)
     {
         if (empty($config->getNome())) {
             throw new Exception('Atributo nome é obrigatório');
         }
 
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $tipo = 'type="' . strtolower($config->getAcao()) . '"';
-        $value = $config->getValor();
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
-        $max = ($config->getDataMaxima()) ? 'max="' . $config->getDataMaxima() . '"' : '';
-        $min = ($config->getDataMinima()) ? 'min="' . $config->getDataMinima() . '"' : '';
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'date'),
+            $this->attr('max', $config->getDataMaxima()),
+            $this->attr('min', $config->getDataMinima())));
 
-        $retorno = sprintf("<input %s %s %s %s %s %s %s %s />", $name, $id, $tipo, $value, $max, $min, $complemento, $disable);
-
-        return $retorno;
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
     protected function montaNumber(FormInputNumber $config)
@@ -100,18 +83,12 @@ class FormHtml extends \Zion\Form\FormAtributos
             throw new Exception('Atributo nome é obrigatório');
         }
 
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $tipo = 'type="' . strtolower($config->getAcao()) . '"';
-        $value = $config->getValor();
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
-        $max = ($config->getValorMaximo()) ? 'max="' . $config->getValorMaximo() . '"' : '';
-        $min = ($config->getValorMinimo()) ? 'min="' . $config->getValorMinimo() . '"' : '';
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'number'),
+            $this->attr('max', $config->getValorMaximo()),
+            $this->attr('min', $config->getValorMinimo())));
 
-        $retorno = sprintf("<input %s %s %s %s %s %s %s %s />", $name, $id, $tipo, $value, $max, $min, $complemento, $disable);
-
-        return $retorno;
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
     protected function montaFloat(FormInputFloat $config)
@@ -120,19 +97,10 @@ class FormHtml extends \Zion\Form\FormAtributos
             throw new Exception('Atributo nome é obrigatório');
         }
 
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $tipo = 'type="' . strtolower($config->getAcao()) . '"';
-        $value = $config->getValor();
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
-        $max = ($config->getValorMaximo()) ? 'max="' . $config->getValorMaximo() . '"' : '';
-        $min = ($config->getValorMinimo()) ? 'min="' . $config->getValorMinimo() . '"' : '';
-        $prefixo = $config->getPrefixo();
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text')));
 
-        $retorno = sprintf("%s<input %s %s %s %s %s %s %s %s />", $prefixo, $name, $id, $tipo, $value, $max, $min, $complemento, $disable);
-
-        return $retorno;
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
     protected function montaEscolha(FormEscolha $config)
@@ -297,18 +265,40 @@ class FormHtml extends \Zion\Form\FormAtributos
             throw new Exception('Atributo nome é obrigatório');
         }
 
-        $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $tipo = 'type="' . strtolower($config->getAcao()) . '"';
-        $value = $config->getValor();
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
-        $metodo = ($config->getMetodo()) ? 'formmethod="' . $config->getMetodo() . '"' : '';
-        $action = ($config->getAction()) ? 'formaction="' . $config->getAction() . '"' : '';
-        $target = ($config->getAction()) ? 'formtarget="' . $config->getAction() . '"' : '';
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('name', $config->getNome()),
+            $this->attr('id', $config->getId()),
+            $this->attr('type', $config->getAcao()),
+            $this->attr('formmethod', $config->getMetodo()),
+            $this->attr('formaction', $config->getAction()),
+            $this->attr('formtarget', $config->getTarget())));
 
-        $retorno = sprintf("<button %s %s %s %s %s %s %s %s>%s</button>", $name, $id, $tipo, $complemento, $disable, $metodo, $action, $target, $value);
+        $attr[] = $this->attr('valueButton', $config->getValor());
 
-        return $retorno;
+        return vsprintf($this->prepareButton(count($attr)), $attr);
     }
+
+    public function abreForm(FormTag $config)
+    {
+        if (empty($config->getNome())) {
+            throw new Exception('Atributo nome é obrigatório');
+        }
+
+        $attr = array(
+            $this->attr('name', $config->getNome()),
+            $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
+            $this->attr('autocomplete', $config->getAutoComplete()),
+            $this->attr('enctype', $config->getEnctype()),
+            $this->attr('method', $config->getMethod()),
+            $this->attr('novalidate', $config->getNovalidate()),
+            $this->attr('target', $config->getTarget()));
+
+        return vsprintf($this->prepareForm(count($attr)), $attr);
+    }
+
+    public function fechaForm()
+    {
+        return '</form>';
+    }
+
 }

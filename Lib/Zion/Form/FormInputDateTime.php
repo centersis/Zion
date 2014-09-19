@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-class FormInputDate extends \Zion\Form\FormBasico
+class FormInputDateTime extends \Zion\Form\FormBasico
 {
     private $tipoBase;
     private $acao; 
@@ -11,7 +11,7 @@ class FormInputDate extends \Zion\Form\FormBasico
     
     public function __construct($acao)
     {
-        $this->tipoBase = 'date';
+        $this->tipoBase = 'dateTime';
         $this->acao = $acao;
     }
     
