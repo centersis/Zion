@@ -1,5 +1,7 @@
 <?php
 namespace Zion\Form;
+use \Zion\Form\Exception\FormException as FormException;
+use \Zion\Form\Form as Form;
 
 abstract class FormBasico
 {
@@ -12,103 +14,140 @@ abstract class FormBasico
     private $complemento;
     private $atributos;
     private $classCss;    
-        
+
     public function setId($id)
     {
-        $this->id = $id;        
-        return $this;
+        if(!empty($id)){
+            $this->$id = $id;
+            return $this;
+        } else {
+            throw new FormException("id: Nenhum valor informado.");
+        }
     }
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
+
     public function setNome($nome)
     {
-        $this->nome = $nome;        
-        return $this;
+        if(!empty($nome)){
+             $this->nome = $nome;
+            return $this;
+        } else {
+            throw new FormException("nome: Nenhum valor informado.");
+        }
     }
-    
+
     public function getNome()
     {
         return $this->nome;
     }
-    
+
     public function setIdentifica($identifica)
     {
-        $this->identifica = $identifica;        
-        return $this;
+        if(!empty($identifica)){
+             $this->identifica = $identifica;
+            return $this;
+        } else {
+            throw new FormException("identifica: Nenhum valor informado.");
+        }
     }
-    
+
     public function getIdentifica()
     {
         return $this->identifica;
     }
-    
+  
     public function setValor($valor)
-    {
-        $this->valor = $valor;        
-        return $this;
+    {              
+        if(!empty($valor)){
+             $this->valor = $valor;
+            return $this;
+        } else {
+            throw new FormException("valor: Nenhum valor informado.");
+        }
     }
-    
+
     public function getValor()
     {
         return $this->valor;
     }
-    
+
     public function setValorPadrao($valorPadrao)
     {
-        $this->valorPadrao = $valorPadrao;        
-        return $this;
+        if(!empty($valorPadrao)){
+             $this->valorPadrao = $valorPadrao;
+            return $this;
+        } else {
+            throw new FormException("valorPadrao: Nenhum valor informado.");
+        }
     }
-    
+
     public function getValorPadrao()
     {
         return $this->valorPadrao;
     }
-    
+
     public function setDisabled($disabled)
     {
-        $this->disabled = $disabled;        
-        return $this;
+        if(!empty($disabled)){
+             $this->disabled = $disabled;
+            return $this;
+        } else {
+            throw new FormException("disabled: Nenhum valor informado.");
+        }
     }
-    
+
     public function getDisabled()
     {
         return $this->disabled;
     }
-    
+
     public function setComplemento($complemento)
     {
-        $this->complemento = $complemento;       
-        return $this;
+        if(!empty($complemento)){
+             $this->complemento = $complemento;
+            return $this;
+        } else {
+            throw new FormException("complemento: Nenhum valor informado.");
+        }
     }
-    
+
     public function getComplemento()
     {
         return $this->complemento;
     }
-    
+
     public function setAtributos($atributos)
     {
-        $this->atributos = $atributos;        
-        return $this;
+        if(!empty($atributos)){
+             $this->atributos = $atributos;
+            return $this;
+        } else {
+            throw new FormException("atributos: Nenhum valor informado.");
+        }
     }
-    
+
     public function getAtributos()
     {
         return $this->atributos;
     }
-    
+
     public function setClassCss($classCss)
     {
-        $this->classCss = $classCss;        
-        return $this;
+        if(!empty($classCss)){
+             $this->classCss = $classCss;
+            return $this;
+        } else {
+            throw new FormException("classCss: Nenhum valor informado.");
+        }
     }
     
     public function getClassCss()
     {
         return $this->classCss;
     }
+
 }

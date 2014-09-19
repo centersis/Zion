@@ -13,7 +13,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaHidden(FormInputHidden $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         return vsprintf("<input %s %s %s %s %s %s />", array(
@@ -28,7 +28,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaSuggest(FormInputSuggest $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
         
         return vsprintf("<input %s %s %s %s %s %s %s %s %s/>", array(
@@ -46,7 +46,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaTexto(FormInputTexto $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $name = 'name="' . $config->getNome() . '"';
@@ -77,7 +77,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaDate(FormInputDate $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $name = 'name="' . $config->getNome() . '"';
@@ -97,7 +97,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaNumber(FormInputNumber $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $name = 'name="' . $config->getNome() . '"';
@@ -117,7 +117,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaFloat(FormInputFloat $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $name = 'name="' . $config->getNome() . '"';
@@ -138,7 +138,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaEscolha(FormEscolha $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $inicio = $config->getInicio();
@@ -294,7 +294,7 @@ class FormHtml extends \Zion\Form\FormAtributos
     protected function montaButton(FormInputButton $config)
     {
         if (empty($config->getNome())) {
-            throw new Exception('Atributo nome é obrigatório');
+            throw new \Exception('Atributo nome é obrigatório');
         }
 
         $name = 'name="' . $config->getNome() . '"';

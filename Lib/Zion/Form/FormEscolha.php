@@ -1,6 +1,7 @@
 <?php
 
 namespace Zion\Form;
+use \Zion\Form\Exception\FormException as FormException;
 
 class FormEscolha extends \Zion\Form\FormBasico
 {
@@ -45,8 +46,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setMultiplo($multiplo)
     {
-        $this->multiplo = $multiplo;
-        return $this;
+        if(!is_null($multiplo)){
+            $this->multiplo = $multiplo;
+            return $this;
+        } else {
+            throw new FormException("multiplo: Valor nao booleano");
+        }
     }
     
     public function getExpandido()
@@ -56,8 +61,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setExpandido($expandido)
     {
-        $this->expandido = $expandido;
-        return $this;
+        if(!is_null($expandido)){
+            $this->expandido = $expandido;
+            return $this;
+        } else {
+            throw new FormException("expandido: Valor nao booleano");
+        }
     }
     
     public function getOrdena()
@@ -67,8 +76,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setOrdena($ordena)
     {
-        $this->ordena = $ordena;
-        return $this;
+        if(!is_null($ordena)){
+            $this->ordena = $ordena;
+            return $this;
+        } else {
+            throw new FormException("ordena: Nenhum Valor foi informado.");
+        }
     }
 
     public function getArray()
@@ -78,8 +91,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setArray($array)
     {
-        $this->array = $array;
-        return $this;
+        if(is_array($array)){
+            $this->array = $array;
+            return $this;
+        } else {
+            throw new FormException("array: O valor informado nao e um array.");
+        }
     }
 
     public function getInicio()
@@ -89,8 +106,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setInicio($inicio)
     {
-        $this->inicio = $inicio;
-        return $this;
+        if(!is_null($inicio)){
+            $this->inicio = $inicio;
+            return $this;
+        } else {
+            throw new FormException("inicio: Nenhum Valor foi informado.");
+        }
     }
 
     public function getTabela()
@@ -100,8 +121,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setTabela($tabela)
     {
-        $this->tabela = $tabela;
-        return $this;
+        if(!is_null($tabela)){
+            $this->tabela = $tabela;
+            return $this;
+        } else {
+            throw new FormException("tabela: Nenhum Valor foi informado.");
+        }
     }
 
     public function getCampoCod()
@@ -111,8 +136,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setCampoCod($campoCod)
     {
-        $this->campoCod = $campoCod;
-        return $this;
+        if(!is_null($campoCod)){
+            $this->campoCod = $campoCod;
+            return $this;
+        } else {
+            throw new FormException("campoCod: Nenhum Valor foi informado.");
+        }
     }
 
     public function getCampoDesc()
@@ -122,8 +151,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setCampoDesc($campoDesc)
     {
-        $this->campoDesc = $campoDesc;
-        return $this;
+        if(!is_null($campoDesc)){
+            $this->campoDesc = $campoDesc;
+            return $this;
+        } else {
+            throw new FormException("campoDesc: Nenhum Valor foi informado.");
+        }
     }
 
     public function getWhere()
@@ -133,8 +166,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setWhere($where)
     {
-        $this->where = $where;
-        return $this;
+        if(!is_null($where)){
+            $this->where = $where;
+            return $this;
+        } else {
+            throw new FormException("where: Nenhum Valor foi informado.");
+        }
     }
 
     public function getSqlCompleto()
@@ -144,8 +181,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setSqlCompleto($sqlCompleto)
     {
-        $this->sqlCompleto = $sqlCompleto;
-        return $this;
+        if(!is_null($sqlCompleto)){
+            $this->sqlCompleto = $sqlCompleto;
+            return $this;
+        } else {
+            throw new FormException("sqlCompleto: Nenhum Valor foi informado.");
+        }
     }
     
     public function getIdConexao()
@@ -155,8 +196,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     public function setIdConexao($idConexao)
     {
-        $this->idConexao = $idConexao;
-        return $this;
+        if(!is_null($idConexao)){
+            $this->idConexao = $idConexao;
+            return $this;
+        } else {
+            throw new FormException("idConexao: Nenhum Valor foi informado.");
+        }
     }
 
     /**
@@ -164,56 +209,92 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setId($id)
     {
-        parent::setId($id);
-        return $this;
+        if(!empty($id)){
+            parent::setId($id);        
+            return $this;
+        } else {
+            throw new FormException("id: Nenhum valor informado.");
+        }
     }
-
+    
     public function setNome($nome)
     {
-        parent::setNome($nome);
-        return $this;
+        if(!empty($nome)){
+             parent::setNome($nome);
+            return $this;
+        } else {
+            throw new FormException("nome: Nenhum valor informado.");
+        }
     }
-
+    
     public function setIdentifica($identifica)
     {
-        parent::setIdentifica($identifica);
-        return $this;
+        if(!empty($identifica)){
+             parent::setIdentifica($identifica);
+            return $this;
+        } else {
+            throw new FormException("identifica: Nenhum valor informado.");
+        }
     }
-
+    
     public function setValor($valor)
-    {
-        parent::setValor($valor);
-        return $this;
+    {              
+        if(!empty($valor)){
+             parent::setValor($valor);
+            return $this;
+        } else {
+            throw new FormException("valor: Nenhum valor informado.");
+        }
     }
-
+    
     public function setValorPadrao($valorPadrao)
     {
-        parent::setValorPadrao($valorPadrao);
-        return $this;
+        if(!empty($valorPadrao)){
+             parent::setValorPadrao($valorPadrao);
+            return $this;
+        } else {
+            throw new FormException("valorPadrao: Nenhum valor informado.");
+        }
     }
-
+    
     public function setDisabled($disabled)
     {
-        parent::setDisabled($disabled);
-        return $this;
+        if(!empty($disabled)){
+             parent::setDisabled($disabled);
+            return $this;
+        } else {
+            throw new FormException("disabled: Nenhum valor informado.");
+        }
     }
-
+    
     public function setComplemento($complemento)
     {
-        parent::setComplemento($complemento);
-        return $this;
+        if(!empty($complemento)){
+             parent::setComplemento($complemento);
+            return $this;
+        } else {
+            throw new FormException("complemento: Nenhum valor informado.");
+        }
     }
 
     public function setAtributos($atributos)
     {
-        parent::setAtributos($atributos);
-        return $this;
+        if(!empty($atributos)){
+             parent::setAtributos($atributos);
+            return $this;
+        } else {
+            throw new FormException("atributos: Nenhum valor informado.");
+        }
     }
-
+    
     public function setClassCss($classCss)
     {
-        parent::setClassCss($classCss);
-        return $this;
+        if(!empty($classCss)){
+             parent::setClassCss($classCss);
+            return $this;
+        } else {
+            throw new FormException("classCss: Nenhum valor informado.");
+        }
     }
 
 }

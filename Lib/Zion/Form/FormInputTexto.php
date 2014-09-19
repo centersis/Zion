@@ -1,8 +1,10 @@
 <?php
 
 namespace Zion\Form;
+use \Zion\Form\Exception\FormException as FormException;
+use \Zion\Form\Form as Form;
 
-class FormInputTexto extends \Zion\Form\FormBasico
+class FormInputTexto extends FormBasico
 {
     private $tipoBase;
     private $acao;
@@ -23,6 +25,7 @@ class FormInputTexto extends \Zion\Form\FormBasico
     {
         $this->tipoBase = 'texto';
         $this->acao = $acao;
+
     }
     
     public function getTipoBase()
@@ -37,8 +40,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
 
     public function setLargura($largura)
     {
-        $this->largura = $largura;
-        return $this;
+        if(preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)){
+            $this->largura = $largura;
+            return $this;
+        } else {
+           throw new FormException("largura: O valor nao esta nos formatos aceitos: 10%; 10px; ou 10");
+        }
     }
     
     public function getLargura()
@@ -48,8 +55,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setMaximoCaracteres($maximoCaracteres)
     {
-        $this->maximoCaracteres = $maximoCaracteres;
-        return $this;
+        if(is_numeric($maximoCaracteres)){
+            $this->maximoCaracteres = $maximoCaracteres;
+            return $this;
+        } else {
+            throw new FormException("maximoCaracteres: Valor nao numerico.");
+        }
     }
     
     public function getMaximoCaracteres()
@@ -59,8 +70,13 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setMinimoCaracteres($minimoCaracteres)
     {
-        $this->minimoCaracteres = $minimoCaracteres;
-        return $this;
+        if(is_numeric($maximoCaracteres)){
+            $this->minimoCaracteres = $minimoCaracteres;
+            return $this;
+        } else {
+            throw new FormException("minimoCaracteres: Valor nao numerico.");
+        }
+
     }
     
     public function getMinimoCaracteres()
@@ -70,8 +86,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setMaiusculoMinusculo($maiusculoMinusculo)
     {
-        $this->maiusculoMinusculo = $maiusculoMinusculo;
-        return $this;
+        if(strtoupper($maiusculoMinusculo) == "ALTA" or strtoupper($maiusculoMinusculo) == "BAIXA"){
+            $this->maiusculoMinusculo = $maiusculoMinusculo;
+            return $this;
+        } else {
+            throw new FormException("maiusculoMinusculo: Valor desconhecido: ". $maiusculoMinusculo);
+        }
     }
     
     public function getMaiusculoMinusculo()
@@ -81,8 +101,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setValorMinimo($valorMinimo)
     {
-        $this->valorMinimo = $valorMinimo;
-        return $this;
+        if(!is_numeric($valorMinimo)){
+            $this->valorMinimo = $valorMinimo;
+            return $this;
+        } else {
+            throw new FormException("valorMinimo: Valor nao numerico");
+        }
     }
     
     public function getValorMinimo()
@@ -92,8 +116,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setValorMaximo($valorMaximo)
     {
-        $this->valorMaximo = $valorMaximo;
-        return $this;
+        if(!is_numeric($valorMaximo)){
+            $this->valorMaximo = $valorMaximo;
+            return $this;
+        } else {
+            throw new FormException("valorMaximo: Valor nao numerico");
+        }
     }
     
     public function getValorMaximo()
@@ -103,8 +131,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setMascara($mascara)
     {
-        $this->mascara = $mascara;
-        return $this;
+        if(!empty($mascara)){
+            $this->mascara = $mascara;
+            return $this;
+        } else {
+            throw new FormException("mascara: Nenhum valor informado");
+        }
     }
     
     public function getMascara()
@@ -114,8 +146,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setObrigarorio($obrigatorio)
     {
-        $this->obrigatorio = $obrigatorio;        
-        return $this;
+        if(is_bool($obrigatorio)){
+            $this->obrigatorio = $obrigatorio;
+            return $this;
+        } else {
+            throw new FormException("obrigatorio: Valor nao booleano");
+        }
     }
     
     public function getObrigatorio()
@@ -125,10 +161,14 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setConverterHtml($converterHtml)
     {
-        $this->converterHtml = $converterHtml;
-        return $this;
+        if(is_bool($converterHtml)){
+            $this->converterHtml = $converterHtml;
+            return $this;
+        } else {
+            throw new FormException("converterHtml: Valor nao booleano");
+        }
     }
-    
+
     public function getConverterHtml()
     {
         return $this->converterHtml;
@@ -136,8 +176,13 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setAutoTrim($autoTrim)
     {
-        $this->autoTrim = $autoTrim;
-        return $this;
+        if(is_bool($autoTrim)){
+            $this->autoTrim = $autoTrim;
+            return $this;
+        } else {
+            throw new FormException("autoTrim: Valor nao booleano");
+        }
+
     }
     
     public function getAutoTrim()
@@ -147,8 +192,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setPlaceHolder($placeHolder)
     {
-        $this->placeHolder = $placeHolder;
-        return $this;
+        if(!empty($placeHolder)){
+            $this->placeHolder = $placeHolder;
+            return $this;
+        } else {
+            throw new FormException("placeHolder: Nenhum valor informado");
+        }
     }
     
     public function getPlaceHolder()
@@ -158,8 +207,12 @@ class FormInputTexto extends \Zion\Form\FormBasico
     
     public function setAutoComplete($autoComplete)
     {
+        if($autoComplete == "ON" or $autoComplete == "OFF"){
         $this->autoComplete = $autoComplete;
         return $this;
+        } else {
+            throw new FormException("autoComplete: Valor desconhecido: ". $autoComplete);
+        }
     }
     
     public function getAutoComplete()
@@ -172,55 +225,91 @@ class FormInputTexto extends \Zion\Form\FormBasico
      */    
     public function setId($id)
     {
-        parent::setId($id);        
-        return $this;
+        if(!empty($id)){
+            parent::setId($id);        
+            return $this;
+        } else {
+            throw new FormException("id: Nenhum valor informado.");
+        }
     }
     
     public function setNome($nome)
     {
-        parent::setNome($nome);
-        return $this;
+        if(!empty($nome)){
+             parent::setNome($nome);
+            return $this;
+        } else {
+            throw new FormException("nome: Nenhum valor informado.");
+        }
     }
     
     public function setIdentifica($identifica)
     {
-        parent::setIdentifica($identifica);       
-        return $this;
+        if(!empty($identifica)){
+             parent::setIdentifica($identifica);
+            return $this;
+        } else {
+            throw new FormException("identifica: Nenhum valor informado.");
+        }
     }
     
     public function setValor($valor)
-    {
-        parent::setValor($valor);      
-        return $this;
+    {              
+        if(!empty($valor)){
+             parent::setValor($valor);
+            return $this;
+        } else {
+            throw new FormException("valor: Nenhum valor informado.");
+        }
     }
     
     public function setValorPadrao($valorPadrao)
     {
-        parent::setValorPadrao($valorPadrao);        
-        return $this;
+        if(!empty($valorPadrao)){
+             parent::setValorPadrao($valorPadrao);
+            return $this;
+        } else {
+            throw new FormException("valorPadrao: Nenhum valor informado.");
+        }
     }
     
     public function setDisabled($disabled)
     {
-        parent::setDisabled($disabled);     
-        return $this;
+        if(!empty($disabled)){
+             parent::setDisabled($disabled);
+            return $this;
+        } else {
+            throw new FormException("disabled: Nenhum valor informado.");
+        }
     }
     
     public function setComplemento($complemento)
     {
-        parent::setComplemento($complemento);       
-        return $this;
+        if(!empty($complemento)){
+             parent::setComplemento($complemento);
+            return $this;
+        } else {
+            throw new FormException("complemento: Nenhum valor informado.");
+        }
     }
-    
+
     public function setAtributos($atributos)
     {
-        parent::setAtributos($atributos);       
-        return $this;
+        if(!empty($atributos)){
+             parent::setAtributos($atributos);
+            return $this;
+        } else {
+            throw new FormException("atributos: Nenhum valor informado.");
+        }
     }
     
     public function setClassCss($classCss)
     {
-        parent::setClassCss($classCss);       
-        return $this;
+        if(!empty($classCss)){
+             parent::setClassCss($classCss);
+            return $this;
+        } else {
+            throw new FormException("classCss: Nenhum valor informado.");
+        }
     }
 }

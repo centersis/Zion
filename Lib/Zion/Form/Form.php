@@ -236,6 +236,7 @@ class Form extends \Zion\Form\FormHtml
      */
     public function exception($attr, $msg = '')
     {
-        throw new \Exception("O valor informado para o atributo ". $attr ." nao é válido. ".$msg);
+        $msg = \Zion\Validacao\Texto::removerAcentos("O valor informado para o atributo ". $attr ." não é válido. ". $msg);
+        throw new \Exception($msg);
     }
 }
