@@ -25,7 +25,7 @@ class Exception
      */
     public function getMessageTrace(\Exception $e)
     {
-        return "Exception ". $e->getMessage() .". No arquivo: ". $e->getFile() . ". Linha: ". $e->getLine();
+        return "Exception ". $e->getMessage() .". No arquivo: ". $e->getFile() . ". Linha: ". $e->getLine() ."<br />". $e->getTraceAsString();
     }
-
+    
 }

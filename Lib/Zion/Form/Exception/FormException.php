@@ -7,6 +7,6 @@ namespace Zion\Form\Exception;
  *
  * @author Feliphe Bueno <feliphe@braconsultoria.com.br>
  */
-class FormException extends \RuntimeException implements ExceptionInterface
+class FormException extends RuntimeException implements ExceptionInterface
 {
 }

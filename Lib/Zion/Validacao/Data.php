@@ -61,14 +61,17 @@ class Data
             $f = "d/m/Y";
         } elseif(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$|^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)) {
             $f = "Y-m-d";
+        } elseif(preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)){
+            $f = "H:i:s";
         } else {
             return false;
         }
 
         if(preg_match('[:]', $data))
             $f .= " H:i:s";
-        $this->validaHora('21:21:21');
+
         $date   = @\DateTime::createFromFormat($f, $data);
+
         return (@$date->format($f) == $data ? true : false);
 
     }
@@ -86,6 +89,20 @@ class Data
         $time   = \DateTime::createFromFormat('H:i:s', $hora);
         return (@$time->format('H:i:s') == $hora ? true : false);
 
+    }
+
+    public function getFormatoDataHora($dataHora){
+
+        if(preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$|^[0-9]{2}\/[0-9]{2}\/[0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
+           $f = "d/m/Y";
+        } elseif(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$|^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+            $f = "Y-m-d";
+        } elseif(preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
+            $f = "H:i:s";
+        } else {
+            return false;
+        }
+        
     }
 
     /**
