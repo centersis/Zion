@@ -87,15 +87,9 @@ class Numero
 
     public function isFloat($numero)
     {
-<<<<<<< HEAD
-        if(preg_match('/[0-9]{1,3}[\.|,][0-9]{1,2}$/', $numero) and is_numeric($numero)){
-            return (is_float($numero));
-        } else{
-=======
         if (preg_match('/[0-9]{1,3}[\.|,][0-9]{1,2}$/', $numero) and is_numeric($numero)) {
-            return (is_float((float) $numero));
+            return (is_float($numero));
         } else {
->>>>>>> 411b7fb0e6ea784b0e56485c405584e1627a55e0
             return false;
         }
     }

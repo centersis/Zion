@@ -56,18 +56,7 @@ class Data
             return false;
         }
 
-        if (preg_match('[:]', $data)) {
-            $f .= " H:i:s";
-<<<<<<< HEAD
-
-        $date   = @\DateTime::createFromFormat($f, $data);
-
-        return (@$date->format($f) == $data ? true : false);
-=======
-        }
-        $this->validaHora('21:21:21');
         $date = \DateTime::createFromFormat($f, $data);
->>>>>>> 411b7fb0e6ea784b0e56485c405584e1627a55e0
 
         return ($date->format($f) == $data ? true : false);
     }
