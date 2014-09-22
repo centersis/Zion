@@ -15,17 +15,6 @@ namespace Zion\Validacao;
 
 class Data
 {
-    
-    /**
-     * Data::__construct()
-     * Construtor
-     * 
-     * @return void
-     */
-    public function __construct()
-    {
-
-    }
 
     /** Data::dataHora()
      * 	Retorna a Data e Hora Atual do Server no padrão Brasileiro.
@@ -57,9 +46,9 @@ class Data
     public function validaData($data)
     {
 
-        if(preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$|^[0-9]{2}\/[0-9]{2}\/[0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)){
+        if (preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$|^[0-9]{2}\/[0-9]{2}\/[0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)) {
             $f = "d/m/Y";
-        } elseif(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$|^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)) {
+        } elseif (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$|^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)) {
             $f = "Y-m-d";
         } elseif(preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)){
             $f = "H:i:s";
@@ -67,13 +56,20 @@ class Data
             return false;
         }
 
-        if(preg_match('[:]', $data))
+        if (preg_match('[:]', $data)) {
             $f .= " H:i:s";
+<<<<<<< HEAD
 
         $date   = @\DateTime::createFromFormat($f, $data);
 
         return (@$date->format($f) == $data ? true : false);
+=======
+        }
+        $this->validaHora('21:21:21');
+        $date = \DateTime::createFromFormat($f, $data);
+>>>>>>> 411b7fb0e6ea784b0e56485c405584e1627a55e0
 
+        return ($date->format($f) == $data ? true : false);
     }
 
     /**
@@ -86,9 +82,8 @@ class Data
     public function validaHora($hora)
     {
 
-        $time   = \DateTime::createFromFormat('H:i:s', $hora);
-        return (@$time->format('H:i:s') == $hora ? true : false);
-
+        $time = \DateTime::createFromFormat('H:i:s', $hora);
+        return ($time->format('H:i:s') == $hora ? true : false);
     }
 
     public function getFormatoDataHora($dataHora){
@@ -115,48 +110,41 @@ class Data
     public function converteData($data)
     {
 
-        if(preg_match('[-]', $data)){
+        if (preg_match('[-]', $data)) {
 
-            $dExt    = explode('-', $data);
+            $dExt = explode('-', $data);
 
-            if(strlen($dExt[0]) == 4 and strlen($dExt[2]) > 2){
+            if (strlen($dExt[0]) == 4 and strlen($dExt[2]) > 2) {
 
-                $dTimeExt   = explode(' ', $dExt[2]);
+                $dTimeExt = explode(' ', $dExt[2]);
 
-                return $dTimeExt[0] .'/'. $dExt[1] . '/'. $dExt[0] . ' '. $dTimeExt[1];
+                return $dTimeExt[0] . '/' . $dExt[1] . '/' . $dExt[0] . ' ' . $dTimeExt[1];
+            } elseif (strlen($dExt[0]) == 4 and strlen($dExt[2]) <= 2) {
 
-            } elseif(strlen($dExt[0]) == 4 and strlen($dExt[2]) <= 2) {
-
-                return $dExt[2] .'/'. $dExt[1] . '/'. $dExt[0];
-
+                return $dExt[2] . '/' . $dExt[1] . '/' . $dExt[0];
             } else {
 
-                 return $dExt[2] .'-'. $dExt[1] . '-'. $dExt[0];
+                return $dExt[2] . '-' . $dExt[1] . '-' . $dExt[0];
             }
-
         } else {
-            
-            $dExt    = explode('/', $data);
 
-            if(strlen($dExt[0]) == 4 and strlen($dExt[2]) > 2){
+            $dExt = explode('/', $data);
 
-                $dTimeExt   = explode(' ', $dExt[2]);
+            if (strlen($dExt[0]) == 4 and strlen($dExt[2]) > 2) {
 
-                return $dTimeExt[0] .'/'. $dExt[1] . '/'. $dExt[0] . ' '. $dTimeExt[1];
+                $dTimeExt = explode(' ', $dExt[2]);
 
-            } elseif(strlen($dExt[0]) == 4 and strlen($dExt[2]) <= 2) {
+                return $dTimeExt[0] . '/' . $dExt[1] . '/' . $dExt[0] . ' ' . $dTimeExt[1];
+            } elseif (strlen($dExt[0]) == 4 and strlen($dExt[2]) <= 2) {
 
-                return $dExt[2] .'/'. $dExt[1] . '/'. $dExt[0];
-
+                return $dExt[2] . '/' . $dExt[1] . '/' . $dExt[0];
             } else {
 
-                 return $dExt[2] .'-'. $dExt[1] . '-'. $dExt[0];
+                return $dExt[2] . '-' . $dExt[1] . '-' . $dExt[0];
             }
-
         }
-
     }
-    
+
     /**
      * Data::trocaSeparador()
      * Detecta o separador automaticamente o substitui pelo inverso, seja [/] ou [-]. Idependente do formato.
@@ -167,13 +155,13 @@ class Data
     public function trocaSeparador($data)
     {
 
-        if($this->getSeparador($data) == "/"){
+        if ($this->getSeparador($data) == "/") {
             return preg_replace('[/]', '-', $data);
         } else {
             return preg_replace('[-]', '/', $data);
         }
     }
-    
+
     /**
      * Data::verificaDataIntervalo()
      * Verifica se uma determinada data está dentro de um intervalo informado. 
@@ -186,26 +174,29 @@ class Data
     public function verificaDataIntervalo($data, $dataInicial, $dataFinal)
     {
 
-        if(preg_match('[/]', $data))          $data           = $this->converteData($data);
-        if(preg_match('[/]', $dataInicial))   $dataInicial    = $this->converteData($dataInicial);
-        if(preg_match('[/]', $dataFinal))     $dataFinal      = $this->converteData($dataFinal);
-        
-        if($this->validaData($data) and $this->validaData($dataInicial) and $this->validaData($dataFinal)){
+        if (preg_match('[/]', $data)) {
+            $data = $this->converteData($data);
+        }
+        if (preg_match('[/]', $dataInicial)) {
+            $dataInicial = $this->converteData($dataInicial);
+        }
+        if (preg_match('[/]', $dataFinal)) {
+            $dataFinal = $this->converteData($dataFinal);
+        }
 
-            if($data >= $dataInicial and $data <= $dataFinal){
+        if ($this->validaData($data) and $this->validaData($dataInicial) and $this->validaData($dataFinal)) {
+
+            if ($data >= $dataInicial and $data <= $dataFinal) {
                 return true;
             } else {
                 return false;
             }
-            
         } else {
 
             return false;
         }
-        
-        
     }
-    
+
     /**
      * Data::somaData()
      * Soma duas datas, considerando dias, meses e anos. Independente do formato.
@@ -217,17 +208,19 @@ class Data
     public function somaData($dataA, $dataB)
     {
 
-        if($this->getSeparador($dataA) == "/")
+        if ($this->getSeparador($dataA) == "/"){
             $dataA = $this->converteData($dataA);
+        }
 
-        $delim      = $this->getSeparador($dataA);
-        $delimB     = $this->getSeparador($dataB);
+        $delim = $this->getSeparador($dataA);
+        $delimB = $this->getSeparador($dataB);
 
-        if($delimB != $delim)
+        if ($delimB != $delim){
             $dataB = $this->converteData($dataB);
-            
-        list($anoA, $mesA, $diaA)   = explode($delim, $dataA);
-        list($anoB, $mesB, $diaB)   = explode($delim, $dataB);
+        }
+        
+        list($anoA, $mesA, $diaA) = explode($delim, $dataA);
+        list($anoB, $mesB, $diaB) = explode($delim, $dataB);
 
         return date('d/m/Y', mktime(0, 0, 0, ($mesA + $mesB), ($diaA + $diaB), ($anoA + ($anoB <= 15 ? $anoB : 0))));
     }
@@ -243,31 +236,32 @@ class Data
     public function subtraiData($dataA, $dataB)
     {
 
-        if($this->getSeparador($dataA) == "/")
+        if ($this->getSeparador($dataA) == "/"){
             $dataA = $this->converteData($dataA);
+        }
 
-        $delim      = $this->getSeparador($dataA);
-        $delimB     = $this->getSeparador($dataB);
+        $delim = $this->getSeparador($dataA);
+        $delimB = $this->getSeparador($dataB);
 
-        if($delimB != $delim)
+        if ($delimB != $delim){
             $dataB = $this->converteData($dataB);
-
+        }
+        
         //Detecta qual valor é o mais alto para subtrair deste, evitando resultudos negativos.
-        if($dataA > $dataB){
+        if ($dataA > $dataB) {
             $dataY = $dataA;
             $dataX = $dataB;
         } else {
             $dataY = $dataB;
             $dataX = $dataA;
-
         }
 
-        list($anoA, $mesA, $diaA)   = explode($delim, $dataY);
-        list($anoB, $mesB, $diaB)   = explode($delim, $dataX);
+        list($anoA, $mesA, $diaA) = explode($delim, $dataY);
+        list($anoB, $mesB, $diaB) = explode($delim, $dataX);
 
         return date('d/m/Y', mktime(0, 0, 0, ($mesA - $mesB), ($diaA - $diaB), ($anoA - ($anoB <= 60 ? $anoB : 0))));
     }
-    
+
     /**
      * Data::somaHora()
      * Soma horas distintas, considerando Horas, Minutos e Segundos.
@@ -278,9 +272,9 @@ class Data
      */
     public function somaHora($horaA, $horaB)
     {
-        
-        list($hora, $min, $sec)     = explode(":", $horaA);
-        list($horaB, $minB, $secB)  = explode(":", $horaB);
+
+        list($hora, $min, $sec) = explode(":", $horaA);
+        list($horaB, $minB, $secB) = explode(":", $horaB);
 
         return date('H:i:s', mktime(($hora + $horaB), ($min + $minB), ($sec + $secB)));
     }
@@ -297,17 +291,16 @@ class Data
     {
 
         //Detecta qual valor é o mais alto para subtrair deste, evitando resultudos negativos.
-        if($horaA > $horaB){
+        if ($horaA > $horaB) {
             $horaY = $horaA;
             $horaX = $horaB;
         } else {
             $horaY = $horaB;
             $horaX = $horaA;
-
         }
 
-        list($hora, $min, $sec)     = explode(":", $horaY);
-        list($horaB, $minB, $secB)  = explode(":", $horaX);
+        list($hora, $min, $sec) = explode(":", $horaY);
+        list($horaB, $minB, $secB) = explode(":", $horaX);
 
         return date('H:i:s', mktime(($hora - $horaB), ($min - $minB), ($sec - $secB)));
     }
@@ -323,9 +316,8 @@ class Data
     {
 
         return(preg_match('[/]', $data) ? '/' : '-');
-
     }
-    
+
     /**
      * Data::getMesExt()
      * Retorna o equivalente por extenso de um mês númerico.
@@ -344,7 +336,7 @@ class Data
      * 
      * @param String $data Data a ser convertido.
      * @return String Mês por extenso.
-     */   
+     */
     public function getDataExt($data)
     {
         throw new RuntimeException("Método ainda não implementado.");
