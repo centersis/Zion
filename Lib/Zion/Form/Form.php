@@ -5,8 +5,9 @@ namespace Zion\Form;
 class Form extends \Zion\Form\FormHtml
 {
 
-    public $formConfig;
+    private $formConfig;
     private $formValues;
+    private $objetos;
     private $processarHtml;
     private $processarJs;
     private $formHtml;
@@ -150,6 +151,8 @@ class Form extends \Zion\Form\FormHtml
 
         foreach ($campos as $objCampos) {
 
+            $this->objetos[] = $objCampos;
+            
             if ($this->processarHtml) {
                 switch ($objCampos->getTipoBase()) {
                     case 'hidden' :
@@ -241,19 +244,11 @@ class Form extends \Zion\Form\FormHtml
     {
         return $nome ? $this->formHtml[$nome] : $this->formHtml;
     }
-
-    public function setNomeForm($nome)
+    
+    public function validar()
     {
-        if(!is_null($nome)){
-            $this->nomeForm = $nome;
-        } else {
-            throw new FormException("nome: Nenhum valor informado.");
-        }        
+        foreach ($this->objetos as $obj){
+            
+        }
     }
-
-    public function getNomeForm()
-    {
-        return $this->nomeForm;
-    }
-
 }

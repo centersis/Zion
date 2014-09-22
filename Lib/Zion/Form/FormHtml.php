@@ -287,11 +287,14 @@ class FormHtml extends \Zion\Form\FormAtributos
         $attr = array(
             $this->attr('name', $config->getNome()),
             $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
+            $this->attr('action', $config->getAction()),
             $this->attr('autocomplete', $config->getAutoComplete()),
             $this->attr('enctype', $config->getEnctype()),
             $this->attr('method', $config->getMethod()),
             $this->attr('novalidate', $config->getNovalidate()),
-            $this->attr('target', $config->getTarget()));
+            $this->attr('target', $config->getTarget()),
+            $this->attr('complemento', $config->getComplemento()),
+            $this->attr('classCss', $config->getClassCss()));
 
         return vsprintf($this->prepareForm(count($attr)), $attr);
     }
