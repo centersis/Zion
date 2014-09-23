@@ -10,26 +10,25 @@
  * de acordo com as diretrizes PSR-0 e PSR-4.
  * 
  */
- namespace Zion\ClassLoader;
- 
+
+namespace Zion\ClassLoader;
+
 use \Zion\ClassLoader\UniversalClassLoader;
 
 class Loader
 {
-    public $LIBRARY_PATH        = 'C:/xampp/htdocs/Zion/Lib';
 
-    public $SUFIXES             = array("", ".vo", ".class", ".interface");
+    public $LIBRARY_PATH = 'C:/xampp/htdocs/Zion/Lib';
+    public $SUFIXES = array("", ".vo", ".class", ".interface");
 
     public function __construct()
     {
-
         require_once "UniversalClassLoader.php";
 
         $loader = new \Zion\ClassLoader\UniversalClassLoader();
         $loader->registerNamespace("Zion", $this->LIBRARY_PATH);
+        $loader->registerNamespace("Teste", 'C:/xampp/htdocs/');
         $loader->registerSufixes($this->SUFIXES);
-        $loader->register();
+        $loader->register();        
     }
-
 }
-?>

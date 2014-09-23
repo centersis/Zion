@@ -62,12 +62,8 @@ abstract class FormBasico
   
     public function setValor($valor)
     {              
-        if(!empty($valor)){
              $this->valor = $valor;
             return $this;
-        } else {
-            throw new FormException("valor: Nenhum valor informado.");
-        }
     }
 
     public function getValor()

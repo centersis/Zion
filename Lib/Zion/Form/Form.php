@@ -2,29 +2,21 @@
 
 namespace Zion\Form;
 
-class Form extends \Zion\Form\FormHtml
+class Form
 {
 
     private $formConfig;
-    private $formValues;
     private $objetos;
-    private $processarHtml;
-    private $processarJs;
     private $formHtml;
 
     public function __construct()
     {
-        parent::__construct();
-        
+        $this->formHtml = new \Zion\Form\FormHtml();
+
         $this->formConfig = new \Zion\Form\FormTag();
 
         $this->formConfig->setNome('Form1')
                 ->setMethod('POST');
-
-        $this->formValues = array();
-        $this->processarHtml = true;
-        $this->processarJs = true;
-        $this->formHtml = array();
     }
 
     public function hidden()
@@ -127,9 +119,9 @@ class Form extends \Zion\Form\FormHtml
         return new \Zion\Form\FormInputButton('reset');
     }
 
-    /** 
-    * @return FormTag 
-    */ 
+    /**
+     * @return FormTag 
+     */
     public function config()
     {
         return $this->formConfig;
@@ -137,59 +129,19 @@ class Form extends \Zion\Form\FormHtml
 
     public function abreForm()
     {
-        return parent::abreForm($this->formConfig);
+        return $this->formHtml->abreForm($this->formConfig);
     }
-    
+
     public function fechaForm()
     {
-        return parent::fechaForm();
+        return $this->formHtml->fechaForm();
     }
 
     public function processarForm(array $campos)
     {
-        $htmlCampos = array();
-
         foreach ($campos as $objCampos) {
 
-            $this->objetos[] = $objCampos;
-            
-            if ($this->processarHtml) {
-                switch ($objCampos->getTipoBase()) {
-                    case 'hidden' :
-                        $htmlCampos[$objCampos->getNome()] = $this->montaHidden($objCampos);
-                        break;
-                    case 'texto' :
-                        $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
-                        break;
-                    case 'suggest' :
-                        $htmlCampos[$objCampos->getNome()] = $this->montaSuggest($objCampos);
-                        break;
-                    case 'dateTime' :
-                        $htmlCampos[$objCampos->getNome()] = $this->montaDateTime($objCampos);
-                        break;
-                    case 'number' :
-                        $htmlCampos[$objCampos->getNome()] = $this->montaNumber($objCampos);
-                        break;
-                    case 'float' :
-                        $htmlCampos[$objCampos->getNome()] = $this->montaFloat($objCampos);
-                        break;
-                    case 'cpf' :
-                        $htmlCampos[$objCampos->getNome()] = $this->montaTexto($objCampos);
-                        break;
-                    case 'escolha':
-                        $htmlCampos[$objCampos->getNome()] = $this->montaEscolha($objCampos);
-                        break;
-                    case 'button':
-                        $htmlCampos[$objCampos->getNome()] = $this->montaButton($objCampos);
-                        break;
-                }
-            }
-
-            $this->formValues[$objCampos->getNome()] = $objCampos->getValor();
-        }
-
-        if ($this->processarHtml) {
-            $this->formHtml = $htmlCampos;
+            $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
         return $this;
@@ -210,8 +162,8 @@ class Form extends \Zion\Form\FormHtml
 
     public function set($nome, $valor)
     {
-        if(!is_null($nome) or !is_null($nome)){
-            $this->formValues[$nome] = $valor;
+        if (!is_null($nome) or ! is_null($nome)) {
+            $this->objetos[$nome]->setValor($valor);
         } else {
             throw new FormException("set: Falta um argumento.");
         }
@@ -219,36 +171,56 @@ class Form extends \Zion\Form\FormHtml
 
     public function get($nome)
     {
-        return $this->formValues[$nome];
-    }
-
-    public function setProcessarHtml($processarHtml)
-    {
-        if(is_bool($processarHtml)){
-            $this->processarHtml = $processarHtml;
-        } else {
-            throw new FormException("processarHtml: O valor informado nao e um booleano.");
-        }
-    }
-
-    public function setProcessarJs($processarJs)
-    {
-        if(is_bool($processarJs)){
-            $this->processarJs = $processarJs;
-        } else {
-            throw new FormException("processarJs: O valor informado nao e um booleano.");
-        }        
+        return $this->objetos[$nome]->getValor();
     }
 
     public function getFormHtml($nome = null)
     {
-        return $nome ? $this->formHtml[$nome] : $this->formHtml;
+        $htmlCampos = array();
+
+        $obj = $nome ? array($this->objetos[$nome]) : $this->objetos;
+
+        foreach ($obj as $objCampos) {
+            switch ($objCampos->getTipoBase()) {
+                case 'hidden' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaHidden($objCampos);
+                    break;
+                case 'texto' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTexto($objCampos);
+                    break;
+                case 'suggest' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaSuggest($objCampos);
+                    break;
+                case 'dateTime' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaDateTime($objCampos);
+                    break;
+                case 'number' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaNumber($objCampos);
+                    break;
+                case 'float' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaFloat($objCampos);
+                    break;
+                case 'cpf' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTexto($objCampos);
+                    break;
+                case 'escolha':
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaEscolha($objCampos);
+                    break;
+                case 'button':
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaButton($objCampos);
+                    break;
+                default : throw new Exception('Tipo Base não encontrado!');
+            }
+        }
+
+        return $nome ? $htmlCampos[$nome] : $htmlCampos;
     }
-    
+
     public function validar()
     {
-        foreach ($this->objetos as $obj){
+        foreach ($this->objetos as $obj) {
             
         }
     }
+
 }

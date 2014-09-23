@@ -245,22 +245,14 @@ class FormInputTexto extends FormBasico
     
     public function setIdentifica($identifica)
     {
-        if(!empty($identifica)){
              parent::setIdentifica($identifica);
             return $this;
-        } else {
-            throw new FormException("identifica: Nenhum valor informado.");
-        }
     }
     
     public function setValor($valor)
     {              
-        if(!empty($valor)){
              parent::setValor($valor);
             return $this;
-        } else {
-            throw new FormException("valor: Nenhum valor informado.");
-        }
     }
     
     public function setValorPadrao($valorPadrao)
