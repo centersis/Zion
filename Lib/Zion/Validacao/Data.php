@@ -103,7 +103,7 @@ class Data
      * @param mixed $dataF Data Final
      * @return Integer 1 Se $dataI < $dataF, -1 se $dataI > $dataF e 0 se forem iguais. 
      */
-    public function verificaDiferenca($dataI, $dataF){
+    public function verificaDiferencaDataHora($dataI, $dataF){
         
         $dI  = \DateTime::createFromFormat($this->getFormatoDataHora($dataI), $dataI);
         $dF  = \DateTime::createFromFormat($this->getFormatoDataHora($dataF), $dataF);
