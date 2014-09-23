@@ -33,8 +33,8 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     public function setDataMinima($dataMinima)
     {
         if($this->data->validaData($dataMinima) === true){
-            
-            if(isset($this->dataMaxima) and ($dataMinima > $this->dataMaxima)) {
+
+            if(isset($this->dataMaxima) and $this->data->verificaDiferencaDataHora($this->dataMaxima, $dataMinima) == 1) {
                 throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
                 return;
             }
@@ -55,9 +55,9 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     public function setDataMaxima($dataMaxima)
     {
         if($this->data->validaData($dataMaxima)){
-            
-            if(isset($this->dataMinima) and ($dataMaxima < $this->dataMinima)) {
-                throw new FormException("dataMaxima nao pode ser menor que dataMinima.");
+
+            if(isset($this->dataMinima) and $this->data->verificaDiferencaDataHora($this->dataMinima, $dataMaxima) == -1) {
+                throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
                 return;
             }
 
