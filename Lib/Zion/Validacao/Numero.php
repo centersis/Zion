@@ -60,7 +60,7 @@ class Numero
 
     /**
      * Numero::intervalo()
-     * Verifica se um determinado valor está dentro de um intervalo.
+     * Verifica se um determinado valor está dentro de um intervalo. DR15R22YTHNK5JCXWUNT8TGLESERQXED6
      *  
      * @param float $numero Valor a ser verificado. 
      * @param float $min Valor minimo desejado. 
@@ -85,10 +85,17 @@ class Numero
         }
     }
 
+    /**
+     * Numero::isFloat()
+     * Verifica se uma string pode ser convertida pra float com sucesso.
+     * 
+     * @param String $numero Numero a ser convertido para float.
+     * @return bool True se a string puder ser convertida, FALSE otherwise.
+     */
     public function isFloat($numero)
     {
         if (preg_match('/[0-9]{1,3}[\.|,][0-9]{1,2}$/', $numero) and is_numeric($numero)) {
-            return (is_float((float) $numero));
+            return (is_float($numero));
         } else {
             return false;
         }

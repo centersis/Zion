@@ -1,21 +1,13 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
+/**
+ * Base RuntimeException for the Form component.
  *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @author Feliphe Bueno <feliphe@braconsultoria.com.br>
  */
 
 namespace Zion\Form\Exception;
 
-/**
- * Base ExceptionInterface for the Form component.
- *
- * @author Bernhard Schussek <bschussek@gmail.com>
- */
 interface ExceptionInterface
 {
 }

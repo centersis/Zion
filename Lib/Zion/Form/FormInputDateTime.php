@@ -29,14 +29,21 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     {
         return $this->acao;
     }
-    
+
     public function setDataMinima($dataMinima)
     {
         if($this->data->validaData($dataMinima) === true){
+
+            if(isset($this->dataMaxima) and $this->data->verificaDiferencaDataHora($this->dataMaxima, $dataMinima) == 1) {
+                throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
+                return;
+            }
+
             $this->dataMinima = $dataMinima;        
             return $this;
+
         } else {
-            throw new FormException("dataMinima: O valor informado nao e uma data valida.");
+            throw new FormException("dataMinima: O valor informado nao e uma data/hora valida.");
         }
     }
     
@@ -48,10 +55,17 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     public function setDataMaxima($dataMaxima)
     {
         if($this->data->validaData($dataMaxima)){
+
+            if(isset($this->dataMinima) and $this->data->verificaDiferencaDataHora($this->dataMinima, $dataMaxima) == -1) {
+                throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
+                return;
+            }
+
             $this->dataMaxima = $dataMaxima;
             return $this;
+
         } else {
-            throw new FormException("dataMaxima: O valor informado nao e uma data valida.");
+            throw new FormException("dataMaxima: O valor informado nao e uma data/hora valida.");
         }
     }
     
@@ -65,91 +79,55 @@ class FormInputDateTime extends \Zion\Form\FormBasico
      */    
     public function setId($id)
     {
-        if(!empty($id)){
-            parent::setId($id);        
-            return $this;
-        } else {
-            throw new FormException("id: Nenhum valor informado.");
-        }
+        parent::setId($id);        
+        return $this;
     }
     
     public function setNome($nome)
     {
-        if(!empty($nome)){
-             parent::setNome($nome);
-            return $this;
-        } else {
-            throw new FormException("nome: Nenhum valor informado.");
-        }
+        parent::setNome($nome);
+        return $this;
     }
     
     public function setIdentifica($identifica)
     {
-        if(!empty($identifica)){
-             parent::setIdentifica($identifica);
-            return $this;
-        } else {
-            throw new FormException("identifica: Nenhum valor informado.");
-        }
+        parent::setIdentifica($identifica);
+        return $this;
     }
     
     public function setValor($valor)
     {              
-        if(!empty($valor)){
-             parent::setValor($valor);
-            return $this;
-        } else {
-            throw new FormException("valor: Nenhum valor informado.");
-        }
+        parent::setValor($valor);
+        return $this;
     }
     
     public function setValorPadrao($valorPadrao)
     {
-        if(!empty($valorPadrao)){
-             parent::setValorPadrao($valorPadrao);
-            return $this;
-        } else {
-            throw new FormException("valorPadrao: Nenhum valor informado.");
-        }
+        parent::setValorPadrao($valorPadrao);
+        return $this;
     }
     
     public function setDisabled($disabled)
     {
-        if(!empty($disabled)){
-             parent::setDisabled($disabled);
-            return $this;
-        } else {
-            throw new FormException("disabled: Nenhum valor informado.");
-        }
+        parent::setDisabled($disabled);
+        return $this;
     }
     
     public function setComplemento($complemento)
     {
-        if(!empty($complemento)){
-             parent::setComplemento($complemento);
-            return $this;
-        } else {
-            throw new FormException("complemento: Nenhum valor informado.");
-        }
+        parent::setComplemento($complemento);
+        return $this;
     }
 
     public function setAtributos($atributos)
     {
-        if(!empty($atributos)){
-             parent::setAtributos($atributos);
-            return $this;
-        } else {
-            throw new FormException("atributos: Nenhum valor informado.");
-        }
+        parent::setAtributos($atributos);
+        return $this;
     }
     
     public function setClassCss($classCss)
     {
-        if(!empty($classCss)){
-             parent::setClassCss($classCss);
-            return $this;
-        } else {
-            throw new FormException("classCss: Nenhum valor informado.");
-        }
+        parent::setClassCss($classCss);
+        return $this;
     }
 }

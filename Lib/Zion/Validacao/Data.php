@@ -46,19 +46,8 @@ class Data
     public function validaData($data)
     {
 
-        if (preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$|^[0-9]{2}\/[0-9]{2}\/[0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)) {
-            $f = "d/m/Y";
-        } elseif (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$|^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $data)) {
-            $f = "Y-m-d";
-        } else {
-            return false;
-        }
-
-        if (preg_match('[:]', $data)) {
-            $f .= " H:i:s";
-        }
-        $this->validaHora('21:21:21');
-        $date = \DateTime::createFromFormat($f, $data);
+        $f      = $this->getFormatoDataHora($data);
+        $date   = \DateTime::createFromFormat($f, $data);
 
         return ($date->format($f) == $data ? true : false);
     }
@@ -75,6 +64,63 @@ class Data
 
         $time = \DateTime::createFromFormat('H:i:s', $hora);
         return ($time->format('H:i:s') == $hora ? true : false);
+    }
+
+    /**
+     * Data::getFormatoDataHora()
+     * Detecta o formato de uma data/hora, independente do formato.
+     * 
+     * @param mixed $dataHora Data/Hora a ser verificada.
+     * @return String formato encontrado, FALSE otherwise.
+     */
+    public function getFormatoDataHora($dataHora){
+
+        if(preg_match('/^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}$|^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
+
+           $f = "d/m/Y";
+
+        } elseif(preg_match('/^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}$|^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+            $f = "Y-m-d";
+        } elseif(preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
+            $f = "H:i:s";
+        } else {
+            return false;
+        }
+
+        if(preg_match('/\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
+            $f .= " H:i:s";
+        }
+
+        return $f;
+   
+    }
+
+    /**
+     * Data::verificaDiferenca()
+     * Compara a diferença entre duas datas informadas, independente do formato, considerando dias, meses, anos, horas, minutos e segundos.
+     * 
+     * @param mixed $dataI Data Inicial
+     * @param mixed $dataF Data Final
+     * @return Integer 1 Se $dataI < $dataF, -1 se $dataI > $dataF e 0 se forem iguais. 
+     */
+    public function verificaDiferencaDataHora($dataI, $dataF){
+        
+        $dI  = \DateTime::createFromFormat($this->getFormatoDataHora($dataI), $dataI);
+        $dF  = \DateTime::createFromFormat($this->getFormatoDataHora($dataF), $dataF);
+        
+        $diff   = $dI->diff($dF);
+
+        $padrao     = array('y' => NULL, 'm' => NULL, 'd' => NULL, 'h' => NULL, 'i' => NULL, 's' => NULL);
+        $diferenca  = array_sum(array_intersect_key((array) $diff, $padrao));
+
+        if($diferenca == 0) return 0;
+
+        if($diff->invert == 1){
+            return -1;
+        } else {
+            return 1;
+        }
+        
     }
 
     /**
