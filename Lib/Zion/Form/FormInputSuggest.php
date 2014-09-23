@@ -8,7 +8,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $tipoBase;
     private $acao;
     private $largura;
-    private $maiusculoMinusculo;
+    private $caixa;
     private $converterHtml;
     private $autoTrim;
     private $placeHolder;
@@ -45,19 +45,19 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->largura;
     }  
     
-    public function setMaiusculoMinusculo($maiusculoMinusculo)
+    public function setCaixa($caixa)
     {
-        if(strtoupper($maiusculoMinusculo) == "ALTA" or strtoupper($maiusculoMinusculo) == "BAIXA"){
-            $this->maiusculoMinusculo = $maiusculoMinusculo;
+        if(strtoupper($caixa) == "ALTA" or strtoupper($caixa) == "BAIXA"){
+            $this->caixa = $caixa;
             return $this;
         } else {
-            throw new FormException("maiusculoMinusculo: Valor desconhecido: ". $maiusculoMinusculo);
+            throw new FormException("caixa: Valor desconhecido: ". $caixa);
         }
     }
     
-    public function getMaiusculoMinusculo()
+    public function getCaixa()
     {
-        return $this->maiusculoMinusculo;
+        return $this->caixa;
     } 
     
     public function setConverterHtml($converterHtml)
