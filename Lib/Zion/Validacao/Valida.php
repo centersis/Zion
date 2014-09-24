@@ -11,7 +11,7 @@
 
 namespace Zion\Validacao;
 
-class Tratamento
+class Valida
 {
     
     /**
