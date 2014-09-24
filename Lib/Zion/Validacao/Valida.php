@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Valida()
  * @author Feliphe Bueno - feliphezion@gmail.com
  * @since 15/09/2014
  * @version 1.0
@@ -11,11 +12,16 @@
 
 namespace Zion\Validacao;
 
+use Zion\Validacao\Texto;
+use Zion\Validacao\Data;
+use Zion\Validacao\Numero;
+use Zion\Validacao\Geral;
+
 class Valida
 {
     
     /**
-     * Tratamento::texto()
+     * Valida::texto()
      * Retorna uma instância da classe de tratamento de Strings. Texto()
      * 
      * @return object()
@@ -26,7 +32,7 @@ class Valida
     }
     
     /**
-     * Tratamento::data()
+     * Valida::data()
      * Retorna uma instância da classe de tratamento de Datas. Data()
      * 
      * @return object()
@@ -37,14 +43,25 @@ class Valida
     }
     
     /**
-     * Tratamento::numero()
+     * Valida::numero()
      * Retorna uma instância da classe de tratamento de Float. Numero()
      * 
      * @return object()
      */
     public function numero()
     {
-        return new \Zion\Validacao\Numero;
+        return new \Zion\Validacao\Numero();
+    }
+    
+    /**
+     * Valida::geral()
+     * Retorna uma instância da classe de tratamento de inputs especias. Geral()
+     * 
+     * @return object()
+     */
+    public function geral()
+    {
+        return new \Zion\Validacao\Geral();
     }
 
 }
