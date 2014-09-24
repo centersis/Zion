@@ -40,7 +40,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text'),
             $this->attr('size', $config->getLargura()),
-            $this->attr('caixa', $config->getMaiusculoMinusculo()),
+            $this->attr('caixa', $config->getCaixa()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
         return vsprintf($this->prepareInput(count($attr)), $attr);
@@ -56,7 +56,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('type', 'text'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('size', $config->getLargura()),
-            $this->attr('caixa', $config->getMaiusculoMinusculo()),
+            $this->attr('caixa', $config->getCaixa()),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('autocomplete', $config->getAutoComplete())));
 

@@ -18,17 +18,42 @@ use \Zion\ClassLoader\UniversalClassLoader;
 class Loader
 {
 
-    public $LIBRARY_PATH = 'C:/xampp/htdocs/Zion/Lib';
-    public $SUFIXES = array("", ".vo", ".class", ".interface");
+    private $sufixos;
+    private $nameSpaces;
 
     public function __construct()
+    {
+        $this->nameSpaces = [];
+    }
+
+    public function inicio()
     {
         require_once "UniversalClassLoader.php";
 
         $loader = new \Zion\ClassLoader\UniversalClassLoader();
-        $loader->registerNamespace("Zion", $this->LIBRARY_PATH);
-        $loader->registerNamespace("Teste", 'C:/xampp/htdocs/');
-        $loader->registerSufixes($this->SUFIXES);
-        $loader->register();        
+
+        foreach ($this->nameSpaces as $name => $caminho) {
+
+            $loader->registerNamespace($name, $caminho);
+        }
+
+        if ($this->sufixos) {
+            $loader->registerSufixes($this->sufixos);
+        }
+
+        $loader->register();
     }
+
+    public function setSufixos(array $sufixos)
+    {
+        $this->sufixos = $sufixos;
+        return $this;
+    }
+
+    public function setNameSpaces($name, $caminho)
+    {
+        $this->nameSpaces[$name] = $caminho;
+        return $this;
+    }
+
 }
