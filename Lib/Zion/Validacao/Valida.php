@@ -12,11 +12,6 @@
 
 namespace Zion\Validacao;
 
-use Zion\Validacao\Texto;
-use Zion\Validacao\Data;
-use Zion\Validacao\Numero;
-use Zion\Validacao\Geral;
-
 class Valida
 {
     
