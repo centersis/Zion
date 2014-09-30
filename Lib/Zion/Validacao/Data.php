@@ -49,7 +49,7 @@ class Data
         $f      = $this->getFormatoDataHora($data);
         $date   = \DateTime::createFromFormat($f, $data);
 
-        return ($date->format($f) == $data ? true : false);
+        return (@$date ? true : false);
     }
 
     /**
