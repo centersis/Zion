@@ -1,11 +1,13 @@
 <?php
 
 namespace Zion\Form;
+
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Form\Form as Form;
 
 class FormInputTexto extends FormBasico
 {
+
     private $tipoBase;
     private $acao;
     private $largura;
@@ -20,19 +22,23 @@ class FormInputTexto extends FormBasico
     private $autoTrim;
     private $placeHolder;
     private $autoComplete;
-    
+    private $label;
+    private $iconFA;
+    private $toolTipMsg;
+    private $emColunaDeTamanho;
+
     public function __construct($acao)
     {
         $this->tipoBase = 'texto';
         $this->acao = $acao;
-
+        $this->label = true;
     }
-    
+
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
-    
+
     public function getAcao()
     {
         return $this->acao;
@@ -40,70 +46,69 @@ class FormInputTexto extends FormBasico
 
     public function setLargura($largura)
     {
-        if(preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)){
+        if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
             $this->largura = $largura;
             return $this;
         } else {
-           throw new FormException("largura: O valor nao esta nos formatos aceitos: 10%; 10px; ou 10");
+            throw new FormException("largura: O valor nao esta nos formatos aceitos: 10%; 10px; ou 10");
         }
     }
-    
+
     public function getLargura()
     {
         return $this->largura;
     }
-    
+
     public function setMaximoCaracteres($maximoCaracteres)
     {
-        if(is_numeric($maximoCaracteres)){
+        if (is_numeric($maximoCaracteres)) {
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
             throw new FormException("maximoCaracteres: Valor nao numerico.");
         }
     }
-    
+
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
-    
+
     public function setMinimoCaracteres($minimoCaracteres)
     {
-        if(is_numeric($maximoCaracteres)){
+        if (is_numeric($maximoCaracteres)) {
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
             throw new FormException("minimoCaracteres: Valor nao numerico.");
         }
-
     }
-    
+
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
-    }   
+    }
 
     public function setCaixa($caixa)
     {
-        if(strtoupper($caixa) == "ALTA" or strtoupper($caixa) == "BAIXA"){
+        if (strtoupper($caixa) == "ALTA" or strtoupper($caixa) == "BAIXA") {
             $this->caixa = $caixa;
             return $this;
         } else {
-            throw new FormException("caixa: Valor desconhecido: ". $caixa);
+            throw new FormException("caixa: Valor desconhecido: " . $caixa);
         }
     }
-    
+
     public function getCaixa()
     {
         return $this->caixa;
-    } 
-    
+    }
+
     public function setValorMinimo($valorMinimo)
     {
-        if(is_numeric($valorMinimo)){
+        if (is_numeric($valorMinimo)) {
 
-            if(isset($this->valorMaximo) and ($valorMinimo > $this->valorMaximo)) {
+            if (isset($this->valorMaximo) and ( $valorMinimo > $this->valorMaximo)) {
                 throw new FormException("valorMinimo nao pode ser maior que valorMaximo.");
                 return;
             }
@@ -114,17 +119,17 @@ class FormInputTexto extends FormBasico
             throw new FormException("valorMinimo: Valor nao numerico");
         }
     }
-    
+
     public function getValorMinimo()
     {
         return $this->valorMinimo;
     }
-    
+
     public function setValorMaximo($valorMaximo)
     {
-        if(is_numeric($valorMaximo)){
+        if (is_numeric($valorMaximo)) {
 
-            if(isset($this->valorMinimo) and ($valorMaximo < $this->valorMinimo)) {
+            if (isset($this->valorMinimo) and ( $valorMaximo < $this->valorMinimo)) {
                 throw new FormException("valorMaximo nao pode ser menor que valorMinimo.");
                 return;
             }
@@ -135,45 +140,45 @@ class FormInputTexto extends FormBasico
             throw new FormException("valorMaximo: Valor nao numerico");
         }
     }
-    
+
     public function getValorMaximo()
     {
         return $this->valorMaximo;
     }
-    
+
     public function setMascara($mascara)
     {
-        if(!empty($mascara)){
+        if (!empty($mascara)) {
             $this->mascara = $mascara;
             return $this;
         } else {
             throw new FormException("mascara: Nenhum valor informado");
         }
     }
-    
+
     public function getMascara()
     {
         return $this->mascara;
     }
-    
+
     public function setObrigarorio($obrigatorio)
     {
-        if(is_bool($obrigatorio)){
+        if (is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
             throw new FormException("obrigatorio: Valor nao booleano");
         }
     }
-    
+
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
-    
+
     public function setConverterHtml($converterHtml)
     {
-        if(is_bool($converterHtml)){
+        if (is_bool($converterHtml)) {
             $this->converterHtml = $converterHtml;
             return $this;
         } else {
@@ -185,92 +190,151 @@ class FormInputTexto extends FormBasico
     {
         return $this->converterHtml;
     }
-    
+
     public function setAutoTrim($autoTrim)
     {
-        if(is_bool($autoTrim)){
+        if (is_bool($autoTrim)) {
             $this->autoTrim = $autoTrim;
             return $this;
         } else {
             throw new FormException("autoTrim: Valor nao booleano");
         }
-
     }
-    
+
     public function getAutoTrim()
     {
         return $this->autoTrim;
     }
-    
+
     public function setPlaceHolder($placeHolder)
     {
-        if(!empty($placeHolder)){
+        if (!empty($placeHolder)) {
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
             throw new FormException("placeHolder: Nenhum valor informado");
         }
     }
-    
+
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
-    
+
     public function setAutoComplete($autoComplete)
     {
-        if(is_bool($autoComplete)){
+        if (is_bool($autoComplete)) {
             $this->autoComplete = $autoComplete;
             return $this;
         } else {
             throw new FormException("autoComplete: O valor informado não é um booleano.");
         }
     }
-    
+
     public function getAutoComplete()
     {
         return $this->autoComplete;
     }
-    
-    /**
-     * Sobrecarga de Metodos Básicos
-     */    
-    public function setId($id)
+
+    public function setLabel($label)
     {
-        parent::setId($id);        
-        return $this;
+        if (is_bool($label)) {
+            $this->label = $label;
+            return $this;
+        } else {
+            throw new FormException("label: O valor informado não é um booleano.");
+        }
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    public function setIconFA($iconFA)
+    {
+        if (!empty($iconFA)) {
+            $this->iconFA = $iconFA;
+            return $this;
+        } else {
+            throw new FormException("iconFA: Nenhum valor informado");
+        }
+    }
+
+    public function getIconFA()
+    {
+        return $this->iconFA;
     }
     
+    public function setToolTipMsg($toolTipMsg)
+    {
+        if (!empty($toolTipMsg)) {
+            $this->toolTipMsg = $toolTipMsg;
+            return $this;
+        } else {
+            throw new FormException("toolTipMsg: Nenhum valor informado");
+        }
+    }
+
+    public function getToolTipMsg()
+    {
+        return $this->toolTipMsg;
+    }
+    
+    public function setEmColunaDeTamanho($emColunaDeTamanho)
+    {        
+        if (in_array($emColunaDeTamanho, range(1, 12))) {
+            $this->emColunaDeTamanho = $emColunaDeTamanho;
+            return $this;
+        } else {
+            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
+        }
+    }
+
+    public function getemColunaDeTamanho()
+    {
+        return $this->emColunaDeTamanho;
+    }
+
+    /**
+     * Sobrecarga de Metodos Básicos
+     */
+    public function setId($id)
+    {
+        parent::setId($id);
+        return $this;
+    }
+
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
-    
+
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
-    
+
     public function setValor($valor)
-    {              
+    {
         parent::setValor($valor);
         return $this;
     }
-    
+
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
-    
+
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
-    
+
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
@@ -282,10 +346,11 @@ class FormInputTexto extends FormBasico
         parent::setAtributos($atributos);
         return $this;
     }
-    
+
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
         return $this;
     }
+
 }

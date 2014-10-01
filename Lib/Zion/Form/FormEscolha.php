@@ -18,6 +18,9 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $where;
     private $sqlCompleto;
     private $idConexao;
+    private $placeHolder;
+    private $label;
+    private $emColunaDeTamanho;
 
     public function __construct($acao)
     {
@@ -27,6 +30,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         $this->multiplo = false;
         $this->ordena = 'ASC';
         $this->inicio = 'Selecione...';
+        $this->label = true;
     }
 
     public function getTipoBase()
@@ -202,6 +206,51 @@ class FormEscolha extends \Zion\Form\FormBasico
         } else {
             throw new FormException("idConexao: Nenhum Valor foi informado.");
         }
+    }
+    
+    public function setPlaceHolder($placeHolder)
+    {
+        if (!empty($placeHolder)) {
+            $this->placeHolder = $placeHolder;
+            return $this;
+        } else {
+            throw new FormException("placeHolder: Nenhum valor informado");
+        }
+    }
+
+    public function getPlaceHolder()
+    {
+        return $this->placeHolder;
+    }
+    
+    public function setLabel($label)
+    {
+        if (is_bool($label)) {
+            $this->label = $label;
+            return $this;
+        } else {
+            throw new FormException("label: O valor informado não é um booleano.");
+        }
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
+    }
+    
+    public function setEmColunaDeTamanho($emColunaDeTamanho)
+    {        
+        if (in_array($emColunaDeTamanho, range(1, 12))) {
+            $this->emColunaDeTamanho = $emColunaDeTamanho;
+            return $this;
+        } else {
+            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
+        }
+    }
+
+    public function getemColunaDeTamanho()
+    {
+        return $this->emColunaDeTamanho;
     }
 
     /**

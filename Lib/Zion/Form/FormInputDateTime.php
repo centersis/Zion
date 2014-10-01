@@ -10,6 +10,11 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     private $acao; 
     private $dataMinima;
     private $dataMaxima;
+    private $placeHolder;
+    private $label;
+    private $iconFA;
+    private $toolTipMsg;
+    private $emColunaDeTamanho;
     
     private $data;
     
@@ -17,6 +22,7 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     {
         $this->tipoBase = 'dateTime';
         $this->acao = $acao;
+        $this->label = true;
         $this->data = new Data();
     }
     
@@ -36,7 +42,6 @@ class FormInputDateTime extends \Zion\Form\FormBasico
 
             if(isset($this->dataMaxima) and $this->data->verificaDiferencaDataHora($this->dataMaxima, $dataMinima) == 1) {
                 throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
-                return;
             }
 
             $this->dataMinima = $dataMinima;        
@@ -58,7 +63,6 @@ class FormInputDateTime extends \Zion\Form\FormBasico
 
             if(isset($this->dataMinima) and $this->data->verificaDiferencaDataHora($this->dataMinima, $dataMaxima) == -1) {
                 throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
-                return;
             }
 
             $this->dataMaxima = $dataMaxima;
@@ -72,6 +76,81 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     public function getDataMaxima()
     {
         return $this->dataMaxima;
+    }
+    
+    public function setPlaceHolder($placeHolder)
+    {
+        if (!empty($placeHolder)) {
+            $this->placeHolder = $placeHolder;
+            return $this;
+        } else {
+            throw new FormException("placeHolder: Nenhum valor informado");
+        }
+    }
+
+    public function getPlaceHolder()
+    {
+        return $this->placeHolder;
+    }
+
+    public function setLabel($label)
+    {
+        if (is_bool($label)) {
+            $this->label = $label;
+            return $this;
+        } else {
+            throw new FormException("label: O valor informado não é um booleano.");
+        }
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    public function setIconFA($iconFA)
+    {
+        if (!empty($iconFA)) {
+            $this->iconFA = $iconFA;
+            return $this;
+        } else {
+            throw new FormException("iconFA: Nenhum valor informado");
+        }
+    }
+
+    public function getIconFA()
+    {
+        return $this->iconFA;
+    }
+    
+    public function setToolTipMsg($toolTipMsg)
+    {
+        if (!empty($toolTipMsg)) {
+            $this->toolTipMsg = $toolTipMsg;
+            return $this;
+        } else {
+            throw new FormException("toolTipMsg: Nenhum valor informado");
+        }
+    }
+
+    public function getToolTipMsg()
+    {
+        return $this->toolTipMsg;
+    }
+    
+    public function setEmColunaDeTamanho($emColunaDeTamanho)
+    {        
+        if (in_array($emColunaDeTamanho, range(1, 12))) {
+            $this->emColunaDeTamanho = $emColunaDeTamanho;
+            return $this;
+        } else {
+            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
+        }
+    }
+
+    public function getemColunaDeTamanho()
+    {
+        return $this->emColunaDeTamanho;
     }
     
     /**

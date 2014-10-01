@@ -28,7 +28,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'hidden')));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
     public function montaSuggest(FormInputSuggest $config)
@@ -43,7 +43,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('caixa', $config->getCaixa()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
     public function montaTexto(FormInputTexto $config)
@@ -59,8 +59,8 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('caixa', $config->getCaixa()),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('autocomplete', $config->getAutoComplete())));
-
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     public function montaDateTime(FormInputDateTime $config)
@@ -69,12 +69,20 @@ class FormHtml extends \Zion\Form\FormAtributos
             throw new \Exception('Atributo nome é obrigatório');
         }
 
+        if($config->getAcao() == 'date')
+        {
+            $atualComplemento = $config->getComplemento();
+            $novoComplemento = 'class="datepicker" data-dateformat="dd/mm/yy" data-mask="99/99/9999" data-mask-placeholder= "-"';
+            $config->setComplemento($atualComplemento.$novoComplemento);
+        }        
+
         $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', $config->getAcao()),
+            $this->attr('type', 'text'),
+            $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('max', $config->getDataMaxima()),
             $this->attr('min', $config->getDataMinima())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
     public function montaNumber(FormInputNumber $config)
@@ -88,7 +96,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('max', $config->getValorMaximo()),
             $this->attr('min', $config->getValorMinimo())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
     public function montaFloat(FormInputFloat $config)
@@ -100,7 +108,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text')));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
     public function montaEscolha(FormEscolha $config)
@@ -138,9 +146,10 @@ class FormHtml extends \Zion\Form\FormAtributos
             $select = true;
         }
 
-        if ($select and $inicio != '') {
-            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
-        }
+        $opcoes = '';
+//        if ($select and $inicio != '') {
+//             = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
+//        }
 
         //É Selecionado ?
         $eSelecionado = false;
@@ -198,15 +207,21 @@ class FormHtml extends \Zion\Form\FormAtributos
         $complemento = $config->getComplemento();
         $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
 
-        if ($select) {
-            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
-        }
+//        if ($select) {
+//            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
+//        }
 
         $retorno = '';
-
+        $cont = 0;
         foreach ($array as $chave => $vale) {
 
-            if ($select) { // Campo Select                           
+            $cont++;
+            if ($select) { // Campo Select
+                
+                if($cont == 1){
+                    $opcoes.= '<option></option>';
+                }                    
+                
                 $opcoes .= '<option value="' . $chave . '" ';
 
                 if ($eSelecionado === false) {
@@ -253,7 +268,25 @@ class FormHtml extends \Zion\Form\FormAtributos
         }
 
         if ($select) {
-            $retorno = sprintf("<select %s %s %s %s>%s</select>", $name, $id, $complemento, $disable, $opcoes);
+            
+            $html = new \Zion\Layout\Html();
+        
+            $retorno = '';
+
+            if($config->getemColunaDeTamanho()){
+                $retorno .= $html->abreTagAberta('section', array('class'=>'col col-'.$config->getemColunaDeTamanho()));                    
+            }
+                if($config->getLabel()){
+                    $retorno .= $html->abreTagAberta('label',array('class'=>'label'));
+                    $retorno .= $config->getIdentifica();
+                    $retorno .= $html->fechaTag('label');
+                }                
+
+                $retorno.= sprintf('<select %s %s %s %s style="width:100%s" class="select2" '.($config->getPlaceHolder() ? 'data-placeholder="'.$config->getPlaceHolder().'"' : 'data-placeholder="Selecione..."').'>%s</select>', $name, $id, $complemento, $disable, '%', $opcoes);
+              
+            if($config->getemColunaDeTamanho()){
+                $retorno .= $html->fechaTag('section');
+            }
         }
 
         return $retorno;
@@ -275,7 +308,7 @@ class FormHtml extends \Zion\Form\FormAtributos
 
         $attr[] = $this->attr('valueButton', $config->getValor());
 
-        return vsprintf($this->prepareButton(count($attr)), $attr);
+        return vsprintf($this->prepareButton(count($attr),$config), $attr);
     }
 
     public function abreForm(FormTag $config)
@@ -296,7 +329,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('complemento', $config->getComplemento()),
             $this->attr('classCss', $config->getClassCss()));
 
-        return vsprintf($this->prepareForm(count($attr)), $attr);
+        return vsprintf($this->prepareForm(count($attr),$config), $attr);
     }
 
     public function fechaForm()
