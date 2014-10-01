@@ -13,19 +13,16 @@ namespace Zion\Validacao;
 
 class Geral
 {
-    public function __construct()
-    {
-        /***DEBUG: AINDA EM USO, FAVOR DESCONSIDERAR.
-        print 'CPF: '. $this->validaCPF('024.016.271-46') .' ----'. $this->formataCPF('024.016.271-46') .'<hr>';
-        print 'CNPJ: '. $this->validaCNPJ('10.582.517/0001-90') .' ----'. $this->formataCNPJ('10582517000190') .'<hr>';
-        print 'CEP: '. $this->validaCEP('00000-198') .' ----'. $this->formataCEP('78.050-198') .'<hr>';
-        */
-    }
 
+    /**
+     * Geral::validaCPF()
+     * 
+     * @param mixed $cpf
+     * @return
+     */
     public function validaCPF($cpf)
     {
-		if(strlen($cpf) > 11)
-		{
+		if(strlen($cpf) > 11) {
 			//Retira Caracteres
 			@list($Parte1, $Parte2, $Parte3) = @explode(".", $cpf);
 			@list($Parte3, $Parte4)          = @explode("-",$Parte3);
@@ -40,23 +37,21 @@ class Geral
 		   ($cpf == '55555555555') || ($cpf == '66666666666') || 
 		   ($cpf == '77777777777') || ($cpf == '88888888888') || 
 		   ($cpf == '99999999999') || ($cpf == '00000000000') ) 
-		{ 
-		     return  false; 
-		} 
-		else 
-		{ 
+		{
+		     return  false;
+ 
+		} else {
+
 			$DvInformado = substr($cpf, 9,2); 
 			
-			for($I=0; $I<=8; $I++) 
-			{ 
+			for($I=0; $I<=8; $I++) { 
 				$Digito[$I] = substr($cpf, $I,1); 
 			} 
 			
 			$Posicao = 10; 
 			$Soma    = 0; 
 			
-			for($I=0; $I<=8; $I++) 
-			{ 
+			for($I=0; $I<=8; $I++) { 
 				$Soma    = $Soma + $Digito[$I] * $Posicao; 
 				$Posicao = $Posicao - 1; 
 			} 
@@ -66,31 +61,25 @@ class Geral
 			if($Digito[9] < 2) 
 			{ 
 				$Digito[9] = 0; 
-			} 
-			else 
-			{ 
+			} else { 
 				$Digito[9] = 11 - $Digito[9]; 
-			} 
+			}
 			
 			$Posicao = 11; 
 			$Soma    = 0; 
 			
-			for ($I=0; $I<=9; $I++) 
-			{ 
+			for ($I=0; $I<=9; $I++) { 
 				$Soma    = $Soma + $Digito[$I] * $Posicao; 
 				$Posicao = $Posicao - 1; 
 			} 
 			
 			$Digito[10] = $Soma % 11; 
 			
-			if ($Digito[10] < 2) 
-			{ 
+			if ($Digito[10] < 2) { 
 				$Digito[10] = 0; 
-			} 
-			else 
-			{ 
+			} else { 
 				$Digito[10] = 11 - $Digito[10]; 
-			} 
+			}
 			
 			$Dv = $Digito[9] * 10 + $Digito[10]; 
 			
@@ -98,7 +87,14 @@ class Geral
 		}
     }
     
-    public function formataCPF($cpf){
+    /**
+     * Geral::formataCPF()
+     * 
+     * @param mixed $cpf
+     * @return
+     */
+    public function formataCPF($cpf)
+    {
 
         $cpfFormatado = NULL;
         
@@ -117,99 +113,91 @@ class Geral
         return $cpfFormatado;
     }
     
+    /**
+     * Geral::validaCNPJ()
+     * 
+     * @param mixed $cnpj
+     * @return
+     */
     public function validaCNPJ($cnpj)
     {
 
     	$j=0;
-    	for($i=0; $i<(strlen($cnpj)); $i++)
-    		{
-    			if(is_numeric($cnpj[$i]))
-    				{
-    					$num[$j]=$cnpj[$i];
-    					$j++;
-    				}
-    		}
-
-    	if(count($num)!=14)
-    		{
+    	for($i=0; $i<(strlen($cnpj)); $i++){
+    		if(is_numeric($cnpj[$i])){
+				$num[$j]=$cnpj[$i];
+				$j++;
+			}
+    	}
+    
+    	if(count($num)!=14){
+    		$isCnpjValid=false;
+    	}
+    
+    	if (array_sum($num) == 0){
     			$isCnpjValid=false;
-    		}
+		} else {
+			$j=5;
+			for($i=0; $i<4; $i++){
+				$multiplica[$i]=$num[$i]*$j;
+				$j--;
+			}
+			$soma = array_sum($multiplica);
+			$j=9;
+			for($i=4; $i<12; $i++) {
+				$multiplica[$i]=$num[$i]*$j;
+				$j--;
+			}
+			$soma = array_sum($multiplica);	
+			$resto = $soma%11;			
+			if($resto<2){
+				$dg=0;
+			} else {
+				$dg=11-$resto;
+			}
 
-    	if (array_sum($num) == 0)
-    		{
-    			$isCnpjValid=false;
-    		}
-    	else
-    		{
-    			$j=5;
-    			for($i=0; $i<4; $i++)
-    				{
-    					$multiplica[$i]=$num[$i]*$j;
-    					$j--;
-    				}
-    			$soma = array_sum($multiplica);
-    			$j=9;
-    			for($i=4; $i<12; $i++)
-    				{
-    					$multiplica[$i]=$num[$i]*$j;
-    					$j--;
-    				}
-    			$soma = array_sum($multiplica);	
-    			$resto = $soma%11;			
-    			if($resto<2)
-    				{
-    					$dg=0;
-    				}
-    			else
-    				{
-    					$dg=11-$resto;
-    				}
-    			if($dg!=$num[12])
-    				{
-    					$isCnpjValid=false;
-    				} 
-    		}
+			if($dg!=$num[12]) {
+				$isCnpjValid=false;
+			} 
+		}
 
-    	if(!isset($isCnpjValid))
-        
-    		{
-    			$j=6;
-    			for($i=0; $i<5; $i++)
-    				{
-    					$multiplica[$i]=$num[$i]*$j;
-    					$j--;
-    				}
-    			$soma = array_sum($multiplica);
-    			$j=9;
-    			for($i=5; $i<13; $i++)
-    				{
-    					$multiplica[$i]=$num[$i]*$j;
-    					$j--;
-    				}
-    			$soma = array_sum($multiplica);	
-    			$resto = $soma%11;			
-    			if($resto<2)
-    				{
-    					$dg=0;
-    				}
-    			else
-    				{
-    					$dg=11-$resto;
-    				}
-    			if($dg!=$num[13])
-    				{
-    					$isCnpjValid=false;
-    				}
-    			else
-    				{
-    					$isCnpjValid=true;
-    				}
-    		}
+    	if(!isset($isCnpjValid)) {
+			$j=6;
+			for($i=0; $i<5; $i++) {
+				$multiplica[$i]=$num[$i]*$j;
+				$j--;
+			}
+			$soma = array_sum($multiplica);
+			$j=9;
+			for($i=5; $i<13; $i++) {
+				$multiplica[$i]=$num[$i]*$j;
+				$j--;
+			}
+			$soma = array_sum($multiplica);	
+			$resto = $soma%11;			
+			if($resto<2) {
+				$dg=0;
+			} else {
+				$dg=11-$resto;
+			}
+			if($dg!=$num[13]) {
+				$isCnpjValid=false;
+			} else {
+				$isCnpjValid=true;
+			}
+    	}
 
     	return $isCnpjValid;
     }
-    
-    public function formataCNPJ($cnpj){
+
+    /**
+     * Geral::formataCNPJ()
+     * 
+     * @param mixed $cnpj
+     * @return
+     */
+    public function formataCNPJ($cnpj)
+    {
 
         $cnpjFormatado = NULL;
 
@@ -229,6 +217,12 @@ class Geral
     }
 
     
+    /**
+     * Geral::validaCEP()
+     * 
+     * @param mixed $cep
+     * @return
+     */
     public function validaCEP($cep)
     {
         if(preg_match('/^\d{2}.\d{3}|\d{5}[-|\s]?[0-9]{3}$|^[0-9]{8}$/', $cep, $matches, PREG_OFFSET_CAPTURE)){
@@ -237,9 +231,15 @@ class Geral
             return($cepValido > 0 ? true : false);
         }
     }
-
-    public function formataCEP($cep){
-
+ 
+    /**
+     * Geral::formataCEP()
+     * 
+     * @param mixed $cep
+     * @return
+     */
+    public function formataCEP($cep)
+    {
         $cepFormatado = NULL;
 
         if(preg_match('/^\d{2}\.\d{3}[-|\s]?[0-9]{3}$/', $cep)) return($this->validaCEP($cep) === true ? $cep : false);
@@ -255,7 +255,7 @@ class Geral
             $cepFormatado = false;
 
         }
-        
+
         return $cepFormatado;
     }
 
