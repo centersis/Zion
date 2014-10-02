@@ -105,6 +105,7 @@ class FormAtributos
                 $buffer .= $html->fechaTag('label');
             }
             
+            $labelAux = false;
             if($buffer || $config->getIconFA() || $config->getToolTipMsg()){ 
                 $buffer .= $html->abreTagAberta('label',array('class'=>'input'));
                 $labelAux = true;
