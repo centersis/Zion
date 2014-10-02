@@ -7,7 +7,7 @@
  * @copyright 2014
  * 
  * Validação automatizada dos formulários
- * 
+ *
  */
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
@@ -55,50 +55,8 @@ class FormValida
             throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe de formulario valida!');
         }
 
-        switch(get_class($form)){
-
-            case 'Zion\Form\FormInputTexto':
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputTexto($form);
-                break;
-
-            case 'Zion\Form\FormInputFloat':
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputFloat($form);
-                break;
-
-            case 'Zion\Form\FormInputDateTime':
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputDateTime($form);
-                break;
-
-            case 'Zion\Form\FormInputNumber':
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputNumber($form);
-                break;
-
-            case 'Zion\Form\FormInputSuggest':
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputSuggest($form);
-                break;
-
-            case 'Zion\Form\FormInputHidden':
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputHidden($form);
-                break;
-
-            case 'Zion\Form\FormInputButton':
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputButton($form);
-                break;
-
-            default:
-                $this->instance = addslashes(get_class($form));
-                return $this->validaFormInputDefault($form);
-                break;
-
-        }
-
+        $this->instance = addslashes(get_class($form));
+        return $this->validaFormInput($form);
     }
 
     /**
@@ -109,382 +67,116 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    private function validaFormInputTexto(\Zion\Form\FormInputTexto $input)
+    private function validaFormInput( $input)
     {
         $attrs  = $this->getAtributos($input);
 
-        $valor = $attrs['valor'];
+        $userValue  = $input->getValor();
+        $identifica = $this->texto->removerAcentos($input->getIdentifica());
 
-        foreach($attrs as $attr=>$value){
+        foreach($attrs as $key=>$value){
 
-            switch($attr){
+            switch($value){
                 
                 case 'acao':
-                    if($value == 'CPF'){
-                        if($this->geral->validaCPF($valor) === false){
-                            throw new FormException("O valor informado nao e um CPF valido!");
+                    if(strtoupper($input->getAcao()) == 'CPF'){
+                        if($this->geral->validaCPF($userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao e um CPF valido!");
                         }
-                    } elseif($value == 'CNPJ'){
-                        if($this->geral->validaCNPJ($valor) === false){
-                            throw new FormException("O valor informado nao e um CNPJ valido!");
+                    } elseif(strtoupper($input->getAcao()) == 'CNPJ'){
+                        if($this->geral->validaCNPJ($userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao e um CNPJ valido!");
                         }
-                    } elseif($value == 'CEP'){
-                        if($this->geral->validaCEP($valor) === false){
-                            throw new FormException("O valor informado nao e um CEP valido!");
+                    } elseif(strtoupper($input->getAcao()) == 'CEP'){
+                        if($this->geral->validaCEP($userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao e um CEP valido!");
                         }
+                    } elseif(strtoupper($input->getAcao()) == 'FLOAT'){
+                        if($this->numero->isFloat($userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao e um float valido!");
+                        }
+                    } elseif(strtoupper($input->getAcao()) == 'DATA'){
+                        if($this->data->validaData($userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao e uma data valida!");
+                        }
+                    } elseif(strtoupper($input->getAcao()) == "HORA"){
+                        if($this->data->validaHora($userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao e uma hora valida!");
+                        }
+                    } elseif(strtoupper($input->getAcao()) == 'NUMBER'){
+                        if(is_numeric($userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao e um numero valido!");
+                        }
+                    } elseif(strtoupper($input->getAcao()) == 'SUGGEST'){
+                        //Ainda não implementado.
+                    } elseif(strtoupper($input->getAcao()) == 'HIDDEN'){
+                        //Ainda não implementado.
+                    } elseif(strtoupper($input->getAcao()) == 'BUTTON'){ PRINT "FUCK THAT!";
+                        //Ainda não implementado.
                     }
                     break;
 
-                case 'maximoCaracteres':
-                    if(!empty($value)){
-                        if(strlen($valor) > $value){
-                            throw new FormException("O valor informado excede o tamanho maximo permitido de ". $value ." caracteres!");
+                case 'obrigatorio':
+                    if($input->getObrigatorio() === true){
+                        if(empty($userValue)){
+                            throw new FormException($identifica .": Nenhum valor informado!");
                         }
                     }
                     break;
 
                 case 'minimoCaracteres':
-                    if(!empty($value)){
-                        if(strlen($valor) < $value){
-                            throw new FormException("O valor informado e menor que o tamanho minimo solicitado de ". $value ." caracteres!");
+                    $val = $input->getMinimoCaracteres();
+                    if(!empty($val)){
+                        if($this->texto->verificaMinimoCaracteres($val, $userValue) === false){
+                            throw new FormException($identifica .": O valor informado e menor que o tamanho minimo solicitado de ". $val ." caracteres!");
+                        }
+                    }
+                    break;
+
+                case 'maximoCaracteres':
+                    $val = $input->getMaximoCaracteres();
+                    if(!empty($val)){
+                        if($this->texto->verificaMaximoCaracteres($val, $userValue) === false){
+                            throw new FormException($identifica .": O valor informado excede o tamanho maximo permitido de ". $val ." caracteres!");
                         }
                     }
                     break;
 
                 case 'valorMinimo':
-                    if(is_numeric($value)){
-                        if($valor < $value){
-                            throw new FormException("O valor informado nao pode ser menor que ". $value ."!");
+                    $val = $input->getValorMinimo();
+                    if(is_numeric($val)){
+                        if($this->numero->verificaValorMinimo($val, $userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao pode ser menor que ". $val ."!");
                         }
                     }
                     break;
 
                 case 'valorMaximo':
-                    if(is_numeric($value)){
-                        if($valor > $value){
-                            throw new FormException("O valor informado nao pode ser maior que ". $value ."!");
-                        }
-                    }
-                    break;
-
-                case 'obrigatorio':
-                    if($value === true){
-                        if(empty($valor)){
-                            throw new FormException("Nenhum valor informado!");
-                        }
-                    }
-                    break;
-      
-            }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * FormValida::validaFormInputFloat()
-     * Valida input do tipo Float
-     * 
-     * @param \Zion\Form\FormInputFloat $input Instância da classe \Zion\Form\FormInputFloat com as configurações do input a ser validado.
-     * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
-     */
-    private function validaFormInputFloat(\Zion\Form\FormInputFloat $input)
-    {
-        $attrs  = $this->getAtributos($input);
-
-        $valor = $attrs['valor'];
-
-        foreach($attrs as $attr=>$value){
-
-            switch($attr){
-                
-                case 'acao':
-                    if($value == 'FLOAT'){
-                        if($this->numero->isFloat($valor) === false){
-                            throw new FormException("O valor informado nao e um float valido!");
-                        }
-                    }
-                    break;
-
-                case 'valorMinimo':
-                    if(is_numeric($value)){
-                        if($valor < $value){
-                            throw new FormException("O valor informado nao pode ser menor que ". $value ."!");
-                        }
-                    }
-                    break;
-
-                case 'valorMaximo':
-                    if(is_numeric($value)){
-                        if($valor > $value){
-                            throw new FormException("O valor informado nao pode ser maior que ". $value ."!");
-                        }
-                    }
-                    break;
-            }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * FormValida::validaFormInputDateTime()
-     * Valida input do tipo Date/Time
-     * 
-     * @param \Zion\Form\FormInputDateTime $input Instância da classe \Zion\Form\FormInputDateTime com as configurações do input a ser validado.
-     * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
-     */
-    private function validaFormInputDateTime(\Zion\Form\FormInputDateTime $input)
-    {
-        $attrs  = $this->getAtributos($input);
-
-        $valor = $attrs['valor'];
-
-        foreach($attrs as $attr=>$value){
-
-            switch($attr){
-                
-                case 'acao':
-                    if($value == 'DATA'){
-                        if($this->data->validaData($valor) === false){
-                            throw new FormException("O valor informado nao e uma data valida!");
-                        }
-                    } elseif($value == "HORA"){
-                        if($this->data->validaHora($valor) === false){
-                            throw new FormException("O valor informado nao e uma hora valida!");
+                    $val = $input->getValorMaximo();
+                    if(is_numeric($val)){
+                        if($this->numero->verificaValorMaximo($val, $userValue) === false){
+                            throw new FormException($identifica .": O valor informado nao pode ser maior que ". $val ."!");
                         }
                     }
                     break;
 
                 case 'dataMinima':
-                    if(isset($value)){
-                        if($this->data->verificaDiferencaDataHora($valor, $value) > 0){
-                            throw new FormException("O valor informado nao pode ser menor que ". $value ."!");
+                    $val = $input->getDataMinima();
+                    if(isset($val)){
+                        if($this->data->verificaDiferencaDataHora($userValue, $val) > 0){
+                            throw new FormException($identifica .": O valor informado nao pode ser menor que ". $val ."!");
                         }
                     }
                     break;
 
                 case 'dataMaxima':
-                    if(isset($value)){
-                        if($this->data->verificaDiferencaDataHora($valor, $value) < 0){
-                            throw new FormException("O valor informado nao pode ser maior que ". $value ."!");
+                    $val = $input->getDataMaxima();
+                    if(isset($val)){
+                        if($this->data->verificaDiferencaDataHora($userValue, $val) < 0){
+                            throw new FormException($identifica .": O valor informado nao pode ser maior que ". $val ."!");
                         }
                     }
                     break;
-            }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * FormValida::validaFormInputNumber()
-     * Valida input do tipo Number
-     * 
-     * @param \Zion\Form\FormInputNumber $input Instância da classe \Zion\Form\FormInputNumber com as configurações do input a ser validado.
-     * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
-     */
-    private function validaFormInputNumber(\Zion\Form\FormInputNumber $input)
-    {
-        $attrs  = $this->getAtributos($input);
-
-        $valor = $attrs['valor'];
-
-        foreach($attrs as $attr=>$value){
-
-            switch($attr){
-                
-                case 'acao':
-                    if($value == 'NUMBER'){
-                        if(is_numeric($valor) === false){
-                            throw new FormException("O valor informado nao e um numero valido!");
-                        }
-                    }
-                    break;
-
-                case 'valorMinimo':
-                    if(is_numeric($value)){
-                        if($valor < $value){
-                            throw new FormException("O valor informado nao pode ser menor que ". $value ."!");
-                        }
-                    }
-                    break;
-
-                case 'valorMaximo':
-                    if(is_numeric($value)){
-                        if($valor > $value){
-                            throw new FormException("O valor informado nao pode ser maior que ". $value ."!");
-                        }
-                    }
-                    break;
-            }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * FormValida::validaFormInputSuggest()
-     * Valida input do tipo Suggest
-     * 
-     * @param \Zion\Form\FormInputSuggest $input Instância da classe \Zion\Form\FormInputSuggest com as configurações do input a ser validado.
-     * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
-     */
-    private function validaFormInputSuggest(\Zion\Form\FormInputSuggest $input)
-    {
-        $attrs  = $this->getAtributos($input);
-
-        $valor = $attrs['valor'];
-
-        foreach($attrs as $attr=>$value){
-
-            switch($attr){
-                
-                case 'acao':
-                    if($value == 'suggest'){
-                    }
-                    break;
-                    
-                case 'obrigatorio':
-                    if($value === true){
-                        if(empty($valor)){
-                            throw new FormException("Nenhum valor informado!");
-                        }
-                    }
-                    break;
-
-            }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * FormValida::validaFormInputHidden()
-     * Valida input do tipo Hidden
-     * 
-     * @param \Zion\Form\FormInputHidden $input Instância da classe \Zion\Form\FormInputHidden com as configurações do input a ser validado.
-     * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
-     */
-    private function validaFormInputHidden(\Zion\Form\FormInputHidden $input)
-    {
-        $attrs  = $this->getAtributos($input);
-
-        $valor = $attrs['valor'];
-
-        foreach($attrs as $attr=>$value){
-
-            switch($attr){
-                
-                case 'acao':
-                    if($value == 'hidden'){
-                    }
-                    break;
-
-            }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * FormValida::validaFormInputButton()
-     * Valida input do tipo Button
-     * 
-     * @param \Zion\Form\FormInputButton $input Instância da classe \Zion\Form\FormInputButton com as configurações do input a ser validado.
-     * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
-     */
-    private function validaFormInputButton(\Zion\Form\FormInputButton $input)
-    {
-        $attrs  = $this->getAtributos($input);
-
-        $valor = $attrs['valor'];
-
-        foreach($attrs as $attr=>$value){
-
-            switch($attr){
-                
-                case 'acao':
-                    if($value == 'button'){
-                    }
-                    break;
-            }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * FormValida::validaFormInputDefault()
-     * Valida input de tipo indefinido.
-     * 
-     * @param \Zion\Form $input Instância de uma das classes de formulário com as configurações do input a ser validado.
-     * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
-     */
-    private function validaFormInputDefault($input)
-    {
-        $attrs  = $this->getAtributos($input);
-        
-        $valor = $attrs['valor'];
-
-        foreach($attrs as $attr=>$value){
-
-            switch($attr){
-                
-                case 'maximoCaracteres':
-                    if(!empty($value)){
-                        if(strlen($valor) > $value){
-                            throw new FormException("O valor informado excede o tamanho maximo permitido de ". $value ." caracteres!");
-                        }
-                    }
-                    break;
-
-                case 'minimoCaracteres':
-                    if(!empty($value)){
-                        if(strlen($valor) < $value){
-                            throw new FormException("O valor informado e menor que o tamanho minimo solicitado de ". $value ." caracteres!");
-                        }
-                    }
-                    break;
-
-                case 'valorMinimo':
-                    if(is_numeric($value)){
-                        if($valor < $value){
-                            throw new FormException("O valor informado nao pode ser menor que ". $value ."!");
-                        }
-                    }
-                    break;
-
-                case 'valorMaximo':
-                    if(is_numeric($value)){
-                        if($valor > $value){
-                            throw new FormException("O valor informado nao pode ser maior que ". $value ."!");
-                        }
-                    }
-                    break;
-
-                case 'obrigatorio':
-                    if($value === true){
-                        if(empty($valor)){
-                            throw new FormException("Nenhum valor informado!");
-                        }
-                    }
-                    break;
-      
             }
 
         }
@@ -507,7 +199,7 @@ class FormValida
         foreach((array) $input as $key=>$val){
 
             $key            = preg_replace(array('/'. $this->instance .'/', '/'. $this->instaceBasico .'/', '/\W/'), array('', '', ''), $key);
-            $attrs[$key]    = (is_object($val) ? NULL : (is_string($val) ? strtoupper($val) : $val));
+            $attrs[$i++]    = $key;
         }
 
         return $attrs;
