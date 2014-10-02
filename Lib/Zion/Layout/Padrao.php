@@ -2,7 +2,7 @@
 
 namespace Zion\Layout;
 
-class Padrao extends \Zion\Html\Html
+class Padrao extends \Zion\Layout\Html
 {
     private $html;
     private $css;
@@ -18,42 +18,42 @@ class Padrao extends \Zion\Html\Html
 
     public function topo()
     {
+
+        $buffer  = false;        
         $buffer .= $this->html->abreTagAberta('!DOCTYPE html');
-        $buffer .= $this->html->abreTagAberta('html', array('lang'=>'pt-br'));
+        $buffer .= $this->html->abreTagAberta('html', array('lang'=>'pt-BR'));
         $buffer .= $this->html->abreTagAberta('head');
             $buffer .= $this->html->abreTagAberta('meta', array('charset'=>'utf-8'));
-            $buffer .= $this->html->abreComentario().  
-                    $this->html->abreTagAberta('meta', array('http-equiv'=>'X-UA-Compatible','content'=>'IE=edge,chrome=1')).
-                    $this->html->fechaComentario();
-            $buffer .= $this->html->entreTags('title', 'Aqui vem o titulo da minha adm');
+            $this->html->abreTagAberta('meta', array('http-equiv'=>'X-UA-Compatible','content'=>'IE=edge,chrome=1')).
+            $buffer .= $this->html->entreTags('title', Config::$CFG['NomeCliente']);
             $buffer .= $this->html->abreTagAberta('meta', array('name'=>'description','content'=>""));
             $buffer .= $this->html->abreTagAberta('meta', array('author'=>'description','content'=>""));
             $buffer .= $this->html->abreTagAberta('meta', array('name'=>'viewport','content'=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));
             
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=>'css/bootstrap.min.css'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=>'css/font-awesome.min.css'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=>'css/smartadmin-production.min.css'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=>'css/smartadmin-skins.min.css'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=>'css/smartadmin-rtl.min.css'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=>'css/your_style.css'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=>'css/demo.min.css'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=> URL_BASE_STATIC . 'css/bootstrap.min.css'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=> URL_BASE_STATIC . 'css/font-awesome.min.css'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=> URL_BASE_STATIC . 'css/smartadmin-production.min.css'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=> URL_BASE_STATIC . 'css/smartadmin-skins.min.css'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=> URL_BASE_STATIC . 'css/smartadmin-rtl.min.css'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','type'=>'text/css','media'=>'screen','href'=> URL_BASE_STATIC . 'css/my.css'));
             
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'shortcut icon','href'=>'img/favicon/favicon.ico','type'=>'image/x-icon'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'icon','href'=>'img/favicon/favicon.ico','type'=>'image/x-icon'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'shortcut icon','href'=> URL_BASE_STATIC . 'img/favicon/favicon.ico','type'=>'image/x-icon'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'icon','href'=> URL_BASE_STATIC . 'img/favicon/favicon.ico','type'=>'image/x-icon'));
             
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','href'=>'http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700'));
+            //$buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','href'=>'http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'stylesheet','href'=> URL_BASE_STATIC . 'fonts/fonts.css'));
             
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','href'=>'img/splash/sptouch-icon-iphone.png'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','sizes'=>'76x76','href'=>'img/splash/touch-icon-ipad.png'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','sizes'=>'120x120','href'=>'img/splash/touch-icon-iphone-retina.png'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','sizes'=>'152x152','href'=>'img/splash/touch-icon-ipad-retina.png'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','href'=> URL_BASE_STATIC . 'img/splash/sptouch-icon-iphone.png'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','sizes'=>'76x76','href'=> URL_BASE_STATIC . 'img/splash/touch-icon-ipad.png'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','sizes'=>'120x120','href'=> URL_BASE_STATIC . 'img/splash/touch-icon-iphone-retina.png'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-icon','sizes'=>'152x152','href'=> URL_BASE_STATIC . 'img/splash/touch-icon-ipad-retina.png'));
                         
             $buffer .= $this->html->abreTagAberta('meta', array('name'=>'apple-mobile-web-app-capable','content'=>"yes"));
-            $buffer .= $this->html->abreTagAberta('meta', array('name'=>'"apple-mobile-web-app-status-bar-style','content'=>"black"));
+            $buffer .= $this->html->abreTagAberta('meta', array('name'=>'apple-mobile-web-app-status-bar-style','content'=>"black"));
             
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-startup-image','href'=>'img/splash/ipad-landscape.png','media'=>'screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-startup-image','href'=>'img/splash/ipad-portrait.png','media'=>'screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)'));
-            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-startup-image','href'=>'img/splash/iphone.png','media'=>'screen and (max-device-width: 320px)'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-startup-image','href'=> URL_BASE_STATIC . 'img/splash/ipad-landscape.png','media'=>'screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-startup-image','href'=> URL_BASE_STATIC . 'img/splash/ipad-portrait.png','media'=>'screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)'));
+            $buffer .= $this->css->abreTagAberta('link', array('rel'=>'apple-touch-startup-image','href'=> URL_BASE_STATIC . 'img/splash/iphone.png','media'=>'screen and (max-device-width: 320px)'));
             
         $buffer .= $this->html->fechaTag('head');               
         

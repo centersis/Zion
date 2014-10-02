@@ -22,6 +22,7 @@ class FormInputTexto extends FormBasico
     private $autoTrim;
     private $placeHolder;
     private $autoComplete;
+    private $deveSerIgualA;
     private $label;
     private $iconFA;
     private $toolTipMsg;
@@ -235,6 +236,21 @@ class FormInputTexto extends FormBasico
     {
         return $this->autoComplete;
     }
+    
+    public function setDeveSerIgualA($deveSerIgualA)
+    {
+        if(!empty($deveSerIgualA)){
+            $this->deveSerIgualA = $deveSerIgualA;
+            return $this;
+        } else {
+            throw new FormException("deveSerIgualA: O valor informado não é um valor válido.");
+        }
+    }
+
+    public function getDeveSerIgualA()
+    {
+        return $this->deveSerIgualA;
+    }    
 
     public function setLabel($label)
     {
