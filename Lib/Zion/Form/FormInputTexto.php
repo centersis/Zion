@@ -76,7 +76,7 @@ class FormInputTexto extends FormBasico
 
     public function setMinimoCaracteres($minimoCaracteres)
     {
-        if (is_numeric($maximoCaracteres)) {
+        if (is_numeric($minimoCaracteres)) {
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
