@@ -140,7 +140,7 @@ class Form
     public function processarForm(array $campos)
     {
         foreach ($campos as $objCampos) {
-                   
+
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
@@ -215,19 +215,18 @@ class Form
 
         return $nome ? $htmlCampos[$nome] : $htmlCampos;
     }
-    
+
     public function validar($nome = null)
     {
         $valida = new \Zion\Form\FormValida();
-        
+
         $obj = $nome ? array($this->objetos[$nome]) : $this->objetos;
-    
+
         foreach ($obj as $objCampos) {
             $valida->validar($objCampos);
         }
-        
     }
-    
+
     /**
      * 
      * @return FormJavaScript
@@ -236,18 +235,48 @@ class Form
     {
         $smartJs = new \Zion\Form\FormSmartJavaScript();
         $jsStatic = \Zion\Form\FormJavaScript::iniciar();
-        
-        foreach ($this->objetos as $config){
+
+        foreach ($this->objetos as $config) {
             $smartJs->processar($config);
         }
-        
+
         $jsStatic->setLoad($smartJs->montaValidacao($this->formConfig->getNome()));
-        
+
         return $jsStatic;
     }
-    
-    public function montaFormSmart()
+
+    public function montaForm()
     {
+        $html = new \Zion\Layout\Html();
+
+        $footer = '';
+        $buffer = $this->abreForm();
         
+        $buffer.= $html->abreTagAberta('header');
+        $buffer.= $this->formConfig->getHearder();
+        $buffer.= $html->fechaTag('header');
+
+        $buffer.= $html->abreTagAberta('fieldset');
+        $campos = $this->getFormHtml();
+        foreach ($campos as $nome => $textoHtml) {
+            if($this->objetos[$nome]->getTipoBase() == 'button'){
+                $footer.= $textoHtml;
+            }
+            else {
+                $buffer.= $textoHtml;
+            }            
+        }
+        $buffer.= $html->fechaTag('fieldset');
+        
+        if($footer){
+            $buffer.= $html->abreTagAberta('footer');
+            $buffer.= $footer;
+            $buffer.= $html->fechaTag('footer');
+        }
+        
+        $buffer .= $this->abreForm();
+
+        return $buffer;
     }
+
 }
