@@ -22,6 +22,7 @@ class FormInputTexto extends FormBasico
     private $autoTrim;
     private $placeHolder;
     private $autoComplete;
+    private $deveSerIgualA;
     private $label;
     private $iconFA;
     private $toolTipMsg;
@@ -62,6 +63,12 @@ class FormInputTexto extends FormBasico
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
+
+            if (isset($this->minimoCaracteres) and ($maximoCaracteres < $this->minimoCaracteres)) {
+                throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
+                return;
+            }
+
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
@@ -77,6 +84,12 @@ class FormInputTexto extends FormBasico
     public function setMinimoCaracteres($minimoCaracteres)
     {
         if (is_numeric($minimoCaracteres)) {
+
+            if (isset($this->maximoCaracteres) and ($minimoCaracteres > $this->maximoCaracteres)) {
+                throw new FormException("minimoCaracteres nao pode ser maior que maximoCaracteres.");
+                return;
+            }
+
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
@@ -235,6 +248,21 @@ class FormInputTexto extends FormBasico
     {
         return $this->autoComplete;
     }
+    
+    public function setDeveSerIgualA($deveSerIgualA)
+    {
+        if(!empty($deveSerIgualA)){
+            $this->deveSerIgualA = $deveSerIgualA;
+            return $this;
+        } else {
+            throw new FormException("deveSerIgualA: O valor informado não é um valor válido.");
+        }
+    }
+
+    public function getDeveSerIgualA()
+    {
+        return $this->deveSerIgualA;
+    }    
 
     public function setLabel($label)
     {

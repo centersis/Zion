@@ -15,6 +15,7 @@ class FormTag
     private $target;
     private $complemento;
     private $classCss;
+    private $hearder;
 
     public function setId($id)
     {
@@ -124,6 +125,17 @@ class FormTag
     public function getClassCss()
     {
         return $this->classCss;
+    }
+    
+    public function setHearder($hearder)
+    {
+        $this->hearder = $hearder;
+        return $this;
+    }
+
+    public function getHearder()
+    {
+        return $this->hearder;
     }
 
 }

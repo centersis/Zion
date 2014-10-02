@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-class FormJavaScript extends \Zion\JS\JavaScript
+class FormJavaScript extends \Zion\Layout\JavaScript
 {
 
     public static $instancia;
@@ -18,6 +18,10 @@ class FormJavaScript extends \Zion\JS\JavaScript
         $this->functions = [];
     }
 
+    /**
+     * 
+     * @return FormJavaScript
+     */
     public static function iniciar()
     {
         if (!isset(self::$instancia)) {

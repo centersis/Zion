@@ -22,6 +22,7 @@ class FormAtributos
             'caixa' => ' style="text-transform:%s;" ',
             'max' => ' max="%s" ',
             'min' => ' min="%s" ',
+            'classCss'=> 'class="%s"',
             'option' => '<option value="%s">%s</option>',
             'formmethod' => ' formmethod="%s" ',
             'formaction' => ' formaction="%s" ',
@@ -105,6 +106,7 @@ class FormAtributos
                 $buffer .= $html->fechaTag('label');
             }
             
+            $labelAux = false;
             if($buffer || $config->getIconFA() || $config->getToolTipMsg()){ 
                 $buffer .= $html->abreTagAberta('label',array('class'=>'input'));
                 $labelAux = true;
