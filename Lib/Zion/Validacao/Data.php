@@ -63,7 +63,7 @@ class Data
     {
 
         $time = \DateTime::createFromFormat('H:i:s', $hora);
-        return ($time->format('H:i:s') == $hora ? true : false);
+        return ($time ? true : false);
     }
 
     /**
