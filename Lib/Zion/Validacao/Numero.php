@@ -100,4 +100,30 @@ class Numero
             return false;
         }
     }
+    
+    /**
+     * Numero::verificaValorMinimo()
+     * Verifica se um número informado pelo usuário é igual ou maior que minimo solicitado.
+     * 
+     * @param mixed $min Valor minimo desejado
+     * @param mixed $val Valor informado pelo usuário
+     * @return bool True se $val for maior ou igual a $min, FALSE otherwise.
+     */
+    public function verificaValorMinimo($min, $val){
+        return($val >= $min ? true : false);
+    }
+    
+    /**
+     * Numero::verificaValorMinimo()
+     * Verifica se um número informado pelo usuário é igual ou menor que máximo aceito.
+     * 
+     * @param mixed $min Valor máximo aceito
+     * @param mixed $val Valor informado pelo usuário
+     * @return bool True se $val for menor ou igual a $max, FALSE otherwise.
+     */
+
+    public function verificaValorMaximo($max, $val){
+        return($val <= $max ? true : false);
+    }
+
 }
