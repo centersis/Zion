@@ -1,6 +1,6 @@
 <?php
 /**
- * Untitled 1
+ * \Zion\Form\FormValida
  * @author Feliphe Bueno - feliphezion@gmail.com
  * @since 25/09/2014
  * @version 1.0
@@ -109,7 +109,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputTexto(\Zion\Form\FormInputTexto $input)
+    private function validaFormInputTexto(\Zion\Form\FormInputTexto $input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -190,7 +190,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputFloat(\Zion\Form\FormInputFloat $input)
+    private function validaFormInputFloat(\Zion\Form\FormInputFloat $input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -238,7 +238,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputDateTime(\Zion\Form\FormInputDateTime $input)
+    private function validaFormInputDateTime(\Zion\Form\FormInputDateTime $input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -290,7 +290,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputNumber(\Zion\Form\FormInputNumber $input)
+    private function validaFormInputNumber(\Zion\Form\FormInputNumber $input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -338,7 +338,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputSuggest(\Zion\Form\FormInputSuggest $input)
+    private function validaFormInputSuggest(\Zion\Form\FormInputSuggest $input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -376,7 +376,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputHidden(\Zion\Form\FormInputHidden $input)
+    private function validaFormInputHidden(\Zion\Form\FormInputHidden $input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -406,7 +406,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputButton(\Zion\Form\FormInputButton $input)
+    private function validaFormInputButton(\Zion\Form\FormInputButton $input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -435,7 +435,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    public function validaFormInputDefault($input)
+    private function validaFormInputDefault($input)
     {
         $attrs  = $this->getAtributos($input);
         
@@ -499,7 +499,7 @@ class FormValida
      * @param \Zion\Form $input Instância de uma das classes de formulário com as configurações do input a ser validado.
      * @return array()
      */
-    public function getAtributos($input)
+    private function getAtributos($input)
     {
         $attrs = array();
         $i = 0;
