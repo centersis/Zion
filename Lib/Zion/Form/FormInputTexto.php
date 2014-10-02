@@ -64,7 +64,7 @@ class FormInputTexto extends FormBasico
     {
         if (is_numeric($maximoCaracteres)) {
 
-            if (isset($this->minimoCaracteres) and ($maximoCaracteres > $this->minimoCaracteres)) {
+            if (isset($this->minimoCaracteres) and ($maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
                 return;
             }
