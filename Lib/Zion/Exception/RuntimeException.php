@@ -7,11 +7,11 @@
  * @version 1.0
  * @copyright 2014
  * 
- *  Form Exception.
+ *  Base InvalidArgumentException for the all the Zion components.
  */
 
-namespace Zion\Form\Exception;
+namespace Zion\Exception;
 
-class FormException extends \Zion\Exception\RuntimeException implements \Zion\Exception\ExceptionInterface
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }
