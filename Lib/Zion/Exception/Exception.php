@@ -25,7 +25,37 @@ class Exception
      */
     public function getMessageTrace(\Exception $e)
     {
-        return "Exception ". $e->getMessage() .". No arquivo: ". $e->getFile() . ". Linha: ". $e->getLine() ."<br />Stack Trace: ". $e->getTraceAsString();
+        return self::getMessage($e) . "<br />" . self::getTrace($e);
+    }
+    
+    /**
+     * Exception::getMessage()
+     * 
+     * @param Exception $e Objeto da exceção lançada.
+     * @return String mensagem da exceção lançada.
+     */
+    public function getMessage(\Exception $e){
+        return "Exception ". $e->getMessage() .". No arquivo: <strong>". $e->getFile() . "</strong>. Linha: <strong>". $e->getLine() ."</strong>";
+    }
+    
+    /**
+     * Exception::getTrace()
+     * 
+     * @param Exception $e Objeto da exceção lançada.
+     * @return String stack trace da exceção lançada.
+     */
+    public function getTrace(\Exception $e){
+        return "Stack Trace: <br />". self::trataTrace($e->getTraceAsString());
+    }
+    
+    /**
+     * Exception::trataTrace()
+     * 
+     * @param mixed $trace
+     * @return
+     */
+    private function trataTrace($trace){
+        return preg_replace_callback('/#[1-9]{1,}/', function($match){ return "<br />". $match[0];}, $trace);
     }
     
 }
