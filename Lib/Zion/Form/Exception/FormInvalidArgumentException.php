@@ -7,7 +7,7 @@
  * @version 1.0
  * @copyright 2014
  * 
- *  Base InvalidArgumentException for the Form component.
+ *  Form InvalidArgumentException.
  */
 
 
