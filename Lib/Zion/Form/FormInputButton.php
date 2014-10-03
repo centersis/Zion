@@ -11,10 +11,12 @@ class FormInputButton extends \Zion\Form\FormBasico
     private $action;
     private $target;
     
-    public function __construct($acao)
+    public function __construct($acao, $nome, $identifica)
     {
         $this->tipoBase = 'button';
         $this->acao = $acao;
+        $this->setNome($nome);
+        $this->setValor($identifica);
     }
     
     public function getTipoBase()

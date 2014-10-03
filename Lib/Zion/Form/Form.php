@@ -19,69 +19,69 @@ class Form
                 ->setMethod('POST');
     }
 
-    public function hidden()
+    public function hidden($nome)
     {
-        return new \Zion\Form\FormInputHidden('hidden');
+        return new \Zion\Form\FormInputHidden('hidden', $nome);
     }
 
-    public function texto()
+    public function texto($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('texto');
+        return new \Zion\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
 
-    public function suggest()
+    public function suggest($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputSuggest('suggest');
+        return new \Zion\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
     }
 
-    public function data()
+    public function data($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputDateTime('date');
+        return new \Zion\Form\FormInputDateTime('date', $nome, $identifica, $obrigatorio);
     }
 
-    public function hora()
+    public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputDateTime('time');
+        return new \Zion\Form\FormInputDateTime('time', $nome, $identifica, $obrigatorio);
     }
 
-    public function senha()
+    public function senha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('password');
+        return new \Zion\Form\FormInputTexto('password', $nome, $identifica, $obrigatorio);
     }
 
-    public function numero()
+    public function numero($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputNumber('number');
+        return new \Zion\Form\FormInputNumber('number', $nome, $identifica, $obrigatorio);
     }
 
-    public function float()
+    public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('moeda');
+        return new \Zion\Form\FormInputTexto('moeda', $nome, $identifica, $obrigatorio);
     }
 
-    public function cpf()
+    public function cpf($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cpf');
+        return new \Zion\Form\FormInputTexto('cpf', $nome, $identifica, $obrigatorio);
     }
 
-    public function cnpj()
+    public function cnpj($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cnpj');
+        return new \Zion\Form\FormInputTexto('cnpj', $nome, $identifica, $obrigatorio);
     }
 
-    public function cep()
+    public function cep($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cep');
+        return new \Zion\Form\FormInputTexto('cep', $nome, $identifica, $obrigatorio);
     }
 
-    public function telefone()
+    public function telefone($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('telefone');
+        return new \Zion\Form\FormInputTexto('telefone', $nome, $identifica, $obrigatorio);
     }
 
-    public function email()
+    public function email($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email');
+        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
     }
 
     public function escolha()
@@ -89,41 +89,43 @@ class Form
         return new \Zion\Form\FormEscolha('escolha');
     }
 
-    public function textArea()
+    public function textArea($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email');
+        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
     }
 
-    public function editor()
+    public function editor($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email');
+        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
     }
 
-    public function upload()
+    public function upload($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email');
+        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
     }
 
-    public function botaoSubmit()
+    public function botaoSubmit($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('bubmit');
+        return new \Zion\Form\FormInputButton('bubmit', $nome, $identifica);
     }
 
-    public function botaoSimples()
+    public function botaoSimples($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('button');
+        return new \Zion\Form\FormInputButton('button', $nome, $identifica);
     }
 
-    public function botaoReset()
+    public function botaoReset($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('reset');
+        return new \Zion\Form\FormInputButton('reset', $nome, $identifica);
     }
 
     /**
      * @return FormTag 
      */
-    public function config()
+    public function config($nome, $metodo)
     {
+        $this->formConfig->setNome($nome)->setMethod($metodo);
+        
         return $this->formConfig;
     }
 
@@ -140,7 +142,6 @@ class Form
     public function processarForm(array $campos)
     {
         foreach ($campos as $objCampos) {
-
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
@@ -251,29 +252,28 @@ class Form
 
         $footer = '';
         $buffer = $this->abreForm();
-        
+
         $buffer.= $html->abreTagAberta('header');
-        $buffer.= $this->formConfig->getHearder();
+        $buffer.= $this->formConfig->getHeader();
         $buffer.= $html->fechaTag('header');
 
         $buffer.= $html->abreTagAberta('fieldset');
         $campos = $this->getFormHtml();
         foreach ($campos as $nome => $textoHtml) {
-            if($this->objetos[$nome]->getTipoBase() == 'button'){
+            if ($this->objetos[$nome]->getTipoBase() == 'button') {
                 $footer.= $textoHtml;
-            }
-            else {
+            } else {
                 $buffer.= $textoHtml;
-            }            
+            }
         }
         $buffer.= $html->fechaTag('fieldset');
-        
-        if($footer){
+
+        if ($footer) {
             $buffer.= $html->abreTagAberta('footer');
             $buffer.= $footer;
             $buffer.= $html->fechaTag('footer');
         }
-        
+
         $buffer .= $this->abreForm();
 
         return $buffer;
