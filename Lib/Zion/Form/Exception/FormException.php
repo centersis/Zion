@@ -1,12 +1,17 @@
 <?php
+/**
+ * Zion\Exception\InvalidArgumentException()
+ * 
+ * @author Feliphe Bueno - feliphezion@gmail.com
+ * @since 30/09/2014
+ * @version 1.0
+ * @copyright 2014
+ * 
+ *  Form Exception.
+ */
 
 namespace Zion\Form\Exception;
 
-/**
- * Base RuntimeException for the Form component.
- *
- * @author Feliphe Bueno <feliphe@braconsultoria.com.br>
- */
-class FormException extends RuntimeException implements ExceptionInterface
+class FormException extends \Zion\Exception\RuntimeException implements \Zion\Exception\ExceptionInterface
 {
 }
