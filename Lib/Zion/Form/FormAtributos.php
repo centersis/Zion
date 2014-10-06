@@ -137,4 +137,9 @@ class FormAtributos
         
         return $buffer;
     }
+    
+    protected function prepareHidden($totalAtributos)
+    {
+        return '<input ' . str_repeat('%s', $totalAtributos) . '/>';        
+    }
 }

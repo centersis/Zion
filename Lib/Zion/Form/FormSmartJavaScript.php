@@ -8,6 +8,7 @@ class FormSmartJavaScript
     private $formJavaScript;
     private $regras;
     private $mensagens;
+    private $extra;
 
     public function __construct()
     {
@@ -15,6 +16,8 @@ class FormSmartJavaScript
 
         $this->regras = [];
         $this->mensagens = [];
+
+        $this->extra = '';
     }
 
     public function processar($config)
@@ -69,6 +72,60 @@ class FormSmartJavaScript
             $this->regras[$config->getNome()][] = 'email : true';
             $this->mensagens[$config->getNome()][] = "email : '{$config->getIdentifica()} deve conter um e-mail válido!'";
         }
+
+        if ($config->getAcao() == 'suggest') {
+            $this->extra .= $this->montaSuggest($config);
+        }
+    }
+
+    private function montaSuggest(FormInputSuggest $config)
+    {
+        $attr = [];
+
+        $url = $config->getUrl() ? $config->getUrl() : DEFAULT_AUTOCOMPLETE;
+        $id = $config->getId() ? $config->getId() : $config->getNome();
+
+        $parametros = '?t=' . $config->getTabela();
+        $parametros .= '&cc=' . $config->getCampoCod();
+        $parametros .= '&cd=' . $config->getCampoDesc();
+        $parametros .= '&cb' . $config->getCampoBusca();
+        $parametros .= '&idc=' . $config->getIdConexao();
+        $parametros .= '&cnd=' . $config->getCondicao();
+        $parametros .= '&l=' . $config->getLimite();
+        $parametros .= $config->getParametros();
+
+
+        $abre = ' $( "#' . $id . '" ).autocomplete({ ';
+        $attr[] = ' source: "' . $url . $parametros . '"';
+
+        if ($config->getEspera()) {
+            $attr[] = ' delay: ' . $config->getEspera();
+        }
+
+        if ($config->getTamanhoMinimo()) {
+            $attr[] = ' minLength: ' . $config->getTamanhoMinimo();
+        }
+
+        if ($config->getDisabled() === false) {
+            $attr[] = ' disabled: false';
+        }
+
+        $onSelect = '';
+        if ($config->getHiddenValue()) {
+            $onSelect .= '$("#' . $config->getHiddenValue() . '").val(ui.item.id); ';
+        }
+
+        if ($config->getOnSelect()) {
+            $onSelect.= $config->getOnSelect();
+        }
+
+        if ($onSelect) {
+            $attr[] = ' select: function( event, ui ) { ' . $onSelect . ' }';
+        }
+
+        $fecha = ' });';
+
+        return $abre . implode(',', $attr) . $fecha;
     }
 
     public function montaValidacao($formNome)
@@ -99,7 +156,7 @@ class FormSmartJavaScript
         $textoSubmit = ' submitHandler : function(form) { $(form).ajaxSubmit({ success : function() { $("#' . $formNome . '").addClass("submited"); } });} ';
         $textoErro = 'errorPlacement : function(error, element) { error.insertAfter(element.parent()); }';
 
-        return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ',' . $textoErro . ' }); ';
+        return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ',' . $textoErro . ' }); ' . $this->extra;
     }
 
 }

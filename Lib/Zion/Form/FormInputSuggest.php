@@ -12,21 +12,35 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $largura;
     private $caixa;
     private $obrigatorio;
+    private $idConexao;
     private $tabela;
     private $campoCod;
     private $campoDesc;
+    private $campoBusca;
     private $condicao;
     private $limite;
     private $parametros;
     private $url;
+    private $espera;
+    private $tamanhoMinimo;
+    private $hiddenValue;
+    private $onSelect;
     private $converterHtml;
     private $autoTrim;
     private $placeHolder;
+    private $label;
+    private $iconFA;
+    private $toolTipMsg;
+    private $emColunaDeTamanho;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->tipoBase = 'suggest';        
+        $this->tipoBase = 'suggest';
         $this->acao = $acao;
+        $this->label = true;
+        $this->autoTrim = true;
+        $this->converterHtml = true;
+        $this->setIconFA('fa-search');
         $this->setNome($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
@@ -82,6 +96,21 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->obrigatorio;
     }
 
+    public function getIdConexao()
+    {
+        return $this->idConexao;
+    }
+
+    public function setIdConexao($idConexao)
+    {
+        if (!is_null($idConexao)) {
+            $this->idConexao = $idConexao;
+            return $this;
+        } else {
+            throw new FormException("idConexao: Nenhum Valor foi informado.");
+        }
+    }
+
     public function getCaixa()
     {
         return $this->caixa;
@@ -117,6 +146,17 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     public function setCampoDesc($campoDesc)
     {
         $this->campoDesc = $campoDesc;
+        return $this;
+    }
+
+    public function getCampoBusca()
+    {
+        return $this->campoBusca;
+    }
+
+    public function setCampoBusca($campoBusca)
+    {
+        $this->campoBusca = $campoBusca;
         return $this;
     }
 
@@ -164,6 +204,50 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this;
     }
 
+    public function getEspera()
+    {
+        return $this->espera;
+    }
+
+    public function setEspera($espera)
+    {
+        $this->espera = $espera;
+        return $this;
+    }
+
+    public function getTamanhoMinimo()
+    {
+        return $this->tamanhoMinimo;
+    }
+
+    public function setTamanhoMinimo($tamanhoMinimo)
+    {
+        $this->tamanhoMinimo = $tamanhoMinimo;
+        return $this;
+    }
+
+    public function getHiddenValue()
+    {
+        return $this->hiddenValue;
+    }
+
+    public function setHiddenValue($hiddenValue)
+    {
+        $this->hiddenValue = $hiddenValue;
+        return $this;
+    }
+
+    public function getOnSelect()
+    {
+        return $this->onSelect;
+    }
+
+    public function setOnSelect($onSelect)
+    {
+        $this->onSelect = $onSelect;
+        return $this;
+    }
+
     public function setConverterHtml($converterHtml)
     {
         if (is_bool($converterHtml)) {
@@ -207,6 +291,66 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     public function getPlaceHolder()
     {
         return $this->placeHolder;
+    }
+
+    public function setLabel($label)
+    {
+        if (is_bool($label)) {
+            $this->label = $label;
+            return $this;
+        } else {
+            throw new FormException("label: O valor informado não é um booleano.");
+        }
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    public function setIconFA($iconFA)
+    {
+        if (!empty($iconFA)) {
+            $this->iconFA = $iconFA;
+            return $this;
+        } else {
+            throw new FormException("iconFA: Nenhum valor informado");
+        }
+    }
+
+    public function getIconFA()
+    {
+        return $this->iconFA;
+    }
+
+    public function setToolTipMsg($toolTipMsg)
+    {
+        if (!empty($toolTipMsg)) {
+            $this->toolTipMsg = $toolTipMsg;
+            return $this;
+        } else {
+            throw new FormException("toolTipMsg: Nenhum valor informado");
+        }
+    }
+
+    public function getToolTipMsg()
+    {
+        return $this->toolTipMsg;
+    }
+
+    public function setEmColunaDeTamanho($emColunaDeTamanho)
+    {
+        if (in_array($emColunaDeTamanho, range(1, 12))) {
+            $this->emColunaDeTamanho = $emColunaDeTamanho;
+            return $this;
+        } else {
+            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
+        }
+    }
+
+    public function getemColunaDeTamanho()
+    {
+        return $this->emColunaDeTamanho;
     }
 
     /**

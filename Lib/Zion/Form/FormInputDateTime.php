@@ -24,6 +24,7 @@ class FormInputDateTime extends \Zion\Form\FormBasico
         $this->tipoBase = 'dateTime';
         $this->acao = $acao;
         $this->label = true;
+        $this->setIconFA('fa-calendar');
         $this->setNome($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);

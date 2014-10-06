@@ -3,7 +3,6 @@
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
-use \Zion\Form\Form as Form;
 
 class FormInputTexto extends FormBasico
 {
@@ -32,6 +31,8 @@ class FormInputTexto extends FormBasico
     {
         $this->tipoBase = 'texto';        
         $this->acao = $acao;
+        $this->autoTrim = true;
+        $this->converterHtml = true;
         $this->label = true;
         $this->setNome($nome);
         $this->setIdentifica($identifica);
