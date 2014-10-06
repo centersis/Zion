@@ -12,6 +12,6 @@
 
 namespace Zion\Banco\Exception;
 
-class SqlException extends RuntimeException implements ExceptionInterface
+class SqlException extends \Zion\Exception\RuntimeException implements \Zion\Exception\ExceptionInterface
 {
 }

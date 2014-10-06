@@ -13,6 +13,6 @@
 
 namespace Zion\Banco\Exception;
 
-class SqlInvalidArgumentException extends InvalidArgumentException implements ExceptionInterface
+class SqlInvalidArgumentException extends \Zion\Exception\InvalidArgumentException implements \Zion\Exception\ExceptionInterface
 {
 }
