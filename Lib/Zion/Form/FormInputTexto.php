@@ -28,11 +28,14 @@ class FormInputTexto extends FormBasico
     private $toolTipMsg;
     private $emColunaDeTamanho;
 
-    public function __construct($acao)
+    public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->tipoBase = 'texto';
+        $this->tipoBase = 'texto';        
         $this->acao = $acao;
         $this->label = true;
+        $this->setNome($nome);
+        $this->setIdentifica($identifica);
+        $this->setObrigarorio($obrigatorio);
     }
 
     public function getTipoBase()
@@ -64,7 +67,7 @@ class FormInputTexto extends FormBasico
     {
         if (is_numeric($maximoCaracteres)) {
 
-            if (isset($this->minimoCaracteres) and ($maximoCaracteres < $this->minimoCaracteres)) {
+            if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
                 return;
             }
@@ -85,7 +88,7 @@ class FormInputTexto extends FormBasico
     {
         if (is_numeric($minimoCaracteres)) {
 
-            if (isset($this->maximoCaracteres) and ($minimoCaracteres > $this->maximoCaracteres)) {
+            if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
                 throw new FormException("minimoCaracteres nao pode ser maior que maximoCaracteres.");
                 return;
             }
@@ -248,10 +251,10 @@ class FormInputTexto extends FormBasico
     {
         return $this->autoComplete;
     }
-    
+
     public function setDeveSerIgualA($deveSerIgualA)
     {
-        if(!empty($deveSerIgualA)){
+        if (!empty($deveSerIgualA)) {
             $this->deveSerIgualA = $deveSerIgualA;
             return $this;
         } else {
@@ -262,7 +265,7 @@ class FormInputTexto extends FormBasico
     public function getDeveSerIgualA()
     {
         return $this->deveSerIgualA;
-    }    
+    }
 
     public function setLabel($label)
     {
@@ -293,7 +296,7 @@ class FormInputTexto extends FormBasico
     {
         return $this->iconFA;
     }
-    
+
     public function setToolTipMsg($toolTipMsg)
     {
         if (!empty($toolTipMsg)) {
@@ -308,9 +311,9 @@ class FormInputTexto extends FormBasico
     {
         return $this->toolTipMsg;
     }
-    
+
     public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
+    {
         if (in_array($emColunaDeTamanho, range(1, 12))) {
             $this->emColunaDeTamanho = $emColunaDeTamanho;
             return $this;
