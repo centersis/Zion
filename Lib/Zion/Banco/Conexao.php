@@ -163,7 +163,7 @@ class Conexao
             return $executa;
         }
         else {
-            throw new Exception($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
+            throw new Exception\SqlException($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
         }
     }
 
