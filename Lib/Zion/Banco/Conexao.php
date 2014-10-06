@@ -43,7 +43,7 @@ class Conexao
         $this->setExcecao();
 
         //self::$link[$banco] = new mysqli($conf->getHost($banco), $conf->getUser($banco), $conf->getSenha($banco), $conf->getBanco($banco));
-        self::$link[$banco] = new \mysqli('localhost', 'root', null, 'engine');
+        self::$link[$banco] = new \mysqli('localhost', 'root', null, 'zion');
         self::$link[$banco]->set_charset("utf8");
     }
 
@@ -113,7 +113,7 @@ class Conexao
 
     /**
      * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
-     * 	@return Objeto
+     * 	@return Conexao
      */
     public static function conectar($banco = 'Padrao')
     {

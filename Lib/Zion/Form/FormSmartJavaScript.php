@@ -22,6 +22,15 @@ class FormSmartJavaScript
 
     public function processar($config)
     {
+        $this->validacao($config);
+        
+        if ($config->getAcao() == 'suggest') {
+            $this->suggest($config);
+        }        
+    }
+    
+    private function validacao($config)
+    {
         //Validacão de obrigatório
         if (method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
             $this->regras[$config->getNome()][] = 'required : true';
@@ -72,13 +81,9 @@ class FormSmartJavaScript
             $this->regras[$config->getNome()][] = 'email : true';
             $this->mensagens[$config->getNome()][] = "email : '{$config->getIdentifica()} deve conter um e-mail válido!'";
         }
-
-        if ($config->getAcao() == 'suggest') {
-            $this->extra .= $this->montaSuggest($config);
-        }
     }
 
-    private function montaSuggest(FormInputSuggest $config)
+    private function suggest(FormInputSuggest $config)
     {
         $attr = [];
 
@@ -88,7 +93,7 @@ class FormSmartJavaScript
         $parametros = '?t=' . $config->getTabela();
         $parametros .= '&cc=' . $config->getCampoCod();
         $parametros .= '&cd=' . $config->getCampoDesc();
-        $parametros .= '&cb' . $config->getCampoBusca();
+        $parametros .= '&cb=' . $config->getCampoBusca();
         $parametros .= '&idc=' . $config->getIdConexao();
         $parametros .= '&cnd=' . $config->getCondicao();
         $parametros .= '&l=' . $config->getLimite();
@@ -125,7 +130,7 @@ class FormSmartJavaScript
 
         $fecha = ' });';
 
-        return $abre . implode(',', $attr) . $fecha;
+        $this->extra.= $abre . implode(',', $attr) . $fecha;
     }
 
     public function montaValidacao($formNome)
