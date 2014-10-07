@@ -41,7 +41,7 @@ class Conexao
 
         //self::$link[$banco] = new mysqli($conf->getHost($banco), $conf->getUser($banco), $conf->getSenha($banco), $conf->getBanco($banco));
         //self::$link[$banco] = new \mysqli('192.168.25.51', 'onyxprev_sapp', 'qwertybracom', 'onyxprev_sappiens');
-        $namespace = '\\'.SIS_ID_NAMESPACE_PRJETO.'\\Config';      
+        $namespace = '\\'.SIS_ID_NAMESPACE_PROJETO.'\\Config';      
         
         self::$link[$banco] = new \mysqli($namespace::$SIS_CFG['Bases'][$banco]['Host'], 
                 $namespace::$SIS_CFG['Bases'][$banco]['Usuario'], 
