@@ -7,12 +7,12 @@
  * @version 1.0
  * @copyright 2014
  * 
- *  Base InvalidArgumentException for the Form component.
+ *  Form InvalidArgumentException.
  */
 
 
 namespace Zion\Form\Exception;
 
-class FormInvalidArgumentException extends InvalidArgumentException implements ExceptionInterface
+class FormInvalidArgumentException extends \Zion\Exception\InvalidArgumentException implements \Zion\Exception\ExceptionInterface
 {
 }

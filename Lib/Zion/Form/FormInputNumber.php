@@ -10,10 +10,13 @@ class FormInputNumber extends \Zion\Form\FormBasico
     private $valorMaximo;
     private $valorMinimo;
     
-    public function __construct($acao)
+    public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'number';
         $this->acao = $acao;
+        $this->setNome($nome);
+        $this->setIdentifica($identifica);
+        $this->setObrigarorio($obrigatorio);
     }
     
     public function getTipoBase()

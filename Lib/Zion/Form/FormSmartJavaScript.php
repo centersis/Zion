@@ -8,6 +8,7 @@ class FormSmartJavaScript
     private $formJavaScript;
     private $regras;
     private $mensagens;
+    private $extra;
 
     public function __construct()
     {
@@ -15,9 +16,20 @@ class FormSmartJavaScript
 
         $this->regras = [];
         $this->mensagens = [];
+
+        $this->extra = '';
     }
 
     public function processar($config)
+    {
+        $this->validacao($config);
+        
+        if ($config->getAcao() == 'suggest') {
+            $this->suggest($config);
+        }        
+    }
+    
+    private function validacao($config)
     {
         //Validacão de obrigatório
         if (method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
@@ -71,6 +83,56 @@ class FormSmartJavaScript
         }
     }
 
+    private function suggest(FormInputSuggest $config)
+    {
+        $attr = [];
+
+        $url = $config->getUrl() ? $config->getUrl() : SIS_DEFAULT_AUTOCOMPLETE;
+        $id = $config->getId() ? $config->getId() : $config->getNome();
+
+        $parametros = '?t=' . $config->getTabela();
+        $parametros .= '&cc=' . $config->getCampoCod();
+        $parametros .= '&cd=' . $config->getCampoDesc();
+        $parametros .= '&cb=' . $config->getCampoBusca();
+        $parametros .= '&idc=' . $config->getIdConexao();
+        $parametros .= '&cnd=' . $config->getCondicao();
+        $parametros .= '&l=' . $config->getLimite();
+        $parametros .= $config->getParametros();
+
+
+        $abre = ' $( "#' . $id . '" ).autocomplete({ ';
+        $attr[] = ' source: "' . $url . $parametros . '"';
+
+        if ($config->getEspera()) {
+            $attr[] = ' delay: ' . $config->getEspera();
+        }
+
+        if ($config->getTamanhoMinimo()) {
+            $attr[] = ' minLength: ' . $config->getTamanhoMinimo();
+        }
+
+        if ($config->getDisabled() === false) {
+            $attr[] = ' disabled: false';
+        }
+
+        $onSelect = '';
+        if ($config->getHiddenValue()) {
+            $onSelect .= '$("#' . $config->getHiddenValue() . '").val(ui.item.id); ';
+        }
+
+        if ($config->getOnSelect()) {
+            $onSelect.= $config->getOnSelect();
+        }
+
+        if ($onSelect) {
+            $attr[] = ' select: function( event, ui ) { ' . $onSelect . ' }';
+        }
+
+        $fecha = ' });';
+
+        $this->extra.= $abre . implode(',', $attr) . $fecha;
+    }
+
     public function montaValidacao($formNome)
     {
         if (!$this->regras) {
@@ -99,7 +161,7 @@ class FormSmartJavaScript
         $textoSubmit = ' submitHandler : function(form) { $(form).ajaxSubmit({ success : function() { $("#' . $formNome . '").addClass("submited"); } });} ';
         $textoErro = 'errorPlacement : function(error, element) { error.insertAfter(element.parent()); }';
 
-        return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ',' . $textoErro . ' }); ';
+        return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ',' . $textoErro . ' }); ' . $this->extra;
     }
 
 }

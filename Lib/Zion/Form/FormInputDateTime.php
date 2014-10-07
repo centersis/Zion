@@ -11,6 +11,7 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     private $dataMinima;
     private $dataMaxima;
     private $placeHolder;
+    private $obrigatorio;
     private $label;
     private $iconFA;
     private $toolTipMsg;
@@ -18,11 +19,16 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     
     private $data;
     
-    public function __construct($acao)
+    public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'dateTime';
         $this->acao = $acao;
         $this->label = true;
+        $this->setIconFA('fa-calendar');
+        $this->setNome($nome);
+        $this->setIdentifica($identifica);
+        $this->setObrigarorio($obrigatorio);
+        
         $this->data = new Data();
     }
     
@@ -93,6 +99,21 @@ class FormInputDateTime extends \Zion\Form\FormBasico
         return $this->placeHolder;
     }
 
+    public function setObrigarorio($obrigatorio)
+    {
+        if (is_bool($obrigatorio)) {
+            $this->obrigatorio = $obrigatorio;
+            return $this;
+        } else {
+            throw new FormException("obrigatorio: Valor nao booleano");
+        }
+    }
+
+    public function getObrigatorio()
+    {
+        return $this->obrigatorio;
+    }
+    
     public function setLabel($label)
     {
         if (is_bool($label)) {
