@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @copyright CenterSis
  * @author Pablo Vanni - pablovanni@gmail.com
  * @since 23/02/2005
  * Atualizada em: 24/10/2008
@@ -11,13 +10,13 @@
  * Autualizada Por: Pablo Vanni - pablovanni@gmail.com
  * @name Conexão e interação com metodos de entrada e saida
  * @version 3.0
- * @package Framework
  */
 
 namespace Zion\Banco;
 
 class Conexao
 {
+
     private static $transaction;
     public static $link = array();
     public static $instancia = array();
@@ -30,30 +29,25 @@ class Conexao
     private $gravarLog = true;    //Indicador - Indica se o log deve ou não ser gravado
     private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
 
-    /**
-     * 	Método Construtor
-     */
-
     private function __construct($banco)
     {
         $this->banco = $banco;
 
-        //$conf = new ConexaoConf();
-
-        $this->setExcecao();
-
-        //self::$link[$banco] = new mysqli($conf->getHost($banco), $conf->getUser($banco), $conf->getSenha($banco), $conf->getBanco($banco));
-        self::$link[$banco] = new \mysqli('localhost', 'root', null, 'zion');
-        self::$link[$banco]->set_charset("utf8");
-    }
-
-    private function setExcecao()
-    {
         $this->arrayExcecoes[0] = "Probelmas com o servidor impedem a conexão com o banco de dados.<br>";
         $this->arrayExcecoes[1] = "Problemas ao executar a clausula SQL.<br>";
-        $this->arrayExcecoes[2] = "ResultSet Inválido.";
-        $this->arrayExcecoes[3] = "A Query SQL esta vazia.";
-        $this->arrayExcecoes[4] = "Array de querys invalido.";
+        $this->arrayExcecoes[2] = "ResultSet inválido.";
+        $this->arrayExcecoes[3] = "A query SQL esta vazia.";
+        $this->arrayExcecoes[4] = "Array de querys inválido.";
+
+        //self::$link[$banco] = new mysqli($conf->getHost($banco), $conf->getUser($banco), $conf->getSenha($banco), $conf->getBanco($banco));
+        //self::$link[$banco] = new \mysqli('192.168.25.51', 'onyxprev_sapp', 'qwertybracom', 'onyxprev_sappiens');
+        $namespace = '\\'.SIS_ID_NAMESPACE_PRJETO.'\\Config';      
+        
+        self::$link[$banco] = new \mysqli($namespace::$SIS_CFG['Bases'][$banco]['Host'], 
+                $namespace::$SIS_CFG['Bases'][$banco]['Usuario'], 
+                $namespace::$SIS_CFG['Bases'][$banco]['Senha'], 
+                $namespace::$SIS_CFG['Bases'][$banco]['Banco']);
+        self::$link[$banco]->set_charset("utf8");
     }
 
     private function getExcecao($cod)
@@ -115,9 +109,9 @@ class Conexao
      * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
      * 	@return Conexao
      */
-    public static function conectar($banco = 'Padrao')
-    {
-        $bancoMaiusculo = strtoupper($banco);
+    public static function conectar($banco = 'PADRAO')
+    {               
+        $bancoMaiusculo = empty($banco) ? 'PADRAO' : strtoupper($banco);
 
         if (!isset(self::$instancia[$bancoMaiusculo])) {
             self::$instancia[$bancoMaiusculo] = new Conexao($bancoMaiusculo);
@@ -128,7 +122,6 @@ class Conexao
 
     /**
      * 	Fecha a Conexão com o Mysql
-     * 	@return ResultSet
      */
     public function fecharConexao()
     {
@@ -142,8 +135,9 @@ class Conexao
      */
     public function executar($sql)
     {
-        if (empty($sql))
+        if (empty($sql)) {
             throw new Exception($this->getExcecao(3));
+        }
 
         $this->linhasAfetadas = 0;
 
@@ -152,17 +146,16 @@ class Conexao
         if (is_object($executa)) {
             return $executa;
         } elseif ($executa === true) {
-            //Linhas Afetadas
+
             $this->linhasAfetadas = self::$link[$this->banco]->affected_rows;
 
             //Interceptando Sql
-            if ($this->interceptaSql == true)
+            if ($this->interceptaSql == true) {
                 $this->setConteinerSql($sql);
+            }
 
-            //Executa
             return $executa;
-        }
-        else {
+        } else {
             throw new Exception\SqlException($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
         }
     }
@@ -174,20 +167,20 @@ class Conexao
      */
     public function executarArray($arraySql, $transaction = true)
     {
-        if (!is_array($arraySql))
+        if (!is_array($arraySql)) {
             throw new Exception($this->getExcecao(4));
+        }
 
         if ($transaction == true) {
-            //Inicia Transação
             $this->startTransaction();
         }
 
         foreach ($arraySql as $sql) {
             $executa = self::$link[$this->banco]->query($sql);
 
-            //Interceptando Sql
-            if ($this->interceptaSql == true)
+            if ($this->interceptaSql == true) {
                 $this->setConteinerSql($sql);
+            }
 
             if (!$executa === true) {
                 if ($transaction == true) {
@@ -199,7 +192,6 @@ class Conexao
 
 
         if ($transaction == true) {
-            //Finaliza Transação
             $this->stopTransaction();
         }
     }
@@ -211,14 +203,15 @@ class Conexao
      */
     public function linha($resultSet, $estilo = MYSQLI_BOTH)
     {
-        if (!is_object($resultSet))
+        if (!is_object($resultSet)) {
             throw new Exception($this->getExcecao(2));
+        }
 
-        $NLinhas = $resultSet->num_rows;
+        $nLinhas = $resultSet->num_rows;
 
-        if ($NLinhas > 0) {
+        if ($nLinhas > 0) {
             $linhas = $resultSet->fetch_array($estilo);
-            return @array_map("trim", $linhas);
+            return array_map("trim", $linhas);
         } else {
             return array();
         }
@@ -275,21 +268,21 @@ class Conexao
 
             while ($row = $ret->fetch_assoc()) {
                 if (empty($posicao)) {
-                    if (empty($indice))
+                    if (empty($indice)) {
                         $rows[] = $row;
-                    else
+                    } else {
                         $rows[$row[$indice]] = $row;
-                }
-                else {
-                    if (empty($indice))
+                    }
+                } else {
+                    if (empty($indice)) {
                         $rows[] = $row[$posicao];
-                    else
+                    } else {
                         $rows[$row[$indice]] = $row[$posicao];
+                    }
                 }
             }
             return $rows;
-        }
-        else {
+        } else {
             return array();
         }
     }
@@ -301,8 +294,9 @@ class Conexao
      */
     public function nLinhas($resultSet)
     {
-        if (!is_object($resultSet))
+        if (!is_object($resultSet)) {
             throw new Exception($this->getExcecao(2));
+        }
 
         return $resultSet->num_rows;
     }
@@ -325,7 +319,7 @@ class Conexao
      */
     public function maiorId($tabela, $idTabela)
     {
-        return $this->execRLinha("SELECT  " . $idTabela . " FROM " . $tabela . " ORDER BY " . $idTabela . " DESC LIMIT 1");
+        return $this->execRLinha("SELECT  MAX(" . $idTabela . ") as maior FROM " . $tabela);
     }
 
     public function ultimoInsertId()
@@ -356,11 +350,11 @@ class Conexao
      * 	@param Criterio String - Critério - Condição de Visualização
      * 	@return Booleano
      */
-    public function duplicado($tabela, $campo, $valor, $criterio = null)
+    public function duplicado($tabela, $campo, $valor, $criterio = '')
     {
-        $criterio = (empty($criterio)) ? null : " AND " . $criterio;
+        $crt = (empty($criterio)) ? '' : " AND " . $criterio;
 
-        return($this->execNLinhas("SELECT " . $campo . " FROM " . $tabela . " WHERE " . $campo . " = '" . $valor . "' $criterio") > 1) ? true : false;
+        return($this->execNLinhas("SELECT " . $campo . " FROM " . $tabela . " WHERE " . $campo . " = '" . $valor . "' $crt") > 1) ? true : false;
     }
 
     /**
@@ -398,4 +392,5 @@ class Conexao
             self::$transaction -= 1;
         }
     }
+
 }

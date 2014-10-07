@@ -87,7 +87,7 @@ class FormSmartJavaScript
     {
         $attr = [];
 
-        $url = $config->getUrl() ? $config->getUrl() : DEFAULT_AUTOCOMPLETE;
+        $url = $config->getUrl() ? $config->getUrl() : SIS_DEFAULT_AUTOCOMPLETE;
         $id = $config->getId() ? $config->getId() : $config->getNome();
 
         $parametros = '?t=' . $config->getTabela();
