@@ -19,6 +19,11 @@ class Form
                 ->setMethod('POST');
     }
 
+    public function layout($nome, $conteudo)
+    {
+        return new \Zion\Form\FormLayout($nome, $conteudo);
+    }
+    
     public function hidden($nome)
     {
         return new \Zion\Form\FormInputHidden('hidden', $nome);
@@ -209,6 +214,9 @@ class Form
                     break;
                 case 'button':
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaButton($objCampos);
+                    break;
+                case 'layout':
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaLayout($objCampos);
                     break;
                 default : throw new Exception('Tipo Base não encontrado!');
             }
