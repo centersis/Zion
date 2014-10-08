@@ -5,17 +5,24 @@ namespace Zion\Core;
 class Controller
 {
 
-    protected $model;
-    protected $view;
-
-    public function __construct()
+    public function controle($acao)
     {
-        $this->model = new Model();
-        $this->view = new View($this->model);
+        if (empty($acao)) {
+            $acao = 'iniciar';
+        }
+
+        try {
+            if (!method_exists($this, $acao)) {
+                throw new \Exception("Opção inválida!");
+            }
+
+            return $this->{$acao}();
+        } catch (\Exception $e) {
+
+            $tratar = new \Zion\Validacao\Valida();
+
+            return json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($e->getMessage())));
+        }
     }
-    
-    public function clicked()  
-    {  
-        $this->model->string = "Dados atualizados, obrigado ao MVC + PHP!";  
-    }
+
 }

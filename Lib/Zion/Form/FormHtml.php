@@ -116,6 +116,11 @@ class FormHtml extends \Zion\Form\FormAtributos
 
         return vsprintf($this->prepareButton(count($attr),$config), $attr);
     }
+    
+    public function montaLayout(FormLayout $config)
+    {
+        return $config->getConteudo();
+    }
 
     public function abreForm(FormTag $config)
     {
