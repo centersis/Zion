@@ -96,9 +96,4 @@ class FormAtributos
         return '<input ' . str_repeat('%s', $totalAtributos) . '/>';
     }
 
-    protected function prepareHidden($totalAtributos)
-    {
-        return '<input ' . str_repeat('%s', $totalAtributos) . '/>';
-    }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Pixel\Form;
+namespace Pixel\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
@@ -28,22 +28,25 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $converterHtml;
     private $autoTrim;
     private $placeHolder;
-    private $label;
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
 
+    private $formSetPixel;
+    
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
+        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        
         $this->tipoBase = 'suggest';
         $this->acao = $acao;
-        $this->label = true;
         $this->autoTrim = true;
         $this->converterHtml = true;
         $this->setIconFA('fa-search');
         $this->setNome($nome);
+        $this->setId($nome);
         $this->setIdentifica($identifica);
-        $this->setObrigarorio($obrigatorio);
+        $this->setObrigarorio($obrigatorio);                
     }
 
     public function getTipoBase()
@@ -293,29 +296,10 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->placeHolder;
     }
 
-    public function setLabel($label)
-    {
-        if (is_bool($label)) {
-            $this->label = $label;
-            return $this;
-        } else {
-            throw new FormException("label: O valor informado não é um booleano.");
-        }
-    }
-
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
     public function setIconFA($iconFA)
     {
-        if (!empty($iconFA)) {
-            $this->iconFA = $iconFA;
-            return $this;
-        } else {
-            throw new FormException("iconFA: Nenhum valor informado");
-        }
+        $this->iconFA = $this->formSetPixel->setIconFA($iconFA);
+        return $this;
     }
 
     public function getIconFA()
@@ -325,12 +309,8 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setToolTipMsg($toolTipMsg)
     {
-        if (!empty($toolTipMsg)) {
-            $this->toolTipMsg = $toolTipMsg;
-            return $this;
-        } else {
-            throw new FormException("toolTipMsg: Nenhum valor informado");
-        }
+        $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);
+        return $this;
     }
 
     public function getToolTipMsg()
@@ -340,12 +320,8 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setEmColunaDeTamanho($emColunaDeTamanho)
     {
-        if (in_array($emColunaDeTamanho, range(1, 12))) {
-            $this->emColunaDeTamanho = $emColunaDeTamanho;
-            return $this;
-        } else {
-            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
-        }
+        $this->emColunaDeTamanho = $this->formSetPixel->setEmColunaDeTamanho($emColunaDeTamanho);
+        return $this;
     }
 
     public function getemColunaDeTamanho()

@@ -1,7 +1,6 @@
 <?php
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
-use \Zion\Form\Form as Form;
 
 abstract class FormBasico
 {
@@ -18,7 +17,7 @@ abstract class FormBasico
     public function setId($id)
     {
         if(!empty($id)){
-            $this->$id = $id;
+            $this->id = $id;
             return $this;
         } else {
             throw new FormException("id: Nenhum valor informado.");

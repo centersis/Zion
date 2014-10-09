@@ -20,22 +20,22 @@ class Form extends \Zion\Form\Form
 
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
-        return new \Lib\Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
     }
 
     public function data($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputDateTime('date', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputDateTime('date', $nome, $identifica, $obrigatorio);
     }
 
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputDateTime('time', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputDateTime('time', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('password', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('password', $nome, $identifica, $obrigatorio);
     }
 
     public function numero($nome, $identifica, $obrigatorio = false)

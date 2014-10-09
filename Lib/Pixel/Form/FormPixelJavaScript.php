@@ -19,17 +19,8 @@ class FormPixelJavaScript
 
         $this->extra = '';
     }
-
-    public function processar($config)
-    {
-        $this->validacao($config);
-        
-        if ($config->getAcao() == 'suggest') {
-            $this->suggest($config);
-        }        
-    }
     
-    private function validacao($config)
+    public function processar($config)
     {
         //Validacão de obrigatório
         if (method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
@@ -74,12 +65,24 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'date') {
             $this->regras[$config->getNome()][] = 'date : true';
-            $this->mensagens[$config->getNome()][] = " date : '{$config->getIdentifica()} deve conter uma data válida!'";
+            $this->mensagens[$config->getNome()][] = " date : '{$config->getIdentifica()} deve conter uma data válida!'";      
+            $this->extra.= ' $("#'.$config->getId().'").datepicker(); ';
+        }
+        
+        if ($config->getAcao() == 'time') {
+            
+            $this->extra.= ' $("#'.$config->getId().'").timepicker('
+                . '{ minuteStep: 1, showSeconds: '.($config->getMostrarSegundos() ? 'true' : 'false').', defaultTime: false, showMeridian: false, showInputs: false, '
+                . 'orientation: $("body").hasClass("right-to-left") ? { x: "right", y: "auto"} : { x: "auto", y: "auto"}}); ';
         }
 
         if ($config->getAcao() == 'email') {
             $this->regras[$config->getNome()][] = 'email : true';
             $this->mensagens[$config->getNome()][] = "email : '{$config->getIdentifica()} deve conter um e-mail válido!'";
+        }
+        
+        if ($config->getAcao() == 'suggest') {
+            $this->suggest($config);
         }
     }
 

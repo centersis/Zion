@@ -25,33 +25,19 @@ class FormHtml extends \Zion\Form\FormAtributos
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'hidden')));
 
-        return vsprintf($this->prepareHidden(count($attr)), $attr);
-    }
-
-    public function montaSuggest(FormInputSuggest $config)
-    {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'text'),
-            $this->attr('size', $config->getLargura()),
-            $this->attr('caixa', $config->getCaixa()),
-            $this->attr('placeholder', $config->getPlaceHolder())));
-
-        $ret = vsprintf($this->prepareInput(count($attr),$config), $attr);
-        
-        if($config->getHiddenValue()){
-            
-            $cofHidden = new \Zion\Form\FormInputHidden('hidden', $config->getHiddenValue());
-            
-            $ret.= $this->montaHidden($cofHidden);
-        }
-        
-        return $ret;
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
     public function montaTexto(FormInputTexto $config)
     {
+        $type = 'text';
+        
+        if($config->getAcao() == 'password'){
+            $type = 'password';
+        }
+        
         $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'text'),
+            $this->attr('type', $type),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('size', $config->getLargura()),
             $this->attr('caixa', $config->getCaixa()),
@@ -62,21 +48,14 @@ class FormHtml extends \Zion\Form\FormAtributos
     }
 
     public function montaDateTime(FormInputDateTime $config)
-    {
-        if($config->getAcao() == 'date')
-        {
-            $atualComplemento = $config->getComplemento();
-            $novoComplemento = 'class="datepicker" data-dateformat="dd/mm/yy" data-mask="99/99/9999" data-mask-placeholder= "-"';
-            $config->setComplemento($atualComplemento.$novoComplemento);
-        }        
-
+    {        
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text'),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('max', $config->getDataMaxima()),
             $this->attr('min', $config->getDataMinima())));
 
-        return vsprintf($this->prepareInput(count($attr),$config), $attr);
+        return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
     public function montaNumber(FormInputNumber $config)

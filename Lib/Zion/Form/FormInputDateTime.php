@@ -12,20 +12,18 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     private $dataMaxima;
     private $placeHolder;
     private $obrigatorio;
-    private $label;
-    private $iconFA;
-    private $toolTipMsg;
-    private $emColunaDeTamanho;
+    private $mostrarSegundos;
     
     private $data;
     
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'dateTime';
-        $this->acao = $acao;
-        $this->label = true;
-        $this->setIconFA('fa-calendar');
+        $this->acao = $acao;        
+        $this->mostrarSegundos = false;
+        
         $this->setNome($nome);
+        $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         
@@ -114,64 +112,15 @@ class FormInputDateTime extends \Zion\Form\FormBasico
         return $this->obrigatorio;
     }
     
-    public function setLabel($label)
+    public function setMostrarSegundos($MostrarSegundos)
     {
-        if (is_bool($label)) {
-            $this->label = $label;
-            return $this;
-        } else {
-            throw new FormException("label: O valor informado não é um booleano.");
-        }
-    }
-
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    public function setIconFA($iconFA)
-    {
-        if (!empty($iconFA)) {
-            $this->iconFA = $iconFA;
-            return $this;
-        } else {
-            throw new FormException("iconFA: Nenhum valor informado");
-        }
-    }
-
-    public function getIconFA()
-    {
-        return $this->iconFA;
+        $this->mostrarSegundos = $MostrarSegundos;
+        return $this;
     }
     
-    public function setToolTipMsg($toolTipMsg)
+    public function getMostrarSegundos()
     {
-        if (!empty($toolTipMsg)) {
-            $this->toolTipMsg = $toolTipMsg;
-            return $this;
-        } else {
-            throw new FormException("toolTipMsg: Nenhum valor informado");
-        }
-    }
-
-    public function getToolTipMsg()
-    {
-        return $this->toolTipMsg;
-    }
-    
-    public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
-        if (in_array($emColunaDeTamanho, range(1, 12))) {
-            $this->emColunaDeTamanho = $emColunaDeTamanho;
-            return $this;
-        } else {
-            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
-        }
-    }
-
-    public function getemColunaDeTamanho()
-    {
-        return $this->emColunaDeTamanho;
+        return $this->mostrarSegundos;
     }
     
     /**
