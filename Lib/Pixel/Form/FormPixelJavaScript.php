@@ -12,7 +12,7 @@ class FormPixelJavaScript
 
     public function __construct()
     {
-        $this->formJavaScript = \Zion\Form\FormJavaScript::iniciar();
+        $this->formJavaScript = \Lib\Pixel\Form\FormJavaScript::iniciar();
 
         $this->regras = [];
         $this->mensagens = [];

@@ -13,16 +13,6 @@ class Form extends \Zion\Form\Form
         $this->formPixel = new \Lib\Pixel\Form\FormHtml();
     }
 
-    public function layout($nome, $conteudo)
-    {
-        return new \Zion\Form\FormLayout($nome, $conteudo);
-    }
-    
-    public function hidden($nome)
-    {
-        return new Lib\Zion\Form\FormInputHidden('hidden', $nome);
-    }
-
     public function texto($nome, $identifica, $obrigatorio = false)
     {
         return new \Lib\Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
@@ -30,7 +20,7 @@ class Form extends \Zion\Form\Form
 
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
+        return new \Lib\Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
     }
 
     public function data($nome, $identifica, $obrigatorio = false)
@@ -127,7 +117,7 @@ class Form extends \Zion\Form\Form
         foreach ($obj as $objCampos) {
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaHidden($objCampos);
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaHidden($objCampos);
                     break;
                 case 'texto' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTexto($objCampos);
@@ -169,8 +159,8 @@ class Form extends \Zion\Form\Form
      */
     public function javaScript()
     {
-        $smartJs = new \Pixel\Form\FormPixelJavaScript();
-        $jsStatic = \Pixel\Form\FormJavaScript::iniciar();
+        $smartJs = new \Lib\Pixel\Form\FormFormPixelJavaScript();
+        $jsStatic = \Lib\Pixel\Form\FormJavaScript::iniciar();
 
         foreach ($this->objetos as $config) {
             $smartJs->processar($config);
