@@ -67,7 +67,7 @@ class FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    private function validaFormInput( $input)
+    protected function validaFormInput($input)
     {
         $attrs  = $this->getAtributos($input);
 
@@ -107,12 +107,6 @@ class FormValida
                         if(is_numeric($userValue) === false){
                             throw new FormException($identifica .": O valor informado nao e um numero valido!");
                         }
-                    } elseif(strtoupper($input->getAcao()) == 'SUGGEST'){
-                        //Ainda não implementado.
-                    } elseif(strtoupper($input->getAcao()) == 'HIDDEN'){
-                        //Ainda não implementado.
-                    } elseif(strtoupper($input->getAcao()) == 'BUTTON'){ PRINT "FUCK THAT!";
-                        //Ainda não implementado.
                     }
                     break;
 
