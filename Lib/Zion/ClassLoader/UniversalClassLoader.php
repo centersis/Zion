@@ -296,13 +296,10 @@ class UniversalClassLoader
                 }
 
                 foreach ($dirs as $dir) {
-                    $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
+                    $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass . '.php';
 
-                    foreach($this->getSufixes() as $sufix){
-                        $sufixedFile = $file . $sufix . '.php';
-                        if(is_file($sufixedFile )) {
-                            return $sufixedFile;
-                        }
+                    if(is_file($file )) {
+                        return $file;
                     }
                 }
             }
@@ -310,11 +307,8 @@ class UniversalClassLoader
             foreach ($this->namespaceFallbacks as $dir) {
                 $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
 
-                foreach($this->getSufixes() as $sufix){
-                    $sufixedFile = $file . $sufix . '.php';
-                    if(is_file($sufixedFile )) {
-                        return $sufixedFile;
-                    }
+                if(is_file($file )) {
+                    return $file;
                 }
             }
 
@@ -330,11 +324,8 @@ class UniversalClassLoader
 
                     $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
 
-                    foreach($this->getSufixes() as $sufix){
-                        $sufixedFile = $file . $sufix . '.php';
-                        if(is_file($sufixedFile )) {
-                            return $sufixedFile;
-                        }
+                    if(is_file($file )) {
+                        return $file;
                     }
                 }
             }
@@ -342,11 +333,8 @@ class UniversalClassLoader
             foreach ($this->prefixFallbacks as $dir) {
                 $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
 
-                foreach($this->getSufixes() as $sufix){
-                    $sufixedFile = $file . $sufix . '.php';
-                    if(is_file($sufixedFile )) {
-                        return $sufixedFile;
-                    }
+                if(is_file($file )) {
+                    return $file;
                 }
             }
         }
