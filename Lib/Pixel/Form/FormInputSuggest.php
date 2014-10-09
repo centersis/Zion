@@ -1,6 +1,6 @@
 <?php
 
-namespace Zion\Form;
+namespace Pixel\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 

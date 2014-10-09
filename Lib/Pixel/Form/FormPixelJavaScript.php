@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Pixel\Form;
+namespace Pixel\Form;
 
 class FormPixelJavaScript
 {
@@ -12,7 +12,7 @@ class FormPixelJavaScript
 
     public function __construct()
     {
-        $this->formJavaScript = \Zion\Form\FormJavaScript::iniciar();
+        $this->formJavaScript = \Pixel\Form\FormJavaScript::iniciar();
 
         $this->regras = [];
         $this->mensagens = [];
