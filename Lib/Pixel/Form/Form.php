@@ -25,7 +25,7 @@ class Form extends \Zion\Form\Form
 
     public function texto($nome, $identifica, $obrigatorio = false)
     {
-        return new \Lib\Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
 
     public function suggest($nome, $identifica, $obrigatorio = false)
