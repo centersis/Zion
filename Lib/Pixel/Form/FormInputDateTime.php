@@ -2,67 +2,44 @@
 
 namespace Pixel\Form;
 
-class FormInputTexto extends \Zion\Form\FormInputTexto
+class FormInputDateTime extends \Zion\Form\FormInputDateTime
 {
-    private $mascara;
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
-
-    private $formSetPixel;
     
+    private $formSetPixel;
+        
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        parent::__construct($acao, $nome, $identifica, $obrigatorio); 
+        parent::__construct($acao, $nome, $identifica, $obrigatorio);
         
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        
+        if($acao == 'date'){
+            $this->setIconFA('fa-calendar');    
+        }
+        else{
+            $this->setIconFA('fa-clock-o');
+        }
+    }
+
+    public function setDataMinima($dataMinima)
+    {
+        parent::setDataMinima($dataMinima);
+        return $this;
     }
     
-    public function setLargura($largura)
+    public function setDataMaxima($dataMaxima)
     {
-        parent::setLargura($largura);
+        parent::setDataMaxima($dataMaxima);
         return $this;
     }
-
-    public function setMaximoCaracteres($maximoCaracteres)
+    
+    public function setPlaceHolder($placeHolder)
     {
-        parent::setMaximoCaracteres($maximoCaracteres);
+        parent::setPlaceHolder($placeHolder);
         return $this;
-    }
-
-    public function setMinimoCaracteres($minimoCaracteres)
-    {
-        parent::setMinimoCaracteres($minimoCaracteres);
-        return $this;
-    }
-
-    public function setCaixa($caixa)
-    {
-        parent::setCaixa($caixa);
-        return $this;
-    }
-
-    public function setValorMinimo($valorMinimo)
-    {
-        parent::setValorMinimo($valorMinimo);
-        return $this;
-    }
-
-    public function setValorMaximo($valorMaximo)
-    {
-        parent::setValorMaximo($valorMaximo);
-        return $this;
-    }
-
-    public function setMascara($mascara)
-    {
-        $this->mascara = $this->formSetPixel->setMascara($mascara);
-        return $this;
-    }
-
-    public function getMascara()
-    {
-        return $this->mascara;
     }
 
     public function setObrigarorio($obrigatorio)
@@ -70,34 +47,10 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         parent::setObrigarorio($obrigatorio);
         return $this;
     }
-
-    public function setConverterHtml($converterHtml)
+    
+    public function setLabel($label)
     {
-        parent::setConverterHtml($converterHtml);
-        return $this;
-    }
-
-    public function setAutoTrim($autoTrim)
-    {
-        parent::setAutoTrim($autoTrim);
-        return $this;
-    }
-
-    public function setPlaceHolder($placeHolder)
-    {
-        parent::setPlaceHolder($placeHolder);
-        return $this;
-    }
-
-    public function setAutoComplete($autoComplete)
-    {
-        parent::setAutoComplete($autoComplete);
-        return $this;
-    }
-
-    public function setDeveSerIgualA($deveSerIgualA)
-    {
-        parent::setDeveSerIgualA($deveSerIgualA);
+        parent::setLabel($label);
         return $this;
     }
 
@@ -111,7 +64,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     {
         return $this->iconFA;
     }
-
+    
     public function setToolTipMsg($toolTipMsg)
     {
         $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);
@@ -122,57 +75,57 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     {
         return $this->toolTipMsg;
     }
-
+    
     public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {
+    {        
         $this->emColunaDeTamanho = $this->formSetPixel->setEmColunaDeTamanho($emColunaDeTamanho);
         return $this;
     }
 
-    public function getEmColunaDeTamanho()
+    public function getemColunaDeTamanho()
     {
-        return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
+        return $this->emColunaDeTamanho;
     }
-
+    
     /**
      * Sobrecarga de Metodos Básicos
-     */
+     */    
     public function setId($id)
     {
-        parent::setId($id);
+        parent::setId($id);        
         return $this;
     }
-
+    
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
-
+    
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
-
+    
     public function setValor($valor)
-    {
+    {              
         parent::setValor($valor);
         return $this;
     }
-
+    
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
-
+    
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
-
+    
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
@@ -184,11 +137,10 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         parent::setAtributos($atributos);
         return $this;
     }
-
+    
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
         return $this;
     }
-
 }
