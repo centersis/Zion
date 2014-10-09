@@ -24,7 +24,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
 
     public function getAcao()
     {
-        return parent::acao;
+        return parent::getAcao();
     }
 
     public function setLargura($largura)

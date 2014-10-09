@@ -159,8 +159,8 @@ class Form extends \Zion\Form\Form
      */
     public function javaScript()
     {
-        $smartJs = new \Lib\Pixel\Form\FormFormPixelJavaScript();
-        $jsStatic = \Lib\Pixel\Form\FormJavaScript::iniciar();
+        $smartJs = new \Pixel\Form\FormPixelJavaScript();
+        $jsStatic = \Pixel\Form\FormJavaScript::iniciar();
 
         foreach ($this->objetos as $config) {
             $smartJs->processar($config);
