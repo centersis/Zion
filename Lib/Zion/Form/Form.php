@@ -183,10 +183,7 @@ class Form
                     break;
                 case 'texto' :
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTexto($objCampos);
-                    break;
-                case 'suggest' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaSuggest($objCampos);
-                    break;
+                    break;                
                 case 'dateTime' :
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaDateTime($objCampos);
                     break;
