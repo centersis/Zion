@@ -62,7 +62,6 @@ class UniversalClassLoader
 {
     private $namespaces = array();
     private $prefixes = array();
-    private $sufixes = NULL;
     private $namespaceFallbacks = array();
     private $prefixFallbacks = array();
     private $useIncludePath = false;
@@ -107,16 +106,6 @@ class UniversalClassLoader
     public function getPrefixes()
     {
         return $this->prefixes;
-    }
-
-    /**
-     * Gets the configured class sufixes.
-     *
-     * @return array A hash with class sufixes as keys and directories as values
-     */
-    public function getSufixes()
-    {
-        return $this->sufixes;
     }
 
     /**
@@ -235,18 +224,6 @@ class UniversalClassLoader
     public function registerPrefix($prefix, $paths)
     {
         $this->prefixes[$prefix] = (array) $paths;
-    }
-
-    /**
-     * Registers a set of sufixes.
-     *
-     * @param array       $sufixes An array of sufixes.
-     *
-     * @api
-     */
-    public function registerSufixes($sufixes)
-    {
-        $this->sufixes = $sufixes;
     }
 
     /**
