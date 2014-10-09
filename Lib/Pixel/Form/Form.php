@@ -4,13 +4,16 @@ namespace Pixel\Form;
 
 class Form extends \Zion\Form\Form
 {
+
     private $formPixel;
-    
+    private $html;
+
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->formPixel = new \Pixel\Form\FormHtml();
+        $this->html = new \Zion\Layout\Html();
     }
 
     public function texto($nome, $identifica, $obrigatorio = false)
@@ -108,6 +111,33 @@ class Form extends \Zion\Form\Form
         return new \Zion\Form\FormInputButton('reset', $nome, $identifica);
     }
 
+    public function abreForm()
+    {
+        $ret = $this->html->abreTagAberta('div', array('class' => 'panel'));
+        $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
+        $ret .= $this->formConfig->getHeader();
+        $ret .= $this->html->fechaTag('span');
+        $ret .= $this->html->fechaTag('div');
+        $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-body'));
+
+        $this->formConfig->setClassCss($this->formConfig->getClassCss() . ' form-horizontal');
+
+        $ret .= parent::abreForm();
+        $ret .= $this->html->abreTagAberta('div', array('class' => 'row'));
+
+        return $ret;
+    }
+
+    public function fechaForm()
+    {
+        $ret = parent::fechaForm();
+
+        $ret .= $this->html->fechaTag('div');
+        $ret .= $this->html->fechaTag('div');
+
+        return $ret;
+    }
+
     public function getFormHtml($nome = null)
     {
         $htmlCampos = array();
@@ -173,16 +203,10 @@ class Form extends \Zion\Form\Form
 
     public function montaForm()
     {
-        $html = new \Zion\Layout\Html();
-
-        $footer = '';
         $buffer = $this->abreForm();
 
-        $buffer.= $html->abreTagAberta('header');
-        $buffer.= $this->formConfig->getHeader();
-        $buffer.= $html->fechaTag('header');
-
-        $buffer.= $html->abreTagAberta('fieldset');
+        $footer = '';
+        
         $campos = $this->getFormHtml();
         foreach ($campos as $nome => $textoHtml) {
             if ($this->objetos[$nome]->getTipoBase() == 'button') {
@@ -191,12 +215,11 @@ class Form extends \Zion\Form\Form
                 $buffer.= $textoHtml;
             }
         }
-        $buffer.= $html->fechaTag('fieldset');
 
         if ($footer) {
-            $buffer.= $html->abreTagAberta('footer');
+            $buffer.= $this->html->abreTagFechada('hr', array('class'=>'panel-wide'));
+
             $buffer.= $footer;
-            $buffer.= $html->fechaTag('footer');
         }
 
         $buffer .= $this->fechaForm();
