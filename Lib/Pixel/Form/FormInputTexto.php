@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Pixel\Form;
+namespace Pixel\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
@@ -24,7 +24,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
 
     public function getAcao()
     {
-        return parent::acao;
+        return parent::getAcao();
     }
 
     public function setLargura($largura)
