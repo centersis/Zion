@@ -18,7 +18,6 @@ use \Zion\ClassLoader\UniversalClassLoader;
 class Loader
 {
 
-    private $sufixos;
     private $nameSpaces;
 
     public function __construct()
@@ -37,17 +36,7 @@ class Loader
             $loader->registerNamespace($name, $caminho);
         }
 
-        if ($this->sufixos) {
-            $loader->registerSufixes($this->sufixos);
-        }
-
         $loader->register();
-    }
-
-    public function setSufixos(array $sufixos)
-    {
-        $this->sufixos = $sufixos;
-        return $this;
     }
 
     public function setNameSpaces($name, $caminho)
