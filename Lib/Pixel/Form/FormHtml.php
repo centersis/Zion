@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Pixel\Form;
+namespace Pixel\Form;
 
 class FormHtml extends \Zion\Form\FormHtml
 {
