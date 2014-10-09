@@ -1,6 +1,6 @@
 <?php
 
-namespace Zion\Form;
+namespace Lib\Pixel\Form;
 
 class FormJavaScript extends \Zion\Layout\JavaScript
 {

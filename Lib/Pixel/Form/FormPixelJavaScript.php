@@ -1,8 +1,8 @@
 <?php
 
-namespace Zion\Form;
+namespace Lib\Pixel\Form;
 
-class FormSmartJavaScript
+class FormPixelJavaScript
 {
 
     private $formJavaScript;

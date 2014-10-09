@@ -5,9 +5,9 @@ namespace Zion\Form;
 class Form
 {
 
-    private $formConfig;
-    private $objetos;
-    private $formHtml;
+    protected $formConfig;
+    protected $objetos;
+    protected $formHtml;
 
     public function __construct()
     {
@@ -32,11 +32,6 @@ class Form
     public function texto($nome, $identifica, $obrigatorio = false)
     {
         return new \Zion\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
-    }
-
-    public function suggest($nome, $identifica, $obrigatorio = false)
-    {
-        return new \Zion\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
     }
 
     public function data($nome, $identifica, $obrigatorio = false)
@@ -95,11 +90,6 @@ class Form
     }
 
     public function textArea($nome, $identifica, $obrigatorio = false)
-    {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
-    }
-
-    public function editor($nome, $identifica, $obrigatorio = false)
     {
         return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
     }
@@ -235,56 +225,4 @@ class Form
             $valida->validar($objCampos);
         }
     }
-
-    /**
-     * 
-     * @return FormJavaScript
-     */
-    public function javaScript()
-    {
-        $smartJs = new \Zion\Form\FormSmartJavaScript();
-        $jsStatic = \Zion\Form\FormJavaScript::iniciar();
-
-        foreach ($this->objetos as $config) {
-            $smartJs->processar($config);
-        }
-
-        $jsStatic->setLoad($smartJs->montaValidacao($this->formConfig->getNome()));
-
-        return $jsStatic;
-    }
-
-    public function montaForm()
-    {
-        $html = new \Zion\Layout\Html();
-
-        $footer = '';
-        $buffer = $this->abreForm();
-
-        $buffer.= $html->abreTagAberta('header');
-        $buffer.= $this->formConfig->getHeader();
-        $buffer.= $html->fechaTag('header');
-
-        $buffer.= $html->abreTagAberta('fieldset');
-        $campos = $this->getFormHtml();
-        foreach ($campos as $nome => $textoHtml) {
-            if ($this->objetos[$nome]->getTipoBase() == 'button') {
-                $footer.= $textoHtml;
-            } else {
-                $buffer.= $textoHtml;
-            }
-        }
-        $buffer.= $html->fechaTag('fieldset');
-
-        if ($footer) {
-            $buffer.= $html->abreTagAberta('footer');
-            $buffer.= $footer;
-            $buffer.= $html->fechaTag('footer');
-        }
-
-        $buffer .= $this->abreForm();
-
-        return $buffer;
-    }
-
 }

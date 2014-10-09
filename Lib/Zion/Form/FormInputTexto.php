@@ -7,25 +7,21 @@ use \Zion\Form\Exception\FormException as FormException;
 class FormInputTexto extends FormBasico
 {
 
-    private $tipoBase;
-    private $acao;
-    private $largura;
-    private $maximoCaracteres;
-    private $minimoCaracteres;
-    private $valorMaximo;
-    private $valorMinimo;
-    private $caixa;
-    private $mascara;
-    private $obrigatorio;
-    private $converterHtml;
-    private $autoTrim;
-    private $placeHolder;
-    private $autoComplete;
-    private $deveSerIgualA;
-    private $label;
-    private $iconFA;
-    private $toolTipMsg;
-    private $emColunaDeTamanho;
+    protected $tipoBase;
+    protected $acao;
+    protected $largura;
+    protected $maximoCaracteres;
+    protected $minimoCaracteres;
+    protected $valorMaximo;
+    protected $valorMinimo;
+    protected $caixa;
+    protected $mascara;
+    protected $obrigatorio;
+    protected $converterHtml;
+    protected $autoTrim;
+    protected $placeHolder;
+    protected $autoComplete;
+    protected $deveSerIgualA;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -33,7 +29,6 @@ class FormInputTexto extends FormBasico
         $this->acao = $acao;
         $this->autoTrim = true;
         $this->converterHtml = true;
-        $this->label = true;
         $this->setNome($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
@@ -266,66 +261,6 @@ class FormInputTexto extends FormBasico
     public function getDeveSerIgualA()
     {
         return $this->deveSerIgualA;
-    }
-
-    public function setLabel($label)
-    {
-        if (is_bool($label)) {
-            $this->label = $label;
-            return $this;
-        } else {
-            throw new FormException("label: O valor informado não é um booleano.");
-        }
-    }
-
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    public function setIconFA($iconFA)
-    {
-        if (!empty($iconFA)) {
-            $this->iconFA = $iconFA;
-            return $this;
-        } else {
-            throw new FormException("iconFA: Nenhum valor informado");
-        }
-    }
-
-    public function getIconFA()
-    {
-        return $this->iconFA;
-    }
-
-    public function setToolTipMsg($toolTipMsg)
-    {
-        if (!empty($toolTipMsg)) {
-            $this->toolTipMsg = $toolTipMsg;
-            return $this;
-        } else {
-            throw new FormException("toolTipMsg: Nenhum valor informado");
-        }
-    }
-
-    public function getToolTipMsg()
-    {
-        return $this->toolTipMsg;
-    }
-
-    public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {
-        if (in_array($emColunaDeTamanho, range(1, 12))) {
-            $this->emColunaDeTamanho = $emColunaDeTamanho;
-            return $this;
-        } else {
-            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
-        }
-    }
-
-    public function getemColunaDeTamanho()
-    {
-        return $this->emColunaDeTamanho;
     }
 
     /**

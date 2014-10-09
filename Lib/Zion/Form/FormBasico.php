@@ -5,15 +5,15 @@ use \Zion\Form\Form as Form;
 
 abstract class FormBasico
 {
-    private $id;
-    private $nome;
-    private $identifica;
-    private $valor;
-    private $valorPadrao;
-    private $disabled;
-    private $complemento;
-    private $atributos;
-    private $classCss;    
+    protected $id;
+    protected $nome;
+    protected $identifica;
+    protected $valor;
+    protected $valorPadrao;
+    protected $disabled;
+    protected $complemento;
+    protected $atributos;
+    protected $classCss;    
 
     public function setId($id)
     {

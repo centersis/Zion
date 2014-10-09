@@ -1,31 +1,13 @@
 <?php
 
-namespace Zion\Form;
+namespace Lib\Pixel\Form;
 
-class FormHtml extends \Zion\Form\FormAtributos
+class FormHtml extends \Zion\Form\FormHtml
 {
 
     public function __construct()
     {
         parent::__construct();
-    }
-
-    public function opcoesBasicas($config)
-    {
-        return array($this->attr('name', $config->getNome()),
-            $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
-            $this->attr('value', $config->getValor()),
-            $this->attr('complemento', $config->getComplemento()),
-            $this->attr('disabled', $config->getDisabled()),
-            $this->attr('classCss', $config->getClassCss()));
-    }
-
-    public function montaHidden(FormInputHidden $config)
-    {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'hidden')));
-
-        return vsprintf($this->prepareHidden(count($attr)), $attr);
     }
 
     public function montaSuggest(FormInputSuggest $config)
@@ -50,15 +32,43 @@ class FormHtml extends \Zion\Form\FormAtributos
 
     public function montaTexto(FormInputTexto $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'text'),
-            $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('size', $config->getLargura()),
-            $this->attr('caixa', $config->getCaixa()),
-            $this->attr('placeholder', $config->getPlaceHolder()),
-            $this->attr('autocomplete', $config->getAutoComplete())));
+        $classCss = $config->getClassCss().' form-control';
+        $config->setClassCss($classCss);
         
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        if($config->getToolTipMsg()){
+            $complemento = $config->getComplemento().' title="'.$config->getToolTipMsg().'"';
+            $config->setComplemento($complemento);
+        }
+        
+        return $this->preparePixel($config, parent::montaTexto($config));
+    }
+    
+    private function preparePixel(FormInputTexto $config, $campo)
+    {
+        $html = new \Zion\Layout\Html();
+        
+        $buffer = $html->abreTagAberta('div',array('class'=>'col-sm-'.$config->getEmColunaDeTamanho()));                    
+
+            $buffer.= $html->abreTagAberta('div',array('class'=>'form-group no-margin-hr'));
+            
+                $buffer.= $html->abreTagAberta('label',array('class'=>'control-label'));
+                $buffer.= $config->getIdentifica();
+                $buffer .= $html->fechaTag('label');
+                
+                $buffer .= $campo;
+                
+                if($config->getIconFA()){
+                    $buffer.= $html->abreTagAberta('span',array('class'=>'input-group-addon'));
+                    $buffer.= $html->abreTagAberta('i',array('class'=>'fa '.$config->getIconFA()));
+                    $buffer .= $html->fechaTag('i');
+                    $buffer .= $html->fechaTag('span');
+                }
+                
+                
+            $buffer .= $html->fechaTag('div');
+        $buffer .= $html->fechaTag('div');
+        
+        return $buffer;
     }
 
     public function montaDateTime(FormInputDateTime $config)

@@ -22,7 +22,7 @@ class FormAtributos
             'caixa' => ' style="text-transform:%s;" ',
             'max' => ' max="%s" ',
             'min' => ' min="%s" ',
-            'classCss'=> 'class="%s"',
+            'classCss' => 'class="%s"',
             'option' => '<option value="%s">%s</option>',
             'formmethod' => ' formmethod="%s" ',
             'formaction' => ' formaction="%s" ',
@@ -90,56 +90,15 @@ class FormAtributos
     {
         return "<form " . str_repeat('%s', $totalAtributos) . ">";
     }
-    
-    protected function prepareInput($totalAtributos, $config)
+
+    protected function prepareInput($totalAtributos)
     {
-        $html = new \Zion\Layout\Html();
-        
-        $buffer = '';
-        
-        if($config->getemColunaDeTamanho()){
-            $buffer .= $html->abreTagAberta('section', array('class'=>'col col-'.$config->getemColunaDeTamanho()));                    
-        }
-            if($config->getLabel()){
-                $buffer .= $html->abreTagAberta('label',array('class'=>'label'));
-                $buffer .= $config->getIdentifica();
-                $buffer .= $html->fechaTag('label');
-            }
-            
-            $labelAux = false;
-            if($buffer || $config->getIconFA() || $config->getToolTipMsg()){ 
-                $buffer .= $html->abreTagAberta('label',array('class'=>'input'));
-                $labelAux = true;
-            }
-
-                if($config->getIconFA()){
-                    $buffer .= $html->abreTagAberta('i',array('class'=>'icon-append fa '.$config->getIconFA()));
-                    $buffer .= $html->fechaTag('i');
-                }
-
-                $buffer.= '<input ' . str_repeat('%s', $totalAtributos) . '/>';
-
-                if($config->getToolTipMsg()){
-                    $buffer .= $html->abreTagAberta('b',array('class'=>'tooltip tooltip-top-right'));
-                        $buffer .= $html->abreTagAberta('i',array('class'=>'fa fa-warning txt-color-teal'));                        
-                        $buffer .= $html->fechaTag('i');
-                        $buffer .= $config->getToolTipMsg();
-                    $buffer .= $html->fechaTag('b');
-                }
-            
-            if($labelAux === true){
-                $buffer .= $html->fechaTag('label');
-            }
-        
-        if($config->getemColunaDeTamanho()){
-            $buffer .= $html->fechaTag('section');
-        }
-        
-        return $buffer;
+        return '<input ' . str_repeat('%s', $totalAtributos) . '/>';
     }
-    
+
     protected function prepareHidden($totalAtributos)
     {
-        return '<input ' . str_repeat('%s', $totalAtributos) . '/>';        
+        return '<input ' . str_repeat('%s', $totalAtributos) . '/>';
     }
+
 }
