@@ -20,7 +20,7 @@ class Form extends \Zion\Form\Form
 
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
-        return new \Lib\Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
     }
 
     public function data($nome, $identifica, $obrigatorio = false)
