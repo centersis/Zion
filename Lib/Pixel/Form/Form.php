@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Pixel\Form;
+namespace Pixel\Form;
 
 class Form extends \Zion\Form\Form
 {
@@ -10,7 +10,7 @@ class Form extends \Zion\Form\Form
     {
         parent::__construct();
         
-        $this->formPixel = new \Lib\Pixel\Form\FormHtml();
+        $this->formPixel = new \Pixel\Form\FormHtml();
     }
 
     public function layout($nome, $conteudo)
