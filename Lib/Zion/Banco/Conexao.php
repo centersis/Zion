@@ -33,7 +33,7 @@ class Conexao
     {
         $this->banco = $banco;
 
-        $this->arrayExcecoes[0] = "Probelmas com o servidor impedem a conexão com o banco de dados.<br>";
+        $this->arrayExcecoes[0] = "Problemas com o servidor impedem a conexão com o banco de dados.<br>";
         $this->arrayExcecoes[1] = "Problemas ao executar a clausula SQL.<br>";
         $this->arrayExcecoes[2] = "ResultSet inválido.";
         $this->arrayExcecoes[3] = "A query SQL esta vazia.";
