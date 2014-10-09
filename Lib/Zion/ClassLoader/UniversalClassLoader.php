@@ -62,7 +62,6 @@ class UniversalClassLoader
 {
     private $namespaces = array();
     private $prefixes = array();
-    private $sufixes = NULL;
     private $namespaceFallbacks = array();
     private $prefixFallbacks = array();
     private $useIncludePath = false;
@@ -107,16 +106,6 @@ class UniversalClassLoader
     public function getPrefixes()
     {
         return $this->prefixes;
-    }
-
-    /**
-     * Gets the configured class sufixes.
-     *
-     * @return array A hash with class sufixes as keys and directories as values
-     */
-    public function getSufixes()
-    {
-        return $this->sufixes;
     }
 
     /**
@@ -238,18 +227,6 @@ class UniversalClassLoader
     }
 
     /**
-     * Registers a set of sufixes.
-     *
-     * @param array       $sufixes An array of sufixes.
-     *
-     * @api
-     */
-    public function registerSufixes($sufixes)
-    {
-        $this->sufixes = $sufixes;
-    }
-
-    /**
      * Registers this instance as an autoloader.
      *
      * @param bool    $prepend Whether to prepend the autoloader or not
@@ -296,13 +273,10 @@ class UniversalClassLoader
                 }
 
                 foreach ($dirs as $dir) {
-                    $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
+                    $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass . '.php';
 
-                    foreach($this->getSufixes() as $sufix){
-                        $sufixedFile = $file . $sufix . '.php';
-                        if(is_file($sufixedFile )) {
-                            return $sufixedFile;
-                        }
+                    if(is_file($file )) {
+                        return $file;
                     }
                 }
             }
@@ -310,11 +284,8 @@ class UniversalClassLoader
             foreach ($this->namespaceFallbacks as $dir) {
                 $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
 
-                foreach($this->getSufixes() as $sufix){
-                    $sufixedFile = $file . $sufix . '.php';
-                    if(is_file($sufixedFile )) {
-                        return $sufixedFile;
-                    }
+                if(is_file($file )) {
+                    return $file;
                 }
             }
 
@@ -330,11 +301,8 @@ class UniversalClassLoader
 
                     $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
 
-                    foreach($this->getSufixes() as $sufix){
-                        $sufixedFile = $file . $sufix . '.php';
-                        if(is_file($sufixedFile )) {
-                            return $sufixedFile;
-                        }
+                    if(is_file($file )) {
+                        return $file;
                     }
                 }
             }
@@ -342,11 +310,8 @@ class UniversalClassLoader
             foreach ($this->prefixFallbacks as $dir) {
                 $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass;
 
-                foreach($this->getSufixes() as $sufix){
-                    $sufixedFile = $file . $sufix . '.php';
-                    if(is_file($sufixedFile )) {
-                        return $sufixedFile;
-                    }
+                if(is_file($file )) {
+                    return $file;
                 }
             }
         }
