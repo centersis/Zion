@@ -7,21 +7,20 @@ use \Zion\Form\Exception\FormException as FormException;
 class FormInputTexto extends FormBasico
 {
 
-    protected $tipoBase;
-    protected $acao;
-    protected $largura;
-    protected $maximoCaracteres;
-    protected $minimoCaracteres;
-    protected $valorMaximo;
-    protected $valorMinimo;
-    protected $caixa;
-    protected $mascara;
-    protected $obrigatorio;
-    protected $converterHtml;
-    protected $autoTrim;
-    protected $placeHolder;
-    protected $autoComplete;
-    protected $deveSerIgualA;
+    private $tipoBase;
+    private $acao;
+    private $largura;
+    private $maximoCaracteres;
+    private $minimoCaracteres;
+    private $valorMaximo;
+    private $valorMinimo;
+    private $caixa;    
+    private $obrigatorio;
+    private $converterHtml;
+    private $autoTrim;
+    private $placeHolder;
+    private $autoComplete;
+    private $deveSerIgualA;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -30,6 +29,7 @@ class FormInputTexto extends FormBasico
         $this->autoTrim = true;
         $this->converterHtml = true;
         $this->setNome($nome);
+        $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
     }
@@ -65,7 +65,6 @@ class FormInputTexto extends FormBasico
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
-                return;
             }
 
             $this->maximoCaracteres = $maximoCaracteres;
@@ -86,7 +85,6 @@ class FormInputTexto extends FormBasico
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
                 throw new FormException("minimoCaracteres nao pode ser maior que maximoCaracteres.");
-                return;
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
@@ -122,7 +120,6 @@ class FormInputTexto extends FormBasico
 
             if (isset($this->valorMaximo) and ( $valorMinimo > $this->valorMaximo)) {
                 throw new FormException("valorMinimo nao pode ser maior que valorMaximo.");
-                return;
             }
 
             $this->valorMinimo = $valorMinimo;
@@ -143,7 +140,6 @@ class FormInputTexto extends FormBasico
 
             if (isset($this->valorMinimo) and ( $valorMaximo < $this->valorMinimo)) {
                 throw new FormException("valorMaximo nao pode ser menor que valorMinimo.");
-                return;
             }
 
             $this->valorMaximo = $valorMaximo;
@@ -156,22 +152,7 @@ class FormInputTexto extends FormBasico
     public function getValorMaximo()
     {
         return $this->valorMaximo;
-    }
-
-    public function setMascara($mascara)
-    {
-        if (!empty($mascara)) {
-            $this->mascara = $mascara;
-            return $this;
-        } else {
-            throw new FormException("mascara: Nenhum valor informado");
-        }
-    }
-
-    public function getMascara()
-    {
-        return $this->mascara;
-    }
+    }    
 
     public function setObrigarorio($obrigatorio)
     {
