@@ -25,7 +25,7 @@ class Exception
      */
     public function getMessageTrace(\Exception $e)
     {
-        return self::getMessage($e) . "<br />" . self::getTrace($e);
+        return "Exception ". self::getMessage($e) . " No arquivo: <strong>". $e->getFile() . "</strong>. Linha: <strong>". $e->getLine() ."</strong><br /><br />\n" . self::getTrace($e);
     }
     
     /**
@@ -35,7 +35,7 @@ class Exception
      * @return String mensagem da exceção lançada.
      */
     public function getMessage(\Exception $e){
-        return "Exception ". $e->getMessage() .". No arquivo: <strong>". $e->getFile() . "</strong>. Linha: <strong>". $e->getLine() ."</strong>";
+        return $e->getMessage();// .". No arquivo: <strong>". $e->getFile() . "</strong>. Linha: <strong>". $e->getLine() ."</strong>";
     }
     
     /**
