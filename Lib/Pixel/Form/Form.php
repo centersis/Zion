@@ -114,16 +114,16 @@ class Form extends \Zion\Form\Form
     public function abreForm()
     {
         $ret = $this->html->abreTagAberta('div', array('class' => 'panel'));
-        $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
-        $ret .= $this->formConfig->getHeader();
-        $ret .= $this->html->fechaTag('span');
-        $ret .= $this->html->fechaTag('div');
+            $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-heading'));
+            $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
+                $ret .= $this->formConfig->getHeader();
+            $ret .= $this->html->fechaTag('span');
+            $ret .= $this->html->fechaTag('div');
         $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-body'));
 
         $this->formConfig->setClassCss($this->formConfig->getClassCss() . ' form-horizontal');
 
         $ret .= parent::abreForm();
-        $ret .= $this->html->abreTagAberta('div', array('class' => 'row'));
 
         return $ret;
     }
@@ -131,7 +131,6 @@ class Form extends \Zion\Form\Form
     public function fechaForm()
     {
         $ret = parent::fechaForm();
-
         $ret .= $this->html->fechaTag('div');
         $ret .= $this->html->fechaTag('div');
 
@@ -174,7 +173,7 @@ class Form extends \Zion\Form\Form
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaButton($objCampos);
                     break;
                 case 'layout':
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaLayout($objCampos);
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaLayout($objCampos);
                     break;
                 default : throw new Exception('Tipo Base não encontrado!');
             }
@@ -210,16 +209,28 @@ class Form extends \Zion\Form\Form
         $campos = $this->getFormHtml();
         foreach ($campos as $nome => $textoHtml) {
             if ($this->objetos[$nome]->getTipoBase() == 'button') {
-                $footer.= $textoHtml;
+                $footer.= $textoHtml."&nbsp;&nbsp;";
             } else {
                 $buffer.= $textoHtml;
             }
         }
 
         if ($footer) {
+            $buffer.= $this->html->abreTagAberta('div',array('class'=>'form-group'));          
+            $buffer.= $this->html->abreTagAberta('div',array('class'=>'col-sm-12'));
+            
             $buffer.= $this->html->abreTagFechada('hr', array('class'=>'panel-wide'));
-
+            
+            $buffer.= $this->html->fechaTag('div');
+            $buffer.= $this->html->fechaTag('div');
+            
+            $buffer.= $this->html->abreTagAberta('div',array('class'=>'form-group'));          
+            $buffer.= $this->html->abreTagAberta('div',array('class'=>'col-sm-offset-3 col-sm-9'));
+            
             $buffer.= $footer;
+            
+            $buffer.= $this->html->fechaTag('div');
+            $buffer.= $this->html->fechaTag('div');
         }
 
         $buffer .= $this->fechaForm();

@@ -81,7 +81,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         return (new \Zion\Form\EscolhaHtml())->montaEscolha($config);        
     }
 
-    public function montaButton(FormInputButton $config)
+    public function montaButton($config)
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('name', $config->getNome()),

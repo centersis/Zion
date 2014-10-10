@@ -88,19 +88,9 @@ class FormHtml extends \Zion\Form\FormHtml
         return (new \Zion\Form\EscolhaHtml())->montaEscolha($config);
     }
 
-    public function montaButton(FormInputButton $config)
-    {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('name', $config->getNome()),
-            $this->attr('id', $config->getId()),
-            $this->attr('type', $config->getAcao()),
-            $this->attr('formmethod', $config->getMetodo()),
-            $this->attr('formaction', $config->getAction()),
-            $this->attr('formtarget', $config->getTarget())));
-
-        $attr[] = $this->attr('valueButton', $config->getValor());
-
-        return vsprintf($this->prepareButton(count($attr), $config), $attr);
+    public function montaButton($config)
+    {                                                     
+        return parent::montaButton($config);
     }
 
     public function montaLayout(FormLayout $config)

@@ -19,7 +19,7 @@ class FormPixelJavaScript
 
         $this->extra = '';
     }
-    
+
     public function processar($config)
     {
         //Validacão de obrigatório
@@ -65,22 +65,30 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'date') {
             $this->regras[$config->getNome()][] = 'date : true';
-            $this->mensagens[$config->getNome()][] = " date : '{$config->getIdentifica()} deve conter uma data válida!'";      
-            $this->extra.= ' $("#'.$config->getId().'").datepicker(); ';
+            $this->mensagens[$config->getNome()][] = " date : '{$config->getIdentifica()} deve conter uma data válida!'";
+            $this->extra.= ' $("#' . $config->getId() . '").mask("99/99/9999").datepicker(); ';
         }
-        
+
         if ($config->getAcao() == 'time') {
-            
-            $this->extra.= ' $("#'.$config->getId().'").timepicker('
-                . '{ minuteStep: 1, showSeconds: '.($config->getMostrarSegundos() ? 'true' : 'false').', defaultTime: false, showMeridian: false, showInputs: false, '
-                . 'orientation: $("body").hasClass("right-to-left") ? { x: "right", y: "auto"} : { x: "auto", y: "auto"}}); ';
+
+            if ($config->getMostrarSegundos()) {
+                $showSeconds = 'true';
+                $mascara = '99:99:99';
+            } else {
+                $showSeconds = 'false';
+                $mascara = '99:99';
+            }
+
+            $this->extra.= ' $("#' . $config->getId() . '").mask("' . $mascara . '").timepicker('
+                    . '{ minuteStep: 1, showSeconds: ' . $showSeconds . ', defaultTime: false, showMeridian: false, showInputs: false, '
+                    . 'orientation: $("body").hasClass("right-to-left") ? { x: "right", y: "auto"} : { x: "auto", y: "auto"}}); ';
         }
 
         if ($config->getAcao() == 'email') {
             $this->regras[$config->getNome()][] = 'email : true';
             $this->mensagens[$config->getNome()][] = "email : '{$config->getIdentifica()} deve conter um e-mail válido!'";
         }
-        
+
         if ($config->getAcao() == 'suggest') {
             $this->suggest($config);
         }
@@ -142,7 +150,7 @@ class FormPixelJavaScript
             return '';
         }
 
-        $textoGeral = ' var $registerForm = $("#' . $formNome . '").validate({ ';
+        $textoGeral = ' $("#' . $formNome . '").validate({ ';
 
         $textoRegra = ' rules : { ';
         $textoMensagem = ' messages : { ';
@@ -161,10 +169,9 @@ class FormPixelJavaScript
         $textoRegra .= ' } ';
         $textoMensagem .= ' } ';
 
-        $textoSubmit = ' submitHandler : function(form) { $(form).ajaxSubmit({ success : function() { $("#' . $formNome . '").addClass("submited"); } });} ';
-        $textoErro = 'errorPlacement : function(error, element) { error.insertAfter(element.parent()); }';
+        $textoSubmit = ' submitHandler: function(form) { alert("submito se eu quiser mano"); /*form.submit();*/ } ';
 
-        return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ',' . $textoErro . ' }); ' . $this->extra;
+        return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ' }); ' . $this->extra;
     }
 
 }
