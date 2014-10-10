@@ -27,7 +27,7 @@ class Exception
     {
         return "Exception ". self::getMessage($e) . " No arquivo: <strong>". $e->getFile() . "</strong>. Linha: <strong>". $e->getLine() ."</strong><br /><br />\n" . self::getTrace($e);
     }
-    
+
     /**
      * Exception::getMessage()
      * 
@@ -35,9 +35,9 @@ class Exception
      * @return String mensagem da exceção lançada.
      */
     public function getMessage(\Exception $e){
-        return $e->getMessage();// .". No arquivo: <strong>". $e->getFile() . "</strong>. Linha: <strong>". $e->getLine() ."</strong>";
+        return $e->getMessage();
     }
-    
+
     /**
      * Exception::getTrace()
      * 
@@ -47,7 +47,7 @@ class Exception
     public function getTrace(\Exception $e){
         return "Stack Trace: <br />". self::trataTrace($e->getTraceAsString());
     }
-    
+
     /**
      * Exception::trataTrace()
      * 
@@ -57,5 +57,5 @@ class Exception
     private function trataTrace($trace){
         return preg_replace_callback('/#[1-9]{1,}/', function($match){ return "<br />". $match[0];}, $trace);
     }
-    
+
 }
