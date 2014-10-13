@@ -7,795 +7,847 @@ define('urlStatic', SIS_URL_BASE_STATIC_DEFAULT);
 class Template extends \Zion\Layout\Padrao
 {
 
-    private $conteudo;
-    private $conteudoHeader;
-    private $conteudoBody;
-    private $conteudoMain;
-    private $conteudoContainerLogin;
-    private $conteudoScripts;
-    private $conteudoFooter;
-    private $tooltipForm;
+	private $conteudo;
+	private $conteudoHeader;
+	private $conteudoBody;
+	private $conteudoMain;
+	private $conteudoContainerLogin;
+	private $conteudoScripts;
+	private $conteudoFooter;
+	private $tooltipForm;
 
-    public function setConteudoHeader($conteudo = '')
-    {
-        $this->conteudoHeader .= $conteudo;
-    }
+	public function setConteudoHeader($conteudo = '')
+	{
 
-    public function setConteudoBody($conteudo = '')
-    {
+		$this->conteudoHeader .= $conteudo;
 
-        $this->conteudoBody .= $conteudo;
-    }
+	}
 
-    public function setConteudoMain($conteudo = '')
-    {
+	public function setConteudoBody($conteudo = '')
+	{
 
-        $this->conteudoMain .= $conteudo;
-    }
+		$this->conteudoBody .= $conteudo;
 
-    public function setConteudoContainerLogin($conteudo = '')
-    {
+	}	
 
-        $this->conteudoContainerLogin .= $conteudo;
-    }
+	public function setConteudoMain($conteudo = '')
+	{
 
-    public function setConteudoScripts($conteudo = '')
-    {
+		$this->conteudoMain .= $conteudo;
 
-        $this->conteudoScripts .= $conteudo;
-    }
+	}
 
-    public function setConteudoFooter($conteudo = '')
-    {
+	public function setConteudoContainerLogin($conteudo = '')
+	{
 
-        $this->conteudoFooter .= $conteudo;
-    }
+		$this->conteudoContainerLogin .= $conteudo;
 
-    public function getTemplate($modo = '')
-    {
+	}	
 
-        switch ($modo) {
+	public function setConteudoScripts($conteudo = '')
+	{
 
-            case 'cabecalho':
+		$this->conteudoScripts .= $conteudo;
 
-                return $this->getCabecalho();
+	}	
 
-                break;
+	public function setConteudoFooter($conteudo = '')
+	{
 
-            case 'inicioCorpo':
+		$this->conteudoFooter .= $conteudo;
 
-                return $this->getInicioCorpo();
+	}	
 
-                break;
+	public function getTemplate($modo = '')
+	{
 
-            case 'barraSuperior':
+		switch ($modo) {
 
-                return $this->getBarraSuperior();
+			case 'cabecalho':
 
-                break;
+				return $this->getCabecalho();
 
-            case 'barraLateral':
+			break;  
 
-                return $this->getBarraLateral();
+			case 'inicioCorpo':
 
-                break;
+				return $this->getInicioCorpo();
 
-            case 'main':
+			break;                      
 
-                return $this->getMain();
+			case 'barraSuperior':
 
-                break;
+				return $this->getBarraSuperior();
 
-            case 'fimCorpo':
+			break;
 
-                return $this->getFimCorpo();
+			case 'barraLateral':
 
-                break;
+				return $this->getBarraLateral();
 
-            case 'rodape':
+			break;
 
-                return $this->getRodape();
+			case 'main':
 
-                break;
+				return $this->getMain();
 
-            case 'containerLogin':
+			break;  
 
-                return $this->getContainerLogin();
+			case 'fimCorpo':
 
-                break;
+				return $this->getFimCorpo();
 
-            default:
+			break;                  
 
-                $buffer = '';
-                $buffer .= $this->getEstatisticas('starts');
-                $buffer .= $this->getCabecalho();
-                $buffer .= $this->getInicioCorpo();
-                $buffer .= $this->getBarraSuperior();
-                $buffer .= $this->getBarraLateral();
-                $buffer .= $this->getMain();
-                $buffer .= $this->getFimCorpo();
-                $buffer .= $this->getRodape();
-                $buffer .= $this->getEstatisticas('ends');
+			case 'rodape':
 
-                return $buffer;
+				return $this->getRodape();
 
-                break;
-        }
-    }
+			break;
 
-    private function getCabecalho()
-    {
+			case 'containerLogin':
 
-        $buffer = '';
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting generic header' . $this->html->fechaComentario();
-        $buffer .= $this->topo();
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending generic header' . $this->html->fechaComentario();
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting template header' . $this->html->fechaComentario();
-        $buffer .= $this->html->abreTagAberta('link', array('href' => '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->html->abreTagAberta('link', array('href' => '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/bootstrap.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pixel-admin.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/widgets.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pages.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/rtl.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/themes.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-        $buffer .= $this->conteudoHeader;
-        $buffer .= $this->html->fechaTag('head');
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending template header' . $this->html->fechaComentario();
+				return $this->getContainerLogin();
 
-        return $buffer;
-    }
+			break;			
+			
+			default:
+				
+				$buffer  = '';
+				$buffer .= $this->getEstatisticas('starts');
+				$buffer .= $this->getCabecalho();
+				$buffer .= $this->getInicioCorpo();
+				$buffer .= $this->getBarraSuperior();
+				$buffer .= $this->getBarraLateral();
+				$buffer .= $this->getMain();
+				$buffer .= $this->getFimCorpo();
+				$buffer .= $this->getRodape();
+				$buffer .= $this->getEstatisticas('ends');
 
-    private function getInicioCorpo()
-    {
+				return $buffer;
 
-        $classCss = (!empty($this->conteudoBody)) ? $this->conteudoBody : 'theme-default main-menu-animated';
+			break;
 
-        $buffer = '';
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting body app' . $this->html->fechaComentario();
-        $buffer .= $this->html->abreTagAberta('body', array('class' => $classCss));
-        $buffer .= $this->html->entreTags('script', 'var init = [];');
-        $buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/demo/demo.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-wrapper'));
+		}
 
-        return $buffer;
-    }
+	}
 
-    private function getBarraSuperior()
-    {
+	private function getCabecalho()
+	{
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar', 'class' => 'navbar navbar-inverse', 'role' => 'navigation'));
-
-        $buffer .= $this->html->abreTagAberta('button', array('id' => 'main-menu-toggle'));
-        $buffer .= $this->html->abreTagFechada('i', array('class' => 'navbar-icon fa fa-bars icon'));
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'hide-menu-text')) . 'ESCONDER MENU' . $this->html->fechaTag('span');
-        $buffer .= $this->html->fechaTag('button');
-
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'navbar-inner'));
-
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'navbar-header'));
-
-        // carrega o logo do sistema na barra superior
-        $buffer .= $this->getLogoSuperior();
-
-        $buffer .= $this->html->abreTagAberta('button', array('type' => 'button', 'class' => 'navbar-toggle collapsed', 'data-toggle' => 'collapse', 'data-target' => '#main-navbar-collapse'));
-        $buffer .= $this->html->abreTagFechada('i', array('class' => 'navbar-icon fa fa-bars'));
-        // end: button
-        $buffer .= $this->html->fechaTag('button');
-
-        // end: navbar-header
-        $buffer .= $this->html->fechaTag('div');
-
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-collapse', 'class' => 'collapse navbar-collapse main-navbar-collapse'));
-
-        $buffer .= $this->html->abreTagAberta('div');
-
-        // carrega o menu da barra superior
-        $buffer .= $this->getMenuSuperior();
-
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'icone-notificacoes', 'class' => 'right clearfix'));
-
-        $buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
-
-        // carrega as notificações da barra superior
-        $buffer .= $this->getNotificacoes();
-
-        // carrega as mensagens da barra superior
-        $buffer .= $this->getMensagens();
+		$buffer  = '';
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting generic header' . $this->html->fechaComentario();
+		$buffer .= $this->topo();
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending generic header' . $this->html->fechaComentario();
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting template header' . $this->html->fechaComentario();
+		$buffer .= $this->html->abreTagAberta('link', array('href' => '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));				
+		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/bootstrap.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pixel-admin.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/widgets.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pages.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/rtl.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/themes.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->conteudoHeader;
+		$buffer .= $this->html->fechaTag('head');
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending template header' . $this->html->fechaComentario();
 
-        // carrega o form de pesquisa da barra superior
-        $buffer .= $this->getFormPesquisa();
+		return $buffer;
 
-        // end: navbar-nav
-        $buffer .= $this->html->fechaTag('ul');
+	}
 
-        // end: icone-notificacoes
-        $buffer .= $this->html->fechaTag('div');
+	private function getInicioCorpo()
+	{
 
-        $buffer .= $this->html->fechaTag('div');
+		$classCss = (!empty($this->conteudoBody)) ? $this->conteudoBody : 'theme-default main-menu-animated';
 
-        // end: main-navbar-collapse
-        $buffer .= $this->html->fechaTag('div');
+		$buffer  = '';
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting body app' . $this->html->fechaComentario();
+		$buffer .= $this->html->abreTagAberta('body', array('class' => $classCss));
+		$buffer .= $this->html->entreTags('script', 'var init = [];');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/demo/demo.js')) . $this->html->fechaTag('script');			
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-wrapper'));        
 
-        // end: navbar-inner
-        $buffer .= $this->html->fechaTag('div');
+		return $buffer;
 
-        // end: main-navbar
-        $buffer .= $this->html->fechaTag('div');
+	}
 
-        return $buffer;
-    }
+	private function getBarraSuperior()
+	{
 
-    private function getLogoSuperior()
-    {
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar', 'class' => 'navbar navbar-inverse', 'role' => 'navigation'));
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard', 'class' => 'navbar-brand'));
+			$buffer .= $this->html->abreTagAberta('button', array('id' => 'main-menu-toggle'));
+			$buffer .= $this->html->abreTagFechada('i', array('class' => 'navbar-icon fa fa-bars icon'));
+			$buffer .= $this->html->abreTagAberta('span', array('class' => 'hide-menu-text')) . 'ESCONDER MENU' . $this->html->fechaTag('span');
+			$buffer .= $this->html->fechaTag('button');
 
-        $buffer .= $this->html->abreTagAberta('div');
-        $buffer .= $this->html->abreTagAberta('img', array('alt' => 'Início', 'src' => urlStatic . '/assets/images/pixel-admin/main-navbar-logo.png'));
-        $buffer .= $this->html->fechaTag('div');
-        $buffer .= SIS_ID_NAMESPACE_PROJETO;
+			$buffer .= $this->html->abreTagAberta('div', array('class' => 'navbar-inner'));
 
-        // end: navbar-brand
-        $buffer .= $this->html->fechaTag('a');
+				$buffer .= $this->html->abreTagAberta('div', array('class' => 'navbar-header'));
 
-        return $buffer;
-    }
+					// carrega o logo do sistema na barra superior
+					$buffer .= $this->getLogoSuperior();
 
-    private function getMenuSuperior()
-    {
+					$buffer .= $this->html->abreTagAberta('button', array('type' => 'button', 'class' => 'navbar-toggle collapsed', 'data-toggle' => 'collapse', 'data-target' => '#main-navbar-collapse'));
+						$buffer .= $this->html->abreTagFechada('i', array('class' => 'navbar-icon fa fa-bars'));
+					// end: button
+					$buffer .= $this->html->fechaTag('button');
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav'));
-        $buffer .= $this->html->abreTagAberta('li');
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard'));
-        $buffer .= "Início";
-        $buffer .= $this->html->fechaTag('a');
-        $buffer .= $this->html->fechaTag('li');
-        /*
-          // inicio menu Administrativo
-          $buffer .= $this->html->abreTagAberta('li', array('class' => 'dropdown'));
-          $buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
-          $buffer .= "Gestão Administrativa";
-          $buffer .= $this->html->fechaTag('a');
-          $buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
-          $buffer .= $this->html->abreTagAberta('li');
-          $buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-          $buffer .= "Cadastros";
-          $buffer .= $this->html->fechaTag('a');
-          $buffer .= $this->html->fechaTag('li');
-          $buffer .= $this->html->fechaTag('ul');
-          $buffer .= $this->html->fechaTag('li');
-          // fim menu Administrativo
-         */
-        // end: nav navbar-nav
-        $buffer .= $this->html->fechaTag('ul');
+				// end: navbar-header
+				$buffer .= $this->html->fechaTag('div');
 
-        return $buffer;
-    }
+				$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-collapse', 'class' => 'collapse navbar-collapse main-navbar-collapse'));
 
-    private function getNotificacoes()
-    {
+					$buffer .= $this->html->abreTagAberta('div');
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-danger dropdown'));
+						// carrega o menu da barra superior
+						$buffer .= $this->getMenuSuperior();
 
-        $buffer .= $this->html->abreTagAberta('a', array('href' => '#notifications', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
+						$buffer .= $this->html->abreTagAberta('div', array('id' => 'icone-notificacoes', 'class' => 'right clearfix'));
 
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'label'));
-        $buffer .= "5";
-        $buffer .= $this->html->fechaTag('span');
-        $buffer .= $this->html->abreTagFechada('i', array('class' => 'nav-icon fa fa-bullhorn'));
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'small-screen-text'));
-        $buffer .= "Notificações";
-        $buffer .= $this->html->fechaTag('span');
+							$buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
 
-        $buffer .= $this->html->fechaTag('a');
+								// carrega as notificações da barra superior
+								$buffer .= $this->getNotificacoes();
 
-        $buffer .= $this->html->abreTagAberta('script');
-        $buffer .= 'init.push(function () {$(\'#main-navbar-notifications\').slimScroll({ height: 250 });});';
-        $buffer .= $this->html->fechaTag('script');
+								// carrega as mensagens da barra superior
+								$buffer .= $this->getMensagens();   
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'dropdown-menu widget-notifications no-padding', 'style' => 'width: 300px'));
+								// carrega o form de pesquisa da barra superior
+								$buffer .= $this->getFormPesquisa();                    
 
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-notifications', 'class' => 'notifications-list'));
+							// end: navbar-nav
+							$buffer .= $this->html->fechaTag('ul');                 
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
+						// end: icone-notificacoes
+						$buffer .= $this->html->fechaTag('div');
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-title text-danger')) . 'SYSTEM' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-description')) . '<strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-ago')) . '12h atrás' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-icon fa fa-hdd-o bg-danger')) . $this->html->fechaTag('div');
+					$buffer .= $this->html->fechaTag('div');    
 
-        $buffer .= $this->html->fechaTag('div');
+				// end: main-navbar-collapse
+				$buffer .= $this->html->fechaTag('div');        
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
+			// end: navbar-inner
+			$buffer .= $this->html->fechaTag('div');
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-title text-info')) . 'SYSTEM' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-description')) . '<strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-ago')) . '12h atrás' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-icon fa fa-hdd-o bg-info')) . $this->html->fechaTag('div');
+		// end: main-navbar
+		$buffer .= $this->html->fechaTag('div');
 
-        $buffer .= $this->html->fechaTag('div');
+		return $buffer;
 
-        $buffer .= $this->html->fechaTag('div');
+	}
 
-        $buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'notifications-link')) . 'VER MAIS NOTIFICAÇÕES' . $this->html->fechaTag('a');
+	private function getLogoSuperior()
+	{
 
-        $buffer .= $this->html->fechaTag('div');
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard', 'class' => 'navbar-brand'));
 
-        $buffer .= $this->html->fechaTag('li');
+			$buffer .= $this->html->abreTagAberta('div');
+				$buffer .= $this->html->abreTagAberta('img', array('alt' => 'Início', 'src' => urlStatic . '/assets/images/pixel-admin/main-navbar-logo.png'));
+			$buffer .= $this->html->fechaTag('div');
+			$buffer .= SIS_ID_NAMESPACE_PROJETO;
 
-        return $buffer;
-    }
+		// end: navbar-brand
+		$buffer .= $this->html->fechaTag('a');
 
-    private function getMensagens()
-    {
+		return $buffer;
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-success dropdown'));
+	}
 
-        $buffer .= $this->html->abreTagAberta('a', array('href' => '#messages', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
+	private function getMenuSuperior()
+	{
 
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'label'));
-        $buffer .= "12";
-        $buffer .= $this->html->fechaTag('span');
-        $buffer .= $this->html->abreTagFechada('i', array('class' => 'nav-icon fa fa-envelope'));
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'small-screen-text')) . "Mensagens" . $this->html->fechaTag('span');
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav'));
+			$buffer .= $this->html->abreTagAberta('li');
+				$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard'));
+					$buffer .= "Início";
+				$buffer .= $this->html->fechaTag('a');  
+			$buffer .= $this->html->fechaTag('li'); 
+/*
+			// inicio menu Administrativo
+			$buffer .= $this->html->abreTagAberta('li', array('class' => 'dropdown'));
+				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
+					$buffer .= "Gestão Administrativa";
+				$buffer .= $this->html->fechaTag('a');  
+				$buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
+					$buffer .= $this->html->abreTagAberta('li');
+						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
+							$buffer .= "Cadastros";
+						$buffer .= $this->html->fechaTag('a');
+					$buffer .= $this->html->fechaTag('li');                                                                                     
+				$buffer .= $this->html->fechaTag('ul'); 
+			$buffer .= $this->html->fechaTag('li'); 
+			// fim menu Administrativo                                                                
+*/
+		// end: nav navbar-nav
+		$buffer .= $this->html->fechaTag('ul'); 
 
-        $buffer .= $this->html->fechaTag('a');
+		return $buffer;
 
-        $buffer .= $this->html->abreTagAberta('script');
-        $buffer .= 'init.push(function () {$(\'#main-navbar-messages\').slimScroll({ height: 250 });});';
-        $buffer .= $this->html->fechaTag('script');
+	}   
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'dropdown-menu widget-messages-alt no-padding', 'style' => 'width: 300px'));
+	private function getNotificacoes()
+	{
 
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-messages', 'class' => 'messages-list'));
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-danger dropdown'));
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'message'));
+			$buffer .= $this->html->abreTagAberta('a', array('href' => '#notifications', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
+				
+				$buffer .= $this->html->abreTagAberta('span', array('class' => 'label'));
+					$buffer .= "5";
+				$buffer .= $this->html->fechaTag('span');   
+				$buffer .= $this->html->abreTagFechada('i', array('class' => 'nav-icon fa fa-bullhorn'));
+				$buffer .= $this->html->abreTagAberta('span', array('class' => 'small-screen-text'));
+					$buffer .= "Notificações";
+				$buffer .= $this->html->fechaTag('span');                                   
 
-        $buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/avatars/3.jpg', 'class' => 'message-avatar'));
-        $buffer .= $this->html->abreTagAberta('a', array('class' => 'message-subject')) . 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' . $this->html->fechaTag('a');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'message-description')) . 'from ' . $this->html->abreTagAberta('a', array('href' => '#')) . 'Vinícius Pozzebon' . $this->html->fechaTag('a') . ' há 2h' . $this->html->fechaTag('div');
+			$buffer .= $this->html->fechaTag('a');  
 
-        $buffer .= $this->html->fechaTag('div');
+			$buffer .= $this->html->abreTagAberta('script');
+				$buffer .= 'init.push(function () {$(\'#main-navbar-notifications\').slimScroll({ height: 250 });});';
+			$buffer .= $this->html->fechaTag('script');
 
-        $buffer .= $this->html->fechaTag('div');
+			$buffer .= $this->html->abreTagAberta('div', array('class' => 'dropdown-menu widget-notifications no-padding', 'style' => 'width: 300px'));
 
-        $buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'messages-link')) . 'VER MAIS MENSAGENS' . $this->html->fechaTag('a');
+				$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-notifications', 'class' => 'notifications-list'));
 
-        $buffer .= $this->html->fechaTag('div');
+					$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
 
-        $buffer .= $this->html->fechaTag('li');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-title text-danger')) . 'SYSTEM' . $this->html->fechaTag('div');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-description')) . '<strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.' . $this->html->fechaTag('div');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-ago')) . '12h atrás' . $this->html->fechaTag('div');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-icon fa fa-hdd-o bg-danger')) . $this->html->fechaTag('div');
 
-        return $buffer;
-    }
+					$buffer .= $this->html->fechaTag('div');
 
-    private function getFormPesquisa()
-    {
+					$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
 
-        $formSmart = new \Sappiens\Dashboard\Smart();
-        $form = $formSmart->getFormSmart();
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-title text-info')) . 'SYSTEM' . $this->html->fechaTag('div');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-description')) . '<strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.' . $this->html->fechaTag('div');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-ago')) . '12h atrás' . $this->html->fechaTag('div');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-icon fa fa-hdd-o bg-info')) . $this->html->fechaTag('div');
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('li');
+					$buffer .= $this->html->fechaTag('div');                                    
 
-        //$buffer .= $form->montaForm();                
+				$buffer .= $this->html->fechaTag('div');
 
-        $buffer .= $this->html->fechaTag('li');
+				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'notifications-link')) . 'VER MAIS NOTIFICAÇÕES' . $this->html->fechaTag('a');
 
-        return $buffer;
-    }
+			$buffer .= $this->html->fechaTag('div');
 
-    private function getBarraLateral()
-    {
+		$buffer .= $this->html->fechaTag('li');
 
-        $buffer = '';
+		return $buffer;
 
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-menu', 'role' => 'navigation'));
+	}   
 
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-menu-inner'));
+	private function getMensagens()
+	{
 
-        // carrega o bloco lateral esquerdo (sobre o menu) com a foto do usuário logado
-        $buffer .= $this->getBlocoUsuario();
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-success dropdown'));            
 
-        // carrega o menu lateral
-        $buffer .= $this->getMenuLateral();
+			$buffer .= $this->html->abreTagAberta('a', array('href' => '#messages', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
+				
+				$buffer .= $this->html->abreTagAberta('span', array('class' => 'label'));
+					$buffer .= "12";
+				$buffer .= $this->html->fechaTag('span');   
+				$buffer .= $this->html->abreTagFechada('i', array('class' => 'nav-icon fa fa-envelope'));
+				$buffer .= $this->html->abreTagAberta('span', array('class' => 'small-screen-text')) . "Mensagens" . $this->html->fechaTag('span');                                 
 
-        // end: main-menu-inner
-        $buffer .= $this->html->fechaTag('div');
-        // end: main-menu
-        $buffer .= $this->html->fechaTag('div');
+			$buffer .= $this->html->fechaTag('a');      
 
-        return $buffer;
-    }
+			$buffer .= $this->html->abreTagAberta('script');
+				$buffer .= 'init.push(function () {$(\'#main-navbar-messages\').slimScroll({ height: 250 });});';
+			$buffer .= $this->html->fechaTag('script');         
 
-    private function getBlocoUsuario()
-    {
+			$buffer .= $this->html->abreTagAberta('div', array('class' => 'dropdown-menu widget-messages-alt no-padding', 'style' => 'width: 300px'));  
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'menu-content-demo', 'class' => 'menu-content top'));
+				$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-messages', 'class' => 'messages-list'));    
 
-        $buffer .= $this->html->abreTagAberta('div');
+					$buffer .= $this->html->abreTagAberta('div', array('class' => 'message'));
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'text-bg'));
+						$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/avatars/3.jpg', 'class' => 'message-avatar'));
+						$buffer .= $this->html->abreTagAberta('a', array('class' => 'message-subject')) . 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' . $this->html->fechaTag('a');
+						$buffer .= $this->html->abreTagAberta('div', array('class' => 'message-description')) . 'from ' . $this->html->abreTagAberta('a', array('href' => '#')) . 'Vinícius Pozzebon' . $this->html->fechaTag('a') . ' há 2h' . $this->html->fechaTag('div');
 
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'text-slim')) . 'Vinícius Pozzebon' . $this->html->fechaTag('span');
+					$buffer .= $this->html->fechaTag('div');                                    
+				
+				$buffer .= $this->html->fechaTag('div');    
 
-        $buffer .= $this->html->fechaTag('div');
+				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'messages-link')) . 'VER MAIS MENSAGENS' . $this->html->fechaTag('a');                                                                                   
+			
+			$buffer .= $this->html->fechaTag('div');                                                                
 
-        $buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/avatars/1.jpg'));
+		$buffer .= $this->html->fechaTag('li'); 
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'btn-group'));
+		return $buffer;
 
-        // envelope
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Message', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-envelope')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->fechaTag('a');
+	}   
 
-        // perfil
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/User', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-user')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->fechaTag('a');
+	private function getFormPesquisa()
+	{
 
-        // configuracoes
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Config', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-cog')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->fechaTag('a');
+		$formSmart  = new \Sappiens\Dashboard\Smart();
+		$form       = $formSmart->getFormSmart();       
 
-        // sair
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Logout', 'class' => 'btn btn-xs btn-danger btn-outline dark'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-power-off')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->fechaTag('a');
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li');    
 
-        $buffer .= $this->html->fechaTag('div');
+			//$buffer .= $form->montaForm();                
 
-        $buffer .= $this->html->fechaTag('div');
+		$buffer .= $this->html->fechaTag('li'); 
 
-        // end: menu-content-demo
-        $buffer .= $this->html->fechaTag('div');
+		return $buffer;
 
-        return $buffer;
-    }
+	}
 
-    private function getMenu()
-    {
+	private function getBarraLateral()
+	{
 
-        $_SESSION['UsuarioCod'] = 1;
-        $menu = new \Zion\Menu\Menu();
-        $menu = $menu->geraMenu();
+		$buffer  = '';
 
-        $obj = json_decode($menu, true);
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-menu', 'role' => 'navigation'));
 
-        $buffer = '';
+			$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-menu-inner'));
 
-        if ($obj['sucesso'] == true) {
+				// carrega o bloco lateral esquerdo (sobre o menu) com a foto do usuário logado
+				$buffer .= $this->getBlocoUsuario();
 
-            foreach ($obj['retorno'] as $indice => $valor) {
+				// carrega o menu lateral
+				$buffer .= $this->getMenuLateral();
 
-                if (is_array($valor)) {
+			// end: main-menu-inner
+			$buffer .= $this->html->fechaTag('div');
+		// end: main-menu
+		$buffer .= $this->html->fechaTag('div');
 
-                    foreach ($valor as $indice1 => $valor1) {
+		return $buffer;
 
-                        if ($indice1 == 'Grupo') {
+	}
 
-                            $buffer .= $this->abreGrupoMenu();
-                            $buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['GrupoModuloClass'], 'grupo' => $valor1));
-                        }
+	private function getBlocoUsuario()
+	{
 
-                        if (is_array($valor1)) {
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'menu-content-demo', 'class' => 'menu-content top'));        
 
-                            $buffer .= $this->abreConjuntoSubMenu();
+			$buffer .= $this->html->abreTagAberta('div');
 
-                            foreach ($valor1 as $indice2 => $valor2) {
+				$buffer .= $this->html->abreTagAberta('div', array('class' => 'text-bg'));
 
-                                if (!empty($valor2['Modulo'])) {
+					$buffer .= $this->html->abreTagAberta('span', array('class' => 'text-slim')) . 'Vinícius Pozzebon' . $this->html->fechaTag('span');
 
-                                    $buffer .= $this->populaSubMenu($valor2);
-                                }
+				$buffer .= $this->html->fechaTag('div');
 
-                                if (is_array($valor2)) {
+				$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/avatars/1.jpg'));
 
-                                    foreach ($valor2 as $indice3 => $valor3) {
+				$buffer .= $this->html->abreTagAberta('div', array('class' => 'btn-group'));
 
-                                        if (is_array($valor3)) {
+					// envelope
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Message', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
+						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-envelope')) . $this->html->fechaTag('i');
+					$buffer .= $this->html->fechaTag('a');  
 
-                                            foreach ($valor3 as $indice4 => $valor4) {
+					// perfil
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/User', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
+						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-user')) . $this->html->fechaTag('i');
+					$buffer .= $this->html->fechaTag('a');  
 
-                                                if (is_array($valor4)) {
+					// configuracoes
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Config', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
+						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-cog')) . $this->html->fechaTag('i');
+					$buffer .= $this->html->fechaTag('a');  
 
-                                                    foreach ($valor4 as $indice5 => $valor5) {
-                                                        
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+					// sair
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Logout', 'class' => 'btn btn-xs btn-danger btn-outline dark'));
+						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-power-off')) . $this->html->fechaTag('i');
+					$buffer .= $this->html->fechaTag('a');                                                                                                  
 
-                            $buffer .= $this->fechaConjuntoSubMenu();
-                        }
-                    }
+				$buffer .= $this->html->fechaTag('div');    
 
-                    $buffer .= $this->fechaGrupoMenu();
-                }
-            }
-        } else {
+			$buffer .= $this->html->fechaTag('div');    
+		
+		// end: menu-content-demo
+		$buffer .= $this->html->fechaTag('div');
 
-            $buffer = '';
-        }
+		return $buffer;
 
-        return $buffer;
-    }
+	}
 
-    private function abreGrupoMenu()
-    {
+	private function getMenu()
+	{
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
-        return $buffer;
-    }
+		$_SESSION['UsuarioCod'] = 1;
+		$menu = new \Zion\Menu\Menu();
+		$menu = $menu->geraMenu();
 
-    private function fechaGrupoMenu()
-    {
+		$obj = json_decode($menu, true);
 
-        $buffer = '';
-        $buffer .= $this->html->fechaTag('li');
-        return $buffer;
-    }
+		if($obj['sucesso'] == true) {
 
-    private function populaGrupoMenu($valor)
-    {
+			foreach($obj['retorno'] as $indice => $valor){
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('a', array('href' => '#'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $valor['grupoClass'] . '')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['grupo'] . $this->html->fechaTag('span');
-        $buffer .= $this->html->fechaTag('a');
-        return $buffer;
-    }
+				if(is_array($valor)) {
 
-    private function abreConjuntoSubMenu()
-    {
+					foreach($valor as $indice1 => $valor1) {
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('ul', array('class' => ''));
-        return $buffer;
-    }
+						if($indice1 == 'Grupo') {
 
-    private function fechaConjuntoSubMenu()
-    {
+							$buffer .= $this->abreGrupoMenu();
+							$buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['GrupoModuloClass'], 'grupo' => $valor1));
 
-        $buffer = '';
-        $buffer .= $this->html->fechaTag('ul');
-        return $buffer;
-    }
+						}
 
-    private function populaSubMenu($valor)
-    {
+						if(is_array($valor1)) {
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('li', array('class' => ' '));
-        $buffer .= $this->html->abreTagAberta('a', array('href' => $valor['MenuUrl'], 'tabindex' => '-1'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $valor['ModuloClass'] . '')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['Menu'] . $this->html->fechaTag('span');
-        $buffer .= $this->html->fechaTag('a');
-        $buffer .= $this->html->fechaTag('li');
-        return $buffer;
-    }
+							$buffer .= $this->abreConjuntoSubMenu();
 
-    private function getMenuLateral()
-    {
+							foreach($valor1 as $indice2 => $valor2) {
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('ul', array('class' => 'navigation'));
+								if(!empty($valor2['Modulo'])) {
 
-        $buffer .= $this->html->abreTagAberta('li', array('class' => 'active'));
+									$buffer .= $this->populaSubMenu($valor2);
 
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard/'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-dashboard')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Dashboard' . $this->html->fechaTag('span');
-        $buffer .= $this->html->fechaTag('a');
+								}	
 
-        $buffer .= $this->html->fechaTag('li');
+								if(is_array($valor2)) {
 
-        $buffer .= $this->getMenu();
+									foreach($valor2 as $indice3 => $valor3) {
 
-        // end: ul inicial
-        $buffer .= $this->html->fechaTag('ul');
+										if(is_array($valor3)) {
 
-        return $buffer;
-    }
+											foreach($valor3 as $indice4 => $valor4) {
 
-    private function getMain()
-    {
+												if(is_array($valor4)) {
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
+													foreach($valor4 as $indice5 => $valor5) {
 
-        // carrega o breadcrumb
-        $buffer .= $this->getBreadCrumb();
+													}
 
-        // carrega o page header
-        $buffer .= $this->getPageHeader();
 
-        $buffer .= $this->conteudoMain;
+												}
 
-        // end: content-wrapper
-        $buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-menu-bg')) . $this->html->fechaTag('div');
-        // end: main-navbar
-        $buffer .= $this->html->fechaTag('div');
+											}											
 
-        return $buffer;
-    }
 
-    private function getContainerLogin()
-    {
+										}
 
-        $buffer = '';
-        $buffer .= $this->conteudoContainerLogin;
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'page-signin-bg'));
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'overlay')) . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . 'assets/demo/signin-bg-1.jpg'));
-        $buffer .= $this->html->fechaTag('div');
+									}
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-container'));
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-info'));
-        $buffer .= $this->html->abreTagAberta('a', array('href' => urlStatic . 'assets/demo/logo-big.png', 'style' => 'margin-top: -5px;')) . '&nbsp;' . SIS_ID_NAMESPACE_PROJETO . $this->html->fechaTag('a');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'slogan')) . SIS_SLOGAN . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('ul');
-        $buffer .= $this->html->abreTagAberta('li');
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-sitemap signin-icon')) . $this->html->fechaTag('i') . 'Estrutura modular flexível' . $this->html->fechaTag('li');
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-file-text-o signin-icon')) . $this->html->fechaTag('i') . 'HTML5, Ajax, CSS3 e SCSS' . $this->html->fechaTag('li');
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-outdent signin-icon')) . $this->html->fechaTag('i') . 'Suporte técnico integrado' . $this->html->fechaTag('li');
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-heart signin-icon')) . $this->html->fechaTag('i') . 'Desenvolvido com amor' . $this->html->fechaTag('li');
-        $buffer .= $this->html->fechaTag('ul');
-        // end: signin-info
-        $buffer .= $this->html->fechaTag('div');
-        // end: signin-container
-        $buffer .= $this->html->fechaTag('div');
+								}
 
-        return $buffer;
-    }
+							}		
 
-    private function getBreadCrumb()
-    {
+							$buffer .= $this->fechaConjuntoSubMenu();		
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('ul', array('class' => 'breadcrumb breadcrumb-page'));
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'breadcrumb-label text-light-gray')) . 'Você, supostamente, está aqui: ' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('li');
-        $buffer .= $this->html->abreTagAberta('a', array('href' => '#')) . 'Início' . $this->html->fechaTag('a');
-        $buffer .= $this->html->fechaTag('li');
+						}
 
-        if (defined('DEFAULT_GRUPO_NOME')) {
+					}
 
-            $buffer .= $this->html->abreTagAberta('li');
-            $buffer .= $this->html->abreTagAberta('a', array('href' => '#')) . DEFAULT_GRUPO_NOME . $this->html->fechaTag('a');
-            $buffer .= $this->html->fechaTag('li');
-        }
+					$buffer .= $this->fechaGrupoMenu();
 
-        $buffer .= $this->html->abreTagAberta('li', array('class' => 'active'));
-        $buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=' . DEFAULT_MODULO_NOME)) . DEFAULT_MODULO_NOME . $this->html->fechaTag('a');
-        $buffer .= $this->html->fechaTag('li');
-        $buffer .= $this->html->fechaTag('ul');
+				}
 
-        return $buffer;
-    }
+			}	
 
-    private function getPageHeader()
-    {
+		} else {
 
-        $buffer = '';
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'page-header'));
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'row'));
+			$buffer = '';
 
-        $buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-dashboard page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . DEFAULT_MODULO_NOME;
-        $buffer .= $this->html->fechaTag('h1');
+		}
 
-        $buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->html->fechaTag('div');
+		return $buffer;
 
-        return $buffer;
-    }
+	}
 
-    private function getFimCorpo()
-    {
+	private function abreGrupoMenu()
+	{
 
-        $buffer = '';
-        // end: main-wrapper
-        $buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending body app' . $this->html->fechaComentario();
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
+		return $buffer;
 
-        return $buffer;
-    }
+	}
 
-    private function getScripts()
-    {
+	private function fechaGrupoMenu()
+	{
 
-        $formModulo = new \Sappiens\Grupo\Modulo\ModuloForm();
-        $form = $formModulo->getFormModulo();
+		$buffer  = '';
+		$buffer .= $this->html->fechaTag('li');
+		return $buffer;
 
-        $buffer = '';
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting runtime dynamic form scripts block' . $this->html->fechaComentario();
-        $buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript'));
-        $buffer .= $form->javascript()->getLoad();
-        $buffer .= $this->html->fechaTag('script');
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending runtime dynamic form scripts block' . $this->html->fechaComentario();
-        $buffer .= $this->conteudoScripts;
+	}	
 
-        return $buffer;
-    }
+	private function populaGrupoMenu($valor)
+	{
 
-    public function setTooltipForm($Form = '')
-    {
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('a', array('href' => '#'));
+			$buffer .= $this->html->abreTagAberta('i', array('class' => ''.$valor['grupoClass'].'')) . $this->html->fechaTag('i');
+			$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['grupo'] . $this->html->fechaTag('span');
+		$buffer .= $this->html->fechaTag('a');
+		return $buffer;
 
-        $this->tooltipForm = '';
-        $this->tooltipForm .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
-        $this->tooltipForm .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#' . $Form . '\').tooltip()}};init.push(initTooltipsDemo);');
-    }
+	}
 
-    private function getRodape()
-    {
+	private function abreConjuntoSubMenu()
+	{
 
-        $buffer = '';
-        $buffer .= $this->conteudoFooter;
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting scripts block' . $this->html->fechaComentario();
-        //$buffer .= $this->html->abreTagAberta('script', array('src' => '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/bootstrap.min.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/jquery.validate.min.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/additional-methods.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-maskMoney/3.0.2/jquery.maskMoney.min.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/pixel-admin.min.js')) . $this->html->fechaTag('script');
-        $buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript')) . 'window.PixelAdmin.start(init);' . $this->html->fechaTag('script');
-        $buffer .= $this->tooltipForm;
-        $buffer .= $this->getScripts();
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending scripts block' . $this->html->fechaComentario();
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting generic footer' . $this->html->fechaComentario();
-        $buffer .= $this->rodape();
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending generic footer' . $this->html->fechaComentario();
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: good by!' . $this->html->fechaComentario();
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('ul', array('class' => ''));     
+		return $buffer;
 
-        return $buffer;
-    }
+	}
 
-    private function getEstatisticas($modo = '')
-    {
+	private function fechaConjuntoSubMenu()
+	{
 
-        $buffer = '';
+		$buffer  = '';
+		$buffer .= $this->html->fechaTag('ul');     
+		return $buffer;
 
-        switch ($modo) {
-            case 'starts':
+	}	
 
-                list($usec, $sec) = explode(' ', microtime());
-                $_SESSION['script_start'] = (float) $sec + (float) $usec;
+	private function populaSubMenu($valor)
+	{		
 
-                $buffer .= $this->html->abreComentario() . 'Zion Framework starting at [' . $_SESSION['script_start'] . '] miliseconds' . $this->html->fechaComentario();
-                $buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li', array('class' => ' '));
+			$buffer .= $this->html->abreTagAberta('a', array('href' => $valor['MenuUrl'], 'tabindex' => '-1'));
+				$buffer .= $this->html->abreTagAberta('i', array('class' => ''.$valor['ModuloClass'].'')) . $this->html->fechaTag('i');
+				$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['Menu'] . $this->html->fechaTag('span');
+			$buffer .= $this->html->fechaTag('a');  
+		$buffer .= $this->html->fechaTag('li'); 
+		return $buffer;
 
-                break;
+	}	
 
-            case 'ends':
+	private function getMenuLateral()
+	{
 
-                list($usec, $sec) = explode(' ', microtime());
-                $script_end = (float) $sec + (float) $usec;
-                $elapsed_time = round($script_end - $_SESSION['script_start'], 5);
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('ul', array('class' => 'navigation'));    
 
-                $buffer .= $this->html->abreComentario() . 'Zion Framework ending at [' . $elapsed_time . '] miliseconds' . $this->html->fechaComentario();
-                $buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
+			$buffer .= $this->html->abreTagAberta('li', array('class' => 'active'));
 
-                break;
-        }
+				$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard/'));
+					$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-dashboard')) . $this->html->fechaTag('i');
+					$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Dashboard' . $this->html->fechaTag('span');
+				$buffer .= $this->html->fechaTag('a');      
 
+			$buffer .= $this->html->fechaTag('li');     
 
-        return $buffer;
-    }
+			$buffer .= $this->getMenu();
+
+		// end: ul inicial
+		$buffer .= $this->html->fechaTag('ul');     
+
+		return $buffer;
+
+	}   
+
+	private function getMain()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
+
+		// carrega o breadcrumb
+		$buffer .= $this->getBreadCrumb();
+
+		// carrega o page header
+		$buffer .= $this->getPageHeader();
+
+		$buffer .= $this->conteudoMain;
+
+		// end: content-wrapper
+		$buffer .= $this->html->fechaTag('div');
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-menu-bg')) . $this->html->fechaTag('div');
+		// end: main-navbar
+		$buffer .= $this->html->fechaTag('div');
+
+		return $buffer;
+
+	}   
+
+	private function getContainerLogin()
+	{	
+
+		$buffer  = '';
+		$buffer .= $this->conteudoContainerLogin;
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'page-signin-bg'));
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'overlay')) . $this->html->fechaTag('div');
+		$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . 'assets/demo/signin-bg-1.jpg'));
+		$buffer .= $this->html->fechaTag('div');
+
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-container'));
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-info'));
+		$buffer .= $this->html->abreTagAberta('a', array('href' => urlStatic . 'assets/demo/logo-big.png', 'style' => 'margin-top: -5px;')) . '&nbsp;' . SIS_ID_NAMESPACE_PROJETO . $this->html->fechaTag('a');
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'slogan')) . SIS_SLOGAN . $this->html->fechaTag('div');
+		$buffer .= $this->html->abreTagAberta('ul');
+		$buffer .= $this->html->abreTagAberta('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-sitemap signin-icon')) . $this->html->fechaTag('i') . 'Estrutura modular flexível' . $this->html->fechaTag('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-file-text-o signin-icon')) . $this->html->fechaTag('i') . 'HTML5, Ajax, CSS3 e SCSS' . $this->html->fechaTag('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-outdent signin-icon')) . $this->html->fechaTag('i') . 'Suporte técnico integrado' . $this->html->fechaTag('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-heart signin-icon')) . $this->html->fechaTag('i') . 'Desenvolvido com amor' . $this->html->fechaTag('li');
+		$buffer .= $this->html->fechaTag('ul');
+		// end: signin-info
+		$buffer .= $this->html->fechaTag('div');
+		// end: signin-container
+		$buffer .= $this->html->fechaTag('div');
+
+		return $buffer;
+
+	} 	
+
+	private function getBreadCrumb()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('ul', array('class' => 'breadcrumb breadcrumb-page'));
+			$buffer .= $this->html->abreTagAberta('div', array('class' => 'breadcrumb-label text-light-gray')) . 'Você, supostamente, está aqui: ' . $this->html->fechaTag('div');
+			$buffer .= $this->html->abreTagAberta('li');
+				$buffer .= $this->html->abreTagAberta('a', array('href' => '#')) . 'Início' . $this->html->fechaTag('a');
+			$buffer .= $this->html->fechaTag('li');
+
+			if(defined('DEFAULT_GRUPO_NOME')) {
+
+				$buffer .= $this->html->abreTagAberta('li');
+					$buffer .= $this->html->abreTagAberta('a', array('href' => '#')) . DEFAULT_GRUPO_NOME . $this->html->fechaTag('a');
+				$buffer .= $this->html->fechaTag('li');
+
+			}
+
+			$buffer .= $this->html->abreTagAberta('li', array('class' => 'active'));
+				$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref='. DEFAULT_MODULO_NOME)) . DEFAULT_MODULO_NOME . $this->html->fechaTag('a');
+			$buffer .= $this->html->fechaTag('li');             
+		$buffer .= $this->html->fechaTag('ul');
+
+		return $buffer;
+
+	}
+
+	private function getPageHeader()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'page-header'));
+			$buffer .= $this->html->abreTagAberta('div', array('class' => 'row'));
+
+				$buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
+					$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-dashboard page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . DEFAULT_MODULO_NOME;
+				$buffer .= $this->html->fechaTag('h1');
+
+			$buffer .= $this->html->fechaTag('div');                
+		$buffer .= $this->html->fechaTag('div');
+
+		return $buffer;
+
+	}
+
+	private function getFimCorpo()
+	{
+
+		$buffer  = '';
+		// end: main-wrapper
+		$buffer .= $this->html->fechaTag('div');
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending body app' . $this->html->fechaComentario();
+
+		return $buffer;
+
+	}   
+
+	private function getScripts()
+	{
+
+		$formModulo = new \Sappiens\Grupo\Modulo\ModuloForm();
+		$form = $formModulo->getFormModulo();
+
+		$buffer  = '';
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting runtime dynamic form scripts block' . $this->html->fechaComentario();  
+		$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript'));
+		$buffer .= $form->javascript()->getLoad();
+		$buffer .= $this->html->fechaTag('script');
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending runtime dynamic form scripts block' . $this->html->fechaComentario();  
+		$buffer .= $this->conteudoScripts;  
+
+		return $buffer;
+
+	}
+
+	public function setTooltipForm($Form = '')
+	{
+
+		$this->tooltipForm  = '';
+		$this->tooltipForm .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
+		$this->tooltipForm .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#'.$Form.'\').tooltip()}};init.push(initTooltipsDemo);');
+
+	}
+
+	private function getRodape()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->conteudoFooter;		
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting scripts block' . $this->html->fechaComentario();
+		//$buffer .= $this->html->abreTagAberta('script', array('src' => '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/bootstrap.min.js')) . $this->html->fechaTag('script');
+		//$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/jquery.validate.min.js')) . $this->html->fechaTag('script');
+		//$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/additional-methods.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-maskMoney/3.0.2/jquery.maskMoney.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/pixel-admin.js')) . $this->html->fechaTag('script');        
+		$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript')) . 'window.PixelAdmin.start(init);'. $this->html->fechaTag('script');
+		$buffer .= $this->tooltipForm;
+		$buffer .= $this->getScripts(); 
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending scripts block' . $this->html->fechaComentario(); 
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting generic footer' . $this->html->fechaComentario();      
+		$buffer .= $this->rodape();
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending generic footer' . $this->html->fechaComentario();
+		$buffer .= $this->html->abreComentario() . 'Zion Framework: good by!' . $this->html->fechaComentario();
+
+		return $buffer;
+
+	}
+
+	private function getEstatisticas($modo = '')
+	{
+
+		$buffer  = '';
+
+		switch ($modo) {
+			case 'starts':
+				
+				list($usec, $sec) = explode(' ', microtime());
+				$_SESSION['script_start'] = (float) $sec + (float) $usec;
+
+				$buffer .= $this->html->abreComentario() . 'Zion Framework starting at [' . $_SESSION['script_start'] . '] miliseconds' . $this->html->fechaComentario();
+				$buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
+
+			break;
+			
+			case 'ends':
+
+				list($usec, $sec) = explode(' ', microtime());
+				$script_end = (float) $sec + (float) $usec;
+				$elapsed_time = round($script_end - $_SESSION['script_start'], 5);
+
+				$buffer .= $this->html->abreComentario() . 'Zion Framework ending at [' . $elapsed_time . '] miliseconds' . $this->html->fechaComentario();
+				$buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
+
+			break;
+		}
+
+
+		return $buffer;
+
+	}   
 
 }
+
