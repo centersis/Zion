@@ -4,6 +4,7 @@ namespace Pixel\Form;
 
 class FormInputTexto extends \Zion\Form\FormInputTexto
 {
+    private $prefixo;
     private $mascara;
     private $iconFA;
     private $toolTipMsg;
@@ -54,6 +55,17 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         return $this;
     }
 
+    public function setPrefixo($prefixo)
+    {
+        $this->prefixo = $prefixo;
+        return $this;
+    }
+
+    public function getPrefixo()
+    {
+        return $this->prefixo;
+    }
+    
     public function setMascara($mascara)
     {
         $this->mascara = $this->formSetPixel->setMascara($mascara);

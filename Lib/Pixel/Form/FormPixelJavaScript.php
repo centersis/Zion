@@ -59,13 +59,12 @@ class FormPixelJavaScript
         }
 
         if ($config->getAcao() == 'float') {
-            $this->regras[$config->getNome()][] = 'number : true';
-            $this->mensagens[$config->getNome()][] = "number : '{$config->getIdentifica()} deve conter um valor válido!'";
+            $this->extra.= '$("#' . $config->getId() . '").maskMoney({prefix:"'.$config->getPrefixo().'", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
         }
 
         if ($config->getAcao() == 'date') {
-            $this->regras[$config->getNome()][] = 'date : true';
-            $this->mensagens[$config->getNome()][] = " date : '{$config->getIdentifica()} deve conter uma data válida!'";
+            $this->regras[$config->getNome()][] = 'dateBR : true';
+            $this->mensagens[$config->getNome()][] = " dateBR : '{$config->getIdentifica()} deve conter uma data válida!'";
             $this->extra.= ' $("#' . $config->getId() . '").mask("99/99/9999").datepicker(); ';
         }
 
@@ -99,15 +98,22 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'cnpj') {
             
             $this->regras[$config->getNome()][] = 'cpf : true';
-            $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
+            $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CNPJ válido!'";
             $this->extra.= '$("#' . $config->getId() . '").mask("99.999.999/9999-99");';
         }
         
         if ($config->getAcao() == 'cep') {
             
             $this->regras[$config->getNome()][] = 'cep : true';
-            $this->mensagens[$config->getNome()][] = " cep : '{$config->getIdentifica()} deve conter um CPF válido!'";
+            $this->mensagens[$config->getNome()][] = " cep : '{$config->getIdentifica()} deve conter um CEP válido!'";
             $this->extra.= '$("#' . $config->getId() . '").mask("99.999-99");';
+        }
+        
+        if ($config->getAcao() == 'telefone') {
+            
+            $this->regras[$config->getNome()][] = 'celular : true';
+            $this->mensagens[$config->getNome()][] = " celular : '{$config->getIdentifica()} deve conter um número de telefone válido!'";
+            $this->extra.= '$("#' . $config->getId() . '").mask("(99) 9999-9999?9");';
         }
         
         if ($config->getAcao() == 'suggest') {
