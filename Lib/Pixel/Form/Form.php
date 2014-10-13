@@ -48,7 +48,7 @@ class Form extends \Zion\Form\Form
 
     public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('moeda', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('float', $nome, $identifica, $obrigatorio);
     }
 
     public function cpf($nome, $identifica, $obrigatorio = false)
@@ -68,7 +68,7 @@ class Form extends \Zion\Form\Form
 
     public function telefone($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('telefone', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('telefone', $nome, $identifica, $obrigatorio);
     }
 
     public function email($nome, $identifica, $obrigatorio = false)

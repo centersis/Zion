@@ -56,7 +56,7 @@ class Form
 
     public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('moeda', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputTexto('float', $nome, $identifica, $obrigatorio);
     }
 
     public function cpf($nome, $identifica, $obrigatorio = false)
