@@ -9,7 +9,9 @@ class Template extends \Zion\Layout\Padrao
 
 	private $conteudo;
 	private $conteudoHeader;
+	private $conteudoBody;
 	private $conteudoMain;
+	private $conteudoContainerLogin;
 	private $conteudoScripts;
 	private $conteudoFooter;
 	private $tooltipForm;
@@ -21,12 +23,26 @@ class Template extends \Zion\Layout\Padrao
 
 	}
 
+	public function setConteudoBody($conteudo = '')
+	{
+
+		$this->conteudoBody .= $conteudo;
+
+	}	
+
 	public function setConteudoMain($conteudo = '')
 	{
 
 		$this->conteudoMain .= $conteudo;
 
 	}
+
+	public function setConteudoContainerLogin($conteudo = '')
+	{
+
+		$this->conteudoContainerLogin .= $conteudo;
+
+	}	
 
 	public function setConteudoScripts($conteudo = '')
 	{
@@ -88,6 +104,12 @@ class Template extends \Zion\Layout\Padrao
 				return $this->getRodape();
 
 			break;
+
+			case 'containerLogin':
+
+				return $this->getContainerLogin();
+
+			break;			
 			
 			default:
 				
@@ -119,6 +141,7 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending generic header' . $this->html->fechaComentario();
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting template header' . $this->html->fechaComentario();
 		$buffer .= $this->html->abreTagAberta('link', array('href' => '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));				
 		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/bootstrap.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pixel-admin.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/widgets.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
@@ -136,13 +159,13 @@ class Template extends \Zion\Layout\Padrao
 	private function getInicioCorpo()
 	{
 
+		$classCss = (!empty($this->conteudoBody)) ? $this->conteudoBody : 'theme-default main-menu-animated';
+
 		$buffer  = '';
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting body app' . $this->html->fechaComentario();
-		$buffer .= $this->html->abreTagAberta('body', array('class' => 'theme-clean main-menu-animated'));
+		$buffer .= $this->html->abreTagAberta('body', array('class' => $classCss));
 		$buffer .= $this->html->entreTags('script', 'var init = [];');
-		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/demo/demo.js')) . $this->html->fechaTag('script');		
-		//$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
-		//$buffer .= $this->html->entreTags('script', 'var initTooltipsDemo = function () {if (window.JQUERY_UI_EXTRAS_LOADED) {$("#Form1").tooltip();}}init.push(initTooltipsDemo);');		
+		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/demo/demo.js')) . $this->html->fechaTag('script');			
 		$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-wrapper'));        
 
 		return $buffer;
@@ -220,7 +243,7 @@ class Template extends \Zion\Layout\Padrao
 	{
 
 		$buffer  = '';
-		$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './?ref=navbar-brand', 'class' => 'navbar-brand'));
+		$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard', 'class' => 'navbar-brand'));
 
 			$buffer .= $this->html->abreTagAberta('div');
 				$buffer .= $this->html->abreTagAberta('img', array('alt' => 'Início', 'src' => urlStatic . '/assets/images/pixel-admin/main-navbar-logo.png'));
@@ -240,136 +263,26 @@ class Template extends \Zion\Layout\Padrao
 		$buffer  = '';
 		$buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav'));
 			$buffer .= $this->html->abreTagAberta('li');
-				$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './?ref=navbar-nav'));
+				$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard'));
 					$buffer .= "Início";
 				$buffer .= $this->html->fechaTag('a');  
 			$buffer .= $this->html->fechaTag('li'); 
-
+/*
 			// inicio menu Administrativo
 			$buffer .= $this->html->abreTagAberta('li', array('class' => 'dropdown'));
-
 				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
 					$buffer .= "Gestão Administrativa";
 				$buffer .= $this->html->fechaTag('a');  
-
 				$buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
-
-
 					$buffer .= $this->html->abreTagAberta('li');
 						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
 							$buffer .= "Cadastros";
 						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li'); 
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-							$buffer .= "Protocolo";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li');     
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-							$buffer .= "Recursos Humanos";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li');     
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-							$buffer .= "Folha de Pagamento";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li');                                                                                         
-
+					$buffer .= $this->html->fechaTag('li');                                                                                     
 				$buffer .= $this->html->fechaTag('ul'); 
-
 			$buffer .= $this->html->fechaTag('li'); 
-			// fim menu Administrativo
-
-			// inicio menu Gestao Estrategica
-			$buffer .= $this->html->abreTagAberta('li', array('class' => 'dropdown'));
-			
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
-					$buffer .= "Gestão Estratégica";
-				$buffer .= $this->html->fechaTag('a');  
-
-				$buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-							$buffer .= "Compras e Licitações";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li'); 
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-							$buffer .= "Patrimônio e Almoxarifado";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li');                                 
-
-				$buffer .= $this->html->fechaTag('ul'); 
-
-			$buffer .= $this->html->fechaTag('li');     
-			// fim menu Gestao Estrategica  
-
-			// inicio menu Inteligencia Corporativa
-			$buffer .= $this->html->abreTagAberta('li', array('class' => 'dropdown'));
-			
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
-					$buffer .= "Gestão da Inteligência Corporativa";
-				$buffer .= $this->html->fechaTag('a');  
-
-				$buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-							$buffer .= "Opção 1";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li'); 
-
-				$buffer .= $this->html->fechaTag('ul'); 
-
-			$buffer .= $this->html->fechaTag('li');     
-			// fim menu Inteligencia Corporativa    
-
-			// inicio menu Gestão Social
-			$buffer .= $this->html->abreTagAberta('li', array('class' => 'dropdown'));
-			
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
-					$buffer .= "Gestão Social";
-				$buffer .= $this->html->fechaTag('a');  
-
-				$buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref=navbar-nav-option-1'));
-							$buffer .= "Opção 1";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li'); 
-
-				$buffer .= $this->html->fechaTag('ul'); 
-
-			$buffer .= $this->html->fechaTag('li');     
-			// fim menu Gestão Social   
-
-			// inicio menu Grupo
-			$buffer .= $this->html->abreTagAberta('li', array('class' => 'dropdown'));
-			
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
-					$buffer .= "Grupo";
-				$buffer .= $this->html->fechaTag('a');  
-
-				$buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
-
-					$buffer .= $this->html->abreTagAberta('li');
-						$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Grupo/Modulo?ref=navbar-nav-Modulo'));
-							$buffer .= "Módulo";
-						$buffer .= $this->html->fechaTag('a');
-					$buffer .= $this->html->fechaTag('li'); 
-
-				$buffer .= $this->html->fechaTag('ul'); 
-
-			$buffer .= $this->html->fechaTag('li');     
-			// fim menu Grupo                                                                   
-
+			// fim menu Administrativo                                                                
+*/
 		// end: nav navbar-nav
 		$buffer .= $this->html->fechaTag('ul'); 
 
@@ -537,22 +450,22 @@ class Template extends \Zion\Layout\Padrao
 				$buffer .= $this->html->abreTagAberta('div', array('class' => 'btn-group'));
 
 					// envelope
-					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './messages?ref=fa-envelope', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Message', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
 						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-envelope')) . $this->html->fechaTag('i');
 					$buffer .= $this->html->fechaTag('a');  
 
 					// perfil
-					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './user?ref=fa-user', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/User', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
 						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-user')) . $this->html->fechaTag('i');
 					$buffer .= $this->html->fechaTag('a');  
 
 					// configuracoes
-					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './config?ref=fa-cog', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Config', 'class' => 'btn btn-xs btn-primary btn-outline dark'));
 						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-cog')) . $this->html->fechaTag('i');
 					$buffer .= $this->html->fechaTag('a');  
 
 					// sair
-					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './logout?ref=fa-power-off', 'class' => 'btn btn-xs btn-danger btn-outline dark'));
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Logout', 'class' => 'btn btn-xs btn-danger btn-outline dark'));
 						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-power-off')) . $this->html->fechaTag('i');
 					$buffer .= $this->html->fechaTag('a');                                                                                                  
 
@@ -567,93 +480,170 @@ class Template extends \Zion\Layout\Padrao
 
 	}
 
-	private function getMenuLateral()
+	private function getMenu()
 	{
 
 		$_SESSION['UsuarioCod'] = 1;
 		$menu = new \Zion\Menu\Menu();
 		$menu = $menu->geraMenu();
 
-		//$objeto = json_decode($menu);
+		$obj = json_decode($menu, true);
 
-		//foreach()
+		if($obj['sucesso'] == true) {
 
-		//var_dump($objeto);
-		//exit();
+			foreach($obj['retorno'] as $indice => $valor){
+
+				if(is_array($valor)) {
+
+					foreach($valor as $indice1 => $valor1) {
+
+						if($indice1 == 'Grupo') {
+
+							$buffer .= $this->abreGrupoMenu();
+							$buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['GrupoModuloClass'], 'grupo' => $valor1));
+
+						}
+
+						if(is_array($valor1)) {
+
+							$buffer .= $this->abreConjuntoSubMenu();
+
+							foreach($valor1 as $indice2 => $valor2) {
+
+								if(!empty($valor2['Modulo'])) {
+
+									$buffer .= $this->populaSubMenu($valor2);
+
+								}	
+
+								if(is_array($valor2)) {
+
+									foreach($valor2 as $indice3 => $valor3) {
+
+										if(is_array($valor3)) {
+
+											foreach($valor3 as $indice4 => $valor4) {
+
+												if(is_array($valor4)) {
+
+													foreach($valor4 as $indice5 => $valor5) {
+
+													}
+
+
+												}
+
+											}											
+
+
+										}
+
+									}
+
+								}
+
+							}		
+
+							$buffer .= $this->fechaConjuntoSubMenu();		
+
+						}
+
+					}
+
+					$buffer .= $this->fechaGrupoMenu();
+
+				}
+
+			}	
+
+		} else {
+
+			$buffer = '';
+
+		}
+
+		return $buffer;
+
+	}
+
+	private function abreGrupoMenu()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
+		return $buffer;
+
+	}
+
+	private function fechaGrupoMenu()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->fechaTag('li');
+		return $buffer;
+
+	}	
+
+	private function populaGrupoMenu($valor)
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('a', array('href' => '#'));
+			$buffer .= $this->html->abreTagAberta('i', array('class' => ''.$valor['grupoClass'].'')) . $this->html->fechaTag('i');
+			$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['grupo'] . $this->html->fechaTag('span');
+		$buffer .= $this->html->fechaTag('a');
+		return $buffer;
+
+	}
+
+	private function abreConjuntoSubMenu()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('ul', array('class' => ''));     
+		return $buffer;
+
+	}
+
+	private function fechaConjuntoSubMenu()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->fechaTag('ul');     
+		return $buffer;
+
+	}	
+
+	private function populaSubMenu($valor)
+	{		
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li', array('class' => ' '));
+			$buffer .= $this->html->abreTagAberta('a', array('href' => $valor['MenuUrl'], 'tabindex' => '-1'));
+				$buffer .= $this->html->abreTagAberta('i', array('class' => ''.$valor['ModuloClass'].'')) . $this->html->fechaTag('i');
+				$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['Menu'] . $this->html->fechaTag('span');
+			$buffer .= $this->html->fechaTag('a');  
+		$buffer .= $this->html->fechaTag('li'); 
+		return $buffer;
+
+	}	
+
+	private function getMenuLateral()
+	{
 
 		$buffer  = '';
 		$buffer .= $this->html->abreTagAberta('ul', array('class' => 'navigation'));    
 
 			$buffer .= $this->html->abreTagAberta('li', array('class' => 'active'));
 
-				$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Dashboard/'));
+				$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard/'));
 					$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-dashboard')) . $this->html->fechaTag('i');
 					$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Dashboard' . $this->html->fechaTag('span');
 				$buffer .= $this->html->fechaTag('a');      
 
 			$buffer .= $this->html->fechaTag('li');     
 
-			// inicio cadastros
-			$buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
-
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#'));
-					$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-file')) . $this->html->fechaTag('i');
-					$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Cadastros' . $this->html->fechaTag('span');
-				$buffer .= $this->html->fechaTag('a');  
-
-				$buffer .= $this->html->abreTagAberta('ul', array('class' => ''));     
-
-					$buffer .= $this->html->abreTagAberta('li', array('class' => ' '));
-
-						$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Grupo/Modulo/', 'tabindex' => '-1'));
-							$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-user')) . $this->html->fechaTag('i');
-							$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Pessoa física' . $this->html->fechaTag('span');
-						$buffer .= $this->html->fechaTag('a');  
-
-					$buffer .= $this->html->fechaTag('li'); 
-					$buffer .= $this->html->abreTagAberta('li');
-
-						$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . '#', 'tabindex' => '-1'));
-							$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-briefcase')) . $this->html->fechaTag('i');
-							$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Pessoa jurídica' . $this->html->fechaTag('span');
-						$buffer .= $this->html->fechaTag('a');                                          
-
-					$buffer .= $this->html->fechaTag('li');     
-
-				$buffer .= $this->html->fechaTag('ul');     
-
-			$buffer .= $this->html->fechaTag('li');     
-			// fim cadastros
-
-			// inicio protocolo
-			$buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
-
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#'));
-					$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-book')) . $this->html->fechaTag('i');
-					$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Protocolo' . $this->html->fechaTag('span');
-				$buffer .= $this->html->fechaTag('a');  
-
-				$buffer .= $this->html->abreTagAberta('ul');        
-					$buffer .= $this->html->abreTagAberta('li');
-
-						$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Grupo/Modulo/', 'tabindex' => '-1'));
-							$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-search')) . $this->html->fechaTag('i');
-							$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Pesquisar' . $this->html->fechaTag('span');
-						$buffer .= $this->html->fechaTag('a');  
-
-					$buffer .= $this->html->fechaTag('li'); 
-					$buffer .= $this->html->abreTagAberta('li');
-
-						$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'tabindex' => '-1'));
-							$buffer .= $this->html->abreTagAberta('i', array('class' => 'menu-icon fa fa-print')) . $this->html->fechaTag('i');
-							$buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . 'Remessas em lotes' . $this->html->fechaTag('span');
-						$buffer .= $this->html->fechaTag('a');                                          
-
-					$buffer .= $this->html->fechaTag('li');     
-				$buffer .= $this->html->fechaTag('ul');     
-
-			$buffer .= $this->html->fechaTag('li');     
-			// fim protocolo            
+			$buffer .= $this->getMenu();
 
 		// end: ul inicial
 		$buffer .= $this->html->fechaTag('ul');     
@@ -685,6 +675,36 @@ class Template extends \Zion\Layout\Padrao
 		return $buffer;
 
 	}   
+
+	private function getContainerLogin()
+	{	
+
+		$buffer  = '';
+		$buffer .= $this->conteudoContainerLogin;
+		$buffer .= $this->html->abreTagAberta('div', array('id' => 'page-signin-bg'));
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'overlay')) . $this->html->fechaTag('div');
+		$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . 'assets/demo/signin-bg-1.jpg'));
+		$buffer .= $this->html->fechaTag('div');
+
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-container'));
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-info'));
+		$buffer .= $this->html->abreTagAberta('a', array('href' => urlStatic . 'assets/demo/logo-big.png', 'style' => 'margin-top: -5px;')) . '&nbsp;' . SIS_ID_NAMESPACE_PROJETO . $this->html->fechaTag('a');
+		$buffer .= $this->html->abreTagAberta('div', array('class' => 'slogan')) . SIS_SLOGAN . $this->html->fechaTag('div');
+		$buffer .= $this->html->abreTagAberta('ul');
+		$buffer .= $this->html->abreTagAberta('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-sitemap signin-icon')) . $this->html->fechaTag('i') . 'Estrutura modular flexível' . $this->html->fechaTag('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-file-text-o signin-icon')) . $this->html->fechaTag('i') . 'HTML5, Ajax, CSS3 e SCSS' . $this->html->fechaTag('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-outdent signin-icon')) . $this->html->fechaTag('i') . 'Suporte técnico integrado' . $this->html->fechaTag('li');
+		$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-heart signin-icon')) . $this->html->fechaTag('i') . 'Desenvolvido com amor' . $this->html->fechaTag('li');
+		$buffer .= $this->html->fechaTag('ul');
+		// end: signin-info
+		$buffer .= $this->html->fechaTag('div');
+		// end: signin-container
+		$buffer .= $this->html->fechaTag('div');
+
+		return $buffer;
+
+	} 	
 
 	private function getBreadCrumb()
 	{
@@ -752,10 +772,8 @@ class Template extends \Zion\Layout\Padrao
 		$buffer  = '';
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting runtime dynamic form scripts block' . $this->html->fechaComentario();  
 		$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript'));
-		$buffer .= $form->javascript()->getLoad();
+		//$buffer .= $form->javascript->getLoad();
 		$buffer .= $this->html->fechaTag('script');
-		//$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
-		//$buffer .= $this->html->entreTags('script', 'var initTooltipsDemo = function () {if (window.JQUERY_UI_EXTRAS_LOADED) {$("#Form1").tooltip();}}init.push(initTooltipsDemo);');
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending runtime dynamic form scripts block' . $this->html->fechaComentario();  
 		$buffer .= $this->conteudoScripts;  
 
@@ -778,8 +796,12 @@ class Template extends \Zion\Layout\Padrao
 		$buffer  = '';
 		$buffer .= $this->conteudoFooter;		
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting scripts block' . $this->html->fechaComentario();
-		$buffer .= $this->html->abreTagAberta('script', array('src' => '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
+		//$buffer .= $this->html->abreTagAberta('script', array('src' => '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/bootstrap.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/jquery.validate.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/additional-methods.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-maskMoney/3.0.2/jquery.maskMoney.min.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/pixel-admin.min.js')) . $this->html->fechaTag('script');        
 		$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript')) . 'window.PixelAdmin.start(init);'. $this->html->fechaTag('script');
 		$buffer .= $this->tooltipForm;
