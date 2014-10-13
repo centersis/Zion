@@ -4,15 +4,15 @@ use \Zion\Form\Exception\FormException as FormException;
 
 abstract class FormBasico
 {
-    protected $id;
-    protected $nome;
-    protected $identifica;
-    protected $valor;
-    protected $valorPadrao;
-    protected $disabled;
-    protected $complemento;
-    protected $atributos;
-    protected $classCss;    
+    private $id;
+    private $nome;
+    private $identifica;
+    private $valor;
+    private $valorPadrao;
+    private $disabled;
+    private $complemento;
+    private $atributos;
+    private $classCss;    
 
     public function setId($id)
     {

@@ -88,19 +88,9 @@ class FormHtml extends \Zion\Form\FormHtml
         return (new \Zion\Form\EscolhaHtml())->montaEscolha($config);
     }
 
-    public function montaButton(FormInputButton $config)
-    {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('name', $config->getNome()),
-            $this->attr('id', $config->getId()),
-            $this->attr('type', $config->getAcao()),
-            $this->attr('formmethod', $config->getMetodo()),
-            $this->attr('formaction', $config->getAction()),
-            $this->attr('formtarget', $config->getTarget())));
-
-        $attr[] = $this->attr('valueButton', $config->getValor());
-
-        return vsprintf($this->prepareButton(count($attr), $config), $attr);
+    public function montaButton($config)
+    {                                                     
+        return parent::montaButton($config);
     }
 
     public function montaLayout(FormLayout $config)
@@ -136,22 +126,22 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $buffer = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
 
-        $buffer.= $html->abreTagAberta('div', array('class' => 'form-group no-margin-hr'));
+        $buffer.= $html->abreTagAberta('div', array('class' => 'form-group'));
 
-        $buffer.= $html->abreTagAberta('label', array('class' => 'control-label'));
+        $buffer.= $html->abreTagAberta('label', array('for' => $config->getId(),'class'=>'col-sm-3 control-label'));
         $buffer.= $config->getIdentifica();
         $buffer .= $html->fechaTag('label');
+        
+        $buffer.= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
 
         $buffer .= $campo;
 
         if ($config->getIconFA()) {
-            $buffer.= $html->abreTagAberta('span', array('class' => 'input-group-addon'));
-            $buffer.= $html->abreTagAberta('i', array('class' => 'fa ' . $config->getIconFA()));
-            $buffer .= $html->fechaTag('i');
+            $buffer.= $html->abreTagAberta('span', array('class' => 'fa ' . $config->getIconFA().' form-control-feedback'));            
             $buffer .= $html->fechaTag('span');
         }
 
-
+        $buffer .= $html->fechaTag('div');
         $buffer .= $html->fechaTag('div');
         $buffer .= $html->fechaTag('div');
 

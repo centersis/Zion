@@ -126,8 +126,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setTabela($tabela)
     {
-        $this->tabela = $tabela;
-        return $this;
+        if (!empty($tabela)) {
+            $this->tabela = $tabela;
+            return $this;
+        } else {
+            throw new FormException("tabela: Nenhum valor informado.");
+        }
     }
 
     public function getCampoCod()
@@ -137,8 +141,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setCampoCod($campoCod)
     {
-        $this->campoCod = $campoCod;
-        return $this;
+        if(!empty($campoCod) and is_numeric($campoCod)) {
+            $this->campoCod = $campoCod;
+            return $this;
+        } else {
+            throw new FormException("campoCod: O valor informado nao e um numero valido.");
+        }
     }
 
     public function getCampoDesc()
@@ -148,8 +156,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setCampoDesc($campoDesc)
     {
-        $this->campoDesc = $campoDesc;
-        return $this;
+        if (!empty($campoDesc)) {
+            $this->campoDesc = $campoDesc;
+            return $this;
+        } else {
+            throw new FormException("campoDesc: Nenhum valor informado.");
+        }
     }
 
     public function getCampoBusca()
@@ -159,8 +171,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setCampoBusca($campoBusca)
     {
-        $this->campoBusca = $campoBusca;
-        return $this;
+        if (!empty($campoBusca)) {
+            $this->campoBusca = $campoBusca;
+            return $this;
+        } else {
+            throw new FormException("campoBusca: Nenhum valor informado.");
+        }
     }
 
     public function getCondicao()
@@ -170,8 +186,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setCondicao($condicao)
     {
-        $this->condicao = $condicao;
-        return $this;
+        if (!empty($condicao)) {
+            $this->condicao = $condicao;
+            return $this;
+        } else {
+            throw new FormException("condicao: Nenhum valor informado.");
+        }
     }
 
     public function getLimite()
@@ -181,8 +201,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setLimite($limite)
     {
-        $this->limite = $limite;
-        return $this;
+        if (!empty($limite) and is_numeric($campoCod)) {
+            $this->limite = $limite;
+            return $this;
+        } else {
+            throw new FormException("limite: O valor informado nao e um numero valido.");
+        }
     }
 
     public function getParametros()
@@ -192,8 +216,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setParametros($parametros)
     {
-        $this->parametros = $parametros;
-        return $this;
+        if (is_array($parametros)) {
+            $this->parametros = $parametros;
+            return $this;
+        } else {
+            throw new FormException("parametros: O valor informado e invalido.");
+        }
     }
 
     public function getUrl()
@@ -203,8 +231,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setUrl($url)
     {
-        $this->url = $url;
-        return $this;
+        if (!empty($url)) {
+            $this->url = $url;
+            return $this;
+        } else {
+            throw new FormException("url: Nenhum valor informado.");
+        }
     }
 
     public function getEspera()
@@ -214,8 +246,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setEspera($espera)
     {
-        $this->espera = $espera;
-        return $this;
+        if (!empty($espera)) {
+            $this->espera = $espera;
+            return $this;
+        } else {
+            throw new FormException("espera: Nenhum valor informado.");
+        }
     }
 
     public function getTamanhoMinimo()
@@ -225,8 +261,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setTamanhoMinimo($tamanhoMinimo)
     {
-        $this->tamanhoMinimo = $tamanhoMinimo;
-        return $this;
+        if (!empty($tamanhoMinimo)) {
+            $this->tamanhoMinimo = $tamanhoMinimo;
+            return $this;
+        } else {
+            throw new FormException("tamanhoMinimo: Nenhum valor informado.");
+        }
     }
 
     public function getHiddenValue()
@@ -236,8 +276,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setHiddenValue($hiddenValue)
     {
-        $this->hiddenValue = $hiddenValue;
-        return $this;
+        if (!empty($hiddenValue)) {
+            $this->hiddenValue = $hiddenValue;
+            return $this;
+        } else {
+            throw new FormException("hiddenValue: Nenhum valor informado.");
+        }
     }
 
     public function getOnSelect()
@@ -247,8 +291,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setOnSelect($onSelect)
     {
-        $this->onSelect = $onSelect;
-        return $this;
+        if (!empty($hiddenValue)) {
+            $this->onSelect = $onSelect;
+            return $this;
+        } else {
+            throw new FormException("onSelect: Nenhum valor informado.");
+        }
     }
 
     public function setConverterHtml($converterHtml)
