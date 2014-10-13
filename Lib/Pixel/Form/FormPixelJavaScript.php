@@ -89,6 +89,27 @@ class FormPixelJavaScript
             $this->mensagens[$config->getNome()][] = "email : '{$config->getIdentifica()} deve conter um e-mail válido!'";
         }
 
+        if ($config->getAcao() == 'cpf') {
+            
+            $this->regras[$config->getNome()][] = 'cpf : true';
+            $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
+            $this->extra.= '$("#' . $config->getId() . '").mask("999.999.999-99");';
+        }
+        
+        if ($config->getAcao() == 'cnpj') {
+            
+            $this->regras[$config->getNome()][] = 'cpf : true';
+            $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
+            $this->extra.= '$("#' . $config->getId() . '").mask("99.999.999/9999-99");';
+        }
+        
+        if ($config->getAcao() == 'cep') {
+            
+            $this->regras[$config->getNome()][] = 'cep : true';
+            $this->mensagens[$config->getNome()][] = " cep : '{$config->getIdentifica()} deve conter um CPF válido!'";
+            $this->extra.= '$("#' . $config->getId() . '").mask("99.999-99");';
+        }
+        
         if ($config->getAcao() == 'suggest') {
             $this->suggest($config);
         }

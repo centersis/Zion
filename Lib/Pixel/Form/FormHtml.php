@@ -48,6 +48,18 @@ class FormHtml extends \Zion\Form\FormHtml
             $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
             $config->setComplemento($complemento);
         }
+        
+        if($config->getAcao() == 'cpf'){
+            $config->setMascara('999.999.999-99');
+        }
+        
+        if($config->getAcao() == 'cnpj'){
+            $config->setMascara('99.999.999/9999-99');
+        }
+        
+        if($config->getAcao() == 'cep'){
+            $config->setMascara('99.999-99');
+        }
 
         return $this->prepareInputPixel($config, parent::montaTexto($config));
     }
@@ -67,20 +79,28 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaNumber(FormInputNumber $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'number'),
-            $this->attr('max', $config->getValorMaximo()),
-            $this->attr('min', $config->getValorMinimo())));
+        $classCss = $config->getClassCss() . ' form-control';
+        $config->setClassCss($classCss);
 
-        return vsprintf($this->prepareInput(count($attr), $config), $attr);
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaNumber($config));
     }
 
     public function montaFloat(FormInputFloat $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'text')));
+        $classCss = $config->getClassCss() . ' form-control';
+        $config->setClassCss($classCss);
 
-        return vsprintf($this->prepareInput(count($attr), $config), $attr);
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaFloat($config));
     }
 
     public function montaEscolha(FormEscolha $config)

@@ -7,8 +7,11 @@ class FormInputNumber extends \Zion\Form\FormBasico
 {
     private $tipoBase;
     private $acao;
+    private $largura;
     private $valorMaximo;
     private $valorMinimo;
+    private $obrigatorio;
+    private $placeHolder;
     
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -29,13 +32,27 @@ class FormInputNumber extends \Zion\Form\FormBasico
         return $this->acao;
     }
     
+    public function setLargura($largura)
+    {
+        if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
+            $this->largura = $largura;
+            return $this;
+        } else {
+            throw new FormException("largura: O valor nao esta nos formatos aceitos: 10%; 10px; ou 10");
+        }
+    }
+
+    public function getLargura()
+    {
+        return $this->largura;
+    }
+    
     public function setValorMinimo($valorMinimo)
     {
         if(is_numeric($valorMinimo)){
 
             if(isset($this->valorMaximo) and ($valorMinimo > $this->valorMaximo)) {
                 throw new FormException("valorMinimo nao pode ser maior que valorMaximo.");
-                return;
             }
 
             $this->valorMinimo = $valorMinimo;
@@ -56,7 +73,6 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
             if(isset($this->valorMinimo) and ($valorMaximo < $this->valorMinimo)) {
                 throw new FormException("valorMaximo nao pode ser menor que valorMinimo.");
-                return;
             }
 
             $this->valorMaximo = $valorMaximo;
@@ -69,6 +85,36 @@ class FormInputNumber extends \Zion\Form\FormBasico
     public function getValorMaximo()
     {
         return $this->valorMaximo;
+    }
+    
+    public function setObrigarorio($obrigatorio)
+    {
+        if (is_bool($obrigatorio)) {
+            $this->obrigatorio = $obrigatorio;
+            return $this;
+        } else {
+            throw new FormException("obrigatorio: Valor nao booleano");
+        }
+    }
+
+    public function getObrigatorio()
+    {
+        return $this->obrigatorio;
+    }
+    
+    public function setPlaceHolder($placeHolder)
+    {
+        if (!empty($placeHolder)) {
+            $this->placeHolder = $placeHolder;
+            return $this;
+        } else {
+            throw new FormException("placeHolder: Nenhum valor informado");
+        }
+    }
+
+    public function getPlaceHolder()
+    {
+        return $this->placeHolder;
     }
     
     /**

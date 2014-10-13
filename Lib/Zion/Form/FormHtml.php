@@ -62,6 +62,8 @@ class FormHtml extends \Zion\Form\FormAtributos
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'number'),
+            $this->attr('size', $config->getLargura()),
+            $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('max', $config->getValorMaximo()),
             $this->attr('min', $config->getValorMinimo())));
 

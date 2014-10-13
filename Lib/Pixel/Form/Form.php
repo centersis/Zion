@@ -43,27 +43,27 @@ class Form extends \Zion\Form\Form
 
     public function numero($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputNumber('number', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputNumber('number', $nome, $identifica, $obrigatorio);
     }
 
     public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('moeda', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('moeda', $nome, $identifica, $obrigatorio);
     }
 
     public function cpf($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cpf', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('cpf', $nome, $identifica, $obrigatorio);
     }
 
     public function cnpj($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cnpj', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('cnpj', $nome, $identifica, $obrigatorio);
     }
 
     public function cep($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cep', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTexto('cep', $nome, $identifica, $obrigatorio);
     }
 
     public function telefone($nome, $identifica, $obrigatorio = false)
