@@ -489,6 +489,8 @@ class Template extends \Zion\Layout\Padrao
 
 		$obj = json_decode($menu, true);
 
+		$buffer = '';
+
 		if($obj['sucesso'] == true) {
 
 			foreach($obj['retorno'] as $indice => $valor){
@@ -799,8 +801,6 @@ class Template extends \Zion\Layout\Padrao
 		//$buffer .= $this->html->abreTagAberta('script', array('src' => '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/bootstrap.min.js')) . $this->html->fechaTag('script');
-		//$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/jquery.validate.min.js')) . $this->html->fechaTag('script');
-		//$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-validate/1.13.0/additional-methods.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-maskMoney/3.0.2/jquery.maskMoney.min.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/pixel-admin.js')) . $this->html->fechaTag('script');        
 		$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript')) . 'window.PixelAdmin.start(init);'. $this->html->fechaTag('script');
