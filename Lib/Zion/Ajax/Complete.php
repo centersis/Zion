@@ -9,6 +9,8 @@ class Complete
 
         $valida = new \Zion\Validacao\Valida();
 
+        sleep(2);
+
         $tabela = $valida->texto()->trata(@$_GET['t']);
         $campoCod = $valida->texto()->trata(@$_GET['cc']);
         $campoDesc = $valida->texto()->trata(@$_GET['cd']);
