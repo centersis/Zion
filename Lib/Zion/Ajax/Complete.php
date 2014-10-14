@@ -4,6 +4,7 @@ namespace Zion\Ajax;
 
 class Complete
 {
+
     public function listar()
     {
 
@@ -11,21 +12,23 @@ class Complete
 
         sleep(2);
 
-        $tabela = $valida->texto()->trata(@$_GET['t']);
-        $campoCod = $valida->texto()->trata(@$_GET['cc']);
-        $campoDesc = $valida->texto()->trata(@$_GET['cd']);
-        $campoBusca = $valida->texto()->trata(@$_GET['cb']);
-        $termoBusca = $valida->texto()->trata(@$_GET['term']);
-        $idConexao = $valida->texto()->trata(@$_GET['idc']);
-        $condicao = $valida->texto()->trata(@$_GET['cnd']);
-        $limite = (is_numeric(@$_GET['l']) and @ $_GET['l'] < 50) ? @$_GET['l'] : 10;
+        $tabela = $valida->texto()->trata(filter_input(INPUT_GET, 't'));
+        $campoCod = $valida->texto()->trata(filter_input(INPUT_GET, 'cc'));
+        $campoDesc = $valida->texto()->trata(filter_input(INPUT_GET, 'cd'));
+        $campoBusca = $valida->texto()->trata(filter_input(INPUT_GET, 'cb'));
+        $termoBusca = $valida->texto()->trata(filter_input(INPUT_GET, 'term'));
+        $idConexao = $valida->texto()->trata(filter_input(INPUT_GET, 'idc'));
+        $condicao = $valida->texto()->trata(filter_input(INPUT_GET, 'cnd'));
+
+        $l = filter_input(INPUT_GET, 'l');
+        $limite = (is_numeric($l) and $l < 50) ? $l : 10;
 
         //Converte Condicao
         if (!empty($condicao)) {
-            $condicao = ' ' . $condicao;
-            $condicao = str_replace(":", "'", $condicao);
-            $condicao = str_replace(" e ", " AND ", $condicao);
-            $condicao = str_replace(" ou ", " OR ", $condicao);
+            $condicaoA = ' ' . $condicao;
+            $condicaoB = str_replace(":", "'", $condicaoA);
+            $condicaoC = str_replace(" e ", " AND ", $condicaoB);
+            $condicaoD = str_replace(" ou ", " OR ", $condicaoC);
         }
 
         try {
@@ -35,7 +38,7 @@ class Complete
             $cdes = $campoDesc ? $campoDesc : "''";
             $cbus = $campoBusca ? $campoBusca : $campoDesc;
 
-            $sql = "SELECT $ccod cod, $cdes as dsc FROM $tabela WHERE $cbus LIKE '" . $termoBusca . "%' $condicao LIMIT $limite ";
+            $sql = "SELECT $ccod cod, $cdes as dsc FROM $tabela WHERE $cbus LIKE '" . $termoBusca . "%' $condicaoD LIMIT $limite ";
 
             $rs = $con->executar($sql);
 
@@ -44,9 +47,10 @@ class Complete
                 $ret[] = array('id' => $dados['cod'], 'value' => $dados['dsc'], 'label' => $dados['dsc']);
             }
 
-            return  json_encode($ret);
+            return json_encode($ret);
         } catch (Exception $e) {
             return json_encode(array(array('id' => '0', 'value' => 'erro', 'label' => $e->getMessage())));
         }
     }
+
 }
