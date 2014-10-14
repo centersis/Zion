@@ -97,8 +97,8 @@ class FormPixelJavaScript
         
         if ($config->getAcao() == 'cnpj') {
             
-            $this->regras[$config->getNome()][] = 'cpf : true';
-            $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CNPJ válido!'";
+            $this->regras[$config->getNome()][] = 'cnpj : true';
+            $this->mensagens[$config->getNome()][] = " cnpj : '{$config->getIdentifica()} deve conter um CNPJ válido!'";
             $this->extra.= '$("#' . $config->getId() . '").mask("99.999.999/9999-99");';
         }
         
