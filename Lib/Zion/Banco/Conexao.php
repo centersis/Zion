@@ -20,9 +20,11 @@ class Conexao
     private static $transaction;
     public static $link = array();
     public static $instancia = array();
+    
     private $banco;
     private $arrayExcecoes = array();
     private $linhasAfetadas = 0;
+    
     //Atributos de Log
     private $conteinerSql = array(); //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
@@ -39,14 +41,12 @@ class Conexao
         $this->arrayExcecoes[3] = "A query SQL esta vazia.";
         $this->arrayExcecoes[4] = "Array de querys inválido.";
 
-        //self::$link[$banco] = new mysqli($conf->getHost($banco), $conf->getUser($banco), $conf->getSenha($banco), $conf->getBanco($banco));
-        //self::$link[$banco] = new \mysqli('192.168.25.51', 'onyxprev_sapp', 'qwertybracom', 'onyxprev_sappiens');
         $namespace = '\\'.SIS_ID_NAMESPACE_PROJETO.'\\Config';      
         
-        self::$link[$banco] = new \mysqli($namespace::$SIS_CFG['Bases'][$banco]['Host'], 
-                $namespace::$SIS_CFG['Bases'][$banco]['Usuario'], 
-                $namespace::$SIS_CFG['Bases'][$banco]['Senha'], 
-                $namespace::$SIS_CFG['Bases'][$banco]['Banco']);
+        self::$link[$banco] = new \mysqli($namespace::$SIS_CFG['bases'][$banco]['host'], 
+                $namespace::$SIS_CFG['bases'][$banco]['usuario'], 
+                $namespace::$SIS_CFG['bases'][$banco]['senha'], 
+                $namespace::$SIS_CFG['bases'][$banco]['banco']);
         self::$link[$banco]->set_charset("utf8");
     }
 
@@ -109,9 +109,9 @@ class Conexao
      * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
      * 	@return Conexao
      */
-    public static function conectar($banco = 'PADRAO')
+    public static function conectar($banco = 'padrao')
     {               
-        $bancoMaiusculo = empty($banco) ? 'PADRAO' : strtoupper($banco);
+        $bancoMaiusculo = empty($banco) ? 'padrao' : strtolower($banco);
 
         if (!isset(self::$instancia[$bancoMaiusculo])) {
             self::$instancia[$bancoMaiusculo] = new Conexao($bancoMaiusculo);

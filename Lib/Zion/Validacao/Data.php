@@ -167,6 +167,18 @@ class Data
             }
         }
     }
+    
+    /**
+     * Revisar este metodo
+     * @param type $dataHora
+     * @return type
+     */
+    public function converteDataHora($dataHora)
+    {
+        list($data, $hora) = explode(' ', $dataHora);
+        
+        return $this->converteData($data).' '.$hora;
+    }
 
     /**
      * Data::trocaSeparador()
