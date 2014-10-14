@@ -38,14 +38,13 @@ class Data
 
     /**
      * Data::validaData()
-     * Valida uma data/hora.
+     * Valida uma data.
      * 
-     * @param String $data Data/Hora a ser validada nos formatos d/m/Y ou Y-m-d, ambos suportam H:i:s.
-     * @return bool TRUE se a data/hora for válida, False otherwise.
+     * @param String $data Data a ser validada nos formatos d/m/Y ou Y-m-d.
+     * @return bool TRUE se a data for válida, FALSE otherwise.
      */
     public function validaData($data)
     {
-
         $f      = $this->getFormatoDataHora($data);
         $date   = \DateTime::createFromFormat($f, $data);
 
@@ -57,13 +56,23 @@ class Data
      * Valida uma hora.
      * 
      * @param String $hora Hora a ser validada no formato H:i:s.
-     * @return bool TRUE se a hora for válida, False otherwise.
+     * @return bool TRUE se a hora for válida, FALSE otherwise.
      */
     public function validaHora($hora)
     {
-
         $time = \DateTime::createFromFormat('H:i:s', $hora);
         return ($time ? true : false);
+    }
+
+    /**
+     * Data::validaDataHora()
+     * 
+     * @param String $dataHora Data ou Hora a ser validada, independente do formato.
+     * @return bool TRUE se a data ou hora for válida, FALSE otherwise.
+     */
+    private function validaDataHora($dataHora)
+    {
+        return(($this->validaData($dataHora) === true or $this->validaHora($dataHora) === true) ? true : false);
     }
 
     /**
@@ -73,8 +82,8 @@ class Data
      * @param mixed $dataHora Data/Hora a ser verificada.
      * @return String formato encontrado, FALSE otherwise.
      */
-    public function getFormatoDataHora($dataHora){
-
+    public function getFormatoDataHora($dataHora)
+    {
         if(preg_match('/^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}$|^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
 
            $f = "d/m/Y";
@@ -103,8 +112,10 @@ class Data
      * @param mixed $dataF Data Final
      * @return Integer 1 Se $dataI < $dataF, -1 se $dataI > $dataF e 0 se forem iguais. 
      */
-    public function verificaDiferencaDataHora($dataI, $dataF){
-        
+    public function verificaDiferencaDataHora($dataI, $dataF)
+    {
+        if($this->validaDataHora($dataI) === false or $this->validaDataHora($dataF) === false) return false;
+
         $dI  = \DateTime::createFromFormat($this->getFormatoDataHora($dataI), $dataI);
         $dF  = \DateTime::createFromFormat($this->getFormatoDataHora($dataF), $dataF);
         
@@ -335,9 +346,8 @@ class Data
      * @param mixed $data Data a ser verificada. Em qualquer formato.
      * @return String Separador encontrado.
      */
-    public function getSeparador($data)
+    private function getSeparador($data)
     {
-
         return(preg_match('[/]', $data) ? '/' : '-');
     }
 
