@@ -1,6 +1,6 @@
 <?php
 
-namespace Zion\Ajax;
+namespace Zion\Remoto;
 
 class Complete
 {
