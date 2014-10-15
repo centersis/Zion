@@ -36,17 +36,17 @@ class Form
 
     public function data($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputDateTime('date', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputData('data', $nome, $identifica, $obrigatorio);
     }
 
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputDateTime('time', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputHora('hora', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('password', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputSenha('password', $nome, $identifica, $obrigatorio);
     }
 
     public function numero($nome, $identifica, $obrigatorio = false)
@@ -56,32 +56,32 @@ class Form
 
     public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('float', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputFloat('float', $nome, $identifica, $obrigatorio);
     }
 
     public function cpf($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cpf', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputCpf('cpf', $nome, $identifica, $obrigatorio);
     }
 
     public function cnpj($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cnpj', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputCnpj('cnpj', $nome, $identifica, $obrigatorio);
     }
 
     public function cep($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('cep', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputCep('cep', $nome, $identifica, $obrigatorio);
     }
 
     public function telefone($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('telefone', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputTelefone('telefone', $nome, $identifica, $obrigatorio);
     }
 
     public function email($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputEmail('email', $nome, $identifica, $obrigatorio);
     }
 
     public function escolha()
@@ -91,12 +91,12 @@ class Form
 
     public function textArea($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputTextArea('textArea', $nome, $identifica, $obrigatorio);
     }
 
     public function upload($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        throw new \BadMethodCallException("Aina nao implementado");
     }
 
     public function botaoSubmit($nome, $identifica)

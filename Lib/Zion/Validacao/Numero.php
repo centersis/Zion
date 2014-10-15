@@ -37,7 +37,7 @@ class Numero
      * @param float $numero Numero em qualquer formato.
      * @return float Numero no padrão bancário.
      */
-    public function floatBoleto($numero)
+    public function floatBanco($numero)
     {
         if (preg_match('/[0-9]\.[0-9]{3},[0-9]{2}$/', $numero)) {
             //Padrão monetário Brasileiro {n}.000,00
@@ -58,6 +58,17 @@ class Numero
         }
     }
 
+    //Retorna o valor formatado em reais
+    public function moedaCliente($Valor)
+    {
+        //Valor da Saida em Moeda
+        if (!empty($Valor) and is_numeric($Valor)) {
+            return "R$ " . $this->floatCliente($Valor);
+        } else {
+            return "R$ 0,00";
+        }
+    }
+
     /**
      * Numero::intervalo()
      * Verifica se um determinado valor está dentro de um intervalo. DR15R22YTHNK5JCXWUNT8TGLESERQXED6
@@ -69,13 +80,13 @@ class Numero
      */
     public function intervalo($numero, $min, $max)
     {
-        if (preg_match('/[\.|,]/', $numero)){
+        if (preg_match('/[\.|,]/', $numero)) {
             $numero = $this->floatBoleto($numero);
         }
-        if (preg_match('/[\.|,]/', $min)){
+        if (preg_match('/[\.|,]/', $min)) {
             $min = $this->floatBoleto($min);
         }
-        if (preg_match('/[\.|,]/', $max)){
+        if (preg_match('/[\.|,]/', $max)) {
             $max = $this->floatBoleto($max);
         }
         if ($numero >= $min and $numero <= $max) {
@@ -100,7 +111,7 @@ class Numero
             return false;
         }
     }
-    
+
     /**
      * Numero::verificaValorMinimo()
      * Verifica se um número informado pelo usuário é igual ou maior que minimo solicitado.
@@ -109,10 +120,11 @@ class Numero
      * @param mixed $val Valor informado pelo usuário
      * @return bool True se $val for maior ou igual a $min, FALSE otherwise.
      */
-    public function verificaValorMinimo($min, $val){
+    public function verificaValorMinimo($min, $val)
+    {
         return($val >= $min ? true : false);
     }
-    
+
     /**
      * Numero::verificaValorMinimo()
      * Verifica se um número informado pelo usuário é igual ou menor que máximo aceito.
@@ -121,8 +133,8 @@ class Numero
      * @param mixed $val Valor informado pelo usuário
      * @return bool True se $val for menor ou igual a $max, FALSE otherwise.
      */
-
-    public function verificaValorMaximo($max, $val){
+    public function verificaValorMaximo($max, $val)
+    {
         return($val <= $max ? true : false);
     }
 

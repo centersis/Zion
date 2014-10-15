@@ -2,7 +2,7 @@
 
 namespace Pixel\Form;
 
-class FormInputDateTime extends \Zion\Form\FormInputDateTime
+class FormInputHora extends \Zion\Form\FormInputHora
 {
     private $iconFA;
     private $toolTipMsg;
@@ -24,15 +24,15 @@ class FormInputDateTime extends \Zion\Form\FormInputDateTime
         }
     }
 
-    public function setDataMinima($dataMinima)
+    public function setHoraMinima($horaMinima)
     {
-        parent::setDataMinima($dataMinima);
+        parent::setHoraMinima($horaMinima);
         return $this;
     }
     
-    public function setDataMaxima($dataMaxima)
+    public function setHoraMaxima($horaMaxima)
     {
-        parent::setDataMaxima($dataMaxima);
+        parent::setHoraMaxima($horaMaxima);
         return $this;
     }
     

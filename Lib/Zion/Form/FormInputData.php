@@ -4,7 +4,7 @@ namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Validacao\Data as Data;
 
-class FormInputDateTime extends \Zion\Form\FormBasico
+class FormInputData extends \Zion\Form\FormBasico
 {
     private $tipoBase;
     private $acao; 
@@ -12,13 +12,12 @@ class FormInputDateTime extends \Zion\Form\FormBasico
     private $dataMaxima;
     private $placeHolder;
     private $obrigatorio;
-    private $mostrarSegundos;
     
     private $data;
     
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->tipoBase = 'dateTime';
+        $this->tipoBase = 'data';
         $this->acao = $acao;        
         $this->mostrarSegundos = false;
         
@@ -112,16 +111,6 @@ class FormInputDateTime extends \Zion\Form\FormBasico
         return $this->obrigatorio;
     }
     
-    public function setMostrarSegundos($MostrarSegundos)
-    {
-        $this->mostrarSegundos = $MostrarSegundos;
-        return $this;
-    }
-    
-    public function getMostrarSegundos()
-    {
-        return $this->mostrarSegundos;
-    }
     
     /**
      * Sobrecarga de Metodos Básicos

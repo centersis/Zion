@@ -1,44 +1,20 @@
-﻿<?php
+<?php
 /*
  * Classe de utilidades - Usanda na manutenção básica
  * Criada em 01-09-2010
+ * Atualizada em 14-10-2014
  * Pablo Vanni
  */
 
-include_once($_SESSION['FMBase'].'funcoes_php.class.php');
-include_once($_SESSION['FMBase'].'parse_sql.class.php');
+namespace Zion\Crud;
 
-class Util
+class CrudUtil
 {
-    /*
-     * Metodo que retorna um array com o nome dos campos de formulários
-     * retorna Array
-     */
-    public function getParametrosForm(FormCampos $ObjForm)
-    {
-        //Incia Variavel que receberá os campos
-        $ArrayCampos = array();
-
-        //Recuperando Array de Campos
-        $ArrayForm = $ObjForm->getBufferCFG();
-
-        //Monta Array de Retotno
-        if(is_array($ArrayForm))
-        {
-            foreach($ArrayForm as $CFG)
-            {
-                $ArrayCampos[] = $CFG['Nome'];
-            }
-        }
-
-        return $ArrayCampos;
-    }
-
     /*
      * Metodo que processa e retorna partes de uma clausula SQL de acordo com os filtros
      * returna String
      */
-    public function getSqlFiltro(Filtrar $Fil, FormCampos $ObjForm)
+    public function getSqlFiltro(Filtrar $Fil, Form $ObjForm)
     {
         //Incia Variavel que receberá as instruções Sql
         $Sql = "";
@@ -153,23 +129,4 @@ class Util
         //Extrai Variaveis para o metodo desejado
         $FPHP->extractVar($ArrayProcessamento, $Metodo);
     }
-
-    /*
-     * Metodo responsável por montar arquivo de tamplate
-     */
-    public function montaTpl(FormCampos $ObjForm, array $CamposForm)
-    {
-        //BufferHtml
-        $BufferHtml = "";
-
-        //Recuperando Array de Campos
-        $ArrayForm = $ObjForm->getBufferCFG();
-
-        foreach($CamposForm as $Campo=>$ConteudoCampo)
-        {
-            if($Campo != "Id") $BufferHtml.= '<tr><td width="170" align="right" class="textoForm">'.$ArrayForm[$Campo]['Identifica'].':</td><td>'.$ConteudoCampo.'</td></tr>'."\n";
-        }
-
-        return $BufferHtml;
-    }
-}//fim classe
+}

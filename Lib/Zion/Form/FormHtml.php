@@ -32,10 +32,6 @@ class FormHtml extends \Zion\Form\FormAtributos
     {
         $type = 'text';
         
-        if($config->getAcao() == 'password'){
-            $type = 'password';
-        }
-        
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', $type),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
@@ -47,7 +43,84 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
-    public function montaDateTime(FormInputDateTime $config)
+    public function montaCpf(\Zion\Form\FormInputCpf $config)
+    {
+        
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text'),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+        
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaCnpj(\Zion\Form\FormInputCnpj $config)
+    {
+        
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text'),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+        
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaCep(\Zion\Form\FormInputCep $config)
+    {
+
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text'),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+        
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaEmail(\Zion\Form\FormInputEmail $config)
+    {
+        
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text'),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+        
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaTelefone(\Zion\Form\FormInputTelefone $config)
+    {
+        
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text'),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+        
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaSenha(\Zion\Form\FormInputSenha $config)
+    {
+        
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'password'),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+        
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaTextArea(\Zion\Form\FormInputTextArea $config)
+    {
+        //AINDA NÃO IMPLEMENTADO!
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text'),
+            $this->attr('maxlength', $config->getMaximoCaracteres()),
+            $this->attr('placeholder', $config->getPlaceHolder())));
+        
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaData(\Zion\Form\FormInputData $config)
     {        
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text'),
@@ -58,7 +131,18 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
-    public function montaNumber(FormInputNumber $config)
+    public function montaHora(\Zion\Form\FormInputHora $config)
+    {        
+        $attr = array_merge($this->opcoesBasicas($config), array(
+            $this->attr('type', 'text'),
+            $this->attr('placeholder', $config->getPlaceHolder()),
+            $this->attr('max', $config->getHoraMaxima()),
+            $this->attr('min', $config->getHoraMinima())));
+
+        return vsprintf($this->prepareInput(count($attr)), $attr);
+    }
+
+    public function montaNumber(\Zion\Form\FormInputNumber $config)
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'number'),
@@ -70,7 +154,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
-    public function montaFloat(FormInputFloat $config)
+    public function montaFloat(\Zion\Form\FormInputFloat $config)
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text')));
@@ -78,7 +162,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
-    public function montaEscolha(FormEscolha $config)
+    public function montaEscolha(\Zion\Form\FormEscolha $config)
     {
         return (new \Zion\Form\EscolhaHtml())->montaEscolha($config);        
     }
