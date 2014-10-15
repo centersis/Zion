@@ -12,8 +12,6 @@ class FormInputTexto extends FormBasico
     private $largura;
     private $maximoCaracteres;
     private $minimoCaracteres;
-    private $valorMaximo;
-    private $valorMinimo;
     private $caixa;    
     private $obrigatorio;
     private $converterHtml;
@@ -66,9 +64,9 @@ class FormInputTexto extends FormBasico
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
             }
-
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
+
         } else {
             throw new FormException("maximoCaracteres: Valor nao numerico.");
         }
@@ -113,46 +111,6 @@ class FormInputTexto extends FormBasico
     {
         return $this->caixa;
     }
-
-    public function setValorMinimo($valorMinimo)
-    {
-        if (is_numeric($valorMinimo)) {
-
-            if (isset($this->valorMaximo) and ( $valorMinimo > $this->valorMaximo)) {
-                throw new FormException("valorMinimo nao pode ser maior que valorMaximo.");
-            }
-
-            $this->valorMinimo = $valorMinimo;
-            return $this;
-        } else {
-            throw new FormException("valorMinimo: Valor nao numerico");
-        }
-    }
-
-    public function getValorMinimo()
-    {
-        return $this->valorMinimo;
-    }
-
-    public function setValorMaximo($valorMaximo)
-    {
-        if (is_numeric($valorMaximo)) {
-
-            if (isset($this->valorMinimo) and ( $valorMaximo < $this->valorMinimo)) {
-                throw new FormException("valorMaximo nao pode ser menor que valorMinimo.");
-            }
-
-            $this->valorMaximo = $valorMaximo;
-            return $this;
-        } else {
-            throw new FormException("valorMaximo: Valor nao numerico");
-        }
-    }
-
-    public function getValorMaximo()
-    {
-        return $this->valorMaximo;
-    }    
 
     public function setObrigarorio($obrigatorio)
     {
