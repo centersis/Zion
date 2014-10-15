@@ -5,13 +5,11 @@ namespace Zion\Layout;
 class Padrao extends \Zion\Layout\Html
 {
     protected $html;
-    private $css;
     private $javascript;
     
     public function __construct()
     {
         $this->html = new \Zion\Layout\Html();
-        $this->css = new \Zion\Layout\Css();
         $this->javascript = new \Zion\Layout\JavaScript();
     }
 
@@ -32,7 +30,7 @@ class Padrao extends \Zion\Layout\Html
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'author','content'=>SIS_AUTOR));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'release','content'=>SIS_RELEASE));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'viewport','content'=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));                                        
-        $buffer .= $this->css->abreTagAberta('link', array('rel'=>'canonical','href'=> SIS_URL_BASE_DEFAULT . $_SERVER['REQUEST_URI']));           
+        $buffer .= $this->html->abreTagAberta('link', array('rel'=>'canonical','href'=> SIS_URL_BASE_DEFAULT . $_SERVER['REQUEST_URI']));           
         
         return $buffer;
     }
