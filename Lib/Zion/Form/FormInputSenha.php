@@ -4,28 +4,20 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputTexto extends FormBasico
+class FormInputSenha extends FormBasico
 {
 
     private $tipoBase;
     private $acao;
-    private $largura;
     private $maximoCaracteres;
     private $minimoCaracteres;
-    private $caixa;    
     private $obrigatorio;
-    private $converterHtml;
-    private $autoTrim;
     private $placeHolder;
-    private $autoComplete;
-    private $deveSerIgualA;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->tipoBase = 'texto';        
+        $this->tipoBase = 'senha';
         $this->acao = $acao;
-        $this->autoTrim = true;
-        $this->converterHtml = true;
         $this->setNome($nome);
         $this->setId($nome);
         $this->setIdentifica($identifica);
@@ -42,21 +34,6 @@ class FormInputTexto extends FormBasico
         return $this->acao;
     }
 
-    public function setLargura($largura)
-    {
-        if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
-            $this->largura = $largura;
-            return $this;
-        } else {
-            throw new FormException("largura: O valor nao esta nos formatos aceitos: 10%; 10px; ou 10");
-        }
-    }
-
-    public function getLargura()
-    {
-        return $this->largura;
-    }
-
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -64,9 +41,9 @@ class FormInputTexto extends FormBasico
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
             }
+
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
-
         } else {
             throw new FormException("maximoCaracteres: Valor nao numerico.");
         }
@@ -97,21 +74,6 @@ class FormInputTexto extends FormBasico
         return $this->minimoCaracteres;
     }
 
-    public function setCaixa($caixa)
-    {
-        if (strtoupper($caixa) == "ALTA" or strtoupper($caixa) == "BAIXA") {
-            $this->caixa = $caixa;
-            return $this;
-        } else {
-            throw new FormException("caixa: Valor desconhecido: " . $caixa);
-        }
-    }
-
-    public function getCaixa()
-    {
-        return $this->caixa;
-    }
-
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -127,36 +89,6 @@ class FormInputTexto extends FormBasico
         return $this->obrigatorio;
     }
 
-    public function setConverterHtml($converterHtml)
-    {
-        if (is_bool($converterHtml)) {
-            $this->converterHtml = $converterHtml;
-            return $this;
-        } else {
-            throw new FormException("converterHtml: Valor nao booleano");
-        }
-    }
-
-    public function getConverterHtml()
-    {
-        return $this->converterHtml;
-    }
-
-    public function setAutoTrim($autoTrim)
-    {
-        if (is_bool($autoTrim)) {
-            $this->autoTrim = $autoTrim;
-            return $this;
-        } else {
-            throw new FormException("autoTrim: Valor nao booleano");
-        }
-    }
-
-    public function getAutoTrim()
-    {
-        return $this->autoTrim;
-    }
-
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -170,36 +102,6 @@ class FormInputTexto extends FormBasico
     public function getPlaceHolder()
     {
         return $this->placeHolder;
-    }
-
-    public function setAutoComplete($autoComplete)
-    {
-        if (is_bool($autoComplete)) {
-            $this->autoComplete = $autoComplete;
-            return $this;
-        } else {
-            throw new FormException("autoComplete: O valor informado não é um booleano.");
-        }
-    }
-
-    public function getAutoComplete()
-    {
-        return $this->autoComplete;
-    }
-
-    public function setDeveSerIgualA($deveSerIgualA)
-    {
-        if (!empty($deveSerIgualA)) {
-            $this->deveSerIgualA = $deveSerIgualA;
-            return $this;
-        } else {
-            throw new FormException("deveSerIgualA: O valor informado não é um valor válido.");
-        }
-    }
-
-    public function getDeveSerIgualA()
-    {
-        return $this->deveSerIgualA;
     }
 
     /**

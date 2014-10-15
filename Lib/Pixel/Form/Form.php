@@ -28,12 +28,12 @@ class Form extends \Zion\Form\Form
 
     public function data($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputDateTime('date', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputData('data', $nome, $identifica, $obrigatorio);
     }
 
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputDateTime('time', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputHora('time', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
