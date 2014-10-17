@@ -2,38 +2,30 @@
 
 namespace Pixel\Form;
 
-class FormInputHora extends \Zion\Form\FormInputHora
+class FormInputCep extends \Zion\Form\FormInputCep
 {
+
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
     
     private $formSetPixel;
-        
+
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
-        
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
-
-        $this->setIconFA('fa-clock-o');
     }
 
-    public function setHoraMinima($horaMinima)
+    public function setMaximoCaracteres($maximoCaracteres)
     {
-        parent::setHoraMinima($horaMinima);
+        parent::setMaximoCaracteres($maximoCaracteres);
         return $this;
     }
-    
-    public function setHoraMaxima($horaMaxima)
+
+    public function setMinimoCaracteres($minimoCaracteres)
     {
-        parent::setHoraMaxima($horaMaxima);
-        return $this;
-    }
-    
-    public function setPlaceHolder($placeHolder)
-    {
-        parent::setPlaceHolder($placeHolder);
+        parent::setMinimoCaracteres($minimoCaracteres);
         return $this;
     }
 
@@ -42,10 +34,10 @@ class FormInputHora extends \Zion\Form\FormInputHora
         parent::setObrigarorio($obrigatorio);
         return $this;
     }
-    
-    public function setLabel($label)
+
+    public function setPlaceHolder($placeHolder)
     {
-        parent::setLabel($label);
+        parent::setPlaceHolder($placeHolder);
         return $this;
     }
 
@@ -81,46 +73,46 @@ class FormInputHora extends \Zion\Form\FormInputHora
     {
         return $this->emColunaDeTamanho;
     }
-    
+
     /**
      * Sobrecarga de Metodos Básicos
-     */    
+     */
     public function setId($id)
     {
-        parent::setId($id);        
+        parent::setId($id);
         return $this;
     }
-    
+
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
-    
+
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
-    
+
     public function setValor($valor)
-    {              
+    {
         parent::setValor($valor);
         return $this;
     }
-    
+
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
-    
+
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
-    
+
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
@@ -132,10 +124,11 @@ class FormInputHora extends \Zion\Form\FormInputHora
         parent::setAtributos($atributos);
         return $this;
     }
-    
+
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
         return $this;
     }
+
 }
