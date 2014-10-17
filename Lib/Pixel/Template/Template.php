@@ -143,7 +143,7 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->html->abreTagAberta('link', array('href' => '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));				
 		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/bootstrap.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pixel-admin.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pixel-admin.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/widgets.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pages.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/rtl.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
@@ -660,11 +660,21 @@ class Template extends \Zion\Layout\Padrao
 
 	}   
 
+	private function getAlerts()
+	{
+
+		$buffer  = '';
+		$buffer .= $this->html->entreTags('script', 'init.push(function(){$(\'#page-alerts-dark-demo\').on(\'click\',\'button\',function(){var e=$(this);$(\'html,body\').animate({scrollTop:0},500);setTimeout(function(){if(e.hasClass(\'page-alerts-clear-btn\')){PixelAdmin.plugins.alerts.clear(true,\'pa_page_alerts_dark\')}else{var t={type:e.attr(\'data-type\'),namespace:\'pa_page_alerts_dark\',classes:\'alert-dark\'};if(e.hasClass(\'auto-close-alert\'))t[\'auto_close\']=5;PixelAdmin.plugins.alerts.add(e.attr(\'data-text\'),t)}},800)})});');
+		return $buffer;		
+
+	}
+
 	private function getMain()
 	{
 
 		$buffer  = '';
 		$buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
+		//$buffer .= '<div id="pa-page-alerts-box"></div>';
 
 		// carrega o breadcrumb
 		//$buffer .= $this->getBreadCrumb();
@@ -673,6 +683,7 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->getPageHeader();
 
 		$buffer .= $this->conteudoMain;
+		$buffer .= $this->getAlerts();
 
 		// end: content-wrapper
 		$buffer .= $this->html->fechaTag('div');
