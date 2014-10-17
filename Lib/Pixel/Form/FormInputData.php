@@ -16,12 +16,8 @@ class FormInputData extends \Zion\Form\FormInputData
         
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
         
-        if($acao == 'date'){
-            $this->setIconFA('fa-calendar');    
-        }
-        else{
-            $this->setIconFA('fa-clock-o');
-        }
+        $this->setIconFA('fa-calendar');    
+
     }
 
     public function setDataMinima($dataMinima)
