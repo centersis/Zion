@@ -2,50 +2,36 @@
 
 namespace Pixel\Form;
 
-class FormInputHora extends \Zion\Form\FormInputHora
+class FormInputButton extends \Zion\Form\FormInputButton
 {
+
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
     
     private $formSetPixel;
-        
+
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
-        
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
-
-        $this->setIconFA('fa-clock-o');
     }
-
-    public function setHoraMinima($horaMinima)
+ 
+    public function setMetodo($metodo)
     {
-        parent::setHoraMinima($horaMinima);
+        parent::setMetodo($metodo);
         return $this;
     }
     
-    public function setHoraMaxima($horaMaxima)
+    public function setAction($action)
     {
-        parent::setHoraMaxima($horaMaxima);
+        parent::setAction($action);
         return $this;
     }
-    
-    public function setPlaceHolder($placeHolder)
+   
+    public function setTarget($target)
     {
-        parent::setPlaceHolder($placeHolder);
-        return $this;
-    }
-
-    public function setObrigarorio($obrigatorio)
-    {
-        parent::setObrigarorio($obrigatorio);
-        return $this;
-    }
-    
-    public function setLabel($label)
-    {
-        parent::setLabel($label);
+        parent::setTarget($target);
         return $this;
     }
 
@@ -81,7 +67,6 @@ class FormInputHora extends \Zion\Form\FormInputHora
     {
         return $this->emColunaDeTamanho;
     }
-    
     /**
      * Sobrecarga de Metodos Básicos
      */    
