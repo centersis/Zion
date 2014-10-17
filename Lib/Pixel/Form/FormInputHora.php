@@ -15,13 +15,8 @@ class FormInputHora extends \Zion\Form\FormInputHora
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
-        
-        if($acao == 'date'){
-            $this->setIconFA('fa-calendar');    
-        }
-        else{
-            $this->setIconFA('fa-clock-o');
-        }
+
+        $this->setIconFA('fa-clock-o');
     }
 
     public function setHoraMinima($horaMinima)
