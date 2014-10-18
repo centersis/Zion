@@ -19,9 +19,9 @@ class Padrao extends \Zion\Layout\Html
 
         $buffer  = '';        
         $buffer .= $this->html->abreTagAberta('!DOCTYPE html');
-        $buffer .= "<!--[if IE 8]><html class=\"ie8\" lang=\"pt-BR\"><![endif]-->";
-        $buffer .= "<!--[if IE 9]><html class=\"ie9 gt-ie8\" lang=\"pt-BR\"><![endif]-->";
-        $buffer .= "<!--[if gt IE 9]><!--><html class=\"gt-ie8 gt-ie9 not-ie\" lang=\"pt-BR\"><!--<![endif]-->";
+        $buffer .= "<!--[if IE 8]>\n<html class=\"ie8\" lang=\"pt-BR\">\n<![endif]-->";
+        $buffer .= "<!--[if IE 9]>\n<html class=\"ie9 gt-ie8\" lang=\"pt-BR\">\n<![endif]-->\n";
+        $buffer .= "<!--[if gt IE 9]><!-->\n<html class=\"gt-ie8 gt-ie9 not-ie\" lang=\"pt-BR\">\n<!--<![endif]-->\n";
         //$buffer .= $this->html->abreTagAberta('html', array('lang'=>'pt-BR'));
         $buffer .= $this->html->abreTagAberta('head');
         $buffer .= $this->html->abreTagAberta('meta', array('charset'=>'utf-8'));
