@@ -142,7 +142,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setCampoCod($campoCod)
     {
-        if(!empty($campoCod) and is_numeric($campoCod)) {
+        if(!empty($campoCod)) {
             $this->campoCod = $campoCod;
             return $this;
         } else {
