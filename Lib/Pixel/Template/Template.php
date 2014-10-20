@@ -1,8 +1,6 @@
-<?
+<?php
 
 namespace Pixel\Template;
-
-define('urlStatic', SIS_URL_BASE_STATIC_DEFAULT);
 
 class Template extends \Zion\Layout\Padrao
 {
@@ -163,18 +161,16 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting template header' . $this->html->fechaComentario();
 		$buffer .= $this->html->abreTagAberta('link', array('href' => '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));				
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/bootstrap.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pixel-admin.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/widgets.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/pages.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/rtl.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/themes.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		$buffer .= $this->html->abreTagAberta('link', array('href' => urlStatic . '/assets/stylesheets/fine-tuning.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		//$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/bootstrap.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/pixel-admin.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/widgets.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/pages.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/rtl.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/themes.min.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
+		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/fine-tuning.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= '<script data-pace-options=\'{ "restartOnRequestAfter": true }\' src="'.SIS_URL_BASE_STATIC.'libs/jquery/plugins/jquery-pace/0.5.6/pace.min.js"></script>' . "\n";
 		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-pace/0.5.6/pace.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
 		$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/bootstrap-tags/bootstrap-tagsinput.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
-		//$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/bootstrap-tags/bootstrap-tagsinput.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->conteudoHeader;
 		$buffer .= $this->html->fechaTag('head');
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending template header' . $this->html->fechaComentario();
@@ -192,7 +188,7 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting body app' . $this->html->fechaComentario();
 		$buffer .= $this->html->abreTagAberta('body', array('class' => $classCss));
 		$buffer .= $this->html->entreTags('script', 'var init = [];');
-		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/demo/demo.js')) . $this->html->fechaTag('script');			
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/demo.js')) . $this->html->fechaTag('script');			
 		//$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-wrapper'));        
 
 		return $buffer;
@@ -250,14 +246,14 @@ class Template extends \Zion\Layout\Padrao
 								// carrega as notificações da barra superior
 								//$buffer .= $this->getOpcoesSU();
 
+								// carrega o form de pesquisa da barra superior
+								//$buffer .= $this->getFormPesquisa();   							
+
 								// carrega as notificações da barra superior
 								$buffer .= $this->getNotificacoes();
 
 								// carrega as mensagens da barra superior
-								$buffer .= $this->getMensagens();   
-
-								// carrega o form de pesquisa da barra superior
-								$buffer .= $this->getFormPesquisa();                    
+								$buffer .= $this->getMensagens();                    
 
 							// end: navbar-nav
 							$buffer .= $this->html->fechaTag('ul');                 
@@ -287,7 +283,7 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard', 'class' => 'navbar-brand'));
 
 			$buffer .= $this->html->abreTagAberta('div');
-				$buffer .= $this->html->abreTagAberta('img', array('alt' => 'Início', 'src' => urlStatic . '/assets/images/pixel-admin/main-navbar-logo.png'));
+				$buffer .= $this->html->abreTagAberta('img', array('alt' => 'Início', 'src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/images/pixel-admin/main-navbar-logo.png'));
 			$buffer .= $this->html->fechaTag('div');
 			$buffer .= SIS_ID_NAMESPACE_PROJETO;
 
@@ -362,7 +358,7 @@ class Template extends \Zion\Layout\Padrao
 
 					$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
 						
-						$buffer .= $form->montaForm();
+						//$buffer .= $form->montaForm();
 
 					$buffer .= $this->html->fechaTag('div');                                   
 
@@ -460,7 +456,7 @@ class Template extends \Zion\Layout\Padrao
 
 					$buffer .= $this->html->abreTagAberta('div', array('class' => 'message'));
 
-						$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/avatars/3.jpg', 'class' => 'message-avatar'));
+						$buffer .= $this->html->abreTagAberta('img', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/avatars/3.jpg', 'class' => 'message-avatar'));
 						$buffer .= $this->html->abreTagAberta('a', array('class' => 'message-subject')) . 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' . $this->html->fechaTag('a');
 						$buffer .= $this->html->abreTagAberta('div', array('class' => 'message-description')) . 'from ' . $this->html->abreTagAberta('a', array('href' => '#')) . 'Vinícius Pozzebon' . $this->html->fechaTag('a') . ' há 2h' . $this->html->fechaTag('div');
 
@@ -487,7 +483,7 @@ class Template extends \Zion\Layout\Padrao
 		$buffer  = '';
 		$buffer .= $this->html->abreTagAberta('li');    
 
-			$buffer .= $form->montaForm();                
+			$buffer .= $form->getFormHtml('uf_cidade');                
 
 		$buffer .= $this->html->fechaTag('li'); 
 
@@ -533,7 +529,7 @@ class Template extends \Zion\Layout\Padrao
 
 				$buffer .= $this->html->fechaTag('div');
 
-				$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/avatars/1.jpg'));
+				$buffer .= $this->html->abreTagAberta('img', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/avatars/1.jpg'));
 
 				$buffer .= $this->html->abreTagAberta('div', array('class' => 'btn-group'));
 
@@ -807,14 +803,14 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->conteudoContainerLogin;
 		$buffer .= $this->html->abreTagAberta('div', array('id' => 'page-signin-bg'));
 		$buffer .= $this->html->abreTagAberta('div', array('class' => 'overlay')) . $this->html->fechaTag('div');
-		$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/signin-bg-1.jpg'));
+		$buffer .= $this->html->abreTagAberta('img', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/signin-bg-1.jpg'));
 		$buffer .= $this->html->fechaTag('div');
 
 		$buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-container'));
 
 		$buffer .= $this->html->abreTagAberta('div', array('class' => 'signin-info'));
 		$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'logo'));
-			$buffer .= $this->html->abreTagAberta('img', array('src' => urlStatic . '/assets/demo/logo-big.png', 'style' => 'margin-top: -5px;')) . '&nbsp;' . SIS_ID_NAMESPACE_PROJETO;
+			$buffer .= $this->html->abreTagAberta('img', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/logo-big.png', 'style' => 'margin-top: -5px;')) . '&nbsp;' . SIS_ID_NAMESPACE_PROJETO;
 		$buffer .= $this->html->fechaTag('a');
 		$buffer .= $this->html->abreTagAberta('div', array('class' => 'slogan')) . SIS_SLOGAN . $this->html->fechaTag('div');
 		$buffer .= $this->html->abreTagAberta('ul');
@@ -986,7 +982,7 @@ class Template extends \Zion\Layout\Padrao
 	{
 
 		$this->tooltipForm  = '';
-		$this->tooltipForm .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
+		$this->tooltipForm .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
 		$this->tooltipForm .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#'.$Form.'\').tooltip()}};init.push(initTooltipsDemo);');
 
 	}
@@ -999,9 +995,9 @@ class Template extends \Zion\Layout\Padrao
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting scripts block' . $this->html->fechaComentario();
 		//$buffer .= $this->html->abreTagAberta('script', array('src' => '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');
-		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/bootstrap.min.js')) . $this->html->fechaTag('script');
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/bootstrap.min.js')) . $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-maskMoney/3.0.2/jquery.maskMoney.min.js')) . $this->html->fechaTag('script');
-		$buffer .= $this->html->abreTagAberta('script', array('src' => urlStatic . '/assets/javascripts/pixel-admin.js')) . $this->html->fechaTag('script');        
+		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/pixel-admin.js')) . $this->html->fechaTag('script');        
 		$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript')) . 'window.PixelAdmin.start(init);'. $this->html->fechaTag('script');
 		$buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/bootstrap-tags/bootstrap-tagsinput.js')) . $this->html->fechaTag('script');
 		//$buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/bootstrap-tags/bootstrap-tagsinput.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
