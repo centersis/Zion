@@ -2,12 +2,12 @@
 
 /**
  * Valida()
- * @author Feliphe Bueno - feliphezion@gmail.com
+ * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
  * @since 15/09/2014
  * @version 1.0
  * @copyright 2014
  * 
- * Interface para integração com outras classes de tratamento de dados.
+ * Interface para integração com outras classes de validação de dados.
  */
 
 namespace Zion\Validacao;
