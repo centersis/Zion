@@ -94,7 +94,7 @@ class GridBotoes
             }
         }
 
-        //Gerando HTML com as Posiçõees Corretas
+        //Gerando HTML com as Posições Corretas
         asort($posicoes, SORT_NUMERIC);
         $expandidos = '';
         $recolhidos = '';
@@ -142,20 +142,6 @@ class GridBotoes
             $buffer .= $html->abreTagAberta('input', ['id' => 'sisBuscaGridB','name'=>'sisBuscaGridB','type'=>'text','class'=>'input form-control tagsinput','data-role'=>'tagsinput','placeholder'=>'Pesquisar']);
             $buffer .= $html->fechaTag('div');        
         $buffer .= $html->fechaTag('div');
-        
-//        $buffer.= '<div class="btn-toolbar pull-right recE20px hidden-xs hidden-sm hidden-md">		
-//					<div class="btn-group">
-//						<input id="busca" type="text" class="input form-control tagsinput" data-role="tagsinput" placeholder="Pesquisar em pessoa fisica">
-//					</div>
-//				</div>
-//				<!-- finaliza a barra de pesquisa para dispositivos grandes (lg) -->	
-//
-//				<!-- inicia a barra de pesquisa exclusivamente para dispositivos medios e pequenos (md e sm) -->	
-//				<div class="btn-toolbar pull-right recE20px visible-md hidden-lg">		
-//					<div class="btn-group">
-//						<input id="busca" type="text" class="input form-control tagsinput" data-role="tagsinput" placeholder="Pesquisar">
-//					</div>
-//				</div>	';
         
         $buffer .= $html->fechaTag('div');
 
