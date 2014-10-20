@@ -24,6 +24,7 @@ class Complete
         $limite = (is_numeric($l) and $l < 50) ? $l : 10;
 
         //Converte Condicao
+        $condicaoD = '';
         if (!empty($condicao)) {
             $condicaoA = ' ' . $condicao;
             $condicaoB = str_replace(":", "'", $condicaoA);
