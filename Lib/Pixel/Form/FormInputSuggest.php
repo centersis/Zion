@@ -31,6 +31,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $layoutPixel;
 
     private $formSetPixel;
     
@@ -375,6 +376,17 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho;
+    }
+    
+    public function setLayoutPixel($layoutPixel)
+    {
+        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
+        return $this;
+    }
+    
+    public function getLayoutPixel()
+    {
+        return $this->layoutPixel;
     }
 
     /**

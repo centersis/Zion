@@ -7,6 +7,7 @@ class FormInputFloat extends \Zion\Form\FormInputFloat
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $layoutPixel;
 
     private $formSetPixel;
     
@@ -95,6 +96,17 @@ class FormInputFloat extends \Zion\Form\FormInputFloat
     public function getEmColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
+    }
+    
+    public function setLayoutPixel($layoutPixel)
+    {
+        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
+        return $this;
+    }
+    
+    public function getLayoutPixel()
+    {
+        return $this->layoutPixel;
     }
     
     /**

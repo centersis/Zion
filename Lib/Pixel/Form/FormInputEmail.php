@@ -8,6 +8,7 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $layoutPixel;
     
     private $formSetPixel;
 
@@ -74,6 +75,17 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
         return $this->emColunaDeTamanho;
     }
 
+    public function setLayoutPixel($layoutPixel)
+    {
+        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
+        return $this;
+    }
+    
+    public function getLayoutPixel()
+    {
+        return $this->layoutPixel;
+    }
+    
     /**
      * Sobrecarga de Metodos Básicos
      */

@@ -8,6 +8,7 @@ class FormInputCnpj extends \Zion\Form\FormInputCnpj
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $layoutPixel;
     
     private $formSetPixel;
 
@@ -72,6 +73,17 @@ class FormInputCnpj extends \Zion\Form\FormInputCnpj
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho;
+    }
+    
+    public function setLayoutPixel($layoutPixel)
+    {
+        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
+        return $this;
+    }
+    
+    public function getLayoutPixel()
+    {
+        return $this->layoutPixel;
     }
 
     /**
