@@ -33,7 +33,7 @@ class Form extends \Zion\Form\Form
 
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputHora('time', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputHora('hora', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
