@@ -154,8 +154,11 @@ class Form extends \Zion\Form\Form
                 case 'suggest' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaSuggest($objCampos);
                     break;
-                case 'dateTime' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaDateTime($objCampos);
+                case 'data' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaData($objCampos);
+                    break;
+                case 'hora' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaHora($objCampos);
                     break;
                 case 'number' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaNumber($objCampos);

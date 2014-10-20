@@ -64,7 +64,7 @@ class FormHtml extends \Zion\Form\FormHtml
         return $this->prepareInputPixel($config, parent::montaTexto($config));
     }
 
-    public function montaDateTime(FormInputDateTime $config)
+    public function montaData(FormInputData $config)
     {
         $classCss = $config->getClassCss() . ' form-control';
         $config->setClassCss($classCss);
@@ -74,7 +74,20 @@ class FormHtml extends \Zion\Form\FormHtml
             $config->setComplemento($complemento);
         }
 
-        return $this->prepareInputPixel($config, parent::montaDateTime($config));
+        return $this->prepareInputPixel($config, parent::montaData($config));
+    }
+
+    public function montaHora(FormInputHora $config)
+    {
+        $classCss = $config->getClassCss() . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaHora($config));
     }
 
     public function montaNumber(FormInputNumber $config)
