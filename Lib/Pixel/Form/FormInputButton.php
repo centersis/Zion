@@ -67,6 +67,7 @@ class FormInputButton extends \Zion\Form\FormInputButton
     {
         return $this->emColunaDeTamanho;
     }
+
     /**
      * Sobrecarga de Metodos Básicos
      */    
