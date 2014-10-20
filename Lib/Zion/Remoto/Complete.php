@@ -10,7 +10,7 @@ class Complete
 
         $valida = new \Zion\Validacao\Valida();
 
-        sleep(2);
+        sleep(1);
 
         $tabela = $valida->texto()->trata(filter_input(INPUT_GET, 't'));
         $campoCod = $valida->texto()->trata(filter_input(INPUT_GET, 'cc'));

@@ -248,6 +248,9 @@ class Template extends \Zion\Layout\Padrao
 							$buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
 
 								// carrega as notificações da barra superior
+								$buffer .= $this->getOpcoesSU();
+
+								// carrega as notificações da barra superior
 								$buffer .= $this->getNotificacoes();
 
 								// carrega as mensagens da barra superior
@@ -327,6 +330,53 @@ class Template extends \Zion\Layout\Padrao
 		return $buffer;
 
 	}   
+
+	private function getOpcoesSU()
+	{
+
+		$formModulo = new \Sappiens\includes\SelecionarClienteForm();
+		$form = $formModulo->getFormModulo();  		
+
+		$buffer  = '';
+		$buffer .= $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-info dropdown'));
+
+			$buffer .= $this->html->abreTagAberta('a', array('href' => '#su', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
+				
+				//$buffer .= $this->html->abreTagAberta('span', array('class' => 'label'));
+				//	$buffer .= "5";
+				//$buffer .= $this->html->fechaTag('span');   
+				$buffer .= $this->html->abreTagFechada('i', array('class' => 'nav-icon fa fa-cubes'));
+				$buffer .= $this->html->abreTagAberta('span', array('class' => 'small-screen-text'));
+					$buffer .= "Selecionar cliente";
+				$buffer .= $this->html->fechaTag('span');                                   
+
+			$buffer .= $this->html->fechaTag('a');  
+
+			$buffer .= $this->html->abreTagAberta('script');
+				$buffer .= 'init.push(function () {$(\'#main-navbar-notifications\').slimScroll({ height: 250 });});';
+			$buffer .= $this->html->fechaTag('script');
+
+			$buffer .= $this->html->abreTagAberta('div', array('class' => 'dropdown-menu widget-notifications no-padding', 'style' => 'width: 500px'));
+
+				$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-notifications', 'class' => 'notifications-list'));
+
+					$buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
+						
+						$buffer .= $form->montaForm();
+
+					$buffer .= $this->html->fechaTag('div');                                   
+
+				$buffer .= $this->html->fechaTag('div');
+
+				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'notifications-link')) . 'VER MAIS NOTIFICAÇÕES' . $this->html->fechaTag('a');
+
+			$buffer .= $this->html->fechaTag('div');
+
+		$buffer .= $this->html->fechaTag('li');
+
+		return $buffer;
+
+	} 	
 
 	private function getNotificacoes()
 	{
