@@ -175,7 +175,7 @@ class Form extends \Zion\Form\Form
                 case 'layout':
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaLayout($objCampos);
                     break;
-                default : throw new Exception('Tipo Base não encontrado!');
+                default : throw new \Exception('Tipo Base não encontrado!');
             }
         }
 

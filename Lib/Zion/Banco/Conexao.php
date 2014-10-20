@@ -3,13 +3,12 @@
 /**
  * @author Pablo Vanni - pablovanni@gmail.com
  * @since 23/02/2005
- * Atualizada em: 24/10/2008
- * Atualizada em: 11/02/2011
- * Atualizada em: 11/07/2011
+ * Atualizada em: 24/10/2008 - Padrão Singleton
+ * Atualizada em: 11/02/2011 - Implementação de Log
+ * Atualizada em: 11/07/2011 - Transações
  * Atualizada em: 01/06/2012 - Multiplas Conexões
- * Autualizada Por: Pablo Vanni - pablovanni@gmail.com
+ * Atualizada em: 15/10/2014 - Namespaces e Perfumarias
  * @name Conexão e interação com metodos de entrada e saida
- * @version 3.0
  */
 
 namespace Zion\Banco;
