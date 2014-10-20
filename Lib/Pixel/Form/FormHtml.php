@@ -155,6 +155,10 @@ class FormHtml extends \Zion\Form\FormHtml
 
     private function prepareInputPixel($config, $campo)
     {
+        if($config->getLayoutPixel() === false){
+            return $campo;
+        }
+        
         $html = new \Zion\Layout\Html();
 
         $buffer = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));

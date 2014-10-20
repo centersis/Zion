@@ -248,7 +248,7 @@ class Template extends \Zion\Layout\Padrao
 							$buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
 
 								// carrega as notificações da barra superior
-								$buffer .= $this->getOpcoesSU();
+								//$buffer .= $this->getOpcoesSU();
 
 								// carrega as notificações da barra superior
 								$buffer .= $this->getNotificacoes();
@@ -368,7 +368,7 @@ class Template extends \Zion\Layout\Padrao
 
 				$buffer .= $this->html->fechaTag('div');
 
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'notifications-link')) . 'VER MAIS NOTIFICAÇÕES' . $this->html->fechaTag('a');
+				//$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'class' => 'notifications-link')) . 'VER MAIS NOTIFICAÇÕES' . $this->html->fechaTag('a');
 
 			$buffer .= $this->html->fechaTag('div');
 
@@ -481,13 +481,13 @@ class Template extends \Zion\Layout\Padrao
 	private function getFormPesquisa()
 	{
 
-		$formSmart  = new \Sappiens\Dashboard\Smart();
-		$form       = $formSmart->getFormSmart();       
+		$formSmart  = new \Sappiens\includes\SelecionarClienteForm();
+		$form       = $formSmart->getFormModulo();       
 
 		$buffer  = '';
 		$buffer .= $this->html->abreTagAberta('li');    
 
-			//$buffer .= $form->montaForm();                
+			$buffer .= $form->montaForm();                
 
 		$buffer .= $this->html->fechaTag('li'); 
 

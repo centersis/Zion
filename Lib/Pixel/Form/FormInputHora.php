@@ -7,6 +7,7 @@ class FormInputHora extends \Zion\Form\FormInputHora
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $layoutPixel;
     
     private $formSetPixel;
         
@@ -80,6 +81,17 @@ class FormInputHora extends \Zion\Form\FormInputHora
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho;
+    }
+    
+    public function setLayoutPixel($layoutPixel)
+    {
+        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
+        return $this;
+    }
+    
+    public function getLayoutPixel()
+    {
+        return $this->layoutPixel;
     }
     
     /**

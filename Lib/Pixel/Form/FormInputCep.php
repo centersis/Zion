@@ -8,6 +8,7 @@ class FormInputCep extends \Zion\Form\FormInputCep
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $layoutPixel;
     
     private $formSetPixel;
 
@@ -72,6 +73,17 @@ class FormInputCep extends \Zion\Form\FormInputCep
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho;
+    }
+    
+    public function setLayoutPixel($layoutPixel)
+    {
+        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
+        return $this;
+    }
+    
+    public function getLayoutPixel()
+    {
+        return $this->layoutPixel;
     }
 
     /**

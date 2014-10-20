@@ -8,6 +8,7 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $layoutPixel;
     
     private $formSetPixel;
 
@@ -72,6 +73,17 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho;
+    }
+    
+    public function setLayoutPixel($layoutPixel)
+    {
+        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
+        return $this;
+    }
+    
+    public function getLayoutPixel()
+    {
+        return $this->layoutPixel;
     }
 
     /**

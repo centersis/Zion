@@ -6,11 +6,9 @@ class GridBotoes
 {
 
     private $botoesExcluir;
-    private $botoesIncluir;
 
     public function __construct()
     {
-        $this->botoesIncluir = [];
         $this->botoesExcluir = [];
     }
 
@@ -36,8 +34,8 @@ class GridBotoes
         $buffer .= $html->abreTagAberta('div', ['class' => 'btn-group']);
 
         $buffer .= $html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg dropdown-toggle', 'data-toggle' => 'dropdown']);
-        $buffer .= $html->abreTagFechada('i', ['class' => 'fa-check-square-o']);
-        $buffer.= '&nbsp;';
+        $buffer .= $html->abreTagFechada('i', ['class' => 'fa fa-check-square-o']);
+        $buffer .= '&nbsp;';
         $buffer .= $html->abreTagFechada('i', ['class' => 'fa fa-caret-down']);
         $buffer .= $html->fechaTag('button');
 
@@ -67,18 +65,28 @@ class GridBotoes
             if (!in_array($dados['AcaoModuloIdPermissao'], $this->botoesExcluir)) {
                 $cont++;
 
-                $botoes = $html->abreTagAberta('button', [
-                    'type' => 'button',
-                    'class' => 'btn btn-lg hidden-xs',
-                    'title' => $dados['AcaoModuloPermissao'],
-                    'onclick' => $dados['AcaoModuloFuncaoJS']]);
-
-                $botoes.= $html->abreTagFechada('i', ['class' => $dados['AcaoModuloIcon']]);
-                $botoes.= $html->fechaTag('button');
-
                 if ($dados['AcaoModuloApresentacao'] == 'E') {
+
+                    $botoes = $html->abreTagAberta('button', [
+                        'type' => 'button',
+                        'class' => 'btn btn-lg hidden-xs',
+                        'title' => $dados['AcaoModuloPermissao'],
+                        'onclick' => $dados['AcaoModuloFuncaoJS']]);
+
+                    $botoes.= $html->abreTagFechada('i', ['class' => $dados['AcaoModuloIcon']]);
+                    $botoes.= $html->fechaTag('button');
+
                     $arrayBotoesE[$cont] = $botoes;
                 } else {
+
+                    $botoes = $html->abreTagAberta('li', ['class' => 'hidden-xs']);
+                    $botoes .= $html->abreTagAberta('a', ['href' => 'javascript:' . $dados['AcaoModuloFuncaoJS']]);
+                    $botoes .= $html->abreTagAberta('i', ['class' => 'dropdown-icon ' . $dados['AcaoModuloIcon']]);
+                    $botoes .= $html->fechaTag('i');
+                    $botoes .= '&nbsp;&nbsp;&nbsp;'.$dados['AcaoModuloPermissao'];
+                    $botoes .= $html->fechaTag('a');
+                    $botoes .= $html->fechaTag('li');
+
                     $arrayBotoesR[$cont] = $botoes;
                 }
 
@@ -86,32 +94,55 @@ class GridBotoes
             }
         }
 
-        //Incluir Botões
-        if (is_array($this->botoesIncluir)) {
-            foreach ($this->botoesIncluir as $dadosBotao) {
-                $cont++;
+        //Gerando HTML com as Posições Corretas
+        asort($posicoes, SORT_NUMERIC);
+        $expandidos = '';
+        $recolhidos = '';
+        
+        foreach ($posicoes as $chave => $posicao) {
 
-                $botoes = $html->abreTagAberta('button', [
-                    'type' => 'button',
-                    'class' => 'btn btn-lg hidden-xs',
-                    'title' => $dados['AcaoModuloPermissao'],
-                    'onclick' => $dados['AcaoModuloFuncaoJS']]);
-
-                $botoes.= $html->abreTagFechada('i', ['class' => $dados['AcaoModuloIcon']]);
-                $botoes.= $html->fechaTag('button');
-
-                $arrayBotoes[$cont] = $botoes;
-                $posicoes[$cont] = (int) $dadosBotao['AcaoModuloPosicao'];
+            if (key_exists($chave, $arrayBotoesE)) {
+                $expandidos .= $arrayBotoesE[$chave];
+            } else {
+                $recolhidos .= $arrayBotoesR[$chave];
             }
         }
+        
+        $buffer.= $html->abreTagAberta('div',['class'=>'btn-group']);
+        
+        $buffer .= $expandidos;
 
-        //Gerando HTML com as Posiçõees Corretas
-        asort($posicoes, SORT_NUMERIC);
+        if ($recolhidos) {
 
-        foreach ($posicoes as $chave => $posicao) {
-            $buffer .= $arrayBotoes[$chave];
-        }        
+            $buffer .= $html->abreTagAberta('div', ['class' => 'btn-group']);
+            $buffer .= $html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg dropdown-toggle', 'data-toggle' => 'dropdown']);
+            $buffer .= $html->abreTagFechada('i', ['class' => 'fa fa-bars']);
+            $buffer .= '&nbsp;';
+            $buffer .= $html->abreTagFechada('i', ['class' => 'fa fa-caret-down']);
+            $buffer .= $html->fechaTag('button');
 
+            $buffer .= $html->abreTagAberta('ul', ['class' => 'dropdown-menu', 'role' => 'menu']);
+            $buffer .= $recolhidos;
+            $buffer .= $html->fechaTag('ul');
+
+            $buffer .= $html->fechaTag('div');
+        }
+        
+        $buffer .= $html->fechaTag('div');
+        
+        
+        $buffer.= $html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px hidden-xs hidden-sm hidden-md']);
+            $buffer .= $html->abreTagAberta('div', ['class' => 'btn-group']);
+            $buffer .= $html->abreTagAberta('input', ['id' => 'sisBuscaGridA','name'=>'sisBuscaGridA','type'=>'text','class'=>'input form-control tagsinput','data-role'=>'tagsinput','placeholder'=>'Pesquisar']);
+            $buffer .= $html->fechaTag('div');        
+        $buffer .= $html->fechaTag('div');
+        
+        $buffer.= $html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px visible-md hidden-lg']);
+            $buffer .= $html->abreTagAberta('div', ['class' => 'btn-group']);
+            $buffer .= $html->abreTagAberta('input', ['id' => 'sisBuscaGridB','name'=>'sisBuscaGridB','type'=>'text','class'=>'input form-control tagsinput','data-role'=>'tagsinput','placeholder'=>'Pesquisar']);
+            $buffer .= $html->fechaTag('div');        
+        $buffer .= $html->fechaTag('div');
+        
         $buffer .= $html->fechaTag('div');
 
         return $buffer;
