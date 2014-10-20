@@ -33,7 +33,7 @@ class Form extends \Zion\Form\Form
 
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputHora('time', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputHora('hora', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
@@ -154,8 +154,11 @@ class Form extends \Zion\Form\Form
                 case 'suggest' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaSuggest($objCampos);
                     break;
-                case 'dateTime' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaDateTime($objCampos);
+                case 'data' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaData($objCampos);
+                    break;
+                case 'hora' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaHora($objCampos);
                     break;
                 case 'number' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaNumber($objCampos);
