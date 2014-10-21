@@ -17,7 +17,7 @@ class FormInputData extends \Zion\Form\FormInputData
         
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
         
-        $this->setIconFA('fa-calendar');    
+        $this->setIconFA('fa-calendar');
 
     }
 
