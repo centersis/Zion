@@ -26,6 +26,18 @@ class FormInputNumber extends \Zion\Form\FormInputNumber
         return $this;
     }
     
+    public function setMaximoCaracteres($maximoCaracteres)
+    {
+        parent::setMaximoCaracteres($maximoCaracteres);
+        return $this;
+    }
+
+    public function setMinimoCaracteres($minimoCaracteres)
+    {
+        parent::setMinimoCaracteres($minimoCaracteres);
+        return $this;
+    }
+    
     public function setValorMinimo($valorMinimo)
     {
         parent::setValorMinimo($valorMinimo);

@@ -8,6 +8,8 @@ class FormInputNumber extends \Zion\Form\FormBasico
     private $tipoBase;
     private $acao;
     private $largura;
+    private $maximoCaracteres;
+    private $minimoCaracteres;
     private $valorMaximo;
     private $valorMinimo;
     private $obrigatorio;
@@ -45,6 +47,46 @@ class FormInputNumber extends \Zion\Form\FormBasico
     public function getLargura()
     {
         return $this->largura;
+    }
+    
+    public function setMaximoCaracteres($maximoCaracteres)
+    {
+        if (is_numeric($maximoCaracteres)) {
+
+            if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
+                throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
+            }
+            $this->maximoCaracteres = $maximoCaracteres;
+            return $this;
+
+        } else {
+            throw new FormException("maximoCaracteres: Valor nao numerico.");
+        }
+    }
+
+    public function getMaximoCaracteres()
+    {
+        return $this->maximoCaracteres;
+    }
+
+    public function setMinimoCaracteres($minimoCaracteres)
+    {
+        if (is_numeric($minimoCaracteres)) {
+
+            if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
+                throw new FormException("minimoCaracteres nao pode ser maior que maximoCaracteres.");
+            }
+
+            $this->minimoCaracteres = $minimoCaracteres;
+            return $this;
+        } else {
+            throw new FormException("minimoCaracteres: Valor nao numerico.");
+        }
+    }
+
+    public function getMinimoCaracteres()
+    {
+        return $this->minimoCaracteres;
     }
     
     public function setValorMinimo($valorMinimo)

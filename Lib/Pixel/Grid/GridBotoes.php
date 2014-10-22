@@ -1,6 +1,6 @@
 <?php
 
-namespace Zion\Grid;
+namespace Pixel\Grid;
 
 class GridBotoes
 {
