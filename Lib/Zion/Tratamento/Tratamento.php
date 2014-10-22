@@ -3,60 +3,60 @@
 /**
  * Valida()
  * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 15/09/2014
+ * @since 20/10/2014
  * @version 1.0
  * @copyright 2014
  * 
- * Interface para integração com outras classes de validação de dados.
+ * Interface para integração com outras classes de tratamento de dados.
  */
 
-namespace Zion\Validacao;
+namespace Zion\Tratamento;
 
 class Valida
 {
     
     /**
-     * Valida::texto()
+     * Tratamento::texto()
      * Retorna uma instância da classe de tratamento de Strings. Texto()
      * 
-     * @return object()
+     * @return object
      */
     public function texto()
     {
-        return new \Zion\Validacao\Texto();
+        return new \Zion\Tratamento\Texto();
     }
     
     /**
-     * Valida::data()
+     * Tratamento::data()
      * Retorna uma instância da classe de tratamento de Datas. Data()
      * 
-     * @return object()
+     * @return object
      */
     public function data()
     {
-        return new \Zion\Validacao\Data();
+        return new \Zion\Tratamento\Data();
     }
     
     /**
-     * Valida::numero()
+     * Tratamento::numero()
      * Retorna uma instância da classe de tratamento de Float. Numero()
      * 
-     * @return object()
+     * @return object
      */
     public function numero()
     {
-        return new \Zion\Validacao\Numero();
+        return new \Zion\Tratamento\Numero();
     }
     
     /**
-     * Valida::geral()
+     * Tratamento::geral()
      * Retorna uma instância da classe de tratamento de inputs especias. Geral()
      * 
-     * @return object()
+     * @return object
      */
     public function geral()
     {
-        return new \Zion\Validacao\Geral();
+        return new \Zion\Tratamento\Geral();
     }
 
 }

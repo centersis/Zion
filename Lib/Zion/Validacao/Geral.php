@@ -6,12 +6,12 @@
  * @version 1.0
  * @copyright 2014
  * 
- * Tratamento de inputs específicamente Brasileiros.
+ * Validação de inputs específicamente Brasileiros.
  * 
  */
 namespace Zion\Validacao;
 
-class Geral
+class Geral extends \Zion\Tratamento\Geral
 {
 
     /**
@@ -86,33 +86,7 @@ class Geral
 			return($Dv != $DvInformado) ? false : true;
 		}
     }
-    
-    /**
-     * Geral::formataCPF()
-     * 
-     * @param mixed $cpf
-     * @return
-     */
-    public function formataCPF($cpf)
-    {
-
-        $cpfFormatado = NULL;
-        
-        if(preg_match('/^\d{3}.\d{3}.\d{3}-\d{2}$/', $cpf)) return($this->validaCPF($cpf) === true ? $cpf : false);
-        
-        if($this->validaCPF($cpf)){
-
-            $cpfFormatado = substr($cpf, 0, 3) .'.'. substr($cpf, 3, 3) .'.'. substr($cpf, 6, 3) .'-'. substr($cpf, -2);
-
-        } else {
-
-            $cpfFormatado = false;
-
-        }
-        
-        return $cpfFormatado;
-    }
-    
+   
     /**
      * Geral::validaCNPJ()
      * 
@@ -189,34 +163,7 @@ class Geral
 
     	return $isCnpjValid;
     }
-
-    /**
-     * Geral::formataCNPJ()
-     * 
-     * @param mixed $cnpj
-     * @return
-     */
-    public function formataCNPJ($cnpj)
-    {
-
-        $cnpjFormatado = NULL;
-
-        if(preg_match('/^\d{2}\.\d{3}.\d{3}\/\d{4}-\d{2}$/', $cnpj)) return($this->validaCNPJ($cnpj) === true ? $cnpj : false);
-
-        if($this->validaCNPJ($cnpj)){
-
-            $cnpjFormatado = substr($cnpj, 0, 2) .'.'. substr($cnpj, 2, 3) .'.'. substr($cnpj, 5, 3) .'/'. substr($cnpj, 8, 4) .'-'. substr($cnpj, -2);
-
-        } else {
-
-            $cnpjFormatado = false;
-
-        }
-        
-        return $cnpjFormatado;
-    }
-
-    
+   
     /**
      * Geral::validaCEP()
      * 
@@ -231,32 +178,10 @@ class Geral
             return($cepValido > 0 ? true : false);
         }
     }
- 
-    /**
-     * Geral::formataCEP()
-     * 
-     * @param mixed $cep
-     * @return
-     */
-    public function formataCEP($cep)
+
+    public function validaTelefone($telefone)
     {
-        $cepFormatado = NULL;
-
-        if(preg_match('/^\d{2}\.\d{3}[-|\s]?[0-9]{3}$/', $cep)) return($this->validaCEP($cep) === true ? $cep : false);
-
-        $cep = preg_replace('/[^0-9]/', '', $cep);
-
-        if($this->validaCEP($cep)){
-
-            $cepFormatado = substr($cep, 0, 2) .'.'. substr($cep, 2, 3) .'-'. substr($cep, -3);
-
-        } else {
-
-            $cepFormatado = false;
-
-        }
-
-        return $cepFormatado;
+        throw new RuntimeException("Metodo ainda nao implementado.");
     }
 
 }
