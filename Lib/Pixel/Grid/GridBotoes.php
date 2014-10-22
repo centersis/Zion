@@ -14,7 +14,7 @@ class GridBotoes
         $this->html = new \Zion\Layout\Html();
     }
 
-    public function geraBotoes($htmlPaginacao = '')
+    public function geraBotoes()
     {
         $acesso = new \Zion\Acesso\Acesso();
 
@@ -144,14 +144,6 @@ class GridBotoes
         $buffer .= $this->html->abreTagAberta('input', ['id' => 'sisBuscaGridB', 'name' => 'sisBuscaGridB', 'type' => 'text', 'class' => 'input form-control tagsinput', 'data-role' => 'tagsinput', 'placeholder' => 'Pesquisar']);
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
-
-        $buffer .= $this->html->fechaTag('div');
-
-        if ($htmlPaginacao) {
-            $buffer .= $this->html->abreTagAberta('div', ['id' => 'sisContainerPaginacao']);
-            $buffer .= $htmlPaginacao;
-            $buffer .= $this->html->fechaTag('div');
-        }
 
         $buffer .= $this->html->fechaTag('div');
 

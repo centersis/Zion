@@ -47,7 +47,7 @@ class Controller
                 
                 $dadosFiltrar = $modulo->filtrar();
                 
-                $htmlBotoes = $botoes->geraBotoes($dadosFiltrar['paginacao']);
+                $htmlBotoes = $botoes->geraBotoes();
                 
                 $retorno = $htmlBotoes.$dadosFiltrar['grid'];
                 
