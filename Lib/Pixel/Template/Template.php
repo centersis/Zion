@@ -785,7 +785,7 @@ class Template extends \Zion\Layout\Padrao
 		//$buffer .= '<div id="pa-page-alerts-box"></div>';
 
 		// carrega o breadcrumb
-		//$buffer .= $this->getBreadCrumb();
+		$buffer .= $this->getBreadCrumb();
 
 		// carrega o page header
 		$buffer .= $this->getPageHeader();
@@ -906,22 +906,22 @@ class Template extends \Zion\Layout\Padrao
 	{
 
 		$buffer  = '';
-		$buffer .= $this->html->abreTagAberta('ul', array('class' => 'breadcrumb breadcrumb-page'));
-			$buffer .= $this->html->abreTagAberta('div', array('class' => 'breadcrumb-label text-light-gray')) . 'Você, supostamente, está aqui: ' . $this->html->fechaTag('div');
+		$buffer .= $this->html->abreTagAberta('ul', array('class' => 'breadcrumb breadcrumb-page hidden-xs hidden-sm'));
+			$buffer .= $this->html->abreTagAberta('div', array('class' => 'breadcrumb-label text-light-gray')) . 'Você está aqui: ' . $this->html->fechaTag('div');
 			$buffer .= $this->html->abreTagAberta('li');
-				$buffer .= $this->html->abreTagAberta('a', array('href' => '#')) . 'Início' . $this->html->fechaTag('a');
+				$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard')) . 'Início' . $this->html->fechaTag('a');
 			$buffer .= $this->html->fechaTag('li');
 
 			if(defined('DEFAULT_GRUPO_NOME')) {
 
 				$buffer .= $this->html->abreTagAberta('li');
-					$buffer .= $this->html->abreTagAberta('a', array('href' => '#')) . DEFAULT_GRUPO_NOME . $this->html->fechaTag('a');
+					$buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . DEFAULT_GRUPO_URL)) . DEFAULT_GRUPO_NOME . $this->html->fechaTag('a');
 				$buffer .= $this->html->fechaTag('li');
 
 			}
 
 			$buffer .= $this->html->abreTagAberta('li', array('class' => 'active'));
-				$buffer .= $this->html->abreTagAberta('a', array('href' => './?ref='. DEFAULT_MODULO_NOME)) . DEFAULT_MODULO_NOME . $this->html->fechaTag('a');
+				$buffer .= $this->html->abreTagAberta('a', array('href' => './')) . DEFAULT_MODULO_NOME . $this->html->fechaTag('a');
 			$buffer .= $this->html->fechaTag('li');             
 		$buffer .= $this->html->fechaTag('ul');
 
@@ -935,10 +935,22 @@ class Template extends \Zion\Layout\Padrao
 		$buffer  = '';
 		$buffer .= $this->html->abreTagAberta('div', array('class' => 'page-header'));
 			$buffer .= $this->html->abreTagAberta('div', array('class' => 'row'));
+/*
+				if(defined('DEFAULT_GRUPO_NOME')) {
 
-				$buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
-					$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-dashboard page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . DEFAULT_MODULO_NOME;
-				$buffer .= $this->html->fechaTag('h1');
+					$GrupoNome = DEFAULT_GRUPO_NOME . ' -> ';
+					$buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
+						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa page-header-icon' . DEFAULT_GRUPO_ICONE)) . $this->html->fechaTag('i') . '&nbsp;' . DEFAULT_GRUPO_NOME .  '&nbsp;&nbsp;&nbsp;';
+						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa page-header-icon' . DEFAULT_MODULO_ICONE)) . $this->html->fechaTag('i') . '&nbsp;' . DEFAULT_MODULO_NOME;
+					$buffer .= $this->html->fechaTag('h1');					
+
+				} else {
+*/
+					$buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
+						$buffer .= $this->html->abreTagAberta('i', array('class' => 'fa page-header-icon' . DEFAULT_MODULO_ICONE)) . $this->html->fechaTag('i') . '&nbsp;' . DEFAULT_MODULO_NOME;
+					$buffer .= $this->html->fechaTag('h1');
+
+//				}
 
 			$buffer .= $this->html->fechaTag('div');                
 		$buffer .= $this->html->fechaTag('div');
