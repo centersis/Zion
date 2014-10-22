@@ -247,7 +247,7 @@ class Template extends \Zion\Layout\Padrao
 								//$buffer .= $this->getOpcoesSU();
 
 								// carrega o form de pesquisa da barra superior
-								//$buffer .= $this->getFormPesquisa();   							
+								$buffer .= $this->getFormPesquisa();   							
 
 								// carrega as notificações da barra superior
 								$buffer .= $this->getNotificacoes();
@@ -477,13 +477,21 @@ class Template extends \Zion\Layout\Padrao
 	private function getFormPesquisa()
 	{
 
-		$formSmart  = new \Sappiens\includes\SelecionarClienteForm();
-		$form       = $formSmart->getFormModulo();       
+		$formPixel  = new \Sappiens\includes\SelecionarClienteForm();
+		$form       = $formPixel->getFormModulo();    
+
+		$Formulario = $form->getFormHtml('v_uf_cidade');  
+
+		$this->setConteudoScripts($form->JavaScript()->getLoad());  
 
 		$buffer  = '';
 		$buffer .= $this->html->abreTagAberta('li');    
 
-			$buffer .= $form->getFormHtml('uf_cidade');                
+			$buffer .= $this->html->abreTagAberta('form', array('class' => 'navbar-form pull-left', 'action' => SIS_URL_BASE . 'Dashboard?acao=setCliente'));    
+
+				$buffer .= $Formulario;        
+
+			$buffer .= $this->html->fechaTag('form'); 
 
 		$buffer .= $this->html->fechaTag('li'); 
 
@@ -963,16 +971,16 @@ class Template extends \Zion\Layout\Padrao
 	private function getScripts()
 	{
 
-		$formModulo = new \Sappiens\Grupo\Modulo\ModuloForm();
-		$form = $formModulo->getFormModulo();
+		//$formModulo = new \Sappiens\includes\SelecionarClienteForm();
+		//$form = $formModulo->getFormModulo();
 
 		$buffer  = '';
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: starting runtime dynamic form scripts block' . $this->html->fechaComentario();  
 		$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript'));
-		$buffer .= $form->javascript()->getLoad();
+		$buffer .= $this->conteudoScripts;
 		$buffer .= $this->html->fechaTag('script');
 		$buffer .= $this->html->abreComentario() . 'Zion Framework: ending runtime dynamic form scripts block' . $this->html->fechaComentario();  
-		$buffer .= $this->conteudoScripts;  
+		//$buffer .= $this->conteudoScripts;  
 
 		return $buffer;
 
