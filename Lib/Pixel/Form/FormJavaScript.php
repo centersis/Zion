@@ -65,9 +65,9 @@ class FormJavaScript extends \Zion\Layout\JavaScript
         return $buffer;
     }
     
-    public function setFunctions($codigo)
+    public function setFunctions($codigoFonte)
     {
-        $this->functions[] = $codigo;
+        $this->functions[] = $codigoFonte;
         return $this;
     }
     
