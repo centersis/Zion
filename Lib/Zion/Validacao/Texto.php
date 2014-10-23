@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Feliphe Bueno - feliphezion@gmail.com
+ * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
  * @since 11/09/2014
  * @version 1.0
  * @copyright 2014
@@ -13,6 +13,36 @@ namespace Zion\Validacao;
 
 class Texto extends \Zion\Tratamento\Texto
 {
+
+    /** 
+     * @var object $instancia Instância da classe singleton
+     */
+    private static $instancia;
+
+    /**
+     * Texto::__construct()
+     * Construtor, tão tosco quanto necessário para a implementação singleton.
+     * 
+     * @return void
+     */
+    private function __construct(){
+        
+    }
+
+    /**
+     * Texto::instancia()
+     * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
+     * 
+     * @return object
+     */
+    public function instancia(){
+        
+        if(!isset(self::$instancia)){
+            self::$instancia = new self;
+        }
+
+        return self::$instancia;
+    }
 
     /**
      * Texto::verificaMinimoCaracteres()

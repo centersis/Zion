@@ -15,12 +15,34 @@ use \Zion\Form\Exception\FormInvalidArgumentException as FormInvalidArgumeExcept
 
 class FormValida
 {
+    /** 
+     * @var string $instance Recebe o nome da classe passada por parâmetro, para detecção automática dos atributos da classe.
+     */
     private $instance;
+    
+    /** 
+     * @var string $instaceBasico Nome da classe básica extendida por todas as classes em \Zion\Form;
+     */
     private $instaceBasico = 'Zion\Form\FormBasico';
     
+    /** 
+     * @var object $texto Instância da classe de validação de strings
+     */
     private $texto;
+    
+    /** 
+     * @var object $numero Instância da classe de validação de valores monetários e numéricos
+     */
     private $numero;
+    
+    /** 
+     * @var object $data Instância da classe de validação de data e hora
+     */
     private $data;
+    
+    /** 
+     * @var object $geral Instância da classe de validação de tipos especiais
+     */
     private $geral;
 
     /**
@@ -31,7 +53,7 @@ class FormValida
      */
     public function __construct()
     {
-        $valida = new \Zion\Validacao\Valida();
+        $valida = \Zion\Validacao\Valida::instancia();
 
         $this->texto    = $valida->texto();
         $this->numero   = $valida->numero();

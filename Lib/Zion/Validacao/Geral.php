@@ -1,7 +1,6 @@
 <?php
 /**
- * Geral
- * @author Feliphe Bueno - feliphezion@gmail.com
+ * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
  * @since 24/9/2014
  * @version 1.0
  * @copyright 2014
@@ -13,6 +12,36 @@ namespace Zion\Validacao;
 
 class Geral extends \Zion\Tratamento\Geral
 {
+
+    /** 
+     * @var object $instancia Instância da classe singleton
+     */
+    private static $instancia;
+
+    /**
+     * Geral::__construct()
+     * Construtor, tão tosco quanto necessário para a implementação singleton.
+     * 
+     * @return void
+     */
+    private function __construct(){
+        
+    }
+
+    /**
+     * Geral::instancia()
+     * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
+     * 
+     * @return object
+     */
+    public function instancia(){
+        
+        if(!isset(self::$instancia)){
+            self::$instancia = new self;
+        }
+
+        return self::$instancia;
+    }
 
     /**
      * Geral::validaCPF()

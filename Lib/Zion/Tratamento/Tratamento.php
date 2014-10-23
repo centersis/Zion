@@ -14,7 +14,36 @@ namespace Zion\Tratamento;
 
 class Valida
 {
-    
+    /** 
+     * @var object $instancia Instância da classe singleton
+     */
+    private static $instancia;
+
+    /**
+     * Valida::__construct()
+     * Construtor, tão tosco quanto necessário para a implementação singleton.
+     * 
+     * @return void
+     */
+    private function __construct(){
+        
+    }
+
+    /**
+     * Valida::instancia()
+     * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
+     * 
+     * @return object
+     */
+    public function instancia(){
+        
+        if(!isset(self::$instancia)){
+            self::$instancia = new self;
+        }
+
+        return self::$instancia;
+    }
+
     /**
      * Tratamento::texto()
      * Retorna uma instância da classe de tratamento de Strings. Texto()
@@ -23,7 +52,7 @@ class Valida
      */
     public function texto()
     {
-        return new \Zion\Tratamento\Texto();
+        return \Zion\Tratamento\Texto::instancia();
     }
     
     /**
@@ -34,7 +63,7 @@ class Valida
      */
     public function data()
     {
-        return new \Zion\Tratamento\Data();
+        return \Zion\Tratamento\Data::instancia();
     }
     
     /**
@@ -45,7 +74,7 @@ class Valida
      */
     public function numero()
     {
-        return new \Zion\Tratamento\Numero();
+        return \Zion\Tratamento\Numero::instancia();
     }
     
     /**
@@ -56,7 +85,7 @@ class Valida
      */
     public function geral()
     {
-        return new \Zion\Tratamento\Geral();
+        return \Zion\Tratamento\Geral::instancia();
     }
 
 }
