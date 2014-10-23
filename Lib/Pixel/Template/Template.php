@@ -7,6 +7,8 @@ class Template extends \Zion\Layout\Padrao
 
     private $conteudoHeader;
     private $conteudoBody;
+    private $conteudoBotoes;
+    private $conteudoGrid;
     private $conteudoMain;
     private $conteudoContainerLogin;
     private $conteudoScripts;
@@ -29,6 +31,18 @@ class Template extends \Zion\Layout\Padrao
     {
 
         $this->idContainer .= $conteudo;
+    }
+
+    public function setConteudoBotoes($conteudo = '')
+    {
+
+        $this->conteudoBotoes .= $conteudo;
+    }
+
+    public function setConteudoGrid($conteudo = '')
+    {
+
+        $this->conteudoGrid .= $conteudo;
     }
 
     public function setConteudoMain($conteudo = '')
@@ -59,8 +73,12 @@ class Template extends \Zion\Layout\Padrao
     {
 
         return $this->conteudoFooter;
-
     }
+
+    public function setTooltipForm($Form = 'sisContainer')
+    {
+        return $this->tooltipForm = $Form;
+    }    
 
     public function getTemplate($modo = '')
     {
@@ -131,17 +149,14 @@ class Template extends \Zion\Layout\Padrao
                 $buffer .= $this->getEstatisticas('ends');
 
                 return $buffer;
-
-                break;
         }
     }
 
     private function getCabecalho()
     {
 
-        $cabecalho = new \Pixel\Template\Cabecalho();  
+        $cabecalho = new \Pixel\Template\Cabecalho();
         return $cabecalho->getCabecalho();
-
     }
 
     private function getInicioCorpo()
@@ -172,10 +187,11 @@ class Template extends \Zion\Layout\Padrao
     private function getBarraSuperior()
     {
 
-        $menu           = new \Pixel\Template\BarraSuperior\Menu();        
-        $formPesquisar  = new \Pixel\Template\BarraSuperior\FormPesquisar();
-        $notificacoes   = new \Pixel\Template\BarraSuperior\Notificacoes();
-        $mensagens      = new \Pixel\Template\BarraSuperior\Mensagens();
+        $menu = new \Pixel\Template\BarraSuperior\Menu();
+        $formPesquisar = new \Pixel\Template\BarraSuperior\FormPesquisar();
+        $notificacoes = new \Pixel\Template\BarraSuperior\Notificacoes();
+        $mensagens = new \Pixel\Template\BarraSuperior\Mensagens();
+        $usuario = new \Pixel\Template\BarraSuperior\Usuario();
 
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar', 'class' => 'navbar navbar-inverse', 'role' => 'navigation'));
@@ -211,14 +227,10 @@ class Template extends \Zion\Layout\Padrao
 
         $buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
 
-        // carrega o form de pesquisa da barra superior
-        $buffer .= $formPesquisar->getFormPesquisar();
-
-        // carrega as notificações da barra superior
-        $buffer .= $notificacoes->getNotificacoes();
-
-        // carrega as mensagens da barra superior
-        $buffer .= $mensagens->getMensagens();
+            $buffer .= $formPesquisar->getFormPesquisar();
+            $buffer .= $notificacoes->getNotificacoes();
+            $buffer .= $mensagens->getMensagens();
+            $buffer .= $usuario->getUsuario();
 
         // end: navbar-nav
         $buffer .= $this->html->fechaTag('ul');
@@ -260,8 +272,8 @@ class Template extends \Zion\Layout\Padrao
     private function getBarraLateral()
     {
 
-        $blocoUsuario   = new \Pixel\Template\BarraEsquerda\BlocoUsuario();
-        $menu           = new \Pixel\Template\BarraEsquerda\Menu();
+        $blocoUsuario = new \Pixel\Template\BarraEsquerda\BlocoUsuario();
+        $menu = new \Pixel\Template\BarraEsquerda\Menu();
 
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-menu', 'role' => 'navigation'));
@@ -288,12 +300,14 @@ class Template extends \Zion\Layout\Padrao
     {
 
         $breadCrumb = new \Pixel\Template\Main\BreadCrumb();
-        $modal      = new \Pixel\Template\Main\Modal();
+        $modal = new \Pixel\Template\Main\Modal();
 
-        $buffer  = '';
+        $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
         $buffer .= $breadCrumb->getBreadCrumb();
         $buffer .= $this->getPageHeader();
+        $buffer .= $this->conteudoBotoes;
+        $buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerGrid']) . $this->conteudoGrid . $this->fechaTag('div');
         $buffer .= $this->conteudoMain;
         $buffer .= $modal->getModal();
 
@@ -311,7 +325,6 @@ class Template extends \Zion\Layout\Padrao
 
         $login = new \Pixel\Template\Login();
         return $login->getLogin();
-
     }
 
     private function getPageHeader()
@@ -364,12 +377,14 @@ class Template extends \Zion\Layout\Padrao
         return $buffer;
     }
 
-    public function setTooltipForm($Form = '')
+    public function getTooltipForm()
     {
 
-        $this->tooltipForm = '';
-        $this->tooltipForm .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
-        $this->tooltipForm .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#' . $Form . '\').tooltip()}};init.push(initTooltipsDemo);');
+        $buffer  = '';
+        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
+        $buffer .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#' . $this->tooltipForm . '\').tooltip()}};init.push(initTooltipsDemo);');
+        return $buffer;
+
     }
 
     private function getRodape()
@@ -377,7 +392,6 @@ class Template extends \Zion\Layout\Padrao
 
         $rodape = new \Pixel\Template\Rodape();
         return $rodape->getRodape($this);
-
     }
 
     private function getEstatisticas($modo = '')

@@ -28,7 +28,7 @@ class GridBotoes
 
         $arrayAcesso = $acesso->permissoesModulo();
 
-        $buffer = $this->html->abreTagAberta('div', ['class' => 'clearfix recI10px']);
+        $buffer = $this->html->abreTagAberta('div', ['id' => 'sisContainer', 'class' => 'clearfix recI10px']);
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar wide-btns pull-left']);
 
         //Check
