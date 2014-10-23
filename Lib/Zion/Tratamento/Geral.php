@@ -13,6 +13,36 @@ namespace Zion\Tratamento;
 
 class Geral
 {
+
+    /** 
+     * @var object $instancia Instância da classe singleton
+     */
+    private static $instancia;
+
+    /**
+     * Geral::__construct()
+     * Construtor, tão tosco quanto necessário para a implementação singleton.
+     * 
+     * @return void
+     */
+    private function __construct(){
+        
+    }
+
+    /**
+     * Geral::instancia()
+     * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
+     * 
+     * @return object
+     */
+    public function instancia(){
+        
+        if(!isset(self::$instancia)){
+            self::$instancia = new self;
+        }
+
+        return self::$instancia;
+    }
   
     /**
      * Geral::formataCPF()
