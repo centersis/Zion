@@ -186,6 +186,7 @@ class Template extends \Zion\Layout\Padrao
         $formPesquisar = new \Pixel\Template\BarraSuperior\FormPesquisar();
         $notificacoes = new \Pixel\Template\BarraSuperior\Notificacoes();
         $mensagens = new \Pixel\Template\BarraSuperior\Mensagens();
+        $usuario = new \Pixel\Template\BarraSuperior\Usuario();
 
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar', 'class' => 'navbar navbar-inverse', 'role' => 'navigation'));
@@ -221,14 +222,10 @@ class Template extends \Zion\Layout\Padrao
 
         $buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
 
-        // carrega o form de pesquisa da barra superior
-        $buffer .= $formPesquisar->getFormPesquisar();
-
-        // carrega as notificações da barra superior
-        $buffer .= $notificacoes->getNotificacoes();
-
-        // carrega as mensagens da barra superior
-        $buffer .= $mensagens->getMensagens();
+            $buffer .= $formPesquisar->getFormPesquisar();
+            $buffer .= $notificacoes->getNotificacoes();
+            $buffer .= $mensagens->getMensagens();
+            $buffer .= $usuario->getUsuario();
 
         // end: navbar-nav
         $buffer .= $this->html->fechaTag('ul');
