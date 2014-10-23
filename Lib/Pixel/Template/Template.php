@@ -75,6 +75,11 @@ class Template extends \Zion\Layout\Padrao
         return $this->conteudoFooter;
     }
 
+    public function setTooltipForm($Form = 'sisContainer')
+    {
+        return $this->tooltipForm = $Form;
+    }    
+
     public function getTemplate($modo = '')
     {
 
@@ -372,12 +377,14 @@ class Template extends \Zion\Layout\Padrao
         return $buffer;
     }
 
-    public function setTooltipForm($Form = '')
+    public function getTooltipForm()
     {
 
-        $this->tooltipForm = '';
-        $this->tooltipForm .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
-        $this->tooltipForm .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#' . $Form . '\').tooltip()}};init.push(initTooltipsDemo);');
+        $buffer  = '';
+        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
+        $buffer .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#' . $this->tooltipForm . '\').tooltip()}};init.push(initTooltipsDemo);');
+        return $buffer;
+
     }
 
     private function getRodape()
