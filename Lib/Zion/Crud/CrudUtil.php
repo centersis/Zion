@@ -11,6 +11,30 @@ namespace Zion\Crud;
 class CrudUtil
 {
 
+    /*
+     * Metodo que retorna um array com o nome dos campos de formulários
+     * retorna Array
+     */
+    public function getParametrosForm(Form $objForm)
+    {
+        //Incia Variavel que receberá os campos
+        $arrayCampos = [];
+
+        //Recuperando Array de Campos
+        $arrayForm = $objForm->getBufferCFG();
+
+        //Monta Array de Retotno
+        if(is_array($arrayForm))
+        {
+            foreach($arrayForm as $cfg)
+            {
+                $arrayCampos[] = $cfg['Nome'];
+            }
+        }
+
+        return $arrayCampos;
+    }
+    
     /**
      * Metodo que processa e retorna partes de uma clausula SQL de acordo com os filtros
      * returna String
@@ -42,7 +66,7 @@ class CrudUtil
     public function getSqlInsertUpdate(FormCampos $objForm, $sql)
     {
         //Instancia Classe de Parse SQL
-        $parseSql = new ParseSql();
+        $parseSql = new \Zion\Crud\ParseSql();
 
         //Tipo de Interpretação
         $tipoSql = strtoupper(substr(trim($sql), 0, 6));
