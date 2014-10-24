@@ -10,11 +10,11 @@ namespace Pixel\Crud;
 
 class CrudUtil
 {
-
     /*
      * Metodo que retorna um array com o nome dos campos de formulários
      * retorna Array
      */
+
     public function getParametrosForm($objForm)
     {
         //Incia Variavel que receberá os campos
@@ -24,37 +24,64 @@ class CrudUtil
         $arrayForm = $objForm->getObjetos();
 
         //Monta Array de Retotno
-        if(is_array($arrayForm))
-        {
-            foreach($arrayForm as $cfg)
-            {
+        if (is_array($arrayForm)) {
+            foreach ($arrayForm as $cfg) {
                 $arrayCampos[] = $cfg->getNome();
             }
         }
 
         return $arrayCampos;
     }
-    
+
     /**
      * Metodo que processa e retorna partes de uma clausula SQL de acordo com os filtros
      * returna String
      */
-    public function getSqlFiltro(Filtrar $fil, Form $objForm)
+    public function getSqlFiltro($fil, $objForm, array $colunas)
     {
         //Incia Variavel que receberá as instruções Sql
-        $sql = "";
+        $sql = '';
 
         //Recuperando Array de Campos
         $arrayForm = $objForm->getObjetos();
 
+        //Intercepta busca geral
         //Monta Sql de Retotno
         if (is_array($arrayForm)) {
             foreach ($arrayForm as $cFG) {
                 $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
 
-                $sql .= $fil->getStringSql($cFG->getNome, $alias . $cFG->getNome, $cFG->getProcesarComo());
+               //$sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $cFG->getProcesarComo());
             }
         }
+        
+        $sql.= $this->sqlBuscaGeral($colunas);
+
+        return $sql;
+    }
+
+    private function sqlBuscaGeral($colunas)
+    {
+        $buscaGral = filter_input(INPUT_GET, 'sisBuscaGeral');
+
+        $sql = '';
+        
+        if ($buscaGral) {
+            $sql = ' AND (';
+
+            $campos = str_replace(',', '|', $buscaGral);
+
+            $total = count($colunas);
+            $cont = 0;
+            foreach (array_keys($colunas) as $coluna) {
+                $cont++;
+                $sql.= $coluna . " REGEXP '".$campos."'";
+                
+                $sql.= $total == $cont ? '' : ' OR ';
+            }
+            
+            $sql.= ') ';
+        }        
 
         return $sql;
     }
