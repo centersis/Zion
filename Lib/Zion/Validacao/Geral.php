@@ -35,7 +35,7 @@ class Geral extends \Zion\Tratamento\Geral
      * @return object
      */
     public function instancia(){
-        
+
         if(!isset(self::$instancia)){
             self::$instancia = new self;
         }
@@ -208,6 +208,13 @@ class Geral extends \Zion\Tratamento\Geral
         }
     }
 
+    /**
+     * Geral::validaTelefone()
+     * 
+     * @param string $telefone
+     * @return void
+     * @throws RuntimeException Método ainda não implementado.
+     */
     public function validaTelefone($telefone)
     {
         throw new RuntimeException("Metodo ainda nao implementado.");
