@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputCnpj()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -14,6 +23,11 @@ class FormInputCnpj extends FormBasico
     private $obrigatorio;
     private $placeHolder;
 
+    /**
+     * FormInputCnpj::__construct()
+     * 
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'cnpj';
@@ -24,16 +38,31 @@ class FormInputCnpj extends FormBasico
         $this->setObrigarorio($obrigatorio);
     }
 
+    /**
+     * FormInputCnpj::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
+    /**
+     * FormInputCnpj::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
 
+    /**
+     * FormInputCnpj::setMaximoCaracteres()
+     * 
+     * @return
+     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -49,11 +78,21 @@ class FormInputCnpj extends FormBasico
         }
     }
 
+    /**
+     * FormInputCnpj::getMaximoCaracteres()
+     * 
+     * @return
+     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
+    /**
+     * FormInputCnpj::setMinimoCaracteres()
+     * 
+     * @return
+     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
         if (is_numeric($minimoCaracteres)) {
@@ -69,11 +108,21 @@ class FormInputCnpj extends FormBasico
         }
     }
 
+    /**
+     * FormInputCnpj::getMinimoCaracteres()
+     * 
+     * @return
+     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
+    /**
+     * FormInputCnpj::setObrigarorio()
+     * 
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -84,11 +133,21 @@ class FormInputCnpj extends FormBasico
         }
     }
 
+    /**
+     * FormInputCnpj::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
+    /**
+     * FormInputCnpj::setPlaceHolder()
+     * 
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -99,6 +158,11 @@ class FormInputCnpj extends FormBasico
         }
     }
 
+    /**
+     * FormInputCnpj::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
@@ -107,54 +171,99 @@ class FormInputCnpj extends FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */
+    /**
+     * FormInputCnpj::setId()
+     * 
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setNome()
+     * 
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setIdentifica()
+     * 
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setValor()
+     * 
+     * @return
+     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setValorPadrao()
+     * 
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setDisabled()
+     * 
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setComplemento()
+     * 
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setAtributos()
+     * 
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
+    /**
+     * FormInputCnpj::setClassCss()
+     * 
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);

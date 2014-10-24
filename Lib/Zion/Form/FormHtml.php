@@ -1,15 +1,35 @@
 <?php
 
+/**
+ * \Zion\Form\FormHtml()
+ * 
+ * @author The Sappiens Team
+ * @copyright Sappiens 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 
 class FormHtml extends \Zion\Form\FormAtributos
 {
 
+    /**
+     * FormHtml::__construct()
+     * 
+     * @return
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * FormHtml::opcoesBasicas()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function opcoesBasicas($config)
     {
         return array($this->attr('name', $config->getNome()),
@@ -20,6 +40,12 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('classCss', $config->getClassCss()));
     }
 
+    /**
+     * FormHtml::montaHidden()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaHidden(FormInputHidden $config)
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -28,6 +54,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaTexto()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaTexto(FormInputTexto $config)
     {
         $type = 'text';
@@ -43,6 +75,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaCpf()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaCpf(\Zion\Form\FormInputCpf $config)
     {
         
@@ -54,6 +92,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaCnpj()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaCnpj(\Zion\Form\FormInputCnpj $config)
     {
         
@@ -65,6 +109,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaCep()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaCep(\Zion\Form\FormInputCep $config)
     {
 
@@ -76,6 +126,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaEmail()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaEmail(\Zion\Form\FormInputEmail $config)
     {
         
@@ -87,6 +143,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaTelefone()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaTelefone(\Zion\Form\FormInputTelefone $config)
     {
         
@@ -98,6 +160,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaSenha()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaSenha(\Zion\Form\FormInputSenha $config)
     {
         
@@ -109,6 +177,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaTextArea()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaTextArea(\Zion\Form\FormInputTextArea $config)
     {
         //AINDA NÃO IMPLEMENTADO!
@@ -120,6 +194,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaData()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaData(\Zion\Form\FormInputData $config)
     {        
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -131,6 +211,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaHora()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaHora(\Zion\Form\FormInputHora $config)
     {        
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -142,6 +228,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr)), $attr);
     }
 
+    /**
+     * FormHtml::montaNumber()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaNumber(\Zion\Form\FormInputNumber $config)
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -154,6 +246,12 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
+    /**
+     * FormHtml::montaFloat()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaFloat(\Zion\Form\FormInputFloat $config)
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -162,11 +260,23 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareInput(count($attr),$config), $attr);
     }
 
+    /**
+     * FormHtml::montaEscolha()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaEscolha(\Zion\Form\FormEscolha $config)
     {
         return (new \Zion\Form\EscolhaHtml())->montaEscolha($config);        
     }
 
+    /**
+     * FormHtml::montaButton()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaButton($config)
     {
         $attr = array_merge($this->opcoesBasicas($config), array(
@@ -182,11 +292,23 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareButton(count($attr),$config), $attr);
     }
     
+    /**
+     * FormHtml::montaLayout()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaLayout(FormLayout $config)
     {
         return $config->getConteudo();
     }
 
+    /**
+     * FormHtml::abreForm()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function abreForm(FormTag $config)
     {
         $attr = array(
@@ -204,6 +326,11 @@ class FormHtml extends \Zion\Form\FormAtributos
         return vsprintf($this->prepareForm(count($attr),$config), $attr);
     }
 
+    /**
+     * FormHtml::fechaForm()
+     * 
+     * @return
+     */
     public function fechaForm()
     {
         return '</form>';

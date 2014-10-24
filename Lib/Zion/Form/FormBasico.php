@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * \Zion\Form\FormBasico()
+ * 
+ * @author The Sappiens Team
+ * @copyright Sappiens 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
 
@@ -14,6 +24,12 @@ abstract class FormBasico
     private $atributos;
     private $classCss;    
 
+    /**
+     * FormBasico::setId()
+     * 
+     * @param mixed $id
+     * @return
+     */
     public function setId($id)
     {
         if(!empty($id)){
@@ -24,11 +40,22 @@ abstract class FormBasico
         }
     }
 
+    /**
+     * FormBasico::getId()
+     * 
+     * @return
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * FormBasico::setNome()
+     * 
+     * @param mixed $nome
+     * @return
+     */
     public function setNome($nome)
     {
         if(!empty($nome)){
@@ -39,11 +66,22 @@ abstract class FormBasico
         }
     }
 
+    /**
+     * FormBasico::getNome()
+     * 
+     * @return
+     */
     public function getNome()
     {
         return $this->nome;
     }
 
+    /**
+     * FormBasico::setIdentifica()
+     * 
+     * @param mixed $identifica
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         if(!empty($identifica)){
@@ -54,22 +92,44 @@ abstract class FormBasico
         }
     }
 
+    /**
+     * FormBasico::getIdentifica()
+     * 
+     * @return
+     */
     public function getIdentifica()
     {
         return $this->identifica;
     }
   
+    /**
+     * FormBasico::setValor()
+     * 
+     * @param mixed $valor
+     * @return
+     */
     public function setValor($valor)
     {              
              $this->valor = $valor;
             return $this;
     }
 
+    /**
+     * FormBasico::getValor()
+     * 
+     * @return
+     */
     public function getValor()
     {
         return $this->valor;
     }
 
+    /**
+     * FormBasico::setValorPadrao()
+     * 
+     * @param mixed $valorPadrao
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         if(!empty($valorPadrao)){
@@ -80,11 +140,22 @@ abstract class FormBasico
         }
     }
 
+    /**
+     * FormBasico::getValorPadrao()
+     * 
+     * @return
+     */
     public function getValorPadrao()
     {
         return $this->valorPadrao;
     }
 
+    /**
+     * FormBasico::setDisabled()
+     * 
+     * @param mixed $disabled
+     * @return
+     */
     public function setDisabled($disabled)
     {
         if(!empty($disabled)){
@@ -95,11 +166,22 @@ abstract class FormBasico
         }
     }
 
+    /**
+     * FormBasico::getDisabled()
+     * 
+     * @return
+     */
     public function getDisabled()
     {
         return $this->disabled;
     }
 
+    /**
+     * FormBasico::setComplemento()
+     * 
+     * @param mixed $complemento
+     * @return
+     */
     public function setComplemento($complemento)
     {
         if(!empty($complemento)){
@@ -110,11 +192,22 @@ abstract class FormBasico
         }
     }
 
+    /**
+     * FormBasico::getComplemento()
+     * 
+     * @return
+     */
     public function getComplemento()
     {
         return $this->complemento;
     }
 
+    /**
+     * FormBasico::setAtributos()
+     * 
+     * @param mixed $atributos
+     * @return
+     */
     public function setAtributos($atributos)
     {
         if(!empty($atributos)){
@@ -125,11 +218,22 @@ abstract class FormBasico
         }
     }
 
+    /**
+     * FormBasico::getAtributos()
+     * 
+     * @return
+     */
     public function getAtributos()
     {
         return $this->atributos;
     }
 
+    /**
+     * FormBasico::setClassCss()
+     * 
+     * @param mixed $classCss
+     * @return
+     */
     public function setClassCss($classCss)
     {
         if(!empty($classCss)){
@@ -140,6 +244,11 @@ abstract class FormBasico
         }
     }
     
+    /**
+     * FormBasico::getClassCss()
+     * 
+     * @return
+     */
     public function getClassCss()
     {
         return $this->classCss;

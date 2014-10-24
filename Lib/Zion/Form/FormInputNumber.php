@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputNumber()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
 
@@ -15,6 +24,11 @@ class FormInputNumber extends \Zion\Form\FormBasico
     private $obrigatorio;
     private $placeHolder;
     
+    /**
+     * FormInputNumber::__construct()
+     * 
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'number';
@@ -24,16 +38,31 @@ class FormInputNumber extends \Zion\Form\FormBasico
         $this->setObrigarorio($obrigatorio);
     }
     
+    /**
+     * FormInputNumber::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
     
+    /**
+     * FormInputNumber::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
     
+    /**
+     * FormInputNumber::setLargura()
+     * 
+     * @return
+     */
     public function setLargura($largura)
     {
         if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
@@ -44,11 +73,21 @@ class FormInputNumber extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputNumber::getLargura()
+     * 
+     * @return
+     */
     public function getLargura()
     {
         return $this->largura;
     }
     
+    /**
+     * FormInputNumber::setMaximoCaracteres()
+     * 
+     * @return
+     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -64,11 +103,21 @@ class FormInputNumber extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputNumber::getMaximoCaracteres()
+     * 
+     * @return
+     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
+    /**
+     * FormInputNumber::setMinimoCaracteres()
+     * 
+     * @return
+     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
         if (is_numeric($minimoCaracteres)) {
@@ -84,11 +133,21 @@ class FormInputNumber extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputNumber::getMinimoCaracteres()
+     * 
+     * @return
+     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
     
+    /**
+     * FormInputNumber::setValorMinimo()
+     * 
+     * @return
+     */
     public function setValorMinimo($valorMinimo)
     {
         if(is_numeric($valorMinimo)){
@@ -104,11 +163,21 @@ class FormInputNumber extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputNumber::getValorMinimo()
+     * 
+     * @return
+     */
     public function getValorMinimo()
     {
         return $this->valorMinimo;
     }
     
+    /**
+     * FormInputNumber::setValorMaximo()
+     * 
+     * @return
+     */
     public function setValorMaximo($valorMaximo)
     {
         if(is_numeric($valorMaximo)){
@@ -124,11 +193,21 @@ class FormInputNumber extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputNumber::getValorMaximo()
+     * 
+     * @return
+     */
     public function getValorMaximo()
     {
         return $this->valorMaximo;
     }
     
+    /**
+     * FormInputNumber::setObrigarorio()
+     * 
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -139,11 +218,21 @@ class FormInputNumber extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputNumber::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
     
+    /**
+     * FormInputNumber::setPlaceHolder()
+     * 
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -154,6 +243,11 @@ class FormInputNumber extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputNumber::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
@@ -162,54 +256,99 @@ class FormInputNumber extends \Zion\Form\FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */    
+    /**
+     * FormInputNumber::setId()
+     * 
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);        
         return $this;
     }
     
+    /**
+     * FormInputNumber::setNome()
+     * 
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
     
+    /**
+     * FormInputNumber::setIdentifica()
+     * 
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
     
+    /**
+     * FormInputNumber::setValor()
+     * 
+     * @return
+     */
     public function setValor($valor)
     {              
         parent::setValor($valor);
         return $this;
     }
     
+    /**
+     * FormInputNumber::setValorPadrao()
+     * 
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
     
+    /**
+     * FormInputNumber::setDisabled()
+     * 
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
     
+    /**
+     * FormInputNumber::setComplemento()
+     * 
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputNumber::setAtributos()
+     * 
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
     
+    /**
+     * FormInputNumber::setClassCss()
+     * 
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);

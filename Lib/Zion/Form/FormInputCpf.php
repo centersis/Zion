@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputCpf()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -14,6 +23,11 @@ class FormInputCpf extends FormBasico
     private $obrigatorio;
     private $placeHolder;
 
+    /**
+     * FormInputCpf::__construct()
+     * 
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'cpf';
@@ -24,16 +38,31 @@ class FormInputCpf extends FormBasico
         $this->setObrigarorio($obrigatorio);
     }
 
+    /**
+     * FormInputCpf::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
+    /**
+     * FormInputCpf::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
 
+    /**
+     * FormInputCpf::setMaximoCaracteres()
+     * 
+     * @return
+     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -49,11 +78,21 @@ class FormInputCpf extends FormBasico
         }
     }
 
+    /**
+     * FormInputCpf::getMaximoCaracteres()
+     * 
+     * @return
+     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
+    /**
+     * FormInputCpf::setMinimoCaracteres()
+     * 
+     * @return
+     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
         if (is_numeric($minimoCaracteres)) {
@@ -69,11 +108,21 @@ class FormInputCpf extends FormBasico
         }
     }
 
+    /**
+     * FormInputCpf::getMinimoCaracteres()
+     * 
+     * @return
+     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
+    /**
+     * FormInputCpf::setObrigarorio()
+     * 
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -84,11 +133,21 @@ class FormInputCpf extends FormBasico
         }
     }
 
+    /**
+     * FormInputCpf::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
+    /**
+     * FormInputCpf::setPlaceHolder()
+     * 
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -99,6 +158,11 @@ class FormInputCpf extends FormBasico
         }
     }
 
+    /**
+     * FormInputCpf::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
@@ -107,54 +171,99 @@ class FormInputCpf extends FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */
+    /**
+     * FormInputCpf::setId()
+     * 
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setNome()
+     * 
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setIdentifica()
+     * 
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setValor()
+     * 
+     * @return
+     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setValorPadrao()
+     * 
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setDisabled()
+     * 
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setComplemento()
+     * 
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setAtributos()
+     * 
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
+    /**
+     * FormInputCpf::setClassCss()
+     * 
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);

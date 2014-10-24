@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Data
- * @author Feliphe Bueno - feliphezion@gmail.com
+ * \Zion\Exception\Exception()
+ * 
+ * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
  * @since 19/09/2014
  * @version 1.0
  * @copyright 2014

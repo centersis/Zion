@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputTelefone()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -14,6 +23,15 @@ class FormInputTelefone extends FormBasico
     private $obrigatorio;
     private $placeHolder;
 
+    /**
+     * FormInputTelefone::__construct()
+     * 
+     * @param mixed $acao
+     * @param mixed $nome
+     * @param mixed $identifica
+     * @param mixed $obrigatorio
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'telefone';
@@ -24,16 +42,32 @@ class FormInputTelefone extends FormBasico
         $this->setObrigarorio($obrigatorio);
     }
 
+    /**
+     * FormInputTelefone::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
+    /**
+     * FormInputTelefone::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
 
+    /**
+     * FormInputTelefone::setMaximoCaracteres()
+     * 
+     * @param mixed $maximoCaracteres
+     * @return
+     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -49,11 +83,22 @@ class FormInputTelefone extends FormBasico
         }
     }
 
+    /**
+     * FormInputTelefone::getMaximoCaracteres()
+     * 
+     * @return
+     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
+    /**
+     * FormInputTelefone::setMinimoCaracteres()
+     * 
+     * @param mixed $minimoCaracteres
+     * @return
+     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
         if (is_numeric($minimoCaracteres)) {
@@ -69,11 +114,22 @@ class FormInputTelefone extends FormBasico
         }
     }
 
+    /**
+     * FormInputTelefone::getMinimoCaracteres()
+     * 
+     * @return
+     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
+    /**
+     * FormInputTelefone::setObrigarorio()
+     * 
+     * @param mixed $obrigatorio
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -84,11 +140,22 @@ class FormInputTelefone extends FormBasico
         }
     }
 
+    /**
+     * FormInputTelefone::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
+    /**
+     * FormInputTelefone::setPlaceHolder()
+     * 
+     * @param mixed $placeHolder
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -99,6 +166,11 @@ class FormInputTelefone extends FormBasico
         }
     }
 
+    /**
+     * FormInputTelefone::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
@@ -107,54 +179,108 @@ class FormInputTelefone extends FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */
+    /**
+     * FormInputTelefone::setId()
+     * 
+     * @param mixed $id
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setNome()
+     * 
+     * @param mixed $nome
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setIdentifica()
+     * 
+     * @param mixed $identifica
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setValor()
+     * 
+     * @param mixed $valor
+     * @return
+     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setValorPadrao()
+     * 
+     * @param mixed $valorPadrao
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setDisabled()
+     * 
+     * @param mixed $disabled
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setComplemento()
+     * 
+     * @param mixed $complemento
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setAtributos()
+     * 
+     * @param mixed $atributos
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
+    /**
+     * FormInputTelefone::setClassCss()
+     * 
+     * @param mixed $classCss
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);

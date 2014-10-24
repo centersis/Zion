@@ -1,9 +1,24 @@
 <?php
 
+/**
+ * \Zion\Form\EscolhaHtml()
+ * 
+ * @author The Sappiens Team
+ * @copyright Sappiens 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 
 class EscolhaHtml
 {
+    /**
+     * EscolhaHtml::montaEscolha()
+     * 
+     * @param mixed $config
+     * @return
+     */
     public function montaEscolha(FormEscolha $config)
     {
         if (empty($config->getNome())) {
@@ -185,16 +200,34 @@ class EscolhaHtml
         return $retorno;
     }
     
+    /**
+     * EscolhaHtml::montaCheck()
+     * 
+     * @param mixed $config
+     * @return
+     */
     private function montaCheck(FormEscolha $config)
     {
         
     }
     
+    /**
+     * EscolhaHtml::montaRadio()
+     * 
+     * @param mixed $config
+     * @return
+     */
     private function montaRadio(FormEscolha $config)
     {
         
     }
     
+    /**
+     * EscolhaHtml::montaSelect()
+     * 
+     * @param mixed $config
+     * @return
+     */
     private function montaSelect(FormEscolha $config)
     {
         

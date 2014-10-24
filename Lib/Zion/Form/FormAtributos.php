@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormAtributos()
+ * 
+ * @author The Sappiens Team
+ * @copyright Sappiens 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 
 class FormAtributos
@@ -7,6 +16,11 @@ class FormAtributos
 
     private $atributos;
 
+    /**
+     * FormAtributos::__construct()
+     * 
+     * @return
+     */
     public function __construct()
     {
         $this->atributos = array(
@@ -37,6 +51,13 @@ class FormAtributos
         );
     }
 
+    /**
+     * FormAtributos::tipoEspecial()
+     * 
+     * @param mixed $tipo
+     * @param mixed $valor
+     * @return
+     */
     private function tipoEspecial($tipo, $valor)
     {
         if ($valor == '' and $valor !== false) {
@@ -59,6 +80,12 @@ class FormAtributos
         return $ret;
     }
 
+    /**
+     * FormAtributos::attr()
+     * 
+     * @param mixed $nome
+     * @return
+     */
     protected function attr($nome)
     {
         $pars = array();
@@ -81,16 +108,34 @@ class FormAtributos
         return $pars ? vsprintf($this->atributos[$nome], $pars) : '';
     }
 
+    /**
+     * FormAtributos::prepareButton()
+     * 
+     * @param mixed $totalAtributos
+     * @return
+     */
     protected function prepareButton($totalAtributos)
     {
         return "<button " . str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
     }
 
+    /**
+     * FormAtributos::prepareForm()
+     * 
+     * @param mixed $totalAtributos
+     * @return
+     */
     protected function prepareForm($totalAtributos)
     {
         return "<form " . str_repeat('%s', $totalAtributos) . ">";
     }
 
+    /**
+     * FormAtributos::prepareInput()
+     * 
+     * @param mixed $totalAtributos
+     * @return
+     */
     protected function prepareInput($totalAtributos)
     {
         return '<input ' . str_repeat('%s', $totalAtributos) . '/>';

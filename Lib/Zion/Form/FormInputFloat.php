@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputFloat()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Validacao\Numero as Numero;
@@ -17,6 +26,11 @@ class FormInputFloat extends \Zion\Form\FormBasico
     
     private $numero;
     
+    /**
+     * FormInputFloat::__construct()
+     * 
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'float';
@@ -28,16 +42,31 @@ class FormInputFloat extends \Zion\Form\FormBasico
         $this->numero = new Numero();
     }
     
+    /**
+     * FormInputFloat::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
     
+    /**
+     * FormInputFloat::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
     
+    /**
+     * FormInputFloat::setLargura()
+     * 
+     * @return
+     */
     public function setLargura($largura)
     {
         if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
@@ -48,11 +77,21 @@ class FormInputFloat extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputFloat::getLargura()
+     * 
+     * @return
+     */
     public function getLargura()
     {
         return $this->largura;
     }
     
+    /**
+     * FormInputFloat::setValorMaximo()
+     * 
+     * @return
+     */
     public function setValorMaximo($valorMaximo)
     {
         if($this->numero->isFloat($valorMaximo) === true){
@@ -68,11 +107,21 @@ class FormInputFloat extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputFloat::getValorMaximo()
+     * 
+     * @return
+     */
     public function getValorMaximo()
     {
         return $this->valorMaximo;
     }
     
+    /**
+     * FormInputFloat::setValorMinimo()
+     * 
+     * @return
+     */
     public function setValorMinimo($valorMinimo)
     {
         if($this->numero->isFloat($valorMinimo) === true){
@@ -88,11 +137,21 @@ class FormInputFloat extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputFloat::getValorMinimo()
+     * 
+     * @return
+     */
     public function getValorMinimo()
     {
         return $this->valorMinimo;
     }
     
+    /**
+     * FormInputFloat::setPrefixo()
+     * 
+     * @return
+     */
     public function setPrefixo($prefixo)
     {
         if(!is_null($prefixo)){
@@ -103,11 +162,21 @@ class FormInputFloat extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputFloat::getPrefixo()
+     * 
+     * @return
+     */
     public function getPrefixo()
     {
         return $this->prefixo;
     }
     
+    /**
+     * FormInputFloat::setObrigarorio()
+     * 
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -118,11 +187,21 @@ class FormInputFloat extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputFloat::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
     
+    /**
+     * FormInputFloat::setPlaceHolder()
+     * 
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -133,6 +212,11 @@ class FormInputFloat extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputFloat::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
@@ -141,54 +225,99 @@ class FormInputFloat extends \Zion\Form\FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */    
+    /**
+     * FormInputFloat::setId()
+     * 
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);        
         return $this;
     }
     
+    /**
+     * FormInputFloat::setNome()
+     * 
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
     
+    /**
+     * FormInputFloat::setIdentifica()
+     * 
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
     
+    /**
+     * FormInputFloat::setValor()
+     * 
+     * @return
+     */
     public function setValor($valor)
     {              
         parent::setValor($valor);
         return $this;
     }
     
+    /**
+     * FormInputFloat::setValorPadrao()
+     * 
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
     
+    /**
+     * FormInputFloat::setDisabled()
+     * 
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
     
+    /**
+     * FormInputFloat::setComplemento()
+     * 
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputFloat::setAtributos()
+     * 
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
     
+    /**
+     * FormInputFloat::setClassCss()
+     * 
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);

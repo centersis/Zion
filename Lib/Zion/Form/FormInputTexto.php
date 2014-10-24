@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputTexto()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -20,6 +29,15 @@ class FormInputTexto extends FormBasico
     private $autoComplete;
     private $deveSerIgualA;
 
+    /**
+     * FormInputTexto::__construct()
+     * 
+     * @param mixed $acao
+     * @param mixed $nome
+     * @param mixed $identifica
+     * @param mixed $obrigatorio
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'texto';        
@@ -32,16 +50,32 @@ class FormInputTexto extends FormBasico
         $this->setObrigarorio($obrigatorio);
     }
 
+    /**
+     * FormInputTexto::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
+    /**
+     * FormInputTexto::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
 
+    /**
+     * FormInputTexto::setLargura()
+     * 
+     * @param mixed $largura
+     * @return
+     */
     public function setLargura($largura)
     {
         if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
@@ -52,11 +86,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getLargura()
+     * 
+     * @return
+     */
     public function getLargura()
     {
         return $this->largura;
     }
 
+    /**
+     * FormInputTexto::setMaximoCaracteres()
+     * 
+     * @param mixed $maximoCaracteres
+     * @return
+     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -72,11 +117,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getMaximoCaracteres()
+     * 
+     * @return
+     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
+    /**
+     * FormInputTexto::setMinimoCaracteres()
+     * 
+     * @param mixed $minimoCaracteres
+     * @return
+     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
         if (is_numeric($minimoCaracteres)) {
@@ -92,11 +148,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getMinimoCaracteres()
+     * 
+     * @return
+     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
+    /**
+     * FormInputTexto::setCaixa()
+     * 
+     * @param mixed $caixa
+     * @return
+     */
     public function setCaixa($caixa)
     {
         if (strtoupper($caixa) == "ALTA" or strtoupper($caixa) == "BAIXA") {
@@ -107,11 +174,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getCaixa()
+     * 
+     * @return
+     */
     public function getCaixa()
     {
         return $this->caixa;
     }
 
+    /**
+     * FormInputTexto::setObrigarorio()
+     * 
+     * @param mixed $obrigatorio
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -122,11 +200,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
+    /**
+     * FormInputTexto::setConverterHtml()
+     * 
+     * @param mixed $converterHtml
+     * @return
+     */
     public function setConverterHtml($converterHtml)
     {
         if (is_bool($converterHtml)) {
@@ -137,11 +226,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getConverterHtml()
+     * 
+     * @return
+     */
     public function getConverterHtml()
     {
         return $this->converterHtml;
     }
 
+    /**
+     * FormInputTexto::setAutoTrim()
+     * 
+     * @param mixed $autoTrim
+     * @return
+     */
     public function setAutoTrim($autoTrim)
     {
         if (is_bool($autoTrim)) {
@@ -152,11 +252,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getAutoTrim()
+     * 
+     * @return
+     */
     public function getAutoTrim()
     {
         return $this->autoTrim;
     }
 
+    /**
+     * FormInputTexto::setPlaceHolder()
+     * 
+     * @param mixed $placeHolder
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -167,11 +278,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
+    /**
+     * FormInputTexto::setAutoComplete()
+     * 
+     * @param mixed $autoComplete
+     * @return
+     */
     public function setAutoComplete($autoComplete)
     {
         if (is_bool($autoComplete)) {
@@ -182,11 +304,22 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getAutoComplete()
+     * 
+     * @return
+     */
     public function getAutoComplete()
     {
         return $this->autoComplete;
     }
 
+    /**
+     * FormInputTexto::setDeveSerIgualA()
+     * 
+     * @param mixed $deveSerIgualA
+     * @return
+     */
     public function setDeveSerIgualA($deveSerIgualA)
     {
         if (!empty($deveSerIgualA)) {
@@ -197,6 +330,11 @@ class FormInputTexto extends FormBasico
         }
     }
 
+    /**
+     * FormInputTexto::getDeveSerIgualA()
+     * 
+     * @return
+     */
     public function getDeveSerIgualA()
     {
         return $this->deveSerIgualA;
@@ -205,54 +343,108 @@ class FormInputTexto extends FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */
+    /**
+     * FormInputTexto::setId()
+     * 
+     * @param mixed $id
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setNome()
+     * 
+     * @param mixed $nome
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setIdentifica()
+     * 
+     * @param mixed $identifica
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setValor()
+     * 
+     * @param mixed $valor
+     * @return
+     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setValorPadrao()
+     * 
+     * @param mixed $valorPadrao
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setDisabled()
+     * 
+     * @param mixed $disabled
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setComplemento()
+     * 
+     * @param mixed $complemento
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setAtributos()
+     * 
+     * @param mixed $atributos
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
+    /**
+     * FormInputTexto::setClassCss()
+     * 
+     * @param mixed $classCss
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);

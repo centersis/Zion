@@ -1,6 +1,6 @@
 <?php
 /**
- * Zion\Banco\Exception\SqltException()
+ * \Zion\Banco\Exception\SqltException()
  * 
  * @author Feliphe Bueno - feliphezion@gmail.com
  * @since 03/10/2014

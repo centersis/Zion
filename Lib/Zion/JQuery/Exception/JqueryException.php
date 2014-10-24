@@ -7,7 +7,7 @@
  * @version 1.0
  * @copyright 2014
  * 
- *  Form Exception.
+ *  JQuery Exception.
  */
 
 namespace Zion\JQuery\Exception;

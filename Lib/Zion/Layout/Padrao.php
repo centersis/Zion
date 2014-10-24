@@ -1,12 +1,33 @@
 <?php
 
+/**
+ * \Zion\Layout\Padrao()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Layout;
 
 class Padrao extends \Zion\Layout\Html
 {
+    /**
+     * @var mixed $html
+     */
     protected $html;
-    private $javascript;
     
+    /**
+     * @var mixed $javascript
+     */
+    private $javascript;
+
+    /**
+     * Padrao::__construct()
+     * 
+     * @return
+     */
     public function __construct()
     {
         $this->html = new \Zion\Layout\Html();
@@ -14,6 +35,11 @@ class Padrao extends \Zion\Layout\Html
     }
 
 
+    /**
+     * Padrao::topo()
+     * 
+     * @return
+     */
     public function topo()
     {
 
@@ -38,11 +64,21 @@ class Padrao extends \Zion\Layout\Html
         return $buffer;
     }
     
+    /**
+     * Padrao::menu()
+     * 
+     * @return
+     */
     public function menu()
     {
         
     }
     
+    /**
+     * Padrao::rodape()
+     * 
+     * @return
+     */
     public function rodape()
     {
 

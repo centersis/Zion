@@ -1,10 +1,25 @@
 <?php
 
+/**
+ * \Zion\Remoto\Complete()
+ * 
+ * @package The Sappiens Team
+ * @author 2014
+ * @copyright 2014
+ * @version 1.0
+ * @access public
+ */
+ 
 namespace Zion\Remoto;
 
 class Complete
 {
 
+    /**
+     * Complete::listar()
+     * 
+     * @return
+     */
     public function listar()
     {
 

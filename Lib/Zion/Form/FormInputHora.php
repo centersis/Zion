@@ -1,11 +1,23 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputHora()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Validacao\Data as Data;
 
 class FormInputHora extends \Zion\Form\FormBasico
 {
+   /**
+    * @var mixed $tipoBase
+    */
     private $tipoBase;
     private $acao; 
     private $horaMinima;
@@ -16,6 +28,11 @@ class FormInputHora extends \Zion\Form\FormBasico
     
     private $hora;
     
+    /**
+     * FormInputHora::__construct()
+     * 
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'hora';
@@ -30,16 +47,31 @@ class FormInputHora extends \Zion\Form\FormBasico
         $this->hora = new Data();
     }
     
+    /**
+     * FormInputHora::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
     
+    /**
+     * FormInputHora::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
 
+    /**
+     * FormInputHora::setHoraMinima()
+     * 
+     * @return
+     */
     public function setHoraMinima($horaMinima)
     {
         if($this->hora->validaHora($horaMinima) === true){
@@ -56,11 +88,21 @@ class FormInputHora extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputHora::getHoraMinima()
+     * 
+     * @return
+     */
     public function getHoraMinima()
     {
         return $this->horaMinima;
     }
     
+    /**
+     * FormInputHora::setHoraMaxima()
+     * 
+     * @return
+     */
     public function setHoraMaxima($horaMaxima)
     {
         if($this->hora->validaHora($horaMaxima)){
@@ -77,11 +119,21 @@ class FormInputHora extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputHora::getHoraMaxima()
+     * 
+     * @return
+     */
     public function getHoraMaxima()
     {
         return $this->horaMaxima;
     }
     
+    /**
+     * FormInputHora::setPlaceHolder()
+     * 
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -92,11 +144,21 @@ class FormInputHora extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputHora::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
+    /**
+     * FormInputHora::setObrigarorio()
+     * 
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -107,11 +169,21 @@ class FormInputHora extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputHora::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
     
+    /**
+     * FormInputHora::setMostrarSegundos()
+     * 
+     * @return
+     */
     public function setMostrarSegundos($mostrarSegundos)
     {
         if (is_bool($mostrarSegundos)) {
@@ -122,6 +194,11 @@ class FormInputHora extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputHora::getMostrarSegundos()
+     * 
+     * @return
+     */
     public function getMostrarSegundos()
     {
         return $this->mostrarSegundos;
@@ -130,54 +207,99 @@ class FormInputHora extends \Zion\Form\FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */    
+    /**
+     * FormInputHora::setId()
+     * 
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);        
         return $this;
     }
     
+    /**
+     * FormInputHora::setNome()
+     * 
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
     
+    /**
+     * FormInputHora::setIdentifica()
+     * 
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
     
+    /**
+     * FormInputHora::setValor()
+     * 
+     * @return
+     */
     public function setValor($valor)
     {              
         parent::setValor($valor);
         return $this;
     }
     
+    /**
+     * FormInputHora::setValorPadrao()
+     * 
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
     
+    /**
+     * FormInputHora::setDisabled()
+     * 
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
     
+    /**
+     * FormInputHora::setComplemento()
+     * 
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputHora::setAtributos()
+     * 
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
     
+    /**
+     * FormInputHora::setClassCss()
+     * 
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);

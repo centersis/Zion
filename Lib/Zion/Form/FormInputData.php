@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * \Zion\Form\FormInputData()
+ * 
+ * @author The Sappiens Team
+ * @copyright 2014
+ * @version 2014
+ * @access public
+ */
+ 
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Validacao\Data as Data;
@@ -15,6 +24,11 @@ class FormInputData extends \Zion\Form\FormBasico
     
     private $data;
     
+    /**
+     * FormInputData::__construct()
+     * 
+     * @return
+     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'data';
@@ -29,16 +43,31 @@ class FormInputData extends \Zion\Form\FormBasico
         $this->data = new Data();
     }
     
+    /**
+     * FormInputData::getTipoBase()
+     * 
+     * @return
+     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
     
+    /**
+     * FormInputData::getAcao()
+     * 
+     * @return
+     */
     public function getAcao()
     {
         return $this->acao;
     }
 
+    /**
+     * FormInputData::setDataMinima()
+     * 
+     * @return
+     */
     public function setDataMinima($dataMinima)
     {
         if($this->data->validaData($dataMinima) === true){
@@ -55,11 +84,21 @@ class FormInputData extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputData::getDataMinima()
+     * 
+     * @return
+     */
     public function getDataMinima()
     {
         return $this->dataMinima;
     }
     
+    /**
+     * FormInputData::setDataMaxima()
+     * 
+     * @return
+     */
     public function setDataMaxima($dataMaxima)
     {
         if($this->data->validaData($dataMaxima)){
@@ -76,11 +115,21 @@ class FormInputData extends \Zion\Form\FormBasico
         }
     }
     
+    /**
+     * FormInputData::getDataMaxima()
+     * 
+     * @return
+     */
     public function getDataMaxima()
     {
         return $this->dataMaxima;
     }
     
+    /**
+     * FormInputData::setPlaceHolder()
+     * 
+     * @return
+     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -91,11 +140,21 @@ class FormInputData extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputData::getPlaceHolder()
+     * 
+     * @return
+     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
+    /**
+     * FormInputData::setObrigarorio()
+     * 
+     * @return
+     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -106,6 +165,11 @@ class FormInputData extends \Zion\Form\FormBasico
         }
     }
 
+    /**
+     * FormInputData::getObrigatorio()
+     * 
+     * @return
+     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
@@ -115,54 +179,99 @@ class FormInputData extends \Zion\Form\FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */    
+    /**
+     * FormInputData::setId()
+     * 
+     * @return
+     */
     public function setId($id)
     {
         parent::setId($id);        
         return $this;
     }
     
+    /**
+     * FormInputData::setNome()
+     * 
+     * @return
+     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
     
+    /**
+     * FormInputData::setIdentifica()
+     * 
+     * @return
+     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
     
+    /**
+     * FormInputData::setValor()
+     * 
+     * @return
+     */
     public function setValor($valor)
     {              
         parent::setValor($valor);
         return $this;
     }
     
+    /**
+     * FormInputData::setValorPadrao()
+     * 
+     * @return
+     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
     
+    /**
+     * FormInputData::setDisabled()
+     * 
+     * @return
+     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
     
+    /**
+     * FormInputData::setComplemento()
+     * 
+     * @return
+     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
+    /**
+     * FormInputData::setAtributos()
+     * 
+     * @return
+     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
     
+    /**
+     * FormInputData::setClassCss()
+     * 
+     * @return
+     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
