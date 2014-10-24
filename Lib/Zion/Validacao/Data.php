@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Data
- * @author Feliphe Bueno - feliphezion@gmail.com
+ * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
  * @since 10/09/2014
  * @version 1.0
  * @copyright 2014
@@ -15,6 +14,36 @@ namespace Zion\Validacao;
 
 class Data extends \Zion\Tratamento\Data
 {
+
+    /** 
+     * @var object $instancia Instância da classe singleton
+     */
+    private static $instancia;
+
+    /**
+     * Data::__construct()
+     * Construtor, tão tosco quanto necessário para a implementação singleton.
+     * 
+     * @return void
+     */
+    private function __construct(){
+        
+    }
+
+    /**
+     * Data::instancia()
+     * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
+     * 
+     * @return object
+     */
+    public function instancia(){
+        
+        if(!isset(self::$instancia)){
+            self::$instancia = new self;
+        }
+
+        return self::$instancia;
+    }
 
     /**
      * Data::validaData()

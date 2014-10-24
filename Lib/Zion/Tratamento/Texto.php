@@ -14,10 +14,47 @@ namespace Zion\Tratamento;
 class Texto
 {
 
+    /** 
+     * @var array $keyWords Keywords do MySql a serem encontradas
+     */
     public $keyWords = array("/SELECT/", "/INSERT/", "/UPDATE/", "/DELETE/", "/DROP/", "/ALTER/", "/ADD/", "/TABLE/", "/IF/", "/AND/", "/WHERE/", "/GROUP/", "/LIMIT/",
         "/JOIN/", "/IN/", "/INTO/", "/PROCEDURE/", "/WHILE/", "/WHEN/", "/TEHEN/", "/CASE/", "/LIKE/", "/KILL/");
+
+    /** 
+     * @var array $safekeyWords Keywords do MySql a serem utilizadas
+     */
     public $safekeyWords = array("\SELECT", "\INSERT", "\UPDATE", "\DELETE", "\DROP", "\ALTER", "\ADD", "\TABLE", "\IF", "\AND", "\WHERE", "\GROUP", "\LIMIT",
         "\JOIN", "\IN", "\INTO", "\PROCEDURE", "\WHILE", "\WHEN", "\TEHEN", "\CASE", "\LIKE", "\KILL");
+
+    /** 
+     * @var object $instancia Instância da classe singleton
+     */
+    private static $instancia;
+
+    /**
+     * Texto::__construct()
+     * Construtor, tão tosco quanto necessário para a implementação singleton.
+     * 
+     * @return void
+     */
+    private function __construct(){
+        
+    }
+
+    /**
+     * Texto::instancia()
+     * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
+     * 
+     * @return object
+     */
+    public function instancia(){
+        
+        if(!isset(self::$instancia)){
+            self::$instancia = new self;
+        }
+
+        return self::$instancia;
+    }
 
     /**
      * Texto::converterTextoHtml()
