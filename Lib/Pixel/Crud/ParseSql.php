@@ -5,7 +5,7 @@
  *  Revisada por Pablo Vanni em 22/10/2014
  */
 
-namespace Zion\Crud;
+namespace Pixel\Crud;
 
 class ParseSql
 {

@@ -6,7 +6,7 @@
  *  Atualizada em 14-10-2014 por Pablo Vanni
  */
 
-namespace Zion\Crud;
+namespace Pixel\Crud;
 
 class CrudUtil
 {
@@ -15,20 +15,20 @@ class CrudUtil
      * Metodo que retorna um array com o nome dos campos de formulários
      * retorna Array
      */
-    public function getParametrosForm(Form $objForm)
+    public function getParametrosForm($objForm)
     {
         //Incia Variavel que receberá os campos
         $arrayCampos = [];
 
         //Recuperando Array de Campos
-        $arrayForm = $objForm->getBufferCFG();
+        $arrayForm = $objForm->getObjetos();
 
         //Monta Array de Retotno
         if(is_array($arrayForm))
         {
             foreach($arrayForm as $cfg)
             {
-                $arrayCampos[] = $cfg['Nome'];
+                $arrayCampos[] = $cfg->getNome();
             }
         }
 
@@ -45,14 +45,14 @@ class CrudUtil
         $sql = "";
 
         //Recuperando Array de Campos
-        $arrayForm = $objForm->getBufferCFG();
+        $arrayForm = $objForm->getObjetos();
 
         //Monta Sql de Retotno
         if (is_array($arrayForm)) {
             foreach ($arrayForm as $cFG) {
-                $alias = ($cFG['AliasSql'] == '') ? "" : $cFG['AliasSql'] . ".";
+                $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
 
-                $sql .= $fil->getStringSql($cFG['Nome'], $alias . $cFG['Nome'], $cFG['ProcessarComo']);
+                $sql .= $fil->getStringSql($cFG->getNome, $alias . $cFG->getNome, $cFG->getProcesarComo());
             }
         }
 
@@ -63,10 +63,10 @@ class CrudUtil
      * Receber uma string de parametros e o objetoform e processa-os retornando um vetor com os paremtros prontos para a inserção
      * retorna Array
      */
-    public function getSqlInsertUpdate(FormCampos $objForm, $sql)
+    public function getSqlInsertUpdate(Form $objForm, $sql)
     {
         //Instancia Classe de Parse SQL
-        $parseSql = new \Zion\Crud\ParseSql();
+        $parseSql = new \ParseSql();
 
         //Tipo de Interpretação
         $tipoSql = strtoupper(substr(trim($sql), 0, 6));
@@ -81,19 +81,18 @@ class CrudUtil
         $arraySql = array();
 
         //Recuperando Array de Campos
-        $arrayForm = $objForm->getBufferCFG();
+        $arrayForm = $objForm->getObjetos();
 
         if (is_array($arrayParametros)) {
             $arrayParametros = array_map("trim", $arrayParametros);
 
             foreach ($arrayParametros as $nomeParametro) {
                 if (array_key_exists($nomeParametro, $arrayForm)) {
-                    $DadosCampo = $arrayForm[$nomeParametro];
+                    $Objeto = $arrayForm[$nomeParametro];
 
-                    $podeSerVazio = $DadosCampo['Obrigatorio'] === true ? false : true;
-                    $arraySql[] = $objForm->get($nomeParametro, $podeSerVazio, $DadosCampo['ProcessarComo']);
+                    $arraySql[] = $objForm->get($nomeParametro, $Objeto->getObrigatorio(), $Objeto->getProcessarComo());
                 } else {
-                    $valor = $objForm->get($nomeParametro, true);
+                    $valor = $objForm->get($nomeParametro, false);
 
                     if ($valor . '' != '') {
                         $arraySql[] = $valor;
