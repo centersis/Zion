@@ -146,9 +146,9 @@ class Form
     public function retornaValor($nome)
     {
         switch ($this->formConfig->getMethod()) {
-            case "POST" : $valor = @$_POST[$nome];
+            case "POST" : $valor = filter_input(INPUT_POST, $nome);
                 break;
-            case "GET" : $valor = @$_GET[$nome];
+            case "GET" : $valor = filter_input(INPUT_GET, $nome);
                 break;
             default: $valor = null;
         }
@@ -168,6 +168,11 @@ class Form
     public function get($nome)
     {
         return $this->objetos[$nome]->getValor();
+    }
+    
+    public function getObjetos()
+    {
+        return $this->objetos;
     }
 
     public function getFormHtml($nome = null)
