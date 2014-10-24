@@ -12,7 +12,7 @@
 
 namespace Zion\Tratamento;
 
-class Valida
+class Tratamento
 {
     /** 
      * @var object $instancia Instância da classe singleton
@@ -48,7 +48,7 @@ class Valida
      * Tratamento::texto()
      * Retorna uma instância da classe de tratamento de Strings. Texto()
      * 
-     * @return object
+     * @return Texto
      */
     public function texto()
     {
@@ -59,7 +59,7 @@ class Valida
      * Tratamento::data()
      * Retorna uma instância da classe de tratamento de Datas. Data()
      * 
-     * @return object
+     * @return Data
      */
     public function data()
     {
@@ -70,7 +70,7 @@ class Valida
      * Tratamento::numero()
      * Retorna uma instância da classe de tratamento de Float. Numero()
      * 
-     * @return object
+     * @return Numero
      */
     public function numero()
     {
@@ -81,7 +81,7 @@ class Valida
      * Tratamento::geral()
      * Retorna uma instância da classe de tratamento de inputs especias. Geral()
      * 
-     * @return object
+     * @return Geral
      */
     public function geral()
     {
