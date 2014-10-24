@@ -13,20 +13,11 @@ namespace Zion\Tratamento;
 
 class Numero
 {
-    /** 
+
+    /**
      * @var object $instancia Instância da classe singleton
      */
     private static $instancia;
-    
-    /** 
-     * @var array $decimals Padrões decimais a serem encontrados
-     */
-    public $decimals = array("/\./", "/,/");
-
-    /** 
-     * @var array $decimals Padrões decimais a serem utilizados
-     */
-    public $rDecimals = array("", ".");
 
     /**
      * Numero::__construct()
@@ -34,7 +25,8 @@ class Numero
      * 
      * @return void
      */
-    private function __construct(){
+    private function __construct()
+    {
         
     }
 
@@ -44,9 +36,10 @@ class Numero
      * 
      * @return object
      */
-    public function instancia(){
-        
-        if(!isset(self::$instancia)){
+    public function instancia()
+    {
+
+        if (!isset(self::$instancia)) {
             self::$instancia = new self;
         }
 
@@ -68,41 +61,37 @@ class Numero
     }
 
     /**
-     * Numero::floatBoleto()
-     * Detecta o separador decimal e retorna um float no padrão bancário.
+     * Numero::floatBanco()
+     * Recebe uma string e retorna em formato entendivel para o banco de dados
      * 
      * @param float $numero Numero em qualquer formato.
      * @return float Numero no padrão bancário.
      */
     public function floatBanco($numero)
     {
-        if (preg_match('/[0-9]\.[0-9]{3},[0-9]{2}$/', $numero)) {
-            //Padrão monetário Brasileiro {n}.000,00
-            return (float) preg_replace($this->decimals, $this->rDecimals, $numero);
-        } elseif (preg_match('/[0-9],[0-9]{3}\.[0-9]{2}$/', $numero)) {
-            //Padrão monetário Americano {n},000.00
-            return (float) preg_replace('/,/', '', $numero);
-        } elseif (preg_match('/^[0-9]{1,},[0-9]{1,2}$/', $numero)) {
-            //Padrão decimais separados por vírgula {n},00. Obs.: Decimais separados por pontos não precisam ser tratados, pois o fallback(else) os trata.
-            return (float) preg_replace("/,/", ".", $numero);
-        } elseif (preg_match('/^[0-9]{1,},[0-9]{1,}$/', $numero)) {
-            //Padrão decimais inifinitos separados por vírgula. Obs.: Decimais infinitos separados por pontos não precisam ser tratados, pois o fallback(else) os trata.
-            $numero = preg_replace('/,/', '.', $numero);
-            return (float) sprintf('%01.2f', $numero);
-        } else {
-            //Padrão desconhecido, variáveis infinitas, a qualidade desta projeção caiu abaixo de 30% e outras projeções não estão abertas para especulações úteis.
-            return (float) sprintf('%01.2f', $numero);
+        if (!empty($numero)) {
+            //Verifica de o número ja esta formatado
+            if (is_numeric($numero)) {
+                return (float) $numero;
+            }
+
+            $valorA = str_replace(".", "", $numero);
+            $valorB = str_replace(",", ".", $valorA);
+            return (float) $valorB;
         }
+
+        return 0;
     }
 
     //Retorna o valor formatado em reais
-    public function moedaCliente($Valor)
+    public function moedaCliente($valor)
     {
         //Valor da Saida em Moeda
-        if (!empty($Valor) and is_numeric($Valor)) {
-            return "R$ " . $this->floatCliente($Valor);
+        if (!empty($valor) and is_numeric($valor)) {
+            return "R$ " . $this->floatCliente($valor);
         } else {
             return "R$ 0,00";
         }
     }
+
 }

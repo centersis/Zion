@@ -33,9 +33,9 @@ class Geral
      * Geral::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
      * 
-     * @return object
+     * @return Geral
      */
-    public function instancia(){
+    public static function instancia(){
         
         if(!isset(self::$instancia)){
             self::$instancia = new self;

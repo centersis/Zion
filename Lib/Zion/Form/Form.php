@@ -8,7 +8,7 @@
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 class Form
@@ -44,7 +44,7 @@ class Form
     {
         return new \Zion\Form\FormLayout($nome, $conteudo);
     }
-    
+
     /**
      * Form::hidden()
      * 
@@ -274,6 +274,7 @@ class Form
     /**
      * @return FormTag 
      */
+
     /**
      * Form::config()
      * 
@@ -284,7 +285,7 @@ class Form
     public function config($nome, $metodo)
     {
         $this->formConfig->setNome($nome)->setMethod($metodo);
-        
+
         return $this->formConfig;
     }
 
@@ -368,7 +369,32 @@ class Form
     {
         return $this->objetos[$nome]->getValor();
     }
-    
+
+    public function getSql($idObjeto)
+    {
+        $tratar = \Zion\Tratamento\Tratamento::instancia();
+
+        $valor = $this->objetos[$idObjeto]->getNome();
+        $obrigatorio = $this->objetos[$idObjeto]->getObrigatorio();
+        $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
+
+        switch ($tipoBase) {
+            case 'data' :
+                $dataConvertida = $tratar->data()->converteData($valor);
+                return $this->valorOuNull($dataConvertida, true, $obrigatorio);
+
+            case 'float' :
+                $valorConvertido = $tratar->numero()->floatBanco($valor);
+                return $this->valorOuNull($valorConvertido, false, $obrigatorio);
+
+            case 'number' :
+                return $this->valorOuNull($valor, false, $obrigatorio);
+
+            default:
+                return $this->valorOuNull($valor, true, $obrigatorio);
+        }
+    }
+
     /**
      * Form::getObjetos()
      * 
@@ -398,7 +424,7 @@ class Form
                     break;
                 case 'texto' :
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTexto($objCampos);
-                    break;                
+                    break;
                 case 'dateTime' :
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaDateTime($objCampos);
                     break;
@@ -443,4 +469,18 @@ class Form
             $valida->validar($objCampos);
         }
     }
+
+    private function valorOuNull($valor, $aspas, $obrigatorio)
+    {
+        if ($obrigatorio) {
+            return $valor;
+        } else {
+            if ($aspas === false) {
+                return ($valor == '') ? 'NULL' : $valor;
+            } else {
+                return ($valor == '') ? 'NULL' : "'" . $valor . "'";
+            }
+        }
+    }
+
 }
