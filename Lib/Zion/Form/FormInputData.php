@@ -21,6 +21,7 @@ class FormInputData extends \Zion\Form\FormBasico
     private $dataMaxima;
     private $placeHolder;
     private $obrigatorio;
+    private $aliasSql;
     
     private $data;
     
@@ -175,10 +176,35 @@ class FormInputData extends \Zion\Form\FormBasico
         return $this->obrigatorio;
     }
     
-    
+    /**
+     * FormInputData::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
+     * FormInputData::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
     /**
      * Sobrecarga de Metodos Básicos
-     */    
+     */
+
     /**
      * FormInputData::setId()
      * 

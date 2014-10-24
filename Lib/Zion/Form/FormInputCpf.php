@@ -22,6 +22,7 @@ class FormInputCpf extends FormBasico
     private $minimoCaracteres;
     private $obrigatorio;
     private $placeHolder;
+    private $aliasSql;
 
     /**
      * FormInputCpf::__construct()
@@ -169,8 +170,34 @@ class FormInputCpf extends FormBasico
     }
 
     /**
+     * FormInputCpf::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
+     * FormInputCpf::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
      * Sobrecarga de Metodos Básicos
      */
+
     /**
      * FormInputCpf::setId()
      * 
