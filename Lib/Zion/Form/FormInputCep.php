@@ -22,6 +22,7 @@ class FormInputCep extends FormBasico
     private $minimoCaracteres;
     private $obrigatorio;
     private $placeHolder;
+    private $aliasSql;
 
     /**
      * FormInputCep::__construct()
@@ -159,6 +160,31 @@ class FormInputCep extends FormBasico
     }
 
     /**
+     * FormInputCep::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
+     * FormInputCep::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
      * FormInputCep::getPlaceHolder()
      * 
      * @return
@@ -171,6 +197,7 @@ class FormInputCep extends FormBasico
     /**
      * Sobrecarga de Metodos Básicos
      */
+
     /**
      * FormInputCep::setId()
      * 

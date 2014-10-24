@@ -23,7 +23,8 @@ class FormInputFloat extends \Zion\Form\FormBasico
     private $prefixo;
     private $obrigatorio;
     private $placeHolder;
-    
+    private $aliasSql;
+
     private $numero;
     
     /**
@@ -221,10 +222,36 @@ class FormInputFloat extends \Zion\Form\FormBasico
     {
         return $this->placeHolder;
     }
-    
+
+    /**
+     * FormInputFloat::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
+     * FormInputFloat::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
     /**
      * Sobrecarga de Metodos Básicos
-     */    
+     */
+
     /**
      * FormInputFloat::setId()
      * 

@@ -18,6 +18,7 @@ class FormInputHidden extends \Zion\Form\FormBasico
 
     private $tipoBase;
     private $acao;
+    private $aliasSql;
 
     /**
      * FormInputHidden::__construct()
@@ -52,8 +53,34 @@ class FormInputHidden extends \Zion\Form\FormBasico
     }
 
     /**
+     * FormInputHidden::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
+     * FormInputHidden::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
      * Sobrecarga de Metodos Básicos
      */
+
     /**
      * FormInputHidden::setId()
      * 

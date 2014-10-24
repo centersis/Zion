@@ -22,6 +22,7 @@ class FormInputEmail extends FormBasico
     private $minimoCaracteres;
     private $obrigatorio;
     private $placeHolder;
+    private $aliasSql;
 
     /**
      * FormInputEmail::__construct()
@@ -167,10 +168,36 @@ class FormInputEmail extends FormBasico
     {
         return $this->placeHolder;
     }
+    
+    /**
+     * FormInputEmail::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
+     * FormInputEmail::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
 
     /**
      * Sobrecarga de Metodos Básicos
      */
+
     /**
      * FormInputEmail::setId()
      * 
