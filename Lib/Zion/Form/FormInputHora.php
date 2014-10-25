@@ -25,6 +25,7 @@ class FormInputHora extends \Zion\Form\FormBasico
     private $placeHolder;
     private $obrigatorio;
     private $mostrarSegundos;
+    private $aliasSql;
     
     private $hora;
     
@@ -203,10 +204,36 @@ class FormInputHora extends \Zion\Form\FormBasico
     {
         return $this->mostrarSegundos;
     }
-    
+
+    /**
+     * FormInputHora::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
+     * FormInputHora::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
     /**
      * Sobrecarga de Metodos Básicos
-     */    
+     */
+
     /**
      * FormInputHora::setId()
      * 

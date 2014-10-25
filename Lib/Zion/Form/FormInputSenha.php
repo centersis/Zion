@@ -22,6 +22,7 @@ class FormInputSenha extends FormBasico
     private $minimoCaracteres;
     private $obrigatorio;
     private $placeHolder;
+    private $aliasSql;
 
     /**
      * FormInputSenha::__construct()
@@ -177,8 +178,34 @@ class FormInputSenha extends FormBasico
     }
 
     /**
+     * FormInputSenha::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
+     * FormInputSenha::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
      * Sobrecarga de Metodos Básicos
      */
+
     /**
      * FormInputSenha::setId()
      * 

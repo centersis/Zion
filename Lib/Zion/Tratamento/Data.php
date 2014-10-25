@@ -35,7 +35,7 @@ class Data
      * Data::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
      * 
-     * @return object
+     * @return Data
      */
     public function instancia(){
         

@@ -22,6 +22,7 @@ class FormInputTextArea extends FormBasico
     private $minimoCaracteres;
     private $obrigatorio;
     private $placeHolder;
+    private $aliasSql;
 
     /**
      * FormInputTextArea::__construct()
@@ -177,8 +178,34 @@ class FormInputTextArea extends FormBasico
     }
 
     /**
+     * FormInputTextArea::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
+     * FormInputTextArea::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
      * Sobrecarga de Metodos Básicos
      */
+     
     /**
      * FormInputTextArea::setId()
      * 

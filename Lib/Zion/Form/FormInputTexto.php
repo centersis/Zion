@@ -28,6 +28,7 @@ class FormInputTexto extends FormBasico
     private $placeHolder;
     private $autoComplete;
     private $deveSerIgualA;
+    private $aliasSql;
 
     /**
      * FormInputTexto::__construct()
@@ -341,8 +342,34 @@ class FormInputTexto extends FormBasico
     }
 
     /**
+     * FormInputTexto::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
+     * FormInputTexto::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
      * Sobrecarga de Metodos Básicos
      */
+
     /**
      * FormInputTexto::setId()
      * 

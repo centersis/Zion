@@ -23,6 +23,7 @@ class FormInputNumber extends \Zion\Form\FormBasico
     private $valorMinimo;
     private $obrigatorio;
     private $placeHolder;
+    private $aliasSql;
     
     /**
      * FormInputNumber::__construct()
@@ -254,8 +255,34 @@ class FormInputNumber extends \Zion\Form\FormBasico
     }
     
     /**
+     * FormInputNumber::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
+    /**
+     * FormInputNumber::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+    
+    /**
      * Sobrecarga de Metodos Básicos
-     */    
+     */
+     
     /**
      * FormInputNumber::setId()
      * 
