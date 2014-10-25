@@ -78,7 +78,7 @@ class Template extends \Zion\Layout\Padrao
     public function setTooltipForm($Form = 'sisContainer')
     {
         return $this->tooltipForm = $Form;
-    }    
+    }      
 
     public function getTemplate($modo = '')
     {
@@ -385,7 +385,7 @@ class Template extends \Zion\Layout\Padrao
         $buffer .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#' . $this->tooltipForm . '\').tooltip()}};init.push(initTooltipsDemo);');
         return $buffer;
 
-    }
+    } 
 
     private function getRodape()
     {

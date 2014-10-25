@@ -5,4 +5,5 @@
  */
 function sisSpa(p){$("#sisPaginaAtual").val(p);}
 function sisSvo(q,t){$("#sisQuemOrdena").val(q);$("#sisTipoOrdenacao").val(t);}
-
+function showFilters(){$("#box-filters").slideToggle();$("#box-filters").removeClass("hidden");}
+function hiddenFilters(){$("#box-filters").addClass("hidden");}
