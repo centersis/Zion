@@ -117,7 +117,7 @@ class GridBotoes
         if ($recolhidos) {
 
             $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group']);
-            $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg dropdown-toggle', 'data-toggle' => 'dropdown']);
+            $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg dropdown-toggle', 'data-toggle' => 'dropdown', 'title' => 'Permiss&otilde;es especiais']);
             $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-bars']);
             $buffer .= '&nbsp;';
             $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-caret-down']);
@@ -125,15 +125,22 @@ class GridBotoes
 
             $buffer .= $this->html->abreTagAberta('ul', ['class' => 'dropdown-menu', 'role' => 'menu']);
             $buffer .= $recolhidos;
-            $buffer .= $this->html->fechaTag('ul');
-
+            $buffer .= $this->html->fechaTag('ul');         
             $buffer .= $this->html->fechaTag('div');
+
+            $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group recE20px']);
+            $buffer .= $this->html->abreTagAberta('button', ['id' => 'ch-filters', 'class' => 'btn btn-lg', 'title' => 'Filtros especiais', 'onclick' => 'showHiddenFilters()']);
+            $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-filter']);
+            $buffer .= '&nbsp;';
+            $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-caret-down']);
+            $buffer .= $this->html->fechaTag('button');
+                                                    
         }
 
         $buffer .= $this->html->fechaTag('div');
 
 
-        $buffer.= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px hidden-xs hidden-sm hidden-md']);
+        $buffer.= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE5px hidden-xs hidden-sm hidden-md']);
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group']);
         $buffer .= $this->html->abreTagAberta('input', ['id' => 'sisBuscaGridA', 'name' => 'sisBuscaGridA', 'type' => 'text', 'class' => 'input form-control tagsinput', 'data-role' => 'tagsinput', 'placeholder' => 'Pesquisar']);
         $buffer .= $this->html->fechaTag('div');
@@ -145,6 +152,7 @@ class GridBotoes
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
 
+        $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
 
         return $buffer;

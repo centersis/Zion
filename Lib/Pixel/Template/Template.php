@@ -333,6 +333,7 @@ class Template extends \Zion\Layout\Padrao
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'page-header'));
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'row'));
+        //$buffer .= $this->getSpark();
 
         $buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
         $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-dashboard page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . DEFAULT_MODULO_NOME;
@@ -342,6 +343,54 @@ class Template extends \Zion\Layout\Padrao
         $buffer .= $this->html->fechaTag('div');
 
         return $buffer;
+    }
+
+    private function getSpark()
+    {
+
+        $buffer = '
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+                <!-- sparks -->
+                <ul id="sparks">
+                    <li class="sparks-info">
+                        <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
+                        <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
+                            1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
+                        </div>
+                    </li>
+                    <li class="sparks-info">
+                        <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i>&nbsp;45%</span></h5>
+                        <div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
+                            110,150,300,130,400,240,220,310,220,300, 270, 210
+                        </div>
+                    </li>
+                    <li class="sparks-info">
+                        <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span></h5>
+                        <div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
+                            110,150,300,130,400,240,220,310,220,300, 270, 210
+                        </div>
+                    </li>
+                </ul>
+                <!-- end sparks -->
+            </div>';
+        return $buffer;
+
+    }
+
+    private function getStatPanel()
+    {
+
+        $buffer .= '
+                <div class="float stat-panel">
+                    <div class="stat-cell bg-danger valign-middle">
+                        <i class="fa fa-comments bg-icon"></i>
+                        <span class="text-xlg"><strong>124</strong></span><br>
+                        <span class="text-bg">Comments</span><br>
+                        <span class="text-sm">New comments today</span>
+                    </div>
+                </div>';        
+        return $buffer;
+
     }
 
     private function getFimContainer()
@@ -393,6 +442,22 @@ class Template extends \Zion\Layout\Padrao
         $rodape = new \Pixel\Template\Rodape();
         return $rodape->getRodape($this);
     }
+
+    public function getPanel($panelId, $panelTitle, $panelBody, $opcoes)
+    {
+
+        $panel = new \Pixel\Template\Main\Panel();
+        return $panel->getPanel($panelId, $panelTitle, $panelBody, $opcoes);
+
+    }    
+
+    public function getTab($tabId, $arrayConfs, $arrayTab)
+    {
+
+        $tab = new \Pixel\Template\Main\Tab();
+        return $tab->getTab($tabId, $arrayConfs, $arrayTab);
+
+    }     
 
     private function getEstatisticas($modo = '')
     {
