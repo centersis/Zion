@@ -50,11 +50,10 @@ class CrudUtil
         if (is_array($arrayForm)) {
             foreach ($arrayForm as $cFG) {
                 //$alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
-
-               //$sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $cFG->getProcesarComo());
+                //$sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $cFG->getProcesarComo());
             }
         }
-        
+
         $sql.= $this->sqlBuscaGeral($colunas);
 
         return $sql;
@@ -65,7 +64,7 @@ class CrudUtil
         $buscaGral = filter_input(INPUT_GET, 'sisBuscaGeral');
 
         $sql = '';
-        
+
         if ($buscaGral) {
             $sql = ' AND (';
 
@@ -75,15 +74,45 @@ class CrudUtil
             $cont = 0;
             foreach (array_keys($colunas) as $coluna) {
                 $cont++;
-                $sql.= $coluna . " REGEXP '".$campos."'";
-                
+                $sql.= $coluna . " REGEXP '" . $campos . "'";
+
                 $sql.= $total == $cont ? '' : ' OR ';
             }
-            
+
             $sql.= ') ';
-        }        
+        }
 
         return $sql;
+    }
+
+    /**
+     * Receber uma string de parametros e o objetoform e processa-os retornando um vetor com os paremtros prontos para a inserção
+     * retorna Array
+     */
+    public function insert($tabela, array $campos, $objForm)
+    {
+        $con = \Zion\Banco\Conexao::conectar();
+
+        $arraySql = [];
+
+        $arrayForm = $objForm->getObjetos();
+
+        $arrayParametros = array_map("trim", $campos);
+
+        foreach ($arrayParametros as $nomeParametro) {
+            if (array_key_exists($nomeParametro, $arrayForm)) {
+
+                $arraySql[] = $objForm->getSql($nomeParametro);
+            } else {
+                $arraySql[] = 'NULL';
+            }
+        }
+
+        $sql = "INSERT INTO $tabela (" . implode(',', $campos) . ") VALUES (" . implode(",", $arraySql) . ")";
+
+        $con->executar($sql);
+
+        return $con->ultimoInsertId();
     }
 
     /**
@@ -115,9 +144,9 @@ class CrudUtil
 
             foreach ($arrayParametros as $nomeParametro) {
                 if (array_key_exists($nomeParametro, $arrayForm)) {
-                    $Objeto = $arrayForm[$nomeParametro];
+                    $objeto = $arrayForm[$nomeParametro];
 
-                    $arraySql[] = $objForm->get($nomeParametro, $Objeto->getObrigatorio(), $Objeto->getProcessarComo());
+                    $arraySql[] = $objForm->get($nomeParametro, $objeto->getObrigatorio(), $objeto->getProcessarComo());
                 } else {
                     $valor = $objForm->get($nomeParametro, false);
 

@@ -306,6 +306,7 @@ class Template extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
         $buffer .= $breadCrumb->getBreadCrumb();
         $buffer .= $this->getPageHeader();
+        $buffer .= $this->abreTagFechada('div', ['id' => 'sisContainerManu']);
         $buffer .= $this->conteudoBotoes;
         $buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerGrid']) . $this->conteudoGrid . $this->fechaTag('div');
         $buffer .= $this->conteudoMain;

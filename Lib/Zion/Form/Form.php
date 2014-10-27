@@ -313,7 +313,7 @@ class Form
      * Form::processarForm()
      * 
      * @param mixed $campos
-     * @return
+     * @return Form
      */
     public function processarForm(array $campos)
     {
