@@ -2,7 +2,7 @@
 
 namespace Pixel\Filtro;
 
-class Filtro
+class FiltroForm
 {
 
     private $zIndex;
@@ -13,58 +13,36 @@ class Filtro
         $this->html = new \Zion\Layout\Html();
     }
 
-    public function montaFiltro($arrayCampos)
+    public function montaFiltro(\Pixel\Form\Form $objForm)
     {
-        $html = "";
-        $hiddens = "";
-        $StrFormI = '<div id="sis_form_filtros"><img id="imgSisFiltro" src="' . $_SESSION['UrlBase'] . 'figuras/sis_filtro_mostrar.gif" onClick="sisShowFiltro()"><span id="sis_filtrar_filtro"><img src="' . $_SESSION['UrlBase'] . 'figuras/mostrar_filtros.gif" border="0" onClick="sisFiltrarFiltro(\'' . MODULO . '\')" /></span><span id="sis_salvar_filtro"><img src="' . $_SESSION['UrlBase'] . 'figuras/bt_salvar_filtro.gif" border="0" onClick="sisCadastrarFiltro(\'' . MODULO . '\')" /></span></div>';
-        $StrFormI .= '<form action="" method="get" name="FormFiltro" id="FormFiltro" class="forms" onSubmit="return false" style="display:none">';
-        $StrFormF = '</form>';
+        $this->atualizaIds($objForm);
 
-        if (is_array($arrayCampos)) {
-            $tab = new Tabelas();
+        $html = '';
 
-            $html = $tab->tabIni();
+        $campos = $objForm->getFormHtml();
 
-            //Cria Linhas
-            foreach ($arrayCampos as $valor) {
-
-                if ($valor[0] == true) {
-                    if (!empty($valor[1])) {
-                        $linha[$valor[3]] .= $tab->abreTd(null, "itensFiltro", "right") . $valor[1] . $tab->fechaTd();
-                    }
-
-                    $linha[$valor[3]] .= $tab->abreTd() . $valor[2] . $tab->fechaTd();
-                } else {
-                    $escondido[] = $valor[2];
-                }
-            }
-
-            //Descarrega Campos Escondidos
-            if (is_array($escondido)) {
-                foreach ($escondido as $campos) {
-                    $hiddens .= $campos;
-                }
-            }
-
-            //Cria estrutura de Filtro
-            foreach ($linha as $conteudo) {
-                $html .= $tab->abreTr();
-                $html .= $conteudo;
-                $html .= $hiddens . $tab->fechaTr();
-            }
-
-            $html .= $tab->tabFim();
-
-            //Hidden de Intercep��o a pagina��o
-            $html .= '<input name="PaginaAtual"   id="SisPaginaAtual"   type="text" value="" size="1" style="display:none" />';
-            $html .= '<input name="QuemOrdena"    id="SisQuemOrdena"    type="text" value="" size="1" style="display:none" />';
-            $html .= '<input name="TipoOrdenacao" id="SisTipoOrdenacao" type="text" value="" size="1" style="display:none" />';
-
-            return $StrFormI . $html . $StrFormF;
+        foreach ($campos as $htmlCampo) {
+            $html .= $htmlCampo;
         }
 
+        //Hidden de Interceptção a paginação
+        $html .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'pa', 'id' => 'pa', 'value' => '']);
+        $html .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'qo', 'id' => 'qo', 'value' => '']);
+        $html .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'to', 'id' => 'to', 'value' => '']);
+
+        $html.= $objForm->fechaForm();
+
         return $html;
+    }
+
+    private function atualizaIds(Form $objForm)
+    {
+        $obj = $objForm->getObjetos();
+
+        foreach ($obj as $objCampos) {
+            $idAtual = $objCampos->getId();
+            $objCampos->setId('f' . $idAtual);
+        }
     }
 
     public function opFiltro($cFG, $campo)

@@ -14,7 +14,7 @@ class GridBotoes
         $this->html = new \Zion\Layout\Html();
     }
 
-    public function geraBotoes()
+    public function geraBotoes($filtros)
     {
         $acesso = new \Zion\Acesso\Acesso();
 
@@ -28,7 +28,8 @@ class GridBotoes
 
         $arrayAcesso = $acesso->permissoesModulo();
 
-        $buffer  = $this->html->abreTagAberta('div', ['id' => 'sisContainer', 'class' => 'clearfix recI10px']);
+        $buffer = $filtros;
+        $buffer  .= $this->html->abreTagAberta('div', ['id' => 'sisContainer', 'class' => 'clearfix recI10px']);
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar wide-btns pull-left']);
 
         //Check
