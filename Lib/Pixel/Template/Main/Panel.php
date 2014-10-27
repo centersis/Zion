@@ -12,8 +12,8 @@ class Panel extends \Zion\Layout\Padrao
     public function getPanel($panelId = '', $panelTitle = '', $panelBody = '', $opcoes = '')
     {	
 
-        $titleVisible = $opcoes['titleVisible'];
-        $startVisible = $opcoes['startVisible'];
+        $titleVisible = @$opcoes['titleVisible'];
+        $startVisible = @$opcoes['startVisible'];
         $iconTitle    = empty($opcoes['iconTitle']) ? '' : $opcoes['iconTitle'];
 
         $titleHidden = (!$titleVisible) ? ' showHidden ' : false;
