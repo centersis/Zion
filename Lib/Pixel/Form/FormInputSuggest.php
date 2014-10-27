@@ -32,6 +32,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $layoutPixel;
+    private $aliasSql;
 
     private $formSetPixel;
     
@@ -389,10 +390,21 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->layoutPixel;
     }
 
-    public function setAliasSql($aliasSql){
-        parent::setAliasSql($aliasSql);
-        return $this;
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
     }
+
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+    
+
     /**
      * Sobrecarga de Metodos Básicos
      */
