@@ -56,6 +56,11 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         return $this;
     }
 
+    public function setAliasSql($aliasSql){
+        parent::setAliasSql($aliasSql);
+        return $this;
+    }
+
     public function setPrefixo($prefixo)
     {
         $this->prefixo = $prefixo;
