@@ -42,6 +42,11 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
         return $this;
     }
 
+    public function setAliasSql($aliasSql){
+        parent::setAliasSql($aliasSql);
+        return $this;
+    }
+
     public function setIconFA($iconFA)
     {
         $this->iconFA = $this->formSetPixel->setIconFA($iconFA);

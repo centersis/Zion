@@ -389,6 +389,10 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->layoutPixel;
     }
 
+    public function setAliasSql($aliasSql){
+        parent::setAliasSql($aliasSql);
+        return $this;
+    }
     /**
      * Sobrecarga de Metodos Básicos
      */

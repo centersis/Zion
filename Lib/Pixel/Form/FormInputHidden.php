@@ -71,5 +71,10 @@ class FormInputHidden extends \Zion\Form\FormInputHidden
         parent::setClassCss($classCss);
         return $this;
     }
+    
+    public function setAliasSql($aliasSql){
+        parent::setAliasSql($aliasSql);
+        return $this;
+    }
 
 }
