@@ -13,7 +13,7 @@ class FiltroForm
         $this->html = new \Zion\Layout\Html();
     }
 
-    public function montaFiltro(\Pixel\Form\Form $objForm)
+    public function montaFiltro($objForm)
     {
         $this->atualizaIds($objForm);
 
@@ -35,7 +35,7 @@ class FiltroForm
         return $html;
     }
 
-    private function atualizaIds(Form $objForm)
+    private function atualizaIds($objForm)
     {
         $obj = $objForm->getObjetos();
 
