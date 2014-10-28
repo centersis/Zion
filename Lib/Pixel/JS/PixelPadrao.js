@@ -31,3 +31,24 @@ $(document).ready(function () {
     });
 });
 
+function sisContaCheck()
+{
+    var abv = document.formGrid;
+
+    if (!$("formGrid")) {
+        return 0;
+    }
+
+    var conta = 0;
+
+    for (i = 0; i < abv.elements.length; i++) {
+
+        if (abv.elements[i].type === "checkbox") {
+
+            if (abv.elements[i].checked === true) {
+
+                conta += 1;
+            }
+        }
+    }
+}
