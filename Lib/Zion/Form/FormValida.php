@@ -73,8 +73,8 @@ class FormValida
      */
     public function validar($form){
 
-        if(is_object($form) === false or preg_match('/^[Zion\\Form\\\]{10}/', @get_class($form)) != true){
-            throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe de formulario valida!');
+        if(is_object($form) === false){
+            throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe valida!');
         }
 
         $this->instance = addslashes(get_class($form));
