@@ -206,9 +206,9 @@ class CrudUtil
         //Cria Array Para Converssão em Super Global
         foreach ($parametrosForm as $valor) {
             if ($valor == "cod") {
-                $arrayProcessamento[$valor] = $parametrosSql[$chave];
+                $arrayProcessamento[$valor] = @$parametrosSql[$chave];
             } else {
-                $arrayProcessamento[$valor] = $parametrosSql[$valor];
+                $arrayProcessamento[$valor] = @$parametrosSql[$valor];
             }
         }
 

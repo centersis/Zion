@@ -36,7 +36,6 @@ function sisAlterarPadrao()
     if(sisContaCheck() < 1){
         alert('Nenhum registro selecionado');
     }else{
-        alert($("#formGrid").serialize());
         sisAlterarLayout();
     }
 }
