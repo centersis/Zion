@@ -24,9 +24,40 @@ class Paginacao extends \Zion\Paginacao\Paginacao
         parent::__construct($con);
     }
     
-    /*
+    
     public function listaResultados(){
-        print parent::listaResultados();exit("HEREDOC");
+
+        self::setPaginacaoPixelTemplate();
+        return parent::listaResultados();
+
     }
-    */
+    
+    public function setPaginacaoPixelTemplate(){
+        
+        parent::setDivDrop('btn-toolbar pull-right recI10px'); //Div 
+        parent::setDivDropGroup('btn-group');
+        parent::setDivDropGroupItems('btn-group');
+        parent::setDivRols('table-footer');
+        parent::setDivFpOff('table-footer alinD');
+        parent::setDivPagOff('btn-toolbar pull-right');
+        parent::setIDrop('fa fa-list-ol');
+        parent::setIDropCaret('fa fa-caret-down');
+        parent::setIRew('fa fa-chevron-left');
+        parent::setIFwd('fa fa-chevron-right');
+        parent::setIFp('dropdown-icon fa fa-angle-double-left');
+        parent::setILp('dropdown-icon fa fa-angle-double-right');
+        parent::setUlDrop('dropdown-menu');
+        parent::setLiFp('hand');
+        parent::setLiLp('hand');
+        parent::setSpanRols('label label-warning');
+        parent::setButtonDrop('btn btn-lg dropdown-toggle');
+        parent::setButtonRew('btn btn-lg');
+        parent::setButtonFwd('btn btn-lg');
+        parent::setButtonRewOff('btn btn-lg disabled');
+        parent::setButtonFwdOff('btn btn-lg disabled');
+        
+        return $this;
+
+    }
+
 }
