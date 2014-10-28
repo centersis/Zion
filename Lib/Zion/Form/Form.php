@@ -375,9 +375,9 @@ class Form
     {
         $tratar = \Zion\Tratamento\Tratamento::instancia();
 
-        $valor = $this->objetos[$idObjeto]->getNome();
+        $valor = $this->objetos[$idObjeto]->getValor();
         $obrigatorio = $this->objetos[$idObjeto]->getObrigatorio();
-        $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
+        $tipoBase = $this->objetos[$idObjeto]->getTipoBase();        
 
         switch ($tipoBase) {
             case 'data' :
@@ -473,7 +473,7 @@ class Form
 
     private function valorOuNull($valor, $aspas, $obrigatorio)
     {
-        if ($obrigatorio) {
+        if ($obrigatorio and $valor == '') {
             return $valor;
         } else {
             if ($aspas === false) {

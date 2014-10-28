@@ -14,7 +14,7 @@ class GridBotoes
         $this->html = new \Zion\Layout\Html();
     }
 
-    public function geraBotoes($filtros)
+    public function geraBotoes($filtros = '')
     {
         $acesso = new \Zion\Acesso\Acesso();
 
@@ -27,9 +27,7 @@ class GridBotoes
         }
 
         $arrayAcesso = $acesso->permissoesModulo();
-
-        $buffer = $filtros;
-        $buffer  .= $this->html->abreTagAberta('div', ['id' => 'sisContainer', 'class' => 'clearfix recI10px']);
+        $buffer  = $this->html->abreTagAberta('div', ['id' => 'sisContainer', 'class' => 'clearfix recI10px']);
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar wide-btns pull-left']);
 
         //Check
@@ -130,7 +128,7 @@ class GridBotoes
             $buffer .= $this->html->fechaTag('div');
 
             $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group recE20px']);
-            $buffer .= $this->html->abreTagAberta('button', ['id' => 'ch-filters', 'class' => 'btn btn-lg', 'title' => 'Filtros especiais', 'onclick' => 'showHiddenFilters()']);
+            $buffer .= $this->html->abreTagAberta('button', ['id' => 'ch-filters', 'class' => 'btn btn-lg', 'title' => 'Filtros especiais', 'onclick' => ' showHiddenFilters();']);
             $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-filter']);
             $buffer .= '&nbsp;';
             $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-caret-down']);
@@ -140,14 +138,13 @@ class GridBotoes
 
         $buffer .= $this->html->fechaTag('div');
 
-
         $buffer.= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE5px hidden-xs hidden-sm hidden-md']);
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group']);
         $buffer .= $this->html->abreTagAberta('input', ['id' => 'sisBuscaGridA', 'name' => 'sisBuscaGridA', 'type' => 'text', 'class' => 'input form-control tagsinput', 'data-role' => 'tagsinput', 'placeholder' => 'Pesquisar']);
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
 
-        $buffer.= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px visible-md hidden-lg']);
+        $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px visible-md hidden-lg']);
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group']);
         $buffer .= $this->html->abreTagAberta('input', ['id' => 'sisBuscaGridB', 'name' => 'sisBuscaGridB', 'type' => 'text', 'class' => 'input form-control tagsinput', 'data-role' => 'tagsinput', 'placeholder' => 'Pesquisar']);
         $buffer .= $this->html->fechaTag('div');
@@ -155,8 +152,38 @@ class GridBotoes
 
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
+        
+        //$buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px visible-md hidden-lg']);
+        //$buffer .= $this->html->fechaTag('div');
 
         return $buffer;
+    }
+
+    public function getFilters($filtros)
+    {
+
+        $template = new \Pixel\Template\Template();        
+        
+        $buffer  = '';
+        $buffer .= $this->html->abreTagAberta('div', ['class' => '', 'style' => 'padding-top: 50px; z-index:-1;']);
+        $buffer .= $template->getPanel('box-filters', 'Filtros especiais', $filtros, ['startVisible' => true, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
+        $buffer .= $this->html->fechaTag('div');
+        return $buffer;
+
+    }    
+
+    public function setContentFilters($filtros)
+    {
+        exit(addcslashes($filtros));
+        return " setContentElem('#box-filters-body','" . addslashes($filtros) . "');";
+
+    }  
+
+    private function getContentFilters()
+    {
+
+        return $this->contentFilters;
+
     }
 
     public function setBotoesExcluir($botoesExcluir)

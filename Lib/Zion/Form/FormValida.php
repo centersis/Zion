@@ -74,7 +74,7 @@ class FormValida
     public function validar($form){
 
         if(is_object($form) === false){
-            throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe valida!');
+            throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe válida!');
         }
 
         $this->instance = addslashes(get_class($form));
