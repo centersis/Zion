@@ -20,10 +20,10 @@ class FormInputHora extends \Zion\Form\FormBasico
     */
     private $tipoBase;
     private $acao; 
+    private $obrigatorio;
     private $horaMinima;
     private $horaMaxima;
     private $placeHolder;
-    private $obrigatorio;
     private $mostrarSegundos;
     private $aliasSql;
     
