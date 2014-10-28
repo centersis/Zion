@@ -74,7 +74,7 @@ class GridBotoes
                         'type' => 'button',
                         'class' => 'btn btn-lg hidden-xs',
                         'title' => $dados['AcaoModuloPermissao'],
-                        'onclick' => $dados['AcaoModuloFuncaoJS']]);
+                        'onclick' => $dados['AcaoModuloFuncaoJS'] . $this->getModuloPermissaoManu($dados['AcaoModuloIdPermissao'])]);
 
                     $botoes.= $this->html->abreTagFechada('i', ['class' => $dados['AcaoModuloIcon']]);
                     $botoes.= $this->html->fechaTag('button');
@@ -162,6 +162,26 @@ class GridBotoes
     public function setBotoesExcluir($botoesExcluir)
     {
         $this->botoesExcluir = $botoesExcluir;
+    }
+
+    private function getAcaoJSOcultarElemento($elem)
+    {
+
+        return "; replaceContentElem('#".$elem."');";
+
+    }
+
+    private function getModuloPermissaoManu($perm)
+    {
+
+        if($perm == "visualizar" or $perm == "cadastrar" or $perm == "alterar") {
+
+            return $this->getAcaoJSOcultarElemento('sisContainer');
+
+        }
+
+        return;
+
     }
 
 }
