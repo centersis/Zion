@@ -1,8 +1,15 @@
 function sisSpa(p) {
     $("#sisPaginaAtual").val(p);
 }
-function replaceContentElem(e){$(e).fadeToggle('slow', function(){$(e).html('');})}
-function setContentElem(e,c){$(e).html(c);$(e).fadeIn('slow');}
+function replaceContentElem(e) {
+    $(e).fadeToggle('slow', function () {
+        $(e).html('');
+    })
+}
+function setContentElem(e, c) {
+    $(e).html(c);
+    $(e).fadeIn('slow');
+}
 
 function sisSvo(q, t) {
     $("#sisQuemOrdena").val(q);

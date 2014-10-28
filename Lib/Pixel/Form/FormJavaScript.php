@@ -54,12 +54,16 @@ class FormJavaScript extends \Zion\Layout\JavaScript
         return $this;
     }
     
-    public function getLoad()
+    public function getLoad($entreJs = false)
     {
         $buffer = '';
 
-        if ($this->load) {
+        if ($this->load) {            
             $buffer = parent::abreLoadJQuery() . implode("\n", $this->load) . parent::fechaLoadJQuery();
+            
+            if($entreJs === true){
+                $buffer = parent::entreJS($buffer);
+            }
         }
 
         return $buffer;
@@ -80,6 +84,16 @@ class FormJavaScript extends \Zion\Layout\JavaScript
         }
 
         return $buffer;
+    }
+    
+    public function sisCadastrar($codigoJS)
+    {
+        return 'function sisCadastrar(){ '.$codigoJS.' } ';
+    }
+    
+    public function sisAlterar($codigoJS)
+    {
+        return 'function sisAlterar(){ '.$codigoJS.' } ';
     }
 
 }
