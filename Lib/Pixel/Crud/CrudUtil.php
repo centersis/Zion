@@ -114,6 +114,34 @@ class CrudUtil
 
         return $con->ultimoInsertId();
     }
+    
+    public function update($tabela, array $campos, $objForm, $chavePrimaria)
+    {
+        $con = \Zion\Banco\Conexao::conectar();
+
+        $arraySql = [];
+
+        $arrayForm = $objForm->getObjetos();
+
+        $arrayParametros = array_map("trim", $campos);
+
+        foreach ($arrayParametros as $nomeParametro) {
+            if (array_key_exists($nomeParametro, $arrayForm)) {
+
+                $arraySql[] = $nomeParametro.' = '.$objForm->getSql($nomeParametro);
+            } else {
+                $arraySql[] = $nomeParametro.' = NULL';
+            }
+        }
+        
+        $codigo = $objForm->get('cod');
+
+        $sql = "UPDATE $tabela SET ".  implode(',', $arraySql)." WHERE $chavePrimaria =  ".$codigo;
+
+        $con->executar($sql);
+
+        return $con->ultimoInsertId();
+    }
 
     /**
      * Receber uma string de parametros e o objetoform e processa-os retornando um vetor com os paremtros prontos para a inserção

@@ -31,6 +31,16 @@ $(document).ready(function () {
     });
 });
 
+function sisAlterarPadrao()
+{
+    if(sisContaCheck() < 1){
+        alert('Nenhum registro selecionado');
+    }else{
+        alert($("#formGrid").serialize());
+        sisAlterarLayout();
+    }
+}
+
 function sisContaCheck()
 {
     var abv = document.formGrid;
