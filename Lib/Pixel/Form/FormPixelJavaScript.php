@@ -171,7 +171,7 @@ class FormPixelJavaScript
         $this->extra.= $abre . implode(',', $attr) . $fecha;
     }
 
-    public function montaValidacao($formNome)
+    public function montaValidacao($formNome, $acao)
     {
         if (!$this->regras) {
             return '';
@@ -196,7 +196,15 @@ class FormPixelJavaScript
         $textoRegra .= ' } ';
         $textoMensagem .= ' } ';
 
-        $textoSubmit = ' submitHandler: function(form) { alert("submito se eu quiser mano"); /*form.submit();*/ } ';
+        if($acao == 'cadastrar'){
+            $funcaoAcao = 'sisCadastrar()';
+        }else if($acao == 'alterar'){
+            $funcaoAcao = 'sisAlterar()';
+        }else{
+            $funcaoAcao = $acao;
+        }
+        
+        $textoSubmit = ' submitHandler: function(form) { '.$funcaoAcao.'; } ';
 
         return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ' }); ' . $this->extra;
     }

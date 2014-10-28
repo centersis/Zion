@@ -33,9 +33,9 @@ class Numero extends \Zion\Tratamento\Numero
      * Numero::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
      * 
-     * @return object
+     * @return Numero
      */
-    public function instancia(){
+    public static function instancia(){
         
         if(!isset(self::$instancia)){
             self::$instancia = new self;

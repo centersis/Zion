@@ -34,7 +34,7 @@ class Geral extends \Zion\Tratamento\Geral
      * 
      * @return object
      */
-    public function instancia(){
+    public static function instancia(){
 
         if(!isset(self::$instancia)){
             self::$instancia = new self;

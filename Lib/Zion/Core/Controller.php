@@ -64,9 +64,9 @@ class Controller
      */
     public function jsonErro($erro)
     {
-        $tratar = new \Zion\Validacao\Valida();
+        $tratar = \Zion\Validacao\Valida::instancia();
         
-        json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
+        return json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
     }
     
     /**
