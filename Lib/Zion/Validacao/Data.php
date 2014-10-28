@@ -36,7 +36,7 @@ class Data extends \Zion\Tratamento\Data
      * 
      * @return object
      */
-    public function instancia(){
+    public static function instancia(){
         
         if(!isset(self::$instancia)){
             self::$instancia = new self;

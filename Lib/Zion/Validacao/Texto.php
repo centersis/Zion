@@ -35,7 +35,7 @@ class Texto extends \Zion\Tratamento\Texto
      * 
      * @return object
      */
-    public function instancia(){
+    public static function instancia(){
         
         if(!isset(self::$instancia)){
             self::$instancia = new self;

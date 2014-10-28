@@ -37,7 +37,7 @@ class Data
      * 
      * @return Data
      */
-    public function instancia(){
+    public static function instancia(){
         
         if(!isset(self::$instancia)){
             self::$instancia = new self;
