@@ -36,7 +36,7 @@ class Numero
      * 
      * @return object
      */
-    public function instancia()
+    public static function instancia()
     {
 
         if (!isset(self::$instancia)) {
