@@ -9,6 +9,7 @@ class Template extends \Zion\Layout\Padrao
     private $conteudoBody;
     private $conteudoBotoes;
     private $conteudoGrid;
+    private $conteudoFiltros;
     private $conteudoMain;
     private $conteudoContainerLogin;
     private $conteudoScripts;
@@ -38,6 +39,12 @@ class Template extends \Zion\Layout\Padrao
 
         $this->conteudoBotoes .= $conteudo;
     }
+
+    public function setConteudoFiltros($conteudo = '')
+    {
+
+        $this->conteudoFiltros .= $conteudo;
+    }    
 
     public function setConteudoGrid($conteudo = '')
     {
@@ -306,6 +313,8 @@ class Template extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
         $buffer .= $breadCrumb->getBreadCrumb();
         $buffer .= $this->getPageHeader();
+        //$buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerFiltros', 'class' => 'clearfix']) . $this->getFiltros() .  $this->fechaTag('div');
+
         $buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerManu']) . $this->fechaTag('div');
         $buffer .= $this->conteudoBotoes;
         $buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerGrid']) . $this->conteudoGrid . $this->fechaTag('div');
@@ -319,6 +328,13 @@ class Template extends \Zion\Layout\Padrao
         $buffer .= $this->html->fechaTag('div');
 
         return $buffer;
+    }
+
+    private function getFiltros()
+    {
+
+        return $this->getPanel('box-filters', 'Filtros especiais', $this->conteudoFiltros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
+
     }
 
     private function getContainerLogin()

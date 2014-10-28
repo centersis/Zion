@@ -29,7 +29,7 @@ class Panel extends \Zion\Layout\Padrao
         }
 
         $buffer  = '';
-        $buffer .= $this->html->abreTagAberta('div', ['id' => $panelId, 'class' => 'panel panel-default ' . $titleStartVisible . $titleHidden]);
+        $buffer .= $this->html->abreTagAberta('div', ['id' => $panelId, 'class' => 'panel panel-default ' . $titleStartVisible . $titleHidden, 'style' => $opcoes['style']]);
             $buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-heading hand', 'onclick' => 'showHiddenFilters()']);
 
                 $buffer .= $this->html->abreTagAberta('span', ['class' => 'panel-title']);
@@ -44,7 +44,7 @@ class Panel extends \Zion\Layout\Padrao
             $buffer .= $this->html->fechaTag('div');
 
             $buffer .= $this->html->fechaTag('div');
-            $buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-body' . $bodyHidden . $bodyStartVisible]); 
+            $buffer .= $this->html->abreTagAberta('div', ['id' => $panelId.'-body', 'class' => 'panel-body' . $bodyHidden . $bodyStartVisible]); 
             $buffer .= $panelBody;
             $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
