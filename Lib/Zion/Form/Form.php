@@ -17,6 +17,7 @@ class Form
     protected $formConfig;
     protected $objetos;
     protected $formHtml;
+    protected $acao;
 
     /**
      * Form::__construct()
@@ -482,5 +483,14 @@ class Form
             }
         }
     }
-
+    
+    public function setAcao($acao)
+    {
+        $this->acao = $acao;
+    }
+    
+    public function getAcao()
+    {
+        return $this->acao;
+    }
 }
