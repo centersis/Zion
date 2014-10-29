@@ -54,6 +54,11 @@ class FormJavaScript extends \Zion\Layout\JavaScript
         return $this;
     }
     
+    public function resetLoad()
+    {
+        $this->load = [];
+    }
+    
     public function getLoad($entreJs = false)
     {
         $buffer = '';

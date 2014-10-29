@@ -14,7 +14,7 @@ class GridBotoes
         $this->html = new \Zion\Layout\Html();
     }
 
-    public function geraBotoes($filtros = '')
+    public function geraBotoes()
     {
         $acesso = new \Zion\Acesso\Acesso();
 
@@ -27,8 +27,8 @@ class GridBotoes
         }
 
         $arrayAcesso = $acesso->permissoesModulo();
-        $buffer  = $this->html->abreTagAberta('div', ['id' => 'sisContainer', 'class' => 'clearfix recI10px']);
-        $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar wide-btns pull-left']);
+        $buffer  = $this->html->abreTagAberta('div', ['id' => 'sisContainer', 'class' => 'clearfix recI10px', 'style'=>'position:relative']);
+        $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar wide-btns']);
 
         //Check
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group hidden-xs hidden-sm recD20px']);
@@ -152,6 +152,7 @@ class GridBotoes
 
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
+        $buffer .= $this->getFilters('Aqui vem os filtros');        
         
         //$buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px visible-md hidden-lg']);
         //$buffer .= $this->html->fechaTag('div');
@@ -165,20 +166,22 @@ class GridBotoes
         $template = new \Pixel\Template\Template();        
         
         $buffer  = '';
-        $buffer .= $this->html->abreTagAberta('div', ['class' => '', 'style' => 'padding-top: 50px; z-index:-1;']);
-        $buffer .= $template->getPanel('box-filters', 'Filtros especiais', $filtros, ['startVisible' => true, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
-        $buffer .= $this->html->fechaTag('div');
+        //$buffer .= $this->html->abreTagAberta('div', ['class' => '', 'style' => 'padding-top: 50px; z-index:-1;']);
+        $buffer .= $template->getPanel('box-filters', 'Filtros especiais', $filtros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
+        //$buffer .= $this->html->fechaTag('div');
         return $buffer;
 
     }    
 
+    // nao usado ainda
     public function setContentFilters($filtros)
     {
-        exit(addcslashes($filtros));
+
         return " setContentElem('#box-filters-body','" . addslashes($filtros) . "');";
 
     }  
 
+    // nao usado ainda
     private function getContentFilters()
     {
 
