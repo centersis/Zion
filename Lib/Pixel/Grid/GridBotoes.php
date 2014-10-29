@@ -14,7 +14,7 @@ class GridBotoes
         $this->html = new \Zion\Layout\Html();
     }
 
-    public function geraBotoes($filtros = '')
+    public function geraBotoes()
     {
         $acesso = new \Zion\Acesso\Acesso();
 

@@ -11,14 +11,18 @@ namespace Pixel\Crud;
 class CrudUtil
 {
     
-    public function setParametrosForm($objForm, $parametrosSql)
+    public function setParametrosForm($objForm, $parametrosSql, $cod = 0)
     {
         $arrayObjetos = $objForm->getObjetos();
 
+        if($cod){
+            $arrayObjetos['cod']->setValor($cod);
+        }
+        
         if (is_array($arrayObjetos)) {
             foreach ($arrayObjetos as $nome=>$objeto) {
-                
-                if(in_array($nome, $parametrosSql)){
+
+                if(key_exists($nome, $parametrosSql)){
                     $objeto->setValor($parametrosSql[$nome]);
                 }
             }
@@ -155,7 +159,18 @@ class CrudUtil
 
         $con->executar($sql);
 
-        return $con->ultimoInsertId();
+        return $con->getLinhasAfetadas();
+    }
+    
+    public function delete($tabela, $codigo, $chavePrimaria)
+    {
+        $con = \Zion\Banco\Conexao::conectar();
+
+        $sql = "DELETE FROM $tabela WHERE $chavePrimaria =  ".$codigo;
+
+        $con->executar($sql);
+
+        return $con->getLinhasAfetadas();
     }
 
     /**
