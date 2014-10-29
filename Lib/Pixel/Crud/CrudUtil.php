@@ -10,6 +10,21 @@ namespace Pixel\Crud;
 
 class CrudUtil
 {
+    
+    public function setParametrosForm($objForm, $parametrosSql)
+    {
+        $arrayObjetos = $objForm->getObjetos();
+
+        if (is_array($arrayObjetos)) {
+            foreach ($arrayObjetos as $nome=>$objeto) {
+                
+                if(in_array($nome, $parametrosSql)){
+                    $objeto->setValor($parametrosSql[$nome]);
+                }
+            }
+        }
+    }
+    
     /*
      * Metodo que retorna um array com o nome dos campos de formulários
      * retorna Array
