@@ -59,7 +59,7 @@ class FormPixelJavaScript
         }
 
         if ($config->getAcao() == 'float') {
-            $this->extra.= '$("#' . $config->getId() . '").maskMoney({prefix:"'.$config->getPrefixo().'", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
+            $this->extra.= '$("#' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
         }
 
         if ($config->getAcao() == 'date') {
@@ -89,33 +89,33 @@ class FormPixelJavaScript
         }
 
         if ($config->getAcao() == 'cpf') {
-            
+
             $this->regras[$config->getNome()][] = 'cpf : true';
             $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
             $this->extra.= '$("#' . $config->getId() . '").mask("999.999.999-99");';
         }
-        
+
         if ($config->getAcao() == 'cnpj') {
-            
+
             $this->regras[$config->getNome()][] = 'cnpj : true';
             $this->mensagens[$config->getNome()][] = " cnpj : '{$config->getIdentifica()} deve conter um CNPJ válido!'";
             $this->extra.= '$("#' . $config->getId() . '").mask("99.999.999/9999-99");';
         }
-        
+
         if ($config->getAcao() == 'cep') {
-            
+
             $this->regras[$config->getNome()][] = 'cep : true';
             $this->mensagens[$config->getNome()][] = " cep : '{$config->getIdentifica()} deve conter um CEP válido!'";
             $this->extra.= '$("#' . $config->getId() . '").mask("99.999-99");';
         }
-        
+
         if ($config->getAcao() == 'telefone') {
-            
+
             $this->regras[$config->getNome()][] = 'celular : true';
             $this->mensagens[$config->getNome()][] = " celular : '{$config->getIdentifica()} deve conter um número de telefone válido!'";
             $this->extra.= '$("#' . $config->getId() . '").mask("(99) 9999-9999?9");';
         }
-        
+
         if ($config->getAcao() == 'suggest') {
             $this->suggest($config);
         }
@@ -196,15 +196,15 @@ class FormPixelJavaScript
         $textoRegra .= ' } ';
         $textoMensagem .= ' } ';
 
-        if($acao == 'cadastrar'){
-            $funcaoAcao = 'sisCadastrar($(form).attr("name"))';
-        }else if($acao == 'alterar'){
-            $funcaoAcao = 'sisAlterar($(form).attr("name"))';
-        }else{
+        if ($acao == 'cadastrar') {
+            $funcaoAcao = 'sisCadastrar($(form).attr("name"));';
+        } else if ($acao == 'alterar') {
+            $funcaoAcao = 'sisAlterar($(form).attr("name"));';
+        } else {
             $funcaoAcao = $acao;
         }
-        
-        $textoSubmit = ' submitHandler: function(form) { '.$funcaoAcao.'; } ';
+
+        $textoSubmit = ' submitHandler: function(form) { ' . $funcaoAcao . ' } ';
 
         return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ' }); ' . $this->extra;
     }
