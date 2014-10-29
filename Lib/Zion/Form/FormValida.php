@@ -82,8 +82,14 @@ class FormValida
             throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe válida!');
         }
 
-        $this->instance     = addslashes(get_class($form));
-        $this->instanceZion = preg_replace('/[Pixel]{5}/', 'Zion', $this->instance);
+        $className          = get_class($form);
+
+        $vendorName         = substr($className, 0, strpos($className, '\\'));
+
+        $this->instance     = addslashes($className);
+
+        $this->instanceZion = preg_replace('/['. $vendorName .']{'. strlen($vendorName) .'}/', 'Zion', $this->instance);
+
         return $this->validaFormInput($form);
     }
 
