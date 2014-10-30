@@ -30,7 +30,7 @@ class Form
 
         $this->formConfig = new \Zion\Form\FormTag();
 
-        $this->formConfig->setNome('Form1')
+        $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
     }
 

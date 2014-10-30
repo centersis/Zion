@@ -113,7 +113,7 @@ class Form extends \Zion\Form\Form
 
     public function abreForm()
     {
-        $ret = $this->html->abreTagAberta('div', array('class' => 'panel'));
+        $ret = $this->html->abreTagAberta('div', array('class' => 'panel', 'id'=>'panel'.$this->formConfig->getNome()));
         $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-heading'));
         $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
         $ret .= $this->formConfig->getHeader();
