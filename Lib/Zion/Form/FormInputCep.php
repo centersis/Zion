@@ -18,9 +18,9 @@ class FormInputCep extends FormBasico
 
     private $tipoBase;
     private $acao;
+    private $obrigatorio;
     private $maximoCaracteres;
     private $minimoCaracteres;
-    private $obrigatorio;
     private $placeHolder;
     private $aliasSql;
 

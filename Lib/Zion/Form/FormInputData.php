@@ -17,10 +17,10 @@ class FormInputData extends \Zion\Form\FormBasico
 {
     private $tipoBase;
     private $acao; 
+    private $obrigatorio;
     private $dataMinima;
     private $dataMaxima;
     private $placeHolder;
-    private $obrigatorio;
     private $aliasSql;
     
     private $data;
