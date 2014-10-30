@@ -38,7 +38,7 @@ class Paginacao extends \Zion\Paginacao\Paginacao
         parent::setDivDropGroup('btn-group');
         parent::setDivDropGroupItems('btn-group');
         parent::setDivRols('table-footer');
-        parent::setDivFpOff('alinD');
+        parent::setDivFpOff('table-footer');
         parent::setDivPagOff('btn-toolbar pull-right');
         parent::setIDrop('fa fa-list-ol');
         parent::setIDropCaret('fa fa-caret-down');
