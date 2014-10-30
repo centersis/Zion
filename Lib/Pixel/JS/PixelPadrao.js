@@ -47,7 +47,8 @@ function sisVisualizarPadrao()
 {
     if (sisContaCheck() < 1) {
 
-        alert('Nenhum registro selecionado');
+        sisSetAlert('false','Nenhum registro selecionado.');
+
     } else {
 
         sisVisualizar();
@@ -93,23 +94,6 @@ function sisRemoverPadrao()
     sisSetDialog(msg, sisApagar);
 }
 
-function sisSetDialog(msg, actionTrue)
-{
-
-    bootbox.confirm({
-        message: msg,
-        callback: function(result) {
-            if(result == true) {
-                actionTrue();
-            } else {
-                sisSetAlert('','Sua solicitação foi cancelada!');
-            }
-        },
-        className: "bootbox-sm"
-    });
-
-}
-
 function sisRetornoRemover(retJson)
 {
     var se = parseInt(retJson.selecionados);
@@ -141,13 +125,37 @@ function sisRetornoRemover(retJson)
         sisSetAlert('false',msg);
     }
 }
+// DIALOG
+function sisSetDialog(msg, actionTrue)
+{
 
-function sisSetAlert(a,b,c){
+    bootbox.confirm({
+        message: msg,
+        callback: function(result) {
+            if(result == true) {
+                actionTrue();
+            } else {
+                sisSetAlert('','Sua solicitação foi cancelada!');
+            }
+        },
+        className: "bootbox-sm"
+    });
+
+}
+// ALERT
+function sisSetAlert(a,b,c)
+{
 
     if(c == 'static') {
         var time = 9999*9999;
     } else {
-        var time = 1500;
+        var time = 5000;
+    }
+
+    if(a == 'true' && b == undefined) {
+        var b = "Salvo com sucesso!";
+    } else if(a == 'false' && b == undefined) {
+        var b = "Problemas na execução. Tente novamente mais tarde...";
     }
 
     if(a == 'false') {
@@ -159,5 +167,14 @@ function sisSetAlert(a,b,c){
     } else if(a == ''){
         $.growl({ title: 'Humm?!', message: b, size: 'large', duration: time });
     }
+
+}
+
+function sisSetCrashAlert(a,b)
+{
+
+    $('#modal-titulo').html(a);
+    $('#modal-descricao').html(b);
+    $('#modal-msg').modal();
 
 }
