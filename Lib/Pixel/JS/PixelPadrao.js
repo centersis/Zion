@@ -35,7 +35,8 @@ function sisAlterarPadrao()
 {
     if (sisContaCheck() < 1) {
 
-        alert('Nenhum registro selecionado');
+        sisSetAlert('false','Nenhum registro selecionado.');
+
     } else {
 
         sisAlterarLayout();
@@ -71,15 +72,31 @@ function sisRemoverPadrao()
     var conta = sisContaCheck();
 
     if (conta === 0) {
-        alert('Nenhum registro foi selecionado');
+        sisSetAlert('false','Nenhum registro selecionado.');
         return;
     }
 
     var plural = (conta === 1) ? '' : 's';
+    var msg = 'Tem certeza que deseja apagar este' + plural + ' ' + conta + ' registro' + plural + '?';
 
-    if (confirm('Tem certeza que deseja apagar este' + plural + ' ' + conta + ' registro' + plural + '?')) {
-        sisApagar();
-    }
+    sisSetDialog(msg, sisApagar);
+}
+
+function sisSetDialog(msg, actionTrue)
+{
+
+    bootbox.confirm({
+        message: msg,
+        callback: function(result) {
+            if(result == true) {
+                actionTrue();
+            } else {
+                sisSetAlert('','Sua solicitação foi cancelada!');
+            }
+        },
+        className: "bootbox-sm"
+    });
+
 }
 
 function sisRetornoRemover(retJson)
@@ -87,7 +104,7 @@ function sisRetornoRemover(retJson)
     var se = parseInt(retJson.selecionados);
     var ap = parseInt(retJson.apagados);
     var ms = retJson.retorno;
-    var possivelMensagem = (ms !== '' && ms !== 'undefined' && ms !== undefined) ? "Motivo:\n" + ms : ms;
+    var possivelMensagem = (ms !== '' && ms !== 'undefined' && ms !== undefined) ? " Motivo:\n" + ms : ms;
 
     if (ap > 0) {
 
@@ -95,16 +112,41 @@ function sisRetornoRemover(retJson)
 
             var msgPlural = (ap === 1) ? 'apenas foi removido com sucesso' : 'foram removidos com sucesso';
             var msgRemovidos = "Entre os " + se + " registros selecionados " + ap + " " + msgPlural + ".\n\n";
-            alert("Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem);
+            //alert("Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem);
+            var msg = "Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem;
+            sisSetAlert('false',msg);
             //sis_busca_filtro()
         } else {
 
             var plural = (ap === 1) ? '' : 's';
-            alert('Registro' + plural + ' removido' + plural + ' com sucesso!');
+            //alert('Registro' + plural + ' removido' + plural + ' com sucesso!');
+            var msg = 'Registro' + plural + ' removido' + plural + ' com sucesso!';
+            sisSetAlert('true',msg);
             //sis_busca_filtro()
         }
     } else {
 
-        alert("Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem);
+        var msg = "Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
+        sisSetAlert('false',msg);
     }
+}
+
+function sisSetAlert(a,b,c){
+
+    if(c == 'static') {
+        var time = 9999*9999;
+    } else {
+        var time = 1500;
+    }
+
+    if(a == 'false') {
+        $.growl.error({ title: 'Oops!', message: b, size: 'large', duration: time });
+    } else if(a == 'true') {
+        $.growl.notice({ title: 'Ueba!', message: b, size: 'large', duration: time });
+    } else if(a == 'warning') {
+        $.growl.warning({ title: 'Atenção!', message: b, size: 'large', duration: time });
+    } else if(a == ''){
+        $.growl({ title: 'Humm?!', message: b, size: 'large', duration: time });
+    }
+
 }
