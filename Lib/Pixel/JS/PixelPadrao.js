@@ -53,7 +53,7 @@ function sisCadastrarPadrao(nomeForm) {
             sisFiltrarPadrao('');
         }
         else {
-            sisSetAlert('false', ret.retorno);
+            sisSetCrashAlert('Erro', ret.retorno);
         }
     });
 }
@@ -62,7 +62,7 @@ function sisAlterarPadrao()
 {
     if (sisContaCheck() < 1) {
 
-        sisSetAlert('false', 'Nenhum registro selecionado.');
+        sisSetAlert('false','Nenhum registro selecionado.');
 
     } else {
 
@@ -74,7 +74,8 @@ function sisVisualizarPadrao()
 {
     if (sisContaCheck() < 1) {
 
-        sisSetAlert('false', 'Nenhum registro selecionado.');
+        sisSetAlert('false','Nenhum registro selecionado.');
+
     } else {
 
         sisVisualizar();
@@ -101,7 +102,7 @@ function sisContaCheck()
             }
         }
     }
-
+    
     return conta;
 }
 
@@ -110,7 +111,7 @@ function sisRemoverPadrao()
     var conta = sisContaCheck();
 
     if (conta === 0) {
-        sisSetAlert('false', 'Nenhum registro selecionado.');
+        sisSetAlert('false','Nenhum registro selecionado.');
         return;
     }
 
@@ -118,23 +119,6 @@ function sisRemoverPadrao()
     var msg = 'Tem certeza que deseja apagar este' + plural + ' ' + conta + ' registro' + plural + '?';
 
     sisSetDialog(msg, sisApagar);
-}
-
-function sisSetDialog(msg, actionTrue)
-{
-
-    bootbox.confirm({
-        message: msg,
-        callback: function (result) {
-            if (result == true) {
-                actionTrue();
-            } else {
-                sisSetAlert('', 'Sua solicitação foi cancelada!');
-            }
-        },
-        className: "bootbox-sm"
-    });
-
 }
 
 function sisRetornoRemover(retJson)
@@ -152,39 +136,72 @@ function sisRetornoRemover(retJson)
             var msgRemovidos = "Entre os " + se + " registros selecionados " + ap + " " + msgPlural + ".\n\n";
             //alert("Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem);
             var msg = "Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem;
-            sisSetAlert('false', msg);
+            sisSetAlert('false',msg);
             //sis_busca_filtro()
         } else {
 
             var plural = (ap === 1) ? '' : 's';
             //alert('Registro' + plural + ' removido' + plural + ' com sucesso!');
             var msg = 'Registro' + plural + ' removido' + plural + ' com sucesso!';
-            sisSetAlert('true', msg);
+            sisSetAlert('true',msg);
             //sis_busca_filtro()
         }
     } else {
 
         var msg = "Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
-        sisSetAlert('false', msg);
+        sisSetAlert('false',msg);
     }
 }
+// DIALOG
+function sisSetDialog(msg, actionTrue)
+{
 
-function sisSetAlert(a, b, c) {
+    bootbox.confirm({
+        message: msg,
+        callback: function(result) {
+            if(result == true) {
+                actionTrue();
+            } else {
+                sisSetAlert('','Sua solicitação foi cancelada!');
+            }
+        },
+        className: "bootbox-sm"
+    });
 
-    if (c == 'static') {
-        var time = 9999 * 9999;
+}
+// ALERT
+function sisSetAlert(a,b,c)
+{
+
+    if(c == 'static') {
+        var time = 9999*9999;
     } else {
-        var time = 1500;
+        var time = 5000;
     }
 
-    if (a == 'false') {
-        $.growl.error({title: 'Oops!', message: b, size: 'large', duration: time});
-    } else if (a == 'true') {
-        $.growl.notice({title: 'Ueba!', message: b, size: 'large', duration: time});
-    } else if (a == 'warning') {
-        $.growl.warning({title: 'Atenção!', message: b, size: 'large', duration: time});
-    } else if (a == '') {
-        $.growl({title: 'Humm?!', message: b, size: 'large', duration: time});
+    if(a == 'true' && b == undefined) {
+        var b = "Salvo com sucesso!";
+    } else if(a == 'false' && b == undefined) {
+        var b = "Problemas na execução. Tente novamente mais tarde...";
     }
+
+    if(a == 'false') {
+        $.growl.error({ title: 'Oops!', message: b, size: 'large', duration: time });
+    } else if(a == 'true') {
+        $.growl.notice({ title: 'Ueba!', message: b, size: 'large', duration: time });
+    } else if(a == 'warning') {
+        $.growl.warning({ title: 'Atenção!', message: b, size: 'large', duration: time });
+    } else if(a == ''){
+        $.growl({ title: 'Humm?!', message: b, size: 'large', duration: time });
+    }
+
+}
+
+function sisSetCrashAlert(a,b)
+{
+
+    $('#modal-titulo').html(a);
+    $('#modal-descricao').html(b);
+    $('#modal-msg').modal();
 
 }

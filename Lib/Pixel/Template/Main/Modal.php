@@ -13,7 +13,7 @@ class Modal extends \Zion\Layout\Padrao
     {	
 
         $buffer = '';
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'modal-msg', 'class' => 'modal modal-alert fade modal-danger'));
+        $buffer .= $this->html->abreTagAberta('div', array('id' => 'modal-msg', 'class' => 'modal modal-alert fade modal-danger', 'aria-hidden' => 'false', 'style' => 'display:none;'));
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'modal-dialog'));
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'modal-content'));
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'modal-header'));
