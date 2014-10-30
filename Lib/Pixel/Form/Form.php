@@ -114,11 +114,11 @@ class Form extends \Zion\Form\Form
     public function abreForm()
     {
         $ret = $this->html->abreTagAberta('div', array('class' => 'panel'));
-            $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-heading'));
-            $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
-                $ret .= $this->formConfig->getHeader();
-            $ret .= $this->html->fechaTag('span');
-            $ret .= $this->html->fechaTag('div');
+        $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-heading'));
+        $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
+        $ret .= $this->formConfig->getHeader();
+        $ret .= $this->html->fechaTag('span');
+        $ret .= $this->html->fechaTag('div');
         $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-body'));
 
         $this->formConfig->setClassCss($this->formConfig->getClassCss() . ' form-horizontal');
@@ -208,30 +208,76 @@ class Form extends \Zion\Form\Form
         $buffer = $this->abreForm();
 
         $footer = '';
-        
+
         $campos = $this->getFormHtml();
         foreach ($campos as $nome => $textoHtml) {
             if ($this->objetos[$nome]->getTipoBase() == 'button') {
-                $footer.= $textoHtml."&nbsp;&nbsp;";
+                $footer.= $textoHtml . "&nbsp;&nbsp;";
             } else {
                 $buffer.= $textoHtml;
             }
         }
 
         if ($footer) {
-            $buffer.= $this->html->abreTagAberta('div',array('class'=>'form-group'));          
-            $buffer.= $this->html->abreTagAberta('div',array('class'=>'col-sm-12'));
-            
-            $buffer.= $this->html->abreTagFechada('hr', array('class'=>'panel-wide'));
-            
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-12'));
+
+            $buffer.= $this->html->abreTagFechada('hr', array('class' => 'panel-wide'));
+
             $buffer.= $this->html->fechaTag('div');
             $buffer.= $this->html->fechaTag('div');
-            
-            $buffer.= $this->html->abreTagAberta('div',array('class'=>'form-group'));          
-            $buffer.= $this->html->abreTagAberta('div',array('class'=>'col-sm-offset-3 col-sm-9'));
-            
+
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-offset-3 col-sm-9'));
+
             $buffer.= $footer;
-            
+
+            $buffer.= $this->html->fechaTag('div');
+            $buffer.= $this->html->fechaTag('div');
+        }
+
+        $buffer .= $this->fechaForm();
+
+        return $buffer;
+    }
+
+    public function montaFormVisualizar()
+    {
+        $buffer = $this->abreForm();
+
+        $footer = '';
+        
+        //Desabilita campos
+        foreach ($this->objetos as $objeto){
+            if (method_exists($objeto, 'setDisabled')) {
+                $objeto->setDisabled(true);
+            }
+        }
+
+        $campos = $this->getFormHtml();
+        foreach ($campos as $nome => $textoHtml) {
+
+            if ($this->objetos[$nome]->getTipoBase() == 'button') {
+                $footer.= $textoHtml . "&nbsp;&nbsp;";
+            } else {
+                $buffer.= $textoHtml;
+            }
+        }
+
+        if ($footer) {
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-12'));
+
+            $buffer.= $this->html->abreTagFechada('hr', array('class' => 'panel-wide'));
+
+            $buffer.= $this->html->fechaTag('div');
+            $buffer.= $this->html->fechaTag('div');
+
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
+            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-offset-3 col-sm-9'));
+
+            $buffer.= $footer;
+
             $buffer.= $this->html->fechaTag('div');
             $buffer.= $this->html->fechaTag('div');
         }
