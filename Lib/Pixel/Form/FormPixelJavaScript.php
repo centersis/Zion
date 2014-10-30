@@ -197,9 +197,9 @@ class FormPixelJavaScript
         $textoMensagem .= ' } ';
 
         if ($acao == 'cadastrar') {
-            $funcaoAcao = 'sisCadastrar($(form).attr("name"));';
+            $funcaoAcao = 'sisCadastrarPadrao($(form).attr("name"));';
         } else if ($acao == 'alterar') {
-            $funcaoAcao = 'sisAlterar($(form).attr("name"));';
+            $funcaoAcao = 'sisAlterarPadrao($(form).attr("name"));';
         } else {
             $funcaoAcao = $acao;
         }
