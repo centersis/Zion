@@ -38,7 +38,7 @@ class Paginacao extends \Zion\Paginacao\Paginacao
         parent::setDivDropGroup('btn-group');
         parent::setDivDropGroupItems('btn-group');
         parent::setDivRols('table-footer');
-        parent::setDivFpOff('table-footer alinD');
+        parent::setDivFpOff('alinD');
         parent::setDivPagOff('btn-toolbar pull-right');
         parent::setIDrop('fa fa-list-ol');
         parent::setIDropCaret('fa fa-caret-down');
@@ -47,9 +47,10 @@ class Paginacao extends \Zion\Paginacao\Paginacao
         parent::setIFp('dropdown-icon fa fa-angle-double-left');
         parent::setILp('dropdown-icon fa fa-angle-double-right');
         parent::setUlDrop('dropdown-menu');
-        parent::setLiFp('hand');
+        parent::setLiFp('hand mm-text');
         parent::setLiLp('hand');
         parent::setSpanRols('label label-warning');
+        parent::setSpanDropPags('mm-text');
         parent::setButtonDrop('btn btn-lg dropdown-toggle');
         parent::setButtonRew('btn btn-lg');
         parent::setButtonFwd('btn btn-lg');
