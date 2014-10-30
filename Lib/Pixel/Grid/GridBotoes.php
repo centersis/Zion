@@ -14,6 +14,24 @@ class GridBotoes
         $this->html = new \Zion\Layout\Html();
     }
 
+    public function setFiltros($filtros)
+    {
+
+        $this->conteudoFiltros = $filtros;
+
+    }     
+
+    private function getFiltros()
+    {
+
+        $template = new \Pixel\Template\Template();        
+        
+        $buffer  = '';
+        $buffer .= $template->getPanel('box-filters', 'Filtros especiais', $this->conteudoFiltros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
+        return $buffer;
+
+    }      
+
     public function geraBotoes()
     {
         $acesso = new \Zion\Acesso\Acesso();
@@ -152,42 +170,13 @@ class GridBotoes
 
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->getFilters('Aqui vem os filtros');        
+        $buffer .= $this->getFiltros();        
         
         //$buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-toolbar pull-right recE20px visible-md hidden-lg']);
         //$buffer .= $this->html->fechaTag('div');
 
         return $buffer;
-    }
-
-    public function getFilters($filtros)
-    {
-
-        $template = new \Pixel\Template\Template();        
-        
-        $buffer  = '';
-        //$buffer .= $this->html->abreTagAberta('div', ['class' => '', 'style' => 'padding-top: 50px; z-index:-1;']);
-        $buffer .= $template->getPanel('box-filters', 'Filtros especiais', $filtros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
-        //$buffer .= $this->html->fechaTag('div');
-        return $buffer;
-
-    }    
-
-    // nao usado ainda
-    public function setContentFilters($filtros)
-    {
-
-        return " setContentElem('#box-filters-body','" . addslashes($filtros) . "');";
-
-    }  
-
-    // nao usado ainda
-    private function getContentFilters()
-    {
-
-        return $this->contentFilters;
-
-    }
+    }   
 
     public function setBotoesExcluir($botoesExcluir)
     {
