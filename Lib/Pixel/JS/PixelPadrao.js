@@ -4,7 +4,7 @@ function sisSpa(p) {
 function replaceContentElem(e) {
     $(e).fadeToggle('slow', function () {
         $(e).html('');
-    })
+    });
 }
 function setContentElem(e, c) {
     $(e).html(c);
@@ -31,11 +31,38 @@ $(document).ready(function () {
     });
 });
 
+/* CRUD BÁSICO */
+function sisFiltrarPadrao(p) {
+    $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
+        $("#sisContainerGrid").html(ret.retorno);
+    });
+}
+
+function sisCadastrarLayoutPadrao() {
+    $.ajax({type: "get", url: "?acao=cadastrar", dataType: "json"}).done(function (ret) {
+        $("#sisContainerManu").html(ret.retorno);
+    });
+}
+
+function sisCadastrarPadrao(nomeForm) {
+    $.ajax({type: "post", url: "?acao=cadastrar", data: $("#" + nomeForm).serialize(), dataType: "json"}).done(function (ret) {
+        
+        if (ret.sucesso === 'true') {
+            sisSetAlert('true', 'Registro cadastrado com sucesso!');
+            $("#sisContainerManu").empty();
+            sisFiltrarPadrao('');
+        }
+        else {
+            sisSetAlert('false', ret.retorno);
+        }
+    });
+}
+
 function sisAlterarPadrao()
 {
     if (sisContaCheck() < 1) {
 
-        sisSetAlert('false','Nenhum registro selecionado.');
+        sisSetAlert('false', 'Nenhum registro selecionado.');
 
     } else {
 
@@ -47,7 +74,7 @@ function sisVisualizarPadrao()
 {
     if (sisContaCheck() < 1) {
 
-        alert('Nenhum registro selecionado');
+        sisSetAlert('false', 'Nenhum registro selecionado.');
     } else {
 
         sisVisualizar();
@@ -74,7 +101,7 @@ function sisContaCheck()
             }
         }
     }
-    
+
     return conta;
 }
 
@@ -83,7 +110,7 @@ function sisRemoverPadrao()
     var conta = sisContaCheck();
 
     if (conta === 0) {
-        sisSetAlert('false','Nenhum registro selecionado.');
+        sisSetAlert('false', 'Nenhum registro selecionado.');
         return;
     }
 
@@ -98,11 +125,11 @@ function sisSetDialog(msg, actionTrue)
 
     bootbox.confirm({
         message: msg,
-        callback: function(result) {
-            if(result == true) {
+        callback: function (result) {
+            if (result == true) {
                 actionTrue();
             } else {
-                sisSetAlert('','Sua solicitação foi cancelada!');
+                sisSetAlert('', 'Sua solicitação foi cancelada!');
             }
         },
         className: "bootbox-sm"
@@ -125,39 +152,39 @@ function sisRetornoRemover(retJson)
             var msgRemovidos = "Entre os " + se + " registros selecionados " + ap + " " + msgPlural + ".\n\n";
             //alert("Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem);
             var msg = "Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem;
-            sisSetAlert('false',msg);
+            sisSetAlert('false', msg);
             //sis_busca_filtro()
         } else {
 
             var plural = (ap === 1) ? '' : 's';
             //alert('Registro' + plural + ' removido' + plural + ' com sucesso!');
             var msg = 'Registro' + plural + ' removido' + plural + ' com sucesso!';
-            sisSetAlert('true',msg);
+            sisSetAlert('true', msg);
             //sis_busca_filtro()
         }
     } else {
 
         var msg = "Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
-        sisSetAlert('false',msg);
+        sisSetAlert('false', msg);
     }
 }
 
-function sisSetAlert(a,b,c){
+function sisSetAlert(a, b, c) {
 
-    if(c == 'static') {
-        var time = 9999*9999;
+    if (c == 'static') {
+        var time = 9999 * 9999;
     } else {
         var time = 1500;
     }
 
-    if(a == 'false') {
-        $.growl.error({ title: 'Oops!', message: b, size: 'large', duration: time });
-    } else if(a == 'true') {
-        $.growl.notice({ title: 'Ueba!', message: b, size: 'large', duration: time });
-    } else if(a == 'warning') {
-        $.growl.warning({ title: 'Atenção!', message: b, size: 'large', duration: time });
-    } else if(a == ''){
-        $.growl({ title: 'Humm?!', message: b, size: 'large', duration: time });
+    if (a == 'false') {
+        $.growl.error({title: 'Oops!', message: b, size: 'large', duration: time});
+    } else if (a == 'true') {
+        $.growl.notice({title: 'Ueba!', message: b, size: 'large', duration: time});
+    } else if (a == 'warning') {
+        $.growl.warning({title: 'Atenção!', message: b, size: 'large', duration: time});
+    } else if (a == '') {
+        $.growl({title: 'Humm?!', message: b, size: 'large', duration: time});
     }
 
 }
