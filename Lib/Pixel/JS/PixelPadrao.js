@@ -42,6 +42,17 @@ function sisAlterarPadrao()
     }
 }
 
+function sisVisualizarPadrao()
+{
+    if (sisContaCheck() < 1) {
+
+        alert('Nenhum registro selecionado');
+    } else {
+
+        sisVisualizar();
+    }
+}
+
 function sisContaCheck()
 {
     var abv = document.formGrid;
