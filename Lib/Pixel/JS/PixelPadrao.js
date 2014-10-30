@@ -23,11 +23,11 @@ function showHiddenFilters() {
 
 $(document).ready(function () {
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemRemoved', function (event) {
-        sisFiltrar('sisBuscaGeral=' + $(this).val());
+        sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
-        sisFiltrar('sisBuscaGeral=' + $(this).val());
+        sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
 });
 
