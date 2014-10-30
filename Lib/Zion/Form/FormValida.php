@@ -23,8 +23,13 @@ class FormValida
     /** 
      * @var string $instaceBasico Nome da classe básica extendida por todas as classes em \Zion\Form;
      */
-    private $instaceBasico = 'Zion\Form\FormBasico';
+    private $instanceBasico = 'Zion\Form\FormBasico';
     
+    /** 
+     * @var string $instaceBasico Nome da classe básica extendida por todas as classes em \Zion\Form;
+     */
+    private $instanceZion;
+
     /** 
      * @var object $texto Instância da classe de validação de strings
      */
@@ -60,7 +65,7 @@ class FormValida
         $this->data     = $valida->data();
         $this->geral    = $valida->geral();
         
-        $this->instaceBasico = addslashes($this->instaceBasico);
+        $this->instanceBasico = addslashes($this->instanceBasico);
     }
     
     /**
@@ -77,7 +82,14 @@ class FormValida
             throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe válida!');
         }
 
-        $this->instance = addslashes(get_class($form));
+        $className          = get_class($form);
+
+        $vendorName         = substr($className, 0, strpos($className, '\\'));
+
+        $this->instance     = addslashes($className);
+
+        $this->instanceZion = preg_replace('/['. $vendorName .']{'. strlen($vendorName) .'}/', 'Zion', $this->instance);
+
         return $this->validaFormInput($form);
     }
 
@@ -214,7 +226,7 @@ class FormValida
 
         foreach((array) $input as $key=>$val){
 
-            $key            = preg_replace(array('/'. $this->instance .'/', '/'. $this->instaceBasico .'/', '/\W/'), array('', '', ''), $key);
+            $key            = preg_replace(array('/'. $this->instance .'/', '/'. $this->instanceZion .'/', '/'. $this->instanceBasico .'/', '/\W/'), array('', '', '', ''), $key);
             $attrs[$i++]    = $key;
         }
 

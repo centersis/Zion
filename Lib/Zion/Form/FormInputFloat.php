@@ -18,10 +18,10 @@ class FormInputFloat extends \Zion\Form\FormBasico
     private $tipoBase;
     private $acao; 
     private $largura;
+    private $obrigatorio;
     private $valorMaximo;
     private $valorMinimo;
     private $prefixo;
-    private $obrigatorio;
     private $placeHolder;
     private $aliasSql;
 

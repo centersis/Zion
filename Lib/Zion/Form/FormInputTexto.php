@@ -19,10 +19,10 @@ class FormInputTexto extends FormBasico
     private $tipoBase;
     private $acao;
     private $largura;
+    private $obrigatorio;
     private $maximoCaracteres;
     private $minimoCaracteres;
-    private $caixa;    
-    private $obrigatorio;
+    private $caixa;
     private $converterHtml;
     private $autoTrim;
     private $placeHolder;

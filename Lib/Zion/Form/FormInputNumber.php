@@ -17,11 +17,11 @@ class FormInputNumber extends \Zion\Form\FormBasico
     private $tipoBase;
     private $acao;
     private $largura;
+    private $obrigatorio;
     private $maximoCaracteres;
     private $minimoCaracteres;
     private $valorMaximo;
     private $valorMinimo;
-    private $obrigatorio;
     private $placeHolder;
     private $aliasSql;
     
