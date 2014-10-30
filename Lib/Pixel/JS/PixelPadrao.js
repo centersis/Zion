@@ -4,7 +4,7 @@ function sisSpa(p) {
 function replaceContentElem(e) {
     $(e).fadeToggle('slow', function () {
         $(e).html('');
-    })
+    });
 }
 function setContentElem(e, c) {
     $(e).html(c);
@@ -30,6 +30,33 @@ $(document).ready(function () {
         sisFiltrar('sisBuscaGeral=' + $(this).val());
     });
 });
+
+/* CRUD BÁSICO */
+function sisFiltrarPadrao(p) {
+    $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
+        $("#sisContainerGrid").html(ret.retorno);
+    });
+}
+
+function sisCadastrarLayoutPadrao() {
+    $.ajax({type: "get", url: "?acao=cadastrar", dataType: "json"}).done(function (ret) {
+        $("#sisContainerManu").html(ret.retorno);
+    });
+}
+
+function sisCadastrarPadrao(nomeForm) {
+    $.ajax({type: "post", url: "?acao=cadastrar", data: $("#" + nomeForm).serialize(), dataType: "json"}).done(function (ret) {
+        
+        if (ret.sucesso === 'true') {
+            sisSetAlert('true', 'Registro cadastrado com sucesso!');
+            $("#sisContainerManu").empty();
+            sisFiltrarPadrao('');
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    });
+}
 
 function sisAlterarPadrao()
 {
