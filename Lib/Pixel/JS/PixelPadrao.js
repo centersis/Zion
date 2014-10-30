@@ -59,6 +59,11 @@ function sisContaCheck()
     return conta;
 }
 
+function sisDescartarPadrao(form)
+{
+    $('#panel'+form).remove();
+}
+
 /* FILTRO */
 function sisFiltrarPadrao(p) {
     $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
@@ -67,6 +72,16 @@ function sisFiltrarPadrao(p) {
     {
         sisMsgFailPadrao();
     });
+}
+
+function sisMarcarTodos()
+{
+    $("#sisContainerGrid").find(':checkbox').prop('checked',true);
+}
+
+function sisDesmarcarTodos()
+{
+    $("#sisContainerGrid").find(':checkbox').prop('checked',false);
 }
 
 /* CADASTRO */
@@ -201,7 +216,6 @@ function sisVisualizarPadrao()
         });
     }
 }
-
 
 // DIALOG
 function sisSetDialog(msg, actionTrue)

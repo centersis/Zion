@@ -61,13 +61,13 @@ class GridBotoes
         $buffer .= $this->html->abreTagAberta('ul', ['class' => 'dropdown-menu', 'role' => 'menu']);
 
         $buffer .= $this->html->abreTagAberta('li');
-        $buffer .= $this->html->abreTagAberta('a', ['href' => '#']);
+        $buffer .= $this->html->abreTagAberta('a', ['href' => '#','onclick'=>'sisMarcarTodos()']);
         $buffer .= 'Marcar todos';
         $buffer .= $this->html->fechaTag('a');
         $buffer .= $this->html->fechaTag('li');
 
         $buffer .= $this->html->abreTagAberta('li');
-        $buffer .= $this->html->abreTagAberta('a', ['href' => '#']);
+        $buffer .= $this->html->abreTagAberta('a', ['href' => '#','onclick'=>'sisDesmarcarTodos()']);
         $buffer .= 'Desmarcar todos';
         $buffer .= $this->html->fechaTag('a');
         $buffer .= $this->html->fechaTag('li');

@@ -245,7 +245,7 @@ class Form
      */
     public function botaoSubmit($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('bubmit', $nome, $identifica);
+        return new \Zion\Form\FormInputButton('submit', $nome, $identifica);
     }
 
     /**
