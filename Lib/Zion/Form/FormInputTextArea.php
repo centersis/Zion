@@ -214,8 +214,12 @@ class FormInputTextArea extends FormBasico
 
     public function setReadonly($readonly)
     {
-        $this->readonly = $readonly;
-        return $this;
+        if (is_bool($readonly)) {
+            $this->readonly = $readonly;
+            return $this;
+        } else {
+            throw new FormException("readonly: Valor nao booleano");
+        }
     }
 
     public function getCols()
@@ -225,8 +229,12 @@ class FormInputTextArea extends FormBasico
 
     public function setCols($cols)
     {
-        $this->cols = $cols;
-        return $this;
+        if (is_numeric($cols)) {
+            $this->cols = $cols;
+            return $this;
+        } else {
+            throw new FormException("cols: Valor nao numerico.");
+        }
     }
 
     public function getRows()
@@ -236,8 +244,12 @@ class FormInputTextArea extends FormBasico
 
     public function setRows($rows)
     {
-        $this->rows = $rows;
-        return $this;
+        if (is_numeric($rows)) {
+            $this->rows = $rows;
+            return $this;
+        } else {
+            throw new FormException("rows: Valor nao numerico.");
+        }
     }
 
     public function getForm()
@@ -247,8 +259,12 @@ class FormInputTextArea extends FormBasico
 
     public function setForm($form)
     {
-        $this->form = $form;
-        return $this;
+        if (!is_null($form)) {
+            $this->form = $form;
+            return $this;
+        } else {
+            throw new FormException("form: Nenhum valor informado");
+        }
     }
 
     /**
