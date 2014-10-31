@@ -18,6 +18,7 @@ class Rodape extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript')) . 'window.PixelAdmin.start(init);' . $this->html->fechaTag('script');
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/bootstrap-tags/bootstrap-tagsinput.js')) . $this->html->fechaTag('script');
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_FM_BASE . 'Lib/Pixel/JS/PixelPadrao.js')) . $this->html->fechaTag('script');
+        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_FM_BASE . 'Lib/Ckeditor/ckeditor.js')) . $this->html->fechaTag('script');
         $buffer .= $template->getTooltipForm();
         $buffer .= $template->getScripts();
         $buffer .= $this->html->abreComentario() . 'Zion Framework: ending scripts block' . $this->html->fechaComentario();

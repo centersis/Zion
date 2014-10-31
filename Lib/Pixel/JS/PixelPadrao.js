@@ -33,6 +33,24 @@ $(document).ready(function () {
 
 /* CRUD BÁSICO */
 
+/* FUNÇÕES ESPECIAIS */
+function cKupdate() {
+
+    try{
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+    catch(e)
+    { }
+}
+
+function sisSerialize(container)
+{
+    cKupdate();
+    return $(container).serialize();
+}
+
 /* FUNÇÔES DEFAULT */
 function sisMsgFailPadrao()
 {
@@ -105,7 +123,7 @@ function sisCadastrarLayoutPadrao() {
 }
 
 function sisCadastrarPadrao(nomeForm) {
-    $.ajax({type: "post", url: "?acao=cadastrar", data: $("#" + nomeForm).serialize(), dataType: "json"}).done(function (ret) {
+    $.ajax({type: "post", url: "?acao=cadastrar", data: sisSerialize("#" + nomeForm), dataType: "json"}).done(function (ret) {
 
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro cadastrado com sucesso!');
@@ -129,7 +147,7 @@ function sisAlterarLayoutPadrao() {
         sisSetAlert('false', 'Nenhum registro selecionado.');
     } else {
 
-        $.ajax({type: "get", url: "?acao=alterar", data: $("#formGrid").serialize(), dataType: "json"}).done(function (ret) {
+        $.ajax({type: "get", url: "?acao=alterar", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
             $("#sisContainerManu").html(ret.retorno);
         }).fail(function ()
         {
@@ -139,7 +157,7 @@ function sisAlterarLayoutPadrao() {
 }
 
 function sisAlterarPadrao(nomeForm) {
-    $.ajax({type: "post", url: "?acao=alterar", data: $("#" + nomeForm).serialize(), dataType: "json"}).done(function (ret) {
+    $.ajax({type: "post", url: "?acao=alterar", data: sisSerialize("#" + nomeForm), dataType: "json"}).done(function (ret) {
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro alterado com sucesso!');
             $("#panel" + nomeForm).remove();
@@ -173,7 +191,7 @@ function sisRemoverPadrao()
 
 function sisRemovePadrao() {
 
-    $.ajax({type: "post", url: "?acao=remover", data: $("#formGrid").serialize(), dataType: "json"}).done(function (ret) {
+    $.ajax({type: "post", url: "?acao=remover", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
 
         var se = parseInt(ret.selecionados);
         var ap = parseInt(ret.apagados);
@@ -218,7 +236,7 @@ function sisVisualizarPadrao()
 
     } else {
 
-        $.ajax({type: "get", url: "?acao=visualizar", data: $("#formGrid").serialize(), dataType: "json"}).done(function (ret) {
+        $.ajax({type: "get", url: "?acao=visualizar", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
             $("#sisContainerManu").html(ret.retorno);
         }).fail(function ()
         {
