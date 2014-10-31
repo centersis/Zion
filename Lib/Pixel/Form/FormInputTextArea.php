@@ -48,6 +48,31 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
         return $this;
     }
 
+    public function setReadonly($readonly)
+    {
+        parent::setReadonly($readonly);
+        return $this;
+    }
+
+    public function setCols($cols)
+    {
+        parent::setCols($cols);
+        return $this;
+    }
+
+    public function setRows($rows)
+    {
+        parent::setRows($rows);
+        return $this;
+    }
+
+
+    public function setForm($form)
+    {
+        parent::setForm($form);
+        return $this;
+    }
+
 
     public function setIconFA($iconFA)
     {
