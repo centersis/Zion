@@ -43,6 +43,8 @@ class FormAtributos
             'formtarget'    => ' formtarget="%s" ',
             'complemento'   => ' %s ',
             'valueButton'   => ' %s ',
+            'valueTextArea' => ' %s ',
+            'readonly'      => ' %s ',
             'action'        => ' action="%s" ',
             'enctype'       => ' enctype="%s" ',
             'method'        => ' method="%s" ',
@@ -139,6 +141,11 @@ class FormAtributos
     protected function prepareInput($totalAtributos)
     {
         return '<input ' . str_repeat('%s', $totalAtributos) . '/>';
+    }
+    
+    protected function prepareTextArea($totalAtributos)
+    {
+        return "<textarea " . str_repeat('%s', $totalAtributos - 1) . ">%s</textarea>";
     }
 
 }

@@ -21,6 +21,11 @@ class Form extends \Zion\Form\Form
         return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
 
+    public function textArea($nome, $identifica, $obrigatorio = false)
+    {
+        return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
+    }
+    
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
         return new \Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);

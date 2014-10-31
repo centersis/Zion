@@ -8,7 +8,7 @@
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -23,6 +23,10 @@ class FormInputTextArea extends FormBasico
     private $minimoCaracteres;
     private $placeHolder;
     private $aliasSql;
+    private $readonly;
+    private $cols;
+    private $rows;
+    private $form;
 
     /**
      * FormInputTextArea::__construct()
@@ -35,7 +39,7 @@ class FormInputTextArea extends FormBasico
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->tipoBase = 'textArea';
+        $this->tipoBase = 'textarea';
         $this->acao = $acao;
         $this->setNome($nome);
         $this->setId($nome);
@@ -198,14 +202,59 @@ class FormInputTextArea extends FormBasico
      * 
      * @return string
      */
-    public function getAliasSql(){
+    public function getAliasSql()
+    {
         return $this->aliasSql;
+    }
+
+    public function getReadonly()
+    {
+        return $this->readonly;
+    }
+
+    public function setReadonly($readonly)
+    {
+        $this->readonly = $readonly;
+        return $this;
+    }
+
+    public function getCols()
+    {
+        return $this->cols;
+    }
+
+    public function setCols($cols)
+    {
+        $this->cols = $cols;
+        return $this;
+    }
+
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    public function setRows($rows)
+    {
+        $this->rows = $rows;
+        return $this;
+    }
+
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    public function setForm($form)
+    {
+        $this->form = $form;
+        return $this;
     }
 
     /**
      * Sobrecarga de Metodos Básicos
      */
-     
+
     /**
      * FormInputTextArea::setId()
      * 
