@@ -59,6 +59,11 @@ function sisContaCheck()
     return conta;
 }
 
+function sisDescartarPadrao(form)
+{
+    $('#panel' + form).remove();
+}
+
 /* FILTRO */
 function sisFiltrarPadrao(p) {
     $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
@@ -67,6 +72,26 @@ function sisFiltrarPadrao(p) {
     {
         sisMsgFailPadrao();
     });
+}
+
+function sisMarcarTodos()
+{
+    if ($("#sisContainerGrid").find(':checkbox').length < 1) {
+        sisSetAlert('false', 'nenhum resultado encontrado na grid!');
+    }
+    else {
+        $("#sisContainerGrid").find(':checkbox').prop('checked', true);
+    }
+}
+
+function sisDesmarcarTodos()
+{
+    if ($("#sisContainerGrid").find(':checkbox').length < 1) {
+        sisSetAlert('false', 'nenhum resultado encontrado na grid!');
+    }
+    else {
+        $("#sisContainerGrid").find(':checkbox').prop('checked', false);
+    }
 }
 
 /* CADASTRO */
@@ -117,7 +142,7 @@ function sisAlterarPadrao(nomeForm) {
     $.ajax({type: "post", url: "?acao=alterar", data: $("#" + nomeForm).serialize(), dataType: "json"}).done(function (ret) {
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro alterado com sucesso!');
-            $("#panel"+nomeForm).remove();
+            $("#panel" + nomeForm).remove();
             sisFiltrarPadrao('');
         }
         else {
@@ -201,7 +226,6 @@ function sisVisualizarPadrao()
         });
     }
 }
-
 
 // DIALOG
 function sisSetDialog(msg, actionTrue)
