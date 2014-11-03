@@ -22,6 +22,10 @@ class FormPixelJavaScript
 
     public function processar($config)
     {
+        if ($config->getAcao() == 'editor') {
+            return;
+        }
+        
         //Validacão de obrigatório
         if (method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
             $this->regras[$config->getNome()][] = 'required : true';
@@ -175,8 +179,8 @@ class FormPixelJavaScript
     {
         if (!$this->regras) {
             return '';
-        }
-
+        }        
+        
         $textoGeral = ' $("#' . $formNome . '").validate({ ';
 
         $textoRegra = ' rules : { ';

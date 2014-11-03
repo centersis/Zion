@@ -24,8 +24,8 @@ class FormInputTextArea extends FormBasico
     private $placeHolder;
     private $aliasSql;
     private $readonly;
-    private $cols;
-    private $rows;
+    private $colunas;
+    private $linhas;
     private $form;
 
     /**
@@ -222,33 +222,33 @@ class FormInputTextArea extends FormBasico
         }
     }
 
-    public function getCols()
+    public function getColunas()
     {
-        return $this->cols;
+        return $this->colunas;
     }
 
-    public function setCols($cols)
+    public function setColunas($colunas)
     {
-        if (is_numeric($cols)) {
-            $this->cols = $cols;
+        if (is_numeric($colunas)) {
+            $this->colunas = $colunas;
             return $this;
         } else {
-            throw new FormException("cols: Valor nao numerico.");
+            throw new FormException("colunas: Valor nao numerico.");
         }
     }
 
-    public function getRows()
+    public function getLinhas()
     {
-        return $this->rows;
+        return $this->linhas;
     }
 
-    public function setRows($rows)
+    public function setLinhas($linhas)
     {
-        if (is_numeric($rows)) {
-            $this->rows = $rows;
+        if (is_numeric($linhas)) {
+            $this->linhas = $linhas;
             return $this;
         } else {
-            throw new FormException("rows: Valor nao numerico.");
+            throw new FormException("linhas: Valor nao numerico.");
         }
     }
 

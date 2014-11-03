@@ -45,6 +45,8 @@ class FormAtributos
             'valueButton'   => ' %s ',
             'valueTextArea' => ' %s ',
             'readonly'      => ' %s ',
+            'colunas'       => ' cols="%s" ',
+            'linhas'        => ' rows="%s" ',
             'action'        => ' action="%s" ',
             'enctype'       => ' enctype="%s" ',
             'method'        => ' method="%s" ',

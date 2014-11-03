@@ -20,11 +20,6 @@ class Form extends \Zion\Form\Form
     {
         return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
-
-    public function textArea($nome, $identifica, $obrigatorio = false)
-    {
-        return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
-    }
     
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
@@ -83,17 +78,17 @@ class Form extends \Zion\Form\Form
 
     public function escolha()
     {
-        return new \Zion\Form\FormEscolha('escolha');
+        return new \Pixel\Form\FormEscolha('escolha');
     }
 
     public function textArea($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
     }
 
     public function editor($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTextArea('editor', $nome, $identifica, $obrigatorio);
     }
 
     public function upload($nome, $identifica, $obrigatorio = false)
@@ -176,6 +171,12 @@ class Form extends \Zion\Form\Form
                     break;
                 case 'texto' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTexto($objCampos);
+                    break;
+                case 'textarea' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTextArea($objCampos);
+                    break;
+                case 'editor' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'suggest' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaSuggest($objCampos);

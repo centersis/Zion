@@ -190,8 +190,8 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('readonly', $config->getReadonly()),
-            $this->attr('cols', $config->getCols()),
-            $this->attr('rows', $config->getRows()),
+            $this->attr('colunas', $config->getColunas()),
+            $this->attr('linhas', $config->getLinhas()),
             $this->attr('form', $config->getForm())));
         
         $attr[] = $this->attr('valueTextArea', $config->getValor());

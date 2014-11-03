@@ -2,87 +2,91 @@
 
 namespace Pixel\Form;
 
-class FormInputTextArea extends \Zion\Form\FormInputTextArea
+class FormEscolha extends \Zion\Form\FormEscolha
 {
 
-    private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $layoutPixel;
-   
+    
     private $formSetPixel;
 
-    public function __construct($acao, $nome, $identifica, $obrigatorio)
+    public function __construct($acao)
     {
-        parent::__construct($acao, $nome, $identifica, $obrigatorio);
+        parent::__construct($acao);
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
     }
 
-    public function setMaximoCaracteres($maximoCaracteres)
+    public function setMultiplo($multiplo)
     {
-        parent::setMaximoCaracteres($maximoCaracteres);
+        parent::setMultiplo($multiplo);
+        return $this;
+    }
+    
+    public function setExpandido($expandido)
+    {
+        parent::setExpandido($expandido);
+        return $this;
+    }
+    
+    public function setOrdena($ordena)
+    {
+        parent::setOrdena($ordena);
         return $this;
     }
 
-    public function setMinimoCaracteres($minimoCaracteres)
+    public function setArray($array)
     {
-        parent::setMinimoCaracteres($minimoCaracteres);
+        parent::setArray($array);
         return $this;
     }
 
-    public function setObrigarorio($obrigatorio)
+    public function setInicio($inicio)
     {
-        parent::setObrigarorio($obrigatorio);
+        parent::setInicio($inicio);
         return $this;
     }
 
+    public function setTabela($tabela)
+    {
+        parent::setTabela($tabela);
+        return $this;
+    }
+    
+    public function setCampoCod($campoCod)
+    {
+        parent::setCampoCod($campoCod);
+        return $this;
+    }
+
+    public function setCampoDesc($campoDesc)
+    {
+        parent::setCampoDesc($campoDesc);
+        return $this;
+    }
+
+    public function setWhere($where)
+    {
+        parent::setWhere($where);
+        return $this;
+    }
+
+    public function setSqlCompleto($sqlCompleto)
+    {
+        parent::setSqlCompleto($sqlCompleto);
+        return $this;
+    }
+    
+    public function setIdConexao($idConexao)
+    {
+        parent::setIdConexao($idConexao);
+        return $this;
+    }
+    
     public function setPlaceHolder($placeHolder)
     {
         parent::setPlaceHolder($placeHolder);
         return $this;
-    }
-
-    public function setAliasSql($aliasSql)
-    {
-        parent::setAliasSql($aliasSql);
-        return $this;
-    }
-
-    public function setReadonly($readonly)
-    {
-        parent::setReadonly($readonly);
-        return $this;
-    }
-
-    public function setColunas($colunas)
-    {
-        parent::setColunas($colunas);
-        return $this;
-    }
-
-    public function setLinhas($linhas)
-    {
-        parent::setLinhas($linhas);
-        return $this;
-    }
-
-
-    public function setForm($form)
-    {
-        parent::setForm($form);
-        return $this;
-    }
-
-
-    public function setIconFA($iconFA)
-    {
-        $this->iconFA = $this->formSetPixel->setIconFA($iconFA);
-        return $this;
-    }
-
-    public function getIconFA()
-    {
-        return $this->iconFA;
     }
     
     public function setToolTipMsg($toolTipMsg)

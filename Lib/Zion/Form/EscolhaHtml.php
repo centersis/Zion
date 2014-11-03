@@ -25,7 +25,7 @@ class EscolhaHtml
             throw new \Exception('Atributo nome é obrigatório');
         }
 
-        $inicio = $config->getInicio();
+        //$inicio = $config->getInicio();
         $ordena = $config->getOrdena();
 
         $array = $config->getArray();
@@ -86,7 +86,8 @@ class EscolhaHtml
 
         $ordenaArray = function($vetor) {
 
-            $texto = new \Zion\Validacao\Texto();
+            $texto = \Zion\Validacao\Texto::instancia();
+            
             $original = $vetor;
 
             foreach ($vetor as $posicao => $string) {
@@ -184,13 +185,8 @@ class EscolhaHtml
             if($config->getemColunaDeTamanho()){
                 $retorno .= $html->abreTagAberta('section', array('class'=>'col col-'.$config->getemColunaDeTamanho()));                    
             }
-                if($config->getLabel()){
-                    $retorno .= $html->abreTagAberta('label',array('class'=>'label'));
-                    $retorno .= $config->getIdentifica();
-                    $retorno .= $html->fechaTag('label');
-                }                
 
-                $retorno.= sprintf('<select %s %s %s %s style="width:100%s" class="select2" '.($config->getPlaceHolder() ? 'data-placeholder="'.$config->getPlaceHolder().'"' : 'data-placeholder="Selecione..."').'>%s</select>', $name, $id, $complemento, $disable, '%', $opcoes);
+            $retorno.= sprintf('<select %s %s %s %s style="width:100%s" class="select2" '.($config->getPlaceHolder() ? 'data-placeholder="'.$config->getPlaceHolder().'"' : 'data-placeholder="Selecione..."').'>%s</select>', $name, $id, $complemento, $disable, '%', $opcoes);
               
             if($config->getemColunaDeTamanho()){
                 $retorno .= $html->fechaTag('section');

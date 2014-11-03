@@ -8,12 +8,14 @@
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
+
 use \Zion\Form\Exception\FormException as FormException;
 
 class FormEscolha extends \Zion\Form\FormBasico
 {
+
     private $tipoBase;
     private $acao;
     private $multiplo;
@@ -28,8 +30,6 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $sqlCompleto;
     private $idConexao;
     private $placeHolder;
-    private $label;
-    private $emColunaDeTamanho;
 
     /**
      * FormEscolha::__construct()
@@ -45,7 +45,6 @@ class FormEscolha extends \Zion\Form\FormBasico
         $this->multiplo = false;
         $this->ordena = 'ASC';
         $this->inicio = 'Selecione...';
-        $this->label = true;
     }
 
     /**
@@ -86,14 +85,14 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setMultiplo($multiplo)
     {
-        if(!is_null($multiplo)){
+        if (!is_null($multiplo)) {
             $this->multiplo = $multiplo;
             return $this;
         } else {
             throw new FormException("multiplo: Valor nao booleano");
         }
     }
-    
+
     /**
      * FormEscolha::getExpandido()
      * 
@@ -112,14 +111,14 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setExpandido($expandido)
     {
-        if(!is_null($expandido)){
+        if (!is_null($expandido)) {
             $this->expandido = $expandido;
             return $this;
         } else {
             throw new FormException("expandido: Valor nao booleano");
         }
     }
-    
+
     /**
      * FormEscolha::getOrdena()
      * 
@@ -138,7 +137,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setOrdena($ordena)
     {
-        if(!is_null($ordena)){
+        if (!is_null($ordena)) {
             $this->ordena = $ordena;
             return $this;
         } else {
@@ -164,7 +163,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setArray($array)
     {
-        if(is_array($array)){
+        if (is_array($array)) {
             $this->array = $array;
             return $this;
         } else {
@@ -190,7 +189,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setInicio($inicio)
     {
-        if(!is_null($inicio)){
+        if (!is_null($inicio)) {
             $this->inicio = $inicio;
             return $this;
         } else {
@@ -216,7 +215,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setTabela($tabela)
     {
-        if(!is_null($tabela)){
+        if (!is_null($tabela)) {
             $this->tabela = $tabela;
             return $this;
         } else {
@@ -242,7 +241,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setCampoCod($campoCod)
     {
-        if(!is_null($campoCod)){
+        if (!is_null($campoCod)) {
             $this->campoCod = $campoCod;
             return $this;
         } else {
@@ -268,7 +267,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setCampoDesc($campoDesc)
     {
-        if(!is_null($campoDesc)){
+        if (!is_null($campoDesc)) {
             $this->campoDesc = $campoDesc;
             return $this;
         } else {
@@ -294,7 +293,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setWhere($where)
     {
-        if(!is_null($where)){
+        if (!is_null($where)) {
             $this->where = $where;
             return $this;
         } else {
@@ -320,14 +319,14 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setSqlCompleto($sqlCompleto)
     {
-        if(!is_null($sqlCompleto)){
+        if (!is_null($sqlCompleto)) {
             $this->sqlCompleto = $sqlCompleto;
             return $this;
         } else {
             throw new FormException("sqlCompleto: Nenhum Valor foi informado.");
         }
     }
-    
+
     /**
      * FormEscolha::getIdConexao()
      * 
@@ -346,14 +345,14 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setIdConexao($idConexao)
     {
-        if(!is_null($idConexao)){
+        if (!is_null($idConexao)) {
             $this->idConexao = $idConexao;
             return $this;
         } else {
             throw new FormException("idConexao: Nenhum Valor foi informado.");
         }
     }
-    
+
     /**
      * FormEscolha::setPlaceHolder()
      * 
@@ -379,62 +378,11 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         return $this->placeHolder;
     }
-    
-    /**
-     * FormEscolha::setLabel()
-     * 
-     * @param mixed $label
-     * @return
-     */
-    public function setLabel($label)
-    {
-        if (is_bool($label)) {
-            $this->label = $label;
-            return $this;
-        } else {
-            throw new FormException("label: O valor informado não é um booleano.");
-        }
-    }
-
-    /**
-     * FormEscolha::getLabel()
-     * 
-     * @return
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-    
-    /**
-     * FormEscolha::setEmColunaDeTamanho()
-     * 
-     * @param mixed $emColunaDeTamanho
-     * @return
-     */
-    public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
-        if (in_array($emColunaDeTamanho, range(1, 12))) {
-            $this->emColunaDeTamanho = $emColunaDeTamanho;
-            return $this;
-        } else {
-            throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
-        }
-    }
-
-    /**
-     * FormEscolha::getemColunaDeTamanho()
-     * 
-     * @return
-     */
-    public function getemColunaDeTamanho()
-    {
-        return $this->emColunaDeTamanho;
-    }
 
     /**
      * Sobrecarga de Metodos Básicos
      */
+
     /**
      * FormEscolha::setId()
      * 
@@ -443,10 +391,10 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setId($id)
     {
-        parent::setId($id);        
+        parent::setId($id);
         return $this;
     }
-    
+
     /**
      * FormEscolha::setNome()
      * 
@@ -458,7 +406,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         parent::setNome($nome);
         return $this;
     }
-    
+
     /**
      * FormEscolha::setIdentifica()
      * 
@@ -470,7 +418,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         parent::setIdentifica($identifica);
         return $this;
     }
-    
+
     /**
      * FormEscolha::setValor()
      * 
@@ -478,11 +426,11 @@ class FormEscolha extends \Zion\Form\FormBasico
      * @return
      */
     public function setValor($valor)
-    {              
+    {
         parent::setValor($valor);
         return $this;
     }
-    
+
     /**
      * FormEscolha::setValorPadrao()
      * 
@@ -494,7 +442,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
-    
+
     /**
      * FormEscolha::setDisabled()
      * 
@@ -506,7 +454,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         parent::setDisabled($disabled);
         return $this;
     }
-    
+
     /**
      * FormEscolha::setComplemento()
      * 
@@ -530,7 +478,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         parent::setAtributos($atributos);
         return $this;
     }
-    
+
     /**
      * FormEscolha::setClassCss()
      * 
@@ -542,4 +490,5 @@ class FormEscolha extends \Zion\Form\FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
+
 }
