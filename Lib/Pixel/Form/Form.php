@@ -86,11 +86,6 @@ class Form extends \Zion\Form\Form
         return new \Zion\Form\FormEscolha('escolha');
     }
 
-    public function textArea($nome, $identifica, $obrigatorio = false)
-    {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
-    }
-
     public function editor($nome, $identifica, $obrigatorio = false)
     {
         return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
