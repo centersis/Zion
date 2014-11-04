@@ -20,7 +20,7 @@ class Form extends \Zion\Form\Form
     {
         return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
-
+    
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
         return new \Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
@@ -78,17 +78,17 @@ class Form extends \Zion\Form\Form
 
     public function escolha()
     {
-        return new \Zion\Form\FormEscolha('escolha');
+        return new \Pixel\Form\FormEscolha('escolha');
     }
 
     public function textArea($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
     }
 
     public function editor($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTextArea('editor', $nome, $identifica, $obrigatorio);
     }
 
     public function upload($nome, $identifica, $obrigatorio = false)
@@ -98,7 +98,28 @@ class Form extends \Zion\Form\Form
 
     public function botaoSubmit($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('bubmit', $nome, $identifica);
+        return new \Zion\Form\FormInputButton('submit', $nome, $identifica);
+    }
+
+    /**
+     * @return \Zion\Form\FormInputButton
+     */
+    public function botaoSalvarPadrao()
+    {
+        $botaoSalvar = new \Zion\Form\FormInputButton('submit', 'sisSalvar', 'Salvar');
+        $botaoSalvar->setClassCss('btn btn-primary');
+
+        return $botaoSalvar;
+    }
+
+    public function botaoDescartarPadrao($nomeForm)
+    {
+        $botaoDescartar = new \Zion\Form\FormInputButton('button', 'sisDescartar', 'Descartar');
+
+        $botaoDescartar->setClassCss('btn btn-default')
+                ->setComplemento('onclick="sisDescartarPadrao(\'' . $nomeForm . '\')"');
+
+        return $botaoDescartar;
     }
 
     public function botaoSimples($nome, $identifica)
@@ -113,7 +134,7 @@ class Form extends \Zion\Form\Form
 
     public function abreForm()
     {
-        $ret = $this->html->abreTagAberta('div', array('class' => 'panel'));
+        $ret = $this->html->abreTagAberta('div', array('class' => 'panel', 'id' => 'panel' . $this->formConfig->getNome()));
         $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-heading'));
         $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
         $ret .= $this->formConfig->getHeader();
@@ -150,6 +171,12 @@ class Form extends \Zion\Form\Form
                     break;
                 case 'texto' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTexto($objCampos);
+                    break;
+                case 'textarea' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTextArea($objCampos);
+                    break;
+                case 'editor' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'suggest' :
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaSuggest($objCampos);
@@ -246,11 +273,14 @@ class Form extends \Zion\Form\Form
         $buffer = $this->abreForm();
 
         $footer = '';
-        
+
         //Desabilita campos
-        foreach ($this->objetos as $objeto){
+        foreach ($this->objetos as $objeto) {
             if (method_exists($objeto, 'setDisabled')) {
-                $objeto->setDisabled(true);
+
+                if ($objeto->getAcao() !== 'button') {
+                    $objeto->setDisabled(true);
+                }
             }
         }
 
@@ -258,7 +288,10 @@ class Form extends \Zion\Form\Form
         foreach ($campos as $nome => $textoHtml) {
 
             if ($this->objetos[$nome]->getTipoBase() == 'button') {
-                $footer.= $textoHtml . "&nbsp;&nbsp;";
+
+                if ($this->objetos[$nome]->getAcao() == 'button') {
+                    $footer.= $textoHtml . "&nbsp;&nbsp;";
+                }
             } else {
                 $buffer.= $textoHtml;
             }

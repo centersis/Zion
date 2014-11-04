@@ -9,7 +9,7 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $layoutPixel;
-    
+   
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -42,10 +42,37 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
         return $this;
     }
 
-    public function setAliasSql($aliasSql){
+    public function setAliasSql($aliasSql)
+    {
         parent::setAliasSql($aliasSql);
         return $this;
     }
+
+    public function setReadonly($readonly)
+    {
+        parent::setReadonly($readonly);
+        return $this;
+    }
+
+    public function setColunas($colunas)
+    {
+        parent::setColunas($colunas);
+        return $this;
+    }
+
+    public function setLinhas($linhas)
+    {
+        parent::setLinhas($linhas);
+        return $this;
+    }
+
+
+    public function setForm($form)
+    {
+        parent::setForm($form);
+        return $this;
+    }
+
 
     public function setIconFA($iconFA)
     {

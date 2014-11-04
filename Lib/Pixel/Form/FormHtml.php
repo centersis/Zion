@@ -14,7 +14,7 @@ class FormHtml extends \Zion\Form\FormHtml
     {
         $classCss = $config->getClassCss() . ' form-control';
         $config->setClassCss($classCss);
-        
+
         if ($config->getToolTipMsg()) {
             $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
             $config->setComplemento($complemento);
@@ -48,20 +48,42 @@ class FormHtml extends \Zion\Form\FormHtml
             $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
             $config->setComplemento($complemento);
         }
-        
-        if($config->getAcao() == 'cpf'){
+
+        if ($config->getAcao() == 'cpf') {
             $config->setMascara('999.999.999-99');
         }
-        
-        if($config->getAcao() == 'cnpj'){
+
+        if ($config->getAcao() == 'cnpj') {
             $config->setMascara('99.999.999/9999-99');
         }
-        
-        if($config->getAcao() == 'cep'){
+
+        if ($config->getAcao() == 'cep') {
             $config->setMascara('99.999-99');
         }
 
         return $this->prepareInputPixel($config, parent::montaTexto($config));
+    }
+
+    public function montaTextArea(FormInputTextArea $config)
+    {
+        $classCss = $config->getClassCss() . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        $jsFinal = '';
+        if ($config->getAcao() == 'editor') {
+            $js = new \Zion\Layout\JavaScript();
+            $jsFinal = $js->entreJS("CKEDITOR.replace( '" . $config->getId() . "' );");
+
+            $classCss = $config->getClassCss() . ' ignore';
+            $config->setClassCss($classCss);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaTextArea($config)) . $jsFinal;
     }
 
     public function montaData(FormInputData $config)
@@ -116,13 +138,27 @@ class FormHtml extends \Zion\Form\FormHtml
         return $this->prepareInputPixel($config, parent::montaFloat($config));
     }
 
-    public function montaEscolha(FormEscolha $config)
+    public function montaEscolha(\Zion\Form\FormEscolha $config)
     {
-        return (new \Zion\Form\EscolhaHtml())->montaEscolha($config);
+        $expandido = $config->getExpandido();
+        $multiplo = $config->getMiltiplo();
+
+        if ($expandido === false and $multiplo === false) {
+
+            $classCss = $config->getClassCss() . ' form-control';
+            $config->setClassCss($classCss);
+
+            if ($config->getToolTipMsg()) {
+                $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+                $config->setComplemento($complemento);
+            }
+
+            return $this->prepareInputPixel($config, parent::montaEscolha($config));
+        }
     }
 
     public function montaButton($config)
-    {                                                     
+    {
         return parent::montaButton($config);
     }
 
@@ -155,26 +191,26 @@ class FormHtml extends \Zion\Form\FormHtml
 
     private function prepareInputPixel($config, $campo)
     {
-        if($config->getLayoutPixel() === false){
+        if ($config->getLayoutPixel() === false) {
             return $campo;
         }
-        
+
         $html = new \Zion\Layout\Html();
 
         $buffer = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
 
         $buffer.= $html->abreTagAberta('div', array('class' => 'form-group'));
 
-        $buffer.= $html->abreTagAberta('label', array('for' => $config->getId(),'class'=>'col-sm-3 control-label'));
+        $buffer.= $html->abreTagAberta('label', array('for' => $config->getId(), 'class' => 'col-sm-3 control-label'));
         $buffer.= $config->getIdentifica();
         $buffer .= $html->fechaTag('label');
-        
+
         $buffer.= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
 
         $buffer .= $campo;
 
-        if ($config->getIconFA()) {
-            $buffer.= $html->abreTagAberta('span', array('class' => 'fa ' . $config->getIconFA().' form-control-feedback'));            
+        if (method_exists($config, 'getIconFA') and $config->getIconFA()) {
+            $buffer.= $html->abreTagAberta('span', array('class' => 'fa ' . $config->getIconFA() . ' form-control-feedback'));
             $buffer .= $html->fechaTag('span');
         }
 

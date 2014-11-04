@@ -8,7 +8,7 @@
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -23,6 +23,10 @@ class FormInputTextArea extends FormBasico
     private $minimoCaracteres;
     private $placeHolder;
     private $aliasSql;
+    private $readonly;
+    private $colunas;
+    private $linhas;
+    private $form;
 
     /**
      * FormInputTextArea::__construct()
@@ -35,7 +39,7 @@ class FormInputTextArea extends FormBasico
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->tipoBase = 'textArea';
+        $this->tipoBase = 'textarea';
         $this->acao = $acao;
         $this->setNome($nome);
         $this->setId($nome);
@@ -198,14 +202,75 @@ class FormInputTextArea extends FormBasico
      * 
      * @return string
      */
-    public function getAliasSql(){
+    public function getAliasSql()
+    {
         return $this->aliasSql;
+    }
+
+    public function getReadonly()
+    {
+        return $this->readonly;
+    }
+
+    public function setReadonly($readonly)
+    {
+        if (is_bool($readonly)) {
+            $this->readonly = $readonly;
+            return $this;
+        } else {
+            throw new FormException("readonly: Valor nao booleano");
+        }
+    }
+
+    public function getColunas()
+    {
+        return $this->colunas;
+    }
+
+    public function setColunas($colunas)
+    {
+        if (is_numeric($colunas)) {
+            $this->colunas = $colunas;
+            return $this;
+        } else {
+            throw new FormException("colunas: Valor nao numerico.");
+        }
+    }
+
+    public function getLinhas()
+    {
+        return $this->linhas;
+    }
+
+    public function setLinhas($linhas)
+    {
+        if (is_numeric($linhas)) {
+            $this->linhas = $linhas;
+            return $this;
+        } else {
+            throw new FormException("linhas: Valor nao numerico.");
+        }
+    }
+
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    public function setForm($form)
+    {
+        if (!is_null($form)) {
+            $this->form = $form;
+            return $this;
+        } else {
+            throw new FormException("form: Nenhum valor informado");
+        }
     }
 
     /**
      * Sobrecarga de Metodos Básicos
      */
-     
+
     /**
      * FormInputTextArea::setId()
      * 

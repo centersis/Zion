@@ -30,7 +30,7 @@ class Form
 
         $this->formConfig = new \Zion\Form\FormTag();
 
-        $this->formConfig->setNome('Form1')
+        $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
     }
 
@@ -220,7 +220,7 @@ class Form
      */
     public function textArea($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTextArea('textArea', $nome, $identifica, $obrigatorio);
+        return new \Zion\Form\FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
     }
 
     /**
@@ -245,7 +245,7 @@ class Form
      */
     public function botaoSubmit($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('bubmit', $nome, $identifica);
+        return new \Zion\Form\FormInputButton('submit', $nome, $identifica);
     }
 
     /**
@@ -377,7 +377,7 @@ class Form
 
         $valor = $this->objetos[$idObjeto]->getValor();
         $obrigatorio = $this->objetos[$idObjeto]->getObrigatorio();
-        $tipoBase = $this->objetos[$idObjeto]->getTipoBase();        
+        $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
         switch ($tipoBase) {
             case 'data' :
@@ -425,6 +425,9 @@ class Form
                     break;
                 case 'texto' :
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTexto($objCampos);
+                    break;
+                case 'textarea' :
+                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTextArea($objCampos);
                     break;
                 case 'dateTime' :
                     $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaDateTime($objCampos);
@@ -483,14 +486,15 @@ class Form
             }
         }
     }
-    
+
     public function setAcao($acao)
     {
         $this->acao = $acao;
     }
-    
+
     public function getAcao()
     {
         return $this->acao;
     }
+
 }
