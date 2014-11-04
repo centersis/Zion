@@ -30,20 +30,20 @@ class Panel extends \Zion\Layout\Padrao
 
         $buffer  = '';
         $buffer .= $this->html->abreTagAberta('div', ['id' => $panelId, 'class' => 'panel panel-default ' . $titleStartVisible . $titleHidden, 'style' => @$opcoes['style']]);
-            $buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-heading hand', 'onclick' => 'showHiddenFilters()']);
-
+            //$buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-heading hand', 'onclick' => 'showHiddenFilters()']);
+/*
                 $buffer .= $this->html->abreTagAberta('span', ['class' => 'panel-title']);
                 $buffer .= $this->html->abreTagFechada('i', ['class' => 'panel-title-icon '.$iconTitle]);
                 $buffer .= $panelTitle;
                 $buffer .= $this->html->fechaTag('span');
-
-            $buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-heading-controls']); 
+*/
+            //$buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-heading-controls']); 
                 //$buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-heading-icon']);
                     //$buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-close hand', 'onclick' => 'showHiddenFilters()', 'title' => 'Fechar']);
                 //$buffer .= $this->html->fechaTag('div');
-            $buffer .= $this->html->fechaTag('div');
+            //$buffer .= $this->html->fechaTag('div');
 
-            $buffer .= $this->html->fechaTag('div');
+            //$buffer .= $this->html->fechaTag('div');
             $buffer .= $this->html->abreTagAberta('div', ['id' => $panelId.'-body', 'class' => 'panel-body' . $bodyHidden . $bodyStartVisible]); 
             $buffer .= $panelBody;
             $buffer .= $this->html->fechaTag('div');

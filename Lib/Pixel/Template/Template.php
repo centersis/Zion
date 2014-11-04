@@ -333,7 +333,8 @@ class Template extends \Zion\Layout\Padrao
     private function getFiltros()
     {
 
-        return $this->getPanel('box-filters', 'Filtros especiais', $this->conteudoFiltros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
+        //return $this->conteudoFiltros;
+        //return $this->getPanel('box-filters', 'Filtros especiais', $this->conteudoFiltros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
 
     }
 
@@ -475,6 +476,33 @@ class Template extends \Zion\Layout\Padrao
         return $tab->getTab($tabId, $arrayConfs, $arrayTab);
 
     }     
+
+    public function getLabel($conteudo = '', $array)
+    {
+
+        $addClass = '';
+        $addClass = (empty($conteudo)) ? ' hidden ' : '';
+        return $this->abreTagAberta('span', ['id' => 'sisLabel_' . @$array['id'], 'class' => 'label label-' . @$array['tipo'] . $addClass]) . $conteudo . $this->fechaTag('span');
+
+    }
+
+    public function getBadge($conteudo = '', $array)
+    {
+
+        $addClass = '';
+        $addClass = (empty($conteudo)) ? ' hidden ' : '';
+        return $this->abreTagAberta('span', ['id' => 'sisBadge_' . @$array['id'], 'class' => 'badge badge-' . @$array['tipo'] . $addClass]) . $conteudo . $this->fechaTag('span');
+
+    }    
+
+    public function getTag($conteudo = '', $array)
+    {
+
+        $addClass = '';
+        $addClass = (empty($conteudo)) ? ' hidden ' : '';
+        return $this->abreTagAberta('span', ['id' => 'sisTag_' . @$array['id'], 'class' => 'label label-tag label-' . @$array['tipo'] . $addClass]) . $conteudo . $this->fechaTag('span');
+
+    }      
 
     private function getEstatisticas($modo = '')
     {
