@@ -298,3 +298,17 @@ function sisSetCrashAlert(a, b)
     $('#modal-msg').modal();
 
 }
+
+function sisChFil(a) {
+    $("#sisBtnFil").addClass('btn-warning');
+    $("#sisIcFil").html(a).removeClass('fa fa-caret-down');
+}
+
+/*
+** Pablo irá ajustar esta bosta, que faz incrementar a quantidade de 
+** campos de filtro utilizado na aba de cada tab dos filtros especiais
+*/
+function sisChInputFil(a,b) {
+    $(a).removeClass('hidden');
+    $(a).html(b);
+}
