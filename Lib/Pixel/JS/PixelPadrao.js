@@ -299,20 +299,16 @@ function sisSetCrashAlert(a, b)
 
 }
 
-function sisGeraPDF() {
+function sisChFil(a) {
+    $("#sisBtnFil").addClass('btn-warning');
+    $("#sisIcFil").html(a).removeClass('fa fa-caret-down');
+}
 
-    $.ajax({type: "post", url: "?acao=geraPDF", data: $("#gridHtml"), dataType: "json"}).done(function (ret) {
-
-        if (ret.sucesso === 'true') {
-            sisSetAlert('true', ret.retorno);
-
-        }
-        else {
-            sisSetCrashAlert('Erro', ret.retorno);
-        }
-
-    }).fail(function ()
-    {
-        sisMsgFailPadrao();
-    });
+/*
+** Pablo irá ajustar esta bosta, que faz incrementar a quantidade de 
+** campos de filtro utilizado na aba de cada tab dos filtros especiais
+*/
+function sisChInputFil(a,b) {
+    $(a).removeClass('hidden');
+    $(a).html(b);
 }
