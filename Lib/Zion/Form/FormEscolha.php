@@ -18,8 +18,12 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     private $tipoBase;
     private $acao;
+    private $obrigatorio;
+    private $selecaoMaxima;
+    private $selecaoMinima;
     private $multiplo;
     private $expandido;
+    
     private $ordena;
     private $array;
     private $inicio;
@@ -29,7 +33,6 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $where;
     private $sqlCompleto;
     private $idConexao;
-    private $placeHolder;
 
     /**
      * FormEscolha::__construct()
@@ -37,10 +40,14 @@ class FormEscolha extends \Zion\Form\FormBasico
      * @param mixed $acao
      * @return
      */
-    public function __construct($acao)
+    public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'escolha';
         $this->acao = $acao;
+        $this->setNome($nome);
+        $this->setId($nome);
+        $this->setIdentifica($identifica);
+        $this->setObrigarorio($obrigatorio);
         $this->expandido = false;
         $this->multiplo = false;
         $this->ordena = 'ASC';
@@ -67,12 +74,50 @@ class FormEscolha extends \Zion\Form\FormBasico
         return $this->acao;
     }
 
+    public function setObrigarorio($obrigatorio)
+    {
+        if (is_bool($obrigatorio)) {
+            $this->obrigatorio = $obrigatorio;
+            return $this;
+        } else {
+            throw new FormException("obrigatorio: Valor nao booleano");
+        }
+    }
+
+    public function getObrigatorio()
+    {
+        return $this->obrigatorio;
+    }
+    
+    public function setSelecaoMaxima($selecaoMaxima)
+    {
+        $this->selecaoMaxima = $selecaoMaxima;
+        return $this;
+    }
+    
+    public function getSelecaoMaxima()
+    {
+        return $this->selecaoMaxima;
+    }
+    
+    public function setSelecaoMinima($selecaoMinima)
+    {
+        $this->selecaoMinima = $selecaoMinima;
+        return $this;
+    }
+    
+    public function getSelecaoMinima()
+    {
+        return $this->selecaoMinima;
+    }
+    
+    
     /**
-     * FormEscolha::getMiltiplo()
+     * FormEscolha::getMultiplo()
      * 
      * @return
      */
-    public function getMiltiplo()
+    public function getMultiplo()
     {
         return $this->multiplo;
     }
@@ -336,7 +381,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         return $this->idConexao;
     }
-
+    
     /**
      * FormEscolha::setIdConexao()
      * 
@@ -351,32 +396,6 @@ class FormEscolha extends \Zion\Form\FormBasico
         } else {
             throw new FormException("idConexao: Nenhum Valor foi informado.");
         }
-    }
-
-    /**
-     * FormEscolha::setPlaceHolder()
-     * 
-     * @param mixed $placeHolder
-     * @return
-     */
-    public function setPlaceHolder($placeHolder)
-    {
-        if (!empty($placeHolder)) {
-            $this->placeHolder = $placeHolder;
-            return $this;
-        } else {
-            throw new FormException("placeHolder: Nenhum valor informado");
-        }
-    }
-
-    /**
-     * FormEscolha::getPlaceHolder()
-     * 
-     * @return
-     */
-    public function getPlaceHolder()
-    {
-        return $this->placeHolder;
     }
 
     /**

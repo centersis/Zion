@@ -271,9 +271,9 @@ class FormHtml extends \Zion\Form\FormAtributos
      * @param mixed $config
      * @return
      */
-    public function montaEscolha(\Zion\Form\FormEscolha $config)
+    public function montaEscolha(\Zion\Form\FormEscolha $config, $retornarArray)
     {
-        return (new \Zion\Form\EscolhaHtml())->montaEscolha($config);
+        return (new \Zion\Form\EscolhaHtml())->montaEscolha($config,$retornarArray);
     }
 
     /**

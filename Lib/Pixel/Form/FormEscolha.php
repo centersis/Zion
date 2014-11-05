@@ -8,27 +8,48 @@ class FormEscolha extends \Zion\Form\FormEscolha
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $layoutPixel;
-    
+    private $inLine;
     private $formSetPixel;
 
-    public function __construct($acao)
+    public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        parent::__construct($acao);
+        parent::__construct($acao, $nome, $identifica, $obrigatorio);
+
+        $this->inLine = true;
+
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
     }
 
+    public function setObrigarorio($obrigatorio)
+    {
+        parent::setObrigarorio($obrigatorio);
+        return $this;
+    }
+    
+    public function setSelecaoMaxima($selecaoMaxima)
+    {
+        parent::setSelecaoMaxima($selecaoMaxima);
+        return $this;
+    }
+    
+    public function setSelecaoMinima($selecaoMinima)
+    {
+        parent::setSelecaoMinima($selecaoMinima);
+        return $this;
+    }
+    
     public function setMultiplo($multiplo)
     {
         parent::setMultiplo($multiplo);
         return $this;
     }
-    
+
     public function setExpandido($expandido)
     {
         parent::setExpandido($expandido);
         return $this;
     }
-    
+
     public function setOrdena($ordena)
     {
         parent::setOrdena($ordena);
@@ -52,7 +73,7 @@ class FormEscolha extends \Zion\Form\FormEscolha
         parent::setTabela($tabela);
         return $this;
     }
-    
+
     public function setCampoCod($campoCod)
     {
         parent::setCampoCod($campoCod);
@@ -76,19 +97,13 @@ class FormEscolha extends \Zion\Form\FormEscolha
         parent::setSqlCompleto($sqlCompleto);
         return $this;
     }
-    
+
     public function setIdConexao($idConexao)
     {
         parent::setIdConexao($idConexao);
         return $this;
     }
-    
-    public function setPlaceHolder($placeHolder)
-    {
-        parent::setPlaceHolder($placeHolder);
-        return $this;
-    }
-    
+
     public function setToolTipMsg($toolTipMsg)
     {
         $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);
@@ -99,9 +114,9 @@ class FormEscolha extends \Zion\Form\FormEscolha
     {
         return $this->toolTipMsg;
     }
-    
+
     public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
+    {
         $this->emColunaDeTamanho = $this->formSetPixel->setEmColunaDeTamanho($emColunaDeTamanho);
         return $this;
     }
@@ -110,16 +125,27 @@ class FormEscolha extends \Zion\Form\FormEscolha
     {
         return $this->emColunaDeTamanho;
     }
-    
+
     public function setLayoutPixel($layoutPixel)
     {
         $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
         return $this;
     }
-    
+
     public function getLayoutPixel()
     {
         return $this->layoutPixel;
+    }
+
+    public function setInLine($inLine)
+    {
+        $this->inLine = $inLine;
+        return $this;
+    }
+
+    public function getInLine()
+    {
+        return $this->inLine;
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * \Pixel\Form\FormValida
  * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
@@ -9,15 +10,17 @@
  * Validação automatizada dos formulários
  *
  */
+
 namespace Pixel\Form;
+
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Form\Exception\FormInvalidArgumentException as FormInvalidArgumeException;
 
 class FormValida extends \Zion\Form\FormValida
 {
+
     private $instance;
     private $instaceBasico = 'Zion\Form\FormBasico';
-    
     private $texto;
     private $numero;
     private $data;
@@ -34,14 +37,14 @@ class FormValida extends \Zion\Form\FormValida
         parent::__construct();
         $valida = new \Zion\Validacao\Valida();
 
-        $this->texto    = $valida->texto();
-        $this->numero   = $valida->numero();
-        $this->data     = $valida->data();
-        $this->geral    = $valida->geral();
-        
+        $this->texto = $valida->texto();
+        $this->numero = $valida->numero();
+        $this->data = $valida->data();
+        $this->geral = $valida->geral();
+
         $this->instaceBasico = addslashes($this->instaceBasico);
     }
-    
+
     /**
      * FormValida::validar()
      * Detecta o tipo de input a ser validado, seta informações básicas necessárias para a validação.
@@ -50,7 +53,8 @@ class FormValida extends \Zion\Form\FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\InvalidArgumeException se $form não for uma instância válida de uma das classes de formulário.
      */
-    public function validar($form){
+    public function validar($form)
+    {
 
         $this->instance = addslashes(get_class($form));
         return $this->validaFormInput($form);
@@ -64,18 +68,18 @@ class FormValida extends \Zion\Form\FormValida
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    protected function validaFormInput( $input)
+    protected function validaFormInput($input)
     {
-        $attrs  = $this->getAtributos($input);
+        $attrs = $this->getAtributos($input);
 
-        $userValue  = $input->getValor();
+        $userValue = $input->getValor();
         $identifica = $this->texto->removerAcentos($input->getIdentifica());
 
-        if(strtoupper($input->getAcao()) == 'SUGGEST'){
+        if (strtoupper($input->getAcao()) == 'SUGGEST') {
             //Ainda nao implementado
-        } elseif(strtoupper($input->getAcao()) == 'HIDDEN'){
+        } elseif (strtoupper($input->getAcao()) == 'HIDDEN') {
             //Ainda não implementado.
-        } elseif(strtoupper($input->getAcao()) == 'BUTTON'){
+        } elseif (strtoupper($input->getAcao()) == 'BUTTON') {
             //Ainda não implementado.
         }
 
@@ -96,10 +100,10 @@ class FormValida extends \Zion\Form\FormValida
         $attrs = array();
         $i = 0;
 
-        foreach((array) $input as $key=>$val){
+        foreach ((array) $input as $key => $val) {
 
-            $key            = preg_replace(array('/'. $this->instance .'/', '/'. $this->instaceBasico .'/', '/\W/'), array('', '', ''), $key);
-            $attrs[$i++]    = $key;
+            $key = preg_replace(array('/' . $this->instance . '/', '/' . $this->instaceBasico . '/', '/\W/'), array('', '', ''), $key);
+            $attrs[$i++] = $key;
         }
 
         return $attrs;

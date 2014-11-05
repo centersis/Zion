@@ -10,25 +10,25 @@ namespace Pixel\Crud;
 
 class CrudUtil
 {
-    
+
     public function setParametrosForm($objForm, $parametrosSql, $cod = 0)
     {
         $arrayObjetos = $objForm->getObjetos();
 
-        if($cod){
+        if ($cod) {
             $arrayObjetos['cod']->setValor($cod);
         }
-        
-        if (is_array($arrayObjetos)) {
-            foreach ($arrayObjetos as $nome=>$objeto) {
 
-                if(key_exists($nome, $parametrosSql)){
+        if (is_array($arrayObjetos)) {
+            foreach ($arrayObjetos as $nome => $objeto) {
+
+                if (key_exists($nome, $parametrosSql)) {
                     $objeto->setValor($parametrosSql[$nome]);
                 }
             }
         }
     }
-    
+
     /*
      * Metodo que retorna um array com o nome dos campos de formulários
      * retorna Array
@@ -116,10 +116,10 @@ class CrudUtil
 
         $arrayForm = $objForm->getObjetos();
 
-        $arrayParametros = array_map("trim", $campos);
+        $arrayParametros = \array_map("trim", $campos);
 
         foreach ($arrayParametros as $nomeParametro) {
-            if (array_key_exists($nomeParametro, $arrayForm)) {
+            if (\array_key_exists($nomeParametro, $arrayForm)) {
 
                 $arraySql[] = $objForm->getSql($nomeParametro);
             } else {
@@ -127,13 +127,15 @@ class CrudUtil
             }
         }
 
-        $sql = "INSERT INTO $tabela (" . implode(',', $campos) . ") VALUES (" . implode(",", $arraySql) . ")";
+        $camposVistoriados = $this->removeColchetes($campos);
+
+        $sql = "INSERT INTO $tabela (" . implode(',', $camposVistoriados) . ") VALUES (" . implode(",", $arraySql) . ")";
 
         $con->executar($sql);
 
         return $con->ultimoInsertId();
     }
-    
+
     public function update($tabela, array $campos, $objForm, $chavePrimaria)
     {
         $con = \Zion\Banco\Conexao::conectar();
@@ -142,31 +144,31 @@ class CrudUtil
 
         $arrayForm = $objForm->getObjetos();
 
-        $arrayParametros = array_map("trim", $campos);
+        $arrayParametros = \array_map("trim", $campos);
 
         foreach ($arrayParametros as $nomeParametro) {
             if (array_key_exists($nomeParametro, $arrayForm)) {
 
-                $arraySql[] = $nomeParametro.' = '.$objForm->getSql($nomeParametro);
+                $arraySql[] = $this->removeColchetes($nomeParametro) . ' = ' . $objForm->getSql($nomeParametro);
             } else {
-                $arraySql[] = $nomeParametro.' = NULL';
+                $arraySql[] = $this->removeColchetes($nomeParametro) . ' = NULL';
             }
         }
-        
+
         $codigo = $objForm->get('cod');
 
-        $sql = "UPDATE $tabela SET ".  implode(',', $arraySql)." WHERE $chavePrimaria =  ".$codigo;
+        $sql = "UPDATE $tabela SET " . implode(',', $arraySql) . " WHERE $chavePrimaria =  " . $codigo;
 
         $con->executar($sql);
 
         return $con->getLinhasAfetadas();
     }
-    
+
     public function delete($tabela, $codigo, $chavePrimaria)
     {
         $con = \Zion\Banco\Conexao::conectar();
 
-        $sql = "DELETE FROM $tabela WHERE $chavePrimaria =  ".$codigo;
+        $sql = "DELETE FROM $tabela WHERE $chavePrimaria =  " . $codigo;
 
         $con->executar($sql);
 
@@ -183,7 +185,7 @@ class CrudUtil
         $parseSql = new \ParseSql();
 
         //Tipo de Interpretação
-        $tipoSql = strtoupper(substr(trim($sql), 0, 6));
+        $tipoSql = \strtoupper(\substr(\trim($sql), 0, 6));
 
         if ($tipoSql == "INSERT" or $tipoSql == "REPLAC") {
             $arrayParametros = $parseSql->getAtributosInsert($sql);
@@ -197,7 +199,7 @@ class CrudUtil
         //Recuperando Array de Campos
         $arrayForm = $objForm->getObjetos();
 
-        if (is_array($arrayParametros)) {
+        if (\is_array($arrayParametros)) {
             $arrayParametros = array_map("trim", $arrayParametros);
 
             foreach ($arrayParametros as $nomeParametro) {
@@ -271,6 +273,18 @@ class CrudUtil
                     break;
             }
         }
+    }
+
+    private function removeColchetes($campos)
+    {
+        if (is_array($campos)) {
+            foreach ($campos as $chave => $campo) {
+                $campos[$chave] = \str_replace('[]', '', $campo);
+            }
+        } else {
+            $campos = \str_replace('[]', '', $campos);
+        }
+        return $campos;
     }
 
 }

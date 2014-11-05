@@ -334,9 +334,23 @@ class Form
     public function retornaValor($nome)
     {
         switch ($this->formConfig->getMethod()) {
-            case "POST" : $valor = filter_input(INPUT_POST, $nome);
+            case "POST" :
+
+                if (substr_count($nome, '[]') > 0) {
+                    $valor = \filter_input(\INPUT_POST, \str_replace('[]', '', $nome), \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
+                } else {
+                    $valor = \filter_input(\INPUT_POST, $nome);
+                }
+
                 break;
-            case "GET" : $valor = filter_input(INPUT_GET, $nome);
+            case "GET" :
+
+                if (substr_count($nome, '[]') > 0) {
+                    $valor = \filter_input(\INPUT_GET, \str_replace('[]', '', $nome), \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
+                } else {
+                    $valor = filter_input(\INPUT_GET, $nome);
+                }
+
                 break;
             default: $valor = null;
         }
@@ -392,7 +406,11 @@ class Form
                 return $this->valorOuNull($valor, false, $obrigatorio);
 
             default:
-                return $this->valorOuNull($valor, true, $obrigatorio);
+                if (is_array($valor)) {
+                    return $this->valorOuNull(implode(',', $valor), true, $obrigatorio);
+                } else {
+                    return $this->valorOuNull($valor, true, $obrigatorio);
+                }
         }
     }
 

@@ -24,8 +24,8 @@ class FormPixelJavaScript
     {
         if ($config->getAcao() == 'editor') {
             return;
-        }
-        
+        }        
+
         //Validacão de obrigatório
         if (method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
             $this->regras[$config->getNome()][] = 'required : true';
@@ -72,6 +72,25 @@ class FormPixelJavaScript
             $this->extra.= ' $("#' . $config->getId() . '").mask("99/99/9999").datepicker(); ';
         }
 
+        if ($config->getAcao() === 'escolha') {
+            
+            if($config->getMultiplo() === true and $config->getExpandido() === true){
+                
+                $selecaoMaxima = $config->getSelecaoMaxima();
+                $selecaoMinima = $config->getSelecaoMinima();
+                
+                if($selecaoMaxima){
+                    $this->regras[$config->getNome()][] = 'maxlength: '.$selecaoMaxima;
+                    $this->mensagens[$config->getNome()][] = "maxlength : 'Selecione no máximo {$selecaoMaxima} opções!'";
+                }
+                
+                if($selecaoMinima){
+                    $this->regras[$config->getNome()][] = 'minlength: '.$selecaoMinima;
+                    $this->mensagens[$config->getNome()][] = "minlength : 'Selecione no mínimo {$selecaoMinima} opções!'";
+                }
+            }            
+        }
+        
         if ($config->getAcao() == 'time') {
 
             if ($config->getMostrarSegundos()) {
@@ -179,8 +198,8 @@ class FormPixelJavaScript
     {
         if (!$this->regras) {
             return '';
-        }        
-        
+        }
+
         $textoGeral = ' $("#' . $formNome . '").validate({ ';
 
         $textoRegra = ' rules : { ';
@@ -190,8 +209,8 @@ class FormPixelJavaScript
         $total = count($this->regras);
         foreach ($this->regras as $nome => $regras) {
             $cont++;
-            $textoRegra .= $nome . ' : {' . implode(',', $regras) . ' } ';
-            $textoMensagem .= $nome . ' : {' . implode(',', $this->mensagens[$nome]) . ' } ';
+            $textoRegra .= "'$nome'" . ' : {' . implode(',', $regras) . ' } ';
+            $textoMensagem .= "'$nome'" . ' : {' . implode(',', $this->mensagens[$nome]) . ' } ';
             $virgula = $cont == $total ? '' : ',';
             $textoRegra .= $virgula;
             $textoMensagem .= $virgula;

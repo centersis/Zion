@@ -138,10 +138,10 @@ class FormHtml extends \Zion\Form\FormHtml
         return $this->prepareInputPixel($config, parent::montaFloat($config));
     }
 
-    public function montaEscolha(\Zion\Form\FormEscolha $config)
+    public function montaEscolha(\Pixel\Form\FormEscolha $config)
     {
         $expandido = $config->getExpandido();
-        $multiplo = $config->getMiltiplo();
+        $multiplo = $config->getMultiplo();
 
         if ($expandido === false and $multiplo === false) {
 
@@ -153,8 +153,39 @@ class FormHtml extends \Zion\Form\FormHtml
                 $config->setComplemento($complemento);
             }
 
-            return $this->prepareInputPixel($config, parent::montaEscolha($config));
+            return $this->prepareInputPixel($config, parent::montaEscolha($config,false));
         }
+        else
+        {
+            $retorno = '';
+
+            $config->setClassCss('px');
+            
+            if($expandido === true and $multiplo === true){
+                
+                $retorno = $this->montaCheckRadioPixel('check',parent::montaEscolha($config, true), $config);
+            }
+            else if($expandido === true and $multiplo === false){
+                
+                $retorno = $this->montaCheckRadioPixel('radio',parent::montaEscolha($config,true), $config);
+            }
+            
+            return $this->prepareInputPixel($config, $retorno);
+        }
+    }
+    
+    private function montaCheckRadioPixel($tipo, $arrayCampos, $config)
+    {
+        $type = $tipo === 'check' ? 'checkbox' : 'radio';
+        $classCss = $config->getInLine() === true ? $type.'-inline' : $type;        
+        
+        $retorno = '';
+        foreach($arrayCampos as $dadosCampo){
+            
+            $retorno .= sprintf('<label class="%s">%s<span class="lbl">%s</span></label>',$classCss,$dadosCampo['html'],$dadosCampo['label']);
+        }
+        
+        return $retorno;
     }
 
     public function montaButton($config)

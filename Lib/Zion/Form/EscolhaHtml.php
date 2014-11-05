@@ -8,24 +8,40 @@
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 class EscolhaHtml
 {
+
+    private $html;
+
+    public function __construct()
+    {
+        $this->html = new \Zion\Layout\Html();
+    }
+
     /**
      * EscolhaHtml::montaEscolha()
      * 
      * @param mixed $config
      * @return
      */
-    public function montaEscolha(FormEscolha $config)
+    public function montaEscolha(FormEscolha $config, $retornarArray = false)
     {
-        if (empty($config->getNome())) {
-            throw new \Exception('Atributo nome é obrigatório');
-        }
+        $tipoApresentacao = $this->getTipoApresentacao($config);
 
-        //$inicio = $config->getInicio();
+        $array = $this->dadosCampo($config);
+
+        switch ($tipoApresentacao) {
+            case 'select': return $this->montaSelect($config, $array);
+            case 'check' : return $this->montaCheckRadio($tipoApresentacao, $config, $array, $retornarArray);
+            case 'radio' : return $this->montaCheckRadio($tipoApresentacao, $config, $array, $retornarArray);
+        }
+    }
+
+    private function dadosCampo($config)
+    {
         $ordena = $config->getOrdena();
 
         $array = $config->getArray();
@@ -36,33 +52,8 @@ class EscolhaHtml
         $where = $config->getWhere();
         $sqlCompleto = $config->getSqlCompleto();
 
-        $multiplo = $config->getMiltiplo();
-        $Expandido = $config->getExpandido();
-
-        $valor = $config->getValor();
-
-        //Define Tipo
-        $select = false;
-        $radio = false;
-        $check = false;
-
-        if ($Expandido === true and $multiplo === true) {
-            $check = true;
-        } else if ($Expandido === true and $multiplo === false) {
-            $radio = true;
-        } elseif ($Expandido === false and $multiplo === false) {
-            $select = true;
-        }
-
-        $opcoes = '';
-//        if ($select and $inicio != '') {
-//             = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
-//        }
-
-        //É Selecionado ?
-        $eSelecionado = false;
-
         if ($tabela and $campoCod and $campoDesc) {
+
             $con = \Zion\Banco\Conexao::conectar($config->getIdConexao());
 
             if (!empty($sqlCompleto)) {
@@ -74,158 +65,195 @@ class EscolhaHtml
 
             $rs = $con->executar($sql);
 
-            //$array = array();
             while ($linha = $rs->fetch_array()) {
                 $array[$linha[$campoCod]] = $linha[$campoDesc];
             }
         }
 
-        if (!is_bool($ordena)) {
-            $ordena = strtoupper($ordena);
-        }
-
-        $ordenaArray = function($vetor) {
-
-            $texto = \Zion\Validacao\Texto::instancia();
-            
-            $original = $vetor;
-
-            foreach ($vetor as $posicao => $string) {
-                $vetor[$posicao] = $texto->removerAcentos($string);
-            }
-
-            natcasesort($vetor);
-
-            foreach ($vetor as $posicao => $string) {
-                $vetor[$posicao] = $original[$posicao];
-            }
-
-            return $vetor;
-        };
-
         if ($ordena !== false) {
-            if ($ordena == "ASC" or $ordena == "") {
-                $array = $ordenaArray($array);
-            } elseif ($ordena == "DESC") {
-                $array = array_reverse($ordenaArray($array));
+
+            if (!\is_bool($ordena)) {
+                $ordena = strtoupper($ordena);
+            }
+
+            if ($ordena === "ASC" or $ordena === "" or $ordena === true) {
+                $array = $this->ordenaArray($array);
+            } elseif ($ordena === "DESC") {
+                $array = \array_reverse($this->ordenaArray($array));
             }
         }
+
+        return $array;
+    }
+
+    private function ordenaArray($vetor)
+    {
+        $texto = \Zion\Validacao\Texto::instancia();
+
+        $original = $vetor;
+
+        foreach ($vetor as $posicao => $string) {
+            $vetor[$posicao] = $texto->removerAcentos($string);
+        }
+
+        natcasesort($vetor);
+
+        foreach ($vetor as $posicao => $string) {
+            $vetor[$posicao] = $original[$posicao];
+        }
+
+        return $vetor;
+    }
+
+    protected function getTipoApresentacao(FormEscolha $config)
+    {
+        $multiplo = $config->getMultiplo();
+        $expandido = $config->getExpandido();
+
+        if ($expandido === true and $multiplo === true) {
+            return 'check';
+        } else if ($expandido === true and $multiplo === false) {
+            return 'radio';
+        } elseif ($expandido === false and $multiplo === false) {
+            return 'select';
+        }
+    }
+
+    private function montaCheckRadio($tipo, FormEscolha $config, $array, $retornarArray)
+    {        
+        $type = $tipo === 'radio' ? 'type="radio"' : 'type="checkbox"';
 
         $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
-        $complemento = $config->getComplemento();
-        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
 
-//        if ($select) {
-//            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
-//        }
+        if (!$config->getId()) {
+            $config->setId($config->getNome());
+        }
 
-        $retorno = '';
-        $cont = 0;
+        $eSelecionado = false;
+        $valor = $config->getValor();
+        if ($valor) {
+            $valorPadrao = '';
+        } else {
+            $valorPadrao = $config->getValorPadrao();
+        }
+
         foreach ($array as $chave => $vale) {
 
-            $cont++;
-            if ($select) { // Campo Select
-                
-                if($cont == 1){
-                    $opcoes.= '<option></option>';
-                }                    
-                
-                $opcoes .= '<option value="' . $chave . '" ';
+            $id = 'id="' . str_replace('[]', '', $config->getId()) . $chave . '"';
+            $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
+            $complemento = $config->getComplemento();
+            $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
 
-                if ($eSelecionado === false) {
-                    if ($valor == '') {
-                        if ("{$config->getValorPadrao()}" === "$chave") {
-                            $eSelecionado = true;
-                            $opcoes .= 'selected';
+            $value = 'value="' . $chave . '"';
+
+            $checked = '';
+            if ($eSelecionado === false) {
+
+                if (is_array($valor)) {
+                    
+                    if (empty($valor)) {
+
+                        if (is_array($valorPadrao)) {
+                            
+                            if (in_array($chave, $valorPadrao)) {
+                                $checked = 'checked="checked"';
+                            }
+                            
+                        } else {
+                            
+                            if ("{$valorPadrao}" === "$chave") {
+                                $checked = 'checked="checked"';
+                            }
                         }
-                    } elseif ("$chave" === "$valor") {
-                        $eSelecionado = true;
-                        $opcoes .= 'selected';
+                    } elseif (in_array($chave, $valor)) {
+                        $checked = 'checked="checked"';
                     }
-                }
-
-                $opcoes .= ' > ' . $vale . ' </option>';
-            } else {
-                if ($check) {
-                    $checked = '';
-                    $type = 'type="checkbox"';
-                    $name = 'name="' . $config->getNome() . $chave . '"';
-                    $id = 'id="' . $config->getNome() . $chave . '"';
+                    
                 } else {
-                    $type = 'type="radio"';
-                    $id = 'id="' . $config->getNome() . $chave . '"';
+                    
+                    if ($valor == '') {
 
-                    $checked = '';
-                    if ($eSelecionado === false) {
-                        if ($valor == '') {
-                            if ("{$config->getValorPadrao()}" === "$chave") {
+                        if (is_array($valorPadrao)) {
+                            
+                            if (in_array($chave, $valorPadrao)) {
+                                $checked = 'checked="checked"';
+                            }
+                            
+                        } else {
+                            
+                            if ("{$valorPadrao}" === "$chave") {
                                 $eSelecionado = true;
                                 $checked = 'checked="checked"';
                             }
-                        } elseif ("$chave" === "$valor") {
-                            $eSelecionado = true;
-                            $checked = 'checked="checked"';
                         }
+                    } elseif ("$chave" === "$valor") {
+                        $eSelecionado = true;
+                        $checked = 'checked="checked"';
                     }
                 }
-
-                $value = 'value="' . $chave . '"';
-
-                $retorno .= sprintf("<label><input %s %s %s %s %s %s %s>%s</label>", $type, $name, $id, $value, $complemento, $disable, $checked, $vale);
-            }
-        }
-
-        if ($select) {
-            
-            $html = new \Zion\Layout\Html();
-        
-            $retorno = '';
-
-            if($config->getemColunaDeTamanho()){
-                $retorno .= $html->abreTagAberta('section', array('class'=>'col col-'.$config->getemColunaDeTamanho()));                    
             }
 
-            $retorno.= sprintf('<select %s %s %s %s style="width:100%s" class="select2" '.($config->getPlaceHolder() ? 'data-placeholder="'.$config->getPlaceHolder().'"' : 'data-placeholder="Selecione..."').'>%s</select>', $name, $id, $complemento, $disable, '%', $opcoes);
-              
-            if($config->getemColunaDeTamanho()){
-                $retorno .= $html->fechaTag('section');
+            $html = sprintf("<input %s %s %s %s %s %s %s %s>", $type, $name, $id, $value, $complemento, $disable, $checked, $classCss);
+
+            if ($retornarArray === true) {
+                $retorno[] = [
+                    'html' => $html,
+                    'label' => $vale];
+            } else {
+                $retorno .= $html;
             }
         }
 
         return $retorno;
     }
-    
-    /**
-     * EscolhaHtml::montaCheck()
-     * 
-     * @param mixed $config
-     * @return
-     */
-    private function montaCheck(FormEscolha $config)
-    {
-        
-    }
-    
-    /**
-     * EscolhaHtml::montaRadio()
-     * 
-     * @param mixed $config
-     * @return
-     */
-    private function montaRadio(FormEscolha $config)
-    {
-        
-    }
-    
+
     /**
      * EscolhaHtml::montaSelect()
      * 
      * @param mixed $config
      * @return
      */
-    private function montaSelect(FormEscolha $config)
+    private function montaSelect(FormEscolha $config, $array)
     {
-        
+        $inicio = $config->getInicio();
+        $name = 'name="' . $config->getNome() . '"';
+        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
+        $complemento = $config->getComplemento();
+        $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
+        $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
+        $valor = $config->getValor();
+
+        $opcoes = '';
+        if ($inicio != '') {
+            $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
+        }
+
+        $eSelecionado = false;
+        $cont = 0;
+        foreach ($array as $chave => $vale) {
+
+            $cont++;
+
+            $opcoes .= '<option value="' . $chave . '" ';
+
+            if ($eSelecionado === false) {
+                if ($valor == '') {
+                    if ("{$config->getValorPadrao()}" === "{$chave}") {
+                        $eSelecionado = true;
+                        $opcoes .= 'selected';
+                    }
+                } elseif ("{$chave}" === "{$valor}") {
+                    $eSelecionado = true;
+                    $opcoes .= 'selected';
+                }
+            }
+
+            $opcoes .= ' > ' . $vale . ' </option>';
+        }
+
+        $retorno = sprintf('<select %s %s %s %s %s>%s</select>', $name, $id, $complemento, $disable, $classCss, $opcoes);
+
+        return $retorno;
     }
+
 }
