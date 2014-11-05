@@ -97,9 +97,13 @@ class GridBotoes
 
                     $arrayBotoesE[$cont] = $botoes;
                 } else {
-
+                    
+                    $form       = new \Pixel\Form\Form();
+                    $formHtml   = new \Pixel\Form\FormHtml();
+                    $gridHtml   = $form->hidden('gridHtml', 'gridHtml', false)->setValor('asd');
+                    
                     $botoes = $this->html->abreTagAberta('li', ['class' => 'hidden-xs']);
-                    $botoes .= $this->html->abreTagAberta('a', ['href' => 'javascript:' . $dados['AcaoModuloFuncaoJS']]);
+                    $botoes .= $this->html->abreTagAberta('a', ['href' => 'javascript:' . $dados['AcaoModuloFuncaoJS']]); //GET THE FUCKING OVER HERE!
                     $botoes .= $this->html->abreTagAberta('i', ['class' => 'dropdown-icon ' . $dados['AcaoModuloIcon']]);
                     $botoes .= $this->html->fechaTag('i');
                     $botoes .= '&nbsp;&nbsp;&nbsp;' . $dados['AcaoModuloPermissao'];

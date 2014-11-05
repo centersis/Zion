@@ -298,3 +298,21 @@ function sisSetCrashAlert(a, b)
     $('#modal-msg').modal();
 
 }
+
+function sisGeraPDF() {
+
+    $.ajax({type: "post", url: "?acao=geraPDF", data: $("#gridHtml"), dataType: "json"}).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+            sisSetAlert('true', ret.retorno);
+
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+}
