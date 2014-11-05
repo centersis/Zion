@@ -131,17 +131,19 @@ class EscolhaHtml
 
         $eSelecionado = false;
         $valor = $config->getValor();
+        
         if ($valor) {
             $valorPadrao = '';
         } else {
             $valorPadrao = $config->getValorPadrao();
         }
+        
+        $complementos = $config->getComplemento();
 
         foreach ($array as $chave => $vale) {
 
             $id = 'id="' . str_replace('[]', '', $config->getId()) . $chave . '"';
-            $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
-            $complemento = $config->getComplemento();
+            $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';            
             $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
 
             $value = 'value="' . $chave . '"';
@@ -192,7 +194,20 @@ class EscolhaHtml
                     }
                 }
             }
-
+            
+            //Complemento
+            if(is_array($complementos)){
+                if(key_exists($chave, $complementos)){
+                    $complemento = $complementos[$chave];
+                }
+                else{
+                    $complemento = '';
+                }
+            }
+            else{
+                $complemento = $complementos;
+            }
+            
             $html = sprintf("<input %s %s %s %s %s %s %s %s>", $type, $name, $id, $value, $complemento, $disable, $checked, $classCss);
 
             if ($retornarArray === true) {
