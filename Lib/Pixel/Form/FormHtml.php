@@ -138,12 +138,13 @@ class FormHtml extends \Zion\Form\FormHtml
         return $this->prepareInputPixel($config, parent::montaFloat($config));
     }
 
-    public function montaEscolha(\Pixel\Form\FormEscolha $config)
+    public function montaEscolha($config)
     {
         $expandido = $config->getExpandido();
         $multiplo = $config->getMultiplo();
+        $chosen = $config->getChosen();
 
-        if ($expandido === false and $multiplo === false) {
+        if (($expandido === false and $multiplo === false) or $chosen === true) {
 
             $classCss = $config->getClassCss() . ' form-control';
             $config->setClassCss($classCss);
