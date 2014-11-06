@@ -72,9 +72,9 @@ class FormPixelJavaScript
             $this->extra.= ' $("#' . $config->getId() . '").mask("99/99/9999").datepicker(); ';
         }
 
-        if ($config->getAcao() === 'escolha') {
+        if ($config->getAcao() === 'escolha' or $config->getAcao() === 'chosen') {
             
-            if($config->getMultiplo() === true and $config->getExpandido() === true){
+            if(($config->getMultiplo() === true and $config->getExpandido() === true) or $config->getAcao() === 'chosen'){
                 
                 $selecaoMaxima = $config->getSelecaoMaxima();
                 $selecaoMinima = $config->getSelecaoMinima();
@@ -89,6 +89,13 @@ class FormPixelJavaScript
                     $this->mensagens[$config->getNome()][] = "minlength : 'Selecione no mínimo {$selecaoMinima} opções!'";
                 }
             }            
+        }
+        
+        if ($config->getAcao() === 'chosen') {
+            
+            $placeholder = $config->getInicio() ? ', placeholder: "'.$config->getInicio().'"' : '';
+            
+            $this->extra.= '$("#' . str_replace('[]', '',$config->getId()) . '").select2({ allowClear: true'.$placeholder.' }); ';
         }
         
         if ($config->getAcao() == 'time') {

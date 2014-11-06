@@ -109,6 +109,11 @@ class EscolhaHtml
     {
         $multiplo = $config->getMultiplo();
         $expandido = $config->getExpandido();
+        $chosen = $config->getChosen();
+
+        if ($chosen === true) {
+            return 'select';
+        }
 
         if ($expandido === true and $multiplo === true) {
             return 'check';
@@ -120,7 +125,7 @@ class EscolhaHtml
     }
 
     private function montaCheckRadio($tipo, FormEscolha $config, $array, $retornarArray)
-    {        
+    {
         $type = $tipo === 'radio' ? 'type="radio"' : 'type="checkbox"';
 
         $name = 'name="' . $config->getNome() . '"';
@@ -131,19 +136,19 @@ class EscolhaHtml
 
         $eSelecionado = false;
         $valor = $config->getValor();
-        
+
         if ($valor) {
             $valorPadrao = '';
         } else {
             $valorPadrao = $config->getValorPadrao();
         }
-        
+
         $complementos = $config->getComplemento();
 
         foreach ($array as $chave => $vale) {
 
             $id = 'id="' . str_replace('[]', '', $config->getId()) . $chave . '"';
-            $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';            
+            $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
             $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
 
             $value = 'value="' . $chave . '"';
@@ -152,17 +157,16 @@ class EscolhaHtml
             if ($eSelecionado === false) {
 
                 if (is_array($valor)) {
-                    
+
                     if (empty($valor)) {
 
                         if (is_array($valorPadrao)) {
-                            
+
                             if (in_array($chave, $valorPadrao)) {
                                 $checked = 'checked="checked"';
                             }
-                            
                         } else {
-                            
+
                             if ("{$valorPadrao}" === "$chave") {
                                 $checked = 'checked="checked"';
                             }
@@ -170,19 +174,17 @@ class EscolhaHtml
                     } elseif (in_array($chave, $valor)) {
                         $checked = 'checked="checked"';
                     }
-                    
                 } else {
-                    
+
                     if ($valor == '') {
 
                         if (is_array($valorPadrao)) {
-                            
+
                             if (in_array($chave, $valorPadrao)) {
                                 $checked = 'checked="checked"';
                             }
-                            
                         } else {
-                            
+
                             if ("{$valorPadrao}" === "$chave") {
                                 $eSelecionado = true;
                                 $checked = 'checked="checked"';
@@ -194,20 +196,18 @@ class EscolhaHtml
                     }
                 }
             }
-            
+
             //Complemento
-            if(is_array($complementos)){
-                if(key_exists($chave, $complementos)){
+            if (is_array($complementos)) {
+                if (key_exists($chave, $complementos)) {
                     $complemento = $complementos[$chave];
-                }
-                else{
+                } else {
                     $complemento = '';
                 }
-            }
-            else{
+            } else {
                 $complemento = $complementos;
             }
-            
+
             $html = sprintf("<input %s %s %s %s %s %s %s %s>", $type, $name, $id, $value, $complemento, $disable, $checked, $classCss);
 
             if ($retornarArray === true) {
@@ -232,15 +232,26 @@ class EscolhaHtml
     {
         $inicio = $config->getInicio();
         $name = 'name="' . $config->getNome() . '"';
-        $id = ($config->getId() == '') ? 'id="' . $config->getNome() . '" ' : 'id="' . $config->getId() . '"';
+        $id = 'id="' . str_replace('[]', '',$config->getId()). '"';
         $complemento = $config->getComplemento();
         $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
         $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
         $valor = $config->getValor();
+        $chosen = $config->getChosen();
 
         $opcoes = '';
-        if ($inicio != '') {
+
+        if ($inicio != '' and $chosen !== true) {
             $opcoes = ($inicio === true) ? '<option value="">Selecione...</option>' : '<option value="">' . $inicio . '</option>';
+        }
+
+        if ($chosen === true) {
+
+            $opcoes = '<option></option>';
+
+            if ($config->getMultiplo() === true) {
+                $complemento .= ' multiple="multiple"';
+            }
         }
 
         $eSelecionado = false;
@@ -251,15 +262,25 @@ class EscolhaHtml
 
             $opcoes .= '<option value="' . $chave . '" ';
 
-            if ($eSelecionado === false) {
-                if ($valor == '') {
+            if (is_array($valor)) {
+                if (empty($valor)) {
                     if ("{$config->getValorPadrao()}" === "{$chave}") {
+                        $opcoes .= 'selected';
+                    }
+                } elseif (in_array($chave, $valor)) {
+                    $opcoes .= 'selected';
+                }
+            } else {
+                if ($eSelecionado === false) {
+                    if ($valor == '') {
+                        if ("{$config->getValorPadrao()}" === "{$chave}") {
+                            $eSelecionado = true;
+                            $opcoes .= 'selected';
+                        }
+                    } elseif ("{$chave}" === "{$valor}") {
                         $eSelecionado = true;
                         $opcoes .= 'selected';
                     }
-                } elseif ("{$chave}" === "{$valor}") {
-                    $eSelecionado = true;
-                    $opcoes .= 'selected';
                 }
             }
 

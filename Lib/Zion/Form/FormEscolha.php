@@ -23,6 +23,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $selecaoMinima;
     private $multiplo;
     private $expandido;
+    private $chosen;
     
     private $ordena;
     private $array;
@@ -50,6 +51,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         $this->setObrigarorio($obrigatorio);
         $this->expandido = false;
         $this->multiplo = false;
+        $this->chosen = false;
         $this->ordena = 'ASC';
         $this->inicio = 'Selecione...';
     }
@@ -163,6 +165,17 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("expandido: Valor nao booleano");
         }
     }
+
+    protected function setChosen($chosen)
+    {
+        $this->chosen = $chosen;
+    }
+    
+    public function getChosen()
+    {
+        return $this->chosen;
+    }
+
 
     /**
      * FormEscolha::getOrdena()

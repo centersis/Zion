@@ -80,6 +80,11 @@ class Form extends \Zion\Form\Form
     {
         return new \Pixel\Form\FormEscolha('escolha',$nome, $identifica, $obrigatorio);
     }
+    
+    public function chosen($nome, $identifica, $obrigatorio = false)
+    {
+        return new \Pixel\Form\FormChosen('chosen',$nome, $identifica, $obrigatorio);
+    }
 
     public function textArea($nome, $identifica, $obrigatorio = false)
     {
@@ -197,6 +202,9 @@ class Form extends \Zion\Form\Form
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTexto($objCampos);
                     break;
                 case 'escolha':
+                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaEscolha($objCampos);
+                    break;                
+                case 'chosen':
                     $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaEscolha($objCampos);
                     break;
                 case 'button':
