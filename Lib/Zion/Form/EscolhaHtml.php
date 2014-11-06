@@ -232,7 +232,7 @@ class EscolhaHtml
     {
         $inicio = $config->getInicio();
         $name = 'name="' . $config->getNome() . '"';
-        $id = 'id="' . str_replace('[]', '',$config->getId()). '"';
+        $id = 'id="' . str_replace('[]', '', $config->getId()) . '"';
         $complemento = $config->getComplemento();
         $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
         $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
@@ -254,6 +254,12 @@ class EscolhaHtml
             }
         }
 
+        if ($valor) {
+            $valorPadrao = '';
+        } else {
+            $valorPadrao = $config->getValorPadrao();
+        }
+
         $eSelecionado = false;
         $cont = 0;
         foreach ($array as $chave => $vale) {
@@ -264,8 +270,17 @@ class EscolhaHtml
 
             if (is_array($valor)) {
                 if (empty($valor)) {
-                    if ("{$config->getValorPadrao()}" === "{$chave}") {
-                        $opcoes .= 'selected';
+
+                    if (is_array($valorPadrao)) {
+
+                        if (in_array($chave, $valorPadrao)) {
+                            $opcoes .= 'selected';
+                        }
+                    } else {
+
+                        if ("{$valorPadrao}" === "$chave") {
+                            $opcoes .= 'selected';
+                        }
                     }
                 } elseif (in_array($chave, $valor)) {
                     $opcoes .= 'selected';
@@ -273,9 +288,17 @@ class EscolhaHtml
             } else {
                 if ($eSelecionado === false) {
                     if ($valor == '') {
-                        if ("{$config->getValorPadrao()}" === "{$chave}") {
-                            $eSelecionado = true;
-                            $opcoes .= 'selected';
+
+                        if (is_array($valorPadrao)) {
+
+                            if (in_array($chave, $valorPadrao)) {
+                                $opcoes .= 'selected';
+                            }
+                        } else {
+
+                            if ("{$valorPadrao}" === "$chave") {
+                                $opcoes .= 'selected';
+                            }
                         }
                     } elseif ("{$chave}" === "{$valor}") {
                         $eSelecionado = true;
