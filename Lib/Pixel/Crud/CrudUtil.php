@@ -11,6 +11,22 @@ namespace Pixel\Crud;
 class CrudUtil
 {
 
+    public function getParametrosGrid($objForm)
+    {
+        $fil = new \Pixel\Filtro\Filtrar();
+
+        $meusParametros = $this->getParametrosForm($objForm);
+
+        $hiddenParametros = $fil->getHiddenParametros($meusParametros);
+
+        return \array_merge($this->getParametrosPadroes(), $meusParametros, $hiddenParametros);
+    }
+    
+    public function getParametrosPadroes()
+    {
+        return ["pa", "qo", "to"];
+    }
+    
     public function setParametrosForm($objForm, $parametrosSql, $cod = 0)
     {
         $arrayObjetos = $objForm->getObjetos();
