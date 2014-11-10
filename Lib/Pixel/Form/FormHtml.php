@@ -26,7 +26,7 @@ class FormHtml extends \Zion\Form\FormHtml
             $this->attr('caixa', $config->getCaixa()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        $ret = vsprintf($this->prepareInput(count($attr)), $attr);
+        $ret = vsprintf($this->prepareInput(count($attr), $config), $attr);
 
 
         if ($config->getHiddenValue()) {

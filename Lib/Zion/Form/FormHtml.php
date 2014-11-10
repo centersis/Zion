@@ -51,7 +51,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'hidden')));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
