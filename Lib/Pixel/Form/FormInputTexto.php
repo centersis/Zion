@@ -10,6 +10,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $layoutPixel;
+    private $labelAntes;
 
     private $formSetPixel;
     
@@ -162,6 +163,17 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     {
         return $this->layoutPixel;
     }
+
+    public function setLabelAntes($label)
+    {
+        $this->labelAntes = $this->formSetPixel->setLabelAntes($label);
+        return $this;
+    }
+
+    public function getLabelAntes()
+    {
+        return $this->labelAntes;
+    }    
 
     /**
      * Sobrecarga de Metodos Básicos

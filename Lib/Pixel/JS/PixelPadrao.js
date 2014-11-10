@@ -344,3 +344,38 @@ function imprimirPDF(){
     }
 
 }
+/*
+** var a => recebe a id do campo que invocou o evento
+** var b => recebe o elemento que sofrerá update
+** var c => recebe a coluna que será retornada do banco
+** var d => recebe o metodo
+*/
+function chNxt(a,b,c,d)
+{
+    var aa = $(a).val();
+    $.ajax({type: "get", url: "?acao="+d+"&a="+aa+"&b="+c, dataType: "json", beforeSend: function() {
+        $(b).html('<i class="fa fa-refresh fa-spin"></i>');
+    }}).done(function (ret) {
+        $(b).html(ret.retorno);
+        $("#"+c).val(ret.retorno);
+    }).fail(function () {
+        sisMsgFailPadrao();
+    });    
+}
+
+/*
+** var a => recebe a id do campo que invocou o evento
+** var b => recebe o elemento que sofrerá update
+** var c => recebe o metodo
+*/
+function chChosen(a,b,c)
+{
+    var aa = $(a).val();
+    $.ajax({type: "get", url: "?acao="+c+"&a="+aa, dataType: "json", beforeSend: function() {
+        $(b).html('<i class="fa fa-refresh fa-spin"></i>');
+    }}).done(function (ret) {
+        $(b).html(ret.retorno);
+    }).fail(function () {
+        sisMsgFailPadrao();
+    });    
+}
