@@ -18,6 +18,7 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->tipoFiltro = 'ValorFixo';
     }
 
     public function setMaximoCaracteres($maximoCaracteres)
@@ -104,7 +105,7 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
         return $this->processarJS;
     }
     
-    public function seTipoFiltro($tipoFiltro)
+    public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;

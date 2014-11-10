@@ -18,7 +18,7 @@ class FormInputData extends \Zion\Form\FormInputData
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
-        
+        $this->tipoFiltro = 'ValorVariavel';
         $this->setIconFA('fa-calendar');
 
     }
@@ -113,7 +113,7 @@ class FormInputData extends \Zion\Form\FormInputData
         return $this->processarJS;
     }
     
-    public function seTipoFiltro($tipoFiltro)
+    public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;
