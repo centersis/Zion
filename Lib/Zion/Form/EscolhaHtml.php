@@ -210,14 +210,26 @@ class EscolhaHtml
 
             $html = sprintf("<input %s %s %s %s %s %s %s %s>", $type, $name, $id, $value, $complemento, $disable, $checked, $classCss);
 
+            $buffer = '';
+
+            if ($config->getContainer()) {
+                $buffer .= '<div id="' . $config->getContainer() . '">';
+            }
+
+            $buffer .= $html;
+
+            if ($config->getContainer()) {
+                $buffer .= '</div>';
+            }
+            
             if ($retornarArray === true) {
                 $retorno[] = [
-                    'html' => $html,
+                    'html' => $buffer,
                     'label' => $vale];
             } else {
-                $retorno .= $html;
+                $retorno .= $buffer;
             }
-        }
+        }        
 
         return $retorno;
     }
@@ -262,32 +274,16 @@ class EscolhaHtml
 
         $eSelecionado = false;
         $cont = 0;
-        foreach ($array as $chave => $vale) {
 
-            $cont++;
+        if(is_array($array)) {
+            foreach ($array as $chave => $vale) {
 
-            $opcoes .= '<option value="' . $chave . '" ';
+                $cont++;
 
-            if (is_array($valor)) {
-                if (empty($valor)) {
+                $opcoes .= '<option value="' . $chave . '" ';
 
-                    if (is_array($valorPadrao)) {
-
-                        if (in_array($chave, $valorPadrao)) {
-                            $opcoes .= 'selected';
-                        }
-                    } else {
-
-                        if ("{$valorPadrao}" === "$chave") {
-                            $opcoes .= 'selected';
-                        }
-                    }
-                } elseif (in_array($chave, $valor)) {
-                    $opcoes .= 'selected';
-                }
-            } else {
-                if ($eSelecionado === false) {
-                    if ($valor == '') {
+                if (is_array($valor)) {
+                    if (empty($valor)) {
 
                         if (is_array($valorPadrao)) {
 
@@ -300,19 +296,50 @@ class EscolhaHtml
                                 $opcoes .= 'selected';
                             }
                         }
-                    } elseif ("{$chave}" === "{$valor}") {
-                        $eSelecionado = true;
+                    } elseif (in_array($chave, $valor)) {
                         $opcoes .= 'selected';
                     }
-                }
-            }
+                } else {
+                    if ($eSelecionado === false) {
+                        if ($valor == '') {
 
-            $opcoes .= ' > ' . $vale . ' </option>';
+                            if (is_array($valorPadrao)) {
+
+                                if (in_array($chave, $valorPadrao)) {
+                                    $opcoes .= 'selected';
+                                }
+                            } else {
+
+                                if ("{$valorPadrao}" === "$chave") {
+                                    $opcoes .= 'selected';
+                                }
+                            }
+                        } elseif ("{$chave}" === "{$valor}") {
+                            $eSelecionado = true;
+                            $opcoes .= 'selected';
+                        }
+                    }
+                }
+
+                $opcoes .= ' > ' . $vale . ' </option>';
+            }
         }
 
         $retorno = sprintf('<select %s %s %s %s %s>%s</select>', $name, $id, $complemento, $disable, $classCss, $opcoes);
 
-        return $retorno;
+        $buffer = '';
+
+        if ($config->getContainer()) {
+            $buffer .= '<div id="' . $config->getContainer() . '">';
+        }
+
+        $buffer .= $retorno;
+
+        if ($config->getContainer()) {
+            $buffer .= '</div>';
+        }
+
+        return $buffer;
     }
 
 }

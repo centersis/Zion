@@ -381,4 +381,10 @@ class FormInputNumber extends \Zion\Form\FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
+    
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
+        return $this;
+    }
 }

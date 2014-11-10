@@ -297,4 +297,9 @@ class FormInputCep extends FormBasico
         return $this;
     }
 
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
+        return $this;
+    }
 }

@@ -410,7 +410,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("idConexao: Nenhum Valor foi informado.");
         }
     }
-
+    
     /**
      * Sobrecarga de Metodos Básicos
      */
@@ -520,6 +520,12 @@ class FormEscolha extends \Zion\Form\FormBasico
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
+        return $this;
+    }
+    
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
         return $this;
     }
 

@@ -8,7 +8,7 @@
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 class FormAtributos
@@ -24,34 +24,34 @@ class FormAtributos
     public function __construct()
     {
         $this->atributos = array(
-            'name'          => ' name="%s" ',
-            'id'            => ' id="%s" ',
-            'type'          => ' type="%s" ',
-            'value'         => ' value="%s" ',
-            'size'          => ' size="%s" ',
-            'maxlength'     => ' maxlength="%s" ',
-            'disabled'      => ' disabled="%s" ',
-            'placeholder'   => ' placeholder="%s" ',
-            'autocomplete'  => ' autocomplete="%s" ',
-            'caixa'         => ' style="text-transform:%s;" ',
-            'max'           => ' max="%s" ',
-            'min'           => ' min="%s" ',
-            'classCss'      => 'class="%s"',
-            'option'        => '<option value="%s">%s</option>',
-            'formmethod'    => ' formmethod="%s" ',
-            'formaction'    => ' formaction="%s" ',
-            'formtarget'    => ' formtarget="%s" ',
-            'complemento'   => ' %s ',
-            'valueButton'   => ' %s ',
+            'name' => ' name="%s" ',
+            'id' => ' id="%s" ',
+            'type' => ' type="%s" ',
+            'value' => ' value="%s" ',
+            'size' => ' size="%s" ',
+            'maxlength' => ' maxlength="%s" ',
+            'disabled' => ' disabled="%s" ',
+            'placeholder' => ' placeholder="%s" ',
+            'autocomplete' => ' autocomplete="%s" ',
+            'caixa' => ' style="text-transform:%s;" ',
+            'max' => ' max="%s" ',
+            'min' => ' min="%s" ',
+            'classCss' => 'class="%s"',
+            'option' => '<option value="%s">%s</option>',
+            'formmethod' => ' formmethod="%s" ',
+            'formaction' => ' formaction="%s" ',
+            'formtarget' => ' formtarget="%s" ',
+            'complemento' => ' %s ',
+            'valueButton' => ' %s ',
             'valueTextArea' => ' %s ',
-            'readonly'      => ' %s ',
-            'colunas'       => ' cols="%s" ',
-            'linhas'        => ' rows="%s" ',
-            'action'        => ' action="%s" ',
-            'enctype'       => ' enctype="%s" ',
-            'method'        => ' method="%s" ',
-            'novalidate'    => ' novalidate="%s" ',
-            'target'        => ' target="%s" '
+            'readonly' => ' %s ',
+            'colunas' => ' cols="%s" ',
+            'linhas' => ' rows="%s" ',
+            'action' => ' action="%s" ',
+            'enctype' => ' enctype="%s" ',
+            'method' => ' method="%s" ',
+            'novalidate' => ' novalidate="%s" ',
+            'target' => ' target="%s" '
         );
     }
 
@@ -118,9 +118,21 @@ class FormAtributos
      * @param mixed $totalAtributos
      * @return
      */
-    protected function prepareButton($totalAtributos)
+    protected function prepareButton($totalAtributos, $config)
     {
-        return "<button " . str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
+        $buffer = '';
+
+        if ($config->getContainer()) {
+            $buffer .= '<div id="' . $config->getContainer() . '">';
+        }
+
+        $buffer .= "<button " . str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
+
+        if ($config->getContainer()) {
+            $buffer .= '</div>';
+        }
+
+        return $buffer;
     }
 
     /**
@@ -140,14 +152,38 @@ class FormAtributos
      * @param mixed $totalAtributos
      * @return
      */
-    protected function prepareInput($totalAtributos)
+    protected function prepareInput($totalAtributos, $config)
     {
-        return '<input ' . str_repeat('%s', $totalAtributos) . '/>';
+        $buffer = '';
+
+        if ($config->getContainer()) {
+            $buffer .= '<div id="' . $config->getContainer() . '">';
+        }
+
+        $buffer .= '<input ' . str_repeat('%s', $totalAtributos) . '/>';
+
+        if ($config->getContainer()) {
+            $buffer .= '</div>';
+        }
+
+        return $buffer;
     }
-    
-    protected function prepareTextArea($totalAtributos)
+
+    protected function prepareTextArea($totalAtributos, $config)
     {
-        return "<textarea " . str_repeat('%s', $totalAtributos - 1) . ">%s</textarea>";
+        $buffer = '';
+
+        if ($config->getContainer()) {
+            $buffer .= '<div id="' . $config->getContainer() . '">';
+        }
+
+        $buffer .= "<textarea " . str_repeat('%s', $totalAtributos - 1) . ">%s</textarea>";
+
+        if ($config->getContainer()) {
+            $buffer .= '</div>';
+        }
+
+        return $buffer;
     }
 
 }

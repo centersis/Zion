@@ -100,5 +100,10 @@ class FormLayout
     {
         return $this->conteudo;
     }
-
+    
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
+        return $this;
+    }
 }

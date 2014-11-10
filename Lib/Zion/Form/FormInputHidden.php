@@ -19,6 +19,7 @@ class FormInputHidden extends \Zion\Form\FormBasico
     private $tipoBase;
     private $acao;
     private $aliasSql;
+    private $obrigatorio;
 
     /**
      * FormInputHidden::__construct()
@@ -76,6 +77,20 @@ class FormInputHidden extends \Zion\Form\FormBasico
     public function getAliasSql(){
         return $this->aliasSql;
     }
+
+    public function setObrigatorio($obrigatorio)
+    {
+        if (!is_null($obrigatorio)) {
+            $this->obrigatorio = $obrigatorio;
+            return $this;
+        } else {
+            throw new FormException("obrigatorio: Nenhum valor informado");
+        }
+    }    
+
+    public function getObrigatorio(){
+        return $this->obrigatorio;
+    }    
 
     /**
      * Sobrecarga de Metodos Básicos

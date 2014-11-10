@@ -344,6 +344,73 @@ function imprimirPDF(){
     }
 
 }
+/*
+** var a => recebe a id do campo que invocou o evento
+** var b => recebe o elemento que sofrerá update
+** var c => recebe a coluna que será retornada do banco
+** var d => recebe o metodo
+*/
+function chNxt(a,b,c,d)
+{
+    var aa = $(a).val();
+    $.ajax({type: "get", url: "?acao="+d+"&a="+aa+"&b="+c, dataType: "json", beforeSend: function() {
+        $(b).html('<i class="fa fa-refresh fa-spin"></i>');
+    }}).done(function (ret) {
+        $(b).html(ret.retorno);
+        $("#"+c).val(ret.retorno);
+    }).fail(function () {
+        sisMsgFailPadrao();
+    });    
+}
+
+/*
+** var a => recebe a id do campo que invocou o evento
+** var b => recebe o elemento que sofrerá update
+** var c => recebe o metodo
+*/
+function chChosen(a,b,c)
+{
+    var aa = $(a).val();
+    $.ajax({type: "get", url: "?acao="+c+"&a="+aa, dataType: "json", beforeSend: function() {
+        $(b).html('<i class="fa fa-refresh fa-spin"></i>');
+    }}).done(function (ret) {
+        $(b).html(ret.retorno);
+    }).fail(function () {
+        sisMsgFailPadrao();
+    });    
+}
+
+function imprimirPDF(){
+
+    var ifr=$('<iframe/>', {
+        id:     'iframeDownload',
+        name:   'iframeDownload',
+        src:    '?acao=imprimirPDF',
+        style:  'display:none',
+        load:   function(){
+
+            var conteudo = $('#iframeDownload').contents().find('body').html();
+            var ret = $.parseJSON(conteudo);
+
+            if(ret['sucesso'] == 'false')
+            {
+               sisSetAlert('false', ret['retorno']);
+            }
+            else
+            {
+                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
+            }
+        }
+    });
+
+    if($('#iframeDownload').attr('name') != "iframeDownload"){
+        $('#formGrid').append(ifr);
+    } else {
+        $('#iframeDownload').remove();
+        $('#formGrid').append(ifr);
+    }
+
+}
 
 function downloadCSV(){
 

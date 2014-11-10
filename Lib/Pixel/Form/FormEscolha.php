@@ -10,6 +10,8 @@ class FormEscolha extends \Zion\Form\FormEscolha
     private $layoutPixel;
     private $inLine;
     private $formSetPixel;
+    private $processarJS;
+    private $tipoFiltro;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -148,6 +150,28 @@ class FormEscolha extends \Zion\Form\FormEscolha
         return $this->inLine;
     }
 
+    public function setProcessarJS($processarJS)
+    {
+        $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
+        return $this;
+    }
+    
+    public function getProcessarJS()
+    {
+        return $this->processarJS;
+    }
+    
+    public function seTipoFiltro($tipoFiltro)
+    {
+        $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
+        return $this;
+    }
+    
+    public function getTipoFiltro()
+    {
+        return $this->tipoFiltro;
+    }
+    
     /**
      * Sobrecarga de Metodos Básicos
      */
@@ -202,6 +226,12 @@ class FormEscolha extends \Zion\Form\FormEscolha
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
+        return $this;
+    }
+    
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
         return $this;
     }
 

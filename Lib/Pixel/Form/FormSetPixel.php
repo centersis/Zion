@@ -42,12 +42,27 @@ class FormSetPixel
         }
     }
     
-   public function setLayoutPixel($layoutPixel)
-   {
+    public function setLayoutPixel($layoutPixel)
+    {
        if (is_bool($layoutPixel)) {            
             return $layoutPixel;
         } else {
             throw new FormException("layoutPixel: Valor nao booleano");
         }
-   }
+    }
+
+    public function setLabelAntes($labelAntes)
+    {
+        return $labelAntes;
+    }
+
+    public function setProcessarJS($processarJS)
+    {
+        return $processarJS;
+    }
+    
+    public function setTipoFiltro($tipoFiltro)
+    {
+        return $tipoFiltro;
+    }
 }
