@@ -210,28 +210,28 @@ class EscolhaHtml
 
             $html = sprintf("<input %s %s %s %s %s %s %s %s>", $type, $name, $id, $value, $complemento, $disable, $checked, $classCss);
 
+            $buffer = '';
+
+            if ($config->getContainer()) {
+                $buffer .= '<div id="' . $config->getContainer() . '">';
+            }
+
+            $buffer .= $html;
+
+            if ($config->getContainer()) {
+                $buffer .= '</div>';
+            }
+            
             if ($retornarArray === true) {
                 $retorno[] = [
-                    'html' => $html,
+                    'html' => $buffer,
                     'label' => $vale];
             } else {
-                $retorno .= $html;
+                $retorno .= $buffer;
             }
-        }
-        
-        $buffer = '';
+        }        
 
-        if ($config->getContainer()) {
-            $buffer .= '<div id="' . $config->getContainer() . '">';
-        }
-
-        $buffer .= $retorno;
-
-        if ($config->getContainer()) {
-            $buffer .= '</div>';
-        }
-
-        return $buffer;
+        return $retorno;
     }
 
     /**
