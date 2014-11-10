@@ -227,7 +227,7 @@ class Conexao
     {
         $resultSet = $this->executar($sql);
 
-        return $this->linha($resultSet, MYSQLI_ASSOC);
+        return $this->linha($resultSet, \MYSQLI_ASSOC);
     }
 
     /**

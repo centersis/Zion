@@ -313,6 +313,37 @@ function sisChInputFil(a,b) {
     $(a).html(b);
 }
 
+function imprimirPDF(){
+
+    var ifr=$('<iframe/>', {
+        id:     'iframeDownload',
+        name:   'iframeDownload',
+        src:    '?acao=imprimirPDF',
+        style:  'display:none',
+        load:   function(){
+
+            var conteudo = $('#iframeDownload').contents().find('body').html();
+            var ret = $.parseJSON(conteudo);
+
+            if(ret['sucesso'] == 'false')
+            {
+               sisSetAlert('false', ret['retorno']);
+            }
+            else
+            {
+                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
+            }
+        }
+    });
+
+    if($('#iframeDownload').attr('name') != "iframeDownload"){
+        $('#formGrid').append(ifr);
+    } else {
+        $('#iframeDownload').remove();
+        $('#formGrid').append(ifr);
+    }
+
+}
 /*
 ** var a => recebe a id do campo que invocou o evento
 ** var b => recebe o elemento que sofrerá update
