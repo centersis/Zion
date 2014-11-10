@@ -233,7 +233,7 @@ class Form extends \Zion\Form\Form
             $smartJs->processar($config);
         }
 
-        $jsStatic->setLoad($smartJs->getJS());
+        $jsStatic->setLoad($smartJs->montaValidacao($this->formConfig->getNome(), $this->getAcao()));
 
         return $jsStatic;
     }

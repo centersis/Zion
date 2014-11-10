@@ -226,6 +226,8 @@ class FormPixelJavaScript
             $funcaoAcao = 'sisCadastrarPadrao($(form).attr("name"));';
         } else if ($acao == 'alterar') {
             $funcaoAcao = 'sisAlterarPadrao($(form).attr("name"));';
+        } else if ($acao == 'alterar') {
+            $funcaoAcao = 'sisFiltrarPadrao($(form).attr("name"));';
         } else {
             $funcaoAcao = $acao;
         }
