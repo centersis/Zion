@@ -146,7 +146,7 @@ class FormPixelJavaScript
             $this->extra.= '$("#' . $config->getId() . '").mask("(99) 9999-9999?9");';
         }
 
-        if ($config->getAcao() == 'suggest') {
+        if ($config->getAcao() == 'suggest') { 
             $this->suggest($config);
         }
     }
@@ -197,16 +197,12 @@ class FormPixelJavaScript
         }
 
         $fecha = ' });';
-
+        
         $this->extra.= $abre . implode(',', $attr) . $fecha;
     }
 
     public function montaValidacao($formNome, $acao)
     {
-        if (!$this->regras) {
-            return '';
-        }
-
         $textoGeral = ' $("#' . $formNome . '").validate({ ';
 
         $textoRegra = ' rules : { ';
@@ -237,6 +233,11 @@ class FormPixelJavaScript
         $textoSubmit = ' submitHandler: function(form) { ' . $funcaoAcao . ' } ';
 
         return $textoGeral . $textoRegra . ',' . $textoMensagem . ',' . $textoSubmit . ' }); ' . $this->extra;
+    }
+    
+    public function getJS()
+    {
+        return $this->extra;
     }
 
 }

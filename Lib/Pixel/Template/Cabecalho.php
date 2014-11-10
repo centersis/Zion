@@ -27,9 +27,13 @@ class Cabecalho extends \Zion\Layout\Padrao
         $buffer .= '<script data-pace-options=\'{ "restartOnRequestAfter": true }\' src="' . SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-pace/0.5.6/pace.min.js"></script>' . "\n";
         $buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-pace/0.5.6/pace.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
         $buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/bootstrap-tags/bootstrap-tagsinput.css', 'rel' => 'stylesheet', 'type' => 'text/css'));        
-        //$buffer .= $this->conteudoHeader;
+        
+        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');        
+//$buffer .= $this->conteudoHeader;
         $buffer .= $this->html->fechaTag('head');
         $buffer .= $this->html->abreComentario() . 'Zion Framework: ending template header' . $this->html->fechaComentario();
+        
+        
         return $buffer;
 
     }

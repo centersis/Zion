@@ -23,7 +23,7 @@ class Complete
     public function listar()
     {
 
-        $valida = new \Zion\Validacao\Valida();
+        $valida = \Zion\Validacao\Valida::instancia();
 
         //sleep(1);
 
