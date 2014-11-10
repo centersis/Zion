@@ -228,7 +228,6 @@ class FormHtml extends \Zion\Form\FormHtml
         $html = new \Zion\Layout\Html();
 
         $buffer  = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
-        $buffer .= $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
         $buffer .= $html->abreTagAberta('div', array('class' => 'form-group'));
 
         $buffer .= $html->abreTagAberta('label', array('for' => $config->getId(), 'class' => 'col-sm-3 control-label'));
