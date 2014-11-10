@@ -229,6 +229,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $html = new \Zion\Layout\Html();
 
+        $fechaLabel = '';
         $buffer = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
 
         $buffer.= $html->abreTagAberta('div', array('class' => 'form-group'));
@@ -239,6 +240,12 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $buffer.= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
 
+        if(method_exists($config, 'getLabelAntes') and $config->getLabelAntes()) {
+            $buffer .= $html->abreTagAberta('div', array('class' => 'input-group'));
+            $buffer .= '<span id="labelAntes_'.$config->getId().'" class="input-group-addon bg-default no-border">' . $config->getLabelAntes() . '</span>';
+            $fechaLabel = $html->fechaTag('div');
+        }
+
         $buffer .= $campo;
 
         if (method_exists($config, 'getIconFA') and $config->getIconFA()) {
@@ -246,6 +253,7 @@ class FormHtml extends \Zion\Form\FormHtml
             $buffer .= $html->fechaTag('span');
         }
 
+        $buffer .= $fechaLabel;
         $buffer .= $html->fechaTag('div');
         $buffer .= $html->fechaTag('div');
         $buffer .= $html->fechaTag('div');
