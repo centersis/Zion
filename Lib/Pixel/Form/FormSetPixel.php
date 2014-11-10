@@ -56,4 +56,9 @@ class FormSetPixel
         return $labelAntes;
     }
 
+    public function setLabelDepois($labelDepois)
+    {
+        return $labelDepois;
+    }    
+
 }

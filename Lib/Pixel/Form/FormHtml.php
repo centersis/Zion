@@ -240,10 +240,20 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $buffer.= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
 
-        if(method_exists($config, 'getLabelAntes') and $config->getLabelAntes()) {
-            $buffer .= $html->abreTagAberta('div', array('class' => 'input-group'));
-            $buffer .= '<span id="labelAntes_'.$config->getId().'" class="input-group-addon bg-default no-border">' . $config->getLabelAntes() . '</span>';
-            $fechaLabel = $html->fechaTag('div');
+        if(method_exists($config, 'getLabelAntes') or method_exists($config, 'getLabelDepois')) {
+
+            if($config->getLabelAntes() or $config->getLabelDepois()) {
+
+                $buffer .= $html->abreTagAberta('div', array('class' => 'input-group'));
+
+                if($config->getLabelAntes()) {
+                    $buffer .= $html->abreTagAberta('span', ['id' => 'labelAntes_' . $config->getId(), 'class' => 'input-group-addon bg-default no-border']);
+                    $buffer .= $config->getLabelAntes();
+                    $buffer .= $html->fechaTag('span');
+                }
+
+            }
+
         }
 
         $buffer .= $campo;
@@ -253,7 +263,22 @@ class FormHtml extends \Zion\Form\FormHtml
             $buffer .= $html->fechaTag('span');
         }
 
-        $buffer .= $fechaLabel;
+        if(method_exists($config, 'getLabelAntes') or method_exists($config, 'getLabelDepois')) {
+
+            if($config->getLabelDepois()) {
+                $buffer .= $html->abreTagAberta('span', ['id' => 'labelDepois_' . $config->getId(), 'class' => 'input-group-addon bg-default no-border']);
+                $buffer .= $config->getLabelDepois();
+                $buffer .= $html->fechaTag('span');                
+            }        
+
+            if($config->getLabelAntes() or $config->getLabelDepois()) {
+
+                $buffer .= $html->fechaTag('div');
+
+            }
+
+        }
+
         $buffer .= $html->fechaTag('div');
         $buffer .= $html->fechaTag('div');
         $buffer .= $html->fechaTag('div');

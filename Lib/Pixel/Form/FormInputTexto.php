@@ -11,6 +11,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     private $emColunaDeTamanho;
     private $layoutPixel;
     private $labelAntes;
+    private $labelDepois;
 
     private $formSetPixel;
     
@@ -174,6 +175,17 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     {
         return $this->labelAntes;
     }    
+
+    public function setLabelDepois($label)
+    {
+        $this->labelDepois = $this->formSetPixel->setLabelDepois($label);
+        return $this;
+    }
+
+    public function getLabelDepois()
+    {
+        return $this->labelDepois;
+    }     
 
     /**
      * Sobrecarga de Metodos Básicos
