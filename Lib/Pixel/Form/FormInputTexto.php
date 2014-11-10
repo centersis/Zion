@@ -261,6 +261,17 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     {
         parent::setContainer($container);
         return $this;
-}
+    }
+
+    public function setLabelDepois($label)
+    {
+        $this->labelDepois = $this->formSetPixel->setLabelDepois($label);
+        return $this;
+    }
+
+    public function getLabelDepois()
+    {
+        return $this->labelDepois;
+    }     
 
 }

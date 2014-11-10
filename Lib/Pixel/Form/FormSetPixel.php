@@ -65,4 +65,9 @@ class FormSetPixel
     {
         return $tipoFiltro;
     }
+
+    public function setLabelDepois($labelDepois)
+    {
+        return $labelDepois;
+    }    
 }
