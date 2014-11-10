@@ -23,6 +23,7 @@ abstract class FormBasico
     private $complemento;
     private $atributos;
     private $classCss;    
+    private $container;
 
     /**
      * FormBasico::setId()
@@ -254,4 +255,15 @@ abstract class FormBasico
         return $this->classCss;
     }
 
+    
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
+        return $this;
+    }
 }

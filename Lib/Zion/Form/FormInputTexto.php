@@ -477,5 +477,11 @@ class FormInputTexto extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
+    
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
+        return $this;
+    }
 
 }

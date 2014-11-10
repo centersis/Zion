@@ -218,8 +218,20 @@ class EscolhaHtml
                 $retorno .= $html;
             }
         }
+        
+        $buffer = '';
 
-        return $retorno;
+        if ($config->getContainer()) {
+            $buffer .= '<div id="' . $config->getContainer() . '">';
+        }
+
+        $buffer .= $retorno;
+
+        if ($config->getContainer()) {
+            $buffer .= '</div>';
+        }
+
+        return $buffer;
     }
 
     /**
@@ -315,7 +327,19 @@ class EscolhaHtml
 
         $retorno = sprintf('<select %s %s %s %s %s>%s</select>', $name, $id, $complemento, $disable, $classCss, $opcoes);
 
-        return $retorno;
+        $buffer = '';
+
+        if ($config->getContainer()) {
+            $buffer .= '<div id="' . $config->getContainer() . '">';
+        }
+
+        $buffer .= $retorno;
+
+        if ($config->getContainer()) {
+            $buffer .= '</div>';
+        }
+
+        return $buffer;
     }
 
 }

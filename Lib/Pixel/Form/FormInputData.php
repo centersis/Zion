@@ -8,6 +8,8 @@ class FormInputData extends \Zion\Form\FormInputData
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $layoutPixel;
+    private $processarJS;
+    private $tipoFiltro;
     
     private $formSetPixel;
         
@@ -100,6 +102,28 @@ class FormInputData extends \Zion\Form\FormInputData
         return $this->layoutPixel;
     }
     
+        public function setProcessarJS($processarJS)
+    {
+        $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
+        return $this;
+    }
+    
+    public function getProcessarJS()
+    {
+        return $this->processarJS;
+    }
+    
+    public function seTipoFiltro($tipoFiltro)
+    {
+        $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
+        return $this;
+    }
+    
+    public function getTipoFiltro()
+    {
+        return $this->tipoFiltro;
+    }
+    
     /**
      * Sobrecarga de Metodos Básicos
      */    
@@ -154,6 +178,12 @@ class FormInputData extends \Zion\Form\FormInputData
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
+        return $this;
+    }
+    
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
         return $this;
     }
 }

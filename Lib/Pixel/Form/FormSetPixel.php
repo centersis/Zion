@@ -55,5 +55,14 @@ class FormSetPixel
     {
         return $labelAntes;
     }
-
+    
+    public function setProcessarJS($processarJS)
+    {
+        return $processarJS;
+    }
+    
+    public function setTipoFiltro($tipoFiltro)
+    {
+        return $tipoFiltro;
+    }
 }

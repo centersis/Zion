@@ -154,38 +154,35 @@ class FormHtml extends \Zion\Form\FormHtml
                 $config->setComplemento($complemento);
             }
 
-            return $this->prepareInputPixel($config, parent::montaEscolha($config,false));
-        }
-        else
-        {
+            return $this->prepareInputPixel($config, parent::montaEscolha($config, false));
+        } else {
             $retorno = '';
 
             $config->setClassCss('px');
-            
-            if($expandido === true and $multiplo === true){
-                
-                $retorno = $this->montaCheckRadioPixel('check',parent::montaEscolha($config, true), $config);
+
+            if ($expandido === true and $multiplo === true) {
+
+                $retorno = $this->montaCheckRadioPixel('check', parent::montaEscolha($config, true), $config);
+            } else if ($expandido === true and $multiplo === false) {
+
+                $retorno = $this->montaCheckRadioPixel('radio', parent::montaEscolha($config, true), $config);
             }
-            else if($expandido === true and $multiplo === false){
-                
-                $retorno = $this->montaCheckRadioPixel('radio',parent::montaEscolha($config,true), $config);
-            }
-            
+
             return $this->prepareInputPixel($config, $retorno);
         }
     }
-    
+
     private function montaCheckRadioPixel($tipo, $arrayCampos, $config)
     {
         $type = $tipo === 'check' ? 'checkbox' : 'radio';
-        $classCss = $config->getInLine() === true ? $type.'-inline' : $type;        
-        
+        $classCss = $config->getInLine() === true ? $type . '-inline' : $type;
+
         $retorno = '';
-        foreach($arrayCampos as $dadosCampo){
-            
-            $retorno .= sprintf('<label class="%s">%s<span class="lbl">%s</span></label>',$classCss,$dadosCampo['html'],$dadosCampo['label']);
+        foreach ($arrayCampos as $dadosCampo) {
+
+            $retorno .= sprintf('<label class="%s">%s<span class="lbl">%s</span></label>', $classCss, $dadosCampo['html'], $dadosCampo['label']);
         }
-        
+
         return $retorno;
     }
 
@@ -223,6 +220,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     private function prepareInputPixel($config, $campo)
     {
+
         if ($config->getLayoutPixel() === false) {
             return $campo;
         }
@@ -230,7 +228,9 @@ class FormHtml extends \Zion\Form\FormHtml
         $html = new \Zion\Layout\Html();
 
         $fechaLabel = '';
-        $buffer = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
+        $buffer = '';
+
+        $buffer .= $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
 
         $buffer.= $html->abreTagAberta('div', array('class' => 'form-group'));
 
@@ -240,14 +240,22 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $buffer.= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
 
-        if(method_exists($config, 'getLabelAntes') and $config->getLabelAntes()) {
+        if (method_exists($config, 'getLabelAntes') and $config->getLabelAntes()) {
             $buffer .= $html->abreTagAberta('div', array('class' => 'input-group'));
-            $buffer .= '<span id="labelAntes_'.$config->getId().'" class="input-group-addon bg-default no-border">' . $config->getLabelAntes() . '</span>';
+            $buffer .= '<span id="labelAntes_' . $config->getId() . '" class="input-group-addon bg-default no-border">' . $config->getLabelAntes() . '</span>';
             $fechaLabel = $html->fechaTag('div');
         }
 
+        if ($config->getContainer()) {
+            $buffer .= $html->abreTagAberta('div', array('id' => $config->getContainer()));
+        }
+        
         $buffer .= $campo;
-
+        
+        if ($config->getContainer()) {
+            $buffer .= $html->fechaTag('div');
+        }
+        
         if (method_exists($config, 'getIconFA') and $config->getIconFA()) {
             $buffer.= $html->abreTagAberta('span', array('class' => 'fa ' . $config->getIconFA() . ' form-control-feedback'));
             $buffer .= $html->fechaTag('span');

@@ -33,13 +33,14 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $emColunaDeTamanho;
     private $layoutPixel;
     private $aliasSql;
-
+    private $processarJS;
+    private $tipoFiltro;
     private $formSetPixel;
-    
+
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
-        
+
         $this->tipoBase = 'suggest';
         $this->acao = $acao;
         $this->autoTrim = true;
@@ -48,7 +49,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         $this->setNome($nome);
         $this->setId($nome);
         $this->setIdentifica($identifica);
-        $this->setObrigarorio($obrigatorio);                
+        $this->setObrigarorio($obrigatorio);
     }
 
     public function getTipoBase()
@@ -143,7 +144,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setCampoCod($campoCod)
     {
-        if(!empty($campoCod)) {
+        if (!empty($campoCod)) {
             $this->campoCod = $campoCod;
             return $this;
         } else {
@@ -378,13 +379,13 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     {
         return $this->emColunaDeTamanho;
     }
-    
+
     public function setLayoutPixel($layoutPixel)
     {
         $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
         return $this;
     }
-    
+
     public function getLayoutPixel()
     {
         return $this->layoutPixel;
@@ -400,10 +401,32 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         }
     }
 
-    public function getAliasSql(){
+    public function getAliasSql()
+    {
         return $this->aliasSql;
     }
-    
+
+    public function setProcessarJS($processarJS)
+    {
+        $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
+        return $this;
+    }
+
+    public function getProcessarJS()
+    {
+        return $this->processarJS;
+    }
+
+    public function seTipoFiltro($tipoFiltro)
+    {
+        $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
+        return $this;
+    }
+
+    public function getTipoFiltro()
+    {
+        return $this->tipoFiltro;
+    }
 
     /**
      * Sobrecarga de Metodos Básicos
@@ -459,6 +482,12 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
+        return $this;
+    }
+
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
         return $this;
     }
 
