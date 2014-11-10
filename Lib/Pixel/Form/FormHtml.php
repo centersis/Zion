@@ -227,15 +227,15 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $html = new \Zion\Layout\Html();
 
-        $buffer = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
+        $buffer  = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
         $buffer .= $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
-        $buffer.= $html->abreTagAberta('div', array('class' => 'form-group'));
+        $buffer .= $html->abreTagAberta('div', array('class' => 'form-group'));
 
-        $buffer.= $html->abreTagAberta('label', array('for' => $config->getId(), 'class' => 'col-sm-3 control-label'));
-        $buffer.= $config->getIdentifica();
+        $buffer .= $html->abreTagAberta('label', array('for' => $config->getId(), 'class' => 'col-sm-3 control-label'));
+        $buffer .= $config->getIdentifica();
         $buffer .= $html->fechaTag('label');
 
-        $buffer.= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
+        $buffer .= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
 
         if(method_exists($config, 'getLabelAntes') or method_exists($config, 'getLabelDepois')) {
 
@@ -248,9 +248,15 @@ class FormHtml extends \Zion\Form\FormHtml
                     $buffer .= $html->fechaTag('span');
                 }
 
+            }
+
+        }
+
         if ($config->getContainer()) {
             $buffer .= $html->abreTagAberta('div', array('id' => $config->getContainer()));
-        }        $buffer .= $campo;
+        }        
+
+        $buffer .= $campo;
 
         if ($config->getContainer()) {
             $buffer .= $html->fechaTag('div');
