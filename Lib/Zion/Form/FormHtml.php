@@ -51,7 +51,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         $attr = array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'hidden')));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -72,7 +72,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('autocomplete', $config->getAutoComplete())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -89,7 +89,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -106,7 +106,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -123,7 +123,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -140,7 +140,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -157,7 +157,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -174,7 +174,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -196,7 +196,7 @@ class FormHtml extends \Zion\Form\FormAtributos
         
         $attr[] = $this->attr('valueTextArea', $config->getValor());
 
-        return vsprintf($this->prepareTextArea(count($attr)), $attr);
+        return vsprintf($this->prepareTextArea(count($attr), $config), $attr);
     }
 
     /**
@@ -213,7 +213,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('max', $config->getDataMaxima()),
             $this->attr('min', $config->getDataMinima())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**
@@ -230,7 +230,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('max', $config->getHoraMaxima()),
             $this->attr('min', $config->getHoraMinima())));
 
-        return vsprintf($this->prepareInput(count($attr)), $attr);
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
 
     /**

@@ -11,9 +11,9 @@ class FormInputButton extends \Zion\Form\FormInputButton
     
     private $formSetPixel;
 
-    public function __construct($acao, $nome, $identifica, $obrigatorio)
+    public function __construct($acao, $nome, $identifica)
     {
-        parent::__construct($acao, $nome, $identifica, $obrigatorio);
+        parent::__construct($acao, $nome, $identifica);
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
     }
  
@@ -122,6 +122,12 @@ class FormInputButton extends \Zion\Form\FormInputButton
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
+        return $this;
+    }
+    
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
         return $this;
     }
 }

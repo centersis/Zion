@@ -12,6 +12,8 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     private $layoutPixel;
     private $labelAntes;
     private $labelDepois;
+    private $processarJS;
+    private $tipoFiltro;
 
     private $formSetPixel;
     
@@ -176,16 +178,27 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         return $this->labelAntes;
     }    
 
-    public function setLabelDepois($label)
+        public function setProcessarJS($processarJS)
     {
-        $this->labelDepois = $this->formSetPixel->setLabelDepois($label);
+        $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
         return $this;
     }
-
-    public function getLabelDepois()
+    
+    public function getProcessarJS()
     {
-        return $this->labelDepois;
-    }     
+        return $this->processarJS;
+    }
+    
+    public function seTipoFiltro($tipoFiltro)
+    {
+        $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
+        return $this;
+    }
+    
+    public function getTipoFiltro()
+    {
+        return $this->tipoFiltro;
+    }
 
     /**
      * Sobrecarga de Metodos Básicos
@@ -243,5 +256,11 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         parent::setClassCss($classCss);
         return $this;
     }
+
+    public function setContainer($container)
+    {
+        parent::setContainer($container);
+        return $this;
+}
 
 }

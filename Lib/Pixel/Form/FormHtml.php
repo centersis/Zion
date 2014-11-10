@@ -26,7 +26,7 @@ class FormHtml extends \Zion\Form\FormHtml
             $this->attr('caixa', $config->getCaixa()),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
-        $ret = vsprintf($this->prepareInput(count($attr)), $attr);
+        $ret = vsprintf($this->prepareInput(count($attr), $config), $attr);
 
 
         if ($config->getHiddenValue()) {
@@ -155,9 +155,7 @@ class FormHtml extends \Zion\Form\FormHtml
             }
 
             return $this->prepareInputPixel($config, parent::montaEscolha($config,false));
-        }
-        else
-        {
+        } else {
             $retorno = '';
 
             $config->setClassCss('px');
@@ -165,8 +163,7 @@ class FormHtml extends \Zion\Form\FormHtml
             if($expandido === true and $multiplo === true){
                 
                 $retorno = $this->montaCheckRadioPixel('check',parent::montaEscolha($config, true), $config);
-            }
-            else if($expandido === true and $multiplo === false){
+            } else if ($expandido === true and $multiplo === false) {
                 
                 $retorno = $this->montaCheckRadioPixel('radio',parent::montaEscolha($config,true), $config);
             }
@@ -223,15 +220,15 @@ class FormHtml extends \Zion\Form\FormHtml
 
     private function prepareInputPixel($config, $campo)
     {
+
         if ($config->getLayoutPixel() === false) {
             return $campo;
         }
 
         $html = new \Zion\Layout\Html();
 
-        $fechaLabel = '';
         $buffer = $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
-
+        $buffer .= $html->abreTagAberta('div', array('class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
         $buffer.= $html->abreTagAberta('div', array('class' => 'form-group'));
 
         $buffer.= $html->abreTagAberta('label', array('for' => $config->getId(), 'class' => 'col-sm-3 control-label'));
@@ -245,19 +242,20 @@ class FormHtml extends \Zion\Form\FormHtml
             if($config->getLabelAntes() or $config->getLabelDepois()) {
 
                 $buffer .= $html->abreTagAberta('div', array('class' => 'input-group'));
-
                 if($config->getLabelAntes()) {
                     $buffer .= $html->abreTagAberta('span', ['id' => 'labelAntes_' . $config->getId(), 'class' => 'input-group-addon bg-default no-border']);
                     $buffer .= $config->getLabelAntes();
                     $buffer .= $html->fechaTag('span');
                 }
 
-            }
+        if ($config->getContainer()) {
+            $buffer .= $html->abreTagAberta('div', array('id' => $config->getContainer()));
+        }        $buffer .= $campo;
 
+        if ($config->getContainer()) {
+            $buffer .= $html->fechaTag('div');
         }
-
-        $buffer .= $campo;
-
+        
         if (method_exists($config, 'getIconFA') and $config->getIconFA()) {
             $buffer.= $html->abreTagAberta('span', array('class' => 'fa ' . $config->getIconFA() . ' form-control-feedback'));
             $buffer .= $html->fechaTag('span');

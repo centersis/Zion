@@ -56,9 +56,13 @@ class FormSetPixel
         return $labelAntes;
     }
 
-    public function setLabelDepois($labelDepois)
+    public function setProcessarJS($processarJS)
     {
-        return $labelDepois;
-    }    
-
+        return $processarJS;
+    }
+    
+    public function setTipoFiltro($tipoFiltro)
+    {
+        return $tipoFiltro;
+    }
 }
