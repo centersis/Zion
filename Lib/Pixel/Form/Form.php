@@ -137,7 +137,7 @@ class Form extends \Zion\Form\Form
         return new \Zion\Form\FormInputButton('reset', $nome, $identifica);
     }
 
-    public function abreForm()
+    public function abreFormManu()
     {
         $ret = $this->html->abreTagAberta('div', array('class' => 'panel', 'id' => 'panel' . $this->formConfig->getNome()));
         $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-heading'));
@@ -153,6 +153,11 @@ class Form extends \Zion\Form\Form
 
         return $ret;
     }
+    
+    public function abreFormFiltro()
+    {
+        return $this->html->abreTagAberta('form', ['nome'=>$this->formConfig->getNome(),'id' => $this->formConfig->getNome(), 'class' => 'form-horizontal']);
+    }
 
     public function fechaForm()
     {
@@ -167,51 +172,52 @@ class Form extends \Zion\Form\Form
     {
         $htmlCampos = array();
 
-        $obj = $nome ? array($this->objetos[$nome]) : $this->objetos;
+        $obj = $nome ? [$nome=>$this->objetos[$nome]] : $this->objetos;
 
-        foreach ($obj as $objCampos) {
+        foreach ($obj as $nome=>$objCampos) {
+
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaHidden($objCampos);
+                    $htmlCampos[$nome] = $this->formHtml->montaHidden($objCampos);
                     break;
                 case 'texto' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTexto($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaTexto($objCampos);
                     break;
                 case 'textarea' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTextArea($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'editor' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTextArea($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'suggest' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaSuggest($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaSuggest($objCampos);
                     break;
                 case 'data' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaData($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaData($objCampos);
                     break;
                 case 'hora' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaHora($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaHora($objCampos);
                     break;
                 case 'number' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaNumber($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaNumber($objCampos);
                     break;
                 case 'float' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaFloat($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaFloat($objCampos);
                     break;
                 case 'cpf' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaTexto($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaTexto($objCampos);
                     break;
                 case 'escolha':
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaEscolha($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaEscolha($objCampos);
                     break;                
                 case 'chosen':
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaEscolha($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaEscolha($objCampos);
                     break;
                 case 'button':
-                    $htmlCampos[$objCampos->getNome()] = $this->formPixel->montaButton($objCampos);
+                    $htmlCampos[$nome] = $this->formPixel->montaButton($objCampos);
                     break;
                 case 'layout':
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaLayout($objCampos);
+                    $htmlCampos[$nome] = $this->formHtml->montaLayout($objCampos);
                     break;
                 default : throw new \Exception('Tipo Base não encontrado!');
             }
@@ -240,7 +246,7 @@ class Form extends \Zion\Form\Form
 
     public function montaForm()
     {
-        $buffer = $this->abreForm();
+        $buffer = $this->abreFormManu();
 
         $footer = '';
 
@@ -278,7 +284,7 @@ class Form extends \Zion\Form\Form
 
     public function montaFormVisualizar()
     {
-        $buffer = $this->abreForm();
+        $buffer = $this->abreFormManu();
 
         $footer = '';
 

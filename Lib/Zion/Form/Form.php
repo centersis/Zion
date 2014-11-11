@@ -283,7 +283,7 @@ class Form
      * @param mixed $metodo
      * @return
      */
-    public function config($nome, $metodo)
+    public function config($nome, $metodo = 'GET')
     {
         $this->formConfig->setNome($nome)->setMethod($metodo);
 
