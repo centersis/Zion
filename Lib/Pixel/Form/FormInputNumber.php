@@ -18,7 +18,7 @@ class FormInputNumber extends \Zion\Form\FormInputNumber
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
-        
+        $this->tipoFiltro = 'ValorVariavel';
         $this->setIconFA('fa-sort-numeric-asc');
     }
     
@@ -124,7 +124,7 @@ class FormInputNumber extends \Zion\Form\FormInputNumber
         return $this->processarJS;
     }
     
-    public function seTipoFiltro($tipoFiltro)
+    public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;

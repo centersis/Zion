@@ -45,6 +45,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         $this->acao = $acao;
         $this->autoTrim = true;
         $this->converterHtml = true;
+        $this->tipoFiltro = 'texto';
         $this->setIconFA('fa-search');
         $this->setNome($nome);
         $this->setId($nome);
@@ -294,7 +295,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setOnSelect($onSelect)
     {
-        if (!empty($hiddenValue)) {
+        if (!empty($onSelect)) {
             $this->onSelect = $onSelect;
             return $this;
         } else {
@@ -417,7 +418,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->processarJS;
     }
 
-    public function seTipoFiltro($tipoFiltro)
+    public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;

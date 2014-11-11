@@ -104,7 +104,7 @@ class FormInputSenha extends \Zion\Form\FormInputSenha
         return $this->processarJS;
     }
     
-    public function seTipoFiltro($tipoFiltro)
+    public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;

@@ -18,6 +18,7 @@ class FormChosen extends \Zion\Form\FormEscolha
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         parent::setChosen(true);
         $this->setMultiplo(false);
+        $this->tipoFiltro = 'ValorFixo';
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
     }
 
@@ -143,7 +144,7 @@ class FormChosen extends \Zion\Form\FormEscolha
         return $this->processarJS;
     }
     
-    public function seTipoFiltro($tipoFiltro)
+    public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;

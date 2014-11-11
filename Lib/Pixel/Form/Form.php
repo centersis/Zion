@@ -48,32 +48,32 @@ class Form extends \Zion\Form\Form
 
     public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('float', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputFloat('float', $nome, $identifica, $obrigatorio);
     }
 
     public function cpf($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('cpf', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputCpf('cpf', $nome, $identifica, $obrigatorio);
     }
 
     public function cnpj($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('cnpj', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputCnpj('cnpj', $nome, $identifica, $obrigatorio);
     }
 
     public function cep($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('cep', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputCep('cep', $nome, $identifica, $obrigatorio);
     }
 
     public function telefone($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('telefone', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputTelefone('telefone', $nome, $identifica, $obrigatorio);
     }
 
     public function email($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputEmail('email', $nome, $identifica, $obrigatorio);
     }
 
     public function escolha($nome, $identifica, $obrigatorio = false)
