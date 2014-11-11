@@ -10,7 +10,6 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     private $emColunaDeTamanho;
     private $layoutPixel;
     private $processarJS;
-    private $tipoFiltro;
    
     private $formSetPixel;
 
@@ -129,17 +128,6 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     public function getProcessarJS()
     {
         return $this->processarJS;
-    }
-    
-    public function seTipoFiltro($tipoFiltro)
-    {
-        $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
-        return $this;
-    }
-    
-    public function getTipoFiltro()
-    {
-        return $this->tipoFiltro;
     }
 
     /**

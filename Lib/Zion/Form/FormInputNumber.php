@@ -35,6 +35,7 @@ class FormInputNumber extends \Zion\Form\FormBasico
         $this->tipoBase = 'number';
         $this->acao = $acao;
         $this->setNome($nome);
+        $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
     }

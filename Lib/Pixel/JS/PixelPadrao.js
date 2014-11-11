@@ -374,7 +374,9 @@ function chChosen(a,b,c)
     $.ajax({type: "get", url: "?acao="+c+"&a="+aa, dataType: "json", beforeSend: function() {
         $(b).html('<i class="fa fa-refresh fa-spin"></i>');
     }}).done(function (ret) {
+        //alert(ret.retorno);
         $(b).html(ret.retorno);
+        //$("#organogramaClassificacaoCod").select2({ allowClear: true, placeholder: "Selecione..." });
     }).fail(function () {
         sisMsgFailPadrao();
     });    
