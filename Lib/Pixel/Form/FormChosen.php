@@ -155,6 +155,11 @@ class FormChosen extends \Zion\Form\FormEscolha
         return $this->tipoFiltro;
     }
 
+    public function setAliasSql($aliasSql){
+        parent::setAliasSql($aliasSql);
+        return $this;
+    }
+
     /**
      * Sobrecarga de Metodos Básicos
      */

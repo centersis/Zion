@@ -250,17 +250,17 @@ class FormHtml extends \Zion\Form\FormHtml
             }
 
         }
-
+/*
         if ($config->getContainer()) {
             $buffer .= $html->abreTagAberta('div', array('id' => $config->getContainer()));
         }        
-
+*/
         $buffer .= $campo;
-
+/*
         if ($config->getContainer()) {
             $buffer .= $html->fechaTag('div');
         }
-        
+*/        
         if (method_exists($config, 'getIconFA') and $config->getIconFA()) {
             $buffer.= $html->abreTagAberta('span', array('class' => 'fa ' . $config->getIconFA() . ' form-control-feedback'));
             $buffer .= $html->fechaTag('span');
