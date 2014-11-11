@@ -4,6 +4,7 @@ namespace Pixel\Form;
 
 class FormInputTexto extends \Zion\Form\FormInputTexto
 {
+
     private $prefixo;
     private $mascara;
     private $iconFA;
@@ -11,20 +12,19 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     private $emColunaDeTamanho;
     private $layoutPixel;
     private $labelAntes;
-    //private $labelDepois;
+    private $labelDepois;
     private $processarJS;
     private $tipoFiltro;
-
     private $formSetPixel;
-    
+
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        parent::__construct($acao, $nome, $identifica, $obrigatorio); 
-        
+        parent::__construct($acao, $nome, $identifica, $obrigatorio);
+
         $this->tipoFiltro = 'texto';
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
     }
-    
+
     public function setLargura($largura)
     {
         parent::setLargura($largura);
@@ -61,7 +61,8 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         return $this;
     }
 
-    public function setAliasSql($aliasSql){
+    public function setAliasSql($aliasSql)
+    {
         parent::setAliasSql($aliasSql);
         return $this;
     }
@@ -76,7 +77,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     {
         return $this->prefixo;
     }
-    
+
     public function setMascara($mascara)
     {
         $this->mascara = $this->formSetPixel->setMascara($mascara);
@@ -156,13 +157,13 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
-    
+
     public function setLayoutPixel($layoutPixel)
     {
         $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
         return $this;
     }
-    
+
     public function getLayoutPixel()
     {
         return $this->layoutPixel;
@@ -173,29 +174,40 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         $this->labelAntes = $this->formSetPixel->setLabelAntes($labelAntes);
         return $this;
     }
-    
+
     public function getLabelAntes()
     {
         return $this->labelAntes;
     }
 
-        public function setProcessarJS($processarJS)
+    public function setLabelDepois($label)
+    {
+        $this->labelDepois = $this->formSetPixel->setLabelDepois($label);
+        return $this;
+    }
+
+    public function getLabelDepois()
+    {
+        return $this->labelDepois;
+    }
+
+    public function setProcessarJS($processarJS)
     {
         $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
         return $this;
     }
-    
+
     public function getProcessarJS()
     {
         return $this->processarJS;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;
     }
-    
+
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
@@ -263,16 +275,5 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         parent::setContainer($container);
         return $this;
     }
-
-    public function setLabelDepois($label)
-    {
-        $this->labelDepois = $this->formSetPixel->setLabelDepois($label);
-        return $this;
-    }
-
-    public function getLabelDepois()
-    {
-        return $this->labelDepois;
-    }     
 
 }
