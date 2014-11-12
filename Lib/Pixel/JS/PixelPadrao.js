@@ -18,7 +18,7 @@ function sisSvo(q, t) {
 
 function showHiddenFilters() {
     $(".showHidden").slideToggle();
-    $(".showHidden").removeClass("hidden");
+    $(".showHidden").removeClass("hidden");       
 }
 
 $(document).ready(function () {
@@ -36,13 +36,14 @@ $(document).ready(function () {
 /* FUNÇÕES ESPECIAIS */
 function cKupdate() {
 
-    try{
+    try {
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
         }
     }
-    catch(e)
-    { }
+    catch (e)
+    {
+    }
 }
 
 function sisSerialize(container)
@@ -292,111 +293,126 @@ function sisSetAlert(a, b, c)
 
 function sisSetCrashAlert(a, b)
 {
-
     $('#modal-titulo').html(a);
     $('#modal-descricao').html(b);
     $('#modal-msg').modal();
 
 }
 
-function sisChFil(a) {
-    $("#sisBtnFil").addClass('btn-warning');
-    $("#sisIcFil").html(a).removeClass('fa fa-caret-down');
-}
+/* FILTROS */
+function sisChangeFil()
+{
+    var campos = $('#sisFormFiltro').serializeArray();
+    var contN = 0;
+    var contE = 0;
+    var contO = 0;
 
-/*
-** Pablo irá ajustar esta bosta, que faz incrementar a quantidade de 
-** campos de filtro utilizado na aba de cada tab dos filtros especiais
-*/
-function sisChInputFil(a,b) {
-    $(a).removeClass('hidden');
-    $(a).html(b);
-}
-
-function imprimirPDF(){
-
-    var ifr=$('<iframe/>', {
-        id:     'iframeDownload',
-        name:   'iframeDownload',
-        src:    '?acao=imprimirPDF',
-        style:  'display:none',
-        load:   function(){
-
-            var conteudo = $('#iframeDownload').contents().find('body').html();
-            var ret = $.parseJSON(conteudo);
-
-            if(ret['sucesso'] == 'false')
-            {
-               sisSetAlert('false', ret['retorno']);
+    $.each(campos, function (pos, campo) {
+        if ($('#' + campo.name).attr('type') !== 'hidden' && campo.value !== '') {
+            var valor = $('#' + campo.name).val();
+            var tipo = $('#' + campo.name).attr('name').substr(0, 1);
+            
+            if (tipo === 'n' && valor !== '') {
+                contN++;
             }
-            else
-            {
-                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
+
+            if (tipo === 'e' && valor !== '') {
+                contE++;
+            }
+
+            if (tipo === 'o' && valor !== '') {
+                contO++;
             }
         }
     });
 
-    if($('#iframeDownload').attr('name') != "iframeDownload"){
-        $('#formGrid').append(ifr);
-    } else {
-        $('#iframeDownload').remove();
-        $('#formGrid').append(ifr);
+    if (contN > 0) {
+        $('#sisBadgeN').html(contN).removeClass('hidden');
+    }
+    else {
+        $('#sisBadgeN').html(contN).addClass('hidden');
     }
 
+    if (contE > 0) {
+        $('#sisBadgeE').html(contE).removeClass('hidden');
+    }
+    else {
+        $('#sisBadgeE').html(contE).addClass('hidden');
+    }
+
+    if (contO > 0) {
+        $('#sisBadgeO').html(contO).removeClass('hidden');
+    }
+    else {
+        $('#sisBadgeO').html(contO).addClass('hidden');
+    }
+    
+    sisFiltrarPadrao($('#sisFormFiltro').serialize());
 }
+
+function sisOpFiltro(nomeCampo, tipo)
+{
+    $("#sho"+nomeCampo).val(tipo);
+    
+    $("#sisIcFil"+nomeCampo).html('&nbsp;&nbsp;'+tipo);
+    
+    if($("#"+nomeCampo).val()){
+        sisFiltrarPadrao($('#sisFormFiltro').serialize());
+    }    
+}
+
+
 /*
-** var a => recebe a id do campo que invocou o evento
-** var b => recebe o elemento que sofrerá update
-** var c => recebe a coluna que será retornada do banco
-** var d => recebe o metodo
-*/
-function chNxt(a,b,c,d)
+ ** var a => recebe a id do campo que invocou o evento
+ ** var b => recebe o elemento que sofrerá update
+ ** var c => recebe a coluna que será retornada do banco
+ ** var d => recebe o metodo
+ */
+function chNxt(a, b, c, d)
 {
     var aa = $(a).val();
-    $.ajax({type: "get", url: "?acao="+d+"&a="+aa+"&b="+c, dataType: "json", beforeSend: function() {
-        $(b).html('<i class="fa fa-refresh fa-spin"></i>');
-    }}).done(function (ret) {
+    $.ajax({type: "get", url: "?acao=" + d + "&a=" + aa + "&b=" + c, dataType: "json", beforeSend: function () {
+            $(b).html('<i class="fa fa-refresh fa-spin"></i>');
+        }}).done(function (ret) {
         $(b).html(ret.retorno);
-        $("#"+c).val(ret.retorno);
+        $("#" + c).val(ret.retorno);
     }).fail(function () {
         sisMsgFailPadrao();
-    });    
+    });
 }
 
 /*
-** var a => recebe a id do campo que invocou o evento
-** var b => recebe o elemento que sofrerá update
-** var c => recebe o metodo
-*/
-function chChosen(a,b,c)
+ ** var a => recebe a id do campo que invocou o evento
+ ** var b => recebe o elemento que sofrerá update
+ ** var c => recebe o metodo
+ */
+function chChosen(a, b, c)
 {
     var aa = $(a).val();
-    $.ajax({type: "get", url: "?acao="+c+"&a="+aa, dataType: "json", beforeSend: function() {
-        $(b).html('<i class="fa fa-refresh fa-spin"></i>');
-    }}).done(function (ret) {
-        //alert(ret.retorno);
+    $.ajax({type: "get", url: "?acao=" + c + "&a=" + aa, dataType: "json", beforeSend: function () {
+            $(b).html('<i class="fa fa-refresh fa-spin"></i>');
+        }}).done(function (ret) {
         $(b).html(ret.retorno);
-        //$("#organogramaClassificacaoCod").select2({ allowClear: true, placeholder: "Selecione..." });
     }).fail(function () {
         sisMsgFailPadrao();
-    });    
+    });
 }
 
-function imprimirPDF(){
+function imprimirPDF() {
 
-    var ifr=$('<iframe/>', {
-        id:     'iframeDownload',
-        name:   'iframeDownload',
-        src:    '?acao=imprimirPDF',
-        style:  'display:none',
-        load:   function(){
+    var ifr = $('<iframe/>', {
+        id: 'iframeDownload',
+        name: 'iframeDownload',
+        src: '?acao=imprimirPDF',
+        style: 'display:none',
+        load: function () {
 
             var conteudo = $('#iframeDownload').contents().find('body').html();
             var ret = $.parseJSON(conteudo);
 
-            if(ret['sucesso'] == 'false')
+            if (ret['sucesso'] == 'false')
             {
-               sisSetAlert('false', ret['retorno']);
+                sisSetAlert('false', ret['retorno']);
             }
             else
             {
@@ -405,7 +421,7 @@ function imprimirPDF(){
         }
     });
 
-    if($('#iframeDownload').attr('name') != "iframeDownload"){
+    if ($('#iframeDownload').attr('name') != "iframeDownload") {
         $('#formGrid').append(ifr);
     } else {
         $('#iframeDownload').remove();
@@ -414,21 +430,21 @@ function imprimirPDF(){
 
 }
 
-function downloadCSV(){
+function downloadCSV() {
 
-    var ifr=$('<iframe/>', {
-        id:     'iframeDownload',
-        name:   'iframeDownload',
-        src:    '?acao=downloadCSV',
-        style:  'display:none',
-        load:   function(){
+    var ifr = $('<iframe/>', {
+        id: 'iframeDownload',
+        name: 'iframeDownload',
+        src: '?acao=downloadCSV',
+        style: 'display:none',
+        load: function () {
 
             var conteudo = $('#iframeDownload').contents().find('body').html();
             var ret = $.parseJSON(conteudo);
 
-            if(ret['sucesso'] == 'false')
+            if (ret['sucesso'] == 'false')
             {
-               sisSetAlert('false', ret['retorno']);
+                sisSetAlert('false', ret['retorno']);
             }
             else
             {
@@ -437,7 +453,7 @@ function downloadCSV(){
         }
     });
 
-    if($('#iframeDownload').attr('name') != "iframeDownload"){
+    if ($('#iframeDownload').attr('name') != "iframeDownload") {
         $('#formGrid').append(ifr);
     } else {
         $('#iframeDownload').remove();
@@ -446,21 +462,21 @@ function downloadCSV(){
 
 }
 
-function downloadXLS(){
+function downloadXLS() {
 
-    var ifr=$('<iframe/>', {
-        id:     'iframeDownload',
-        name:   'iframeDownload',
-        src:    '?acao=downloadXLS',
-        style:  'display:none',
-        load:   function(){
+    var ifr = $('<iframe/>', {
+        id: 'iframeDownload',
+        name: 'iframeDownload',
+        src: '?acao=downloadXLS',
+        style: 'display:none',
+        load: function () {
 
             var conteudo = $('#iframeDownload').contents().find('body').html();
             var ret = $.parseJSON(conteudo);
 
-            if(ret['sucesso'] == 'false')
+            if (ret['sucesso'] == 'false')
             {
-               sisSetAlert('false', ret['retorno']);
+                sisSetAlert('false', ret['retorno']);
             }
             else
             {
@@ -469,7 +485,7 @@ function downloadXLS(){
         }
     });
 
-    if($('#iframeDownload').attr('name') != "iframeDownload"){
+    if ($('#iframeDownload').attr('name') != "iframeDownload") {
         $('#formGrid').append(ifr);
     } else {
         $('#iframeDownload').remove();

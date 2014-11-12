@@ -3,8 +3,8 @@
 namespace Pixel\Filtro;
 
 /**
- * shf foi usado para substituir hidden_sis_filtro
- * shtf foi usado para substituir hiddent_sis_filtro
+ * sho foi usado para substituir hidden_sis_filtro
+ * sha foi usado para substituir hiddent_sis_filtro
  */
 class Filtrar
 {
@@ -27,27 +27,25 @@ class Filtrar
             '<' => '<',
             '>=' => '>=',
             '<=' => '<=',
-            '<>' => '<>',
+            '≠' => '≠',
             '*A' => '*A',
             'A*' => 'A*',
-            '*' => '*',
-            'E' => 'E',
-            'OU' => 'OU'];
+            '*' => '*'];
     }
 
-    public function getStringSql($nomeCampo, $campoBanco, $tipoFiltro = null)
+    public function getStringSql($nomeCampo, $campoBanco)
     {
         $sql = '';
 
         //Recupera Valores do Formulário
-        $operador = filter_input(INPUT_GET, 'shf' . $nomeCampo);
-        $tipoCampo = strtolower(filter_input(INPUT_GET, 'shtf' . $nomeCampo));
-
-        //Intercepta valor
-        $valor = $this->objForm->getCampoFiltro($nomeCampo, $tipoFiltro);
+        $operador = \filter_input(\INPUT_GET, 'sho' . 'n'.$nomeCampo);
+        $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n'.$nomeCampo));
+        $valor = \filter_input(\INPUT_GET, 'n'.$nomeCampo);  
+        
+        //echo $operador.' - '.$acao.' - '.$valor."\n";
 
         //Valida Informações
-        if ($operador == '' or $tipoCampo == '') {
+        if ($operador == '' or $acao == '') {
             if ($valor <> '') {
                 $this->situacao = true;
 
@@ -58,13 +56,20 @@ class Filtrar
         }
 
         //Retorna Sql	
-        if ("$valor" <> "" or ( $operador == 'E' or $operador == 'OU')) {
-            if (in_array($operador, $this->operadores)) {
-                switch ($operador) {
-                    case '=': case '>': case '<': case '>=': case '<=': case '<>':
+        if ("$valor" <> "") {
 
-                        if ($tipoCampo <> 'float' and $tipoCampo <> 'float') {
+            if (\in_array($operador, $this->operadores)) {
+
+                switch ($operador) {
+
+                    case '=': case '>': case '<': case '>=': case '<=': case '≠':
+
+                        if ($acao <> 'float' and $acao <> 'number') {
                             $valor = "'$valor'";
+                        }
+
+                        if ($operador === '≠') {
+                            $operador = '<>';
                         }
 
                         $sql = " AND $campoBanco $operador $valor ";
@@ -97,18 +102,6 @@ class Filtrar
 
                         break;
 
-                    case 'E':
-
-                        $sql = $this->eOrSql($campoBanco, $nomeCampo, $tipoFiltro, 'E');
-
-                        break;
-
-                    case 'OU':
-
-                        $sql = $this->eOrSql($campoBanco, $nomeCampo, $tipoFiltro, 'OR');
-
-                        break;
-
                     default:
 
                         $sql = '';
@@ -125,18 +118,18 @@ class Filtrar
     private function eOrSql($campoBanco, $nomeCampo, $tipoFiltro, $clausula)
     {
         //Recupera Operadores
-        $operadorA = filter_input(INPUT_GET, 'shf' . $nomeCampo . 'A');
-        $operadorB = filter_input(INPUT_GET, 'shf' . $nomeCampo . 'B');
+        $operadorA = filter_input(INPUT_GET, 'sho' . $nomeCampo . 'A');
+        $operadorB = filter_input(INPUT_GET, 'sho' . $nomeCampo . 'B');
 
         //Recupera Valores
         $valorA = trim(filter_input(INPUT_GET, $nomeCampo . 'A'));
         $valorB = trim(filter_input(INPUT_GET, $nomeCampo . 'B'));
 
         //Recupera Tipo de Campo
-        $tipoCampo = filter_input(INPUT_GET, 'shtf' . $nomeCampo);
+        $acao = filter_input(INPUT_GET, 'sha' . $nomeCampo);
 
         //Validação de Operadores
-        if (($operadorA == '' and $operadorB == '') or $tipoCampo == '') {
+        if (($operadorA == '' and $operadorB == '') or $acao == '') {
             return '';
         }
 
@@ -168,7 +161,7 @@ class Filtrar
             $valorB = $this->objForm->getCampoFiltro($nomeCampo . 'B', $tipoFiltro);
         }
 
-        if ($tipoCampo <> 'float' and $tipoCampo <> 'float') {
+        if ($acao <> 'float' and $acao <> 'float') {
             if ($valorA <> '') {
                 $valorA = "'$valorA'";
             }
@@ -218,59 +211,60 @@ class Filtrar
 
     function getHiddenParametros($arrayParametros)
     {
-        $Retorno = array();
+        return [];
+        $retorno = array();
 
         if (is_array($arrayParametros) and ! empty($arrayParametros)) {
 
             foreach ($arrayParametros as $campo) {
                 //Intecepta E ou OU
-                $campoEOU = filter_input(INPUT_GET, 'shf' . $campo);
+                $campoEOU = filter_input(INPUT_GET, 'sho' . $campo);
 
                 if ($campoEOU == 'E' or $campoEOU == 'OU') {
                     $valorA = filter_input(INPUT_GET, $campo . 'A');
                     $valorB = filter_input(INPUT_GET, $campo . 'B');
 
-                    $opcaoA = filter_input(INPUT_GET, 'shf' . $campo . 'A');
-                    $opcaoB = filter_input(INPUT_GET, 'shf' . $campo . 'B');
+                    $opcaoA = filter_input(INPUT_GET, 'sho' . $campo . 'A');
+                    $opcaoB = filter_input(INPUT_GET, 'sho' . $campo . 'B');
 
-                    $tipo = filter_input(INPUT_GET, 'shtf' . $campo);
+                    $tipo = filter_input(INPUT_GET, 'sha' . $campo);
 
                     if ($valorA <> '') {
                         if ($opcaoA <> '' and $tipo <> '') {
-                            $Retorno[] = $campo . 'A';
-                            $Retorno[] = 'shf' . $campo . 'A';
+                            $retorno[] = $campo . 'A';
+                            $retorno[] = 'sho' . $campo . 'A';
                         }
                     }
 
                     if ($valorB <> '') {
                         if ($opcaoB <> '' and $tipo <> '') {
-                            $Retorno[] = $campo . 'B';
-                            $Retorno[] = 'shf' . $campo . 'B';
+                            $retorno[] = $campo . 'B';
+                            $retorno[] = 'sho' . $campo . 'B';
                         }
                     }
 
                     //Tipo E e Ou
                     if ($valorA <> '' or $valorB <> '') {
-                        $Retorno[] = 'shf' . $campo;
-                        $Retorno[] = 'shtf' . $campo;
+                        $retorno[] = 'sho' . $campo;
+                        $retorno[] = 'sha' . $campo;
                     }
                 } else {
                     $valor = filter_input(INPUT_GET, $campo);
-                    $opcao = filter_input(INPUT_GET, 'shf' . $campo);
-                    $tipo = filter_input(INPUT_GET, 'shtf' . $campo);
+                    $opcao = filter_input(INPUT_GET, 'sho' . $campo);
+                    $tipo = filter_input(INPUT_GET, 'sha' . $campo);
 
                     if ($valor <> '') {
                         if ($opcao <> '' and $tipo <> '') {
-                            $Retorno[] = 'shf' . $campo;
-                            $Retorno[] = 'shtf' . $campo;
+                            $retorno[] = 'sho' . $campo;
+                            $retorno[] = 'sha' . $campo;
                         }
                     }
                 }
             }
 
-            return $Retorno;
+            return $retorno;
         } else {
-            return $Retorno;
+            return $retorno;
         }
     }
 
