@@ -30,9 +30,14 @@ class FormValida
     private $instanceBasico = 'Zion\Form\FormBasico';
 
     /**
-     * @var string $instaceBasico Nome da classe básica extendida por todas as classes em \Zion\Form;
+     * @var string $instanceZion Nome da classe Zion extendida por todas as classes em \Pixel\Form;
      */
     private $instanceZion;
+
+    /**
+     * @var string $instanceParent Nome da classe Parent extendida por todas as classes em \Zion\Form;
+     */
+    private $instanceParent;
 
     /**
      * @var object $texto Instância da classe de validação de strings
@@ -86,13 +91,15 @@ class FormValida
             throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe válida!');
         }
 
-        $className = get_class($form);
+        $className              = get_class($form);
 
-        $vendorName = substr($className, 0, strpos($className, '\\'));
+        $vendorName             = substr($className, 0, strpos($className, '\\'));
 
-        $this->instance = addslashes($className);
+        $this->instance         = addslashes($className);
 
-        $this->instanceZion = preg_replace('/[' . $vendorName . ']{' . strlen($vendorName) . '}/', 'Zion', $this->instance);
+        $this->instanceZion     = preg_replace('/[' . $vendorName . ']{' . strlen($vendorName) . '}/', 'Zion', $this->instance);
+        
+        $this->instanceParent   = addslashes(get_parent_class($form));
 
         return $this->validaFormInput($form);
     }
@@ -112,7 +119,7 @@ class FormValida
         $userValue = $input->getValor();
         $identifica = $this->texto->removerAcentos($input->getIdentifica());
 
-        foreach (array_keys($attrs) as $value) {
+        foreach (($attrs) as $value) {
 
             switch ($value) {
 
@@ -144,6 +151,38 @@ class FormValida
                     } elseif (strtoupper($input->getAcao()) == 'NUMBER') {
                         if (is_numeric($userValue) === false) {
                             throw new FormException($identifica . ": O valor informado nao e um numero valido!");
+                        }
+                    } elseif (strtoupper($input->getAcao()) == 'ESCOLHA') {
+                        if(empty($userValue)){
+                            throw new FormException($identifica . ": Voce deve selecionar uma das opcoes!");
+                        }
+                    } elseif (strtoupper($input->getAcao()) == 'CHOSEN') {
+                        if (is_array($userValue)) {
+                            if(@count($userValue) < 1){
+                                throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
+                            }
+                        } else {
+                            if(empty($userValue)){
+                                throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
+                            }
+                        }
+                    }
+                    break;
+
+                case 'selecaoMinima':
+                    $val = $input->getSelecaoMinima();
+                    if (!empty($val)) {
+                        if (count($userValue) < $val) {
+                            throw new FormException($identifica . ": Voce deve selecionar no minimo " . $val . " # opcoes! ");
+                        }
+                    }
+                    break;
+
+                case 'selecaoMaxima':
+                    $val = $input->getSelecaoMaxima();
+                    if (!empty($val)) {
+                        if (count($userValue) > $val) {
+                            throw new FormException($identifica . ": Voce deve selecionar no maximo " . $val . " opcoes!");
                         }
                     }
                     break;
@@ -229,7 +268,7 @@ class FormValida
 
         foreach ((array) $input as $key => $val) {
 
-            $key = preg_replace(array('/' . $this->instance . '/', '/' . $this->instanceZion . '/', '/' . $this->instanceBasico . '/', '/\W/'), array('', '', '', ''), $key);
+            $key = preg_replace(array('/' . $this->instance . '/', '/' . $this->instanceZion . '/', '/' . $this->instanceBasico . '/', '/' . $this->instanceParent . '/', '/\W/'), array('', '', '', '', ''), $key);
             $attrs[$i++] = $key;
         }
 
