@@ -170,58 +170,58 @@ class Form extends \Zion\Form\Form
 
     public function getFormHtml($nome = null)
     {
-        $htmlCampos = array();
+        $htmlCampos = [];
 
         $obj = $nome ? [$nome=>$this->objetos[$nome]] : $this->objetos;
 
-        foreach ($obj as $nome=>$objCampos) {
+        foreach ($obj as $idCampo=>$objCampos) {
 
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :
-                    $htmlCampos[$nome] = $this->formHtml->montaHidden($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaHidden($objCampos);
                     break;
                 case 'texto' :
-                    $htmlCampos[$nome] = $this->formPixel->montaTexto($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaTexto($objCampos);
                     break;
                 case 'textarea' :
-                    $htmlCampos[$nome] = $this->formPixel->montaTextArea($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'editor' :
-                    $htmlCampos[$nome] = $this->formPixel->montaTextArea($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'suggest' :
-                    $htmlCampos[$nome] = $this->formPixel->montaSuggest($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaSuggest($objCampos);
                     break;
                 case 'data' :
-                    $htmlCampos[$nome] = $this->formPixel->montaData($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaData($objCampos);
                     break;
                 case 'hora' :
-                    $htmlCampos[$nome] = $this->formPixel->montaHora($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaHora($objCampos);
                     break;
                 case 'number' :
-                    $htmlCampos[$nome] = $this->formPixel->montaNumber($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaNumber($objCampos);
                     break;
                 case 'float' :
-                    $htmlCampos[$nome] = $this->formPixel->montaFloat($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaFloat($objCampos);
                     break;
                 case 'cpf' :
-                    $htmlCampos[$nome] = $this->formPixel->montaTexto($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaTexto($objCampos);
                     break;
                 case 'escolha':
-                    $htmlCampos[$nome] = $this->formPixel->montaEscolha($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos);
                     break;                
                 case 'chosen':
-                    $htmlCampos[$nome] = $this->formPixel->montaEscolha($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos);
                     break;
                 case 'button':
-                    $htmlCampos[$nome] = $this->formPixel->montaButton($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaButton($objCampos);
                     break;
                 case 'layout':
-                    $htmlCampos[$nome] = $this->formHtml->montaLayout($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
                 default : throw new \Exception('Tipo Base não encontrado!');
             }
-        }
+        }      
 
         return $nome ? $htmlCampos[$nome] : $htmlCampos;
     }
@@ -248,9 +248,10 @@ class Form extends \Zion\Form\Form
     {
         $buffer = $this->abreFormManu();
 
-        $footer = '';
+        $footer = '';  
 
         $campos = $this->getFormHtml();
+        
         foreach ($campos as $nome => $textoHtml) {
             if ($this->objetos[$nome]->getTipoBase() == 'button') {
                 $footer.= $textoHtml . "&nbsp;&nbsp;";

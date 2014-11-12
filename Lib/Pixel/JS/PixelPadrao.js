@@ -18,7 +18,7 @@ function sisSvo(q, t) {
 
 function showHiddenFilters() {
     $(".showHidden").slideToggle();
-    $(".showHidden").removeClass("hidden");
+    $(".showHidden").removeClass("hidden");       
 }
 
 $(document).ready(function () {
