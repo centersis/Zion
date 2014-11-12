@@ -14,11 +14,21 @@ namespace Zion\Exportacao;
 
 class CSV extends ExportacaoVO 
 {
+    /**
+     * CSV::getCSV()
+     * 
+     * @return
+     */
     public function getCSV()
     {
         return self::geraRelatorio();
     }
     
+    /**
+     * CSV::geraRelatorio()
+     * 
+     * @return
+     */
     private function geraRelatorio(){
 
         $dadosRelatorio = parent::getDadosRelatorio();
@@ -31,7 +41,7 @@ class CSV extends ExportacaoVO
 
         $dadosCSV = NULL;
         foreach($colunas as $col=>$name){
-            $dadosCSV .= htmlentities($name) .';';
+            $dadosCSV .= ($name) .';';
         }
 
         $dadosCSV =  substr($dadosCSV, false, -1) . "\n";
@@ -48,7 +58,7 @@ class CSV extends ExportacaoVO
             $linha = NULL;
 
             foreach($colunas as $col=>$name){
-                $linha .= htmlentities($dadosRelatorio[$i][$col]) .';';
+                $linha .= ($dadosRelatorio[$i][$col]) .';';
             }
             
             $dadosCSV .= substr($linha, false, -1) . "\n";
