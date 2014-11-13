@@ -38,12 +38,11 @@ class Filtrar
         $sql = '';
 
         //Recupera Valores do Formulário
-        $operador = \filter_input(\INPUT_GET, 'sho' . 'n'.$nomeCampo);
-        $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n'.$nomeCampo));
-        $valor = \filter_input(\INPUT_GET, 'n'.$nomeCampo);  
-        
-        //echo $operador.' - '.$acao.' - '.$valor."\n";
+        $operador = \filter_input(\INPUT_GET, 'sho' . 'n' . $nomeCampo);
+        $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n' . $nomeCampo));
+        $valor = \filter_input(\INPUT_GET, 'n' . $nomeCampo);
 
+        //echo $operador.' - '.$acao.' - '.$valor."\n";
         //Valida Informações
         if ($operador == '' or $acao == '') {
             if ($valor <> '') {
@@ -211,59 +210,27 @@ class Filtrar
 
     function getHiddenParametros($arrayParametros)
     {
-        return [];
-        $retorno = array();
+        $retorno = [];
 
-        if (is_array($arrayParametros) and ! empty($arrayParametros)) {
-
+        if (\is_array($arrayParametros) and ! empty($arrayParametros)) {
+            
             foreach ($arrayParametros as $campo) {
-                //Intecepta E ou OU
-                $campoEOU = filter_input(INPUT_GET, 'sho' . $campo);
 
-                if ($campoEOU == 'E' or $campoEOU == 'OU') {
-                    $valorA = filter_input(INPUT_GET, $campo . 'A');
-                    $valorB = filter_input(INPUT_GET, $campo . 'B');
+                $valor = \filter_input(\INPUT_GET, $campo);
+                $opcao = \filter_input(\INPUT_GET, 'sho' . $campo);
+                $acao = \filter_input(\INPUT_GET, 'sha' . $campo);
 
-                    $opcaoA = filter_input(INPUT_GET, 'sho' . $campo . 'A');
-                    $opcaoB = filter_input(INPUT_GET, 'sho' . $campo . 'B');
-
-                    $tipo = filter_input(INPUT_GET, 'sha' . $campo);
-
-                    if ($valorA <> '') {
-                        if ($opcaoA <> '' and $tipo <> '') {
-                            $retorno[] = $campo . 'A';
-                            $retorno[] = 'sho' . $campo . 'A';
-                        }
-                    }
-
-                    if ($valorB <> '') {
-                        if ($opcaoB <> '' and $tipo <> '') {
-                            $retorno[] = $campo . 'B';
-                            $retorno[] = 'sho' . $campo . 'B';
-                        }
-                    }
-
-                    //Tipo E e Ou
-                    if ($valorA <> '' or $valorB <> '') {
+                if ($valor <> '') {
+                    if ($opcao <> '' and $acao <> '') {
                         $retorno[] = 'sho' . $campo;
                         $retorno[] = 'sha' . $campo;
-                    }
-                } else {
-                    $valor = filter_input(INPUT_GET, $campo);
-                    $opcao = filter_input(INPUT_GET, 'sho' . $campo);
-                    $tipo = filter_input(INPUT_GET, 'sha' . $campo);
-
-                    if ($valor <> '') {
-                        if ($opcao <> '' and $tipo <> '') {
-                            $retorno[] = 'sho' . $campo;
-                            $retorno[] = 'sha' . $campo;
-                        }
                     }
                 }
             }
 
             return $retorno;
         } else {
+
             return $retorno;
         }
     }

@@ -18,7 +18,7 @@ function sisSvo(q, t) {
 
 function showHiddenFilters() {
     $(".showHidden").slideToggle();
-    $(".showHidden").removeClass("hidden");       
+    $(".showHidden").removeClass("hidden");
 }
 
 $(document).ready(function () {
@@ -300,7 +300,7 @@ function sisSetCrashAlert(a, b)
 }
 
 /* FILTROS */
-function sisChangeFil()
+function sisChangeFil(origem)
 {
     var campos = $('#sisFormFiltro').serializeArray();
     var contN = 0;
@@ -311,7 +311,7 @@ function sisChangeFil()
         if ($('#' + campo.name).attr('type') !== 'hidden' && campo.value !== '') {
             var valor = $('#' + campo.name).val();
             var tipo = $('#' + campo.name).attr('name').substr(0, 1);
-            
+
             if (tipo === 'n' && valor !== '') {
                 contN++;
             }
@@ -325,6 +325,25 @@ function sisChangeFil()
             }
         }
     });
+
+    //Corrige Badges
+    if (origem === 'n') {
+        $('#sisBadgeN').removeClass('tachado');
+        $('#sisBadgeE').addClass('tachado');
+        $('#sisBadgeO').addClass('tachado');
+    }
+    else if (origem === 'e')
+    {
+        $('#sisBadgeN').addClass('tachado');
+        $('#sisBadgeE').removeClass('tachado');
+        $('#sisBadgeO').addClass('tachado');
+    }
+    else if (origem === 'o')
+    {
+        $('#sisBadgeN').addClass('tachado');
+        $('#sisBadgeE').addClass('tachado');
+        $('#sisBadgeO').removeClass('tachado');
+    }
 
     if (contN > 0) {
         $('#sisBadgeN').html(contN).removeClass('hidden');
@@ -346,19 +365,42 @@ function sisChangeFil()
     else {
         $('#sisBadgeO').html(contO).addClass('hidden');
     }
-    
-    sisFiltrarPadrao($('#sisFormFiltro').serialize());
+
+    sisFiltrarPadrao(parametrosFiltro(origem));
 }
 
-function sisOpFiltro(nomeCampo, tipo)
+function sisOpFiltro(nomeCampo, tipo, origem)
 {
-    $("#sho"+nomeCampo).val(tipo);
-    
-    $("#sisIcFil"+nomeCampo).html('&nbsp;&nbsp;'+tipo);
-    
-    if($("#"+nomeCampo).val()){
-        sisFiltrarPadrao($('#sisFormFiltro').serialize());
-    }    
+    $("#sho" + nomeCampo).val(tipo);
+
+    $("#sisIcFil" + nomeCampo).html('&nbsp;&nbsp;' + tipo);
+
+    if ($("#" + nomeCampo).val()) {
+        sisFiltrarPadrao(parametrosFiltro(origem));
+    }
+}
+
+function parametrosFiltro(origem)
+{
+    var campos = $('#sisFormFiltro').serializeArray();
+
+    var par = [];
+
+    $.each(campos, function (pos, campo) {
+
+        var nome = $('#' + campo.name).attr('name');
+        var p = nome.substr(0, 1);
+        var h = nome.substr(0, 4);
+
+        if (p === origem || h === 'sho' + origem || h === 'sha' + origem) {
+            par.push({
+                name: campo.name,
+                value: campo.value
+            });
+        }
+    });
+
+    return par;
 }
 
 
