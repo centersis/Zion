@@ -20,7 +20,7 @@ class Form extends \Zion\Form\Form
     {
         return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
-    
+
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
         return new \Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
@@ -78,12 +78,12 @@ class Form extends \Zion\Form\Form
 
     public function escolha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormEscolha('escolha',$nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormEscolha('escolha', $nome, $identifica, $obrigatorio);
     }
-    
+
     public function chosen($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormChosen('chosen',$nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormChosen('chosen', $nome, $identifica, $obrigatorio);
     }
 
     public function textArea($nome, $identifica, $obrigatorio = false)
@@ -153,10 +153,10 @@ class Form extends \Zion\Form\Form
 
         return $ret;
     }
-    
+
     public function abreFormFiltro()
     {
-        return $this->html->abreTagAberta('form', ['nome'=>$this->formConfig->getNome(),'id' => $this->formConfig->getNome(), 'class' => 'form-horizontal']);
+        return $this->html->abreTagAberta('form', ['nome' => $this->formConfig->getNome(), 'id' => $this->formConfig->getNome(), 'class' => 'form-horizontal']);
     }
 
     public function fechaForm()
@@ -172,9 +172,9 @@ class Form extends \Zion\Form\Form
     {
         $htmlCampos = [];
 
-        $obj = $nome ? [$nome=>$this->objetos[$nome]] : $this->objetos;
+        $obj = $nome ? [$nome => $this->objetos[$nome]] : $this->objetos;
 
-        foreach ($obj as $idCampo=>$objCampos) {
+        foreach ($obj as $idCampo => $objCampos) {
 
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :
@@ -209,7 +209,7 @@ class Form extends \Zion\Form\Form
                     break;
                 case 'escolha':
                     $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos);
-                    break;                
+                    break;
                 case 'chosen':
                     $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos);
                     break;
@@ -221,7 +221,7 @@ class Form extends \Zion\Form\Form
                     break;
                 default : throw new \Exception('Tipo Base não encontrado!');
             }
-        }      
+        }
 
         return $nome ? $htmlCampos[$nome] : $htmlCampos;
     }
@@ -230,28 +230,53 @@ class Form extends \Zion\Form\Form
      * 
      * @return FormJavaScript
      */
-    public function javaScript()
+    public function javaScript($validacao = true, $javaScriptExtra = true)
     {
         $smartJs = new \Pixel\Form\FormPixelJavaScript();
         $jsStatic = \Pixel\Form\FormJavaScript::iniciar();
 
-        foreach ($this->objetos as $config) {
-            $smartJs->processar($config);
+        //print_r($this->objetos);
+        if ($validacao or $javaScriptExtra) {
+            
+            foreach ($this->objetos as $config) {
+                if ($validacao) {
+                    $smartJs->processarValidacao($config);
+                }
+
+                if ($javaScriptExtra) {
+                    $smartJs->processarJS($config);
+                }
+            }
+
+            if ($validacao) {
+                $js = $smartJs->montaValidacao($this->formConfig->getNome(), $this->getAcao());
+            } else {
+                $js = $smartJs->getJS();
+            }
+
+            $jsStatic->setLoad($js);
         }
 
-        $jsStatic->setLoad($smartJs->montaValidacao($this->formConfig->getNome(), $this->getAcao()));
-
         return $jsStatic;
+    }
+    
+    public function processarJSObjeto($objeto)
+    {
+        $smartJs = new \Pixel\Form\FormPixelJavaScript();
+        
+        $smartJs->processarJS($objeto);
+        
+        return $smartJs->getJS();
     }
 
     public function montaForm()
     {
         $buffer = $this->abreFormManu();
 
-        $footer = '';  
+        $footer = '';
 
         $campos = $this->getFormHtml();
-        
+
         foreach ($campos as $nome => $textoHtml) {
             if ($this->objetos[$nome]->getTipoBase() == 'button') {
                 $footer.= $textoHtml . "&nbsp;&nbsp;";
