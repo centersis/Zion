@@ -81,7 +81,7 @@ class CSV extends ExportacaoVO
 		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename='. $nome .';');
 		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: '.@filesize($caminho));
+		header('Content-Length: '. @filesize($caminho));
 		set_time_limit(0);
 		if(!@readfile($caminho)) return false;
 		return(@fclose($arquivo)) ? true : false;
