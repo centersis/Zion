@@ -41,7 +41,7 @@ class FormInputData extends \Zion\Form\FormBasico
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         
-        $this->data = new Data();
+        $this->data = \Zion\Tratamento\Data::instancia();
     }
     
     /**

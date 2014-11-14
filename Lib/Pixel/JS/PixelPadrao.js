@@ -308,6 +308,8 @@ function sisChangeFil(origem)
     var contO = 0;
 
     $.each(campos, function (pos, campo) {
+        
+        //alert($('#' + campo.name).attr('type')+' - '+campo.name+' : '+campo.value);
         if ($('#' + campo.name).attr('type') !== 'hidden' && campo.value !== '') {
             var valor = $('#' + campo.name).val();
             var tipo = $('#' + campo.name).attr('name').substr(0, 1);

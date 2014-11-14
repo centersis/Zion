@@ -28,12 +28,12 @@ class Form extends \Zion\Form\Form
 
     public function data($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputData('data', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputData('date', $nome, $identifica, $obrigatorio);
     }
 
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputHora('hora', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputHora('time', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
@@ -156,7 +156,7 @@ class Form extends \Zion\Form\Form
 
     public function abreFormFiltro()
     {
-        return $this->html->abreTagAberta('form', ['nome' => $this->formConfig->getNome(), 'id' => $this->formConfig->getNome(), 'class' => 'form-horizontal']);
+        return $this->html->abreTagAberta('form', ['id' => $this->formConfig->getNome(), 'class' => 'form-horizontal']);
     }
 
     public function fechaForm()

@@ -132,6 +132,7 @@ class FiltroForm
         $buffer = $this->html->abreTagAberta('form', ['class' => 'form-horizontal']);
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'form-group']);
 
+        $mascara = $prefixo === 'e' ? ' E QUE ' : ' OU QUE ';
 
         foreach ($objetos as $nomeObjeto => $objCampo) {
 
@@ -140,7 +141,7 @@ class FiltroForm
             $buffer .= $this->getCampoDuplo($objForm, $nomeObjeto, $objCampo, $prefixo, 'A');
             $buffer .= $this->html->fechaTag('div');
             $buffer .= $this->html->abreTagAberta('div', ['class' => 'col-sm-1']);
-            $buffer .= $this->html->abreTagAberta('span', ['class' => 'label label-warning marE10px']) . $prefixo . $this->html->fechaTag('span');
+            $buffer .= $this->html->abreTagAberta('span', ['class' => 'label label-warning marE10px']) . $mascara . $this->html->fechaTag('span');
             $buffer .= $this->html->fechaTag('div');
             // por questoes de alinhamento, o primeiro campo é col-sm-5 e o segundo é col-sm-6
             $buffer .= $this->html->abreTagAberta('div', ['class' => 'col-sm-6']);
@@ -149,7 +150,6 @@ class FiltroForm
         }
 
         $buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->html->fechaTag('form');
 
         return $buffer;
     }
@@ -167,8 +167,8 @@ class FiltroForm
         $buffer .= $objCampo->getIdentifica();
         $buffer .= $this->html->fechaTag('button');
 
-        $buffer .= $this->html->abreTagAberta('button', ['id' => 'sisBtnFil', 'type' => 'button', 'class' => 'btn dropdown-toggle', 'data-toggle' => 'dropdown']);
-        $buffer .= $this->html->abreTagAberta('span', ['id' => 'sisIcFil', 'class' => 'fa fa-caret-down']);
+        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn dropdown-toggle', 'data-toggle' => 'dropdown']);
+        $buffer .= $this->html->abreTagAberta('span', ['id' => 'sisIcFil'.$objCampo->getNome(), 'class' => 'fa fa-caret-down']);
         $buffer .= '';
         $buffer .= $this->html->fechaTag('span');
         $buffer .= $this->html->fechaTag('button');
