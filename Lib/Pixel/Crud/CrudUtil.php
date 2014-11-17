@@ -61,7 +61,7 @@ class CrudUtil
         //Monta Array de Retotno
         if (is_array($arrayForm)) {
             foreach ($arrayForm as $cfg) {
-                $arrayCampos[] = $cfg->getNome();
+                $arrayCampos[] = 'n'.$cfg->getNome();
             }
         }
 
@@ -74,7 +74,6 @@ class CrudUtil
      */
     public function getSqlFiltro($fil, $objForm, array $colunas)
     {
-        //Incia Variavel que receberá as instruções Sql
         $sql = '';
 
         //Recuperando Array de Campos
@@ -84,8 +83,8 @@ class CrudUtil
         //Monta Sql de Retotno
         if (is_array($arrayForm)) {
             foreach ($arrayForm as $cFG) {
-                //$alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
-                //$sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $cFG->getProcesarComo());
+                $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
+                $sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome());
             }
         }
 
@@ -96,7 +95,7 @@ class CrudUtil
 
     private function sqlBuscaGeral($colunas)
     {
-        $buscaGral = filter_input(INPUT_GET, 'sisBuscaGeral');
+        $buscaGral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
 
         $sql = '';
 
@@ -107,7 +106,7 @@ class CrudUtil
 
             $total = count($colunas);
             $cont = 0;
-            foreach (array_keys($colunas) as $coluna) {
+            foreach (\array_keys($colunas) as $coluna) {
                 $cont++;
                 $sql.= $coluna . " REGEXP '" . $campos . "'";
 

@@ -5,51 +5,62 @@ namespace Pixel\Filtro;
 class FiltroForm
 {
 
-    private $zIndex;
     private $html;
+    private $js;
+    private $complementoOriginal;
+    private $onSelectOriginal;
+    private $nomeOriginal;
+    private $idOriginal;
 
     public function __construct()
     {
         $this->html = new \Zion\Layout\Html();
+        $this->js = [];
+
+        $this->complementoOriginal = [];
+        $this->onSelectOriginal = [];
+        $this->nomeOriginal = [];
+        $this->idOriginal = [];
     }
 
     public function montaFiltro($objForm)
     {
         $template = new \Pixel\Template\Template();
-        $this->atualizaIds($objForm);
-        $objetos = $objForm->getObjetos();
+        $javascript = new \Zion\Layout\JavaScript();
 
-        $tabArray = array(
-            array('tabId' => 1,
+        $html = $objForm->abreFormFiltro();
+
+        $tabArray = [
+            ['tabId' => 1,
+                'onClick' => 'sisChangeFil(\'n\')',
                 'tabActive' => 'active',
                 'tabTitle' => 'Filtros especiais' .
-                $template->getBadge(count($objetos), ['id' => 'fE', 'tipo' => 'danger']),
+                $template->getBadge(['id' => 'N', 'tipo' => 'danger'], 0),
                 'tabContent' => $this->getFiltroNormal($objForm)
-            ),
-            array('tabId' => 2,
+            ],
+            ['tabId' => 2,
+                'onClick' => 'sisChangeFil(\'e\')',
                 'tabActive' => '',
                 'tabTitle' => 'Filtros de operação ' .
-                $template->getLabel("E QUE", ['id' => 'tabEQUE', 'tipo' => 'warning']) .
-                $template->getBadge("2", ['id' => 'fE', 'tipo' => 'danger']),
-                'tabContent' => $this->getFiltroDuplo($objForm, 'E QUE')
-            ),
-            array('tabId' => 3,
+                $template->getLabel(['id' => 'tabEQUE', 'tipo' => 'warning'], "E QUE") .
+                $template->getBadge(['id' => 'E', 'tipo' => 'danger'], 0),
+                'tabContent' => $this->getFiltroDuplo($objForm, 'e')
+            ],
+            ['tabId' => 3,
+                'onClick' => 'sisChangeFil(\'o\')',
                 'tabActive' => '',
                 'tabTitle' => 'Filtros de operação ' .
-                $template->getLabel("OU QUE", ['id' => 'tabOUQUE', 'tipo' => 'warning']) .
-                $template->getBadge("1", ['id' => 'fE', 'tipo' => 'danger']),
-                'tabContent' => 'chupa que é de uva'
-            )
-        );
+                $template->getLabel(['id' => 'tabOUQUE', 'tipo' => 'warning'], "OU QUE") .
+                $template->getBadge(['id' => 'O', 'tipo' => 'danger'], 0),
+                'tabContent' => $this->getFiltroDuplo($objForm, 'o')
+            ]
+        ];
 
-        $html = $template->getTab('tabFiltro', array('classCss' => 'col-sm-12'), $tabArray);
+        $html .= $template->getTab('tabFiltro', ['classCss' => 'col-sm-12'], $tabArray);
 
+        $html .= $objForm->fechaForm();
 
-        //Hidden de Interceptção a paginação
-        //$html .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'pa', 'id' => 'pa', 'value' => '']);
-        //$html .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'qo', 'id' => 'qo', 'value' => '']);
-        //$html .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'to', 'id' => 'to', 'value' => '']);
-        //$html.= $objForm->fechaForm();
+        $html.= $javascript->entreJS($javascript->abreLoadJQuery() . implode('', $this->js) . $javascript->fechaLoadJQuery());
 
         return $html;
     }
@@ -58,121 +69,168 @@ class FiltroForm
     {
         $objetos = $objForm->getObjetos();
 
-        $buffer = $this->html->abreTagAberta('form', array('class' => 'form-horizontal'));
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'form-group'));
+        $prefixo = 'n';
+        $this->atualizaCampos($objForm, $prefixo);
 
-        foreach ($objetos as $nomeCampo => $objCampo) {
+        $buffer = $this->html->abreTagAberta('div', ['class' => 'form-group']);
+
+        foreach ($objetos as $nomeObjeto => $objCampo) {
 
             $objCampo->setLayoutPixel(false);
+            $nomeCampo = $objCampo->getNome();
 
-            $buffer .= $this->html->abreTagAberta('div', array('class' => 'col-sm-6'));
-            $buffer .= $this->html->abreTagAberta('div', array('class' => 'input-group'));
+            $tipoFiltro = key($this->getTipoFiltro($objCampo->getTipoFiltro()));
+            $acao = $objCampo->getAcao();
 
-            $buffer .= $this->html->abreTagAberta('div', array('class' => 'input-group-btn'));
-            $buffer .= $this->html->abreTagAberta('button', array('type' => 'button', 'class' => 'btn btn-default', 'tabindex' => '-1'));
+            $buffer .= $this->html->abreTagAberta('div', ['class' => 'col-sm-6']);
+            $buffer .= $this->html->abreTagAberta('div', ['class' => 'input-group']);
+
+            $buffer .= $this->html->abreTagAberta('div', ['class' => 'input-group-btn']);
+            $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-default', 'tabindex' => '-1']);
             $buffer .= $objCampo->getIdentifica();
             $buffer .= $this->html->fechaTag('button');
 
-            $buffer .= $this->html->abreTagAberta('button', array('id' => 'sisBtnFil', 'type' => 'button', 'class' => 'btn dropdown-toggle', 'data-toggle' => 'dropdown'));
-            $buffer .= $this->html->abreTagAberta('span', array('id' => 'sisIcFil', 'class' => 'fa fa-caret-down'));
-            $buffer .= '';
+            $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn dropdown-toggle btn-warning', 'data-toggle' => 'dropdown']);
+            $buffer .= $this->html->abreTagAberta('span', ['id' => 'sisIcFil' . $nomeCampo, 'class' => 'fa fa-caret-down']);
+            $buffer .= $tipoFiltro;
             $buffer .= $this->html->fechaTag('span');
             $buffer .= $this->html->fechaTag('button');
 
-            $buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
+            $buffer .= $this->html->abreTagAberta('ul', ['class' => 'dropdown-menu']);
 
-            $buffer.= $this->opcoesDeFiltro('texto');
+            $buffer.= $this->opcoesDeFiltro($objCampo->getTipoFiltro(), $nomeCampo, 'n');
 
             $buffer .= $this->html->fechaTag('ul');
             $buffer .= $this->html->fechaTag('div');
 
-            $buffer .= $objForm->getFormHtml($nomeCampo);
+            //Campo
+            $buffer .= $objForm->getFormHtml($nomeObjeto);
+
+            //Hiddens - sisHiddenOperador = sho e sisHiddenAcao = sha
+            $buffer .= $this->html->abreTagFechada('input', ['name' => 'sho' . $nomeCampo, 'id' => 'sho' . $nomeCampo, 'type' => 'hidden', 'value' => $tipoFiltro]);
+            $buffer .= $this->html->abreTagFechada('input', ['name' => 'sha' . $nomeCampo, 'id' => 'sha' . $nomeCampo, 'type' => 'hidden', 'value' => $acao]);
 
             $buffer .= $this->html->fechaTag('div');
             $buffer .= $this->html->fechaTag('div');
+
+            $this->js[] = $objForm->processarJSObjeto($objCampo);
         }
         $buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->html->fechaTag('form');
 
-        $buffer .= $objForm->javaScript()->getLoad(true);
+
 
         return $buffer;
     }
 
-    private function getFiltroDuplo($objForm, $operacao)
+    private function getFiltroDuplo($objForm, $prefixo)
     {
-
         $this->html = new \Zion\Layout\Html();
 
         $objetos = $objForm->getObjetos();
 
-        $buffer = $this->html->abreTagAberta('form', array('class' => 'form-horizontal'));
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'form-group'));
+        $buffer = $this->html->abreTagAberta('form', ['class' => 'form-horizontal']);
+        $buffer .= $this->html->abreTagAberta('div', ['class' => 'form-group']);
 
+        $mascara = $prefixo === 'e' ? ' E QUE ' : ' OU QUE ';
 
-        foreach ($objetos as $nomeCampo => $objCampo) {
-
-            $objCampo->setLayoutPixel(false);
+        foreach ($objetos as $nomeObjeto => $objCampo) {
 
             // por questoes de alinhamento, o primeiro campo é col-sm-5 e o segundo é col-sm-6        
-            $buffer .= $this->html->abreTagAberta('div', array('class' => 'col-sm-5'));
-            $buffer .= $this->getCampoDuplo($objForm, $nomeCampo, $objCampo, 'A');
+            $buffer .= $this->html->abreTagAberta('div', ['class' => 'col-sm-5']);
+            $buffer .= $this->getCampoDuplo($objForm, $nomeObjeto, $objCampo, $prefixo, 'A');
             $buffer .= $this->html->fechaTag('div');
-            $buffer .= $this->html->abreTagAberta('div', array('class' => 'col-sm-1'));
-            $buffer .= $this->html->abreTagAberta('span', array('class' => 'label label-warning marE10px')) . $operacao . $this->html->fechaTag('span');
+            $buffer .= $this->html->abreTagAberta('div', ['class' => 'col-sm-1']);
+            $buffer .= $this->html->abreTagAberta('span', ['class' => 'label label-warning marE10px']) . $mascara . $this->html->fechaTag('span');
             $buffer .= $this->html->fechaTag('div');
             // por questoes de alinhamento, o primeiro campo é col-sm-5 e o segundo é col-sm-6
-            $buffer .= $this->html->abreTagAberta('div', array('class' => 'col-sm-6'));
-            $buffer .= $this->getCampoDuplo($objForm, $nomeCampo, $objCampo, 'B');
+            $buffer .= $this->html->abreTagAberta('div', ['class' => 'col-sm-6']);
+            $buffer .= $this->getCampoDuplo($objForm, $nomeObjeto, $objCampo, $prefixo, 'B');
             $buffer .= $this->html->fechaTag('div');
         }
 
         $buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->html->fechaTag('form');
 
         return $buffer;
     }
 
-    private function getCampoDuplo($objForm, $nomeCampo, $objCampo, $modo)
+    private function getCampoDuplo($objForm, $nomeCampo, $objCampo, $prefixo, $sufixo)
     {
+        $this->atualizaCampo($nomeCampo, $objCampo, $prefixo, $sufixo);
+
+        $objCampo->setLayoutPixel(false);
+
+        $tipoFiltro = key($this->getTipoFiltro($objCampo->getTipoFiltro()));
+        $acao = $objCampo->getAcao();
 
         $buffer = '';
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'input-group'));
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'input-group-btn'));
-        $buffer .= $this->html->abreTagAberta('button', array('type' => 'button', 'class' => 'btn btn-default', 'tabindex' => '-1'));
+        $buffer .= $this->html->abreTagAberta('div', ['class' => 'input-group']);
+        $buffer .= $this->html->abreTagAberta('div', ['class' => 'input-group-btn']);
+        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-default', 'tabindex' => '-1']);
         $buffer .= $objCampo->getIdentifica();
         $buffer .= $this->html->fechaTag('button');
 
-        $buffer .= $this->html->abreTagAberta('button', array('id' => 'sisBtnFil', 'type' => 'button', 'class' => 'btn dropdown-toggle', 'data-toggle' => 'dropdown'));
-        $buffer .= $this->html->abreTagAberta('span', array('id' => 'sisIcFil', 'class' => 'fa fa-caret-down'));
+        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn dropdown-toggle', 'data-toggle' => 'dropdown']);
+        $buffer .= $this->html->abreTagAberta('span', ['id' => 'sisIcFil' . $objCampo->getNome(), 'class' => 'fa fa-caret-down']);
         $buffer .= '';
         $buffer .= $this->html->fechaTag('span');
         $buffer .= $this->html->fechaTag('button');
 
-        $buffer .= $this->html->abreTagAberta('ul', array('class' => 'dropdown-menu'));
+        $buffer .= $this->html->abreTagAberta('ul', ['class' => 'dropdown-menu']);
 
-        $buffer.= $this->opcoesDeFiltro('texto');
+        $buffer.= $this->opcoesDeFiltro($objCampo->getTipoFiltro(), $nomeCampo, $prefixo);
 
         $buffer .= $this->html->fechaTag('ul');
         $buffer .= $this->html->fechaTag('div');
 
         $buffer .= $objForm->getFormHtml($nomeCampo);
+        //Hiddens - sisHiddenOperador = sho e sisHiddenAcao = sha
+        $buffer .= $this->html->abreTagFechada('input', ['name' => 'sho' . $prefixo . $nomeCampo . $sufixo, 'id' => 'sho' . $prefixo . $nomeCampo . $sufixo, 'type' => 'hidden', 'value' => $tipoFiltro]);
+        $buffer .= $this->html->abreTagFechada('input', ['name' => 'sha' . $prefixo . $nomeCampo . $sufixo, 'id' => 'sha' . $prefixo . $nomeCampo . $sufixo, 'type' => 'hidden', 'value' => $acao]);
 
         $buffer .= $this->html->fechaTag('div');
+
+        $this->js[] = $objForm->processarJSObjeto($objCampo);
+
         return $buffer;
     }
 
-    private function atualizaIds($objForm, $prefixo = '', $sufixo = '')
+    private function atualizaCampos($objForm, $prefixo = '', $sufixo = '')
     {
         $obj = $objForm->getObjetos();
 
-        foreach ($obj as $objCampos) {
-            $idAtual = $objCampos->getId();
-            $objCampos->setId($prefixo . $idAtual . $sufixo);
+        foreach ($obj as $nomeObjeto => $objCampos) {
+
+            $tipoBase = $objCampos->getTipoBase();
+
+            $this->nomeOriginal[$nomeObjeto] = $objCampos->getNome();
+            $this->idOriginal[$nomeObjeto] = $objCampos->getId();
+            $this->complementoOriginal[$nomeObjeto] = $objCampos->getComplemento();
+
+            $objCampos->setNome($prefixo . $this->nomeOriginal[$nomeObjeto] . $sufixo);
+            $objCampos->setId($prefixo . $this->idOriginal[$nomeObjeto] . $sufixo);
+            $objCampos->setComplemento($this->complementoOriginal[$nomeObjeto] . ' onChange="sisChangeFil(\'' . $prefixo . '\')"');
+
+            if ($tipoBase == 'suggest') {
+                $this->onSelectOriginal[$nomeObjeto] = $objCampos->getOnSelect();
+                $objCampos->setOnSelect($this->onSelectOriginal[$nomeObjeto] . ' sisChangeFil(\'' . $prefixo . '\');');
+            }
         }
     }
 
-    private function opcoesDeFiltro($tipoFiltro)
+    private function atualizaCampo($nomeObjeto, $objCampo, $prefixo = '', $sufixo = '')
+    {
+        $tipoBase = $objCampo->getTipoBase();
+
+        $objCampo->setNome($prefixo . $this->nomeOriginal[$nomeObjeto] . $sufixo);
+        $objCampo->setId($prefixo . $this->idOriginal[$nomeObjeto] . $sufixo);
+        $objCampo->setComplemento($this->complementoOriginal[$nomeObjeto] . ' onChange="sisChangeFil(\'' . $prefixo . '\')"');
+
+        if ($tipoBase == 'suggest') {
+            $objCampo->setOnSelect($this->onSelectOriginal[$nomeObjeto] . ' sisChangeFil(\'' . $prefixo . '\');');
+        }
+    }
+
+    private function opcoesDeFiltro($tipoFiltro, $nomeCampo, $prefixo)
     {
         $buffer = '';
         $tipos = $this->getTipoFiltro($tipoFiltro);
@@ -180,7 +238,7 @@ class FiltroForm
         foreach ($tipos as $tipo => $descricao) {
 
             $buffer .= $this->html->abreTagAberta('li');
-            $buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'onclick' => 'sisChFil(\'' . $tipo . '\');'));
+            $buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'onclick' => 'sisOpFiltro(\'' . $nomeCampo . '\',\'' . $tipo . '\',\'' . $prefixo . '\');'));
             $buffer .= $this->html->abreTagAberta('span', array('class' => 'label label-warning')) . $tipo . $this->html->fechaTag('span');
             $buffer .= $this->html->abreTagAberta('span', array('class' => 'recE20px italico')) . $descricao . $this->html->fechaTag('span');
             $buffer .= $this->html->fechaTag('a');
@@ -190,14 +248,27 @@ class FiltroForm
         return $buffer;
     }
 
+    private function getAcao($acao, $tipoFiltro)
+    {
+        switch ($acao) {
+            case 'escolha':                     
+                $novaAcao = 'texto';                    
+                break;
+            case 'number': case 'float':
+            default : $novaAcao = 'texto';
+        }
+
+        return $novaAcao;
+    }
+
     private function getTipoFiltro($tipoFiltro)
     {
         $igual = ['=' => 'Igual a'];
         $diferente = ['≠' => 'Diferente de'];
         $menor = ['<' => 'Menor que'];
-        $menorIgual = ['<=', 'Menor ou igual'];
-        $maior = ['>', 'Maior que'];
-        $maiorIgual = ['>=', 'Maior ou igual'];
+        $menorIgual = ['<=' => 'Menor ou igual que'];
+        $maior = ['>' => 'Maior que'];
+        $maiorIgual = ['>=' => 'Maior ou igual que'];
         $coringa = ['*' => 'Coringa'];
         $coringaAntes = ['*A' => 'Coringa antes'];
         $coringaDepois = ['A*' => 'Coringa após'];
@@ -219,67 +290,6 @@ class FiltroForm
                 return $diferente;
 
             default: return [];
-        }
-    }
-
-    public function opFiltro($cFG, $campo)
-    {
-        //Variaveis de Configurações
-        $nomeCampo = $cFG['Nome'];
-        $identifica = $cFG['Identifica'];
-        $tipoFiltro = $cFG['TipoFiltro'];
-        $addFiltro = $cFG['AddFiltro'];
-        $padraoFiltro = $cFG['PadraoFiltro'];
-
-        //Index CSS
-        $this->zIndex -= 1;
-
-        //Array de Tipos
-        $arrayTipos = $this->getTipoFiltro($tipoFiltro);
-
-        //Adiciona Tipos Extras
-        if (is_array($addFiltro)) {
-            $arrayTipos += $addFiltro;
-        }
-
-
-        //Monta Extrutura Html
-        if (count($arrayTipos) > 0) {
-            //Valor default
-            if ($padraoFiltro != '') {
-                $padraoFiltro = (in_array($padraoFiltro, $arrayTipos) and $padraoFiltro != '') ? $padraoFiltro : '=';
-            } else {
-                $padraoFiltro = '=';
-            }
-
-            $htmlFil = '';
-            //Monta Html de opções
-            foreach ($arrayTipos as $valor) {
-                $htmlFil .= $this->html->entreTags('li', $valor);
-            }
-
-            //Html do Filtro
-            $opFiltro = $this->html->abreTagAberta('id', ['id' => 'sis_filtro_' . $nomeCampo, 'style' => 'z-index:' . $this->zIndex . ';', 'width' => '25px', 'float' => 'left']);
-            $opFiltro .= $this->html->abreTagAberta('ul', ['id' => 'fil_ini', 'style' => 'z-index:' . $this->zIndex . ';']);
-            $opFiltro .= $this->html->entreTags('li', $padraoFiltro);
-            $opFiltro .= $this->html->fechaTag('ul');
-            $opFiltro .= $this->html->entreTags('ul', ['id' => 'tudo', 'style' => 'display:none; z-index:' . $this->zIndex . ';'], $htmlFil);
-            $opFiltro .= $this->html->fechaTag('div');
-
-            //Hidden que guarda o valor selecionado
-            $hidden = $this->html->abreTagFechada('input', ['name' => 'shf' . $nomeCampo, 'id' => 'shf' . $nomeCampo, 'type' => 'hidden', 'value' => $padraoFiltro]);
-
-            //Hidden que guarda o Tipo de Campo
-            $hidden .= $this->html->abreTagFechada('input', ['name' => 'shtf' . $nomeCampo, 'id' => 'shtf' . $nomeCampo, 'type' => 'hidden', 'value' => '']);
-
-            //Hidden que guarda a Identificação do Campo
-            $hidden .= $this->html->abreTagFechada('input', ['name' => 'shif' . $nomeCampo, 'id' => 'shif' . $nomeCampo, 'type' => 'hidden', 'value' => $identifica]);
-
-            //Retorno
-            return $opFiltro . $hidden . $campo;
-        } else {
-            //Se não existem elementos retorna somente o campo
-            return $campo;
         }
     }
 

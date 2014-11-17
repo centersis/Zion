@@ -477,30 +477,33 @@ class Template extends \Zion\Layout\Padrao
 
     }     
 
-    public function getLabel($conteudo = '', $array)
+    public function getLabel($array, $conteudo = '')
     {
+        $id = key_exists('id', $array) ? $array['id'] : '';
+        $tipo = key_exists('tipo', $array) ? $array['tipo'] : '';
 
-        $addClass = '';
         $addClass = (empty($conteudo)) ? ' hidden ' : '';
-        return $this->abreTagAberta('span', ['id' => 'sisLabel_' . @$array['id'], 'class' => 'label label-' . @$array['tipo'] . $addClass]) . $conteudo . $this->fechaTag('span');
+        return $this->abreTagAberta('span', ['id' => 'sisLabel' . $id, 'class' => 'label label-' . $tipo . $addClass]) . $conteudo . $this->fechaTag('span');
 
     }
 
-    public function getBadge($conteudo = '', $array)
+    public function getBadge($array, $conteudo = '')
     {
-
-        $addClass = '';
+        $id = key_exists('id', $array) ? $array['id'] : '';
+        $tipo = key_exists('tipo', $array) ? $array['tipo'] : '';
+        
         $addClass = (empty($conteudo)) ? ' hidden ' : '';
-        return $this->abreTagAberta('span', ['id' => 'sisBadge_' . @$array['id'], 'class' => 'badge badge-' . @$array['tipo'] . $addClass]) . $conteudo . $this->fechaTag('span');
+        return $this->abreTagAberta('span', ['id' => 'sisBadge' . $id, 'class' => 'badge badge-' . $tipo . $addClass]) . $conteudo . $this->fechaTag('span');
 
     }    
 
-    public function getTag($conteudo = '', $array)
+    public function getTag($array, $conteudo = '')
     {
-
-        $addClass = '';
+        $id = key_exists('id', $array) ? $array['id'] : '';
+        $tipo = key_exists('tipo', $array) ? $array['tipo'] : '';
+        
         $addClass = (empty($conteudo)) ? ' hidden ' : '';
-        return $this->abreTagAberta('span', ['id' => 'sisTag_' . @$array['id'], 'class' => 'label label-tag label-' . @$array['tipo'] . $addClass]) . $conteudo . $this->fechaTag('span');
+        return $this->abreTagAberta('span', ['id' => 'sisTag' . $id, 'class' => 'label label-tag label-' . $tipo . $addClass]) . $conteudo . $this->fechaTag('span');
 
     }      
 

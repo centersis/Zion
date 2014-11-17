@@ -12,7 +12,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaSuggest(FormInputSuggest $config)
     {
-        $classCss = $config->getClassCss() . ' form-control';
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
@@ -41,7 +41,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaTexto(FormInputTexto $config)
     {
-        $classCss = $config->getClassCss() . ' form-control';
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
@@ -66,7 +66,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaTextArea(FormInputTextArea $config)
     {
-        $classCss = $config->getClassCss() . ' form-control';
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
@@ -88,7 +88,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaData(FormInputData $config)
     {
-        $classCss = $config->getClassCss() . ' form-control';
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
@@ -101,7 +101,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaHora(FormInputHora $config)
     {
-        $classCss = $config->getClassCss() . ' form-control';
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
@@ -114,7 +114,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaNumber(FormInputNumber $config)
     {
-        $classCss = $config->getClassCss() . ' form-control';
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
@@ -127,7 +127,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaFloat(FormInputFloat $config)
     {
-        $classCss = $config->getClassCss() . ' form-control';
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
@@ -146,7 +146,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
         if (($expandido === false and $multiplo === false) or $chosen === true) {
 
-            $classCss = $config->getClassCss() . ' form-control';
+            $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
             $config->setClassCss($classCss);
 
             if ($config->getToolTipMsg()) {

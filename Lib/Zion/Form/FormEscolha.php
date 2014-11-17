@@ -34,6 +34,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $where;
     private $sqlCompleto;
     private $idConexao;
+    private $aliasSql;
 
     /**
      * FormEscolha::__construct()
@@ -410,7 +411,33 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("idConexao: Nenhum Valor foi informado.");
         }
     }
-    
+
+
+    /**
+     * FormEscolha::getAliasSql()
+     * 
+     * @return string
+     */
+    public function getAliasSql(){
+        return $this->aliasSql;
+    }
+
+    /**
+     * FormEscolha::setAliasSql()
+     * 
+     * @param string $aliasSql
+     *
+     */
+    public function setAliasSql($aliasSql)
+    {
+        if (!is_null($aliasSql)) {
+            $this->aliasSql = $aliasSql;
+            return $this;
+        } else {
+            throw new FormException("aliasSql: Nenhum valor informado");
+        }
+    }
+
     /**
      * Sobrecarga de Metodos Básicos
      */
