@@ -108,7 +108,7 @@ class FiltroForm
 
             //Hiddens - sisHiddenOperador = sho e sisHiddenAcao = sha
             $buffer .= $this->html->abreTagFechada('input', ['name' => 'sho' . $nomeCampo, 'id' => 'sho' . $nomeCampo, 'type' => 'hidden', 'value' => $tipoFiltro]);
-            $buffer .= $this->html->abreTagFechada('input', ['name' => 'sha' . $nomeCampo, 'id' => 'sha' . $nomeCampo, 'type' => 'hidden', 'value' => $acao]);
+            $buffer .= $this->html->abreTagFechada('input', ['name' => 'sha' . $nomeCampo, 'id' => 'sha' . $nomeCampo, 'type' => 'hidden', 'value' => $this->getAcao($acao)]);
 
             $buffer .= $this->html->fechaTag('div');
             $buffer .= $this->html->fechaTag('div');
@@ -169,15 +169,15 @@ class FiltroForm
         $buffer .= $objCampo->getIdentifica();
         $buffer .= $this->html->fechaTag('button');
 
-        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn dropdown-toggle', 'data-toggle' => 'dropdown']);
+        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn dropdown-toggle btn-warning', 'data-toggle' => 'dropdown']);
         $buffer .= $this->html->abreTagAberta('span', ['id' => 'sisIcFil' . $objCampo->getNome(), 'class' => 'fa fa-caret-down']);
-        $buffer .= '';
+        $buffer .= $tipoFiltro;
         $buffer .= $this->html->fechaTag('span');
         $buffer .= $this->html->fechaTag('button');
 
         $buffer .= $this->html->abreTagAberta('ul', ['class' => 'dropdown-menu']);
 
-        $buffer.= $this->opcoesDeFiltro($objCampo->getTipoFiltro(), $nomeCampo, $prefixo);
+        $buffer.= $this->opcoesDeFiltro($objCampo->getTipoFiltro(), $objCampo->getNome(), $prefixo);
 
         $buffer .= $this->html->fechaTag('ul');
         $buffer .= $this->html->fechaTag('div');
@@ -185,7 +185,7 @@ class FiltroForm
         $buffer .= $objForm->getFormHtml($nomeCampo);
         //Hiddens - sisHiddenOperador = sho e sisHiddenAcao = sha
         $buffer .= $this->html->abreTagFechada('input', ['name' => 'sho' . $prefixo . $nomeCampo . $sufixo, 'id' => 'sho' . $prefixo . $nomeCampo . $sufixo, 'type' => 'hidden', 'value' => $tipoFiltro]);
-        $buffer .= $this->html->abreTagFechada('input', ['name' => 'sha' . $prefixo . $nomeCampo . $sufixo, 'id' => 'sha' . $prefixo . $nomeCampo . $sufixo, 'type' => 'hidden', 'value' => $acao]);
+        $buffer .= $this->html->abreTagFechada('input', ['name' => 'sha' . $prefixo . $nomeCampo . $sufixo, 'id' => 'sha' . $prefixo . $nomeCampo . $sufixo, 'type' => 'hidden', 'value' => $this->getAcao($acao)]);
 
         $buffer .= $this->html->fechaTag('div');
 
@@ -248,13 +248,14 @@ class FiltroForm
         return $buffer;
     }
 
-    private function getAcao($acao, $tipoFiltro)
+    private function getAcao($acao)
     {
         switch ($acao) {
-            case 'escolha':                     
-                $novaAcao = 'texto';                    
+            case 'escolha':
+                $novaAcao = 'texto';
                 break;
             case 'number': case 'float':
+                $novaAcao = 'number';
             default : $novaAcao = 'texto';
         }
 

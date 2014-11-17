@@ -157,7 +157,7 @@ class Filtrar
 
             //Seta Valores
             $this->objForm->set($nomeCampo . 'A', $valorA);
-            $valorA = $this->objForm->get($nomeCampo . 'A', $acaoA);
+            $valorA = $this->objForm->getFiltroSql($nomeCampo . 'A', $acaoA);
         }
 
         if ($valorB <> '') {
@@ -168,7 +168,7 @@ class Filtrar
 
             //Seta Valores
             $this->objForm->set($nomeCampo . 'B', $valorB);
-            $valorB = $this->objForm->getSql($nomeCampo . 'B', $acaoB);
+            $valorB = $this->objForm->getFiltroSql($nomeCampo . 'B', $acaoB);
         }               
 
         //Se valor a vazio e b não inverte

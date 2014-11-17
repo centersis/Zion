@@ -365,15 +365,27 @@ class Form
      * @param mixed $valor
      * @return
      */
-    public function set($nome, $valor)
+    public function set($nome, $valor, $tipo = 'texto')
     {
-        if (!is_null($nome) or ! is_null($nome)) {
-            
-            if(key_exists($nome, $this->objetos)){
+        if (!\is_null($nome) or ! \is_null($nome)) {
+
+            if (\key_exists($nome, $this->objetos)) {
                 $this->objetos[$nome]->setValor($valor);
-            }
-            else{
-                $this->objetos[$nome] = new \Pixel\Form\FormInputTexto('texto', $nome, 'campo X', false);
+            } else {
+                switch ($tipo) {
+
+                    case 'float':
+                        $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);
+                        break;
+                    case 'numero':
+                        $this->objetos[$nome] = new \Zion\Form\FormInputNumber('number', $nome, '-', false);
+                        break;
+                    case 'data':
+                        $this->objetos[$nome] = new \Zion\Form\FormInputData('date', $nome, '-', false);
+                        break;
+                    default :
+                        $this->objetos[$nome] = new \Zion\Form\FormInputTexto('texto', $nome, '-', false);
+                }
                 $this->objetos[$nome]->setValor($valor);
             }
         } else {
@@ -401,7 +413,7 @@ class Form
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
         switch ($tipoBase) {
-            case 'data' :
+            case 'date' :
                 $dataConvertida = $tratar->data()->converteData($valor);
                 return $this->valorOuNull($dataConvertida, true, $obrigatorio);
 
@@ -418,6 +430,30 @@ class Form
                 } else {
                     return $this->valorOuNull($valor, true, $obrigatorio);
                 }
+        }
+    }
+
+    public function getFiltroSql($idObjeto)
+    {
+        $tratar = \Zion\Tratamento\Tratamento::instancia();
+
+        $valor = $this->objetos[$idObjeto]->getValor();
+        $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
+
+        switch ($tipoBase) {
+            case 'date' :
+                $dataConvertida = $tratar->data()->converteData($valor);
+                return "'$dataConvertida'";
+
+            case 'float' :
+                $valorConvertido = $tratar->numero()->floatBanco($valor);
+                return $valorConvertido;
+
+            case 'number' :
+                return $valor;
+
+            default:
+                return "'$valor'";
         }
     }
 
