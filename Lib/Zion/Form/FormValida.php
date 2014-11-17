@@ -158,11 +158,11 @@ class FormValida
                         }
                     } elseif (strtoupper($input->getAcao()) == 'CHOSEN') {
                         if (is_array($userValue)) {
-                            if(@count($userValue) < 1){
+                            if(@count($userValue) < 1 and $input->getObrigatorio() === true){
                                 throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
                             }
                         } else {
-                            if(empty($userValue)){
+                            if(empty($userValue) and $input->getObrigatorio() === true){
                                 throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
                             }
                         }
