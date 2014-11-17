@@ -368,7 +368,14 @@ class Form
     public function set($nome, $valor)
     {
         if (!is_null($nome) or ! is_null($nome)) {
-            $this->objetos[$nome]->setValor($valor);
+            
+            if(key_exists($nome, $this->objetos)){
+                $this->objetos[$nome]->setValor($valor);
+            }
+            else{
+                $this->objetos[$nome] = new \Pixel\Form\FormInputTexto('texto', $nome, 'campo X', false);
+                $this->objetos[$nome]->setValor($valor);
+            }
         } else {
             throw new FormException("set: Falta um argumento.");
         }

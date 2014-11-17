@@ -308,8 +308,7 @@ function sisChangeFil(origem)
     var contO = 0;
 
     $.each(campos, function (pos, campo) {
-        
-        //alert($('#' + campo.name).attr('type')+' - '+campo.name+' : '+campo.value);
+
         if ($('#' + campo.name).attr('type') !== 'hidden' && campo.value !== '') {
             var valor = $('#' + campo.name).val();
             var tipo = $('#' + campo.name).attr('name').substr(0, 1);
@@ -388,17 +387,25 @@ function parametrosFiltro(origem)
 
     var par = [];
 
+    par.push({
+        name: 'sisOrigem',
+        value: origem
+    });
+
     $.each(campos, function (pos, campo) {
 
         var nome = $('#' + campo.name).attr('name');
+        var valor = $('#' + campo.name).val();
         var p = nome.substr(0, 1);
         var h = nome.substr(0, 4);
 
-        if (p === origem || h === 'sho' + origem || h === 'sha' + origem) {
-            par.push({
-                name: campo.name,
-                value: campo.value
-            });
+        if (valor !== '') {
+            if (p === origem || h === 'sho' + origem || h === 'sha' + origem) {
+                par.push({
+                    name: campo.name,
+                    value: campo.value
+                });
+            }
         }
     });
 

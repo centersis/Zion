@@ -10,13 +10,10 @@ class Filtrar
 {
 
     private $objForm;
-    private $situacao; //Situação do Filtro;
     private $operadores = array();
 
     public function __construct($objForm = null)
     {
-        $this->situacao = false;
-
         if (is_object($objForm)) {
             $this->objForm = $objForm;
         }
@@ -37,17 +34,32 @@ class Filtrar
     {
         $sql = '';
 
-        //Recupera Valores do Formulário
+        $origem = \strtolower(\filter_input(\INPUT_GET, 'sisOrigem'));
+
+        switch ($origem) {
+            case 'n': $sql.= $this->normalSql($nomeCampo, $campoBanco);
+                break;
+            case 'e':
+                $sql.= $this->eOrSql($campoBanco, $nomeCampo, $origem);
+                break;
+            case 'o':
+                $sql.= $this->eOrSql($campoBanco, $nomeCampo, $origem);
+                break;
+        }
+
+        return $sql;
+    }
+
+    private function normalSql($nomeCampo, $campoBanco)
+    {
+        $sql = '';
         $operador = \filter_input(\INPUT_GET, 'sho' . 'n' . $nomeCampo);
         $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n' . $nomeCampo));
         $valor = \filter_input(\INPUT_GET, 'n' . $nomeCampo);
 
-        //echo $operador.' - '.$acao.' - '.$valor."\n";
         //Valida Informações
         if ($operador == '' or $acao == '') {
             if ($valor <> '') {
-                $this->situacao = true;
-
                 return " AND " . $campoBanco . " = '" . $valor . "' ";
             }
 
@@ -73,15 +85,11 @@ class Filtrar
 
                         $sql = " AND $campoBanco $operador $valor ";
 
-                        $this->situacao = true;
-
                         break;
 
                     case '*A':
 
                         $sql = " AND $campoBanco LIKE '%$valor' ";
-
-                        $this->situacao = true;
 
                         break;
 
@@ -89,15 +97,11 @@ class Filtrar
 
                         $sql = " AND $campoBanco LIKE '$valor%' ";
 
-                        $this->situacao = true;
-
                         break;
 
                     case '*':
 
                         $sql = " AND $campoBanco LIKE '%$valor%' ";
-
-                        $this->situacao = true;
 
                         break;
 
@@ -114,25 +118,32 @@ class Filtrar
     }
 
     //Para clausulas E e OR
-    private function eOrSql($campoBanco, $nomeCampo, $tipoFiltro, $clausula)
+    private function eOrSql($campoBanco, $nomeCampo, $origem)
     {
         //Recupera Operadores
-        $operadorA = filter_input(INPUT_GET, 'sho' . $nomeCampo . 'A');
-        $operadorB = filter_input(INPUT_GET, 'sho' . $nomeCampo . 'B');
+        $operadorA = \filter_input(\INPUT_GET, 'sho' . $origem . $nomeCampo . 'A');
+        $operadorB = \filter_input(\INPUT_GET, 'sho' . $origem . $nomeCampo . 'B');
+
+        //Recuper Ação
+        $acaoA = \filter_input(\INPUT_GET, 'sha' . $origem . $nomeCampo . 'A');
+        $acaoB = \filter_input(\INPUT_GET, 'sha' . $origem . $nomeCampo . 'B');
 
         //Recupera Valores
-        $valorA = trim(filter_input(INPUT_GET, $nomeCampo . 'A'));
-        $valorB = trim(filter_input(INPUT_GET, $nomeCampo . 'B'));
+        $valorA = \trim(filter_input(\INPUT_GET, $origem . $nomeCampo . 'A'));
+        $valorB = \trim(filter_input(\INPUT_GET, $origem . $nomeCampo . 'B'));
 
-        //Recupera Tipo de Campo
-        $acao = filter_input(INPUT_GET, 'sha' . $nomeCampo);
-
-        //Validação de Operadores
-        if (($operadorA == '' and $operadorB == '') or $acao == '') {
-            return '';
+        //echo $operadorA.' - '.$operadorB.' | '.$acaoA.' - '.$acaoB.' | '.$valorA.' - '.$valorB.' > '.$origem.' - '.$nomeCampo."\n";
+        
+        //Converte Opreadores
+        if ($operadorA === '≠') {
+            $operadorA = '<>';
         }
 
-        //Valida��o de Valores
+        if ($operadorB === '≠') {
+            $operadorB = '<>';
+        }
+
+        //Validação de Operadores
         if ($valorA == '' and $valorB == '') {
             return '';
         }
@@ -145,8 +156,8 @@ class Filtrar
             }
 
             //Seta Valores
-            $this->objForm->setCampoRetorna($nomeCampo . 'A', $valorA);
-            $valorA = $this->objForm->getCampoFiltro($nomeCampo . 'A', $tipoFiltro);
+            $this->objForm->set($nomeCampo . 'A', $valorA);
+            $valorA = $this->objForm->get($nomeCampo . 'A', $acaoA);
         }
 
         if ($valorB <> '') {
@@ -156,19 +167,9 @@ class Filtrar
             }
 
             //Seta Valores
-            $this->objForm->setCampoRetorna($nomeCampo . 'B', $valorB);
-            $valorB = $this->objForm->getCampoFiltro($nomeCampo . 'B', $tipoFiltro);
-        }
-
-        if ($acao <> 'float' and $acao <> 'float') {
-            if ($valorA <> '') {
-                $valorA = "'$valorA'";
-            }
-
-            if ($valorB <> '') {
-                $valorB = "'$valorB'";
-            }
-        }
+            $this->objForm->set($nomeCampo . 'B', $valorB);
+            $valorB = $this->objForm->getSql($nomeCampo . 'B', $acaoB);
+        }               
 
         //Se valor a vazio e b não inverte
         if ($valorB <> '' and $valorA == '') {
@@ -179,30 +180,28 @@ class Filtrar
             $operadorB = '';
         }
 
+        $clausula = $origem;
+        
         //Se os dois operadores são iguais mude para ow a não ser que seja <> ou =
         if ($valorB <> '') {
             if (($operadorA == $operadorB and $operadorA <> "<>") or $operadorB == "=") {
-                $clausula = 'OR';
+                $clausula = 'o';
             }
         }
 
         //Define o Tipo de Clausula
-        if ($clausula == 'E') {
+        if ($clausula == 'e') {
             if ($valorB <> '') {
                 $sql = " AND $campoBanco $operadorA $valorA AND $campoBanco $operadorB $valorB ";
             } else {
                 $sql = " AND $campoBanco $operadorA $valorA ";
             }
-
-            $this->situacao = true;
-        } elseif ($clausula == 'OR') {
+        } elseif ($clausula == 'o') {
             if ($valorB <> '') {
                 $sql = " AND (($campoBanco $operadorA $valorA) OR ($campoBanco $operadorB $valorB)) ";
             } else {
                 $sql = " AND $campoBanco $operadorA $valorA ";
             }
-
-            $this->situacao = true;
         }
 
         return $sql;
@@ -213,7 +212,7 @@ class Filtrar
         $retorno = [];
 
         if (\is_array($arrayParametros) and ! empty($arrayParametros)) {
-            
+
             foreach ($arrayParametros as $campo) {
 
                 $valor = \filter_input(\INPUT_GET, $campo);
@@ -233,32 +232,6 @@ class Filtrar
 
             return $retorno;
         }
-    }
-
-    //Metodo para interceptar registros selecionados da grid
-    public function printSql($cheveCompara, $array)
-    {
-        $sql = ' AND ' . $cheveCompara . ' IN (';
-
-        if (is_array($array) and count($array) > 0) {
-            $sql .= implode(',', $array);
-
-            $this->situacao = true;
-        } else {
-            return '';
-        }
-
-        return $sql . ') ';
-    }
-
-    public function setSituacao($valor)
-    {
-        $this->situacao = $valor === true ? true : false;
-    }
-
-    public function getSituacao()
-    {
-        return $this->situacao;
     }
 
 }
