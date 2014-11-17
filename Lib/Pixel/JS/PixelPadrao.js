@@ -372,11 +372,9 @@ function chChosen(a,b,c)
 {
     var aa = $(a).val();
     $.ajax({type: "get", url: "?acao="+c+"&a="+aa, dataType: "json", beforeSend: function() {
-        $(b).html('<i class="fa fa-refresh fa-spin"></i>');
+        $(b).html('<i class="fa fa-refresh fa-spin" style="margin-top:10px;"></i>');
     }}).done(function (ret) {
-        //alert(ret.retorno);
         $(b).html(ret.retorno);
-        //$("#organogramaClassificacaoCod").select2({ allowClear: true, placeholder: "Selecione..." });
     }).fail(function () {
         sisMsgFailPadrao();
     });    
