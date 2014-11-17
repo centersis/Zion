@@ -83,7 +83,11 @@ class CrudUtil
         //Monta Sql de Retotno
         if (is_array($arrayForm)) {
             foreach ($arrayForm as $cFG) {
-                $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
+                if(method_exists($cFG, 'getAliasSql')) {
+                    $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
+                } else {
+                    $alias = '';
+                }
                 $sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome());
             }
         }
