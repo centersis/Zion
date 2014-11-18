@@ -186,6 +186,19 @@ class FormHtml extends \Zion\Form\FormHtml
         return $retorno;
     }
 
+    public function montaUpload(FormUpload $config)
+    {
+        $classCss = \str_replace('form-control', '',$config->getClassCss()) . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaUpload($config));
+    }
+    
     public function montaButton($config)
     {
         return parent::montaButton($config);

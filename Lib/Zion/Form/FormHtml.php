@@ -32,12 +32,12 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function opcoesBasicas($config)
     {
-        return array($this->attr('name', $config->getNome()),
+        return [$this->attr('name', $config->getNome()),
             $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
             $this->attr('value', $config->getValor()),
             $this->attr('complemento', $config->getComplemento()),
             $this->attr('disabled', $config->getDisabled()),
-            $this->attr('classCss', $config->getClassCss()));
+            $this->attr('classCss', $config->getClassCss())];
     }
 
     /**
@@ -48,8 +48,18 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function montaHidden(FormInputHidden $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'hidden')));
+        $attr = array_merge($this->opcoesBasicas($config),[
+            $this->attr('type', 'hidden')]);
+
+        return vsprintf($this->prepareInput(count($attr), $config), $attr);
+    }
+    
+    public function montaUpload(FormUpload $config)
+    {
+        $attr = array_merge($this->opcoesBasicas($config), [
+            $this->attr('type', 'file'),
+            $this->attr('multiple', $config->getMultiple()),
+            $this->attr('form', $config->getForm())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -64,13 +74,13 @@ class FormHtml extends \Zion\Form\FormAtributos
     {
         $type = 'text';
 
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', $type),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('size', $config->getLargura()),
             $this->attr('caixa', $config->getCaixa()),
             $this->attr('placeholder', $config->getPlaceHolder()),
-            $this->attr('autocomplete', $config->getAutoComplete())));
+            $this->attr('autocomplete', $config->getAutoComplete())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -84,10 +94,10 @@ class FormHtml extends \Zion\Form\FormAtributos
     public function montaCpf(\Zion\Form\FormInputCpf $config)
     {
 
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('placeholder', $config->getPlaceHolder())));
+            $this->attr('placeholder', $config->getPlaceHolder())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -101,10 +111,10 @@ class FormHtml extends \Zion\Form\FormAtributos
     public function montaCnpj(\Zion\Form\FormInputCnpj $config)
     {
 
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('placeholder', $config->getPlaceHolder())));
+            $this->attr('placeholder', $config->getPlaceHolder())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -118,10 +128,10 @@ class FormHtml extends \Zion\Form\FormAtributos
     public function montaCep(\Zion\Form\FormInputCep $config)
     {
 
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('placeholder', $config->getPlaceHolder())));
+            $this->attr('placeholder', $config->getPlaceHolder())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -135,10 +145,10 @@ class FormHtml extends \Zion\Form\FormAtributos
     public function montaEmail(\Zion\Form\FormInputEmail $config)
     {
 
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('placeholder', $config->getPlaceHolder())));
+            $this->attr('placeholder', $config->getPlaceHolder())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -152,10 +162,10 @@ class FormHtml extends \Zion\Form\FormAtributos
     public function montaTelefone(\Zion\Form\FormInputTelefone $config)
     {
 
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('placeholder', $config->getPlaceHolder())));
+            $this->attr('placeholder', $config->getPlaceHolder())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -169,10 +179,10 @@ class FormHtml extends \Zion\Form\FormAtributos
     public function montaSenha(\Zion\Form\FormInputSenha $config)
     {
 
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'password'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
-            $this->attr('placeholder', $config->getPlaceHolder())));
+            $this->attr('placeholder', $config->getPlaceHolder())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -185,14 +195,14 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function montaTextArea(\Zion\Form\FormInputTextArea $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'textarea'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('readonly', $config->getReadonly()),
             $this->attr('colunas', $config->getColunas()),
             $this->attr('linhas', $config->getLinhas()),
-            $this->attr('form', $config->getForm())));
+            $this->attr('form', $config->getForm())]);
         
         $attr[] = $this->attr('valueTextArea', $config->getValor());
 
@@ -207,11 +217,11 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function montaData(\Zion\Form\FormInputData $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('max', $config->getDataMaxima()),
-            $this->attr('min', $config->getDataMinima())));
+            $this->attr('min', $config->getDataMinima())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -224,11 +234,11 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function montaHora(\Zion\Form\FormInputHora $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('max', $config->getHoraMaxima()),
-            $this->attr('min', $config->getHoraMinima())));
+            $this->attr('min', $config->getHoraMinima())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -241,12 +251,12 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function montaNumber(\Zion\Form\FormInputNumber $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'number'),
             $this->attr('size', $config->getLargura()),
             $this->attr('placeholder', $config->getPlaceHolder()),
             $this->attr('max', $config->getValorMaximo()),
-            $this->attr('min', $config->getValorMinimo())));
+            $this->attr('min', $config->getValorMinimo())]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -259,8 +269,8 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function montaFloat(\Zion\Form\FormInputFloat $config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
-            $this->attr('type', 'text')));
+        $attr = array_merge($this->opcoesBasicas($config), [
+            $this->attr('type', 'text')]);
 
         return vsprintf($this->prepareInput(count($attr), $config), $attr);
     }
@@ -284,13 +294,13 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function montaButton($config)
     {
-        $attr = array_merge($this->opcoesBasicas($config), array(
+        $attr = array_merge($this->opcoesBasicas($config), [
             $this->attr('name', $config->getNome()),
             $this->attr('id', $config->getId()),
             $this->attr('type', $config->getAcao()),
             $this->attr('formmethod', $config->getMetodo()),
             $this->attr('formaction', $config->getAction()),
-            $this->attr('formtarget', $config->getTarget())));
+            $this->attr('formtarget', $config->getTarget())]);
 
         $attr[] = $this->attr('valueButton', $config->getValor());
 
@@ -316,7 +326,7 @@ class FormHtml extends \Zion\Form\FormAtributos
      */
     public function abreForm(FormTag $config)
     {
-        $attr = array(
+        $attr = [
             $this->attr('name', $config->getNome()),
             $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
             $this->attr('action', $config->getAction()),
@@ -326,7 +336,7 @@ class FormHtml extends \Zion\Form\FormAtributos
             $this->attr('novalidate', $config->getNovalidate()),
             $this->attr('target', $config->getTarget()),
             $this->attr('complemento', $config->getComplemento()),
-            $this->attr('classCss', $config->getClassCss()));
+            $this->attr('classCss', $config->getClassCss())];
 
         return vsprintf($this->prepareForm(count($attr), $config), $attr);
     }

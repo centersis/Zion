@@ -98,7 +98,7 @@ class Form extends \Zion\Form\Form
 
     public function upload($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('email', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormUpload('upload', $nome, $identifica, $obrigatorio);
     }
 
     public function botaoSubmit($nome, $identifica)
@@ -215,6 +215,9 @@ class Form extends \Zion\Form\Form
                     break;
                 case 'button':
                     $htmlCampos[$idCampo] = $this->formPixel->montaButton($objCampos);
+                    break;
+                case 'upload':
+                    $htmlCampos[$idCampo] = $this->formPixel->montaUpload($objCampos);
                     break;
                 case 'layout':
                     $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);

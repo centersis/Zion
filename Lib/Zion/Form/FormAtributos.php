@@ -23,7 +23,7 @@ class FormAtributos
      */
     public function __construct()
     {
-        $this->atributos = array(
+        $this->atributos = [
             'name' => ' name="%s" ',
             'id' => ' id="%s" ',
             'type' => ' type="%s" ',
@@ -45,6 +45,7 @@ class FormAtributos
             'valueButton' => ' %s ',
             'valueTextArea' => ' %s ',
             'readonly' => ' %s ',
+            'multiple' => ' %s ',
             'colunas' => ' cols="%s" ',
             'linhas' => ' rows="%s" ',
             'action' => ' action="%s" ',
@@ -52,7 +53,7 @@ class FormAtributos
             'method' => ' method="%s" ',
             'novalidate' => ' novalidate="%s" ',
             'target' => ' target="%s" '
-        );
+        ];
     }
 
     /**
@@ -71,6 +72,9 @@ class FormAtributos
         switch ($tipo) {
             case 'disabled':
                 $ret = 'disabled';
+                break;
+            case 'multiple':
+                $ret = 'multiple';
                 break;
             case 'caixa':
                 $ret = $valor == 'ALTA' ? 'uppercase' : 'lowercase';

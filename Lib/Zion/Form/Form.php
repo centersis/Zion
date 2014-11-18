@@ -233,7 +233,7 @@ class Form
      */
     public function upload($nome, $identifica, $obrigatorio = false)
     {
-        throw new \BadMethodCallException("Aina nao implementado");
+        return new \Zion\Form\FormUpload('upload', $nome, $identifica, $obrigatorio);
     }
 
     /**
@@ -475,41 +475,44 @@ class Form
      */
     public function getFormHtml($nome = null)
     {
-        $htmlCampos = array();
+        $htmlCampos = [];
 
-        $obj = $nome ? array($this->objetos[$nome]) : $this->objetos;
+        $obj = $nome ? [$nome => $this->objetos[$nome]] : $this->objetos;
 
-        foreach ($obj as $objCampos) {
+        foreach ($obj as $idCampo => $objCampos) {
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaHidden($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaHidden($objCampos);
                     break;
                 case 'texto' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTexto($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaTexto($objCampos);
                     break;
                 case 'textarea' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTextArea($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaTextArea($objCampos);
                     break;
                 case 'dateTime' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaDateTime($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaDateTime($objCampos);
                     break;
                 case 'number' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaNumber($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaNumber($objCampos);
                     break;
                 case 'float' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaFloat($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaFloat($objCampos);
                     break;
                 case 'cpf' :
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaTexto($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaTexto($objCampos);
                     break;
                 case 'escolha':
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaEscolha($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaEscolha($objCampos);
                     break;
                 case 'button':
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaButton($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaButton($objCampos);
+                    break;
+                case 'upload':
+                    $htmlCampos[$idCampo] = $this->formHtml->montaUpload($objCampos);
                     break;
                 case 'layout':
-                    $htmlCampos[$objCampos->getNome()] = $this->formHtml->montaLayout($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
                 default : throw new Exception('Tipo Base não encontrado!');
             }
