@@ -34,7 +34,7 @@ abstract class FormBasico
     public function setId($id)
     {
         if(!empty($id)){
-            $this->id = $id;
+            $this->id = str_replace('[]','',$id);
             return $this;
         } else {
             throw new FormException("id: Nenhum valor informado.");

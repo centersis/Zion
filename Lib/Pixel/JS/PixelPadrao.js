@@ -48,8 +48,15 @@ function cKupdate() {
 
 function sisSerialize(container)
 {
+    //return new FormData( $(container)[0] );
     cKupdate();
     return $(container).serialize();
+}
+
+function sisSerializeUpload(container)
+{
+    cKupdate();
+    return new FormData($(container)[0]);
 }
 
 /* FUNÇÔES DEFAULT */
@@ -123,8 +130,16 @@ function sisCadastrarLayoutPadrao() {
     });
 }
 
-function sisCadastrarPadrao(nomeForm) {
-    $.ajax({type: "post", url: "?acao=cadastrar", data: sisSerialize("#" + nomeForm), dataType: "json"}).done(function (ret) {
+function sisCadastrarPadrao(nomeForm, upload) {
+
+    if (upload === true) {
+        var config = {type: "post", url: "?acao=cadastrar", dataType: "json",data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
+    }
+    else {
+        var config = {type: "post", url: "?acao=cadastrar", dataType: "json"};
+    }
+
+    $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro cadastrado com sucesso!');
@@ -157,8 +172,16 @@ function sisAlterarLayoutPadrao() {
     }
 }
 
-function sisAlterarPadrao(nomeForm) {
-    $.ajax({type: "post", url: "?acao=alterar", data: sisSerialize("#" + nomeForm), dataType: "json"}).done(function (ret) {
+function sisAlterarPadrao(nomeForm, upload) {
+
+    if (upload === true) {
+        var config = {type: "post", url: "?acao=cadastrar", dataType: "json",data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
+    }
+    else {
+        var config = {type: "post", url: "?acao=cadastrar", dataType: "json"};
+    }
+
+    $.ajax(config).done(function (ret) {
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro alterado com sucesso!');
             $("#panel" + nomeForm).remove();
@@ -244,6 +267,38 @@ function sisVisualizarPadrao()
             sisMsgFailPadrao();
         });
     }
+}
+
+/*UPLOAD*/
+function sisUploadMultiplo(id) {
+    var obj = document.getElementById(id);
+    var html = "";
+    
+    if ('files' in obj) {
+        if (obj.files.length === 0) {
+            html = "Nenhum arquivo selecionado!";
+        } else {
+            for (var i = 0; i < obj.files.length; i++) {
+                html += "<br><strong>" + (i + 1) + " - </strong>";
+                var file = obj.files[i];
+                if ('name' in file) {
+                    html += file.name + " - ";
+                }
+                if ('size' in file) {
+                    html += file.size + " bytes";
+                }
+            }
+        }
+    }
+    else {
+        if (obj.value === "") {
+            html = "Nenhum arquivo selecionado!";
+        } else {
+            html += "Seu navegador não suporta este recurso!";
+        }
+    }
+
+    $("#sisUploadMultiploLista"+id).html(html);
 }
 
 // DIALOG

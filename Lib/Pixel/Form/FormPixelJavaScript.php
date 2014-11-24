@@ -9,6 +9,7 @@ class FormPixelJavaScript
     private $regras;
     private $mensagens;
     private $extra;
+    private $upload;
 
     public function __construct()
     {
@@ -18,6 +19,8 @@ class FormPixelJavaScript
         $this->mensagens = [];
 
         $this->extra = [];
+        
+        $this->upload = false;
     }
 
     private function suggest(FormInputSuggest $config)
@@ -75,6 +78,11 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'editor') {
             return;
         }
+        
+        if ($config->getAcao() == 'upload') {
+            $this->upload = true;
+        }
+        
 
         //Validacão de obrigatório
         if (method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
@@ -249,9 +257,12 @@ class FormPixelJavaScript
         $textoMensagem .= ' } ';
 
         if ($acao == 'cadastrar') {
-            $funcaoAcao = 'sisCadastrarPadrao($(form).attr("name"));';
+            
+            $upload = $this->upload ? 'true' : 'false';
+            
+            $funcaoAcao = 'sisCadastrarPadrao($(form).attr("name"),'.$upload.');';
         } else if ($acao == 'alterar') {
-            $funcaoAcao = 'sisAlterarPadrao($(form).attr("name"));';
+            $funcaoAcao = 'sisAlterarPadrao($(form).attr("name"),'.$upload.');';
         } else if ($acao == 'alterar') {
             $funcaoAcao = 'sisFiltrarPadrao($(form).attr("name"));';
         } else {
