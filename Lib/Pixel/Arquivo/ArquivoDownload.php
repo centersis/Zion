@@ -1,6 +1,5 @@
 <?php
 
-//Inicia Sessão
 session_start();
 
 include_once($_SESSION['DirBase'] . 'framework/config.conf.php');

@@ -4,24 +4,6 @@ namespace Zion\Arquivo;
 
 class ManipulaImagem extends ManipulaArquivo
 {
-
-    private $qualidade;
-
-    public function __construct()
-    {
-        $this->setQualidade(75);
-    }
-
-    public function setQualidade($Valor)
-    {
-        $this->qualidade = $Valor;
-    }
-
-    public function getQualidade()
-    {
-        return $this->qualidade;
-    }
-
     public function vericaFuncoesDeImagem()
     {
         $tI = "Função de manipulação "; //Texto Inicial
@@ -106,11 +88,8 @@ class ManipulaImagem extends ManipulaArquivo
      * 	@param Manter String - Indica se o arquivo deve ser mantido ou não "ok"
      * 	@return String
      */
-    public function uploadImagem($nome, $origem, $destino, $altura = 0, $largura = 0)
+    public function uploadImagem($nomeImagem, $origem, $destino, $altura = 0, $largura = 0)
     {
-        $nomeTemporario = $origem;
-        $nomeArquivo = $nome;
-
         $postMax = \ini_get("post_max_size");
         $upMax = \ini_get("upload_max_filesize");
 
@@ -118,7 +97,7 @@ class ManipulaImagem extends ManipulaArquivo
         $tMax = $postMax > $upMax ? $upMax : $postMax;
 
         //Verifica a integridade do arquivo
-        if (!$this->integridade($nomeTemporario)) {
+        if (!$this->integridade($origem)) {
             throw new \Exception("O Arquivo não foi carregado, certifique-se que o tamanho do arquivo não tenha ultrapassado " . $tMax . " pois, este tamanho é o maximo permitido pelo seu servidor.");
         }
 
@@ -139,10 +118,10 @@ class ManipulaImagem extends ManipulaArquivo
         $this->vericaFuncoesDeImagem();
 
         //Recupera a Extensao do Arquivo
-        $extensao = \strtolower($this->extenssaoArquivo($nomeArquivo));
+        $extensao = \strtolower($this->extenssaoArquivo($nomeImagem));
 
         //Cria um vetor com as proporãães da imagem
-        $tArquivo = $this->dimensaoImagem($nomeTemporario);
+        $tArquivo = $this->dimensaoImagem($origem);
 
         //Calcula as proporções
         if (empty($altura) and empty($largura)) {
@@ -161,11 +140,11 @@ class ManipulaImagem extends ManipulaArquivo
 
         //Executando a criaãão da nova imagem
         if ($extensao == 'jpg' or $extensao == 'jpeg') {
-            $origem = \imagecreatefromjpeg($nomeTemporario);
+            $origem = \imagecreatefromjpeg($origem);
         } elseif ($extensao == 'gif') {
-            $origem = \imagecreatefromgif($nomeTemporario);
+            $origem = \imagecreatefromgif($origem);
         } elseif ($extensao == 'png') {
-            $origem = \imagecreatefrompng($nomeTemporario);
+            $origem = \imagecreatefrompng($origem);
         } else {
             throw new \Exception("Extensao inválida!");
         }
@@ -174,7 +153,7 @@ class ManipulaImagem extends ManipulaArquivo
 
         if (\imagecopyresampled($img, $origem, 0, 0, 0, 0, $proporcao['L'], $proporcao['A'], \imagesx($origem), \imagesy($origem))) {
             if ($extensao == 'jpg' or $extensao == 'jpeg') {
-                if (!(\imagejpeg($img, $destino, $this->qualidade))) {
+                if (!(\imagejpeg($img, $destino, 100))) {
                     throw new \Exception("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'gif') {

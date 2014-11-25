@@ -4,20 +4,31 @@ namespace Pixel\Form;
 
 class FormUpload extends \Zion\Form\FormUpload
 {
+
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $layoutPixel;
     private $processarJS;
- 
+    private $tratarComo;
+    private $alturaMaxima;
+    private $larguraMaxima;
+    private $thumbnail;
+    private $alturaMaximaTB;
+    private $larguraMaximaTB;
+    private $extensoesPermitidas;
+    private $extensoesNaoPermitidas;
+    private $tamanhoMaximoEmBytes;
+    private $minimoArquivos;
+    private $maximoArquivos;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
-                
+
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
-        
+
         $this->setIconFA('fa-file');
     }
 
@@ -80,6 +91,127 @@ class FormUpload extends \Zion\Form\FormUpload
     public function getProcessarJS()
     {
         return $this->processarJS;
+    }
+
+    public function getTratarComo()
+    {
+        return $this->tratarComo;
+    }
+
+    public function setTratarComo($tratarComo)
+    {
+        $this->tratarComo = $tratarComo;
+        return $this;
+    }
+    
+    public function getAlturaMaxima()
+    {
+        return $this->alturaMaxima;
+    }
+
+    public function setAlturaMaxima($alturaMaxima)
+    {
+        $this->alturaMaxima = $alturaMaxima;
+        return $this;
+    }
+
+    public function getLarguraMaxima()
+    {
+        return $this->larguraMaxima;
+    }
+
+    public function setLarguraMaxima($larguraMaxima)
+    {
+        $this->larguraMaxima = $larguraMaxima;
+        return $this;
+    }
+
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+        return $this;
+    }
+
+    public function getAlturaMaximaTB()
+    {
+        return $this->alturaMaximaTB;
+    }
+
+    public function setAlturaMaximaTB($alturaMaximaTB)
+    {
+        $this->alturaMaximaTB = $alturaMaximaTB;
+        return $this;
+    }
+
+    public function getLarguraMaximaTB()
+    {
+        return $this->larguraMaximaTB;
+    }
+
+    public function setLarguraMaximaTB($larguraMaximaTB)
+    {
+        $this->larguraMaximaTB = $larguraMaximaTB;
+        return $this;
+    }
+
+    public function getExtensoesPermitidas()
+    {
+        return $this->extensoesPermitidas;
+    }
+
+    public function setExtensoesPermitidas($extensoesPermitidas)
+    {
+        $this->extensoesPermitidas = $extensoesPermitidas;
+        return $this;
+    }
+
+    public function getExtensoesNaoPermitidas()
+    {
+        return $this->extensoesNaoPermitidas;
+    }
+
+    public function setExtensoesNaoPermitidas($extensoesNaoPermitidas)
+    {
+        $this->extensoesNaoPermitidas = $extensoesNaoPermitidas;
+        return $this;
+    }
+
+    public function getTamanhoMaximoEmBytes()
+    {
+        return $this->tamanhoMaximoEmBytes;
+    }
+
+    public function setTamanhoMaximoEmBytes($tamanhoMaximoEmBytes)
+    {
+        $this->tamanhoMaximoEmBytes = $tamanhoMaximoEmBytes;
+        return $this;
+    }
+
+    public function getMinimoArquivos()
+    {
+        return $this->minimoArquivos;
+    }
+
+    public function setMinimoArquivos($minimoArquivos)
+    {
+        $this->minimoArquivos = $minimoArquivos;
+        return $this;
+    }
+
+    public function getMaximoArquivos()
+    {
+        return $this->maximoArquivos;
+    }
+
+    public function setMaximoArquivos($maximoArquivos)
+    {
+        $this->maximoArquivos = $maximoArquivos;
+        return $this;
     }
 
     public function setTipoFiltro($tipoFiltro)

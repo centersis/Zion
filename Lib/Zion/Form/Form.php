@@ -462,9 +462,9 @@ class Form
      * 
      * @return
      */
-    public function getObjetos()
+    public function getObjetos($nome = null)
     {
-        return $this->objetos;
+        return $nome ? $this->objetos[$nome] : $this->objetos;
     }
 
     /**
