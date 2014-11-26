@@ -188,6 +188,8 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaUpload(FormUpload $config)
     {
+        $arquivoUpload = new \Pixel\Arquivo\ArquivoUpload();
+
         $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
 
@@ -199,7 +201,11 @@ class FormHtml extends \Zion\Form\FormHtml
         $complemento = $config->getComplemento() . 'onchange="sisUploadMultiplo(\''.$config->getId().'\');"';
         $config->setComplemento($complemento);
         
-        return $this->prepareInputPixel($config, sprintf('%s<div id="sisUploadMultiploLista'.$config->getId().'"></div>', parent::montaUpload($config)));
+        $nomeTratado = \str_replace('[]', '', $config->getNome());
+        
+        $htmlAlterar = $arquivoUpload->visualizarArquivos($nomeTratado, $config->getCodigoReferencia());
+        
+        return $this->prepareInputPixel($config, sprintf('%s<div id="sisUploadMultiploLista'.$config->getId().'"></div>', parent::montaUpload($config).$htmlAlterar));
     }
 
     public function montaButton($config)

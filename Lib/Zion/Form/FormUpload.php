@@ -11,6 +11,7 @@ class FormUpload extends FormBasico
     private $acao;
     private $multiple;
     private $form;
+    private $tratarComo;
 
     /**
      * FormInputTexto::__construct()
@@ -18,17 +19,17 @@ class FormUpload extends FormBasico
      * @param mixed $acao
      * @param mixed $nome
      * @param mixed $identifica
-     * @param mixed $obrigatorio
+     * @param mixed $tratarComo
      * @return
      */
-    public function __construct($acao, $nome, $identifica, $obrigatorio)
+    public function __construct($acao, $nome, $identifica, $tratarComo)
     {
         $this->tipoBase = 'upload';        
         $this->acao = $acao;
         $this->setNome($nome);
         $this->setId($nome);
         $this->setIdentifica($identifica);
-        $this->setObrigarorio($obrigatorio);
+        $this->setTratarComo($tratarComo);
     }
 
     /**
@@ -77,30 +78,15 @@ class FormUpload extends FormBasico
         }
     }
     
-    /**
-     * FormInputTexto::setObrigarorio()
-     * 
-     * @param mixed $obrigatorio
-     * @return
-     */
-    public function setObrigarorio($obrigatorio)
+    public function getTratarComo()
     {
-        if (is_bool($obrigatorio)) {
-            $this->obrigatorio = $obrigatorio;
-            return $this;
-        } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
-        }
+        return $this->tratarComo;
     }
 
-    /**
-     * FormInputTexto::getObrigatorio()
-     * 
-     * @return
-     */
-    public function getObrigatorio()
+    public function setTratarComo($tratarComo)
     {
-        return $this->obrigatorio;
+        $this->tratarComo = $tratarComo;
+        return $this;
     }
 
     /**

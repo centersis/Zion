@@ -96,9 +96,9 @@ class Form extends \Zion\Form\Form
         return new \Pixel\Form\FormInputTextArea('editor', $nome, $identifica, $obrigatorio);
     }
 
-    public function upload($nome, $identifica, $obrigatorio = false)
+    public function upload($nome, $identifica, $tratarComo)
     {
-        return new \Pixel\Form\FormUpload('upload', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormUpload('upload', $nome, $identifica, $tratarComo);
     }
 
     public function botaoSubmit($nome, $identifica)
@@ -216,7 +216,7 @@ class Form extends \Zion\Form\Form
                 case 'button':
                     $htmlCampos[$idCampo] = $this->formPixel->montaButton($objCampos);
                     break;
-                case 'upload':
+                case 'upload':                    
                     $htmlCampos[$idCampo] = $this->formPixel->montaUpload($objCampos);
                     break;
                 case 'layout':
@@ -240,7 +240,7 @@ class Form extends \Zion\Form\Form
 
         //print_r($this->objetos);
         if ($validacao or $javaScriptExtra) {
-            
+
             foreach ($this->objetos as $config) {
                 if ($validacao) {
                     $smartJs->processarValidacao($config);
@@ -262,13 +262,13 @@ class Form extends \Zion\Form\Form
 
         return $jsStatic;
     }
-    
+
     public function processarJSObjeto($objeto)
     {
         $smartJs = new \Pixel\Form\FormPixelJavaScript();
-        
+
         $smartJs->processarJS($objeto);
-        
+
         return $smartJs->getJS();
     }
 

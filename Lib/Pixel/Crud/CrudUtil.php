@@ -130,11 +130,12 @@ class CrudUtil
     public function insert($tabela, array $campos, $objForm)
     {
         $con = \Zion\Banco\Conexao::conectar();
+        $upload = new \Pixel\Arquivo\ArquivoUpload();
 
         $arraySql = [];
 
-        $arrayForm = $objForm->getObjetos();
-
+        $arrayForm = $objForm->getObjetos();        
+        
         $arrayParametros = \array_map("trim", $campos);
 
         foreach ($arrayParametros as $nomeParametro) {
@@ -150,14 +151,28 @@ class CrudUtil
 
         $sql = "INSERT INTO $tabela (" . implode(',', $camposVistoriados) . ") VALUES (" . implode(",", $arraySql) . ")";
 
+        $con->startTransaction();
+        
         $con->executar($sql);
 
-        return $con->ultimoInsertId();
+        $uid = $con->ultimoInsertId();      
+        
+        foreach($arrayForm as $objeto){
+            if($objeto->getTipoBase() === 'upload'){
+                $objeto->setCodigoReferencia($uid);
+                $upload->sisUpload($objeto);
+            }
+        }
+        
+        $con->stopTransaction();
+        
+        return $uid;
     }
 
     public function update($tabela, array $campos, $objForm, $chavePrimaria)
     {
         $con = \Zion\Banco\Conexao::conectar();
+        $upload = new \Pixel\Arquivo\ArquivoUpload();
 
         $arraySql = [];
 
@@ -178,8 +193,19 @@ class CrudUtil
 
         $sql = "UPDATE $tabela SET " . implode(',', $arraySql) . " WHERE $chavePrimaria =  " . $codigo;
 
+        $con->startTransaction();
+        
         $con->executar($sql);
 
+        foreach($arrayForm as $objeto){
+            if($objeto->getTipoBase() === 'upload'){
+                $objeto->setCodigoReferencia($codigo);
+                $upload->sisUpload($objeto);
+            }
+        }
+        
+        $con->stopTransaction();
+        
         return $con->getLinhasAfetadas();
     }
 

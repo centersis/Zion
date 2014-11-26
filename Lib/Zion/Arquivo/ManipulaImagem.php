@@ -97,7 +97,7 @@ class ManipulaImagem extends ManipulaArquivo
         $tMax = $postMax > $upMax ? $upMax : $postMax;
 
         //Verifica a integridade do arquivo
-        if (!$this->integridade($origem)) {
+        if (!$this->arquivoExiste($origem)) {
             throw new \Exception("O Arquivo não foi carregado, certifique-se que o tamanho do arquivo não tenha ultrapassado " . $tMax . " pois, este tamanho é o maximo permitido pelo seu servidor.");
         }
 
@@ -107,7 +107,7 @@ class ManipulaImagem extends ManipulaArquivo
         }
 
         //Verifica se o arquivo ja existe
-        if ($this->integridade($destino)) {
+        if ($this->arquivoExiste($destino)) {
             //Se sim verifica se tem permissão para substitui-lo
             if (!$this->permiteEscrita($destino)){
                 throw new \Exception("Este arquivo já existe e você não tem permissão para substituí-lo.");

@@ -175,10 +175,10 @@ function sisAlterarLayoutPadrao() {
 function sisAlterarPadrao(nomeForm, upload) {
 
     if (upload === true) {
-        var config = {type: "post", url: "?acao=cadastrar", dataType: "json",data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
+        var config = {type: "post", url: "?acao=alterar", dataType: "json",data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
     else {
-        var config = {type: "post", url: "?acao=cadastrar", dataType: "json"};
+        var config = {type: "post", url: "?acao=alterar", dataType: "json"};
     }
 
     $.ajax(config).done(function (ret) {

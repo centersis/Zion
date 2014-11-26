@@ -508,7 +508,7 @@ class Form
                 case 'button':
                     $htmlCampos[$idCampo] = $this->formHtml->montaButton($objCampos);
                     break;
-                case 'upload':
+                case 'upload':                    
                     $htmlCampos[$idCampo] = $this->formHtml->montaUpload($objCampos);
                     break;
                 case 'layout':

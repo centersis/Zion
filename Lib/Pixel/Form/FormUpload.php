@@ -10,7 +10,7 @@ class FormUpload extends \Zion\Form\FormUpload
     private $emColunaDeTamanho;
     private $layoutPixel;
     private $processarJS;
-    private $tratarComo;
+    private $codigoReferencia;
     private $alturaMaxima;
     private $larguraMaxima;
     private $thumbnail;
@@ -23,19 +23,13 @@ class FormUpload extends \Zion\Form\FormUpload
     private $maximoArquivos;
     private $formSetPixel;
 
-    public function __construct($acao, $nome, $identifica, $obrigatorio)
+    public function __construct($acao, $nome, $identifica, $tratarComo)
     {
-        parent::__construct($acao, $nome, $identifica, $obrigatorio);
+        parent::__construct($acao, $nome, $identifica, $tratarComo);
 
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
 
         $this->setIconFA('fa-file');
-    }
-
-    public function setObrigarorio($obrigatorio)
-    {
-        parent::setObrigarorio($obrigatorio);
-        return $this;
     }
 
     public function setIconFA($iconFA)
@@ -92,17 +86,17 @@ class FormUpload extends \Zion\Form\FormUpload
     {
         return $this->processarJS;
     }
-
-    public function getTratarComo()
+    
+    public function getCodigoReferencia()
     {
-        return $this->tratarComo;
+        return $this->codigoReferencia;
     }
 
-    public function setTratarComo($tratarComo)
+    public function setCodigoReferencia($codigoReferencia)
     {
-        $this->tratarComo = $tratarComo;
+        $this->codigoReferencia = $codigoReferencia;
         return $this;
-    }
+    }    
     
     public function getAlturaMaxima()
     {
