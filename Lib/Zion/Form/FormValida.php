@@ -152,6 +152,8 @@ class FormValida
                         if (is_numeric($userValue) === false) {
                             throw new FormException($identifica . ": O valor informado nao e um numero valido!");
                         }
+                    } elseif (strtoupper($input->getAcao()) == 'UPLOAD') {
+                        //Não implementado.
                     } elseif (strtoupper($input->getAcao()) == 'ESCOLHA') {
                         if(empty($userValue)){
                             throw new FormException($identifica . ": Voce deve selecionar uma das opcoes!");
@@ -162,6 +164,9 @@ class FormValida
                                 throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
                             }
                         } else {
+                            if($input->getMultiplo() === true){
+                                throw new FormException($identifica . ": A opcao 'multiplo' esta ativada, o valor submetido deve ser um array!");
+                            }
                             if(empty($userValue) and $input->getObrigatorio() === true){
                                 throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
                             }
