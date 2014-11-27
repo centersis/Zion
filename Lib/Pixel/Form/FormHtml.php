@@ -66,16 +66,20 @@ class FormHtml extends \Zion\Form\FormHtml
 
     public function montaTextArea(FormInputTextArea $config)
     {
-        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
+        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control ';
         $config->setClassCss($classCss);
 
         if ($config->getToolTipMsg()) {
             $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
             $config->setComplemento($complemento);
-        }
+        }               
 
         $jsFinal = '';
         if ($config->getAcao() == 'editor') {
+            
+            $idEditor = $config->getNomeForm().$config->getId();
+            $config->setId($idEditor);
+            
             $js = new \Zion\Layout\JavaScript();
             $jsFinal = $js->entreJS("CKEDITOR.replace( '" . $config->getId() . "' );");
 

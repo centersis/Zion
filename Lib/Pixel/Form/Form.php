@@ -247,7 +247,7 @@ class Form extends \Zion\Form\Form
                 }
 
                 if ($javaScriptExtra) {
-                    $smartJs->processarJS($config);
+                    $smartJs->processarJS($this->formConfig->getNome(), $config);
                 }
             }
 
@@ -267,7 +267,7 @@ class Form extends \Zion\Form\Form
     {
         $smartJs = new \Pixel\Form\FormPixelJavaScript();
 
-        $smartJs->processarJS($objeto);
+        $smartJs->processarJS($this->formConfig->getNome(), $objeto);
 
         return $smartJs->getJS();
     }

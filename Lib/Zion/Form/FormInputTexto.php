@@ -482,6 +482,5 @@ class FormInputTexto extends FormBasico
     {
         parent::setContainer($container);
         return $this;
-    }
-
+    }   
 }

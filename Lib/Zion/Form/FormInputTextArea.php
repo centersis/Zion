@@ -384,5 +384,11 @@ class FormInputTextArea extends FormBasico
         parent::setContainer($container);
         return $this;
     }
+    
+    public function setNomeForm($nomeForm)
+    {
+        parent::setNomeForm($nomeForm);
+        return $this;
+    }
 
 }

@@ -24,6 +24,7 @@ abstract class FormBasico
     private $atributos;
     private $classCss;    
     private $container;
+    private $nomeForm;
 
     /**
      * FormBasico::setId()
@@ -264,6 +265,17 @@ abstract class FormBasico
     public function setContainer($container)
     {
         $this->container = $container;
+        return $this;
+    }
+    
+    public function getNomeForm()
+    {
+        return $this->nomeForm;
+    }
+
+    public function setNomeForm($nomeForm)
+    {
+        $this->nomeForm = $nomeForm;
         return $this;
     }
 }

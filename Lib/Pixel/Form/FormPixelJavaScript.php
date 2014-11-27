@@ -23,7 +23,7 @@ class FormPixelJavaScript
         $this->upload = false;
     }
 
-    private function suggest(FormInputSuggest $config)
+    private function suggest($formNome, FormInputSuggest $config)
     {
         $attr = [];
 
@@ -40,7 +40,7 @@ class FormPixelJavaScript
         $parametros .= $config->getParametros();
 
 
-        $abre = ' $( "#' . $id . '" ).autocomplete({ ';
+        $abre = ' $( "#' . $formNome . ' #' . $id . '" ).autocomplete({ ';
         $attr[] = ' source: "' . $url . $parametros . '"';
 
         if ($config->getEspera()) {
@@ -57,7 +57,7 @@ class FormPixelJavaScript
 
         $onSelect = '';
         if ($config->getHiddenValue()) {
-            $onSelect .= '$("#' . $config->getHiddenValue() . '").val(ui.item.id); ';
+            $onSelect .= '$("#' . $formNome . ' #' . $config->getHiddenValue() . '").val(ui.item.id); ';
         }
 
         if ($config->getOnSelect()) {
@@ -174,25 +174,25 @@ class FormPixelJavaScript
         }
     }
 
-    public function processarJS($config)
+    public function processarJS($formNome, $config)
     {
         if ($config->getAcao() == 'editor') {
             return;
         }
 
         if ($config->getAcao() == 'float') {
-            $this->extra[] = '$("#' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
         }
 
         if ($config->getAcao() == 'date') {
-            $this->extra[] = ' $("#' . $config->getId() . '").mask("99/99/9999").datepicker(); ';
+            $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999").datepicker(); ';
         }
 
         if ($config->getAcao() === 'chosen') {
 
             $placeholder = $config->getInicio() ? ', placeholder: "' . $config->getInicio() . '"' : '';
 
-            $this->extra[] = '$("#' . str_replace('[]', '', $config->getId()) . '").select2({ allowClear: true' . $placeholder . ' }); ';
+            $this->extra[] = '$("#' . $formNome . ' #' . str_replace('[]', '', $config->getId()) . '").select2({ allowClear: true' . $placeholder . ' }); ';
         }
 
         if ($config->getAcao() == 'time') {
@@ -205,33 +205,33 @@ class FormPixelJavaScript
                 $mascara = '99:99';
             }
 
-            $this->extra[] = ' $("#' . $config->getId() . '").mask("' . $mascara . '").timepicker('
+            $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("' . $mascara . '").timepicker('
                     . '{ minuteStep: 1, showSeconds: ' . $showSeconds . ', defaultTime: false, showMeridian: false, showInputs: false, '
                     . 'orientation: $("body").hasClass("right-to-left") ? { x: "right", y: "auto"} : { x: "auto", y: "auto"}}); ';
         }
 
         if ($config->getAcao() == 'cpf') {
 
-            $this->extra[] = '$("#' . $config->getId() . '").mask("999.999.999-99");';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("999.999.999-99");';
         }
 
         if ($config->getAcao() == 'cnpj') {
 
-            $this->extra[] = '$("#' . $config->getId() . '").mask("99.999.999/9999-99");';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("99.999.999/9999-99");';
         }
 
         if ($config->getAcao() == 'cep') {
 
-            $this->extra[] = '$("#' . $config->getId() . '").mask("99.999-99");';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("99.999-99");';
         }
 
         if ($config->getAcao() == 'telefone') {
 
-            $this->extra[] = '$("#' . $config->getId() . '").mask("(99) 9999-9999?9");';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("(99) 9999-9999?9");';
         }
 
         if ($config->getAcao() == 'suggest') {
-            $this->suggest($config);
+            $this->suggest($formNome, $config);
         }
     }
 

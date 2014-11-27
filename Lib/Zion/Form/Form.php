@@ -319,6 +319,7 @@ class Form
     public function processarForm(array $campos)
     {
         foreach ($campos as $objCampos) {
+            $objCampos->setNomeForm($this->formConfig->getNome());
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
