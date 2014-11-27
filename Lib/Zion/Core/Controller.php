@@ -9,6 +9,7 @@
  * 
  * Controller
  */
+
 namespace Zion\Core;
 
 class Controller
@@ -18,7 +19,7 @@ class Controller
      * @var string $acao
      */
     private $acao;
-    
+
     /**
      * Controller::controle()
      * 
@@ -30,7 +31,7 @@ class Controller
         if (empty($acao)) {
             $acao = 'iniciar';
         }
-        
+
         $this->acao = $acao;
 
         try {
@@ -40,11 +41,11 @@ class Controller
 
             return $this->{$acao}();
         } catch (\Exception $e) {
-            
+
             return $this->jsonErro($e->getMessage());
         }
-    }    
-    
+    }
+
     /**
      * Controller::jsonSucesso()
      * 
@@ -55,7 +56,7 @@ class Controller
     {
         return json_encode(array('sucesso' => 'true', 'retorno' => $retorno));
     }
-    
+
     /**
      * Controller::jsonErro()
      * 
@@ -65,10 +66,10 @@ class Controller
     public function jsonErro($erro)
     {
         $tratar = \Zion\Validacao\Valida::instancia();
-        
+
         return json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
     }
-    
+
     /**
      * Controller::getAcao()
      * 
@@ -77,6 +78,38 @@ class Controller
     public function getAcao()
     {
         return $this->acao;
+    }
+
+    protected function registrosSelecionados()
+    {
+        $selecionados = \filter_input(\INPUT_GET, 'sisReg', \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
+
+        if (empty($selecionados[0])) {
+
+            $valor = \filter_input(\INPUT_GET, 'sisReg', \FILTER_DEFAULT);
+
+            if (!empty($valor)) {
+                $selecionados = [$valor];
+            } else {
+                $selecionados = 0;
+            }
+        }
+
+        if (empty($selecionados) or ! \is_array($selecionados)) {
+            throw new \Exception("Nenhum registro selecionado!");
+        }
+
+        return $selecionados;
+    }
+
+    protected function metodoPOST()
+    {
+        return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'POST' ? true : false;
+    }
+
+    protected function postCod()
+    {
+        return \filter_input(\INPUT_POST, 'cod');
     }
 
 }

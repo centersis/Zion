@@ -75,9 +75,11 @@ function sisContaCheck()
     }
 
     for (i = 0; i < abv.elements.length; i++) {
-        if (abv.elements[i].type === "checkbox") {
-            if (abv.elements[i].checked === true) {
-                conta += 1;
+        if (abv.elements[i].name === 'sisReg' || abv.elements[i].name === 'sisReg[]') {
+            if (abv.elements[i].type === "checkbox" || abv.elements[i].type === "radio") {
+                if (abv.elements[i].checked === true) {
+                    conta += 1;
+                }
             }
         }
     }
@@ -133,7 +135,7 @@ function sisCadastrarLayoutPadrao() {
 function sisCadastrarPadrao(nomeForm, upload) {
 
     if (upload === true) {
-        var config = {type: "post", url: "?acao=cadastrar", dataType: "json",data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
+        var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
     else {
         var config = {type: "post", url: "?acao=cadastrar", dataType: "json"};
@@ -175,7 +177,7 @@ function sisAlterarLayoutPadrao() {
 function sisAlterarPadrao(nomeForm, upload) {
 
     if (upload === true) {
-        var config = {type: "post", url: "?acao=alterar", dataType: "json",data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
+        var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
     else {
         var config = {type: "post", url: "?acao=alterar", dataType: "json"};
@@ -273,7 +275,7 @@ function sisVisualizarPadrao()
 function sisUploadMultiplo(id) {
     var obj = document.getElementById(id);
     var html = "";
-    
+
     if ('files' in obj) {
         if (obj.files.length === 0) {
             html = "Nenhum arquivo selecionado!";
@@ -298,7 +300,7 @@ function sisUploadMultiplo(id) {
         }
     }
 
-    $("#sisUploadMultiploLista"+id).html(html);
+    $("#sisUploadMultiploLista" + id).html(html);
 }
 
 // DIALOG
