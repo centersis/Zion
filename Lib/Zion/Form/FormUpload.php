@@ -59,8 +59,12 @@ class FormUpload extends FormBasico
     
     public function setMultiple($multiple)
     {
-        $this->multiple = $multiple;
-        return $this;
+        if (is_bool($multiple)) {
+            $this->multiple = $multiple;
+            return $this;
+        } else {
+            throw new FormException("multiple: Valor nao booleano.");
+        }
     }
     
     public function getForm()
@@ -85,8 +89,12 @@ class FormUpload extends FormBasico
 
     public function setTratarComo($tratarComo)
     {
-        $this->tratarComo = $tratarComo;
-        return $this;
+        if (strtoupper($tratarComo) == "IMAGEM" or empty($tratarComo)) {
+            $this->tratarComo = $tratarComo;
+            return $this;
+        } else {
+            throw new FormException("tratarComo: Valor desconhecido. Para utilizar recursos de imagem, informe 'IMAGEM' para este atributo.");
+        }
     }
 
     /**

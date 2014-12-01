@@ -2,6 +2,8 @@
 
 namespace Pixel\Form;
 
+use \Zion\Form\Exception\FormException as FormException;
+
 class FormUpload extends \Zion\Form\FormUpload
 {
 
@@ -94,8 +96,12 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setCodigoReferencia($codigoReferencia)
     {
-        $this->codigoReferencia = $codigoReferencia;
-        return $this;
+        if (!empty($codigoReferencia) and is_numeric($codigoReferencia)) {
+            $this->codigoReferencia = $codigoReferencia;
+            return $this;
+        } else {
+            throw new FormException("codigoReferencia: Nenhum valor informado.");
+        }
     }    
     
     public function getAlturaMaxima()
@@ -105,8 +111,15 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setAlturaMaxima($alturaMaxima)
     {
-        $this->alturaMaxima = $alturaMaxima;
-        return $this;
+        if (is_numeric($alturaMaxima)) {
+            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
+                throw new FormException("alturaMaxima: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
+            }
+            $this->alturaMaxima = $alturaMaxima;
+            return $this;
+        } else {
+            throw new FormException("alturaMaxima: Valor nao numerico.");
+        }
     }
 
     public function getLarguraMaxima()
@@ -116,8 +129,15 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setLarguraMaxima($larguraMaxima)
     {
-        $this->larguraMaxima = $larguraMaxima;
-        return $this;
+        if (is_numeric($larguraMaxima)) {
+            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
+                throw new FormException("larguraMaxima: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
+            }
+            $this->larguraMaxima = $larguraMaxima;
+            return $this;
+        } else {
+            throw new FormException("larguraMaxima: Valor nao numerico.");
+        }
     }
 
     public function getThumbnail()
@@ -127,8 +147,15 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setThumbnail($thumbnail)
     {
-        $this->thumbnail = $thumbnail;
-        return $this;
+        if (is_bool($thumbnail)) {
+            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
+                throw new FormException("thumbnail: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
+            }
+            $this->thumbnail = $thumbnail;
+            return $this;
+        } else {
+            throw new FormException("thumbnail: Valor nao booleano.");
+        }
     }
 
     public function getAlturaMaximaTB()
@@ -138,8 +165,15 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setAlturaMaximaTB($alturaMaximaTB)
     {
-        $this->alturaMaximaTB = $alturaMaximaTB;
-        return $this;
+        if (is_numeric($alturaMaximaTB)) {
+            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
+                throw new FormException("alturaMaximaTB: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
+            }
+            $this->alturaMaximaTB = $alturaMaximaTB;
+            return $this;
+        } else {
+            throw new FormException("alturaMaximaTB: Valor nao numerico.");
+        }
     }
 
     public function getLarguraMaximaTB()
@@ -149,8 +183,15 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setLarguraMaximaTB($larguraMaximaTB)
     {
-        $this->larguraMaximaTB = $larguraMaximaTB;
-        return $this;
+        if (is_numeric($larguraMaximaTB)) {
+            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
+                throw new FormException("larguraMaximaTB: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
+            }
+            $this->larguraMaximaTB = $larguraMaximaTB;
+            return $this;
+        } else {
+            throw new FormException("larguraMaximaTB: Valor nao numerico.");
+        }
     }
 
     public function getExtensoesPermitidas()
@@ -160,8 +201,16 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setExtensoesPermitidas($extensoesPermitidas)
     {
-        $this->extensoesPermitidas = $extensoesPermitidas;
-        return $this;
+        if (is_array($extensoesPermitidas)) {
+            $fails = @array_intersect($extensoesPermitidas, $this->extensoesNaoPermitidas);
+            if(isset($this->extensoesNaoPermitidas) and @count($fails) > 0){
+                throw new FormException("extensoesPermitidas: A extensao ". $fails[0] ." esta na lista de extensoes nao permitidas.");
+            }
+            $this->extensoesPermitidas = $extensoesPermitidas;
+            return $this;
+        } else {
+            throw new FormException("extensoesPermitidas: O valor informado deve ser um array.");
+        }
     }
 
     public function getExtensoesNaoPermitidas()
@@ -171,8 +220,16 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setExtensoesNaoPermitidas($extensoesNaoPermitidas)
     {
-        $this->extensoesNaoPermitidas = $extensoesNaoPermitidas;
-        return $this;
+        if (is_array($extensoesNaoPermitidas)) {
+            $fails = @array_intersect($extensoesNaoPermitidas, $this->extensoesPermitidas);
+            if(isset($this->extensoesPermitidas) and @count($fails) > 0){
+                throw new FormException("extensoesNaoPermitidas: A extensao ". $fails[0] ." esta na lista de extensoes permitidas.");
+            }
+            $this->extensoesNaoPermitidas = $extensoesNaoPermitidas;
+            return $this;
+        } else {
+            throw new FormException("extensoesNaoPermitidas: O valor informado deve ser um array.");
+        }
     }
 
     public function getTamanhoMaximoEmBytes()
@@ -182,8 +239,12 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setTamanhoMaximoEmBytes($tamanhoMaximoEmBytes)
     {
-        $this->tamanhoMaximoEmBytes = $tamanhoMaximoEmBytes;
-        return $this;
+        if (is_numeric($tamanhoMaximoEmBytes)) {
+            $this->tamanhoMaximoEmBytes = $tamanhoMaximoEmBytes;
+            return $this;
+        } else {
+            throw new FormException("tamanhoMaximoEmBytes: Valor nao numerico.");
+        }
     }
 
     public function getMinimoArquivos()
@@ -193,8 +254,15 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setMinimoArquivos($minimoArquivos)
     {
-        $this->minimoArquivos = $minimoArquivos;
-        return $this;
+        if (is_numeric($minimoArquivos)) {
+            if(isset($this->maximoArquivos) and $this->maximoArquivo < $minimoArquivos){
+                throw new FormException("minimoArquivos nao pode ser maior que maximoArquivos.");
+            }
+            $this->minimoArquivos = $minimoArquivos;
+            return $this;
+        } else {
+            throw new FormException("minimoArquivos: Valor nao numerico.");
+        }
     }
 
     public function getMaximoArquivos()
@@ -204,8 +272,15 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setMaximoArquivos($maximoArquivos)
     {
-        $this->maximoArquivos = $maximoArquivos;
-        return $this;
+        if (is_numeric($maximoArquivos)) {
+            if(isset($this->minimoArquivos) and $this->minimoArquivos > $minimoArquivos){
+                throw new FormException("maximoArquivos nao pode ser menor que minimoArquivos.");
+            }
+            $this->maximoArquivos = $maximoArquivos;
+            return $this;
+        } else {
+            throw new FormException("maximoArquivos: Valor nao numerico.");
+        }
     }
 
     public function setTipoFiltro($tipoFiltro)
