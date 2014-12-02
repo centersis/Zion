@@ -81,18 +81,18 @@ class GridBotoes
         foreach ($arrayAcesso as $dados) {
             $cont++;
 
-            if (!in_array($dados['AcaoModuloIdPermissao'], $this->botoesExcluir)) {
+            if (!in_array($dados['acaoModuloIdPermissao'], $this->botoesExcluir)) {
                 $cont++;
 
-                if ($dados['AcaoModuloApresentacao'] == 'E') {
+                if ($dados['acaoModuloApresentacao'] == 'E') {
 
                     $botoes = $this->html->abreTagAberta('button', [
                         'type' => 'button',
                         'class' => 'btn btn-lg hidden-xs',
-                        'title' => $dados['AcaoModuloPermissao'],
-                        'onclick' => $dados['AcaoModuloFuncaoJS']]);
+                        'title' => $dados['acaoModuloPermissao'],
+                        'onclick' => $dados['acaoModuloFuncaoJS']]);
 
-                    $botoes.= $this->html->abreTagFechada('i', ['class' => $dados['AcaoModuloIcon']]);
+                    $botoes.= $this->html->abreTagFechada('i', ['class' => $dados['acaoModuloIcon']]);
                     $botoes.= $this->html->fechaTag('button');
 
                     $arrayBotoesE[$cont] = $botoes;
@@ -103,17 +103,17 @@ class GridBotoes
                     $gridHtml   = $form->hidden('gridHtml', 'gridHtml', false)->setValor('asd');
                     
                     $botoes = $this->html->abreTagAberta('li', ['class' => 'hidden-xs']);
-                    $botoes .= $this->html->abreTagAberta('a', ['href' => 'javascript:' . $dados['AcaoModuloFuncaoJS']]); //GET THE FUCKING OVER HERE!
-                    $botoes .= $this->html->abreTagAberta('i', ['class' => 'dropdown-icon ' . $dados['AcaoModuloIcon']]);
+                    $botoes .= $this->html->abreTagAberta('a', ['href' => 'javascript:' . $dados['acaoModuloFuncaoJS']]); //GET THE FUCKING OVER HERE!
+                    $botoes .= $this->html->abreTagAberta('i', ['class' => 'dropdown-icon ' . $dados['acaoModuloIcon']]);
                     $botoes .= $this->html->fechaTag('i');
-                    $botoes .= '&nbsp;&nbsp;&nbsp;' . $dados['AcaoModuloPermissao'];
+                    $botoes .= '&nbsp;&nbsp;&nbsp;' . $dados['acaoModuloPermissao'];
                     $botoes .= $this->html->fechaTag('a');
                     $botoes .= $this->html->fechaTag('li');
 
                     $arrayBotoesR[$cont] = $botoes;
                 }
 
-                $posicoes[$cont] = (int) $dados['AcaoModuloPosicao'];
+                $posicoes[$cont] = (int) $dados['acaoModuloPosicao'];
             }
         }
 

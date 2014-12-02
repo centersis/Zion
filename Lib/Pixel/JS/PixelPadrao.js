@@ -138,7 +138,7 @@ function sisCadastrarPadrao(nomeForm, upload) {
         var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
     else {
-        var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerializeUpload("#" + nomeForm)};
+        var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerialize("#" + nomeForm)};
     }
 
     $.ajax(config).done(function (ret) {
@@ -180,7 +180,7 @@ function sisAlterarPadrao(nomeForm, upload) {
         var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
     else {
-        var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerializeUpload("#" + nomeForm)};
+        var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerialize("#" + nomeForm)};
     }
 
     $.ajax(config).done(function (ret) {
