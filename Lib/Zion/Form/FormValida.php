@@ -35,7 +35,7 @@ class FormValida
     private $instanceZion;
 
     /**
-     * @var string $instanceParent Nome da classe Parent extendida por todas as classes em \Zion\Form;
+     * @var string $instanceParent Nome da classe parent extendida por todas as classes em \Zion\Form;
      */
     private $instanceParent;
 
@@ -108,7 +108,7 @@ class FormValida
      * FormValida::validaFormInputTexto()
      * Valida input do tipo Texto
      * 
-     * @param \Zion\Form\FormInputTexto $input Instância da classe \Zion\Form\FormInputTexto com as configurações do input a ser validado.
+     * @param mixed $input Instância da classe \Zion\Form; ou \Pixel\Form; com as configurações do input a ser validado.
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */

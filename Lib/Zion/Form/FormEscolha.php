@@ -94,8 +94,15 @@ class FormEscolha extends \Zion\Form\FormBasico
     
     public function setSelecaoMaxima($selecaoMaxima)
     {
-        $this->selecaoMaxima = $selecaoMaxima;
-        return $this;
+        if(is_numeric($selecaoMaxima)){
+            if(isset($this->selecaoMinima) and $selecaoMaxima < $this->selecaoMinima){
+                throw new FormException("selecaoMaxima nao pode ser menor que selecao minima.");
+            }
+            $this->selecaoMaxima = $selecaoMaxima;
+            return $this;
+        } else {
+            throw new FormException("selecaoMaxima: O valor informado deve ser do tipo numerico.");
+        }
     }
     
     public function getSelecaoMaxima()
@@ -105,8 +112,15 @@ class FormEscolha extends \Zion\Form\FormBasico
     
     public function setSelecaoMinima($selecaoMinima)
     {
-        $this->selecaoMinima = $selecaoMinima;
-        return $this;
+        if(is_numeric($selecaoMinima)){
+            if(isset($this->selecaoMaxima) and $selecaoMinima > $this->selecaoMaxima){
+                throw new FormException("selecaoMinima nao pode ser maior que selecao maxima.");
+            }
+            $this->selecaoMinima = $selecaoMinima;
+            return $this;
+        } else {
+            throw new FormException("selecaoMinima: O valor informado deve ser do tipo numerico.");
+        }
     }
     
     public function getSelecaoMinima()
