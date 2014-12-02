@@ -12,13 +12,13 @@ class FormPesquisar extends \Zion\Layout\Padrao
     public function getFormPesquisar()
     {	
 
-	    $formSmart = new \Sappiens\includes\SelecionarClienteForm();
-	    $form = $formSmart->getFormModulo();
+	    //$formSmart = new \Sappiens\includes\SelecionarClienteForm();
+	    //$form = $formSmart->getFormModulo();
 
 	    $buffer  = '';
 	    $buffer .= $this->html->abreTagAberta('li');
 	    $buffer .= $this->html->abreTagAberta('form', array('class' => 'navbar-form'));
-	    $buffer .= $form->getFormHtml('v_cliente');
+	    //$buffer .= $form->getFormHtml('v_cliente');
 	    $buffer .= $this->html->fechaTag('form');
 	    $buffer .= $this->html->fechaTag('li');
 
