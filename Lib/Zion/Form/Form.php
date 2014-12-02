@@ -32,6 +32,8 @@ class Form
 
         $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
+        
+        $this->objetos = [];
     }
 
     /**
@@ -373,12 +375,12 @@ class Form
             if (\key_exists($nome, $this->objetos)) {
                 $this->objetos[$nome]->setValor($valor);
             } else {
-                switch ($tipo) {
+                switch (\strtolower($tipo)) {
 
                     case 'float':
-                        $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);
+                        $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);                        
                         break;
-                    case 'numero':
+                    case 'numero': case 'inteiro':
                         $this->objetos[$nome] = new \Zion\Form\FormInputNumber('number', $nome, '-', false);
                         break;
                     case 'data':
@@ -402,6 +404,10 @@ class Form
      */
     public function get($nome)
     {
+        if(!\key_exists($nome,$this->objetos)){
+            throw new \Exception('Objeto '.$nome.' não encontrado');
+        }
+        
         return $this->objetos[$nome]->getValor();
     }
 
@@ -491,8 +497,11 @@ class Form
                 case 'textarea' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaTextArea($objCampos);
                     break;
-                case 'dateTime' :
-                    $htmlCampos[$idCampo] = $this->formHtml->montaDateTime($objCampos);
+                case 'date' :
+                    $htmlCampos[$idCampo] = $this->formHtml->montaData($objCampos);
+                    break;
+                case 'time' :
+                    $htmlCampos[$idCampo] = $this->formHtml->montaHora($objCampos);
                     break;
                 case 'number' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaNumber($objCampos);
@@ -509,7 +518,7 @@ class Form
                 case 'button':
                     $htmlCampos[$idCampo] = $this->formHtml->montaButton($objCampos);
                     break;
-                case 'upload':                    
+                case 'upload':
                     $htmlCampos[$idCampo] = $this->formHtml->montaUpload($objCampos);
                     break;
                 case 'layout':

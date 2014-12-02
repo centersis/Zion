@@ -217,7 +217,7 @@ function sisRemoverPadrao()
 
 function sisRemovePadrao() {
 
-    $.ajax({type: "post", url: "?acao=remover", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
+    $.ajax({type: "get", url: "?acao=remover", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
 
         var se = parseInt(ret.selecionados);
         var ap = parseInt(ret.apagados);
