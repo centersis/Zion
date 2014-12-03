@@ -58,7 +58,7 @@ class FiltroForm
 
         $html .= $template->getTab('tabFiltro', ['classCss' => 'col-sm-12'], $tabArray);
 
-        $html .= $objForm->fechaForm();
+        $html .= '</form>';
 
         $html.= $javascript->entreJS($javascript->abreLoadJQuery() . implode('', $this->js) . $javascript->fechaLoadJQuery());
 
