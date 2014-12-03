@@ -12,6 +12,8 @@ class FormEscolha extends \Zion\Form\FormEscolha
     private $formSetPixel;
     private $processarJS;
     private $tipoFiltro;
+    private $campoDependencia;
+    private $metodoDependencia;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -172,6 +174,23 @@ class FormEscolha extends \Zion\Form\FormEscolha
         return $this->tipoFiltro;
     }
 
+    public function setDependencia($campoDependencia,$metodoDependencia)
+    {
+        $this->campoDependencia = $campoDependencia;
+        $this->metodoDependencia = $metodoDependencia;
+        return $this;
+    }
+    
+    public function getCampoDependencia()
+    {
+        return $this->campoDependencia;
+    }
+    
+    public function getMetodoDependencia()
+    {
+        return $this->metodoDependencia;
+    }
+    
     public function setAliasSql($aliasSql){
         parent::setAliasSql($aliasSql);
         return $this;

@@ -35,10 +35,10 @@ class CrudUtil
             $arrayObjetos['cod']->setValor($cod);
         }
 
-        if (is_array($arrayObjetos)) {
+        if (\is_array($arrayObjetos)) {
             foreach ($arrayObjetos as $nome => $objeto) {
 
-                if (key_exists($nome, $parametrosSql)) {
+                if (\key_exists($nome, $parametrosSql)) {
                     $objeto->setValor($parametrosSql[$nome]);
                 }
             }
@@ -59,7 +59,7 @@ class CrudUtil
         $arrayForm = $objForm->getObjetos();
 
         //Monta Array de Retotno
-        if (is_array($arrayForm)) {
+        if (\is_array($arrayForm)) {
             foreach ($arrayForm as $cfg) {
                 $arrayCampos[] = 'n' . $cfg->getNome();
             }
@@ -72,7 +72,7 @@ class CrudUtil
      * Metodo que processa e retorna partes de uma clausula SQL de acordo com os filtros
      * returna String
      */
-    public function getSqlFiltro($fil, $objForm, array $colunas)
+    public function getSqlFiltro($fil, $objForm, array $filtroDinamico)
     {
         $sql = '';
 
@@ -81,9 +81,9 @@ class CrudUtil
 
         //Intercepta busca geral
         //Monta Sql de Retotno
-        if (is_array($arrayForm)) {
+        if (\is_array($arrayForm)) {
             foreach ($arrayForm as $cFG) {
-                if (method_exists($cFG, 'getAliasSql')) {
+                if (\method_exists($cFG, 'getAliasSql')) {
                     $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
                 } else {
                     $alias = '';
@@ -92,12 +92,12 @@ class CrudUtil
             }
         }
 
-        $sql.= $this->sqlBuscaGeral($colunas);
+        $sql.= $this->sqlBuscaGeral($filtroDinamico);
 
         return $sql;
     }
 
-    private function sqlBuscaGeral($colunas)
+    private function sqlBuscaGeral($filtroDinamico)
     {
         $buscaGral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
 
@@ -106,13 +106,16 @@ class CrudUtil
         if ($buscaGral) {
             $sql = ' AND (';
 
-            $campos = str_replace(',', '|', $buscaGral);
+            $campos = \str_replace(',', '|', $buscaGral);
 
-            $total = count($colunas);
+            $total = \count($filtroDinamico);
             $cont = 0;
-            foreach (\array_keys($colunas) as $coluna) {
+            foreach ($filtroDinamico as $coluna => $aliasSql) {
                 $cont++;
-                $sql.= $coluna . " REGEXP '" . $campos . "'";
+
+                $alias = $aliasSql ? $aliasSql . '.' : '';
+
+                $sql.= $alias . $coluna . " REGEXP '" . $campos . "'";
 
                 $sql.= $total == $cont ? '' : ' OR ';
             }
@@ -223,7 +226,7 @@ class CrudUtil
 
         if ($objeto) {
             foreach ($arrayParametros as $nomeParametro) {
-                if (array_key_exists($nomeParametro, $arrayForm)) {
+                if (\array_key_exists($nomeParametro, $arrayForm)) {
 
                     $arraySql[] = $this->removeColchetes($nomeParametro) . ' = ' . $objForm->getSql($nomeParametro);
                 } else {
@@ -237,7 +240,7 @@ class CrudUtil
             $form = new \Zion\Form\Form();
 
             foreach ($arrayParametros as $nomeParametro) {
-                if (array_key_exists($nomeParametro, $arrayForm)) {
+                if (\array_key_exists($nomeParametro, $arrayForm)) {
 
                     $form->set($nomeParametro, \current($arrayForm[$nomeParametro]), \key($arrayForm[$nomeParametro]));
 
@@ -309,7 +312,7 @@ class CrudUtil
             $arrayParametros = array_map("trim", $arrayParametros);
 
             foreach ($arrayParametros as $nomeParametro) {
-                if (array_key_exists($nomeParametro, $arrayForm)) {
+                if (\array_key_exists($nomeParametro, $arrayForm)) {
                     $objeto = $arrayForm[$nomeParametro];
 
                     $arraySql[] = $objForm->get($nomeParametro, $objeto->getObrigatorio(), $objeto->getProcessarComo());
@@ -344,9 +347,14 @@ class CrudUtil
         //Cria Array Para Converssão em Super Global
         foreach ($parametrosForm as $valor) {
             if ($valor == "cod") {
-                $arrayProcessamento[$valor] = @$parametrosSql[$chave];
+                if (\key_exists($valor, $arrayProcessamento)) {
+                    $arrayProcessamento[$valor] = $parametrosSql[$chave];
+                }
             } else {
-                $arrayProcessamento[$valor] = @$parametrosSql[$valor];
+
+                if (\key_exists($valor, $arrayProcessamento)) {
+                    $arrayProcessamento[$valor] = $parametrosSql[$valor];
+                }
             }
         }
 
@@ -356,8 +364,8 @@ class CrudUtil
 
     public function extractVar($array, $metodo)
     {
-        if (is_array($array)) {
-            $metodo = strtoupper($metodo);
+        if (\is_array($array)) {
+            $metodo = \strtoupper($metodo);
 
             switch ($metodo) {
                 case "GET":
@@ -383,7 +391,7 @@ class CrudUtil
 
     private function removeColchetes($campos)
     {
-        if (is_array($campos)) {
+        if (\is_array($campos)) {
             foreach ($campos as $chave => $campo) {
                 $campos[$chave] = \str_replace('[]', '', $campo);
             }
