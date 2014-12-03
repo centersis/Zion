@@ -26,8 +26,8 @@ class Menu extends \Zion\Layout\Padrao
     private function geraMenu()
     {
 
-        $menu = new \Zion\Menu\Menu();
-        $menu = $menu->geraMenu();
+        $imenu = new \Zion\Menu\Menu();
+        $menu = $imenu->geraMenu();
 
         $obj = json_decode($menu, true);
 
@@ -35,40 +35,40 @@ class Menu extends \Zion\Layout\Padrao
 
         if ($obj['sucesso'] == true) {
 
-            foreach ($obj['retorno'] as $indice => $valor) {
+            foreach ($obj['retorno'] as $valor) {
 
                 if (is_array($valor)) {
 
                     foreach ($valor as $indice1 => $valor1) {
 
-                        if ($indice1 == 'Grupo') {
+                        if ($indice1 == 'grupo') {
 
                             $buffer .= $this->abreGrupoMenu();
-                            $buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['GrupoModuloClass'], 'grupo' => $valor1));
+                            $buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['grupoClass'], 'grupo' => $valor1));
                         }
 
                         if (is_array($valor1)) {
 
                             $buffer .= $this->abreConjuntoSubMenu();
 
-                            foreach ($valor1 as $indice2 => $valor2) {
+                            foreach ($valor1 as $valor2) {
 
-                                if (!empty($valor2['Modulo'])) {
+                                if (!empty($valor2['modulo'])) {
 
                                     $buffer .= $this->populaSubMenu($valor2);
                                 }
 
                                 if (is_array($valor2)) {
 
-                                    foreach ($valor2 as $indice3 => $valor3) {
+                                    foreach ($valor2 as $valor3) {
 
                                         if (is_array($valor3)) {
 
-                                            foreach ($valor3 as $indice4 => $valor4) {
+                                            foreach ($valor3 as $valor4) {
 
                                                 if (is_array($valor4)) {
 
-                                                    foreach ($valor4 as $indice5 => $valor5) {
+                                                    foreach ($valor4 as $valor5) {
                                                         
                                                     }
                                                 }
@@ -141,9 +141,9 @@ class Menu extends \Zion\Layout\Padrao
 
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('li', array('class' => ' '));
-        $buffer .= $this->html->abreTagAberta('a', array('href' => $valor['MenuUrl'], 'tabindex' => '-1'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $valor['ModuloClass'] . '')) . $this->html->fechaTag('i');
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['Menu'] . $this->html->fechaTag('span');
+        $buffer .= $this->html->abreTagAberta('a', array('href' => $valor['menuUrl'], 'tabindex' => '-1'));
+        $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $valor['moduloClass'] . '')) . $this->html->fechaTag('i');
+        $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['menu'] . $this->html->fechaTag('span');
         $buffer .= $this->html->fechaTag('a');
         $buffer .= $this->html->fechaTag('li');
         return $buffer;
