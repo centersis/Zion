@@ -10,6 +10,7 @@
  */
 
 namespace Zion\Form;
+use \Zion\Form\Exception\FormException as FormException;
 
 class Form
 {
@@ -491,8 +492,14 @@ class Form
                 case 'textarea' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaTextArea($objCampos);
                     break;
-                case 'dateTime' :
-                    $htmlCampos[$idCampo] = $this->formHtml->montaDateTime($objCampos);
+                case 'data' :
+                    $htmlCampos[$idCampo] = $this->formHtml->montaData($objCampos);
+                    break;
+                case 'hora' :
+                    $htmlCampos[$idCampo] = $this->formHtml->montaHora($objCampos);
+                    break;
+                case 'senha' :
+                    $htmlCampos[$idCampo] = $this->formHtml->montaSenha($objCampos);
                     break;
                 case 'number' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaNumber($objCampos);
@@ -515,7 +522,7 @@ class Form
                 case 'layout':
                     $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
-                default : throw new Exception('Tipo Base não encontrado!');
+                default : throw new FormException('Tipo Base não encontrado!');
             }
         }
 
