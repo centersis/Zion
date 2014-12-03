@@ -1,7 +1,7 @@
 <?php
 
 /**
- * \Zion\Remoto\Complete()
+ * \Pixel\Remoto\Complete()
  * 
  * @package The Sappiens Team
  * @author 2014
@@ -10,7 +10,7 @@
  * @access public
  */
  
-namespace Zion\Remoto;
+namespace Pixel\Remoto;
 
 class Complete
 {
