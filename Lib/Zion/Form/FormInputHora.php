@@ -45,7 +45,7 @@ class FormInputHora extends \Zion\Form\FormBasico
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         
-        $this->hora = new Data();
+        $this->hora = \Zion\Validacao\Data::instancia();
     }
     
     /**

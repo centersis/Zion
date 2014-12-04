@@ -10,6 +10,7 @@
  */
 
 namespace Zion\Form;
+use \Zion\Form\Exception\FormException as FormException;
 
 class Form
 {
@@ -32,8 +33,6 @@ class Form
 
         $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
-        
-        $this->objetos = [];
     }
 
     /**
@@ -375,12 +374,12 @@ class Form
             if (\key_exists($nome, $this->objetos)) {
                 $this->objetos[$nome]->setValor($valor);
             } else {
-                switch (\strtolower($tipo)) {
+                switch ($tipo) {
 
                     case 'float':
-                        $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);                        
+                        $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);
                         break;
-                    case 'numero': case 'inteiro':
+                    case 'numero':
                         $this->objetos[$nome] = new \Zion\Form\FormInputNumber('number', $nome, '-', false);
                         break;
                     case 'data':
@@ -404,10 +403,6 @@ class Form
      */
     public function get($nome)
     {
-        if(!\key_exists($nome,$this->objetos)){
-            throw new \Exception('Objeto '.$nome.' não encontrado');
-        }
-        
         return $this->objetos[$nome]->getValor();
     }
 
@@ -497,11 +492,14 @@ class Form
                 case 'textarea' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaTextArea($objCampos);
                     break;
-                case 'date' :
+                case 'data' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaData($objCampos);
                     break;
-                case 'time' :
+                case 'hora' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaHora($objCampos);
+                    break;
+                case 'senha' :
+                    $htmlCampos[$idCampo] = $this->formHtml->montaSenha($objCampos);
                     break;
                 case 'number' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaNumber($objCampos);
@@ -518,13 +516,13 @@ class Form
                 case 'button':
                     $htmlCampos[$idCampo] = $this->formHtml->montaButton($objCampos);
                     break;
-                case 'upload':
+                case 'upload':                    
                     $htmlCampos[$idCampo] = $this->formHtml->montaUpload($objCampos);
                     break;
                 case 'layout':
                     $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
-                default : throw new Exception('Tipo Base não encontrado!');
+                default : throw new FormException('Tipo Base não encontrado!');
             }
         }
 
