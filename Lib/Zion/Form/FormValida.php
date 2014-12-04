@@ -155,7 +155,7 @@ class FormValida
                     } elseif (strtoupper($input->getAcao()) == 'UPLOAD') {
                         //Não implementado.
                     } elseif (strtoupper($input->getAcao()) == 'ESCOLHA') {
-                        if(empty($userValue)){
+                        if(empty($userValue) and $input->getObrigatorio() === true){
                             throw new FormException($identifica . ": Voce deve selecionar uma das opcoes!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'CHOSEN') {
