@@ -72,14 +72,14 @@ class FormHtml extends \Zion\Form\FormHtml
         if ($config->getToolTipMsg()) {
             $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
             $config->setComplemento($complemento);
-        }               
+        }
 
         $jsFinal = '';
         if ($config->getAcao() == 'editor') {
-            
-            $idEditor = $config->getNomeForm().$config->getId();
+
+            $idEditor = $config->getNomeForm() . $config->getId();
             $config->setId($idEditor);
-            
+
             $js = new \Zion\Layout\JavaScript();
             $jsFinal = $js->entreJS("CKEDITOR.replace( '" . $config->getId() . "' );");
 
@@ -142,7 +142,7 @@ class FormHtml extends \Zion\Form\FormHtml
         return $this->prepareInputPixel($config, parent::montaFloat($config));
     }
 
-    public function montaEscolha($config)
+    public function montaEscolha(FormEscolha $config, $form)
     {
         $expandido = $config->getExpandido();
         $multiplo = $config->getMultiplo();
@@ -158,13 +158,45 @@ class FormHtml extends \Zion\Form\FormHtml
                 $config->setComplemento($complemento);
             }
 
-            if($config->getCampoDependencia())
-            {
-                $config->setContainer('dp'.$config->getNome());
-                $config->setArray([]);
-                $config->setTabela('');
+            if ($config->getCampoDependencia()) {
+
+                $config->setContainer('dp' . $config->getNome());
+
+                $acao = $form->getAcao();
+
+                if ($acao == 'cadastrar') {
+                    $config->setArray([]);
+                    $config->setTabela('');
+                } else if ($acao == 'alterar') {
+                    
+                    $dMetodo = $config->getMetodoDependencia();
+                    $dClasse = $config->getClasseDependencia();
+                    $dNomeCampo = $config->getCampoDependencia();
+                    $dObjeto = $form->getObjetos($dNomeCampo);
+                    $dCod = $dObjeto->getValor();                    
+
+                    $novoNamespace = \str_replace('/', '\\', $dClasse);
+                    
+                    $instancia = '\\' . $novoNamespace;
+
+                    if (!\is_numeric($dCod)) {
+                        $dCod = 0;
+                    }
+
+                    $i = new $instancia();
+
+                    $formE = $i->{$dMetodo}($dCod);
+
+                    $objeto = $formE->getObjetos($config->getNome());
+                    $objeto->setLayoutPixel(false);
+                    $objeto->setContainer('dp' . $config->getNome());
+
+                    $campo = $formE->getFormHtml($config->getNome());
+                    
+                    return $this->prepareInputPixel($config, $campo);
+                }
             }
-            
+
             return $this->prepareInputPixel($config, parent::montaEscolha($config, false));
         } else {
             $retorno = '';
@@ -209,14 +241,14 @@ class FormHtml extends \Zion\Form\FormHtml
             $config->setComplemento($complemento);
         }
 
-        $complemento = $config->getComplemento() . 'onchange="sisUploadMultiplo(\''.$config->getId().'\');"';
+        $complemento = $config->getComplemento() . 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
         $config->setComplemento($complemento);
-        
+
         $nomeTratado = \str_replace('[]', '', $config->getNome());
-        
+
         $htmlAlterar = $arquivoUpload->visualizarArquivos($nomeTratado, $config->getCodigoReferencia());
-        
-        return $this->prepareInputPixel($config, sprintf('%s<div id="sisUploadMultiploLista'.$config->getId().'"></div>', parent::montaUpload($config).$htmlAlterar));
+
+        return $this->prepareInputPixel($config, sprintf('%s<div id="sisUploadMultiploLista' . $config->getId() . '"></div>', parent::montaUpload($config) . $htmlAlterar));
     }
 
     public function montaButton($config)
@@ -281,7 +313,7 @@ class FormHtml extends \Zion\Form\FormHtml
                 }
             }
         }
-        
+
         $buffer .= $campo;
 
         if (method_exists($config, 'getIconFA') and $config->getIconFA()) {

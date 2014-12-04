@@ -51,6 +51,7 @@ class EscolhaHtml
         $campoDesc = $config->getCampoDesc();
         $where = $config->getWhere();
         $sqlCompleto = $config->getSqlCompleto();
+        $ignoreCod = $config->getIgnoreCod();
 
         if ($tabela and $campoCod and $campoDesc) {
 
@@ -80,6 +81,14 @@ class EscolhaHtml
                 $array = $this->ordenaArray($array);
             } elseif ($ordena === "DESC") {
                 $array = \array_reverse($this->ordenaArray($array));
+            }
+        }
+        
+        if(\is_array($ignoreCod)){
+            foreach ($ignoreCod as $ignorar){
+                if(\key_exists($ignorar, $array)){
+                    unset($array[$ignorar]);
+                }
             }
         }
 

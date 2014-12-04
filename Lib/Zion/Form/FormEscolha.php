@@ -35,6 +35,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $sqlCompleto;
     private $idConexao;
     private $aliasSql;
+    private $ignoreCod;
 
     /**
      * FormEscolha::__construct()
@@ -450,6 +451,21 @@ class FormEscolha extends \Zion\Form\FormBasico
         } else {
             throw new FormException("aliasSql: Nenhum valor informado");
         }
+    }
+    
+    public function setIgnoreCod($ignoreCod)
+    {
+        if (is_array($ignoreCod)) {
+            $this->ignoreCod = $ignoreCod;
+            return $this;
+        } else {
+            throw new FormException("ignoreCod: O valor informado nao e um array.");
+        }
+    }
+    
+    public function getIgnoreCod()
+    {
+        return $this->ignoreCod;
     }
 
     /**

@@ -204,6 +204,12 @@ class FormEscolha extends \Zion\Form\FormEscolha
         parent::setAliasSql($aliasSql);
         return $this;
     }
+    
+    public function setIgnoreCod($ignoreCod)
+    {
+        parent::setIgnoreCod($ignoreCod);
+        return $this;
+    }
 
     /**
      * Sobrecarga de Metodos Básicos

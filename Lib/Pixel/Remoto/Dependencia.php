@@ -25,7 +25,7 @@ class Dependencia
             $objeto->setLayoutPixel(false);
             
             $campo = $form->getFormHtml($nomeCampo);
-            $campo .= $form->javaScript()->getLoad(true);
+            //$campo .= $form->javaScript(false,true)->getLoad(true);
             
             return \json_encode(array('sucesso' => 'true', 'retorno' => $campo));
             

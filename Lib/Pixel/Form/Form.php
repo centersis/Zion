@@ -208,7 +208,7 @@ class Form extends \Zion\Form\Form
                     $htmlCampos[$idCampo] = $this->formPixel->montaTexto($objCampos);
                     break;
                 case 'escolha':
-                    $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos, $this);
                     break;
                 case 'chosen':
                     $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos);

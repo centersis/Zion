@@ -471,6 +471,10 @@ class Form
      */
     public function getObjetos($nome = null)
     {
+        if($nome and !\key_exists($nome, $this->objetos)){
+            throw new \Exception('Objeto '.$nome.' não existe!');
+        }
+        
         return $nome ? $this->objetos[$nome] : $this->objetos;
     }
 
