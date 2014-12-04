@@ -35,7 +35,7 @@ class Controller
         $this->acao = $acao;
 
         try {
-            if (!\method_exists($this, $acao)) {
+            if (!method_exists($this, $acao)) {
                 throw new \Exception("Opção inválida!");
             }
 
@@ -54,7 +54,7 @@ class Controller
      */
     public function jsonSucesso($retorno)
     {
-        return \json_encode(array('sucesso' => 'true', 'retorno' => $retorno));
+        return json_encode(array('sucesso' => 'true', 'retorno' => $retorno));
     }
 
     /**
@@ -67,7 +67,7 @@ class Controller
     {
         $tratar = \Zion\Validacao\Valida::instancia();
 
-        return \json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
+        return json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
     }
 
     /**

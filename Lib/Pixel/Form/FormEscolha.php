@@ -14,7 +14,6 @@ class FormEscolha extends \Zion\Form\FormEscolha
     private $tipoFiltro;
     private $campoDependencia;
     private $metodoDependencia;
-    private $classeDependencia;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -30,19 +29,19 @@ class FormEscolha extends \Zion\Form\FormEscolha
         parent::setObrigarorio($obrigatorio);
         return $this;
     }
-
+    
     public function setSelecaoMaxima($selecaoMaxima)
     {
         parent::setSelecaoMaxima($selecaoMaxima);
         return $this;
     }
-
+    
     public function setSelecaoMinima($selecaoMinima)
     {
         parent::setSelecaoMinima($selecaoMinima);
         return $this;
     }
-
+    
     public function setMultiplo($multiplo)
     {
         parent::setMultiplo($multiplo);
@@ -158,53 +157,45 @@ class FormEscolha extends \Zion\Form\FormEscolha
         $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
         return $this;
     }
-
+    
     public function getProcessarJS()
     {
         return $this->processarJS;
     }
-
+    
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;
     }
-
+    
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
     }
 
-    public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia)
+    public function setDependencia($campoDependencia,$metodoDependencia)
     {
         $this->campoDependencia = $campoDependencia;
         $this->metodoDependencia = $metodoDependencia;
-        $this->classeDependencia = \str_replace('\\', '/', $classeDependencia);
-
         return $this;
     }
-
+    
     public function getCampoDependencia()
     {
         return $this->campoDependencia;
     }
-
+    
     public function getMetodoDependencia()
     {
         return $this->metodoDependencia;
     }
     
-    public function getClasseDependencia()
-    {
-        return $this->classeDependencia;
-    }
-
-    public function setAliasSql($aliasSql)
-    {
+    public function setAliasSql($aliasSql){
         parent::setAliasSql($aliasSql);
         return $this;
     }
-
+    
     /**
      * Sobrecarga de Metodos Básicos
      */
@@ -261,7 +252,7 @@ class FormEscolha extends \Zion\Form\FormEscolha
         parent::setClassCss($classCss);
         return $this;
     }
-
+    
     public function setContainer($container)
     {
         parent::setContainer($container);

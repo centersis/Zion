@@ -63,9 +63,9 @@ class Complete
                 $ret[] = array('id' => $dados['cod'], 'value' => $dados['dsc'], 'label' => $dados['dsc']);
             }
 
-            return \json_encode($ret);
-        } catch (\Exception $e) {
-            return \json_encode(array(array('id' => '0', 'value' => 'erro', 'label' => $e->getMessage())));
+            return json_encode($ret);
+        } catch (Exception $e) {
+            return json_encode(array(array('id' => '0', 'value' => 'erro', 'label' => $e->getMessage())));
         }
     }
 
