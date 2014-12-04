@@ -10,6 +10,7 @@
  */
 
 namespace Zion\Form;
+
 use \Zion\Form\Exception\FormException as FormException;
 
 class Form
@@ -403,7 +404,11 @@ class Form
      */
     public function get($nome)
     {
-        return $this->objetos[$nome]->getValor();
+        if (\key_exists($nome, $this->objetos)) {
+            return $this->objetos[$nome]->getValor();
+        } else {
+            return NULL;
+        }
     }
 
     public function getSql($idObjeto)
@@ -516,7 +521,7 @@ class Form
                 case 'button':
                     $htmlCampos[$idCampo] = $this->formHtml->montaButton($objCampos);
                     break;
-                case 'upload':                    
+                case 'upload':
                     $htmlCampos[$idCampo] = $this->formHtml->montaUpload($objCampos);
                     break;
                 case 'layout':
