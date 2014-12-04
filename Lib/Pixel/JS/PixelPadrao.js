@@ -469,6 +469,22 @@ function parametrosFiltro(origem)
     return par;
 }
 
+//DEPENDENCIA
+function sisCarregaDependencia(ur, fo, co, id, me, cl, nc)
+{
+    $.ajax({type: "get", url: ur, data: {'m': me, 'c': cl, 'r': id,'n':nc}, dataType: "json"}).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+            $("#" + fo + " #" + co).html(ret.retorno);
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+}
 
 /*
  ** var a => recebe a id do campo que invocou o evento

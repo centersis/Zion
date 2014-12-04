@@ -88,6 +88,10 @@ class EscolhaHtml
 
     private function ordenaArray($vetor)
     {
+        if(!\is_array($vetor)){
+            return [];
+        }
+        
         $texto = \Zion\Validacao\Texto::instancia();
 
         $original = $vetor;
