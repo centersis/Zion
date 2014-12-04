@@ -188,11 +188,27 @@ class FormPixelJavaScript
             $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999").datepicker(); ';
         }
 
-        if ($config->getAcao() === 'chosen') {
+        if ($config->getAcao() === 'chosen' or $config->getAcao() === 'escolha') {
 
-            $placeholder = $config->getInicio() ? ', placeholder: "' . $config->getInicio() . '"' : '';
+            if ($config->getAcao() === 'chosen') {
 
-            $this->extra[] = '$("#' . $formNome . ' #' . str_replace('[]', '', $config->getId()) . '").select2({ allowClear: true' . $placeholder . ' }); ';
+                $placeholder = $config->getInicio() ? ', placeholder: "' . $config->getInicio() . '"' : '';
+
+                $this->extra[] = '$("#' . $formNome . ' #' . str_replace('[]', '', $config->getId()) . '").select2({ allowClear: true' . $placeholder . ' }); ';
+            }
+
+            $campoDependencia = $config->getCampoDependencia();
+
+            if ($campoDependencia) {
+
+                $metodoDependencia = $config->getMetodoDependencia();
+                $classeDependencia = $config->getClasseDependencia();
+                $nomeCampo = $config->getNome();
+
+                $url = SIS_DEFAULT_DEPENDENCIA;
+
+                $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\');  });';
+            }
         }
 
         if ($config->getAcao() == 'time') {
