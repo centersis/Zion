@@ -34,6 +34,8 @@ class Form
 
         $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
+        
+        $this->objetos = [];
     }
 
     /**
@@ -321,7 +323,11 @@ class Form
     public function processarForm(array $campos)
     {
         foreach ($campos as $objCampos) {
-            $objCampos->setNomeForm($this->formConfig->getNome());
+            
+            if(\method_exists($objCampos, 'setNomeForm')){
+                $objCampos->setNomeForm($this->formConfig->getNome());
+            }
+            
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
