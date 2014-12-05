@@ -24,8 +24,8 @@ class Dependencia
             $objeto = $form->getObjetos($nomeCampo);
             $objeto->setLayoutPixel(false);
             
-            $campo = $form->getFormHtml($nomeCampo);
-            //$campo .= $form->javaScript(false,true)->getLoad(true);
+            $campoOriginal = $form->getFormHtml($nomeCampo);
+            $campo = \strip_tags($campoOriginal,'<option>');           
             
             return \json_encode(array('sucesso' => 'true', 'retorno' => $campo));
             

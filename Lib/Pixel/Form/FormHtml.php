@@ -142,7 +142,7 @@ class FormHtml extends \Zion\Form\FormHtml
         return $this->prepareInputPixel($config, parent::montaFloat($config));
     }
 
-    public function montaEscolha(FormEscolha $config, $form)
+    public function montaEscolha($config, $form)
     {
         $expandido = $config->getExpandido();
         $multiplo = $config->getMultiplo();
@@ -160,7 +160,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
             if ($config->getCampoDependencia()) {
 
-                $config->setContainer('dp' . $config->getNome());
+                $config->setContainer('sisDP' . $config->getNome());
 
                 $acao = $form->getAcao();
 

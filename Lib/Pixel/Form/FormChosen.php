@@ -10,6 +10,9 @@ class FormChosen extends \Zion\Form\FormEscolha
     private $layoutPixel;
     private $processarJS;
     private $tipoFiltro;
+    private $campoDependencia;
+    private $metodoDependencia;
+    private $classeDependencia;
    
     private $formSetPixel;
 
@@ -158,6 +161,30 @@ class FormChosen extends \Zion\Form\FormEscolha
     public function setAliasSql($aliasSql){
         parent::setAliasSql($aliasSql);
         return $this;
+    }
+    
+    public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia)
+    {
+        $this->campoDependencia = $campoDependencia;
+        $this->metodoDependencia = $metodoDependencia;
+        $this->classeDependencia = \str_replace('\\', '/', $classeDependencia);
+
+        return $this;
+    }
+
+    public function getCampoDependencia()
+    {
+        return $this->campoDependencia;
+    }
+
+    public function getMetodoDependencia()
+    {
+        return $this->metodoDependencia;
+    }
+    
+    public function getClasseDependencia()
+    {
+        return $this->classeDependencia;
     }
 
     /**
