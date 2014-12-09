@@ -34,6 +34,8 @@ class Form
 
         $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
+        
+        $this->objetos = [];
     }
 
     /**
@@ -321,7 +323,11 @@ class Form
     public function processarForm(array $campos)
     {
         foreach ($campos as $objCampos) {
-            $objCampos->setNomeForm($this->formConfig->getNome());
+            
+            if(\method_exists($objCampos, 'setNomeForm')){
+                $objCampos->setNomeForm($this->formConfig->getNome());
+            }
+            
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
@@ -339,7 +345,7 @@ class Form
         switch ($this->formConfig->getMethod()) {
             case "POST" :
 
-                if (substr_count($nome, '[]') > 0) {
+                if (\substr_count($nome, '[]') > 0) {
                     $valor = \filter_input(\INPUT_POST, \str_replace('[]', '', $nome), \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
                 } else {
                     $valor = \filter_input(\INPUT_POST, $nome);
@@ -348,10 +354,10 @@ class Form
                 break;
             case "GET" :
 
-                if (substr_count($nome, '[]') > 0) {
+                if (\substr_count($nome, '[]') > 0) {
                     $valor = \filter_input(\INPUT_GET, \str_replace('[]', '', $nome), \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
                 } else {
-                    $valor = filter_input(\INPUT_GET, $nome);
+                    $valor = \filter_input(\INPUT_GET, $nome);
                 }
 
                 break;

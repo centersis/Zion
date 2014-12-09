@@ -28,7 +28,7 @@ class Conexao
     private $gravarLog = true;    //Indicador - Indica se o log deve ou não ser gravado
     private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
 
-    private function __construct($banco)
+    private function __construct($banco, $host = '', $usuario = '', $senha = '')
     {
         $this->banco = $banco;
 
@@ -38,9 +38,21 @@ class Conexao
         $this->arrayExcecoes[3] = "A query SQL esta vazia.";
         $this->arrayExcecoes[4] = "Array de querys inválido.";
 
-        $namespace = '\\' . SIS_ID_NAMESPACE_PROJETO . '\\Config';
+        if ($host) {
+            $cHost = $host;
+            $cUsuario = $usuario;
+            $cSenha = $senha;
+            $cBanco = $banco;
+        } else {
+            $namespace = '\\' . SIS_ID_NAMESPACE_PROJETO . '\\Config';
 
-        self::$link[$banco] = new \mysqli($namespace::$SIS_CFG['bases'][$banco]['host'], $namespace::$SIS_CFG['bases'][$banco]['usuario'], $namespace::$SIS_CFG['bases'][$banco]['senha'], $namespace::$SIS_CFG['bases'][$banco]['banco']);
+            $cHost = $namespace::$SIS_CFG['bases'][$banco]['host'];
+            $cUsuario = $namespace::$SIS_CFG['bases'][$banco]['usuario'];
+            $cSenha = $namespace::$SIS_CFG['bases'][$banco]['senha'];
+            $cBanco = $namespace::$SIS_CFG['bases'][$banco]['banco'];
+        }
+
+        self::$link[$banco] = new \mysqli($cHost, $cUsuario, $cSenha, $cBanco);
         self::$link[$banco]->set_charset("utf8");
     }
 
@@ -112,6 +124,19 @@ class Conexao
         }
 
         return self::$instancia[$bancoMaiusculo];
+    }
+
+    /**
+     * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
+     * 	@return Conexao
+     */
+    public static function conectarManual($host, $banco, $usuario, $senha)
+    {
+        if (!isset(self::$instancia[$banco])) {
+            self::$instancia[$banco] = new Conexao($banco, $host, $usuario, $senha);
+        }
+
+        return self::$instancia[$banco];
     }
 
     /**
