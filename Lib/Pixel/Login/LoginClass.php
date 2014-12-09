@@ -9,7 +9,7 @@ class LoginClass extends LoginSql
     {
         
         $con = \Zion\Banco\Conexao::conectar();
-        $sql = new \Sappiens\Accounts\Login\LoginSql();
+        $sql = new \Pixel\Login\LoginSql();
 
         $getAuth = $con->execLinhaArray($sql->getAuth($l,$p));
 
