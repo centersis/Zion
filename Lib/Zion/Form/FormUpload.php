@@ -89,7 +89,7 @@ class FormUpload extends FormBasico
 
     public function setTratarComo($tratarComo)
     {
-        if (strtoupper($tratarComo) == "IMAGEM" or empty($tratarComo)) {
+        if (!empty($tratarComo)) {
             $this->tratarComo = $tratarComo;
             return $this;
         } else {
