@@ -35,7 +35,7 @@ class Usuario extends \Zion\Layout\Padrao
                 $buffer .= $this->html->abreTagAberta('li', ['class' => 'divider']) . $this->html->fechaTag('li');
 
                 $buffer .= $this->html->abreTagAberta('li');  
-                    $buffer .= $this->html->abreTagAberta('a', ['href' => SIS_URL_BASE . 'Accounts/Login']);
+                    $buffer .= $this->html->abreTagAberta('a', ['href' => SIS_URL_BASE . 'Accounts/Logoff']);
                     $buffer .= $this->html->abreTagAberta('i', ['class' => 'dropdown-icon fa fa-power-off recD10px']) . $this->html->fechaTag('i') . 'Desconectar ';
                     $buffer .= $this->html->fechaTag('a');
                 $buffer .= $this->html->fechaTag('li');

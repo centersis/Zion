@@ -8,11 +8,15 @@ class LoginForm extends \Zion\Layout\Padrao
     public function getLogin()
     {   
 
-        if(empty($_GET['err'])) $_GET['err'];
+        $template = new \Pixel\Template\Template();
+
+        if(!isset($_GET['err'])) $_GET['err'];
 
         $msgErro = ($_GET['err']) ? ' ' . $_GET['err'] . ' ' : ' Acesse a sua conta ';
 
-        $buffer = '';
+        $buffer  = '';
+        $buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/login.css', 'rel' => 'stylesheet', 'type' => 'text/css')) . $this->html->fechaTag('link');
+        $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/login-prescripts.js')) . $this->html->fechaTag('script');
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'page-signin-bg'));
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'overlay')) . $this->html->fechaTag('div');
         $buffer .= $this->html->abreTagAberta('img', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/signin-bg-1.jpg'));
