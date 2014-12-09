@@ -14,7 +14,7 @@ class Filtrar
 
     public function __construct($objForm = null)
     {
-        if (is_object($objForm)) {
+        if (\is_object($objForm)) {
             $this->objForm = $objForm;
         }
 
@@ -133,7 +133,6 @@ class Filtrar
         $valorB = \trim(filter_input(\INPUT_GET, $origem . $nomeCampo . 'B'));
 
         //echo $operadorA.' - '.$operadorB.' | '.$acaoA.' - '.$acaoB.' | '.$valorA.' - '.$valorB.' > '.$origem.' - '.$nomeCampo."\n";
-        
         //Converte Opreadores
         if ($operadorA === '≠') {
             $operadorA = '<>';
@@ -169,7 +168,7 @@ class Filtrar
             //Seta Valores
             $this->objForm->set($nomeCampo . 'B', $valorB);
             $valorB = $this->objForm->getFiltroSql($nomeCampo . 'B', $acaoB);
-        }               
+        }
 
         //Se valor a vazio e b não inverte
         if ($valorB <> '' and $valorA == '') {
@@ -181,7 +180,7 @@ class Filtrar
         }
 
         $clausula = $origem;
-        
+
         //Se os dois operadores são iguais mude para ow a não ser que seja <> ou =
         if ($valorB <> '') {
             if (($operadorA == $operadorB and $operadorA <> "<>") or $operadorB == "=") {
