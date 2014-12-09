@@ -18,13 +18,13 @@ class Texto
      * @var array $keyWords Keywords do MySql a serem encontradas
      */
     public $keyWords = array("/SELECT/", "/INSERT/", "/UPDATE/", "/DELETE/", "/DROP/", "/ALTER/", "/ADD/", "/TABLE/", "/IF/", "/AND/", "/WHERE/", "/GROUP/", "/LIMIT/",
-        "/JOIN/", "/IN/", "/INTO/", "/PROCEDURE/", "/WHILE/", "/WHEN/", "/TEHEN/", "/CASE/", "/LIKE/", "/KILL/");
+        "/JOIN/", "/IN/", "/INTO/", "/PROCEDURE/", "/WHILE/", "/WHEN/", "/THEN/", "/CASE/", "/LIKE/", "/KILL/", "/INSTR/");
 
     /** 
      * @var array $safekeyWords Keywords do MySql a serem utilizadas
      */
     public $safekeyWords = array("\SELECT", "\INSERT", "\UPDATE", "\DELETE", "\DROP", "\ALTER", "\ADD", "\TABLE", "\IF", "\AND", "\WHERE", "\GROUP", "\LIMIT",
-        "\JOIN", "\IN", "\INTO", "\PROCEDURE", "\WHILE", "\WHEN", "\TEHEN", "\CASE", "\LIKE", "\KILL");
+        "\JOIN", "\IN", "\INTO", "\PROCEDURE", "\WHILE", "\WHEN", "\THEN", "\CASE", "\LIKE", "\KILL", "\INSTR");
 
     /** 
      * @var object $instancia Instância da classe singleton

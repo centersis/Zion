@@ -33,7 +33,8 @@ class Complete
         $campoBusca = $valida->texto()->trata(filter_input(INPUT_GET, 'cb'));
         $termoBusca = $valida->texto()->trata(filter_input(INPUT_GET, 'term'));
         $idConexao = $valida->texto()->trata(filter_input(INPUT_GET, 'idc'));
-        $condicao = $valida->texto()->trata(filter_input(INPUT_GET, 'cnd'));
+        //$condicao = $valida->texto()->trata(filter_input(INPUT_GET, 'cnd'));
+        $condicao = filter_input(INPUT_GET, 'cnd');
 
         $l = filter_input(INPUT_GET, 'l');
         $limite = (is_numeric($l) and $l < 50) ? $l : 10;

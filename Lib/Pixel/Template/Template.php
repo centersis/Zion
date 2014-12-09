@@ -15,6 +15,8 @@ class Template extends \Zion\Layout\Padrao
     private $conteudoScripts;
     private $conteudoFooter;
     private $tooltipForm;
+    private $conteudoIconeModulo;
+    private $conteudoNomeModulo;
 
     public function setConteudoHeader($conteudo = '')
     {
@@ -86,6 +88,21 @@ class Template extends \Zion\Layout\Padrao
     {
         return $this->tooltipForm = $Form;
     }      
+
+    public function setConteudoIconeModulo($conteudo = '')
+    {
+        return $this->conteudoIconeModulo = $conteudo;
+    }
+
+    public function setConteudoNomeModulo($conteudo = '')
+    {
+        return $this->conteudoNomeModulo = $conteudo;
+    }    
+
+    public function setConteudoLogin($conteudo = '')
+    {
+        return $this->conteudoLogin = $conteudo;
+    }     
 
     public function getTemplate($modo = '')
     {
@@ -354,7 +371,7 @@ class Template extends \Zion\Layout\Padrao
         //$buffer .= $this->getSpark();
 
         $buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-dashboard page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . DEFAULT_MODULO_NOME;
+        $buffer .= $this->html->abreTagAberta('i', array('class' => $this->conteudoIconeModulo . ' page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . $this->conteudoNomeModulo;
         $buffer .= $this->html->fechaTag('h1');
 
         $buffer .= $this->html->fechaTag('div');

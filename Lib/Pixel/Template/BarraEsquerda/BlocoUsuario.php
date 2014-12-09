@@ -30,7 +30,7 @@ class BlocoUsuario extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-cog')) . $this->html->fechaTag('i');
         $buffer .= $this->html->fechaTag('a');
         // sair
-        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Login', 'class' => 'btn btn-xs btn-danger btn-outline dark'));
+        $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . './Accounts/Logoff', 'class' => 'btn btn-xs btn-danger btn-outline dark'));
         $buffer .= $this->html->abreTagAberta('i', array('class' => 'fa fa-power-off')) . $this->html->fechaTag('i');
         $buffer .= $this->html->fechaTag('a');
 
