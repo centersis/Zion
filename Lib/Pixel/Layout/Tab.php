@@ -8,6 +8,7 @@ class Tab
     private $html;
     private $tabId;
     private $emColunas;
+    private $configs;
 
     public function __construct($tabId, $emColunas)
     {
@@ -15,6 +16,8 @@ class Tab
 
         $this->setTabId($tabId);
         $this->setEmColunas($emColunas);
+
+        $this->configs = [];
     }
 
     private function setTabId($tabId)
@@ -43,6 +46,8 @@ class Tab
     {
         $tVO = new TabVO();
 
+        $this->configs[] = $tVO;
+
         $tVO->setId($id);
 
         return $tVO;
@@ -56,15 +61,17 @@ class Tab
         $ids = [];
 
         $buffer = '';
+        $buffer .= $this->html->abreTagAberta('div', array('id'=>'sis'.$this->tabId.'Global','class' => 'form-group'));
+        $buffer .= $this->html->abreTagAberta('div', array('class' => 'col-sm-12'));
         $buffer .= $this->html->entreTags('script', 'init.push(function () {$(\'ul.' . $this->tabId . '\').tabdrop();});');
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'col-sm-' . $this->emColunas]);
         $buffer .= $this->html->abreTagAberta('ul', ['class' => 'nav nav-tabs ' . $this->tabId]);
 
-        $numArgs = \func_num_args();
+        $numConfigs = \count($this->configs);
 
-        for ($i = 0; $i < $numArgs; $i++) {
+        for ($i = 0; $i < $numConfigs; $i++) {
 
-            $objTabI = \func_get_arg($i);
+            $objTabI = $this->configs[$i];
 
             $tabId = $objTabI->getId();
             $tabActive = $objTabI->getAtiva();
@@ -75,7 +82,7 @@ class Tab
             }
 
             $ids[] = $tabId;
-            
+
             if ($objTabI->getOnClick()) {
                 $onClick = ['onClick' => $objTabI->getOnClick()];
             } else {
@@ -91,9 +98,9 @@ class Tab
         $buffer .= $this->html->fechaTag('ul');
         $buffer .= $this->html->abreTagAberta('div', ['class' => 'tab-content tab-content-bordered']);
 
-        for ($j = 0; $j < $numArgs; $j++) {
+        for ($j = 0; $j < $numConfigs; $j++) {
 
-            $objTabJ = \func_get_arg($j);
+            $objTabJ = $this->configs[$j];
 
             $tabId = $objTabJ->getId();
             $tabActive = $objTabJ->getAtiva();
@@ -105,6 +112,8 @@ class Tab
             $buffer .= $this->html->fechaTag('div');
         }
 
+        $buffer .= $this->html->fechaTag('div');
+        $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->fechaTag('div');
 

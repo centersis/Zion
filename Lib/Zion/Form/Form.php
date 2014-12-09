@@ -293,6 +293,11 @@ class Form
 
         return $this->formConfig;
     }
+    
+    public function getConfig()
+    {
+        return $this->formConfig;
+    }
 
     /**
      * Form::abreForm()

@@ -126,6 +126,16 @@ class Form extends \Zion\Form\Form
 
         return $botaoDescartar;
     }
+    
+    public function botaoDescartarTabs($cod = '')
+    {
+        $botaoDescartar = new \Zion\Form\FormInputButton('button', 'sisDescartar', 'Descartar');
+
+        $botaoDescartar->setClassCss('btn btn-default')
+                ->setComplemento('onclick="sisDescartarTabs(\'' . $cod . '\')"');
+
+        return $botaoDescartar;
+    }
 
     public function botaoSimples($nome, $identifica)
     {

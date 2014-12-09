@@ -92,6 +92,11 @@ function sisDescartarPadrao(form)
     $('#panel' + form).remove();
 }
 
+function sisDescartarTabs(cod)
+{
+    $('#sisTab' + cod + 'Global').remove();
+}
+
 /* FILTRO */
 function sisFiltrarPadrao(p) {
     $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
@@ -472,10 +477,10 @@ function parametrosFiltro(origem)
 //DEPENDENCIA
 function sisCarregaDependencia(ur, fo, co, id, me, cl, nc)
 {
-    $.ajax({type: "get", url: ur, data: {'m': me, 'c': cl, 'r': id,'n':nc}, dataType: "json"}).done(function (ret) {
+    $.ajax({type: "get", url: ur, data: {'m': me, 'c': cl, 'r': id, 'n': nc}, dataType: "json"}).done(function (ret) {
 
         if (ret.sucesso === 'true') {
-            $("#" + fo + " #" + co+" select").html(ret.retorno);
+            $("#" + fo + " #" + co + " select").html(ret.retorno);
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
