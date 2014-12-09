@@ -41,7 +41,7 @@ class TabVO
 
     public function getAtiva()
     {
-        return $this->ativa;
+        return $this->ativa === true ? 'active' : '';
     }
 
     public function setConteudo($conteudo)

@@ -212,7 +212,7 @@ class Template extends \Zion\Layout\Padrao
     {
 
         $menu = new \Pixel\Template\BarraSuperior\Menu();
-        $formPesquisar = new \Pixel\Template\BarraSuperior\FormPesquisar();
+        $formPesquisar = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaForm();
         $notificacoes = new \Pixel\Template\BarraSuperior\Notificacoes();
         $mensagens = new \Pixel\Template\BarraSuperior\Mensagens();
         $usuario = new \Pixel\Template\BarraSuperior\Usuario();
@@ -251,7 +251,7 @@ class Template extends \Zion\Layout\Padrao
 
         $buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
 
-            $buffer .= $formPesquisar->getFormPesquisar();
+            $buffer .= $formPesquisar->getForm();
             $buffer .= $notificacoes->getNotificacoes();
             $buffer .= $mensagens->getMensagens();
             $buffer .= $usuario->getUsuario();
