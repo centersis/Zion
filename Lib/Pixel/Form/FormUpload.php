@@ -96,11 +96,11 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setCodigoReferencia($codigoReferencia)
     {
-        if (!empty($codigoReferencia) and is_numeric($codigoReferencia)) {
+        if (empty($codigoReferencia) or is_numeric($codigoReferencia)) {
             $this->codigoReferencia = $codigoReferencia;
             return $this;
         } else {
-            throw new FormException("codigoReferencia: Nenhum valor informado.");
+            throw new FormException("codigoReferencia: Valor nao numerico.");
         }
     }    
     
