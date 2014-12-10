@@ -70,7 +70,7 @@ function sisContaCheck()
     var abv = document.formGrid;
     var conta = 0;
 
-    if ($("formGrid").length < 1) {
+    if ($("#formGrid").length < 1) {
         return 0;
     }
 
