@@ -141,7 +141,7 @@ function sisCadastrarLayoutPadrao() {
 function sisCadastrarPadrao(nomeForm, upload) {
 
     var cod = $("#" + nomeForm + " #cod").val();
-    
+
     if (upload === true) {
         var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
@@ -153,11 +153,11 @@ function sisCadastrarPadrao(nomeForm, upload) {
 
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro cadastrado com sucesso!');
-            
-            if ($('#sisTab' + cod + 'Global').length < 1) {                   
+
+            if ($('#sisTab' + cod + 'Global').length < 1) {
                 $("#sisContainerManu").empty();
             }
-            
+
             sisFiltrarPadrao('');
         }
         else {
@@ -188,6 +188,8 @@ function sisAlterarLayoutPadrao() {
 
 function sisAlterarPadrao(nomeForm, upload) {
 
+    var cod = $("#" + nomeForm + " #cod").val();
+
     if (upload === true) {
         var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
@@ -197,8 +199,13 @@ function sisAlterarPadrao(nomeForm, upload) {
 
     $.ajax(config).done(function (ret) {
         if (ret.sucesso === 'true') {
+
             sisSetAlert('true', 'Registro alterado com sucesso!');
-            $("#panel" + nomeForm).remove();
+
+            if ($('#sisTab' + cod + 'Global').length < 1) {
+                $("#panel" + nomeForm).remove();
+            }
+
             sisFiltrarPadrao('');
         }
         else {
