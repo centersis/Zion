@@ -116,6 +116,10 @@ class FormValida
     {
         $attrs = $this->getAtributos($input);
 
+        if(!in_array('valor', $attrs)){
+            return true;
+        }
+
         $userValue = $input->getValor();
         $identifica = $this->texto->removerAcentos($input->getIdentifica());
 
