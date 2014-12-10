@@ -70,7 +70,7 @@ function sisContaCheck()
     var abv = document.formGrid;
     var conta = 0;
 
-    if (!$("formGrid")) {
+    if ($("formGrid").length < 1) {
         return 0;
     }
 
@@ -89,12 +89,13 @@ function sisContaCheck()
 
 function sisDescartarPadrao(form)
 {
-    $('#panel' + form).remove();
-}
+    var cod = $("#" + form + " #cod").val();
 
-function sisDescartarTabs(cod)
-{
-    $('#sisTab' + cod + 'Global').remove();
+    if ($('#sisTab' + cod + 'Global').length > 0) {
+        $('#sisTab' + cod + 'Global').remove();
+    } else {
+        $('#panel' + form).remove();
+    }
 }
 
 /* FILTRO */
@@ -139,6 +140,8 @@ function sisCadastrarLayoutPadrao() {
 
 function sisCadastrarPadrao(nomeForm, upload) {
 
+    var cod = $("#" + nomeForm + " #cod").val();
+    
     if (upload === true) {
         var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
@@ -150,7 +153,11 @@ function sisCadastrarPadrao(nomeForm, upload) {
 
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro cadastrado com sucesso!');
-            $("#sisContainerManu").empty();
+            
+            if ($('#sisTab' + cod + 'Global').length < 1) {                   
+                $("#sisContainerManu").empty();
+            }
+            
             sisFiltrarPadrao('');
         }
         else {
