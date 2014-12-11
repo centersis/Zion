@@ -116,9 +116,19 @@ class Form extends \Zion\Form\Form
 
         return $botaoSalvar;
     }
-
-    public function botaoDescartarPadrao($nomeForm)
+    
+    public function botaoSalvarEContinuar()
     {
+        $botaoSalvar = new \Zion\Form\FormInputButton('submit', 'sisSalvarEContinuar', 'Salvar');
+        $botaoSalvar->setClassCss('btn btn-primary');
+
+        return $botaoSalvar;
+    }
+
+    public function botaoDescartarPadrao()
+    {
+        $nomeForm = $this->getConfig()->getNome();
+        
         $botaoDescartar = new \Zion\Form\FormInputButton('button', 'sisDescartar', 'Descartar');
 
         $botaoDescartar->setClassCss('btn btn-default')
@@ -126,7 +136,7 @@ class Form extends \Zion\Form\Form
 
         return $botaoDescartar;
     }
-
+    
     public function botaoSimples($nome, $identifica)
     {
         return new \Zion\Form\FormInputButton('button', $nome, $identifica);

@@ -32,28 +32,28 @@ class FiltroForm
 
         $html = $objForm->abreFormFiltro();
 
-        $t1 = $tabFiltro->config('1')
+        $tabFiltro->config('1')
                 ->setAtiva(true)
                 ->setOnClick('sisChangeFil(\'n\')')
                 ->setTitulo('Filtros especiais' .
                         $template->getBadge(['id' => 'N', 'tipo' => 'danger'], 0))
                 ->setConteudo($this->getFiltroNormal($objForm));
 
-        $t2 = $tabFiltro->config('2')
+        $tabFiltro->config('2')
                 ->setOnClick('sisChangeFil(\'e\')')
                 ->setTitulo('Filtros de operação ' .
                         $template->getLabel(['id' => 'tabEQUE', 'tipo' => 'warning'], "E QUE") .
                         $template->getBadge(['id' => 'E', 'tipo' => 'danger'], 0))
                 ->setConteudo($this->getFiltroDuplo($objForm, 'e'));
 
-        $t3 = $tabFiltro->config('3')
+        $tabFiltro->config('3')
                 ->setOnClick('sisChangeFil(\'o\')')
                 ->setTitulo('Filtros de operação ' .
                         $template->getLabel(['id' => 'tabOUQUE', 'tipo' => 'warning'], "OU QUE") .
                         $template->getBadge(['id' => 'O', 'tipo' => 'danger'], 0))
                 ->setConteudo($this->getFiltroDuplo($objForm, 'o'));
 
-        $html .= $tabFiltro->criar($t1, $t2, $t3);
+        $html .= $tabFiltro->criar();
 
         $html .= '</form>';
 

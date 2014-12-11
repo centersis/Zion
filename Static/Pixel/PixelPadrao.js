@@ -70,7 +70,7 @@ function sisContaCheck()
     var abv = document.formGrid;
     var conta = 0;
 
-    if (!$("formGrid")) {
+    if ($("#formGrid").length < 1) {
         return 0;
     }
 
@@ -89,7 +89,13 @@ function sisContaCheck()
 
 function sisDescartarPadrao(form)
 {
-    $('#panel' + form).remove();
+    var cod = $("#" + form + " #cod").val();
+
+    if ($('#sisTab' + cod + 'Global').length > 0) {
+        $('#sisTab' + cod + 'Global').remove();
+    } else {
+        $('#panel' + form).remove();
+    }
 }
 
 /* FILTRO */
@@ -134,6 +140,8 @@ function sisCadastrarLayoutPadrao() {
 
 function sisCadastrarPadrao(nomeForm, upload) {
 
+    var cod = $("#" + nomeForm + " #cod").val();
+
     if (upload === true) {
         var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
@@ -145,7 +153,11 @@ function sisCadastrarPadrao(nomeForm, upload) {
 
         if (ret.sucesso === 'true') {
             sisSetAlert('true', 'Registro cadastrado com sucesso!');
-            $("#sisContainerManu").empty();
+
+            if ($('#sisTab' + cod + 'Global').length < 1) {
+                $("#sisContainerManu").empty();
+            }
+
             sisFiltrarPadrao('');
         }
         else {
@@ -176,6 +188,8 @@ function sisAlterarLayoutPadrao() {
 
 function sisAlterarPadrao(nomeForm, upload) {
 
+    var cod = $("#" + nomeForm + " #cod").val();
+
     if (upload === true) {
         var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
     }
@@ -185,8 +199,13 @@ function sisAlterarPadrao(nomeForm, upload) {
 
     $.ajax(config).done(function (ret) {
         if (ret.sucesso === 'true') {
+
             sisSetAlert('true', 'Registro alterado com sucesso!');
-            $("#panel" + nomeForm).remove();
+
+            if ($('#sisTab' + cod + 'Global').length < 1) {
+                $("#panel" + nomeForm).remove();
+            }
+
             sisFiltrarPadrao('');
         }
         else {
@@ -472,10 +491,10 @@ function parametrosFiltro(origem)
 //DEPENDENCIA
 function sisCarregaDependencia(ur, fo, co, id, me, cl, nc)
 {
-    $.ajax({type: "get", url: ur, data: {'m': me, 'c': cl, 'r': id,'n':nc}, dataType: "json"}).done(function (ret) {
+    $.ajax({type: "get", url: ur, data: {'m': me, 'c': cl, 'r': id, 'n': nc}, dataType: "json"}).done(function (ret) {
 
         if (ret.sucesso === 'true') {
-            $("#" + fo + " #" + co+" select").html(ret.retorno);
+            $("#" + fo + " #" + co + " select").html(ret.retorno);
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
