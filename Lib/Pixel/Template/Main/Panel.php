@@ -12,9 +12,9 @@ class Panel extends \Zion\Layout\Padrao
     public function getPanel($panelId = '', $panelTitle = '', $panelBody = '', $opcoes = '')
     {	
 
-        $titleVisible = @$opcoes['titleVisible'];
-        $startVisible = @$opcoes['startVisible'];
-        $iconTitle    = empty($opcoes['iconTitle']) ? '' : $opcoes['iconTitle'];
+        $titleVisible = \key_exists('titleVisible',$opcoes) ? $opcoes['titleVisible'] : '';
+        $startVisible = \key_exists('startVisible',$opcoes) ? $opcoes['startVisible'] : '';        
+        //$iconTitle    = \key_exists('iconTitle',$opcoes) and !empty($opcoes['iconTitle']) ? $opcoes['iconTitle'] : '';
 
         $titleHidden = (!$titleVisible) ? ' showHidden ' : false;
         $bodyHidden  = ($titleVisible) ? ' showHidden ' : false;
@@ -29,7 +29,9 @@ class Panel extends \Zion\Layout\Padrao
         }
 
         $buffer  = '';
-        $buffer .= $this->html->abreTagAberta('div', ['id' => $panelId, 'class' => 'panel panel-default ' . $titleStartVisible . $titleHidden, 'style' => @$opcoes['style']]);
+        $style = \key_exists('style',$opcoes) ? $opcoes['style'] : '';
+        
+        $buffer .= $this->html->abreTagAberta('div', ['id' => $panelId, 'class' => 'panel panel-default ' . $titleStartVisible . $titleHidden, 'style' => $style]);
             //$buffer .= $this->html->abreTagAberta('div', ['class' => 'panel-heading hand', 'onclick' => 'showHiddenFilters()']);
 /*
                 $buffer .= $this->html->abreTagAberta('span', ['class' => 'panel-title']);
