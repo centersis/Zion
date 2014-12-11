@@ -116,28 +116,32 @@ class Controller
     {
         $numArgs = \func_num_args();
 
-        $tabs = new \Pixel\Layout\Tab('Tab'.$cod, 12);
-        
+        $tabs = new \Pixel\Layout\Tab('Tab' . $cod, 12);
+
         for ($i = 0; $i < $numArgs; $i++) {
-            
-            if($i == 0){
+
+            if ($i == 0) {
                 continue;
             }
-            
+
             $ativa = $i === 1 ? true : false;
-            
-            $objForm = \func_get_arg($i);  
-            
-            $retorno = $objForm->montaForm();
-            $retorno .= $objForm->javaScript()->getLoad(true);
-            $objForm->javaScript()->resetLoad();
+
+            $objForm = \func_get_arg($i);
+
+            if ($this->acao === 'visualizar') {
+                $retorno = $objForm->montaFormVisualizar();
+            } else {
+                $retorno = $objForm->montaForm();
+                $retorno .= $objForm->javaScript()->getLoad(true);
+                $objForm->javaScript()->resetLoad();
+            }
 
             $nomeAtual = $objForm->getConfig()->getHeader();
-            $abaNome = $nomeAtual ? $nomeAtual : 'Aba '.$i;
-            
+            $abaNome = $nomeAtual ? $nomeAtual : 'Aba ' . $i;
+
             $tabs->config($i)->setAtiva($ativa)->setTitulo($abaNome)->setConteudo($retorno);
         }
-        
+
         return $tabs->criar();
     }
 
