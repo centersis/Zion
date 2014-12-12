@@ -238,7 +238,7 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'cep') {
 
-            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("99.999-99");';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("99.999-999");';
         }
 
         if ($config->getAcao() == 'telefone') {

@@ -19,6 +19,8 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
         $this->tipoFiltro = 'ValorFixo';
+        
+        $this->setPlaceHolder('000.000.000-00');
     }
 
     public function setMaximoCaracteres($maximoCaracteres)
@@ -32,7 +34,7 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
         parent::setMinimoCaracteres($minimoCaracteres);
         return $this;
     }
-
+    
     public function setObrigarorio($obrigatorio)
     {
         parent::setObrigarorio($obrigatorio);
@@ -114,7 +116,7 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
-    }
+    }          
 
     /**
      * Sobrecarga de Metodos Básicos
@@ -177,12 +179,5 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
     {
         parent::setContainer($container);
         return $this;
-    }
-
-    public function setMascara($mascara)
-    {
-        parent::setMascara($mascara);
-        return $this;
-    }      
-
+    }    
 }

@@ -19,6 +19,8 @@ class FormInputCnpj extends \Zion\Form\FormInputCnpj
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
         $this->tipoFiltro = 'ValorFixo';
+        
+        $this->setPlaceHolder('00.000.000/0000-00');
     }
 
     public function setMaximoCaracteres($maximoCaracteres)
@@ -115,6 +117,7 @@ class FormInputCnpj extends \Zion\Form\FormInputCnpj
     {
         return $this->tipoFiltro;
     }
+        
 
     /**
      * Sobrecarga de Metodos Básicos
@@ -178,11 +181,5 @@ class FormInputCnpj extends \Zion\Form\FormInputCnpj
         parent::setContainer($container);
         return $this;
     }
-
-    public function setMascara($mascara)
-    {
-        parent::setMascara($mascara);
-        return $this;
-    }      
 
 }

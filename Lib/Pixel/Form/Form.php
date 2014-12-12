@@ -215,7 +215,13 @@ class Form extends \Zion\Form\Form
                     $htmlCampos[$idCampo] = $this->formPixel->montaFloat($objCampos);
                     break;
                 case 'cpf' :
-                    $htmlCampos[$idCampo] = $this->formPixel->montaTexto($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaCpf($objCampos);
+                    break;                
+                case 'cnpj' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaCnpj($objCampos);
+                    break;
+                case 'cep' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaCep($objCampos);
                     break;
                 case 'escolha':
                     $htmlCampos[$idCampo] = $this->formPixel->montaEscolha($objCampos, $this);
@@ -232,7 +238,7 @@ class Form extends \Zion\Form\Form
                 case 'layout':
                     $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
-                default : throw new \Exception('Tipo Base não encontrado!');
+                default : throw new \Exception('Tipo Base não encontrado!: '.$idCampo);
             }
         }
 

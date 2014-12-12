@@ -19,6 +19,8 @@ class FormInputCep extends \Zion\Form\FormInputCep
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
         $this->tipoFiltro = 'ValorFixo';
+        
+        $this->setPlaceHolder('00000-000');
     }
 
     public function setMaximoCaracteres($maximoCaracteres)
@@ -114,7 +116,7 @@ class FormInputCep extends \Zion\Form\FormInputCep
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
-    }
+    }        
 
     /**
      * Sobrecarga de Metodos Básicos

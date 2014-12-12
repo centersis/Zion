@@ -105,6 +105,17 @@ class Data
     public function converteData($data)
     {
 
+        if(empty($data)){
+            return;
+        }
+        
+        $validaData = \Zion\Validacao\Data::instancia();
+        
+        if(!$validaData->validaData($data))
+        {
+            return;
+        }
+        
         if (preg_match('[-]', $data)) {
 
             $dExt = explode('-', $data);
@@ -118,7 +129,7 @@ class Data
 
                 return $dExt[2] . '/' . $dExt[1] . '/' . $dExt[0];
             } else {
-
+                trigger_error(var_export($dExt,true), E_USER_NOTICE);
                 return $dExt[2] . '-' . $dExt[1] . '-' . $dExt[0];
             }
         } else {

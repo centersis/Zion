@@ -39,7 +39,7 @@ class FormHtml extends \Zion\Form\FormHtml
         return $this->prepareInputPixel($config, $ret);
     }
 
-    public function montaTexto(FormInputTexto $config)
+    public function montaTexto($config)
     {
         $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);
@@ -47,18 +47,6 @@ class FormHtml extends \Zion\Form\FormHtml
         if ($config->getToolTipMsg()) {
             $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
             $config->setComplemento($complemento);
-        }
-
-        if ($config->getAcao() == 'cpf') {
-            $config->setMascara('999.999.999-99');
-        }
-
-        if ($config->getAcao() == 'cnpj') {
-            $config->setMascara('99.999.999/9999-99');
-        }
-
-        if ($config->getAcao() == 'cep') {
-            $config->setMascara('99.999-99');
         }
 
         return $this->prepareInputPixel($config, parent::montaTexto($config));
@@ -115,7 +103,46 @@ class FormHtml extends \Zion\Form\FormHtml
 
         return $this->prepareInputPixel($config, parent::montaHora($config));
     }
+    
+    public function montaCpf(FormInputCpf $config)
+    {
+        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
+        $config->setClassCss($classCss);
 
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaCpf($config));
+    }
+
+    public function montaCnpj(FormInputCnpj $config)
+    {
+        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaCnpj($config));
+    }
+    
+    public function montaCep(FormInputCep $config)
+    {
+        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaCep($config));
+    }
+    
     public function montaNumber(FormInputNumber $config)
     {
         $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';

@@ -37,6 +37,7 @@ class FormInputCep extends FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->setMaximoCaracteres(10);
     }
 
     /**

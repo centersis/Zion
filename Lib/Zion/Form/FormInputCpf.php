@@ -19,9 +19,10 @@ class FormInputCpf extends FormBasico
     private $tipoBase;
     private $acao;
     private $obrigatorio;
+    private $maximoCaracteres;
+    private $minimoCaracteres;
     private $placeHolder;
     private $aliasSql;
-    private $mascara;
 
     /**
      * FormInputCpf::__construct()
@@ -36,6 +37,7 @@ class FormInputCpf extends FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->setMaximoCaracteres(14);
     }
 
     /**
@@ -81,6 +83,61 @@ class FormInputCpf extends FormBasico
     public function getObrigatorio()
     {
         return $this->obrigatorio;
+    }
+    
+    public function setMaximoCaracteres($maximoCaracteres)
+    {
+        if (is_numeric($maximoCaracteres)) {
+
+            if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
+                throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
+            }
+
+            $this->maximoCaracteres = $maximoCaracteres;
+            return $this;
+        } else {
+            throw new FormException("maximoCaracteres: Valor nao numerico.");
+        }
+    }
+
+    /**
+     * FormInputCep::getMaximoCaracteres()
+     * 
+     * @return
+     */
+    public function getMaximoCaracteres()
+    {
+        return $this->maximoCaracteres;
+    }
+
+    /**
+     * FormInputCep::setMinimoCaracteres()
+     * 
+     * @return
+     */
+    public function setMinimoCaracteres($minimoCaracteres)
+    {
+        if (is_numeric($minimoCaracteres)) {
+
+            if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
+                throw new FormException("minimoCaracteres nao pode ser maior que maximoCaracteres.");
+            }
+
+            $this->minimoCaracteres = $minimoCaracteres;
+            return $this;
+        } else {
+            throw new FormException("minimoCaracteres: Valor nao numerico.");
+        }
+    }
+
+    /**
+     * FormInputCep::getMinimoCaracteres()
+     * 
+     * @return
+     */
+    public function getMinimoCaracteres()
+    {
+        return $this->minimoCaracteres;
     }
 
     /**
@@ -132,27 +189,6 @@ class FormInputCpf extends FormBasico
             throw new FormException("aliasSql: Nenhum valor informado");
         }
     }
-
-    /**
-     * FormInputCpf::setMascara()
-     * 
-     * @param string $mascara
-     *
-     */
-    public function setMascara($mascara)
-    {
-        $this->mascara = $mascara;
-        return $this;
-    }    
-
-    /**
-     * FormInputCpf::getMascara()
-     * 
-     * @return string
-     */
-    public function getMascara(){
-        return $this->mascara;
-    }    
 
     /**
      * Sobrecarga de Metodos Básicos
