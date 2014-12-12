@@ -91,15 +91,15 @@ class FormValida
             throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe válida!');
         }
 
-        $className              = get_class($form);
+        $className = get_class($form);
 
-        $vendorName             = substr($className, 0, strpos($className, '\\'));
+        $vendorName = substr($className, 0, strpos($className, '\\'));
 
-        $this->instance         = addslashes($className);
+        $this->instance = addslashes($className);
 
-        $this->instanceZion     = preg_replace('/[' . $vendorName . ']{' . strlen($vendorName) . '}/', 'Zion', $this->instance);
-        
-        $this->instanceParent   = addslashes(get_parent_class($form));
+        $this->instanceZion = preg_replace('/[' . $vendorName . ']{' . strlen($vendorName) . '}/', 'Zion', $this->instance);
+
+        $this->instanceParent = addslashes(get_parent_class($form));
 
         return $this->validaFormInput($form);
     }
@@ -116,7 +116,7 @@ class FormValida
     {
         $attrs = $this->getAtributos($input);
 
-        if(!in_array('valor', $attrs)){
+        if (!in_array('valor', $attrs)) {
             return true;
         }
 
@@ -159,19 +159,19 @@ class FormValida
                     } elseif (strtoupper($input->getAcao()) == 'UPLOAD') {
                         //Não implementado.
                     } elseif (strtoupper($input->getAcao()) == 'ESCOLHA') {
-                        if(empty($userValue) and $input->getObrigatorio() === true){
+                        if (empty($userValue) and $input->getObrigatorio() === true) {
                             throw new FormException($identifica . ": Voce deve selecionar uma das opcoes!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'CHOSEN') {
                         if (is_array($userValue)) {
-                            if(@count($userValue) < 1 and $input->getObrigatorio() === true){
+                            if (@count($userValue) < 1 and $input->getObrigatorio() === true) {
                                 throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
                             }
                         } else {
-                            if($input->getMultiplo() === true){
+                            if ($input->getMultiplo() === true) {
                                 throw new FormException($identifica . ": A opcao 'multiplo' esta ativada, o valor submetido deve ser um array!");
                             }
-                            if(empty($userValue) and $input->getObrigatorio() === true){
+                            if (empty($userValue) and $input->getObrigatorio() === true) {
                                 throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
                             }
                         }
