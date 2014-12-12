@@ -179,4 +179,10 @@ class FormInputCnpj extends \Zion\Form\FormInputCnpj
         return $this;
     }
 
+    public function setMascara($mascara)
+    {
+        parent::setMascara($mascara);
+        return $this;
+    }      
+
 }

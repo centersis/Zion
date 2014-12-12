@@ -179,4 +179,10 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
         return $this;
     }
 
+    public function setMascara($mascara)
+    {
+        parent::setMascara($mascara);
+        return $this;
+    }      
+
 }
