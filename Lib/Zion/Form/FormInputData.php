@@ -249,6 +249,13 @@ class FormInputData extends \Zion\Form\FormBasico
         return $this;
     }
     
+    public function getValor()
+    {              
+        $valor = $this->data->converteData(parent::getValor());
+        
+        return $valor;
+    }
+    
     /**
      * FormInputData::setValorPadrao()
      * 
