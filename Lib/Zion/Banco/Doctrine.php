@@ -7,23 +7,25 @@
 
 namespace Zion\Banco;
 
+use Doctrine\Common\ClassLoader;
+
 class Doctrine
 {
 
     private static $transaction;
-    public static $link = array();
-    public static $instancia = array();
+    public static $link = [];
+    public static $instancia = [];
     private $banco;
-    private $arrayExcecoes = array();
+    private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
-    //Atributos de Log
-    private $conteinerSql = array(); //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
-    private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
-    private $gravarLog = true;    //Indicador - Indica se o log deve ou não ser gravado
-    private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
 
-    private function __construct($banco, $host = '', $usuario = '', $senha = '')
+    private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
+        require str_replace('/', '\\',SIS_FM_BASE). 'Lib\\vendor\\doctrine\\common\\lib\\Doctrine\\Common\\ClassLoader.php';
+
+        $classLoader = new ClassLoader('Doctrine', str_replace('/', '\\',SIS_FM_BASE). 'Lib\\vendor');
+        $classLoader->register();
+
         $this->banco = $banco;
 
         $this->arrayExcecoes[0] = "Problemas com o servidor impedem a conexão com o banco de dados.<br>";
@@ -37,17 +39,30 @@ class Doctrine
             $cUsuario = $usuario;
             $cSenha = $senha;
             $cBanco = $banco;
+            $cDriver = $driver;
         } else {
+
             $namespace = '\\' . SIS_ID_NAMESPACE_PROJETO . '\\Config';
 
             $cHost = $namespace::$SIS_CFG['bases'][$banco]['host'];
             $cUsuario = $namespace::$SIS_CFG['bases'][$banco]['usuario'];
             $cSenha = $namespace::$SIS_CFG['bases'][$banco]['senha'];
             $cBanco = $namespace::$SIS_CFG['bases'][$banco]['banco'];
+            $cDriver = $namespace::$SIS_CFG['bases'][$banco]['driver'];
         }
 
-        self::$link[$banco] = new \mysqli($cHost, $cUsuario, $cSenha, $cBanco);
-        self::$link[$banco]->set_charset("utf8");
+        $config = new \Doctrine\DBAL\Configuration();
+
+        $connectionParams = array(
+            'dbname' => $cBanco,
+            'user' => $cUsuario,
+            'password' => $cSenha,
+            'host' => $cHost,
+            'driver' => $cDriver,
+        );
+
+        self::$link[$banco] = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        //self::$link[$banco]->set_charset("utf8");
     }
 
     private function getExcecao($cod)
@@ -114,7 +129,7 @@ class Doctrine
         $bancoMaiusculo = empty($banco) ? 'padrao' : strtolower($banco);
 
         if (!isset(self::$instancia[$bancoMaiusculo])) {
-            self::$instancia[$bancoMaiusculo] = new Conexao($bancoMaiusculo);
+            self::$instancia[$bancoMaiusculo] = new Doctrine($bancoMaiusculo);
         }
 
         return self::$instancia[$bancoMaiusculo];
@@ -124,10 +139,10 @@ class Doctrine
      * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
      * 	@return Conexao
      */
-    public static function conectarManual($host, $banco, $usuario, $senha)
+    public static function conectarManual($host, $banco, $usuario, $senha, $driver)
     {
         if (!isset(self::$instancia[$banco])) {
-            self::$instancia[$banco] = new Conexao($banco, $host, $usuario, $senha);
+            self::$instancia[$banco] = new Doctrine($banco, $host, $usuario, $senha, $driver);
         }
 
         return self::$instancia[$banco];
