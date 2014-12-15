@@ -66,7 +66,7 @@ class EscolhaHtml
 
             $rs = $con->executar($sql);
 
-            while ($linha = $rs->fetch_array()) {
+            while ($linha = $rs->fetch()) {
                 $array[$linha[$campoCod]] = $linha[$campoDesc];
             }
         }

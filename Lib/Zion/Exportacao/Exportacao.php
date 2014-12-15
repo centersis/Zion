@@ -104,7 +104,7 @@ class Exportacao extends ExportacaoVO
             $eRU = parent::getCondicaoResultadoUnico();
             $eTR = parent::getCondicaoTodosResultados();
 
-            while ($linha = $rs->fetch_array()) {
+            while ($linha = $rs->fetch()) {
                 $i += 1;
 
                 $cRT = "";

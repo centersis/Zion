@@ -2,34 +2,37 @@
 
 /**
  * @author Pablo Vanni - pablovanni@gmail.com
- * @since 23/02/2005
- * Atualizada em: 24/10/2008 - Padrão Singleton
- * Atualizada em: 11/02/2011 - Implementação de Log
- * Atualizada em: 11/07/2011 - Transações
- * Atualizada em: 01/06/2012 - Multiplas Conexões
- * Atualizada em: 15/10/2014 - Namespaces e Perfumarias
- * @name Conexão e interação com metodos de entrada e saida
+ * @since 15/12/2014
  */
 
 namespace Zion\Banco;
+
+use Doctrine\Common\ClassLoader;
 
 class Conexao
 {
 
     private static $transaction;
-    public static $link = array();
-    public static $instancia = array();
+    public static $link = [];
+    public static $instancia = [];
     private $banco;
-    private $arrayExcecoes = array();
+    private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
+    
     //Atributos de Log
-    private $conteinerSql = array(); //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
+    private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
     private $gravarLog = true;    //Indicador - Indica se o log deve ou não ser gravado
     private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
 
-    private function __construct($banco, $host = '', $usuario = '', $senha = '')
+    private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
+        require SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
+
+        $classLoader = new ClassLoader('Doctrine', SIS_FM_BASE . 'Lib/vendor/doctrine/dbal/lib');
+
+        $classLoader->register();
+
         $this->banco = $banco;
 
         $this->arrayExcecoes[0] = "Problemas com o servidor impedem a conexão com o banco de dados.<br>";
@@ -43,17 +46,32 @@ class Conexao
             $cUsuario = $usuario;
             $cSenha = $senha;
             $cBanco = $banco;
+            $cDriver = $driver;
         } else {
+
             $namespace = '\\' . SIS_ID_NAMESPACE_PROJETO . '\\Config';
 
             $cHost = $namespace::$SIS_CFG['bases'][$banco]['host'];
             $cUsuario = $namespace::$SIS_CFG['bases'][$banco]['usuario'];
             $cSenha = $namespace::$SIS_CFG['bases'][$banco]['senha'];
             $cBanco = $namespace::$SIS_CFG['bases'][$banco]['banco'];
+            $cDriver = $namespace::$SIS_CFG['bases'][$banco]['driver'];
         }
 
-        self::$link[$banco] = new \mysqli($cHost, $cUsuario, $cSenha, $cBanco);
-        self::$link[$banco]->set_charset("utf8");
+        $config = new \Doctrine\DBAL\Configuration();
+
+        $connectionParams = [
+            'dbname' => $cBanco,
+            'user' => $cUsuario,
+            'password' => $cSenha,
+            'host' => $cHost,
+            'driver' => $cDriver,
+            'charset' => 'utf8',
+            'driverOptions' => [
+                1002 => 'SET NAMES utf8']
+        ];
+
+        self::$link[$banco] = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
     }
 
     private function getExcecao($cod)
@@ -117,7 +135,7 @@ class Conexao
      */
     public static function conectar($banco = 'padrao')
     {
-        $bancoMaiusculo = empty($banco) ? 'padrao' : strtolower($banco);
+        $bancoMaiusculo = empty($banco) ? 'padrao' : \strtolower($banco);
 
         if (!isset(self::$instancia[$bancoMaiusculo])) {
             self::$instancia[$bancoMaiusculo] = new Conexao($bancoMaiusculo);
@@ -130,10 +148,10 @@ class Conexao
      * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
      * 	@return Conexao
      */
-    public static function conectarManual($host, $banco, $usuario, $senha)
+    public static function conectarManual($host, $banco, $usuario, $senha, $driver)
     {
         if (!isset(self::$instancia[$banco])) {
-            self::$instancia[$banco] = new Conexao($banco, $host, $usuario, $senha);
+            self::$instancia[$banco] = new Conexao($banco, $host, $usuario, $senha, $driver);
         }
 
         return self::$instancia[$banco];
@@ -155,28 +173,15 @@ class Conexao
     public function executar($sql)
     {
         if (empty($sql)) {
-            throw new Exception($this->getExcecao(3));
+            throw new \Exception($this->getExcecao(3));
         }
 
         $this->linhasAfetadas = 0;
 
         $executa = self::$link[$this->banco]->query($sql);
-
-        if (is_object($executa)) {
-            return $executa;
-        } elseif ($executa === true) {
-
-            $this->linhasAfetadas = self::$link[$this->banco]->affected_rows;
-
-            //Interceptando Sql
-            if ($this->interceptaSql == true) {
-                $this->setConteinerSql($sql);
-            }
-
-            return $executa;
-        } else {
-            throw new Exception\SqlException($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
-        }
+        $this->linhasAfetadas = $executa->rowCount();
+        
+        return $executa;
     }
 
     /**
@@ -186,7 +191,7 @@ class Conexao
      */
     public function executarArray($arraySql, $transaction = true)
     {
-        if (!is_array($arraySql)) {
+        if (!\is_array($arraySql)) {
             throw new Exception($this->getExcecao(4));
         }
 
@@ -195,20 +200,13 @@ class Conexao
         }
 
         foreach ($arraySql as $sql) {
-            $executa = self::$link[$this->banco]->query($sql);
+            
+            self::$link[$this->banco]->query($sql);
 
             if ($this->interceptaSql == true) {
                 $this->setConteinerSql($sql);
-            }
-
-            if (!$executa === true) {
-                if ($transaction == true) {
-                    $this->stopTransaction($this->getExcecao(1));
-                }
-                throw new Exception($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
-            }
+            }            
         }
-
 
         if ($transaction == true) {
             $this->stopTransaction();
@@ -220,17 +218,17 @@ class Conexao
      * 	@param Sql String - Instrução SQL
      * 	@return Array
      */
-    public function linha($resultSet, $estilo = MYSQLI_BOTH)
+    public function linha($resultSet, $estilo = '')
     {
-        if (!is_object($resultSet)) {
-            throw new Exception($this->getExcecao(2));
+        if (!\is_object($resultSet)) {
+            throw new \Exception($this->getExcecao(2));
         }
 
-        $nLinhas = $resultSet->num_rows;
+        $nLinhas = $resultSet->rowCount();
 
         if ($nLinhas > 0) {
-            $linhas = $resultSet->fetch_array($estilo);
-            return array_map("trim", $linhas);
+            $linhas = $resultSet->fetchAll();
+            return \array_map("trim", $linhas[0]);
         } else {
             return array();
         }
@@ -285,7 +283,7 @@ class Conexao
         if ($ret !== false) {
             $rows = array();
 
-            while ($row = $ret->fetch_assoc()) {
+            while ($row = $ret->fetch()) {
                 if (empty($posicao)) {
                     if (empty($indice)) {
                         $rows[] = $row;
@@ -317,7 +315,7 @@ class Conexao
             throw new Exception($this->getExcecao(2));
         }
 
-        return (int) $resultSet->num_rows;
+        return (int) $resultSet->rowCount();
     }
 
     /**
@@ -343,7 +341,7 @@ class Conexao
 
     public function ultimoInsertId()
     {
-        return self::$link[$this->banco]->insert_id;
+        return self::$link[$this->banco]->lastInsertId();
     }
 
     /**
@@ -383,7 +381,7 @@ class Conexao
     public function startTransaction()
     {
         if (self::$transaction < 1) {
-            $this->executar("START TRANSACTION");
+            self::$link[$this->banco]->beginTransaction();
             self::$transaction = 1;
         } else {
             self::$transaction += 1;
@@ -399,11 +397,11 @@ class Conexao
     {
         if (self::$transaction == 1) {
             if (!empty($erro)) {
-                $this->executar("ROLLBACK");
+                self::$link[$this->banco]->rollBack();
                 self::$transaction -= 1;
                 return false;
             } else {
-                $this->executar("COMMIT");
+                self::$link[$this->banco]->commit();
                 self::$transaction -= 1;
                 return true;
             }

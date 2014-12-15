@@ -60,7 +60,7 @@ class Complete
             $rs = $con->executar($sql);
 
             $ret = [];
-            while ($dados = $rs->fetch_array()) {
+            while ($dados = $rs->fetch()) {
                 $ret[] = array('id' => $dados['cod'], 'value' => $dados['dsc'], 'label' => $dados['dsc']);
             }
 
