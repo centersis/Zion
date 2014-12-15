@@ -121,7 +121,8 @@ class FormValida
         }
 
         $userValue = $input->getValor();
-        $identifica = $this->texto->removerAcentos($input->getIdentifica());
+        //$identifica = $this->texto->removerAcentos($input->getIdentifica());
+        $identifica = $input->getIdentifica();
 
         foreach (($attrs) as $value) {
 
@@ -172,7 +173,7 @@ class FormValida
                                 throw new FormException($identifica . ": A opcao 'multiplo' esta ativada, o valor submetido deve ser um array!");
                             }
                             if (empty($userValue) and $input->getObrigatorio() === true) {
-                                throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
+                                throw new FormException($identifica . ": selecione uma ou mais opções!");
                             }
                         }
                     }
