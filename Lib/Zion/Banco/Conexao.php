@@ -36,7 +36,7 @@ class Conexao
      */
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
-        require SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
+        require_once SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
 
         $classLoader = new ClassLoader('Doctrine', SIS_FM_BASE . 'Lib/vendor/doctrine/dbal/lib');
 
