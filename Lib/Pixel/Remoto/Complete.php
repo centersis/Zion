@@ -9,7 +9,7 @@
  * @version 1.0
  * @access public
  */
- 
+
 namespace Pixel\Remoto;
 
 class Complete
@@ -55,9 +55,14 @@ class Complete
             $cdes = $campoDesc ? $campoDesc : "''";
             $cbus = $campoBusca ? $campoBusca : $campoDesc;
 
-            //$con->createQueryBuilder();
-            
-            $sql = "SELECT $ccod cod, $cdes as dsc FROM $tabela WHERE $cbus LIKE '" . $termoBusca . "%' $condicaoD LIMIT $limite ";
+            $qb = $con->link()->createQueryBuilder();
+            $sql = $qb->select($ccod . ' as cod', $cdes.' as dsc')
+                    ->from($tabela,'')                    
+                    ->where($qb->expr()->like($cbus, $qb->expr()->literal('%'.$termoBusca.'%')))
+                    //->setParameter($condicaoD,'')
+                    ->setMaxResults($limite);
+
+            //$sql = "SELECT $ccod cod, $cdes as dsc FROM $tabela WHERE $cbus LIKE '" . $termoBusca . "%' $condicaoD LIMIT $limite ";
 
             $rs = $con->executar($sql);
 

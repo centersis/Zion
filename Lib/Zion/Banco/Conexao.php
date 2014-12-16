@@ -32,7 +32,7 @@ class Conexao
      * @param type $usuario
      * @param type $senha
      * @param type $driver
-     * @return \Doctrine\DBAL\Connection
+     * @return Conexao
      */
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
@@ -83,6 +83,15 @@ class Conexao
         self::$link[$banco] = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
     }
 
+    /**
+     * 
+     * @return \Doctrine\DBAL\Connection
+     */
+    public function link()
+    {
+        return self::$link[$this->banco];
+    }
+    
     private function getExcecao($cod)
     {
         return "Erro - " . $this->arrayExcecoes[$cod];
@@ -140,7 +149,7 @@ class Conexao
 
     /**
      * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
-     * 	@return \Doctrine\DBAL\Connection
+     * 	@return Conexao
      */
     public static function conectar($banco = 'padrao')
     {
