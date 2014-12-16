@@ -25,6 +25,15 @@ class Conexao
     private $gravarLog = true;    //Indicador - Indica se o log deve ou não ser gravado
     private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
 
+    /**
+     * 
+     * @param type $banco
+     * @param type $host
+     * @param type $usuario
+     * @param type $senha
+     * @param type $driver
+     * @return \Doctrine\DBAL\Connection
+     */
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
         require SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
@@ -131,7 +140,7 @@ class Conexao
 
     /**
      * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
-     * 	@return Conexao
+     * 	@return \Doctrine\DBAL\Connection
      */
     public static function conectar($banco = 'padrao')
     {

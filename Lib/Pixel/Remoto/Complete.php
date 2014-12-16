@@ -27,17 +27,17 @@ class Complete
 
         //sleep(1);
 
-        $tabela = $valida->texto()->trata(filter_input(INPUT_GET, 't'));
-        $campoCod = $valida->texto()->trata(filter_input(INPUT_GET, 'cc'));
-        $campoDesc = $valida->texto()->trata(filter_input(INPUT_GET, 'cd'));
-        $campoBusca = $valida->texto()->trata(filter_input(INPUT_GET, 'cb'));
-        $termoBusca = $valida->texto()->trata(filter_input(INPUT_GET, 'term'));
-        $idConexao = $valida->texto()->trata(filter_input(INPUT_GET, 'idc'));
+        $tabela = $valida->texto()->trata(\filter_input(\INPUT_GET, 't'));
+        $campoCod = $valida->texto()->trata(\filter_input(\INPUT_GET, 'cc'));
+        $campoDesc = $valida->texto()->trata(\filter_input(\INPUT_GET, 'cd'));
+        $campoBusca = $valida->texto()->trata(\filter_input(\INPUT_GET, 'cb'));
+        $termoBusca = $valida->texto()->trata(\filter_input(\INPUT_GET, 'term'));
+        $idConexao = $valida->texto()->trata(\filter_input(\INPUT_GET, 'idc'));
         //$condicao = $valida->texto()->trata(filter_input(INPUT_GET, 'cnd'));
-        $condicao = filter_input(INPUT_GET, 'cnd');
+        $condicao = \filter_input(\INPUT_GET, 'cnd');
 
-        $l = filter_input(INPUT_GET, 'l');
-        $limite = (is_numeric($l) and $l < 50) ? $l : 10;
+        $l = \filter_input(\INPUT_GET, 'l');
+        $limite = (\is_numeric($l) and $l < 50) ? $l : 10;
 
         //Converte Condicao
         $condicaoD = '';
@@ -55,6 +55,8 @@ class Complete
             $cdes = $campoDesc ? $campoDesc : "''";
             $cbus = $campoBusca ? $campoBusca : $campoDesc;
 
+            //$con->createQueryBuilder();
+            
             $sql = "SELECT $ccod cod, $cdes as dsc FROM $tabela WHERE $cbus LIKE '" . $termoBusca . "%' $condicaoD LIMIT $limite ";
 
             $rs = $con->executar($sql);
