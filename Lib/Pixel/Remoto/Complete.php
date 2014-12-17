@@ -53,7 +53,7 @@ class Complete
 
             $ccod = $campoCod ? $campoCod : "'' as ";
             $cdes = $campoDesc ? $campoDesc : "''";
-            $cbus = $campoBusca ? $campoBusca : $campoDesc;
+            $cbus = $campoBusca ? $campoBusca : $campoDesc;            
 
             $qb = $con->link()->createQueryBuilder();
             $sql = $qb->select($ccod . ' as cod', $cdes.' as dsc')

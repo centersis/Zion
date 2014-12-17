@@ -274,19 +274,21 @@ class Conexao
     /**
      * 	Executando uma clusula SQL e retornando o resultado de uma array
      * 	@param Sql String - Instrução SQL
-     * 	@param Posicao Inteiro - Posição do Resultado no Select
+     * 	@param Posicao String - Posição do Resultado no Select
      * 	@return String
      */
     public function execRLinha($sql, $posicao = 0)
     {
         $resultSet = $this->executar($sql);
 
-        $array = $this->linha($resultSet);
-        if (isset($array[$posicao])) {
+        $array = $this->linha($resultSet);        
+        
+        if(\key_exists($posicao, $array))
+        {
             return $array[$posicao];
-        } else {
-            return false;
         }
+        
+        return \current($array);
     }
 
     /**

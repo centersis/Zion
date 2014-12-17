@@ -255,7 +255,7 @@ class FormUpload extends \Zion\Form\FormUpload
     public function setMinimoArquivos($minimoArquivos)
     {
         if (is_numeric($minimoArquivos)) {
-            if(isset($this->maximoArquivos) and $this->maximoArquivo < $minimoArquivos){
+            if(isset($this->minimoArquivos) and $this->minimoArquivos < $minimoArquivos){
                 throw new FormException("minimoArquivos nao pode ser maior que maximoArquivos.");
             }
             $this->minimoArquivos = $minimoArquivos;
@@ -273,7 +273,7 @@ class FormUpload extends \Zion\Form\FormUpload
     public function setMaximoArquivos($maximoArquivos)
     {
         if (is_numeric($maximoArquivos)) {
-            if(isset($this->minimoArquivos) and $this->minimoArquivos > $minimoArquivos){
+            if(isset($this->maximoArquivos) and $this->maximoArquivos > $maximoArquivos){
                 throw new FormException("maximoArquivos nao pode ser menor que minimoArquivos.");
             }
             $this->maximoArquivos = $maximoArquivos;
