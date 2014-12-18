@@ -23,7 +23,7 @@ class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
      */
     public function getForm()
     {	
-
+        return '';
     	$buffer = '';
 
     	if($_SESSION['usuarioCod']) {
@@ -63,19 +63,20 @@ class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
         $form->config('FormOrganograma', 'GET')
                 ->setNovalidate(true);
 
-        $getDadosOrganograma = $this->con->execLinhaArray($this->pesquisarOrganogramaSql->getDadosOrganograma($_SESSION['organogramaCod']));
-        $organogramaNome = $getDadosOrganograma['organogramaNome'];
+//        $getDadosOrganograma = $this->con->execLinhaArray($this->pesquisarOrganogramaSql->getDadosOrganograma($_SESSION['organogramaCod']));
+//        $organogramaNome = $getDadosOrganograma['organogramaNome'];
 
-        $campos[] = $form->suggest('organograma', 'organograma', false)
-                ->setTabela('organograma')
-                ->setCampoCod('organogramaCod')
-                ->setCampoDesc('organogramaNome')
-                ->setClassCss('clearfix')
-                ->setPlaceHolder($organogramaNome)
-                ->setCondicao("e INSTR(organogramaAncestral,CONCAT(:|:," . $_SESSION['organogramaCod'] . ",:|:)) > 0")
-                ->setHiddenValue('organogramaCod')
-                ->setOnSelect('getController(\'organogramaCod\', \'organograma\', \'setOrganogramaCod\')')
-                ->setLayoutPixel(false);
+        $campos[] = $form->texto('organograma', 'organograma');
+//        $campos[] = $form->suggest('organograma', 'organograma', false)
+//                ->setTabela('organograma')
+//                ->setCampoCod('organogramaCod')
+//                ->setCampoDesc('organogramaNome')
+//                ->setClassCss('clearfix')
+//                ->setPlaceHolder($organogramaNome)
+//                ->setCondicao("e INSTR(organogramaAncestral,CONCAT(:|:," . $_SESSION['organogramaCod'] . ",:|:)) > 0")
+//                ->setHiddenValue('organogramaCod')
+//                ->setOnSelect('getController(\'organogramaCod\', \'organograma\', \'setOrganogramaCod\')')
+//                ->setLayoutPixel(false);
 
         return $form->processarForm($campos);
     }  	

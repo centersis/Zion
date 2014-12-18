@@ -72,7 +72,7 @@ class CrudUtil
      * Metodo que processa e retorna partes de uma clausula SQL de acordo com os filtros
      * returna String
      */
-    public function getSqlFiltro($fil, $objForm, array $filtroDinamico)
+    public function getSqlFiltro($fil, $objForm, array $filtroDinamico, $queryBuilder)
     {
         $sql = '';
 
@@ -88,7 +88,7 @@ class CrudUtil
                 } else {
                     $alias = '';
                 }
-                $sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome());
+                $sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $queryBuilder);
             }
         }
 

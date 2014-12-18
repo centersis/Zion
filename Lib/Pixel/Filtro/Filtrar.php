@@ -30,27 +30,27 @@ class Filtrar
             '*' => '*'];
     }
 
-    public function getStringSql($nomeCampo, $campoBanco)
+    public function getStringSql($nomeCampo, $campoBanco, $queryBuilder)
     {
         $sql = '';
 
         $origem = \strtolower(\filter_input(\INPUT_GET, 'sisOrigem'));
 
         switch ($origem) {
-            case 'n': $sql.= $this->normalSql($nomeCampo, $campoBanco);
+            case 'n': $sql.= $this->normalSql($nomeCampo, $campoBanco, $queryBuilder);
                 break;
             case 'e':
-                $sql.= $this->eOrSql($campoBanco, $nomeCampo, $origem);
+                $sql.= $this->eOrSql($campoBanco, $nomeCampo, $origem, $queryBuilder);
                 break;
             case 'o':
-                $sql.= $this->eOrSql($campoBanco, $nomeCampo, $origem);
+                $sql.= $this->eOrSql($campoBanco, $nomeCampo, $origem, $queryBuilder);
                 break;
         }
 
         return $sql;
     }
 
-    private function normalSql($nomeCampo, $campoBanco)
+    private function normalSql($nomeCampo, $campoBanco, $queryBuilder)
     {
         $sql = '';
         $operador = \filter_input(\INPUT_GET, 'sho' . 'n' . $nomeCampo);
@@ -60,7 +60,10 @@ class Filtrar
         //Valida Informações
         if ($operador == '' or $acao == '') {
             if ($valor <> '') {
-                return " AND " . $campoBanco . " = '" . $valor . "' ";
+
+                return $queryBuilder->andWhere($campoBanco, ':campoBanco')
+                                ->setParameter('campoBanco', $queryBuilder->expr()->literal($valor));
+                //return " AND " . $campoBanco . " = '" . $valor . "' ";
             }
 
             return $sql;
@@ -82,6 +85,17 @@ class Filtrar
                         if ($operador === '≠') {
                             $operador = '<>';
                         }
+
+                        switch ($operador) {
+                            case '=':
+                                $queryBuilder->add('where', $qb->expr()->eq('u.id', '?1'));
+                                
+                                $queryBuilder->andWhere($campoBanco, ':campoBanco')
+                                        ->setParameter('campoBanco', $queryBuilder->expr()->literal($valor));
+
+                                break;
+                        }
+
 
                         $sql = " AND $campoBanco $operador $valor ";
 

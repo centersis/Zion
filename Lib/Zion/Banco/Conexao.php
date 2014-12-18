@@ -18,7 +18,6 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
-    
     //Atributos de Log
     private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
@@ -34,6 +33,7 @@ class Conexao
      * @param type $driver
      * @return Conexao
      */
+
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
         require_once SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
@@ -69,6 +69,8 @@ class Conexao
 
         $config = new \Doctrine\DBAL\Configuration();
 
+        //['wrapperClass' => 'Doctrine\DBAL\Portability\Connection', 'portability' => \octrine\DBAL\Portability\Connection::PORTABILITY_ALL];
+
         $connectionParams = [
             'dbname' => $cBanco,
             'user' => $cUsuario,
@@ -76,6 +78,9 @@ class Conexao
             'host' => $cHost,
             'driver' => $cDriver,
             'charset' => 'utf8',
+            'wrapperClass' => 'Doctrine\DBAL\Portability\Connection',
+            'portability' => \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL,
+            'fetch_case' => \PDO::CASE_LOWER,
             'driverOptions' => [
                 1002 => 'SET NAMES utf8']
         ];
@@ -91,7 +96,7 @@ class Conexao
     {
         return self::$link[$this->banco];
     }
-    
+
     private function getExcecao($cod)
     {
         return "Erro - " . $this->arrayExcecoes[$cod];
@@ -198,7 +203,7 @@ class Conexao
 
         $executa = self::$link[$this->banco]->query($sql);
         $this->linhasAfetadas = $executa->rowCount();
-        
+
         return $executa;
     }
 
@@ -218,12 +223,12 @@ class Conexao
         }
 
         foreach ($arraySql as $sql) {
-            
+
             self::$link[$this->banco]->query($sql);
 
             if ($this->interceptaSql == true) {
                 $this->setConteinerSql($sql);
-            }            
+            }
         }
 
         if ($transaction == true) {
@@ -236,7 +241,7 @@ class Conexao
      * 	@param Sql String - Instrução SQL
      * 	@return Array
      */
-    public function linha($resultSet, $estilo = '')
+    public function linha($resultSet)
     {
         if (!\is_object($resultSet)) {
             throw new \Exception($this->getExcecao(2));
@@ -266,9 +271,7 @@ class Conexao
 
     public function execLinhaArray($sql)
     {
-        $resultSet = $this->executar($sql);
-
-        return $this->linha($resultSet, \MYSQLI_ASSOC);
+        return $this->execLinha($sql);
     }
 
     /**
@@ -281,13 +284,12 @@ class Conexao
     {
         $resultSet = $this->executar($sql);
 
-        $array = $this->linha($resultSet);        
-        
-        if(\key_exists($posicao, $array))
-        {
+        $array = $this->linha($resultSet);
+
+        if (\key_exists($posicao, $array)) {
             return $array[$posicao];
         }
-        
+
         return \current($array);
     }
 
@@ -300,27 +302,44 @@ class Conexao
     {
         $ret = $this->executar($sql);
 
-        if ($ret !== false) {
-            $rows = array();
+        if ($this->nLinhas($ret) > 0) {
+            $rows = [];
+
+            $posicao = \strtolower($posicao);
+            $indice = \strtolower($indice);
 
             while ($row = $ret->fetch()) {
                 if (empty($posicao)) {
                     if (empty($indice)) {
                         $rows[] = $row;
                     } else {
+
+                        if (!\key_exists($indice, $row)) {
+                            throw new \Exception("Indice $indice não encontrado!");
+                        }
+
                         $rows[$row[$indice]] = $row;
                     }
                 } else {
                     if (empty($indice)) {
+                        if (!\key_exists($posicao, $row)) {
+                            throw new \Exception("Posição $posicao não encontrada!");
+                        }
                         $rows[] = $row[$posicao];
                     } else {
+
+                        if (!\key_exists($indice, $row)) {
+                            throw new \Exception("Indice $indice não encontrado!");
+                        }
+
                         $rows[$row[$indice]] = $row[$posicao];
                     }
                 }
             }
             return $rows;
         } else {
-            return array();
+
+            return [];
         }
     }
 
@@ -331,8 +350,8 @@ class Conexao
      */
     public function nLinhas($resultSet)
     {
-        if (!is_object($resultSet)) {
-            throw new Exception($this->getExcecao(2));
+        if (!\is_object($resultSet)) {
+            throw new \Exception($this->getExcecao(2));
         }
 
         return (int) $resultSet->rowCount();
@@ -356,7 +375,11 @@ class Conexao
      */
     public function maiorId($tabela, $idTabela)
     {
-        return $this->execRLinha("SELECT  MAX(" . $idTabela . ") as maior FROM " . $tabela);
+        $sql = $this->link()
+                ->createQueryBuilder()
+                ->select('MAX(' . $idTabela . ') as maior')
+                ->from($tabela, '');
+        return $this->execRLinha($sql);
     }
 
     public function ultimoInsertId()
@@ -374,24 +397,15 @@ class Conexao
      */
     public function existe($tabela, $campo, $valor, $inteiro = false)
     {
-        $compara = ($inteiro == false) ? "'" . $valor . "'" : $valor;
+        $qb = $this->link()->createQueryBuilder();
 
-        return($this->execNLinhas("SELECT " . $campo . " FROM " . $tabela . " WHERE " . $campo . " = $compara LIMIT 1") < 1) ? false : true;
-    }
+        $sql = $qb->select($campo)
+                ->from($tabela, '')
+                ->where($qb->expr()->eq($campo, ':campo'))
+                ->setParameter('campo', $inteiro ? $valor : $qb->expr()->literal($valor))
+                ->setMaxResults(1);
 
-    /**
-     * 	Verifica se determinando valor já existe no banco de dados
-     * 	@param Campo String - Nome da coluna a ser encontrada
-     * 	@param Valor String - Valor a ser encontrado na coluna
-     * 	@param Tabela String - Tabela a ser pesquisada
-     * 	@param Criterio String - Critério - Condição de Visualização
-     * 	@return Booleano
-     */
-    public function duplicado($tabela, $campo, $valor, $criterio = '')
-    {
-        $crt = (empty($criterio)) ? '' : " AND " . $criterio;
-
-        return($this->execNLinhas("SELECT " . $campo . " FROM " . $tabela . " WHERE " . $campo . " = '" . $valor . "' $crt") > 1) ? true : false;
+        return($this->execNLinhas($sql) < 1) ? false : true;
     }
 
     /**

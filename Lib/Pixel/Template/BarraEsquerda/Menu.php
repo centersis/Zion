@@ -37,17 +37,17 @@ class Menu extends \Zion\Layout\Padrao
 
             foreach ($obj['retorno'] as $valor) {
 
-                if (is_array($valor)) {
+                if (\is_array($valor)) {
 
                     foreach ($valor as $indice1 => $valor1) {
 
                         if ($indice1 == 'grupo') {
 
                             $buffer .= $this->abreGrupoMenu();
-                            $buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['grupoClass'], 'grupo' => $valor1));
+                            $buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['grupoclass'], 'grupo' => $valor1));
                         }
 
-                        if (is_array($valor1)) {
+                        if (\is_array($valor1)) {
 
                             $buffer .= $this->abreConjuntoSubMenu();
 
