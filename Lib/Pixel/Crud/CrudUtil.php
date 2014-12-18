@@ -291,8 +291,8 @@ class CrudUtil
         }
 
         $qb->where($qb->expr()->eq($chavePrimaria, '?'));
-        
-        $qb->setParameter($chave+1, $codigo, \PDO::PARAM_INT);
+
+        $qb->setParameter($chave + 1, $codigo, \PDO::PARAM_INT);
 
         $linhasAfetadas = $qb->execute();
 
