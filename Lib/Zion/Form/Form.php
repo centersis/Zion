@@ -34,7 +34,7 @@ class Form
 
         $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
-        
+
         $this->objetos = [];
     }
 
@@ -293,7 +293,7 @@ class Form
 
         return $this->formConfig;
     }
-    
+
     public function getConfig()
     {
         return $this->formConfig;
@@ -328,11 +328,11 @@ class Form
     public function processarForm(array $campos)
     {
         foreach ($campos as $objCampos) {
-            
-            if(\method_exists($objCampos, 'setNomeForm')){
+
+            if (\method_exists($objCampos, 'setNomeForm')) {
                 $objCampos->setNomeForm($this->formConfig->getNome());
             }
-            
+
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
@@ -422,31 +422,70 @@ class Form
         }
     }
 
+    public function getTipoPDO($idObjeto)
+    {
+        $valor = $this->objetos[$idObjeto]->getValor();
+        $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
+
+        switch ($tipoBase) {
+            case 'date' :
+
+                return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
+
+            case 'datetime' :
+
+                return $valor == '' ? \PDO::PARAM_NULL : 'detetime';
+
+            case 'float' :
+
+                return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
+
+            case 'number' :
+
+                return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_INT;
+
+            default:
+
+                if (\is_array($valor)) {
+
+                    $vArray = \implode(',', $valor);
+                    return empty($vArray) ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
+                } else {
+
+                    return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
+                }
+        }
+    }
+
     public function getSql($idObjeto)
     {
         $tratar = \Zion\Tratamento\Tratamento::instancia();
 
         $valor = $this->objetos[$idObjeto]->getValor();
-        $obrigatorio = $this->objetos[$idObjeto]->getObrigatorio();
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
         switch ($tipoBase) {
             case 'date' :
                 $dataConvertida = $tratar->data()->converteData($valor);
-                return $this->valorOuNull($dataConvertida, true, $obrigatorio);
+
+                return empty($dataConvertida) ? NULL : $dataConvertida;
 
             case 'float' :
-                $valorConvertido = $tratar->numero()->floatBanco($valor);
-                return $this->valorOuNull($valorConvertido, false, $obrigatorio);
+                $float = $tratar->numero()->floatBanco($valor);
+
+                return \is_numeric($float) ? $float : NULL;
 
             case 'number' :
-                return $this->valorOuNull($valor, false, $obrigatorio);
+                return \is_numeric($valor) ? $valor : NULL;
 
             default:
-                if (is_array($valor)) {
-                    return $this->valorOuNull(implode(',', $valor), true, $obrigatorio);
+
+                if (\is_array($valor)) {
+                    $arr = \implode(',', $valor);
+
+                    return empty($arr) ? NULL : $arr;
                 } else {
-                    return $this->valorOuNull($valor, true, $obrigatorio);
+                    return $valor == '' ? NULL : $valor;
                 }
         }
     }
@@ -482,10 +521,10 @@ class Form
      */
     public function getObjetos($nome = null)
     {
-        if($nome and !\key_exists($nome, $this->objetos)){
-            throw new \Exception('Objeto '.$nome.' não existe!');
+        if ($nome and ! \key_exists($nome, $this->objetos)) {
+            throw new \Exception('Objeto ' . $nome . ' não existe!');
         }
-        
+
         return $nome ? $this->objetos[$nome] : $this->objetos;
     }
 
@@ -563,19 +602,6 @@ class Form
 
         foreach ($obj as $objCampos) {
             $valida->validar($objCampos);
-        }
-    }
-
-    private function valorOuNull($valor, $aspas, $obrigatorio)
-    {
-        if ($obrigatorio and $valor == '') {
-            return $valor;
-        } else {
-            if ($aspas === false) {
-                return ($valor == '') ? 'NULL' : $valor;
-            } else {
-                return ($valor == '') ? 'NULL' : "'" . $valor . "'";
-            }
         }
     }
 

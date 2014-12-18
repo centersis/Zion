@@ -137,7 +137,8 @@ class CrudUtil
         $con = \Zion\Banco\Conexao::conectar();
         $upload = new \Pixel\Arquivo\ArquivoUpload();
 
-        $arraySql = [];
+        $arrayValores = [];
+        $arrayTipos = [];
 
         $objeto = true;
 
@@ -160,9 +161,11 @@ class CrudUtil
             foreach ($arrayParametros as $nomeParametro) {
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
-                    $arraySql[] = $objForm->getSql($nomeParametro);
+                    $arrayValores[] = $objForm->getSql($nomeParametro);
+                    $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
                 } else {
-                    $arraySql[] = 'NULL';
+                    $arrayValores[] = \NULL;
+                    $arrayTipos[] = \PDO::PARAM_NULL;
                 }
             }
         } else {
@@ -173,27 +176,33 @@ class CrudUtil
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
                     $form->set($nomeParametro, \current($arrayForm[$nomeParametro]), \key($arrayForm[$nomeParametro]));
-                    $arraySql[] = $objForm->getSql($nomeParametro);
+                    $arrayValores[] = $objForm->getSql($nomeParametro);
+                    $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
                 } else {
-                    $arraySql[] = 'NULL';
+                    $arrayValores[] = \NULL;
+                    $arrayTipos[] = \PDO::PARAM_NULL;
                 }
             }
         }
 
         $camposVistoriados = $this->removeColchetes($campos);
 
-        $sql = "INSERT INTO $tabela (" . implode(',', $camposVistoriados) . ") VALUES (" . implode(",", $arraySql) . ")";
-
         $con->startTransaction();
 
-        $con->executar($sql);
-        
         $qb = $con->link()->createQueryBuilder();
-        
-        //$qb->
-        
 
-        $uid = $con->ultimoInsertId();
+        $qb->insert($tabela);
+
+        foreach ($camposVistoriados as $coluna) {
+            $qb->setValue($coluna, '?');
+        }
+
+        foreach ($arrayValores as $chave => $valor) {
+
+            $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
+        }
+
+        $uid = $qb->execute();
 
         foreach ($arrayForm as $objeto) {
             if ($objeto->getTipoBase() === 'upload') {
@@ -212,7 +221,8 @@ class CrudUtil
         $con = \Zion\Banco\Conexao::conectar();
         $upload = new \Pixel\Arquivo\ArquivoUpload();
 
-        $arraySql = [];
+        $arrayValores = [];
+        $arrayTipos = [];
 
         $objeto = true;
 
@@ -235,9 +245,11 @@ class CrudUtil
             foreach ($arrayParametros as $nomeParametro) {
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
-                    $arraySql[] = $this->removeColchetes($nomeParametro) . ' = ' . $objForm->getSql($nomeParametro);
+                    $arrayValores[] = $objForm->getSql($nomeParametro);
+                    $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
                 } else {
-                    $arraySql[] = $this->removeColchetes($nomeParametro) . ' = NULL';
+                    $arrayValores[] = \NULL;
+                    $arrayTipos[] = \PDO::PARAM_NULL;
                 }
             }
 
@@ -250,21 +262,39 @@ class CrudUtil
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
                     $form->set($nomeParametro, \current($arrayForm[$nomeParametro]), \key($arrayForm[$nomeParametro]));
-
-                    $arraySql[] = $this->removeColchetes($nomeParametro) . ' = ' . $form->getSql($nomeParametro);
+                    $arrayValores[] = $objForm->getSql($nomeParametro);
+                    $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
                 } else {
-                    $arraySql[] = $this->removeColchetes($nomeParametro) . ' = NULL';
+                    $arrayValores[] = \NULL;
+                    $arrayTipos[] = \PDO::PARAM_NULL;
                 }
             }
 
             $codigo = $valorChavePrimaria;
         }
 
-        $sql = "UPDATE $tabela SET " . implode(',', $arraySql) . " WHERE $chavePrimaria =  " . $codigo;
+        $camposVistoriados = $this->removeColchetes($campos);
 
         $con->startTransaction();
 
-        $con->executar($sql);
+        $qb = $con->link()->createQueryBuilder();
+
+        $qb->update($tabela);
+
+        foreach ($camposVistoriados as $coluna) {
+            $qb->set($coluna, '?');
+        }
+
+        foreach ($arrayValores as $chave => $valor) {
+
+            $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
+        }
+
+        $qb->where($qb->expr()->eq($chavePrimaria, '?'));
+        
+        $qb->setParameter($chave+1, $codigo, \PDO::PARAM_INT);
+
+        $linhasAfetadas = $qb->execute();
 
         if ($objeto) {
             foreach ($arrayForm as $objeto) {
@@ -277,7 +307,7 @@ class CrudUtil
 
         $con->stopTransaction();
 
-        return $con->getLinhasAfetadas();
+        return $linhasAfetadas;
     }
 
     public function delete($tabela, $codigo, $chavePrimaria)
@@ -285,7 +315,7 @@ class CrudUtil
         $con = \Zion\Banco\Conexao::conectar();
 
         $qb = $con->link()->createQueryBuilder();
-        
+
         $qb->delete($tabela, '')
                 ->where($qb->expr()->eq($chavePrimaria, ':cod'))
                 ->setParameter(':cod', $codigo);
@@ -312,7 +342,7 @@ class CrudUtil
         }
 
         //Incia Variavel que receberá o Sql
-        $arraySql = array();
+        $arrayValores = array();
 
         //Recuperando Array de Campos
         $arrayForm = $objForm->getObjetos();
@@ -324,20 +354,20 @@ class CrudUtil
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
                     $objeto = $arrayForm[$nomeParametro];
 
-                    $arraySql[] = $objForm->get($nomeParametro, $objeto->getObrigatorio(), $objeto->getProcessarComo());
+                    $arrayValores[] = $objForm->get($nomeParametro, $objeto->getObrigatorio(), $objeto->getProcessarComo());
                 } else {
                     $valor = $objForm->get($nomeParametro, false);
 
                     if ($valor . '' != '') {
-                        $arraySql[] = $valor;
+                        $arrayValores[] = $valor;
                     } else {
-                        $arraySql[] = 'NULL';
+                        $arrayValores[] = 'NULL';
                     }
                 }
             }
         }
 
-        return $arraySql;
+        return $arrayValores;
     }
 
     /**
