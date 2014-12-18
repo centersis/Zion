@@ -190,7 +190,7 @@ class CrudUtil
         
         $qb = $con->link()->createQueryBuilder();
         
-        //$qb->insert()
+        //$qb->
         
 
         $uid = $con->ultimoInsertId();
