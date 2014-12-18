@@ -241,7 +241,7 @@ class Conexao
      * 	@param Sql String - Instrução SQL
      * 	@return Array
      */
-    public function linha($resultSet)
+    public function linha($resultSet, $estilo = null)
     {
         if (!\is_object($resultSet)) {
             throw new \Exception($this->getExcecao(2));
@@ -250,7 +250,7 @@ class Conexao
         $nLinhas = $resultSet->rowCount();
 
         if ($nLinhas > 0) {
-            $linhas = $resultSet->fetchAll();
+            $linhas = $resultSet->fetchAll($estilo);
             return \array_map("trim", $linhas[0]);
         } else {
             return array();
@@ -262,16 +262,18 @@ class Conexao
      * 	@param Sql String - Instrução SQL
      * 	@return Array
      */
-    public function execLinha($sql)
+    public function execLinha($sql, $estilo = null)
     {
         $resultSet = $this->executar($sql);
 
-        return $this->linha($resultSet);
+        return $this->linha($resultSet, $estilo);
     }
 
     public function execLinhaArray($sql)
     {
-        return $this->execLinha($sql);
+        $resultSet = $this->executar($sql);
+
+        return $this->linha($resultSet,2);
     }
 
     /**

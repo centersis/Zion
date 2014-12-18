@@ -38,8 +38,10 @@ class CrudUtil
         if (\is_array($arrayObjetos)) {
             foreach ($arrayObjetos as $nome => $objeto) {
 
-                if (\key_exists($nome, $parametrosSql)) {
-                    $objeto->setValor($parametrosSql[$nome]);
+                $chave = \strtolower($nome);
+
+                if (\array_key_exists($chave, $parametrosSql)) {
+                    $objeto->setValor($parametrosSql[$chave]);
                 }
             }
         }
@@ -185,6 +187,11 @@ class CrudUtil
         $con->startTransaction();
 
         $con->executar($sql);
+        
+        $qb = $con->link()->createQueryBuilder();
+        
+        //$qb->insert()
+        
 
         $uid = $con->ultimoInsertId();
 
@@ -277,11 +284,13 @@ class CrudUtil
     {
         $con = \Zion\Banco\Conexao::conectar();
 
-        $sql = "DELETE FROM $tabela WHERE $chavePrimaria =  " . $codigo;
+        $qb = $con->link()->createQueryBuilder();
+        
+        $qb->delete($tabela, '')
+                ->where($qb->expr()->eq($chavePrimaria, ':cod'))
+                ->setParameter(':cod', $codigo);
 
-        $con->executar($sql);
-
-        return $con->getLinhasAfetadas();
+        return $qb->execute();
     }
 
     /**

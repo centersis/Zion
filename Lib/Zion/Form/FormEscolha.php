@@ -315,8 +315,8 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setCampoCod($campoCod)
     {
-        if (!is_null($campoCod)) {
-            $this->campoCod = $campoCod;
+        if (!\is_null($campoCod)) {
+            $this->campoCod = \strtolower($campoCod);
             return $this;
         } else {
             throw new FormException("campoCod: Nenhum Valor foi informado.");
@@ -342,7 +342,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     public function setCampoDesc($campoDesc)
     {
         if (!is_null($campoDesc)) {
-            $this->campoDesc = $campoDesc;
+            $this->campoDesc = \strtolower($campoDesc);
             return $this;
         } else {
             throw new FormException("campoDesc: Nenhum Valor foi informado.");
