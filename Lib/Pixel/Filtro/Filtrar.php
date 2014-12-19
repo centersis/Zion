@@ -69,86 +69,7 @@ class Filtrar
         //Retorna Sql	
         if ("$valor" <> "") {
 
-            if (\in_array($operador, $this->operadores)) {
-
-                switch ($operador) {
-
-                    case '=': case '>': case '<': case '>=': case '<=': case '≠':
-
-                        $tipoParametro = \PDO::PARAM_STR;
-
-                        if ($acao == 'number') {
-                            $tipoParametro = \PDO::PARAM_INT;
-                        }
-
-                        switch ($operador) {
-                            case '=':
-
-                                $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp02' . $rand))
-                                        ->setParameter('camp02' . $rand, $valor, $tipoParametro);
-
-                                break;
-
-                            case '>':
-
-                                $queryBuilder->andWhere($queryBuilder->expr()->gt($campoBanco, ':camp02' . $rand))
-                                        ->setParameter('camp02' . $rand, $valor, $tipoParametro);
-
-                                break;
-
-                            case '<':
-
-                                $queryBuilder->andWhere($queryBuilder->expr()->lt($campoBanco, ':camp02' . $rand))
-                                        ->setParameter('camp02' . $rand, $valor, $tipoParametro);
-
-                                break;
-
-                            case '>=':
-
-                                $queryBuilder->andWhere($queryBuilder->expr()->gte($campoBanco, ':camp02' . $rand))
-                                        ->setParameter('camp02' . $rand, $valor, $tipoParametro);
-
-                                break;
-
-                            case '<=':
-
-                                $queryBuilder->andWhere($queryBuilder->expr()->lte($campoBanco, ':camp02' . $rand))
-                                        ->setParameter('camp02' . $rand, $valor, $tipoParametro);
-
-                                break;
-
-                            case '≠':
-
-                                $queryBuilder->andWhere($queryBuilder->expr()->neq($campoBanco, ':camp02' . $rand))
-                                        ->setParameter('camp02' . $rand, $valor, $tipoParametro);
-
-                                break;
-                        }
-
-                        break;
-
-                    case '*A':
-
-                        $queryBuilder->andWhere($queryBuilder->expr()->like($campoBanco, $queryBuilder->expr()->literal('%' . $valor)));
-                        //->setParameter('camp03' . $rand, $valor, \PDO::PARAM_STR);
-
-                        break;
-
-                    case 'A*':
-
-                        $queryBuilder->andWhere($queryBuilder->expr()->like($campoBanco, $queryBuilder->expr()->literal($valor . '%')));
-                        //->setParameter('camp03' . $rand, $valor, \PDO::PARAM_STR);
-
-                        break;
-
-                    case '*':
-
-                        $queryBuilder->andWhere($queryBuilder->expr()->like($campoBanco, $queryBuilder->expr()->literal('%' . $valor . '%')));
-                        //->setParameter('camp03' . $rand, $valor, \PDO::PARAM_STR);
-
-                        break;
-                }
-            }
+            $this->condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder);
         }
     }
 
@@ -227,19 +148,105 @@ class Filtrar
         if ($clausula == 'e') {
             if ($valorB <> '') {
 
-                $sql = " AND $campoBanco $operadorA $valorA AND $campoBanco $operadorB $valorB ";
+                $this->condicoes($campoBanco, $operadorA, $valorA, $acaoA, $queryBuilder);
+                $this->condicoes($campoBanco, $operadorB, $valorB, $acaoB, $queryBuilder);
             } else {
-                $sql = " AND $campoBanco $operadorA $valorA ";
+                $this->condicoes($campoBanco, $operadorA, $valorA, $acaoA, $queryBuilder);
             }
         } elseif ($clausula == 'o') {
             if ($valorB <> '') {
                 $sql = " AND (($campoBanco $operadorA $valorA) OR ($campoBanco $operadorB $valorB)) ";
             } else {
-                $sql = " AND $campoBanco $operadorA $valorA ";
+                //$sql = " AND $campoBanco $operadorA $valorA ";
+                $this->condicoes($campoBanco, $operadorA, $valorA, $acaoA, $queryBuilder);
             }
         }
+    }
 
-        return $sql;
+    private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
+    {
+        if (\in_array($operador, $this->operadores)) {
+
+            $rand = \mt_rand(1, 9999);
+
+            switch ($operador) {
+
+                case '=': case '>': case '<': case '>=': case '<=': case '≠':
+
+                    $tipoParametro = \PDO::PARAM_STR;
+
+                    if ($acao == 'number') {
+                        $tipoParametro = \PDO::PARAM_INT;
+                    }
+
+                    switch ($operador) {
+                        case '=':
+
+                            $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp02' . $rand))
+                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+
+                            break;
+
+                        case '>':
+
+                            $queryBuilder->andWhere($queryBuilder->expr()->gt($campoBanco, ':camp02' . $rand))
+                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+
+                            break;
+
+                        case '<':
+
+                            $queryBuilder->andWhere($queryBuilder->expr()->lt($campoBanco, ':camp02' . $rand))
+                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+
+                            break;
+
+                        case '>=':
+
+                            $queryBuilder->andWhere($queryBuilder->expr()->gte($campoBanco, ':camp02' . $rand))
+                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+
+                            break;
+
+                        case '<=':
+
+                            $queryBuilder->andWhere($queryBuilder->expr()->lte($campoBanco, ':camp02' . $rand))
+                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+
+                            break;
+
+                        case '≠':
+
+                            $queryBuilder->andWhere($queryBuilder->expr()->neq($campoBanco, ':camp02' . $rand))
+                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+
+                            break;
+                    }
+
+                    break;
+
+                case '*A':
+
+                    $queryBuilder->andWhere($queryBuilder->expr()->like($campoBanco, $queryBuilder->expr()->literal('%' . $valor)));
+                    //->setParameter('camp03' . $rand, $valor, \PDO::PARAM_STR);
+
+                    break;
+
+                case 'A*':
+
+                    $queryBuilder->andWhere($queryBuilder->expr()->like($campoBanco, $queryBuilder->expr()->literal($valor . '%')));
+                    //->setParameter('camp03' . $rand, $valor, \PDO::PARAM_STR);
+
+                    break;
+
+                case '*':
+
+                    $queryBuilder->andWhere($queryBuilder->expr()->like($campoBanco, $queryBuilder->expr()->literal('%' . $valor . '%')));
+                    //->setParameter('camp03' . $rand, $valor, \PDO::PARAM_STR);
+
+                    break;
+            }
+        }
     }
 
     function getHiddenParametros($arrayParametros)

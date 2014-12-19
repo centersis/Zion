@@ -500,7 +500,7 @@ class Form
         switch ($tipoBase) {
             case 'date' :
                 $dataConvertida = $tratar->data()->converteData($valor);
-                return "'$dataConvertida'";
+                return $dataConvertida;
 
             case 'float' :
                 $valorConvertido = $tratar->numero()->floatBanco($valor);
@@ -510,7 +510,7 @@ class Form
                 return $valor;
 
             default:
-                return "'$valor'";
+                return $valor;
         }
     }
 

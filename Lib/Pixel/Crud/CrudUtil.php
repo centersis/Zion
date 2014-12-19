@@ -95,14 +95,12 @@ class CrudUtil
         $this->sqlBuscaGeral($filtroDinamico, $queryBuilder);
     }
 
-    private function sqlBuscaGeral($filtroDinamico)
+    private function sqlBuscaGeral($filtroDinamico, $queryBuilder)
     {
         $buscaGral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
 
-        $sql = '';
-
         if ($buscaGral) {
-            $sql = ' AND (';
+            $sql = ' (';
 
             $campos = \str_replace(',', '|', $buscaGral);
 
@@ -119,9 +117,9 @@ class CrudUtil
             }
 
             $sql.= ') ';
-        }
-
-        return $sql;
+            
+            $queryBuilder->where($sql);
+        }               
     }
 
     /**
