@@ -76,8 +76,6 @@ class CrudUtil
      */
     public function getSqlFiltro($fil, $objForm, array $filtroDinamico, $queryBuilder)
     {
-        $sql = '';
-
         //Recuperando Array de Campos
         $arrayForm = $objForm->getObjetos();
 
@@ -90,13 +88,11 @@ class CrudUtil
                 } else {
                     $alias = '';
                 }
-                $sql .= $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $queryBuilder);
+                $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $queryBuilder);
             }
         }
 
-        $sql.= $this->sqlBuscaGeral($filtroDinamico);
-
-        return $sql;
+        $this->sqlBuscaGeral($filtroDinamico, $queryBuilder);
     }
 
     private function sqlBuscaGeral($filtroDinamico)

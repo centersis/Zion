@@ -56,7 +56,7 @@ class Complete
             $cbus = $campoBusca ? $campoBusca : $campoDesc;            
 
             $qb = $con->link()->createQueryBuilder();
-            $sql = $qb->select($ccod . ' as cod', $cdes.' as dsc')
+            $sql = $qb->select($ccod . ' cod', $cdes.' dsc')
                     ->from($tabela,'')                    
                     ->where($qb->expr()->like($cbus, $qb->expr()->literal('%'.$termoBusca.'%')))
                     //->setParameter($condicaoD,'')
