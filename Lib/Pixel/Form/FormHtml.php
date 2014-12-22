@@ -32,6 +32,7 @@ class FormHtml extends \Zion\Form\FormHtml
         if ($config->getHiddenValue()) {
 
             $cofHidden = new \Zion\Form\FormInputHidden('hidden', $config->getHiddenValue());
+            $cofHidden->setValor($config->getValor());
 
             $ret.= $this->montaHidden($cofHidden);
         }
