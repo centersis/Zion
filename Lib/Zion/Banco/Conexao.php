@@ -203,7 +203,7 @@ class Conexao
 
         if (\is_object($sql)) {
             
-            $resultSet = $sql->executa();
+            $resultSet = $sql->execute();
             $this->linhasAfetadas = $this->nLinhas($resultSet);
             return $resultSet;            
         }
