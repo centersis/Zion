@@ -264,6 +264,11 @@ class Conexao
      */
     public function execLinha($sql, $estilo = null)
     {
+        if (\is_object($sql)) {
+            $resultSet = $sql->execute();
+            return $this->linha($resultSet, $estilo);
+        }
+
         $resultSet = $this->executar($sql);
 
         return $this->linha($resultSet, $estilo);
@@ -271,9 +276,14 @@ class Conexao
 
     public function execLinhaArray($sql)
     {
+        if (\is_object($sql)) {
+            $resultSet = $sql->execute();
+            return $this->linha($resultSet, 2);
+        }
+
         $resultSet = $this->executar($sql);
 
-        return $this->linha($resultSet,2);
+        return $this->linha($resultSet, 2);
     }
 
     /**
@@ -302,7 +312,11 @@ class Conexao
      */
     public function paraArray($sql, $posicao = null, $indice = null)
     {
-        $ret = $this->executar($sql);
+        if (\is_object($sql)) {
+            $ret = $sql->execute();
+        } else {
+            $ret = $this->executar($sql);
+        }
 
         if ($this->nLinhas($ret) > 0) {
             $rows = [];
@@ -360,12 +374,21 @@ class Conexao
     }
 
     /**
-     * 	Executando uma clausula Sqle retornando o numero de Linhas afetadas
-     * 	@param Sql String - Instrução SQL
-     * 	@return Inteiro
+     * Executando uma clausula Sql e retornando o numero de linhas afetadas,
+     * aceita string sql nativa ou objeto querybuilder
+     * @param string/object $sql
+     * @return int
      */
     public function execNLinhas($sql)
     {
+        if (\is_object($sql)) {
+
+            $rs = $sql->execute();
+            $linhas = $rs->rowCount();
+
+            return $linhas;
+        }
+
         return $this->nLinhas($this->executar($sql));
     }
 
