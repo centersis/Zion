@@ -201,6 +201,13 @@ class Conexao
 
         $this->linhasAfetadas = 0;
 
+        if (\is_object($sql)) {
+            
+            $resultSet = $sql->executa();
+            $this->linhasAfetadas = $this->nLinhas($resultSet);
+            return $resultSet;            
+        }
+        
         $executa = self::$link[$this->banco]->query($sql);
         $this->linhasAfetadas = $executa->rowCount();
 
