@@ -18,6 +18,7 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
+    
     //Atributos de Log
     private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
@@ -25,15 +26,15 @@ class Conexao
     private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
 
     /**
-     * 
-     * @param type $banco
-     * @param type $host
-     * @param type $usuario
-     * @param type $senha
-     * @param type $driver
-     * @return Conexao
+     * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
+     * forem informados o metodo então tenta achar os parametros provenientes
+     * do arquivo de configuração do sistema
+     * @param string $banco
+     * @param string $host
+     * @param string $usuario
+     * @param string $senha
+     * @param string $driver
      */
-
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
         require_once SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
@@ -69,8 +70,6 @@ class Conexao
 
         $config = new \Doctrine\DBAL\Configuration();
 
-        //['wrapperClass' => 'Doctrine\DBAL\Portability\Connection', 'portability' => \octrine\DBAL\Portability\Connection::PORTABILITY_ALL];
-
         $connectionParams = [
             'dbname' => $cBanco,
             'user' => $cUsuario,
@@ -89,44 +88,40 @@ class Conexao
     }
 
     /**
-     * 
+     * Retorna uma instancia de conexão com o banco de dados
+     * @param string $banco
      * @return \Doctrine\DBAL\Connection
      */
-    public function link()
+    public function link($banco = \NULL)
     {
-        return self::$link[$this->banco];
+        return self::$link[$banco ? $banco : $this->banco];
     }
 
+    /**
+     * Retorna uma mensagem de erro de acordo com o código informado
+     * @param int $cod
+     * @return string
+     */
     private function getExcecao($cod)
     {
         return "Erro - " . $this->arrayExcecoes[$cod];
     }
 
-    //Seta Intercepatação de Sql
     public function setInterceptaSql($valor)
     {
         $this->interceptaSql = $valor;
     }
 
-    //Seta Atividade do Log
     public function setGravarLog($valor)
     {
         $this->gravarLog = $valor;
     }
 
-    //Setando Log Oculto
     public function setLogOculto($valor)
     {
         $this->logOculto = $valor;
     }
-
-    //Retorna o número de linhas afetadas por comandos INSERT, REPLACE, UPDATE, DELETE
-    public function getLinhasAfetadas()
-    {
-        return $this->linhasAfetadas;
-    }
-
-    //Seta o Conteiner Sql
+    
     private function setConteinerSql($valor)
     {
         if ($this->gravarLog == true) {
@@ -153,8 +148,19 @@ class Conexao
     }
 
     /**
-     * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
-     * 	@return Conexao
+     * Retorna o número de linhas afetadas por uma clausula sql, podendo ser ela:
+     * select, insert, update ou delete
+     * @return int
+     */
+    public function getLinhasAfetadas()
+    {
+        return $this->linhasAfetadas;
+    }
+
+    /**
+     * Cria uma conexão com o banco de dados MYSQL (SINGLETON)
+     * @param string $banco
+     * @return Conexao
      */
     public static function conectar($banco = 'padrao')
     {
@@ -166,10 +172,16 @@ class Conexao
 
         return self::$instancia[$bancoMaiusculo];
     }
-
+    
     /**
-     * 	Cria uma conexão com o banco de dados MYSQL (SINGLETON)
-     * 	@return Conexao
+     * Retorna um link de conexão com o banco de dados após a informação dos
+     * paremetros nescessários
+     * @param string $host
+     * @param string $banco
+     * @param string $usuario
+     * @param string $senha
+     * @param string $driver
+     * @return Conexao
      */
     public static function conectarManual($host, $banco, $usuario, $senha, $driver)
     {
@@ -181,17 +193,19 @@ class Conexao
     }
 
     /**
-     * 	Fecha a Conexão com o Mysql
+     * Fecha a conexão co banco de dados
+     * @param string $banco
      */
-    public function fecharConexao()
+    public function fecharConexao($banco = \NULL)
     {
-        self::$link[$this->banco]->close();
+        self::$link[$banco ? $banco : $this->banco]->close();
     }
 
     /**
-     * 	Executando uma clausula SQL
-     * 	@param Sql String - Instrução SQL
-     * 	@return ResultSet
+     * Executa uma string sql ou um objeto querybuilder
+     * @param object|string $sql
+     * @return ResultSet
+     * @throws \Exception
      */
     public function executar($sql)
     {
@@ -215,14 +229,16 @@ class Conexao
     }
 
     /**
-     * 	Executando uma ou mais clausulas SQL de um array
-     * 	@param ArrayQuery Array() - Array Com Instruções SQL
-     * 	@return ResultSet
+     * Executa um conjunto de querys iformadas em um array, tambem aceita
+     * objeto query builder
+     * @param array $arraySql
+     * @param boolean $transaction
+     * @throws Exception
      */
     public function executarArray($arraySql, $transaction = true)
     {
         if (!\is_array($arraySql)) {
-            throw new Exception($this->getExcecao(4));
+            throw new \Exception($this->getExcecao(4));
         }
 
         if ($transaction == true) {
@@ -244,9 +260,11 @@ class Conexao
     }
 
     /**
-     * 	Executando um ResultSet e retornando um Array
-     * 	@param Sql String - Instrução SQL
-     * 	@return Array
+     * Executando um resultSet e retornando um array
+     * @param object $resultSet
+     * @param string $estilo
+     * @return array
+     * @throws \Exception
      */
     public function linha($resultSet, $estilo = null)
     {
@@ -254,20 +272,22 @@ class Conexao
             throw new \Exception($this->getExcecao(2));
         }
 
-        $nLinhas = $resultSet->rowCount();
+        $nLinhas = $this->nLinhas($resultSet);
 
         if ($nLinhas > 0) {
             $linhas = $resultSet->fetchAll($estilo);
             return \array_map("trim", $linhas[0]);
         } else {
-            return array();
+            return [];
         }
     }
 
     /**
-     * 	Executando uma clusula SQL e retornando um Array
-     * 	@param Sql String - Instrução SQL
-     * 	@return Array
+     * Executa uma string Sql ou um objeto query builder e retona um array
+     * com os resultados da clausula select
+     * @param string|object $sql
+     * @param string $estilo
+     * @return array
      */
     public function execLinha($sql, $estilo = null)
     {
@@ -281,6 +301,12 @@ class Conexao
         return $this->linha($resultSet, $estilo);
     }
 
+    /**
+     * Executa uma string Sql ou um objeto query builder e retona um array
+     * com os resultados da clausula select
+     * @param string|object $sql
+     * @return array
+     */
     public function execLinhaArray($sql)
     {
         if (\is_object($sql)) {
@@ -294,10 +320,12 @@ class Conexao
     }
 
     /**
-     * 	Executando uma clusula SQL e retornando o resultado de uma array
-     * 	@param Sql String - Instrução SQL
-     * 	@param Posicao String - Posição do Resultado no Select
-     * 	@return String
+     * Executa uma string Sql ou um objeto query builder e retorna o 
+     * valor contido na posição especificada pelo parametro $posicao
+     * @param string|object $sql
+     * @param string|int $posicao
+     * @return string
+     * @throws \Exception
      */
     public function execRLinha($sql, $posicao = 0)
     {
@@ -308,14 +336,22 @@ class Conexao
         if (\key_exists($posicao, $array)) {
             return $array[$posicao];
         }
+        else{
+            throw new \Exception('Posição '.$posicao.' informada não foi encontrada!');
+        }
 
         return \current($array);
     }
 
     /**
-     * Executa um comando SQL e retorna um array com Todos os resultados
-     * @param string Instrução SQL
-     * @return array() / false
+     * Executa uma string Sql ou um objeto query builder e retorna o 
+     * valor contido na posição especificada pelos parametros $posicao
+     * e $indice caso forem especificados
+     * @param string|object $sql
+     * @param string $posicao
+     * @param string $indice
+     * @return array
+     * @throws \Exception
      */
     public function paraArray($sql, $posicao = null, $indice = null)
     {
@@ -367,9 +403,10 @@ class Conexao
     }
 
     /**
-     * 	Retornando o número de resultados de um ResultSet
-     * 	@param ResultSet ResultSet - ResultSet
-     * 	@return Inteiro
+     * Retornando o número de resultados de um ResultSet
+     * @param resultset $resultSet
+     * @return int
+     * @throws \Exception
      */
     public function nLinhas($resultSet)
     {
@@ -379,11 +416,11 @@ class Conexao
 
         return (int) $resultSet->rowCount();
     }
-
+    
     /**
-     * Executando uma clausula Sql e retornando o numero de linhas afetadas,
-     * aceita string sql nativa ou objeto querybuilder
-     * @param string/object $sql
+     * Executa uma string Sql ou um objeto query builder e retorna o número
+     * de linhas afetadas pela consulta
+     * @param string $sql
      * @return int
      */
     public function execNLinhas($sql)
@@ -400,10 +437,10 @@ class Conexao
     }
 
     /**
-     * 	Executando uma clausula SQL e retornando o maior ID encontrado
-     * 	@param Tabela String - Nome da tabela a ser pesquisada
-     * 	@param IdTabela String - Identificação di indice a ser pesquisado
-     * 	@return Inteiro
+     * Retorna o maior resultado de uma coluna de uma tabela do banco de dados
+     * @param string $tabela
+     * @param string $idTabela
+     * @return string
      */
     public function maiorId($tabela, $idTabela)
     {
@@ -414,18 +451,15 @@ class Conexao
         return $this->execRLinha($sql);
     }
 
-    public function ultimoInsertId()
-    {
-        return self::$link[$this->banco]->lastInsertId();
-    }
-
     /**
-     * 	Verifica se determinando valor é persistente no banco de dados
-     * 	@param Campo    String   - Nome da coluna a ser encontrada
-     * 	@param Valor    String   - Valor a ser encontrado na coluna
-     * 	@param Tabela   String   - Tabela a ser pesquisada
-     * 	@param Inteiro Booleano - Perquisar Por Campos com Aspas ou Sem Apas
-     * 	@return Booleano
+     * Verifica se determinado valor existe em uma tabela especifica do banco 
+     * de dados, o parametro inteiro indica se o valor informado deve ser
+     * comparado como inteiro (true) ou string (false)
+     * @param string $tabela
+     * @param string $campo
+     * @param string $valor
+     * @param boolean $inteiro
+     * @return type
      */
     public function existe($tabela, $campo, $valor, $inteiro = false)
     {
@@ -441,8 +475,7 @@ class Conexao
     }
 
     /**
-     * 	Inicia uma Transação
-     * 	@return VOID
+     * Inicia uma Transação
      */
     public function startTransaction()
     {
@@ -455,11 +488,11 @@ class Conexao
     }
 
     /**
-     * 	Finaliza uma Transação - Commit se for vazio, senão Rollback
-     * 	@param Erro: String - Indicador de Erro
-     * 	@return Booleano
+     * Finaliza uma Transação - Commit se for vazio, senão Rollback
+     * @param string $erro
+     * @return boolean
      */
-    public function stopTransaction($erro = null)
+    public function stopTransaction($erro = '')
     {
         if (self::$transaction == 1) {
             if (!empty($erro)) {
