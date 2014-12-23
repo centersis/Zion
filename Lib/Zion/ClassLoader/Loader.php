@@ -13,30 +13,18 @@
 
 namespace Zion\ClassLoader;
 
-use \Zion\ClassLoader\UniversalClassLoader;
-
 class Loader
 {
-
-    /**
-     * @var array $nameSpaces
-     */
     private $nameSpaces;
 
-    /**
-     * Loader::__construct()
-     * 
-     * @return
-     */
     public function __construct()
     {
         $this->nameSpaces = [];
     }
 
     /**
-     * Loader::inicio()
-     * 
-     * @return
+     * Registra os namespaces setados em $nameSpaces
+     * @return object
      */
     public function inicio()
     {
@@ -53,11 +41,10 @@ class Loader
     }
 
     /**
-     * Loader::setNameSpaces()
-     * 
-     * @param mixed $name
-     * @param mixed $caminho
-     * @return
+     * Seta nome e caminho para um namespace
+     * @param string $name
+     * @param string $caminho
+     * @return \Zion\ClassLoader\Loader
      */
     public function setNameSpaces($name, $caminho)
     {

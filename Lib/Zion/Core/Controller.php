@@ -15,16 +15,14 @@ namespace Zion\Core;
 class Controller
 {
 
-    /**
-     * @var string $acao
-     */
     private $acao;
 
     /**
-     * Controller::controle()
-     * 
-     * @param mixed $acao
-     * @return string
+     * Instancia de controler que intancia o metodo que lhe foi informado no
+     * paremetro $acao
+     * @param string $acao
+     * @return string json
+     * @throws \Exception
      */
     public function controle($acao)
     {
@@ -47,10 +45,9 @@ class Controller
     }
 
     /**
-     * Controller::jsonSucesso()
-     * 
-     * @param mixed $retorno
-     * @return string
+     * Retorna uma string no formato json como mensagem de sucesso
+     * @param string $retorno
+     * @return string json
      */
     public function jsonSucesso($retorno)
     {
@@ -58,10 +55,9 @@ class Controller
     }
 
     /**
-     * Controller::jsonErro()
-     * 
-     * @param mixed $erro
-     * @return void
+     * Retorna uma string no formato json como mensagem de erro
+     * @param string $erro
+     * @return string json
      */
     public function jsonErro($erro)
     {
@@ -71,9 +67,8 @@ class Controller
     }
 
     /**
-     * Controller::getAcao()
-     * 
-     * @return string
+     * Retona a ação de controle usada para instanciar o controller
+     * @return $this->acao
      */
     public function getAcao()
     {
@@ -102,16 +97,30 @@ class Controller
         return $selecionados;
     }
 
+    /**
+     * Retona verdadeiro cado o metodo da requisição seja POST
+     * @return boolean
+     */
     protected function metodoPOST()
     {
         return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'POST' ? true : false;
     }
 
+    /**
+     * Recupera o valor da variavel cod enviada via POST
+     * @return int
+     */
     protected function postCod()
     {
         return \filter_input(\INPUT_POST, 'cod');
     }
 
+    /**
+     * Monta o layout do formulário em abas, após o primeiro parametro são 
+     * aceitos instancias de Form, sendo que cada instancia formará uma aba
+     * @param int $cod
+     * @return string
+     */
     protected function emTabs($cod = '')
     {
         $numArgs = \func_num_args();

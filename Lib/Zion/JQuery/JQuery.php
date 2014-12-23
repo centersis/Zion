@@ -13,10 +13,10 @@ namespace Zion\JQuery;
 
 class JQuery
 {
+
     /**
-     * JQuery::ajax()
-     * 
-     * @return
+     * Inicia uma instancia de ajax
+     * @return \Zion\JQuery\Ajax
      */
     public function ajax()
     {
