@@ -18,7 +18,6 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
-    
     //Atributos de Log
     private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
@@ -35,6 +34,7 @@ class Conexao
      * @param string $senha
      * @param string $driver
      */
+
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
         require_once SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
@@ -45,11 +45,11 @@ class Conexao
 
         $this->banco = $banco;
 
-        $this->arrayExcecoes[0] = "Problemas com o servidor impedem a conexão com o banco de dados.<br>";
-        $this->arrayExcecoes[1] = "Problemas ao executar a clausula SQL.<br>";
-        $this->arrayExcecoes[2] = "ResultSet inválido.";
-        $this->arrayExcecoes[3] = "A query SQL esta vazia.";
-        $this->arrayExcecoes[4] = "Array de querys inválido.";
+        $this->arrayExcecoes[0] = "Conexão: Problemas com o servidor impedem a conexão com o banco de dados.<br>";
+        $this->arrayExcecoes[1] = "Conexão: Problemas ao executar a clausula SQL.<br>";
+        $this->arrayExcecoes[2] = "Conexão: ResultSet inválido.";
+        $this->arrayExcecoes[3] = "Conexão: A query SQL esta vazia.";
+        $this->arrayExcecoes[4] = "Conexão: Array de querys inválido.";
 
         if ($host) {
             $cHost = $host;
@@ -121,7 +121,7 @@ class Conexao
     {
         $this->logOculto = $valor;
     }
-    
+
     private function setConteinerSql($valor)
     {
         if ($this->gravarLog == true) {
@@ -172,7 +172,7 @@ class Conexao
 
         return self::$instancia[$bancoMaiusculo];
     }
-    
+
     /**
      * Retorna um link de conexão com o banco de dados após a informação dos
      * paremetros nescessários
@@ -216,12 +216,12 @@ class Conexao
         $this->linhasAfetadas = 0;
 
         if (\is_object($sql)) {
-            
+
             $resultSet = $sql->execute();
             $this->linhasAfetadas = $this->nLinhas($resultSet);
-            return $resultSet;            
+            return $resultSet;
         }
-        
+
         $executa = self::$link[$this->banco]->query($sql);
         $this->linhasAfetadas = $executa->rowCount();
 
@@ -266,7 +266,7 @@ class Conexao
      * @return array
      * @throws \Exception
      */
-    public function linha($resultSet, $estilo = null)
+    public function linha($resultSet, $estilo = 4)
     {
         if (!\is_object($resultSet)) {
             throw new \Exception($this->getExcecao(2));
@@ -335,9 +335,8 @@ class Conexao
 
         if (\key_exists($posicao, $array)) {
             return $array[$posicao];
-        }
-        else{
-            throw new \Exception('Posição '.$posicao.' informada não foi encontrada!');
+        } else {
+            throw new \Exception('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
         }
 
         return \current($array);
@@ -374,7 +373,7 @@ class Conexao
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Indice $indice não encontrado!");
+                            throw new \Exception("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row;
@@ -382,13 +381,13 @@ class Conexao
                 } else {
                     if (empty($indice)) {
                         if (!\key_exists($posicao, $row)) {
-                            throw new \Exception("Posição $posicao não encontrada!");
+                            throw new \Exception("Conexão: Posição $posicao não encontrada!");
                         }
                         $rows[] = $row[$posicao];
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Indice $indice não encontrado!");
+                            throw new \Exception("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row[$posicao];
@@ -416,7 +415,7 @@ class Conexao
 
         return (int) $resultSet->rowCount();
     }
-    
+
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o número
      * de linhas afetadas pela consulta

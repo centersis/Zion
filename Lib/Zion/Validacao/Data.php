@@ -15,30 +15,21 @@ namespace Zion\Validacao;
 class Data extends \Zion\Tratamento\Data
 {
 
-    /** 
-     * @var object $instancia Instância da classe singleton
-     */
     private static $instancia;
 
-    /**
-     * Data::__construct()
-     * Construtor, tão tosco quanto necessário para a implementação singleton.
-     * 
-     * @return void
-     */
-    private function __construct(){
+    private function __construct()
+    {
         
     }
 
     /**
-     * Data::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
-     * 
-     * @return object
+     * @return self
      */
-    public static function instancia(){
-        
-        if(!isset(self::$instancia)){
+    public static function instancia()
+    {
+
+        if (!isset(self::$instancia)) {
             self::$instancia = new self;
         }
 
@@ -49,16 +40,16 @@ class Data extends \Zion\Tratamento\Data
      * Data::validaData()
      * Valida uma data.
      * 
-     * @param String $data Data a ser validada nos formatos d/m/Y ou Y-m-d.
+     * @param string $data Data a ser validada nos formatos d/m/Y ou Y-m-d.
      * @return bool
      * @example TRUE se a data for válida, FALSE otherwise.
      */
     public function validaData($data)
     {
-        $f      = $this->getFormatoDataHora($data);
-        $date   = \DateTime::createFromFormat($f, $data);
+        $f = $this->getFormatoDataHora($data);
+        $date = \DateTime::createFromFormat($f, $data);
 
-        return (@$date ? true : false);
+        return ($date ? true : false);
     }
 
     /**
@@ -98,24 +89,25 @@ class Data extends \Zion\Tratamento\Data
      */
     public function verificaDiferencaDataHora($dataI, $dataF)
     {
-        if($this->validaDataHora($dataI) === false or $this->validaDataHora($dataF) === false) return false;
+        if ($this->validaDataHora($dataI) === false or $this->validaDataHora($dataF) === false)
+            return false;
 
-        $dI  = \DateTime::createFromFormat($this->getFormatoDataHora($dataI), $dataI);
-        $dF  = \DateTime::createFromFormat($this->getFormatoDataHora($dataF), $dataF);
-        
-        $diff   = $dI->diff($dF);
+        $dI = \DateTime::createFromFormat($this->getFormatoDataHora($dataI), $dataI);
+        $dF = \DateTime::createFromFormat($this->getFormatoDataHora($dataF), $dataF);
 
-        $padrao     = array('y' => NULL, 'm' => NULL, 'd' => NULL, 'h' => NULL, 'i' => NULL, 's' => NULL);
-        $diferenca  = array_sum(array_intersect_key((array) $diff, $padrao));
+        $diff = $dI->diff($dF);
 
-        if($diferenca == 0) return 0;
+        $padrao = array('y' => NULL, 'm' => NULL, 'd' => NULL, 'h' => NULL, 'i' => NULL, 's' => NULL);
+        $diferenca = array_sum(array_intersect_key((array) $diff, $padrao));
 
-        if($diff->invert == 1){
+        if ($diferenca == 0)
+            return 0;
+
+        if ($diff->invert == 1) {
             return -1;
         } else {
             return 1;
         }
-        
     }
 
     /**
@@ -153,4 +145,5 @@ class Data extends \Zion\Tratamento\Data
             return false;
         }
     }
+
 }

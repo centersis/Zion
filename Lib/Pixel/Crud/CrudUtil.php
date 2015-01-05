@@ -256,8 +256,8 @@ class CrudUtil
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
                     $form->set($nomeParametro, \current($arrayForm[$nomeParametro]), \key($arrayForm[$nomeParametro]));
-                    $arrayValores[] = $objForm->getSql($nomeParametro);
-                    $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
+                    $arrayValores[] = $form->getSql($nomeParametro);
+                    $arrayTipos[] = $form->getTipoPDO($nomeParametro);
                 } else {
                     $arrayValores[] = \NULL;
                     $arrayTipos[] = \PDO::PARAM_NULL;
