@@ -223,7 +223,7 @@ class Conexao
         }
 
         $executa = self::$link[$this->banco]->query($sql);
-        $this->linhasAfetadas = $executa->rowCount();
+        $this->linhasAfetadas = $this->nLinhas($executa);
 
         return $executa;
     }
@@ -427,7 +427,7 @@ class Conexao
         if (\is_object($sql)) {
 
             $rs = $sql->execute();
-            $linhas = $rs->rowCount();
+            $linhas = $this->nLinhas($rs);
 
             return $linhas;
         }
@@ -443,11 +443,11 @@ class Conexao
      */
     public function maiorId($tabela, $idTabela)
     {
-        $sql = $this->link()
-                ->createQueryBuilder()
-                ->select('MAX(' . $idTabela . ') as maior')
+        $qb = $this->link()->createQueryBuilder();
+        $qb->select($qb->expr()->max($idTabela))
                 ->from($tabela, '');
-        return $this->execRLinha($sql);
+        
+        return $this->execRLinha($qb);
     }
 
     /**
