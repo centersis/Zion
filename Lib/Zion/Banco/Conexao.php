@@ -18,6 +18,7 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
+    
     //Atributos de Log
     private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
