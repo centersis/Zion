@@ -153,5 +153,18 @@ class Controller
 
         return $tabs->criar();
     }
-
+    
+    protected function imprimir()
+    {
+        new \Zion\Acesso\Acesso('imprimir');
+        
+        return $this->jsonSucesso($this->filtrar());
+    }
+    
+    protected function salvarPDF()
+    {
+        new \Zion\Acesso\Acesso('salvarPDF');
+        
+        $this->filtrar();
+    }
 }
