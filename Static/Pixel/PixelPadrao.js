@@ -541,51 +541,23 @@ function chChosen(a, b, c)
     });
 }
 
-function imprimirPDF() {
-
-    var ifr = $('<iframe/>', {
-        id: 'iframeDownload',
-        name: 'iframeDownload',
-        src: '?acao=imprimirPDF',
-        style: 'display:none',
-        load: function () {
-
-            var conteudo = $('#iframeDownload').contents().find('body').html();
-            var ret = $.parseJSON(conteudo);
-
-            if (ret['sucesso'] == 'false')
-            {
-                sisSetAlert('false', ret['retorno']);
-            }
-            else
-            {
-                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
-            }
-        }
-    });
-
-    if ($('#iframeDownload').attr('name') != "iframeDownload") {
-        $('#formGrid').append(ifr);
-    } else {
-        $('#iframeDownload').remove();
-        $('#formGrid').append(ifr);
-    }
-
+function sisImprimir()
+{
 }
 
-function downloadCSV() {
+function sisSalvarPDF() {
 
     var ifr = $('<iframe/>', {
         id: 'iframeDownload',
         name: 'iframeDownload',
-        src: '?acao=downloadCSV',
+        src: '?acao=salvarPDF',
         style: 'display:none',
         load: function () {
 
             var conteudo = $('#iframeDownload').contents().find('body').html();
             var ret = $.parseJSON(conteudo);
 
-            if (ret['sucesso'] == 'false')
+            if (ret['sucesso'] === 'false')
             {
                 sisSetAlert('false', ret['retorno']);
             }
@@ -596,39 +568,7 @@ function downloadCSV() {
         }
     });
 
-    if ($('#iframeDownload').attr('name') != "iframeDownload") {
-        $('#formGrid').append(ifr);
-    } else {
-        $('#iframeDownload').remove();
-        $('#formGrid').append(ifr);
-    }
-
-}
-
-function downloadXLS() {
-
-    var ifr = $('<iframe/>', {
-        id: 'iframeDownload',
-        name: 'iframeDownload',
-        src: '?acao=downloadXLS',
-        style: 'display:none',
-        load: function () {
-
-            var conteudo = $('#iframeDownload').contents().find('body').html();
-            var ret = $.parseJSON(conteudo);
-
-            if (ret['sucesso'] == 'false')
-            {
-                sisSetAlert('false', ret['retorno']);
-            }
-            else
-            {
-                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
-            }
-        }
-    });
-
-    if ($('#iframeDownload').attr('name') != "iframeDownload") {
+    if ($('#iframeDownload').attr('name') !== "iframeDownload") {
         $('#formGrid').append(ifr);
     } else {
         $('#iframeDownload').remove();
