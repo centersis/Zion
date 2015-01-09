@@ -26,6 +26,7 @@ class GridBotoes
 
         $buffer = '';
         $buffer .= $template->getPanel('box-filters', 'Filtros especiais', $this->conteudoFiltros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
+
         return $buffer;
     }
 
@@ -37,7 +38,7 @@ class GridBotoes
         $arrayBotoesR = [];
         $posicoes = [];
 
-        if (!defined('MODULO')) {
+        if (!\defined('MODULO')) {
             throw new \Exception("O módulo não foi definido!");
         }
 
@@ -77,7 +78,7 @@ class GridBotoes
         $cont = 0;
         foreach ($arrayAcesso as $dados) {
             $cont++;
-            if (!in_array($dados['acaomoduloidpermissao'], $this->botoesExcluir)) {
+            if (!\in_array($dados['acaomoduloidpermissao'], $this->botoesExcluir)) {
                 $cont++;
 
                 if ($dados['acaomoduloapresentacao'] == 'E') {
@@ -94,9 +95,9 @@ class GridBotoes
                     $arrayBotoesE[$cont] = $botoes;
                 } else {
 
-                    $form = new \Pixel\Form\Form();
-                    $formHtml = new \Pixel\Form\FormHtml();
-                    $gridHtml = $form->hidden('gridHtml', 'gridHtml', false)->setValor('asd');
+                    //$form = new \Pixel\Form\Form();
+                    //$formHtml = new \Pixel\Form\FormHtml();
+                    //$gridHtml = $form->hidden('gridHtml', 'gridHtml', false)->setValor('asd');
 
                     $botoes = $this->html->abreTagAberta('li', ['class' => 'hidden-xs']);
                     $botoes .= $this->html->abreTagAberta('a', ['href' => 'javascript:' . $dados['acaomodulofuncaojs']]); //GET THE FUCKING OVER HERE!

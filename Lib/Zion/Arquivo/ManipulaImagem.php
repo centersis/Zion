@@ -4,6 +4,12 @@ namespace Zion\Arquivo;
 
 class ManipulaImagem extends ManipulaArquivo
 {
+
+    /**
+     * Verifica se as funções nescessárias para manipulação básica de imagens 
+     * estão disponíveis no servidor
+     * @throws \Exception
+     */
     public function vericaFuncoesDeImagem()
     {
         $tI = "Função de manipulação "; //Texto Inicial
@@ -43,9 +49,9 @@ class ManipulaImagem extends ManipulaArquivo
     }
 
     /**
-     * 	Retorna um array com a altura e a largura da imagem
-     * 	@param Imagem String - Diretãrio para criaãão do arquivo
-     * 	@return  Array()
+     * Retorna um array com a altura e a largura da imagem
+     * @param link $imagem
+     * @return array
      */
     public function dimensaoImagem($imagem)
     {
@@ -54,11 +60,12 @@ class ManipulaImagem extends ManipulaArquivo
     }
 
     /**
-     * 	Retorna um array com altura e largura proporcionais da imagem
-     * 	@param Tamanho Inteiro - Tamanho mãximo da imagem
-     * 	@param Por String - A -> Redimeciona pela altura, L pela largura
-     * 	@param Originais Array() - Vetor contendo as dimenãães originais
-     * 	@return Array()
+     * Retorna um array com altura e largura proporcionais da imagem
+     * @param int $tamanho
+     * @param string $por A -> Altura ou L -> Largura
+     * @param array $originais Altura e Largura Originais
+     * @return array
+     * @throws \Exception
      */
     public function proporcoesImagem($tamanho, $por, $originais)
     {
@@ -80,13 +87,13 @@ class ManipulaImagem extends ManipulaArquivo
     }
 
     /**
-     * 	Armazena e redimenciona uma imagem no formato JPG
-     * 	@param Destino String - Local onde a foto serã tratada e guardada
-     * 	@param Arquivo String - Nome do arquivo a ser criado
-     * 	@param Altura Inteiro - Fixa a altura da nova imagem
-     * 	@param Largura Inteiro - Fixa a largura da nova imagem
-     * 	@param Manter String - Indica se o arquivo deve ser mantido ou não "ok"
-     * 	@return String
+     * Armazena e redimenciona uma imagem no formato JPG | GIF | PNG
+     * @param string $nomeImagem
+     * @param link $origem - Caminho fisico do imagem
+     * @param link $destino - Caminho fisico onde será gravada a imagem
+     * @param int $altura
+     * @param int $largura
+     * @throws \Exception
      */
     public function uploadImagem($nomeImagem, $origem, $destino, $altura = 0, $largura = 0)
     {
@@ -102,14 +109,14 @@ class ManipulaImagem extends ManipulaArquivo
         }
 
         //Verifica se a pasta permite gravação
-        if (!$this->permiteEscrita(\dirname($destino))){
+        if (!$this->permiteEscrita(\dirname($destino))) {
             throw new \Exception("A pasta onde você esta tentando gravar o arquivo não tem permissão de escrita, contate o administrador do sistema.$destino");
         }
 
         //Verifica se o arquivo ja existe
         if ($this->arquivoExiste($destino)) {
             //Se sim verifica se tem permissão para substitui-lo
-            if (!$this->permiteEscrita($destino)){
+            if (!$this->permiteEscrita($destino)) {
                 throw new \Exception("Este arquivo já existe e você não tem permissão para substituí-lo.");
             }
         }
@@ -169,4 +176,5 @@ class ManipulaImagem extends ManipulaArquivo
             throw new \Exception("Não foi possivel gerar o arquivo");
         }
     }
+
 }
