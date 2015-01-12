@@ -13,12 +13,12 @@ class LoginClass extends LoginSql
 
         $getAuth = $con->execLinhaArray($sql->getAuth($l,$p));
 
-        if(!empty($getAuth['usuarioCod']) and !empty($getAuth['organogramaCod'])) {
+        if(!empty($getAuth['usuariocod']) and !empty($getAuth['organogramacod'])) {
 
             unset($_SESSION['usuarioCod'], $_SESSION['organogramaCod']);
 
-            $_SESSION['usuarioCod']     = $getAuth['usuarioCod'];
-            $_SESSION['organogramaCod'] = $getAuth['organogramaCod'];
+            $_SESSION['usuarioCod']     = $getAuth['usuariocod'];
+            $_SESSION['organogramaCod'] = $getAuth['organogramacod'];
 
             return true;
 
