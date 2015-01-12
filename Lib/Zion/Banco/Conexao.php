@@ -18,7 +18,6 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
-    
     //Atributos de Log
     private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
@@ -203,8 +202,10 @@ class Conexao
     }
 
     /**
-     * Executa uma string sql ou um objeto querybuilder
-     * @param object|string $sql
+     * Executa uma string sql ou um objeto querybuilder, retorna um ResultSet
+     * em caso de SELECT ou o número de linhas afetadas em caso de Insert
+     * Update e Delete 
+     * @param \Doctrine\DBAL\Query\QueryBuilder $sql
      * @return ResultSet
      * @throws \Exception
      */
@@ -213,20 +214,38 @@ class Conexao
         if (empty($sql)) {
             throw new \Exception($this->getExcecao(3));
         }
-
+        
         $this->linhasAfetadas = 0;
 
         if (\is_object($sql)) {
 
-            $resultSet = $sql->execute();
-            $this->linhasAfetadas = $this->nLinhas($resultSet);
-            return $resultSet;
+            $tipo = \strtoupper(\substr($sql, 0, 5));
+
+            if ($tipo === 'SELECT') {
+                $resultSet = $sql->execute();
+                $this->linhasAfetadas = $this->nLinhas($resultSet);
+                return $resultSet;
+            } else {
+
+                $resultSet = $sql->execute();
+                $this->linhasAfetadas = $resultSet;
+                return $resultSet;
+            }
         }
 
         $executa = self::$link[$this->banco]->query($sql);
         $this->linhasAfetadas = $this->nLinhas($executa);
 
         return $executa;
+    }
+
+    /**
+     * Retorna o ultimo ID
+     * @param string $campo
+     */
+    public function ultimoId($campo = null)
+    {
+        return $this->link()->lastInsertId($campo);
     }
 
     /**
@@ -447,7 +466,7 @@ class Conexao
         $qb = $this->link()->createQueryBuilder();
         $qb->select($qb->expr()->max($idTabela))
                 ->from($tabela, '');
-        
+
         return $this->execRLinha($qb);
     }
 
