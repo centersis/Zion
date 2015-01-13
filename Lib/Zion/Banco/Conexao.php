@@ -264,7 +264,7 @@ class Conexao
     public function execLinha($sql, $estilo = null)
     {
         if (\is_object($sql)) {
-            $resultSet = $sql->execute();
+            $resultSet = $this->executar($sql);
             return $this->linha($resultSet, $estilo);
         }
 
@@ -282,7 +282,7 @@ class Conexao
     public function execLinhaArray($sql)
     {
         if (\is_object($sql)) {
-            $resultSet = $sql->execute();
+            $resultSet = $this->executar($sql);
             return $this->linha($resultSet, 2);
         }
 
@@ -327,7 +327,7 @@ class Conexao
     public function paraArray($sql, $posicao = null, $indice = null)
     {
         if (\is_object($sql)) {
-            $ret = $sql->execute();
+            $ret = $this->executar($sql);
         } else {
             $ret = $this->executar($sql);
         }
@@ -398,7 +398,7 @@ class Conexao
     {
         if (\is_object($sql)) {
 
-            $rs = $sql->execute();
+            $rs = $this->executar($sql);
             $linhas = $this->nLinhas($rs);
 
             return $linhas;
