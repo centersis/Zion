@@ -12,126 +12,81 @@
 
 namespace Zion\Exportacao;
 
-class PDF extends ExportacaoVO 
+class PDF 
 {
-    
-    private $html;
-    
-    public function getPDF()
-    {
-        $this->html = new \Zion\Layout\Html();
-        return self::geraRelatorio();
-    }
-    
-    private function geraRelatorio()
+   
+    public function imprimePDF($html, $tituloArquivo = NULL, $orientacao = NULL)
     {
 
-        $dadosRelatorio = parent::getDadosRelatorio();
-        $colunas = parent::getColunas();
-        
-        $numColunas = count($colunas);
-
-        if(!is_array($dadosRelatorio)) return false;
-        if($numColunas < 1) return false;
-
-        $urlLogo = parent::getUrlLogo();
-        $orientacao = ($numColunas > 1 ? 'L' : parent::getOrientacaoRelatorio());
-        $colsWidth = parent::getColsWidth();
-
-        $html  = $this->html->abreTagAberta('html', ['xmlns' => 'http://www.w3.org/1999/xhtml']);
-        $html .= $this->html->abreTagAberta('head');
-        $html .= $this->html->abreTagFechada('meta', ['http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8']);
-        $html .= $this->html->fechaTag('head');
-        
-        $html .= $this->html->abreTagAberta('body');
-        $html .= $this->html->abreTagAberta('div', ['align' => "right", 'style' => 'font:Arial, Helvetica, sans-serif;font-size:6px;']);
-        $html .= SIS_DESCRICAO .". Assinatura do arquivo: relatorio gerado as ". date('d-m-Y-H:i:s'). ", por Feliphe, \"O Retaliador\".\n";
-        $html .= $this->html->fechaTag('div');
-        $html .= $this->html->abreTagAberta('table', ['width' => "100%", 'cellspacing' => "0", 'cellpadding' => "0", 'style' => parent::getMainTableStyle()]);
-        $html .= $this->html->abreTagAberta('thead');
-
-        $html .= $this->html->abreTagAberta('tr');
-        $html .= $this->html->abreTagAberta('td', ['colspan' => $numColunas, 'align' =>  parent::getLogoAlignment()]);
-        $html .= $this->html->abreTagAberta('div');
-        $html .= $this->html->abreTagFechada('img', ['src' => $urlLogo, 'style="align: left;"', 'class' => 'logo']);
-        $html .= $this->html->fechaTag('div');
-        $html .= $this->html->fechaTag('td');
-        $html .= $this->html->fechaTag('tr');
-
-        $html .= $this->html->abreTagAberta('tr');
-        $html .= $this->html->abreTagAberta('td', ['colspan' => $numColunas, 'height' => 50, 'class' => "t12preto tituloRelatorio", 'align' => "center"]);
-        $html .= $this->html->entreTags('strong', parent::getTituloRelatorio());
-        $html .= $this->html->fechaTag('td');
-        $html .= $this->html->fechaTag('tr');
-
-
-        $html .= $this->html->abreTagAberta('tr');
-        $html .= $this->html->abreTagAberta('td', ['colspan' => $numColunas, 'height' => 50, 'class' => "mTextoRelatorio descricaoRelatorio", 'align' => "left"]);
-        $html .= $this->html->entreTags('strong',  parent::getDescricaoRelatorio());
-        $html .= $this->html->fechaTag('td');
-        $html .= $this->html->fechaTag('tr');
-       
-
-        $html .= $this->html->abreTagAberta('tr');
-
-        //Cabeçalho
-        $i=0;
-        foreach($colunas as $col=>$name) {
-
-            $html .= $this->html->abreTagAberta('td', ['class' => 'linhaConteudo header', 'width' => (empty($colsWidth[$i]) ? round(100 / $numColunas) : $colsWidth[$col]), 'height' => parent::getColsHeight(), 'align' => "center"]);
-            $html .= $name;
-            $html .= $this->html->fechaTag('td');
-            $i++;
-        }
-            
-        $html .= $this->html->fechaTag('tr');
-        $html .= $this->html->fechaTag('thead');
-
-        //Grid
-        foreach($dadosRelatorio as $key => $value){
-
-            $html .= $this->html->abreTagAberta('tr');
-
-            foreach($colunas as $col=>$name){
-
-                $html .= $this->html->abreTagAberta('td', ['class' => 'mTextoRelatorio cell', 'width' => (empty($colsWidth[$i]) ? round(100 / $numColunas) : $colsWidth[$col]), 'height' => parent::getColsHeight(), 'align' => "center"]);
-                $html .= $value[$col];
-                $html .= $this->html->fechaTag('td');
-
-            }
-
-            $html .= $this->html->fechaTag('tr');
-
-            $html .= $this->html->abreTagAberta('tr');
-            $html .= $this->html->abreTagAberta('td', ['class' => 'separador', 'colspan' => $numColunas, 'height' => '1px']);
-            $html .= '<hr />';
-            $html .= $this->html->fechaTag('td');
-            $html .= $this->html->fechaTag('tr');
-
-        }
-
-        $html .= $this->html->fechaTag('table');
-        $html .= $this->html->fechaTag('body');
-        $html .= $this->html->fechaTag('html');
+        $titulo     = (is_null($tituloArquivo) ? uniqid() .'_relatorio_'. date('d-m-Y-H:i:s') : $tituloArquivo) .'.pdf';
+        $orientacao = (is_null($orientacao) ? 'P' : $orientacao);
 
 		try {
 
-			$html = $html;
             include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
 			$mpdf = new \mPDF();
-			$mpdf->allow_charset_conversion=true;
-			$mpdf->charset_in='UTF-8';
-			$stylesheet = parent::getStylesheet();
+
+			$mpdf->CurOrientation = $orientacao;
+
+			$mpdf->allow_charset_conversion = true;
+			$mpdf->charset_in    = 'UTF-8';
+			$stylesheet          = $this->getEstiloRelatorio();
 
 			$mpdf->setFooter('{PAGENO}/{nbpg}');
-			$mpdf->CurOrientation = $orientacao;
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->WriteHTML($html, 2);
-			$mpdf->Output(uniqid() .'_relatorio_'. date('d-m-Y-H:i:s').'.pdf','D');
-//print '<style type="text/css">'. $stylesheet .'</style>'. $html;
-		 } catch(Exception $e){
+			$mpdf->Output($titulo, 'D');
+//print('<style type="text/css">'. $stylesheet .'</style>'. $html);
+		 } catch(Exception $e) {
 			return false;
 		 }
 
+    }
+    
+    private function getEstiloRelatorio()
+    {
+
+        $stylesheet = '
+            th {
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                background-color: #666666;
+                color:#FFFFFF;
+                font-size: 13px;
+                height:30px;
+            }
+			tbody{
+				margin-top:20px;
+				border:1px solid #666666;
+				border-bottom: none;
+			}
+			.table-bordered {
+				margin-bottom:20px;
+                width: 100%;
+			 }
+            .table-bordered tr{
+                border:1px solid #666666;
+                
+			}
+            td {
+                border:1px solid #666666;
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-size: 12px;
+				text-align:center;
+				height:25px;
+            }
+            .t12preto {
+                font-family: Verdana, Arial, Helvetica, sans-serif;            
+                font-size: 12px;
+                color: #000000;            
+                text-decoration: none;
+                border:none;
+            }
+            .table-footer{
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-size: 12px;
+                text-decoration: none;
+            }';
+
+        return $stylesheet;
     }
 }
