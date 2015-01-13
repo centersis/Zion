@@ -219,7 +219,7 @@ class Conexao
 
         foreach ($arraySql as $sql) {
 
-            self::$link[$this->banco]->query($sql);
+            $this->executar($sql);
 
             if ($this->interceptaSql == true) {
                 $this->setConteinerSql($sql);
