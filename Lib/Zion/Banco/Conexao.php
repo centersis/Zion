@@ -18,11 +18,13 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
+    private $ultimaInstrucao = '';
+    
     //Atributos de Log
     private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
     private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
     private $gravarLog = true;    //Indicador - Indica se o log deve ou não ser gravado
-    private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
+    private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado    
 
     /**
      * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
@@ -84,7 +86,9 @@ class Conexao
                 1002 => 'SET NAMES utf8']
         ];
 
-        self::$link[$banco] = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        
+        //$config->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+        self::$link[$banco] = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);        
     }
 
     /**
@@ -215,6 +219,8 @@ class Conexao
             throw new \Exception($this->getExcecao(3));
         }
         
+        $this->ultimaInstrucao = $sql;
+        
         $this->linhasAfetadas = 0;
 
         if (\is_object($sql)) {
@@ -305,7 +311,7 @@ class Conexao
     /**
      * Executa uma string Sql ou um objeto query builder e retona um array
      * com os resultados da clausula select
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder $sql
      * @param string $estilo
      * @return array
      */
@@ -324,7 +330,7 @@ class Conexao
     /**
      * Executa uma string Sql ou um objeto query builder e retona um array
      * com os resultados da clausula select
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder $sql
      * @return array
      */
     public function execLinhaArray($sql)
@@ -342,7 +348,7 @@ class Conexao
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o 
      * valor contido na posição especificada pelo parametro $posicao
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder $sql
      * @param string|int $posicao
      * @return string
      * @throws \Exception
@@ -366,7 +372,7 @@ class Conexao
      * Executa uma string Sql ou um objeto query builder e retorna o 
      * valor contido na posição especificada pelos parametros $posicao
      * e $indice caso forem especificados
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder $sql
      * @param string $posicao
      * @param string $indice
      * @return array
@@ -423,7 +429,7 @@ class Conexao
 
     /**
      * Retornando o número de resultados de um ResultSet
-     * @param resultset $resultSet
+     * @param \Doctrine\DBAL\Driver\Statement|string $resultSet
      * @return int
      * @throws \Exception
      */
@@ -432,14 +438,14 @@ class Conexao
         if (!\is_object($resultSet)) {
             throw new \Exception($this->getExcecao(2));
         }
-
+        
         return (int) $resultSet->rowCount();
     }
 
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o número
      * de linhas afetadas pela consulta
-     * @param string $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder $sql
      * @return int
      */
     public function execNLinhas($sql)

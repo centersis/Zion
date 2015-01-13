@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -49,6 +50,7 @@ use Doctrine\DBAL\Driver\PingableConnection;
  */
 class Connection implements DriverConnection
 {
+
     /**
      * Constant for transaction isolation level READ UNCOMMITTED.
      */
@@ -198,8 +200,7 @@ class Connection implements DriverConnection
      *
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function __construct(array $params, Driver $driver, Configuration $config = null,
-            EventManager $eventManager = null)
+    public function __construct(array $params, Driver $driver, Configuration $config = null, EventManager $eventManager = null)
     {
         $this->_driver = $driver;
         $this->_params = $params;
@@ -211,11 +212,11 @@ class Connection implements DriverConnection
         }
 
         // Create default config and event manager if none given
-        if ( ! $config) {
+        if (!$config) {
             $config = new Configuration();
         }
 
-        if ( ! $eventManager) {
+        if (!$eventManager) {
             $eventManager = new EventManager();
         }
 
@@ -349,7 +350,8 @@ class Connection implements DriverConnection
      */
     public function connect()
     {
-        if ($this->_isConnected) return false;
+        if ($this->_isConnected)
+            return false;
 
         $driverOptions = isset($this->_params['driverOptions']) ?
                 $this->_params['driverOptions'] : array();
@@ -385,7 +387,7 @@ class Connection implements DriverConnection
      */
     private function detectDatabasePlatform()
     {
-        if ( ! isset($this->_params['platform'])) {
+        if (!isset($this->_params['platform'])) {
             $version = $this->getDatabasePlatformVersion();
 
             if (null !== $version) {
@@ -415,7 +417,7 @@ class Connection implements DriverConnection
     private function getDatabasePlatformVersion()
     {
         // Driver does not support version specific platforms.
-        if ( ! $this->_driver instanceof VersionAwarePlatformDriver) {
+        if (!$this->_driver instanceof VersionAwarePlatformDriver) {
             return null;
         }
 
@@ -431,7 +433,7 @@ class Connection implements DriverConnection
 
         // Automatic platform version detection.
         if ($this->_conn instanceof ServerInfoAwareConnection &&
-            ! $this->_conn->requiresQueryForServerVersion()
+                !$this->_conn->requiresQueryForServerVersion()
         ) {
             return $this->_conn->getServerVersion();
         }
@@ -589,9 +591,7 @@ class Connection implements DriverConnection
         }
 
         return $this->executeUpdate(
-            'DELETE FROM ' . $tableExpression . ' WHERE ' . implode(' AND ', $criteria),
-            array_values($identifier),
-            is_string(key($types)) ? $this->extractTypeValues($identifier, $types) : $types
+                        'DELETE FROM ' . $tableExpression . ' WHERE ' . implode(' AND ', $criteria), array_values($identifier), is_string(key($types)) ? $this->extractTypeValues($identifier, $types) : $types
         );
     }
 
@@ -662,7 +662,7 @@ class Connection implements DriverConnection
 
         $params = array_merge(array_values($data), array_values($identifier));
 
-        $sql  = 'UPDATE ' . $tableExpression . ' SET ' . implode(', ', $set)
+        $sql = 'UPDATE ' . $tableExpression . ' SET ' . implode(', ', $set)
                 . ' WHERE ' . implode(' = ? AND ', array_keys($identifier))
                 . ' = ?';
 
@@ -689,10 +689,8 @@ class Connection implements DriverConnection
         }
 
         return $this->executeUpdate(
-            'INSERT INTO ' . $tableExpression . ' (' . implode(', ', array_keys($data)) . ')' .
-            ' VALUES (' . implode(', ', array_fill(0, count($data), '?')) . ')',
-            array_values($data),
-            is_string(key($types)) ? $this->extractTypeValues($data, $types) : $types
+                        'INSERT INTO ' . $tableExpression . ' (' . implode(', ', array_keys($data)) . ')' .
+                        ' VALUES (' . implode(', ', array_fill(0, count($data), '?')) . ')', array_values($data), is_string(key($types)) ? $this->extractTypeValues($data, $types) : $types
         );
     }
 
@@ -709,9 +707,7 @@ class Connection implements DriverConnection
         $typeValues = array();
 
         foreach ($data as $k => $_) {
-            $typeValues[] = isset($types[$k])
-                ? $types[$k]
-                : \PDO::PARAM_STR;
+            $typeValues[] = isset($types[$k]) ? $types[$k] : \PDO::PARAM_STR;
         }
 
         return $typeValues;
@@ -819,10 +815,16 @@ class Connection implements DriverConnection
         }
 
         try {
+            $extraPar = array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL);
+
             if ($params) {
                 list($query, $params, $types) = SQLParserUtils::expandListParameters($query, $params, $types);
 
-                $stmt = $this->_conn->prepare($query);
+                if ($this->getDriver()->getName() === 'pdo_sqlsrv') {
+                    $stmt = $this->_conn->prepare($query, $extraPar);
+                } else {
+                    $stmt = $this->_conn->prepare($query);
+                }
                 if ($types) {
                     $this->_bindTypedValues($stmt, $params, $types);
                     $stmt->execute();
@@ -830,7 +832,13 @@ class Connection implements DriverConnection
                     $stmt->execute($params);
                 }
             } else {
-                $stmt = $this->_conn->query($query);
+
+                if ($this->getDriver()->getName() === 'pdo_sqlsrv') {
+                    $stmt = $this->_conn->prepare($query, $extraPar);
+                    $stmt->execute();
+                } else {
+                    $stmt = $this->_conn->query($query);
+                }
             }
         } catch (\Exception $ex) {
             throw DBALException::driverExceptionDuringQuery($this->_driver, $ex, $query, $this->resolveParams($params, $types));
@@ -859,8 +867,8 @@ class Connection implements DriverConnection
      */
     public function executeCacheQuery($query, $params, $types, QueryCacheProfile $qcp)
     {
-        $resultCache = $qcp->getResultCacheDriver() ?: $this->_config->getResultCacheImpl();
-        if ( ! $resultCache) {
+        $resultCache = $qcp->getResultCacheDriver() ? : $this->_config->getResultCacheImpl();
+        if (!$resultCache) {
             throw CacheException::noResultDriverConfigured();
         }
 
@@ -1128,7 +1136,7 @@ class Connection implements DriverConnection
             throw ConnectionException::mayNotAlterNestedTransactionWithSavepointsInTransaction();
         }
 
-        if ( ! $this->getDatabasePlatform()->supportsSavepoints()) {
+        if (!$this->getDatabasePlatform()->supportsSavepoints()) {
             throw ConnectionException::savepointsNotSupported();
         }
 
@@ -1153,7 +1161,7 @@ class Connection implements DriverConnection
      */
     protected function _getNestedTransactionSavePointName()
     {
-        return 'DOCTRINE2_SAVEPOINT_'.$this->_transactionNestingLevel;
+        return 'DOCTRINE2_SAVEPOINT_' . $this->_transactionNestingLevel;
     }
 
     /**
@@ -1310,7 +1318,7 @@ class Connection implements DriverConnection
      */
     public function createSavepoint($savepoint)
     {
-        if ( ! $this->getDatabasePlatform()->supportsSavepoints()) {
+        if (!$this->getDatabasePlatform()->supportsSavepoints()) {
             throw ConnectionException::savepointsNotSupported();
         }
 
@@ -1328,7 +1336,7 @@ class Connection implements DriverConnection
      */
     public function releaseSavepoint($savepoint)
     {
-        if ( ! $this->getDatabasePlatform()->supportsSavepoints()) {
+        if (!$this->getDatabasePlatform()->supportsSavepoints()) {
             throw ConnectionException::savepointsNotSupported();
         }
 
@@ -1348,7 +1356,7 @@ class Connection implements DriverConnection
      */
     public function rollbackSavepoint($savepoint)
     {
-        if ( ! $this->getDatabasePlatform()->supportsSavepoints()) {
+        if (!$this->getDatabasePlatform()->supportsSavepoints()) {
             throw ConnectionException::savepointsNotSupported();
         }
 
@@ -1375,7 +1383,7 @@ class Connection implements DriverConnection
      */
     public function getSchemaManager()
     {
-        if ( ! $this->_schemaManager) {
+        if (!$this->_schemaManager) {
             $this->_schemaManager = $this->_driver->getSchemaManager($this);
         }
 
@@ -1534,7 +1542,7 @@ class Connection implements DriverConnection
                 $typeIndex = $bindIndex + $typeOffset;
                 if (isset($types[$typeIndex])) {
                     $type = $types[$typeIndex];
-                    list($value,) = $this->getBindingInfo($value, $type);
+                    list($value, ) = $this->getBindingInfo($value, $type);
                     $resolvedParams[$bindIndex] = $value;
                 } else {
                     $resolvedParams[$bindIndex] = $value;
@@ -1546,7 +1554,7 @@ class Connection implements DriverConnection
             foreach ($params as $name => $value) {
                 if (isset($types[$name])) {
                     $type = $types[$name];
-                    list($value,) = $this->getBindingInfo($value, $type);
+                    list($value, ) = $this->getBindingInfo($value, $type);
                     $resolvedParams[$name] = $value;
                 } else {
                     $resolvedParams[$name] = $value;
@@ -1604,4 +1612,5 @@ class Connection implements DriverConnection
             return false;
         }
     }
+
 }
