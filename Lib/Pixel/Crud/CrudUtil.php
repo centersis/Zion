@@ -196,8 +196,10 @@ class CrudUtil
             $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
         }
 
-        $uid = $qb->execute();
-
+        $con->executar($qb);
+        
+        $uid = $con->ultimoId();
+        
         foreach ($arrayForm as $objeto) {
             if ($objeto->getTipoBase() === 'upload') {
                 $objeto->setCodigoReferencia($uid);
@@ -288,7 +290,7 @@ class CrudUtil
 
         $qb->setParameter($chave + 1, $codigo, \PDO::PARAM_INT);
 
-        $linhasAfetadas = $qb->execute();
+        $linhasAfetadas = $con->executar($qb);
 
         if ($objeto) {
             foreach ($arrayForm as $objeto) {
@@ -314,7 +316,7 @@ class CrudUtil
                 ->where($qb->expr()->eq($chavePrimaria, ':cod'))
                 ->setParameter(':cod', $codigo);
 
-        return $qb->execute();
+        return $con->executar($qb);
     }
 
     /**

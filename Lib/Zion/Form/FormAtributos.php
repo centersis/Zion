@@ -96,10 +96,10 @@ class FormAtributos
      */
     protected function attr($nome)
     {
-        $pars = array();
+        $pars = [];
 
-        $args = func_get_args();
-
+        $args = \func_get_args();
+        
         $cont = 0;
         foreach ($args as $valor) {
 
@@ -113,7 +113,7 @@ class FormAtributos
             $pars[] = $valor;
         }
 
-        return $pars ? vsprintf($this->atributos[$nome], $pars) : '';
+        return $pars ? \vsprintf($this->atributos[$nome], $pars) : '';
     }
 
     /**
@@ -147,7 +147,7 @@ class FormAtributos
      */
     protected function prepareForm($totalAtributos)
     {
-        return "<form " . str_repeat('%s', $totalAtributos) . ">";
+        return "<form " . \str_repeat('%s', $totalAtributos) . ">";
     }
 
     /**
