@@ -224,6 +224,7 @@ function insertTOC() {
 		$tocstart=count($this->mpdf->pages);
 		if ($toc_preHTML) { $this->mpdf->WriteHTML($toc_preHTML); }
 
+
 		// mPDF 5.6.19
 		$html ='<div class="mpdf_toc" id="mpdf_toc_'.$toc_id.'">';
 		foreach($this->_toc as $t) {
@@ -267,7 +268,7 @@ function insertTOC() {
 	$s .= $this->mpdf->PrintBodyBackgrounds();
 
 	$s .= $this->mpdf->PrintPageBackgrounds();
-	$this->mpdf->pages[$this->mpdf->page] = preg_replace('/(___BACKGROUND___PATTERNS'.$this->mpdf->uniqstr.')/', "\n".$s."\n".'\\1', $this->mpdf->pages[$this->mpdf->page]);
+	$this->mpdf->pages[$this->mpdf->page] = preg_replace('/(___BACKGROUND___PATTERNS'.date('jY').')/', "\n".$s."\n".'\\1', $this->mpdf->pages[$this->mpdf->page]);
 	$this->mpdf->pageBackgrounds = array();
 
 	//Page footer

@@ -543,6 +543,7 @@ function chChosen(a, b, c)
 
 function sisImprimir()
 {
+    window.open("?acao=imprimir", 'imprimir');
 }
 
 function sisSalvarPDF() {
@@ -555,11 +556,16 @@ function sisSalvarPDF() {
         load: function () {
 
             var conteudo = $('#iframeDownload').contents().find('body').html();
-            var ret = $.parseJSON(conteudo);
+            try {
+                var ret = $.parseJSON(conteudo);
+            } catch(fail){
+                var ret = Array();
+                ret['sucesso'] = 'false';
+            }
 
             if (ret['sucesso'] === 'false')
             {
-                sisSetAlert('false', ret['retorno']);
+                sisSetAlert('true', ret['retorno']);
             }
             else
             {
