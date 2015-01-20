@@ -41,12 +41,6 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
-    
-    //Atributos de Log
-    private $conteinerSql = []; //Conteiner que irá receber as Intruções Sql Ocultas Ou Não
-    private $logOculto = false;   //Indicador - Indica se o tipo de log deve ser ou não oculto
-    private $gravarLog = true;    //Indicador - Indica se o log deve ou não ser gravado
-    private $interceptaSql = false;   //Indicador - Indica se o sql seve ou não ser inteceptado
 
     /**
      * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
@@ -58,7 +52,6 @@ class Conexao
      * @param string $senha
      * @param string $driver
      */
-
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
         require_once SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
@@ -108,6 +101,8 @@ class Conexao
                 1002 => 'SET NAMES utf8']
         ];
 
+
+        //$config->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         self::$link[$banco] = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
     }
 
@@ -131,49 +126,8 @@ class Conexao
         return "Erro - " . $this->arrayExcecoes[$cod];
     }
 
-    public function setInterceptaSql($valor)
-    {
-        $this->interceptaSql = $valor;
-    }
-
-    public function setGravarLog($valor)
-    {
-        $this->gravarLog = $valor;
-    }
-
-    public function setLogOculto($valor)
-    {
-        $this->logOculto = $valor;
-    }
-
-    private function setConteinerSql($valor)
-    {
-        if ($this->gravarLog == true) {
-            if ($this->logOculto === true) {
-                $this->conteinerSql['OcultoSim'][] = $valor;
-            } else {
-                $this->conteinerSql['OcultoNao'][] = $valor;
-            }
-        }
-    }
-
-    //Recupera Conteiner Sql
-    public function getConteinerSql()
-    {
-        return $this->conteinerSql;
-    }
-
-    public function resetLog()
-    {
-        $this->conteinerSql = array();
-        $this->logOculto = false;
-        $this->gravarLog = true;
-        $this->interceptaSql = true;
-    }
-
     /**
-     * Retorna o número de linhas afetadas por uma clausula sql, podendo ser ela:
-     * select, insert, update ou delete
+     * Retorna o número de linhas afetadas por uma clausula sql
      * @return int
      */
     public function getLinhasAfetadas()
@@ -226,8 +180,10 @@ class Conexao
     }
 
     /**
-     * Executa uma string sql ou um objeto querybuilder
-     * @param object|string $sql
+     * Executa uma string sql ou um objeto querybuilder, retorna um ResultSet
+     * em caso de SELECT ou o número de linhas afetadas em caso de Insert
+     * Update e Delete 
+     * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return ResultSet
      * @throws \Exception
      */
@@ -242,7 +198,13 @@ class Conexao
         if (\is_object($sql)) {
 
             $resultSet = $sql->execute();
-            $this->linhasAfetadas = $this->nLinhas($resultSet);
+
+            if ($sql->getType() === 0) { //0 = SELECT                
+                $this->linhasAfetadas = $this->nLinhas($resultSet);
+            } else {
+                $this->linhasAfetadas = $resultSet;
+            }
+
             return $resultSet;
         }
 
@@ -250,6 +212,15 @@ class Conexao
         $this->linhasAfetadas = $this->nLinhas($executa);
 
         return $executa;
+    }
+
+    /**
+     * Retorna o ultimo ID
+     * @param string $campo
+     */
+    public function ultimoId($campo = null)
+    {
+        return $this->link()->lastInsertId($campo);
     }
 
     /**
@@ -271,7 +242,7 @@ class Conexao
 
         foreach ($arraySql as $sql) {
 
-            self::$link[$this->banco]->query($sql);
+            $this->executar($sql);
 
             if ($this->interceptaSql == true) {
                 $this->setConteinerSql($sql);
@@ -309,14 +280,14 @@ class Conexao
     /**
      * Executa uma string Sql ou um objeto query builder e retona um array
      * com os resultados da clausula select
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string $estilo
      * @return array
      */
     public function execLinha($sql, $estilo = null)
     {
         if (\is_object($sql)) {
-            $resultSet = $sql->execute();
+            $resultSet = $this->executar($sql);
             return $this->linha($resultSet, $estilo);
         }
 
@@ -328,13 +299,13 @@ class Conexao
     /**
      * Executa uma string Sql ou um objeto query builder e retona um array
      * com os resultados da clausula select
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return array
      */
     public function execLinhaArray($sql)
     {
         if (\is_object($sql)) {
-            $resultSet = $sql->execute();
+            $resultSet = $this->executar($sql);
             return $this->linha($resultSet, 2);
         }
 
@@ -346,7 +317,7 @@ class Conexao
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o 
      * valor contido na posição especificada pelo parametro $posicao
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string|int $posicao
      * @return string
      * @throws \Exception
@@ -370,7 +341,7 @@ class Conexao
      * Executa uma string Sql ou um objeto query builder e retorna o 
      * valor contido na posição especificada pelos parametros $posicao
      * e $indice caso forem especificados
-     * @param string|object $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string $posicao
      * @param string $indice
      * @return array
@@ -379,7 +350,7 @@ class Conexao
     public function paraArray($sql, $posicao = null, $indice = null)
     {
         if (\is_object($sql)) {
-            $ret = $sql->execute();
+            $ret = $this->executar($sql);
         } else {
             $ret = $this->executar($sql);
         }
@@ -427,7 +398,7 @@ class Conexao
 
     /**
      * Retornando o número de resultados de um ResultSet
-     * @param resultset $resultSet
+     * @param \Doctrine\DBAL\Driver\Statement $resultSet
      * @return int
      * @throws \Exception
      */
@@ -443,14 +414,14 @@ class Conexao
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o número
      * de linhas afetadas pela consulta
-     * @param string $sql
+     * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return int
      */
     public function execNLinhas($sql)
     {
         if (\is_object($sql)) {
 
-            $rs = $sql->execute();
+            $rs = $this->executar($sql);
             $linhas = $this->nLinhas($rs);
 
             return $linhas;
@@ -470,7 +441,7 @@ class Conexao
         $qb = $this->link()->createQueryBuilder();
         $qb->select($qb->expr()->max($idTabela))
                 ->from($tabela, '');
-        
+
         return $this->execRLinha($qb);
     }
 

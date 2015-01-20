@@ -186,13 +186,34 @@ class Controller
     {
         new \Zion\Acesso\Acesso('imprimir');
         
-        return $this->jsonSucesso($this->filtrar());
+        $impressao = new \Pixel\Grid\Impressao();
+        
+        $dados = json_decode($this->filtrar(), true);
+        
+        $impressao->setLogo('http:'. SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
+        
+        $retorno = $impressao->imprimeHTML($dados['retorno']);
+
+        if($retorno === false){
+            return $this->jsonErro('Falaha ao gerar PDF para impressão!');
+        } else {
+            return $retorno;
+        }
     }
     
     protected function salvarPDF()
     {
         new \Zion\Acesso\Acesso('salvarPDF');
-        
-        $this->filtrar();
+
+        $impressao = new \Pixel\Grid\Impressao();
+
+        $dados = json_decode($this->filtrar(), true);
+
+        $impressao->setLogo('http:'. SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
+        if($impressao->imprimePDF($dados['retorno']) === false){
+            return $this->jsonErro('Falaha ao gerar PDF para impressão!');
+        } else {
+            return $this->jsonSucesso('PDF gerado com sucesso!');
+        }
     }
 }

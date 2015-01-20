@@ -88,8 +88,15 @@ class EscolhaHtml
             if (!empty($sqlCompleto)) {
                 $sql = $sqlCompleto;
             } else {
-                $sqlWhere = $where ? 'WHERE ' . $where : '';
-                $sql = 'SELECT ' . $campoCod . ', ' . $campoDesc . ' FROM ' . $tabela . ' ' . $sqlWhere;
+                
+                $sql = $con->link()->createQueryBuilder();
+                
+                $sql->select($campoCod,$campoDesc)
+                        ->from($tabela);
+                
+                if($where){
+                    $sql->where($where);
+                }                
             }
 
             $rs = $con->executar($sql);
