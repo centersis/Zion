@@ -351,6 +351,36 @@ function sisUploadMultiplo(id) {
     $("#sisUploadMultiploLista" + id).html(html);
 }
 
+/*MASTER DETAIL*/
+
+function sisAddMasterDetail(container){
+    var conf = $.parseJSON($("#sisMasterDetailConf" + container).val().replace(/'/g, '"'));
+    var modelo = converteModelo($("#sisMasterDetailModelo" + container).html(), String(conf.coringa));
+    
+    $("#sisMasterDetailAppend"+container).append(modelo);
+}
+
+function converteModelo(modelo, coringa){
+
+    var rand = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+    var modeloConvertido = modelo.replace(new RegExp(coringa, "g"),rand);
+    return modeloConvertido;
+}
+
+function sisRemoverMasterDetail(container, id) {
+
+    var conf = $.parseJSON($("#sisMasterDetailConf" + container).val().replace(/'/g, '"'));
+
+    var atual = $("#sisMasterDetail" + container + " div[id^='sisMasterDetailIten" + container + "']").length - 1; //Ignorando o campo modelo
+
+    if (atual <= conf.addMin) {
+        sisSetAlert('', 'Não foi possível remover, pois este grupo requer no mínimo ' + conf.addMin + ' itens');
+    }
+    else {
+        $("#sisMasterDetailIten" + container + id).remove();
+    }
+}
+
 // DIALOG
 function sisSetDialog(msg, actionTrue)
 {
@@ -587,7 +617,7 @@ function sisSalvarPDF() {
             var conteudo = $('#iframeDownload').contents().find('body').html();
             try {
                 var ret = $.parseJSON(conteudo);
-            } catch(fail){
+            } catch (fail) {
                 var ret = Array();
                 ret['sucesso'] = 'false';
             }

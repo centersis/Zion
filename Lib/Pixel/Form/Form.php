@@ -144,7 +144,7 @@ class Form extends \Zion\Form\Form
 
         return $botaoSalvar;
     }
-    
+
     public function botaoSalvarEContinuar()
     {
         $botaoSalvar = new \Zion\Form\FormInputButton('submit', 'sisSalvarEContinuar', 'Salvar');
@@ -156,7 +156,7 @@ class Form extends \Zion\Form\Form
     public function botaoDescartarPadrao()
     {
         $nomeForm = $this->getConfig()->getNome();
-        
+
         $botaoDescartar = new \Zion\Form\FormInputButton('button', 'sisDescartar', 'Descartar');
 
         $botaoDescartar->setClassCss('btn btn-default')
@@ -164,7 +164,7 @@ class Form extends \Zion\Form\Form
 
         return $botaoDescartar;
     }
-    
+
     public function botaoSimples($nome, $identifica)
     {
         return new \Zion\Form\FormInputButton('button', $nome, $identifica);
@@ -173,6 +173,11 @@ class Form extends \Zion\Form\Form
     public function botaoReset($nome, $identifica)
     {
         return new \Zion\Form\FormInputButton('reset', $nome, $identifica);
+    }
+
+    public function masterDetail($nome, $identifica)
+    {
+        return new \Pixel\Form\FormMasterDetail($nome, $identifica);
     }
 
     public function abreFormManu()
@@ -206,11 +211,17 @@ class Form extends \Zion\Form\Form
         return $ret;
     }
 
-    public function getFormHtml($nome = null)
+    public function getFormHtml($nomeOuObjeto = null)
     {
         $htmlCampos = [];
 
-        $obj = $nome ? [$nome => $this->objetos[$nome]] : $this->objetos;
+        if (\is_object($nomeOuObjeto)) {
+            $obj[$nomeOuObjeto->getNome()] = $nomeOuObjeto; 
+            $nome = $nomeOuObjeto->getNome();
+        } else {
+            $nome = $nomeOuObjeto;
+            $obj = $nomeOuObjeto ? [$nomeOuObjeto => $this->objetos[$nomeOuObjeto]] : $this->objetos;
+        }
 
         foreach ($obj as $idCampo => $objCampos) {
 
@@ -244,7 +255,7 @@ class Form extends \Zion\Form\Form
                     break;
                 case 'cpf' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaCpf($objCampos);
-                    break;                
+                    break;
                 case 'cnpj' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaCnpj($objCampos);
                     break;
@@ -260,13 +271,16 @@ class Form extends \Zion\Form\Form
                 case 'button':
                     $htmlCampos[$idCampo] = $this->formPixel->montaButton($objCampos);
                     break;
-                case 'upload':                    
+                case 'upload':
                     $htmlCampos[$idCampo] = $this->formPixel->montaUpload($objCampos);
                     break;
                 case 'layout':
                     $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
-                default : throw new \Exception('Tipo Base não encontrado!: '.$idCampo);
+                case 'masterDetail':
+                    $htmlCampos[$idCampo] = $this->formPixel->montaMasterDetail($objCampos);
+                    break;
+                default : throw new \Exception('Tipo Base não encontrado!: ' . $idCampo);
             }
         }
 
