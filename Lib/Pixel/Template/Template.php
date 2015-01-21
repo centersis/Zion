@@ -217,7 +217,7 @@ class Template extends \Zion\Layout\Padrao
         $classCss = (!empty($this->conteudoBody)) ? $this->conteudoBody : 'theme-default main-menu-animated';
 
         $buffer = '';
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting body app' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Zion Framework: starting body app' . $this->html->fechaComentario();
         $buffer .= $this->html->abreTagAberta('body', array('class' => $classCss));
         $buffer .= $this->html->entreTags('script', 'var init = [];');
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/demo.js')) . $this->html->fechaTag('script');
@@ -470,7 +470,7 @@ class Template extends \Zion\Layout\Padrao
         $buffer = '';
         // end: main-wrapper
         //$buffer .= $this->html->fechaTag('div');
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending body app' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Zion Framework: ending body app' . $this->html->fechaComentario();
 
         return $buffer;
     }
@@ -479,11 +479,11 @@ class Template extends \Zion\Layout\Padrao
     {
 
         $buffer = '';
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: starting runtime dynamic form scripts block' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Zion Framework: starting runtime dynamic form scripts block' . $this->html->fechaComentario();
         //$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript'));
         $buffer .= $this->conteudoScripts;
         //$buffer .= $this->html->fechaTag('script');
-        $buffer .= $this->html->abreComentario() . 'Zion Framework: ending runtime dynamic form scripts block' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Zion Framework: ending runtime dynamic form scripts block' . $this->html->fechaComentario();
         //$buffer .= $this->conteudoScripts;
 
         return $buffer;
@@ -563,8 +563,8 @@ class Template extends \Zion\Layout\Padrao
                 list($usec, $sec) = explode(' ', microtime());
                 $_SESSION['script_start'] = (float) $sec + (float) $usec;
 
-                $buffer .= $this->html->abreComentario() . 'Zion Framework starting at [' . $_SESSION['script_start'] . '] miliseconds' . $this->html->fechaComentario();
-                $buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
+                //$buffer .= $this->html->abreComentario() . 'Zion Framework starting at [' . $_SESSION['script_start'] . '] miliseconds' . $this->html->fechaComentario();
+                //$buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
 
                 break;
 
@@ -574,8 +574,8 @@ class Template extends \Zion\Layout\Padrao
                 $script_end = (float) $sec + (float) $usec;
                 $elapsed_time = round($script_end - $_SESSION['script_start'], 5);
 
-                $buffer .= $this->html->abreComentario() . 'Zion Framework ending at [' . $elapsed_time . '] miliseconds' . $this->html->fechaComentario();
-                $buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
+                //$buffer .= $this->html->abreComentario() . 'Zion Framework ending at [' . $elapsed_time . '] miliseconds' . $this->html->fechaComentario();
+                //$buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
 
                 break;
         }
