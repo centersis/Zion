@@ -7,7 +7,10 @@ use \Zion\FormFormException\FormException as FormException;
 class FormMasterDetail
 {
 
-    private $id;
+    private $acao;
+    private $tipoBase;
+    private $nome;
+    private $identifica;
     private $addMax;
     private $addMin;
     private $addTexto;
@@ -16,8 +19,17 @@ class FormMasterDetail
     private $botaoRemover;
     private $totalItensInicio;
 
-    public function __construct()
+    /**
+     * Construtor
+     * @param string $nome
+     */
+    public function __construct($nome, $identifica)
     {
+        $this->tipoBase = 'masterDetail';
+        $this->acao = $this->tipoBase;
+
+        $this->nome = $nome;   
+        $this->identifica = $identifica;
         $this->botaoRemover = true;
         $this->addMax = 20;
         $this->addMin = 0;
@@ -25,59 +37,90 @@ class FormMasterDetail
         $this->totalItensInicio = 1;
     }
 
-    function getId()
+    public function getAcao()
     {
-        return $this->id;
+        return $this->acao;
     }
 
-    function getAddMax()
+    public function getTipoBase()
+    {
+        return $this->tipoBase;
+    }
+
+    public function getNome()
+    {
+        return $this->nome;
+    }
+    
+    public function getIdentifica()
+    {
+        return $this->identifica;
+    }
+
+    public function getAddMax()
     {
         return $this->addMax;
     }
 
-    function getAddMin()
+    public function getAddMin()
     {
         return $this->addMin;
     }
 
-    function getAddTexto()
+    public function getAddTexto()
     {
         return $this->addTexto;
     }
 
-    function getTabela()
+    public function getTabela()
     {
         return $this->tabela;
     }
 
-    function getCampos()
+    public function getCampos()
     {
         return $this->campos;
     }
 
-    function getBotaoRemover()
+    public function getBotaoRemover()
     {
         return $this->botaoRemover;
     }
 
-    function getTotalItensInicio()
+    public function getTotalItensInicio()
     {
         return $this->totalItensInicio;
     }
 
     /**
-     * Identificador do componente
-     * @param string $id
+     * Nome do componente
+     * @param string $nome
      * @return \Pixel\Form\FormMasterDetail
      * @throws FormException
      */
-    function setId($id)
+    public function setNome($nome)
     {
-        if (!\is_string($id) or empty($id)) {
-            throw new FormException('setId: Informe o identificador do componente corretamente!');
+        if (!\is_string($nome) or empty($nome)) {
+            throw new FormException('setNome: Informe o nome do componente corretamente!');
         }
 
-        $this->id = $id;
+        $this->nome = $nome;
+        return $this;
+    }
+    
+    /**
+     * Identificador do componente
+     * @param string $identifica
+     * @return \Pixel\Form\FormMasterDetail
+     * @throws FormException
+     */
+    public function setIdentifica($identifica)
+    {
+        if (!\is_string($identifica) or empty($identifica)) {
+            throw new FormException('setIdentifica: Informe o identificador do componente corretamente!');
+        }
+
+        $this->identifica = $identifica;
         return $this;
     }
 
@@ -89,16 +132,15 @@ class FormMasterDetail
      * @return \Pixel\Form\FormMasterDetail
      * @throws FormException
      */
-    function setAddMax($addMax)
+    public function setAddMax($addMax)
     {
-        if(!\is_numeric($addMax) or $addMax < 0){
+        if (!\is_numeric($addMax) or $addMax < 0) {
             throw new FormException('setAddMax: Informe o identificador do componente corretamente!');
         }
-        
+
         $this->addMax = $addMax;
         return $this;
     }
-
 
     /**
      * Número mínimo de itens que podem ser adicionados, por padrão o valor 
@@ -107,12 +149,12 @@ class FormMasterDetail
      * @param int $addMin
      * @throws FormException
      */
-    function setAddMin($addMin)
+    public function setAddMin($addMin)
     {
-        if(!\is_numeric($addMin) or $addMin < 0){
+        if (!\is_numeric($addMin) or $addMin < 0) {
             throw new FormException('setAddMin: Informe o identificador do componente corretamente!');
         }
-        
+
         $this->addMin = $addMin;
         return $this;
     }
@@ -123,12 +165,12 @@ class FormMasterDetail
      * @return \Pixel\Form\FormMasterDetail
      * @throws FormException
      */
-    function setAddTexto($addTexto)
+    public function setAddTexto($addTexto)
     {
         if (!\is_string($addTexto) or empty($addTexto)) {
             throw new FormException('setAddTexto: Informe o texto de botão de adição corretamente!');
         }
-        
+
         $this->addTexto = $addTexto;
         return $this;
     }
@@ -139,12 +181,12 @@ class FormMasterDetail
      * @return \Pixel\Form\FormMasterDetail
      * @throws FormException
      */
-    function setTabela($tabela)
+    public function setTabela($tabela)
     {
         if (!\is_string($tabela) or empty($tabela)) {
             throw new FormException('setTabela: Informe a tabela de referencia corretamente!');
         }
-        
+
         $this->tabela = $tabela;
         return $this;
     }
@@ -158,12 +200,12 @@ class FormMasterDetail
      * @return \Pixel\Form\FormMasterDetail
      * @throws FormException
      */
-    function setCampos($campos)
+    public function setCampos($campos)
     {
         if (!\is_array($campos) or empty($campos)) {
             throw new FormException('setCampos: Informe a configuração de campos corretamente!');
         }
-        
+
         $this->campos = $campos;
         return $this;
     }
@@ -174,12 +216,12 @@ class FormMasterDetail
      * @return \Pixel\Form\FormMasterDetail
      * @throws FormException
      */
-    function setBotaoRemover($botaoRemover)
+    public function setBotaoRemover($botaoRemover)
     {
         if (!\is_bool($botaoRemover)) {
             throw new FormException('setBotaoRemover: Informe um valor booleano!');
         }
-        
+
         $this->botaoRemover = $botaoRemover;
         return $this;
     }
@@ -190,12 +232,12 @@ class FormMasterDetail
      * @return \Pixel\Form\FormMasterDetail
      * @throws FormException
      */
-    function setTotalItensInicio($totalItensInicio)
+    public function setTotalItensInicio($totalItensInicio)
     {
-        if(!\is_numeric($totalItensInicio) or $totalItensInicio < 0){
+        if (!\is_numeric($totalItensInicio) or $totalItensInicio < 0) {
             throw new FormException('setTotalItensInicio: Informe um valor numérico maior que zero!');
         }
-        
+
         $this->totalItensInicio = $totalItensInicio;
         return $this;
     }

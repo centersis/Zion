@@ -242,6 +242,16 @@ class FormHtml extends \Zion\Form\FormHtml
             return $this->prepareInputPixel($config, $retorno);
         }
     }
+    
+
+    /**
+     * 
+     * @param \Pixel\Form\FormMasterDetail $config
+     */
+    public function montaMasterDetail(\Pixel\Form\FormMasterDetail $config)
+    {
+        return (new \Zion\Form\MasterDetailHtml())->montaMasterDetail($config);
+    }
 
     private function montaCheckRadioPixel($tipo, $arrayCampos, $config)
     {
