@@ -280,7 +280,13 @@ class Form extends \Zion\Form\Form
                 case 'masterDetail':
                     $htmlCampos[$idCampo] = $this->formPixel->montaMasterDetail($objCampos);
                     break;
-                default : throw new \Exception('Tipo Base não encontrado!: ' . $idCampo);
+                case 'telefone' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaTelefone($objCampos);
+                    break;  
+                case 'email' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaEmail($objCampos);
+                    break;                                        
+                default : throw new \Exception('Tipo Base não encontrado! ' . $idCampo);
             }
         }
 
