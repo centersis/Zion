@@ -602,7 +602,7 @@ function chChosen(a, b, c)
 
 function sisImprimir()
 {
-    window.open("?acao=imprimir", 'imprimir');
+    window.open("?acao=imprimir?acao=salvarPDF&sisModoImpressao=1", 'imprimir');
 }
 
 function sisSalvarPDF() {
@@ -610,7 +610,7 @@ function sisSalvarPDF() {
     var ifr = $('<iframe/>', {
         id: 'iframeDownload',
         name: 'iframeDownload',
-        src: '?acao=salvarPDF',
+        src: '?acao=salvarPDF&sisModoImpressao=1',
         style: 'display:none',
         load: function () {
 
