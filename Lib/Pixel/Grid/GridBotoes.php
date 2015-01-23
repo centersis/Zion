@@ -163,7 +163,7 @@ class GridBotoes
         if ($recolhidos) {
 
             $buffer .= $this->html->abreTagAberta('div', ['class' => 'btn-group']);
-            $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg dropdown-toggle', 'data-toggle' => 'dropdown', 'title' => 'Permiss&otilde;es especiais']);
+            $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg dropdown-toggle', 'data-toggle' => 'dropdown']);
             $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-bars']);
             $buffer .= '&nbsp;';
             $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-caret-down']);

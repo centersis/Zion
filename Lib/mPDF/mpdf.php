@@ -12,6 +12,7 @@
 // Changes:  See changelog.txt                                                  *
 // ******************************************************************************
 
+\set_error_handler("\\Sappiens\\sisErro", \E_WARNING);
 
 define('mPDF_VERSION','5.7');
 
@@ -3102,7 +3103,7 @@ function AddFont($family,$style='') {
 		}
 		else $s.='$haskerninfo=false;'."\n";
 		// mPDF 5.4.05
-		if ($this->fontdata[$family]['unAGlyphs']) { 
+		if (isset($this->fontdata[$family]['unAGlyphs'])) { 
 			$s.='$unAGlyphs=true;'."\n";
 		}
 		else $s.='$unAGlyphs=false;'."\n";
