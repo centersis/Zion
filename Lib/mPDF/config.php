@@ -1,5 +1,6 @@
 <?php
 
+ini_set('display_errors', 'off');
 // mPDF 5.7
 // Specify whether to automatically generate bookmarks or ToC entries from h1 - h6 tags
 $this->h2bookmarks = array();
