@@ -276,9 +276,9 @@ class FormHtml extends \Zion\Form\FormHtml
      * 
      * @param \Pixel\Form\FormMasterDetail $config
      */
-    public function montaMasterDetail(\Pixel\Form\FormMasterDetail $config)
+    public function montaMasterDetail(\Pixel\Form\MasterDetail\FormMasterDetail $config, $nomeForm)
     {
-        return (new \Zion\Form\MasterDetailHtml())->montaMasterDetail($config);
+        return (new \Pixel\Form\MasterDetail\MasterDetailHtml())->montaMasterDetail($config, $nomeForm);
     }
 
     private function montaCheckRadioPixel($tipo, $arrayCampos, $config)

@@ -177,7 +177,7 @@ class Form extends \Zion\Form\Form
 
     public function masterDetail($nome, $identifica)
     {
-        return new \Pixel\Form\FormMasterDetail($nome, $identifica);
+        return new \Pixel\Form\MasterDetail\FormMasterDetail($nome, $identifica);
     }
 
     public function abreFormManu()
@@ -278,7 +278,7 @@ class Form extends \Zion\Form\Form
                     $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
                 case 'masterDetail':
-                    $htmlCampos[$idCampo] = $this->formPixel->montaMasterDetail($objCampos);
+                    $htmlCampos[$idCampo] = $this->formPixel->montaMasterDetail($objCampos, $this->formConfig->getNome());
                     break;
                 default : throw new \Exception('Tipo Base não encontrado!: ' . $idCampo);
             }

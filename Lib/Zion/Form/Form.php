@@ -414,7 +414,7 @@ class Form
             if (\key_exists($nome, $this->objetos)) {
                 $this->objetos[$nome]->setValor($valor);
             } else {
-                switch ($tipo) {
+                switch (\strtolower($tipo)) {
 
                     case 'float':
                         $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);

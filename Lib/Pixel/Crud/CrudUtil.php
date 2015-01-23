@@ -1,32 +1,33 @@
 <?php
+
 /*
 
-    Sappiens Framework
-    Copyright (C) 2014, BRA Consultoria
+  Sappiens Framework
+  Copyright (C) 2014, BRA Consultoria
 
-    Website do autor: www.braconsultoria.com.br/sappiens
-    Email do autor: sappiens@braconsultoria.com.br
+  Website do autor: www.braconsultoria.com.br/sappiens
+  Email do autor: sappiens@braconsultoria.com.br
 
-    Website do projeto, equipe e documentação: www.sappiens.com.br
-   
-    Este programa é software livre; você pode redistribuí-lo e/ou
-    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-    publicada pela Free Software Foundation, versão 2.
+  Website do projeto, equipe e documentação: www.sappiens.com.br
 
-    Este programa é distribuído na expectativa de ser útil, mas SEM
-    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-    detalhes.
- 
-    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-    junto com este programa; se não, escreva para a Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-    02111-1307, USA.
+  Este programa é software livre; você pode redistribuí-lo e/ou
+  modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+  publicada pela Free Software Foundation, versão 2.
 
-    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+  Este programa é distribuído na expectativa de ser útil, mas SEM
+  QUALQUER GARANTIA; sem mesmo a garantia implícita de
+  COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+  PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+  detalhes.
 
-*/
+  Você deve ter recebido uma cópia da Licença Pública Geral GNU
+  junto com este programa; se não, escreva para a Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+  02111-1307, USA.
+
+  Cópias da licença disponíveis em /Sappiens/_doc/licenca
+
+ */
 
 /**
  *  @author Pablo Vanni - pablovanni@gmail.com
@@ -145,9 +146,9 @@ class CrudUtil
             }
 
             $sql.= ') ';
-            
+
             $queryBuilder->where($sql);
-        }               
+        }
     }
 
     /**
@@ -157,7 +158,6 @@ class CrudUtil
     public function insert($tabela, array $campos, $objForm)
     {
         $con = \Zion\Banco\Conexao::conectar();
-        $upload = new \Pixel\Arquivo\ArquivoUpload();
 
         $arrayValores = [];
         $arrayTipos = [];
@@ -225,13 +225,31 @@ class CrudUtil
         }
 
         $con->executar($qb);
-        
+
         $uid = $con->ultimoId();
-        
+
+        /**
+         * Tipos Especiais
+         */
         foreach ($arrayForm as $objeto) {
-            if ($objeto->getTipoBase() === 'upload') {
-                $objeto->setCodigoReferencia($uid);
-                $upload->sisUpload($objeto);
+
+            $tipoBase = $objeto->getTipoBase();
+
+            switch ($tipoBase) {
+
+                case 'upload':
+
+                    $upload = new \Pixel\Arquivo\ArquivoUpload();
+                    $objeto->setCodigoReferencia($uid);
+                    $upload->sisUpload($objeto);
+                    break;
+
+                case 'masterDetail':
+
+                    $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
+                    $objeto->setCodigoReferencia($uid);
+                    $masterDetail->gravar($objeto);
+                    break;
             }
         }
 
@@ -320,14 +338,33 @@ class CrudUtil
 
         $linhasAfetadas = $con->executar($qb);
 
+
+        /**
+         * Tipos Especiais
+         */
         if ($objeto) {
             foreach ($arrayForm as $objeto) {
-                if ($objeto->getTipoBase() === 'upload') {
-                    $objeto->setCodigoReferencia($codigo);
-                    $upload->sisUpload($objeto);
+
+                $tipoBase = $objeto->getTipoBase();
+
+                switch ($tipoBase) {
+
+                    case 'upload':
+
+                        $upload = new \Pixel\Arquivo\ArquivoUpload();
+                        $objeto->setCodigoReferencia($codigo);
+                        $upload->sisUpload($objeto);
+                        break;
+
+                    case 'masterDetail':
+
+                        $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
+                        $objeto->setCodigoReferencia($codigo);
+                        $masterDetail->gravar($objeto);
+                        break;
                 }
             }
-        }
+        }        
 
         $con->stopTransaction();
 

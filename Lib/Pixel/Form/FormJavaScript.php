@@ -127,6 +127,6 @@ class FormJavaScript extends \Zion\Layout\JavaScript
     public function sisAlterar($codigoJS)
     {
         return 'function sisAlterar(){ '.$codigoJS.' } ';
-    }
+    }    
 
 }

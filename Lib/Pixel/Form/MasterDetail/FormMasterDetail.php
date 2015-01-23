@@ -28,9 +28,9 @@
 
 */
 
-namespace Pixel\Form;
+namespace Pixel\Form\MasterDetail;
 
-use \Zion\FormFormException\FormException as FormException;
+use \Zion\Form\Exception\FormException as FormException;
 
 class FormMasterDetail
 {
@@ -46,6 +46,9 @@ class FormMasterDetail
     private $campos;
     private $botaoRemover;
     private $totalItensInicio;
+    private $objetoPai;
+    private $campoReferencia;
+    private $codigoReferencia;
 
     /**
      * Construtor
@@ -118,6 +121,21 @@ class FormMasterDetail
     public function getTotalItensInicio()
     {
         return $this->totalItensInicio;
+    }
+    
+    public function getObjetoPai()
+    {
+        return $this->objetoPai;
+    }
+    
+    public function getCampoReferencia()
+    {
+        return $this->campoReferencia;
+    }
+    
+    public function getCodigoReferencia()
+    {
+        return $this->codigoReferencia;
     }
 
     /**
@@ -268,6 +286,43 @@ class FormMasterDetail
 
         $this->totalItensInicio = $totalItensInicio;
         return $this;
+    }   
+    
+    public function setObjetoPai($objetoPai)
+    {
+        if (\is_object($objetoPai)) {
+            $this->objetoPai = $objetoPai;            
+        } else {
+            throw new FormException("objetoPai: Valor não é um objeto válido.");
+        }
+        
+        return $this;
     }
+    
+    public function setCampoReferencia($campoReferencia)
+    {
+        if (!empty($campoReferencia) and \is_string($campoReferencia)) {
+            $this->campoReferencia = $campoReferencia;            
+        } else {
+            throw new FormException("campoReferencia: Valor não é válido.");
+        }
+        
+        return $this;
+    }    
+
+    public function setCodigoReferencia($codigoReferencia)
+    {
+        if(empty($codigoReferencia)){
+            return $this;
+        }
+        
+        if (\is_numeric($codigoReferencia)) {
+            $this->codigoReferencia = $codigoReferencia;               
+        } else {
+            throw new FormException("codigoReferencia: Valor não numérico.");
+        }
+        
+        return $this;
+    }    
 
 }
