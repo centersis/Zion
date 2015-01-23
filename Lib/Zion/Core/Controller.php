@@ -216,4 +216,5 @@ class Controller
             return $this->jsonSucesso('PDF gerado com sucesso!');
         }
     }
+
 }
