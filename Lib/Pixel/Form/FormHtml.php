@@ -270,7 +270,32 @@ class FormHtml extends \Zion\Form\FormHtml
             return $this->prepareInputPixel($config, $retorno);
         }
     }
-    
+
+    public function montaTelefone(FormInputTelefone $config)
+    {
+        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaTelefone($config));
+    }    
+
+    public function montaEmail(FormInputEmail $config)
+    {
+        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaEmail($config));
+    }     
 
     /**
      * 
