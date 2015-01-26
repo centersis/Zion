@@ -188,11 +188,11 @@ abstract class FormBasico
      */
     public function setDisabled($disabled)
     {
-        if(!empty($disabled)){
+        if(is_bool($disabled)){
              $this->disabled = $disabled;
             return $this;
         } else {
-            throw new FormException("disabled: Nenhum valor informado.");
+            throw new FormException("disabled: O valor informado deve ser do tipo booleano.");
         }
     }
 
