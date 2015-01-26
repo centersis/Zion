@@ -104,7 +104,7 @@ class FormValida extends \Zion\Form\FormValida
         $identifica = $this->texto->removerAcentos($input->getIdentifica());
 
         if (strtoupper($input->getAcao()) == 'SUGGEST') {
-            //Ainda nao implementado
+            //Ainda não implementado
         } elseif (strtoupper($input->getAcao()) == 'HIDDEN') {
             //Ainda não implementado.
         } elseif (strtoupper($input->getAcao()) == 'BUTTON') {

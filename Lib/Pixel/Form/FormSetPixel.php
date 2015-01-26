@@ -75,7 +75,7 @@ class FormSetPixel
        if (is_bool($layoutPixel)) {            
             return $layoutPixel;
         } else {
-            throw new FormException("layoutPixel: Valor nao booleano");
+            throw new FormException("layoutPixel: Valor não booleano");
         }
     }
 

@@ -122,7 +122,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
+            throw new FormException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -177,7 +177,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             $this->campoCod = $campoCod;
             return $this;
         } else {
-            throw new FormException("campoCod: O valor informado nao e um numero valido.");
+            throw new FormException("campoCod: O valor informado não é um número valido.");
         }
     }
 
@@ -237,7 +237,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             $this->limite = $limite;
             return $this;
         } else {
-            throw new FormException("limite: O valor informado nao e um numero valido.");
+            throw new FormException("limite: O valor informado não é um número valido.");
         }
     }
 
@@ -252,7 +252,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             $this->parametros = $parametros;
             return $this;
         } else {
-            throw new FormException("parametros: O valor informado e invalido.");
+            throw new FormException("parametros: O valor informado é inválido.");
         }
     }
 
@@ -337,7 +337,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             $this->converterHtml = $converterHtml;
             return $this;
         } else {
-            throw new FormException("converterHtml: Valor nao booleano");
+            throw new FormException("converterHtml: Valor não booleano");
         }
     }
 
@@ -352,7 +352,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             $this->autoTrim = $autoTrim;
             return $this;
         } else {
-            throw new FormException("autoTrim: Valor nao booleano");
+            throw new FormException("autoTrim: Valor não booleano");
         }
     }
 
