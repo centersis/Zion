@@ -30,7 +30,7 @@
 
 /**
  * \Zion\Form\FormValida
- * @author Feliphe Bueno - feliphezion@gmail.com
+ * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
  * @since 25/09/2014
  * @version 1.0
  * @copyright 2014

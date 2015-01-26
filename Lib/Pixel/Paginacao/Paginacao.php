@@ -30,7 +30,7 @@
 
 /**
  * 
- * @author Feliphe Bueno - feliphezion@gmail.com
+ * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
  * @since 28/10/2014
  * @version 1.0
  * @copyright 2014
