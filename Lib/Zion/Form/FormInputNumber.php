@@ -99,7 +99,7 @@ class FormInputNumber extends \Zion\Form\FormBasico
             $this->largura = $largura;
             return $this;
         } else {
-            throw new FormException("largura: O valor nao esta nos formatos aceitos: 10%; 10px; ou 10");
+            throw new FormException("largura: O valor não está nos formatos aceitos: 10%; 10px; ou 10");
         }
     }
 
@@ -123,13 +123,13 @@ class FormInputNumber extends \Zion\Form\FormBasico
         if (is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
+                throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
 
         } else {
-            throw new FormException("maximoCaracteres: Valor nao numerico.");
+            throw new FormException("maximoCaracteres: Valor não numérico.");
         }
     }
 
@@ -153,13 +153,13 @@ class FormInputNumber extends \Zion\Form\FormBasico
         if (is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new FormException("minimoCaracteres nao pode ser maior que maximoCaracteres.");
+                throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
-            throw new FormException("minimoCaracteres: Valor nao numerico.");
+            throw new FormException("minimoCaracteres: Valor não numérico.");
         }
     }
 
@@ -183,13 +183,13 @@ class FormInputNumber extends \Zion\Form\FormBasico
         if(is_numeric($valorMinimo)){
 
             if(isset($this->valorMaximo) and ($valorMinimo > $this->valorMaximo)) {
-                throw new FormException("valorMinimo nao pode ser maior que valorMaximo.");
+                throw new FormException("valorMinimo não pode ser maior que valorMaximo.");
             }
 
             $this->valorMinimo = $valorMinimo;
             return $this;
         } else {
-            throw new FormException("valorMinimo: Valor nao numerico");
+            throw new FormException("valorMinimo: Valor não numérico");
         }
     }
     
@@ -213,13 +213,13 @@ class FormInputNumber extends \Zion\Form\FormBasico
         if(is_numeric($valorMaximo)){
 
             if(isset($this->valorMinimo) and ($valorMaximo < $this->valorMinimo)) {
-                throw new FormException("valorMaximo nao pode ser menor que valorMinimo.");
+                throw new FormException("valorMaximo não pode ser menor que valorMinimo.");
             }
 
             $this->valorMaximo = $valorMaximo;
             return $this;
         } else {
-            throw new FormException("valorMaximo: Valor nao numerico");
+            throw new FormException("valorMaximo: Valor não numérico");
         }
     }
     
@@ -244,7 +244,7 @@ class FormInputNumber extends \Zion\Form\FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
+            throw new FormException("obrigatorio: Valor não booleano");
         }
     }
 

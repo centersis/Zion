@@ -91,7 +91,7 @@ class FormUpload extends FormBasico
             $this->multiple = $multiple;
             return $this;
         } else {
-            throw new FormException("multiple: Valor nao booleano.");
+            throw new FormException("multiple: Valor não booleano.");
         }
     }
     

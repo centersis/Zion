@@ -116,7 +116,7 @@ class FormValida
     public function validar($form)
     {
         if (is_object($form) === false) {
-            throw new FormInvalidArgumeException('O argumento informado nao e uma instancia de uma classe válida!');
+            throw new FormInvalidArgumeException('O argumento informado não é uma instância de uma classe válida!');
         }
 
         $className = get_class($form);
@@ -159,46 +159,46 @@ class FormValida
                 case 'acao':
                     if (strtoupper($input->getAcao()) == 'CPF') {
                         if ($this->geral->validaCPF($userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao e um CPF valido!");
+                            throw new FormException($identifica . ": O valor informado não é um CPF válido!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'CNPJ') {
                         if ($this->geral->validaCNPJ($userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao e um CNPJ valido!");
+                            throw new FormException($identifica . ": O valor informado não é um CNPJ válido!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'CEP') {
                         if ($this->geral->validaCEP($userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao e um CEP valido!");
+                            throw new FormException($identifica . ": O valor informado não é um CEP válido!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'FLOAT') {
                         if ($this->numero->isFloat($userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao e um float valido!");
+                            throw new FormException($identifica . ": O valor informado não é um float válido!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'DATA') {
                         if ($this->data->validaData($userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao e uma data valida!");
+                            throw new FormException($identifica . ": O valor informado não é uma data válida!");
                         }
                     } elseif (strtoupper($input->getAcao()) == "HORA") {
                         if ($this->data->validaHora($userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao e uma hora valida!");
+                            throw new FormException($identifica . ": O valor informado não é uma hora válida!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'NUMBER') {
                         if (is_numeric($userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao e um numero valido!");
+                            throw new FormException($identifica . ": O valor informado não é um numero válido!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'UPLOAD') {
                         //Não implementado.
                     } elseif (strtoupper($input->getAcao()) == 'ESCOLHA') {
                         if (empty($userValue) and $input->getObrigatorio() === true) {
-                            throw new FormException($identifica . ": Voce deve selecionar uma das opcoes!");
+                            throw new FormException($identifica . ": Você deve selecionar uma das opções!");
                         }
                     } elseif (strtoupper($input->getAcao()) == 'CHOSEN') {
                         if (is_array($userValue)) {
                             if (@count($userValue) < 1 and $input->getObrigatorio() === true) {
-                                throw new FormException($identifica . ": Voce deve selecionar uma ou mais opcoes!");
+                                throw new FormException($identifica . ": Você deve selecionar uma ou mais opções!");
                             }
                         } else {
                             if ($input->getMultiplo() === true) {
-                                throw new FormException($identifica . ": A opcao 'multiplo' esta ativada, o valor submetido deve ser um array!");
+                                throw new FormException($identifica . ": A opção 'multiplo' está ativada, o valor submetido deve ser um array!");
                             }
                             if (empty($userValue) and $input->getObrigatorio() === true) {
                                 throw new FormException($identifica . ": selecione uma ou mais opções!");
@@ -211,7 +211,7 @@ class FormValida
                     $val = $input->getSelecaoMinima();
                     if (!empty($val)) {
                         if (count($userValue) < $val) {
-                            throw new FormException($identifica . ": Voce deve selecionar no minimo " . $val . " # opcoes! ");
+                            throw new FormException($identifica . ": Você deve selecionar no mínimo " . $val . " # opções! ");
                         }
                     }
                     break;
@@ -220,7 +220,7 @@ class FormValida
                     $val = $input->getSelecaoMaxima();
                     if (!empty($val)) {
                         if (count($userValue) > $val) {
-                            throw new FormException($identifica . ": Voce deve selecionar no maximo " . $val . " opcoes!");
+                            throw new FormException($identifica . ": Você deve selecionar no máximo " . $val . " opções!");
                         }
                     }
                     break;
@@ -237,7 +237,7 @@ class FormValida
                     $val = $input->getMinimoCaracteres();
                     if (!empty($val)) {
                         if ($this->texto->verificaMinimoCaracteres($val, $userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado e menor que o tamanho minimo solicitado de " . $val . " caracteres!");
+                            throw new FormException($identifica . ": O valor informado é menor que o tamanho mínimo solicitado de " . $val . " caracteres!");
                         }
                     }
                     break;
@@ -246,7 +246,7 @@ class FormValida
                     $val = $input->getMaximoCaracteres();
                     if (!empty($val)) {
                         if ($this->texto->verificaMaximoCaracteres($val, $userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado excede o tamanho maximo permitido de " . $val . " caracteres!");
+                            throw new FormException($identifica . ": O valor informado excede o tamanho máximo permitido de " . $val . " caracteres!");
                         }
                     }
                     break;
@@ -255,7 +255,7 @@ class FormValida
                     $val = $input->getValorMinimo();
                     if (is_numeric($val)) {
                         if ($this->numero->verificaValorMinimo($val, $userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao pode ser menor que " . $val . "!");
+                            throw new FormException($identifica . ": O valor informado não pode ser menor que " . $val . "!");
                         }
                     }
                     break;
@@ -264,7 +264,7 @@ class FormValida
                     $val = $input->getValorMaximo();
                     if (is_numeric($val)) {
                         if ($this->numero->verificaValorMaximo($val, $userValue) === false) {
-                            throw new FormException($identifica . ": O valor informado nao pode ser maior que " . $val . "!");
+                            throw new FormException($identifica . ": O valor informado não pode ser maior que " . $val . "!");
                         }
                     }
                     break;
@@ -273,7 +273,7 @@ class FormValida
                     $val = $input->getDataMinima();
                     if (isset($val)) {
                         if ($this->data->verificaDiferencaDataHora($userValue, $val) > 0) {
-                            throw new FormException($identifica . ": O valor informado nao pode ser menor que " . $val . "!");
+                            throw new FormException($identifica . ": O valor informado não pode ser menor que " . $val . "!");
                         }
                     }
                     break;
@@ -282,7 +282,7 @@ class FormValida
                     $val = $input->getDataMaxima();
                     if (isset($val)) {
                         if ($this->data->verificaDiferencaDataHora($userValue, $val) < 0) {
-                            throw new FormException($identifica . ": O valor informado nao pode ser maior que " . $val . "!");
+                            throw new FormException($identifica . ": O valor informado não pode ser maior que " . $val . "!");
                         }
                     }
                     break;

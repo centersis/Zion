@@ -128,7 +128,7 @@ class FormUpload extends \Zion\Form\FormUpload
             $this->codigoReferencia = $codigoReferencia;
             return $this;
         } else {
-            throw new FormException("codigoReferencia: Valor nao numerico.");
+            throw new FormException("codigoReferencia: Valor não numérico.");
         }
     }    
     
@@ -146,7 +146,7 @@ class FormUpload extends \Zion\Form\FormUpload
             $this->alturaMaxima = $alturaMaxima;
             return $this;
         } else {
-            throw new FormException("alturaMaxima: Valor nao numerico.");
+            throw new FormException("alturaMaxima: Valor não numérico.");
         }
     }
 
@@ -164,7 +164,7 @@ class FormUpload extends \Zion\Form\FormUpload
             $this->larguraMaxima = $larguraMaxima;
             return $this;
         } else {
-            throw new FormException("larguraMaxima: Valor nao numerico.");
+            throw new FormException("larguraMaxima: Valor não numérico.");
         }
     }
 
@@ -182,7 +182,7 @@ class FormUpload extends \Zion\Form\FormUpload
             $this->thumbnail = $thumbnail;
             return $this;
         } else {
-            throw new FormException("thumbnail: Valor nao booleano.");
+            throw new FormException("thumbnail: Valor não booleano.");
         }
     }
 
@@ -200,7 +200,7 @@ class FormUpload extends \Zion\Form\FormUpload
             $this->alturaMaximaTB = $alturaMaximaTB;
             return $this;
         } else {
-            throw new FormException("alturaMaximaTB: Valor nao numerico.");
+            throw new FormException("alturaMaximaTB: Valor não numerico.");
         }
     }
 
@@ -218,7 +218,7 @@ class FormUpload extends \Zion\Form\FormUpload
             $this->larguraMaximaTB = $larguraMaximaTB;
             return $this;
         } else {
-            throw new FormException("larguraMaximaTB: Valor nao numerico.");
+            throw new FormException("larguraMaximaTB: Valor não numerico.");
         }
     }
 
@@ -232,7 +232,7 @@ class FormUpload extends \Zion\Form\FormUpload
         if (is_array($extensoesPermitidas)) {
             $fails = @array_intersect($extensoesPermitidas, $this->extensoesNaoPermitidas);
             if(isset($this->extensoesNaoPermitidas) and @count($fails) > 0){
-                throw new FormException("extensoesPermitidas: A extensao ". $fails[0] ." esta na lista de extensoes nao permitidas.");
+                throw new FormException("extensoesPermitidas: A extensão ". $fails[0] ." está na lista de extensões não permitidas.");
             }
             $this->extensoesPermitidas = $extensoesPermitidas;
             return $this;
@@ -251,7 +251,7 @@ class FormUpload extends \Zion\Form\FormUpload
         if (is_array($extensoesNaoPermitidas)) {
             $fails = @array_intersect($extensoesNaoPermitidas, $this->extensoesPermitidas);
             if(isset($this->extensoesPermitidas) and @count($fails) > 0){
-                throw new FormException("extensoesNaoPermitidas: A extensao ". $fails[0] ." esta na lista de extensoes permitidas.");
+                throw new FormException("extensoesNaoPermitidas: A extensão ". $fails[0] ." está na lista de extensões permitidas.");
             }
             $this->extensoesNaoPermitidas = $extensoesNaoPermitidas;
             return $this;
@@ -271,7 +271,7 @@ class FormUpload extends \Zion\Form\FormUpload
             $this->tamanhoMaximoEmBytes = $tamanhoMaximoEmBytes;
             return $this;
         } else {
-            throw new FormException("tamanhoMaximoEmBytes: Valor nao numerico.");
+            throw new FormException("tamanhoMaximoEmBytes: Valor não numérico.");
         }
     }
 
@@ -284,12 +284,12 @@ class FormUpload extends \Zion\Form\FormUpload
     {
         if (is_numeric($minimoArquivos)) {
             if(isset($this->minimoArquivos) and $this->minimoArquivos < $minimoArquivos){
-                throw new FormException("minimoArquivos nao pode ser maior que maximoArquivos.");
+                throw new FormException("minimoArquivos não pode ser maior que maximoArquivos.");
             }
             $this->minimoArquivos = $minimoArquivos;
             return $this;
         } else {
-            throw new FormException("minimoArquivos: Valor nao numerico.");
+            throw new FormException("minimoArquivos: Valor não numérico.");
         }
     }
 
@@ -302,12 +302,12 @@ class FormUpload extends \Zion\Form\FormUpload
     {
         if (is_numeric($maximoArquivos)) {
             if(isset($this->maximoArquivos) and $this->maximoArquivos > $maximoArquivos){
-                throw new FormException("maximoArquivos nao pode ser menor que minimoArquivos.");
+                throw new FormException("maximoArquivos não pode ser menor que minimoArquivos.");
             }
             $this->maximoArquivos = $maximoArquivos;
             return $this;
         } else {
-            throw new FormException("maximoArquivos: Valor nao numerico.");
+            throw new FormException("maximoArquivos: Valor não numérico.");
         }
     }
 

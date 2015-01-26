@@ -112,7 +112,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
+            throw new FormException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -125,12 +125,12 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         if(is_numeric($selecaoMaxima)){
             if(isset($this->selecaoMinima) and $selecaoMaxima < $this->selecaoMinima){
-                throw new FormException("selecaoMaxima nao pode ser menor que selecao minima.");
+                throw new FormException("selecaoMaxima não pode ser menor que selecao mínima.");
             }
             $this->selecaoMaxima = $selecaoMaxima;
             return $this;
         } else {
-            throw new FormException("selecaoMaxima: O valor informado deve ser do tipo numerico.");
+            throw new FormException("selecaoMaxima: O valor informado deve ser do tipo numérico.");
         }
     }
     
@@ -143,12 +143,12 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         if(is_numeric($selecaoMinima)){
             if(isset($this->selecaoMaxima) and $selecaoMinima > $this->selecaoMaxima){
-                throw new FormException("selecaoMinima nao pode ser maior que selecao maxima.");
+                throw new FormException("selecaoMinima não pode ser maior que seleção máxima.");
             }
             $this->selecaoMinima = $selecaoMinima;
             return $this;
         } else {
-            throw new FormException("selecaoMinima: O valor informado deve ser do tipo numerico.");
+            throw new FormException("selecaoMinima: O valor informado deve ser do tipo numérico.");
         }
     }
     
@@ -180,7 +180,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             $this->multiplo = $multiplo;
             return $this;
         } else {
-            throw new FormException("multiplo: Valor nao booleano");
+            throw new FormException("multiplo: Valor não booleano");
         }
     }
 
@@ -206,7 +206,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             $this->expandido = $expandido;
             return $this;
         } else {
-            throw new FormException("expandido: Valor nao booleano");
+            throw new FormException("expandido: Valor não booleano");
         }
     }
 
@@ -269,7 +269,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             $this->array = $array;
             return $this;
         } else {
-            throw new FormException("array: O valor informado nao e um array.");
+            throw new FormException("array: O valor informado não é um array.");
         }
     }
 
@@ -487,7 +487,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             $this->ignoreCod = $ignoreCod;
             return $this;
         } else {
-            throw new FormException("ignoreCod: O valor informado nao e um array.");
+            throw new FormException("ignoreCod: O valor informado não é um array.");
         }
     }
     

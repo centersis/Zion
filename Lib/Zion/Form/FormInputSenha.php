@@ -102,13 +102,13 @@ class FormInputSenha extends FormBasico
         if (is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new FormException("maximoCaracteres nao pode ser menor que minimoCaracteres.");
+                throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
 
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
-            throw new FormException("maximoCaracteres: Valor nao numerico.");
+            throw new FormException("maximoCaracteres: Valor não numerico.");
         }
     }
 
@@ -133,13 +133,13 @@ class FormInputSenha extends FormBasico
         if (is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new FormException("minimoCaracteres nao pode ser maior que maximoCaracteres.");
+                throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
-            throw new FormException("minimoCaracteres: Valor nao numerico.");
+            throw new FormException("minimoCaracteres: Valor não numerico.");
         }
     }
 
@@ -165,7 +165,7 @@ class FormInputSenha extends FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
+            throw new FormException("obrigatorio: Valor não booleano");
         }
     }
 
