@@ -1,33 +1,33 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
+/**
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 /**
  * Controller()
  * @author Pablo Vanni - pablovanni@gmail.com
@@ -165,42 +165,48 @@ class Controller
 
             $objForm = \func_get_arg($i);
 
-            if ($this->acao === 'visualizar') {
-                $retorno = $objForm->montaFormVisualizar();
+            if (\get_class($objForm) == 'stdClass') {
+                $retorno = $objForm->conteudo;
+                $abaNome = $objForm->tabNome;
+                
             } else {
-                $retorno = $objForm->montaForm();
-                $retorno .= $objForm->javaScript()->getLoad(true);
-                $objForm->javaScript()->resetLoad();
-            }
-
-            $nomeAtual = $objForm->getConfig()->getHeader();
-            $abaNome = $nomeAtual ? $nomeAtual : 'Aba ' . $i;
+                if ($this->acao === 'visualizar') {
+                    $retorno = $objForm->montaFormVisualizar();
+                } else {
+                    $retorno = $objForm->montaForm();
+                    $retorno .= $objForm->javaScript()->getLoad(true);
+                    $objForm->javaScript()->resetLoad();
+                }
+                
+                $nomeAtual = $objForm->getConfig()->getHeader();
+                $abaNome = $nomeAtual ? $nomeAtual : 'Aba ' . $i;
+            }            
 
             $tabs->config($i)->setAtiva($ativa)->setTitulo($abaNome)->setConteudo($retorno);
         }
 
         return $tabs->criar();
     }
-    
+
     protected function imprimir()
     {
         new \Zion\Acesso\Acesso('imprimir');
-        
+
         $impressao = new \Pixel\Grid\Impressao();
-        
+
         $dados = json_decode($this->filtrar(), true);
-        
-        $impressao->setLogo('http:'. SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
-        
+
+        $impressao->setLogo('http:' . SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
+
         $retorno = $impressao->imprimeHTML($dados['retorno']);
 
-        if($retorno === false){
+        if ($retorno === false) {
             return $this->jsonErro('Falaha ao gerar PDF para impressão!');
         } else {
             return $retorno;
         }
     }
-    
+
     protected function salvarPDF()
     {
         new \Zion\Acesso\Acesso('salvarPDF');
@@ -209,8 +215,8 @@ class Controller
 
         $dados = json_decode($this->filtrar(), true);
 
-        $impressao->setLogo('http:'. SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
-        if($impressao->imprimePDF($dados['retorno']) === false){
+        $impressao->setLogo('http:' . SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
+        if ($impressao->imprimePDF($dados['retorno']) === false) {
             return $this->jsonErro('Falaha ao gerar PDF para impressão!');
         } else {
             return $this->jsonSucesso('PDF gerado com sucesso!');
