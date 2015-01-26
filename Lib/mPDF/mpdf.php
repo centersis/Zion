@@ -48,7 +48,7 @@ if (!defined('_MPDF_TTFONTDATAPATH')) { define('_MPDF_TTFONTDATAPATH',_MPDF_PATH
 
 $errorlevel=error_reporting();
 $errorlevel=error_reporting($errorlevel & ~E_NOTICE);
-
+\set_error_handler("\\Sappiens\\sisErro", \E_WARNING);
 //error_reporting(E_ALL);
 
 if(function_exists("date_default_timezone_set")) {
