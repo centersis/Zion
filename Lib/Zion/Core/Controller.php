@@ -66,6 +66,7 @@ class Controller
             }
 
             return $this->{$acao}();
+
         } catch (\Exception $e) {
 
             return $this->jsonErro($e->getMessage());
