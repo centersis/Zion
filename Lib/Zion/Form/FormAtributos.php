@@ -158,7 +158,7 @@ class FormAtributos
             $buffer .= '<div id="' . $config->getContainer() . '">';
         }
 
-        $buffer .= "<button " . str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
+        $buffer .= "<button " . \str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
 
         if ($config->getContainer()) {
             $buffer .= '</div>';
@@ -192,7 +192,7 @@ class FormAtributos
             $buffer .= '<div id="' . $config->getContainer() . '">';
         }
 
-        $buffer .= '<input ' . str_repeat('%s', $totalAtributos) . '/>';
+        $buffer .= '<input ' . \str_repeat('%s', $totalAtributos) . '/>';
 
         if ($config->getContainer()) {
             $buffer .= '</div>';
@@ -209,7 +209,7 @@ class FormAtributos
             $buffer .= '<div id="' . $config->getContainer() . '">';
         }
 
-        $buffer .= "<textarea " . str_repeat('%s', $totalAtributos - 1) . ">%s</textarea>";
+        $buffer .= "<textarea " . \str_repeat('%s', $totalAtributos - 1) . ">%s</textarea>";
 
         if ($config->getContainer()) {
             $buffer .= '</div>';

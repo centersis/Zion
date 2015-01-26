@@ -115,7 +115,7 @@ class FormInputHora extends \Zion\Form\FormInputHora
 
     public function getemColunaDeTamanho()
     {
-        return $this->emColunaDeTamanho;
+        return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
     
     public function setLayoutPixel($layoutPixel)

@@ -110,7 +110,7 @@ class FormInputCep extends \Zion\Form\FormInputCep
 
     public function getemColunaDeTamanho()
     {
-        return $this->emColunaDeTamanho;
+        return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
     
     public function setLayoutPixel($layoutPixel)
