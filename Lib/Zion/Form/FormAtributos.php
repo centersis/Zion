@@ -99,7 +99,7 @@ class FormAtributos
 
         switch ($tipo) {
             case 'disabled':
-                $ret = 'disabled';
+                $ret = $valor ? 'disabled' : '';
                 break;
             case 'multiple':
                 $ret = 'multiple';
