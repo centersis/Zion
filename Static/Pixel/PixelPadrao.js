@@ -606,7 +606,7 @@ function chChosen(a, b, c)
 
 function sisImprimir()
 {
-    window.open("?acao=imprimir?acao=salvarPDF&sisModoImpressao=1", 'imprimir');
+    window.open("?acao=imprimir&sisModoImpressao=1", 'imprimir');
 }
 
 function sisSalvarPDF() {
