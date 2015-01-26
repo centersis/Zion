@@ -489,6 +489,18 @@ class CrudUtil
         }
     }
 
+    public function startTransaction()
+    {
+        $con = \Zion\Banco\Conexao::conectar();
+        $con->startTransaction();
+    }
+    
+    public function stopTransaction($erro = '')
+    {
+        $con = \Zion\Banco\Conexao::conectar();
+        $con->stopTransaction($erro);
+    }
+    
     private function removeColchetes($campos)
     {
         if (\is_array($campos)) {
@@ -499,6 +511,6 @@ class CrudUtil
             $campos = \str_replace('[]', '', $campos);
         }
         return $campos;
-    }
+    }    
 
 }
