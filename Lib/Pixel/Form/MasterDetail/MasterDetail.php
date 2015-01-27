@@ -94,7 +94,7 @@ class MasterDetail
         $objPai->processarForm($grupo);
 
         $objPai->validar();
-        
+
         $crudUtil->update($tabela, $colunasCrud, $objPai, [$codigo => $coringa]);
     }
 
@@ -137,6 +137,9 @@ class MasterDetail
         $codigo = $config->getCodigo();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
+        $objetoRemover = $config->getObjetoRemover();
+        $metodoRemover = $config->getMetodoRemover();
+
 
         $qb = $con->link()->createQueryBuilder();
         $qb->select($codigo)
@@ -148,6 +151,11 @@ class MasterDetail
         while ($dados = $rs->fetch()) {
 
             if (\in_array($dados[$codigo], $aRemover)) {
+
+                if ($objetoRemover) {
+                    $objetoRemover->{$metodoRemover}($dados[$codigo]);
+                }
+
                 $crudUtil->delete($tabela, [$codigo => $dados[$codigo]]);
             }
         }
@@ -165,6 +173,8 @@ class MasterDetail
         $campos = $config->getCampos();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
+        $objetoRemover = $config->getObjetoRemover();
+        $metodoRemover = $config->getMetodoRemover();
 
         if (empty($tabela)) {
             throw new \Exception('Tabela não informada!');
@@ -184,6 +194,16 @@ class MasterDetail
 
         if (empty($codigoReferencia)) {
             throw new \Exception('Código de referência deve ser informado!');
+        }
+
+        if (!empty($objetoRemover)) {
+            if (\is_object($objetoRemover)) {
+                if (!\method_exists($objetoRemover, $metodoRemover)) {
+                    throw new \Exception("MetodoRemover informado não foi encontrado no objeto (ObjetoRemover)!");
+                }
+            } else {
+                throw new \Exception("ObjetoRemover informado não é um objeto válido!");
+            }
         }
 
         $itens = \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
