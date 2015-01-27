@@ -80,7 +80,7 @@ class Padrao extends \Zion\Layout\Html
         $buffer .= $this->html->abreTagAberta('head');
         $buffer .= $this->html->abreTagAberta('meta', array('charset'=>'utf-8'));
         $buffer .= $this->html->abreTagAberta('meta', array('http-equiv'=>'X-UA-Compatible','content'=>'IE=edge,chrome=1'));
-        $buffer .= $this->html->entreTags('title', ' ' . DEFAULT_MODULO_NOME . " - " . SIS_ID_NAMESPACE_PROJETO . ' ');
+        $buffer .= $this->html->entreTags('title', 'Sappiens Framework');
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'generator','content'=>"Sappiens Framework"));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'manifest','content'=>"Tah olhando o codigo-fonte? Vem trabalhar com a gente! [curriculos@braconsultoria.com.br]"));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'description','content'=>SIS_DESCRICAO));
