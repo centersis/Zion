@@ -223,7 +223,7 @@ class CrudUtil
 
             $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
         }
-
+        
         $con->executar($qb);
 
         $uid = $con->ultimoId();
@@ -335,7 +335,9 @@ class CrudUtil
         $qb->where($qb->expr()->eq($chavePrimaria, '?'));
 
         $qb->setParameter($chave + 1, $codigo, \PDO::PARAM_INT);
-
+        
+        $qb;
+        
         $linhasAfetadas = $con->executar($qb);
 
 
@@ -371,15 +373,15 @@ class CrudUtil
         return $linhasAfetadas;
     }
 
-    public function delete($tabela, $codigo, $chavePrimaria)
+    public function delete($tabela, $cod, $nomeChavePrimaria)
     {
         $con = \Zion\Banco\Conexao::conectar();
 
         $qb = $con->link()->createQueryBuilder();
 
         $qb->delete($tabela, '')
-                ->where($qb->expr()->eq($chavePrimaria, ':cod'))
-                ->setParameter(':cod', $codigo);
+                ->where($qb->expr()->eq($nomeChavePrimaria, ':cod'))
+                ->setParameter(':cod', $cod);
 
         return $con->executar($qb);
     }

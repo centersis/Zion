@@ -100,7 +100,7 @@ class MasterDetailHtml
         return ['html' => $buffer, 'js' => $bufferJS, 'ativos' => \implode(',', $ativos)];
     }
 
-    private function montaGrupoDeCampos($config, $coringa, $nomeForm, array $valores = [])
+    private function montaGrupoDeCampos($config, $coringa, $nomeForm, array $valores = [], $limpar = false)
     {
         $form = new \Pixel\Form\Form();
         $pixelJs = new \Pixel\Form\FormPixelJavaScript();
@@ -121,6 +121,15 @@ class MasterDetailHtml
             if (!empty($valores) and \array_key_exists($nomeOriginalMinusculo, $valores)) {
 
                 $configuracao->setValor($valores[$nomeOriginalMinusculo]);
+            }
+
+            if ($limpar) {
+                $valorPadrao = $configuracao->getValorPadrao();
+                if ($valorPadrao) {
+                    $configuracao->setValor($valorPadrao);
+                } else {
+                    $configuracao->setValor(NULL);
+                }
             }
 
             $arCampos[] = $configuracao->setNome($novoNomeId)->setId($novoNomeId);
@@ -173,7 +182,7 @@ class MasterDetailHtml
 
         $coringa = $this->coringa();
 
-        $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm);
+        $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm, [], true);
 
         $htmlModelo = $this->abreItem($config, $coringa) . $dadosGrupo['html'] . $this->fechaItem($config, $coringa);
         $jsModelo = $js->abreLoadJQuery() . $dadosGrupo['js'] . $js->fechaLoadJQuery();

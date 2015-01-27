@@ -44,7 +44,7 @@ class MasterDetail
             throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
-        $nome = $config->getNome();        
+        $nome = $config->getNome();
 
         $itens = \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
         $confHidden = \json_decode(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)));
@@ -60,27 +60,54 @@ class MasterDetail
 
             if (\in_array($coringa, $doBanco)) {
                 $ativos[] = $coringa;
-                
+
                 $this->update($config, $coringa);
-                
-            } else {
+            } else {                
                 $this->insert($config, $coringa);
             }
         }
+        
+        $aRemover = \array_diff($doBanco, $ativos);
 
-        $this->removeItens($config, $ativos);
+        $this->removeItens($config, $aRemover);
+    }
+
+    private function update($config, $coringa)
+    {
+        $crudUtil = new \Pixel\Crud\CrudUtil();
+
+        $tabela = $config->getTabela();
+        $codigo = $config->getCodigo();
+        $campos = $config->getCampos();
+        $objPai = $config->getObjetoPai();
+
+        $colunasCrud = [];
+        $grupo = [];
+        foreach ($campos as $campo => $objForm) {
+
+            $objForm->setNome($campo);
+            $objForm->setValor($objPai->retornaValor($campo . $coringa));
+            $colunasCrud[] = $campo;
+            $grupo[] = $objForm;
+        }
+
+        $objPai->processarForm($grupo);
+
+        $objPai->validar();
+        $objPai->set('cod',$coringa);
+        $crudUtil->update($tabela, $colunasCrud, $objPai, $codigo);
     }
 
     private function insert($config, $coringa)
     {
         $crudUtil = new \Pixel\Crud\CrudUtil();
-     
+
         $tabela = $config->getTabela();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
         $campos = $config->getCampos();
         $objPai = $config->getObjetoPai();
-        
+
         $colunasCrud = [];
         $grupo = [];
         foreach ($campos as $campo => $objForm) {
@@ -97,11 +124,10 @@ class MasterDetail
 
         $colunasCrud[] = $campoReferencia;
         $objPai->set($campoReferencia, $codigoReferencia, 'numero');
-
         $crudUtil->insert($tabela, $colunasCrud, $objPai);
     }
 
-    private function removeItens(\Pixel\Form\MasterDetail\FormMasterDetail $config, array $ignore = [])
+    private function removeItens(\Pixel\Form\MasterDetail\FormMasterDetail $config, array $aRemover = [])
     {
         $con = \Zion\Banco\Conexao::conectar();
 
@@ -120,8 +146,9 @@ class MasterDetail
         $rs = $con->executar($qb);
 
         while ($dados = $rs->fetch()) {
-            if (!\in_array($codigo, $ignore)) {
-                $crudUtil->delete($tabela, $codigo, $dados[$codigo]);
+
+            if (\in_array($dados[$codigo], $aRemover)) {
+                $crudUtil->delete($tabela, $dados[$codigo], $codigo);
             }
         }
     }
