@@ -356,7 +356,7 @@ class Template extends \Zion\Layout\Padrao
 
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
-        $buffer .= $breadCrumb->getBreadCrumb();
+        //$buffer .= $breadCrumb->getBreadCrumb();
         $buffer .= $this->getPageHeader();
         //$buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerFiltros', 'class' => 'clearfix']) . $this->getFiltros() .  $this->fechaTag('div');
 
