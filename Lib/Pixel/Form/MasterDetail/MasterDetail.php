@@ -62,11 +62,11 @@ class MasterDetail
                 $ativos[] = $coringa;
 
                 $this->update($config, $coringa);
-            } else {                
+            } else {
                 $this->insert($config, $coringa);
             }
         }
-        
+
         $aRemover = \array_diff($doBanco, $ativos);
 
         $this->removeItens($config, $aRemover);
@@ -94,8 +94,8 @@ class MasterDetail
         $objPai->processarForm($grupo);
 
         $objPai->validar();
-        $objPai->set('cod',$coringa);
-        $crudUtil->update($tabela, $colunasCrud, $objPai, $codigo);
+        
+        $crudUtil->update($tabela, $colunasCrud, $objPai, [$codigo => $coringa]);
     }
 
     private function insert($config, $coringa)
@@ -148,7 +148,7 @@ class MasterDetail
         while ($dados = $rs->fetch()) {
 
             if (\in_array($dados[$codigo], $aRemover)) {
-                $crudUtil->delete($tabela, $dados[$codigo], $codigo);
+                $crudUtil->delete($tabela, [$codigo => $dados[$codigo]]);
             }
         }
     }

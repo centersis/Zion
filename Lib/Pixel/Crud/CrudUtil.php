@@ -223,7 +223,7 @@ class CrudUtil
 
             $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
         }
-        
+
         $con->executar($qb);
 
         $uid = $con->ultimoId();
@@ -258,7 +258,7 @@ class CrudUtil
         return $uid;
     }
 
-    public function update($tabela, array $campos, $objForm, $chavePrimaria, $valorChavePrimaria = 0)
+    public function update($tabela, array $campos, $objForm, array $criterio, array $tipagemCriterio = [])
     {
         $con = \Zion\Banco\Conexao::conectar();
         $upload = new \Pixel\Arquivo\ArquivoUpload();
@@ -294,8 +294,6 @@ class CrudUtil
                     $arrayTipos[] = \PDO::PARAM_NULL;
                 }
             }
-
-            $codigo = $objForm->get('cod');
         } else {
 
             $form = new \Zion\Form\Form();
@@ -311,8 +309,6 @@ class CrudUtil
                     $arrayTipos[] = \PDO::PARAM_NULL;
                 }
             }
-
-            $codigo = $valorChavePrimaria;
         }
 
         $camposVistoriados = $this->removeColchetes($campos);
@@ -331,12 +327,21 @@ class CrudUtil
 
             $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
         }
-
-        $qb->where($qb->expr()->eq($chavePrimaria, '?'));
-
-        $qb->setParameter($chave + 1, $codigo, \PDO::PARAM_INT);
         
-        $qb;
+        $pos = $chave;
+        foreach ($criterio as $campo => $valor) {
+            $pos++;
+            
+            $tipo = \PDO::PARAM_INT;
+            if(\array_key_exists($campo, $tipagemCriterio)){
+                $tipo = $tipagemCriterio[$campo];
+            }
+            
+            $qb->andWhere($qb->expr()->eq($campo, '?'))
+                    ->setParameter($pos, $valor, $tipo);
+        }        
+
+        $codigo = \current($criterio);
         
         $linhasAfetadas = $con->executar($qb);
 
@@ -366,22 +371,33 @@ class CrudUtil
                         break;
                 }
             }
-        }        
+        }
 
         $con->stopTransaction();
 
         return $linhasAfetadas;
     }
 
-    public function delete($tabela, $cod, $nomeChavePrimaria)
+    public function delete($tabela, array $criterio, array $tipagemCriterio = [])
     {
         $con = \Zion\Banco\Conexao::conectar();
 
         $qb = $con->link()->createQueryBuilder();
 
-        $qb->delete($tabela, '')
-                ->where($qb->expr()->eq($nomeChavePrimaria, ':cod'))
-                ->setParameter(':cod', $cod);
+        $qb->delete($tabela, '');
+
+        $pos = 0;
+        foreach ($criterio as $campo => $valor) {
+            $pos++;
+            
+            $tipo = \PDO::PARAM_INT;
+            if(\array_key_exists($campo, $tipagemCriterio)){
+                $tipo = $tipagemCriterio[$campo];
+            }
+            
+            $qb->andWhere($qb->expr()->eq($campo, '?'))
+                    ->setParameter($pos, $valor, $tipo);
+        }
 
         return $con->executar($qb);
     }
@@ -496,13 +512,13 @@ class CrudUtil
         $con = \Zion\Banco\Conexao::conectar();
         $con->startTransaction();
     }
-    
+
     public function stopTransaction($erro = '')
     {
         $con = \Zion\Banco\Conexao::conectar();
         $con->stopTransaction($erro);
     }
-    
+
     private function removeColchetes($campos)
     {
         if (\is_array($campos)) {
@@ -513,6 +529,6 @@ class CrudUtil
             $campos = \str_replace('[]', '', $campos);
         }
         return $campos;
-    }    
+    }
 
 }
