@@ -50,6 +50,8 @@ class FormMasterDetail
     private $objetoPai;
     private $campoReferencia;
     private $codigoReferencia;
+    private $objetoRemover;
+    private $metodoRemover;
 
     /**
      * Construtor
@@ -142,6 +144,16 @@ class FormMasterDetail
     public function getCodigoReferencia()
     {
         return $this->codigoReferencia;
+    }
+    
+    public function getObjetoRemover()
+    {
+        return $this->objetoRemover;
+    }
+    
+    public function getMetodoRemover()
+    {
+        return $this->metodoRemover;
     }
 
     /**
@@ -341,5 +353,29 @@ class FormMasterDetail
         
         return $this;
     }    
+    
+    public function setObjetoRemover($objetoRemover, $metodoRemover)
+    {
+        if (\is_object($objetoRemover)) {
+            $this->objetoRemover = $objetoRemover;            
+        } else {
+            throw new FormException("objetoRemover: Valor não é um objeto válido.");
+        }
+        
+        $this->setMetodoRemover($metodoRemover);
+        
+        return $this;
+    }
+    
+    private function setMetodoRemover($metodoRemover)
+    {
+        if (!empty($metodoRemover) and \is_string($metodoRemover)) {
+            $this->metodoRemover = $metodoRemover;            
+        } else {
+            throw new FormException("objetoRemover -> metodoRemover: Valor não é válido.");
+        }
+        
+        return $this;
+    }  
 
 }
