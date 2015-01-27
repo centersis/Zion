@@ -106,14 +106,14 @@ class FormInputHora extends \Zion\Form\FormBasico
         if($this->hora->validaHora($horaMinima) === true){
 
             if(isset($this->horaMaxima) and $this->hora->verificaDiferencaDataHora($this->horaMaxima, $horaMinima) == 1) {
-                throw new FormException("horaMinima nao pode ser maior que horaMaxima.");
+                throw new FormException("horaMinima não pode ser maior que horaMaxima.");
             }
 
             $this->horaMinima = $horaMinima;        
             return $this;
 
         } else {
-            throw new FormException("horaMinima: O valor informado nao e uma hora valida.");
+            throw new FormException("horaMinima: O valor informado não é uma hora válida.");
         }
     }
     
@@ -137,14 +137,14 @@ class FormInputHora extends \Zion\Form\FormBasico
         if($this->hora->validaHora($horaMaxima)){
 
             if(isset($this->horaMinima) and $this->hora->verificaDiferencaDataHora($this->horaMinima, $horaMaxima) == -1) {
-                throw new FormException("horaMinima nao pode ser maior que horaMaxima.");
+                throw new FormException("horaMinima não pode ser maior que horaMaxima.");
             }
 
             $this->horaMaxima = $horaMaxima;
             return $this;
 
         } else {
-            throw new FormException("horaMaxima: O valor informado nao e uma hora valida.");
+            throw new FormException("horaMaxima: O valor informado não é uma hora válida.");
         }
     }
     
@@ -194,7 +194,7 @@ class FormInputHora extends \Zion\Form\FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
+            throw new FormException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -219,7 +219,7 @@ class FormInputHora extends \Zion\Form\FormBasico
             $this->mostrarSegundos = $mostrarSegundos;
             return $this;
         } else {
-            throw new FormException("mostrarSegundos: Valor nao booleano");
+            throw new FormException("mostrarSegundos: Valor não booleano");
         }
     }
     

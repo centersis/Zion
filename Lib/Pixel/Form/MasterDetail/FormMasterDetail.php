@@ -43,6 +43,7 @@ class FormMasterDetail
     private $addMin;
     private $addTexto;
     private $tabela;
+    private $codigo;
     private $campos;
     private $botaoRemover;
     private $totalItensInicio;
@@ -106,6 +107,11 @@ class FormMasterDetail
     public function getTabela()
     {
         return $this->tabela;
+    }
+    
+    public function getCodigo()
+    {
+        return \strtolower($this->codigo);
     }
 
     public function getCampos()
@@ -236,6 +242,17 @@ class FormMasterDetail
         $this->tabela = $tabela;
         return $this;
     }
+    
+    public function setCodigo($codigo)
+    {
+        if (!\is_string($codigo) or empty($codigo)) {
+            throw new FormException('setCodigo: Informe o código da tabela corretamente!');
+        }
+
+        $this->codigo = $codigo;
+        return $this;
+    }
+    
 
     /**
      * Deve ser informado um array com a seguinte estrutura:

@@ -51,7 +51,7 @@ class DriverException extends DBALException
             $exception = $driverException;
         }
 
-        parent::__construct('<pre>'. $message .'</pre>', 0, $exception);
+        parent::__construct($message, 0, $exception);
 
         $this->driverException = $driverException;
     }

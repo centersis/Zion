@@ -203,7 +203,7 @@ class FormHtml extends \Zion\Form\FormHtml
         $expandido = $config->getExpandido();
         $multiplo = $config->getMultiplo();
         $chosen = $config->getChosen();
-
+        
         if (($expandido === false and $multiplo === false) or $chosen === true) {
 
             $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
@@ -214,7 +214,7 @@ class FormHtml extends \Zion\Form\FormHtml
                 $config->setComplemento($complemento);
             }
 
-            if ($config->getCampoDependencia()) {
+            if ($config->getCampoDependencia()) {                
 
                 $config->setContainer('sisDP' . $config->getNome());
 
@@ -230,7 +230,6 @@ class FormHtml extends \Zion\Form\FormHtml
                     $dNomeCampo = $config->getCampoDependencia();
                     $dObjeto = $form->getObjetos($dNomeCampo);
                     $dCod = $dObjeto->getValor();                    
-
                     $novoNamespace = \str_replace('/', '\\', $dClasse);
                     
                     $instancia = '\\' . $novoNamespace;
@@ -244,6 +243,7 @@ class FormHtml extends \Zion\Form\FormHtml
                     $formE = $i->{$dMetodo}($dCod);
 
                     $objeto = $formE->getObjetos($config->getNome());
+                    $objeto->setValor($config->getValor());
                     $objeto->setLayoutPixel(false);
                     $objeto->setContainer('dp' . $config->getNome());
 
@@ -383,7 +383,12 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $html = new \Zion\Layout\Html();
 
-        $buffer = $html->abreTagAberta('div', array('id' => 'sisFormId' . $config->getId(), 'class' => 'col-sm-' . $config->getEmColunaDeTamanho()));
+        $colunasDeTamanho = $config->getEmColunaDeTamanho();
+        if(!\is_numeric($colunasDeTamanho)){
+            throw new \Exception("Tamanho de coluna não informado!".$config->getTipoBase()." - ".$config->getNome());
+        }
+        
+        $buffer = $html->abreTagAberta('div', array('id' => 'sisFormId' . $config->getId(), 'class' => 'col-sm-' . $colunasDeTamanho));
         $buffer .= $html->abreTagAberta('div', array('class' => 'form-group'));
 
         $buffer .= $html->abreTagAberta('label', array('for' => $config->getId(), 'class' => 'col-sm-3 control-label'));

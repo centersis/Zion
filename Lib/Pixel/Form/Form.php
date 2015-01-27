@@ -223,7 +223,7 @@ class Form extends \Zion\Form\Form
             $obj = $nomeOuObjeto ? [$nomeOuObjeto => $this->objetos[$nomeOuObjeto]] : $this->objetos;
         }
 
-        foreach ($obj as $idCampo => $objCampos) {
+        foreach ($obj as $idCampo => $objCampos) {                        
 
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :

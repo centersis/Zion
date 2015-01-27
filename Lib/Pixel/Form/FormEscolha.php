@@ -156,7 +156,7 @@ class FormEscolha extends \Zion\Form\FormEscolha
 
     public function getemColunaDeTamanho()
     {
-        return $this->emColunaDeTamanho;
+        return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
 
     public function setLayoutPixel($layoutPixel)

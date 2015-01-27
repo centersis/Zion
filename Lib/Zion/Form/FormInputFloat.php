@@ -102,7 +102,7 @@ class FormInputFloat extends \Zion\Form\FormBasico
             $this->largura = $largura;
             return $this;
         } else {
-            throw new FormException("largura: O valor nao esta nos formatos aceitos: 10%; 10px; ou 10");
+            throw new FormException("largura: O valor não está nos formatos aceitos: 10%; 10px; ou 10");
         }
     }
 
@@ -126,13 +126,13 @@ class FormInputFloat extends \Zion\Form\FormBasico
         if($this->numero->isFloat($valorMaximo) === true){
 
             if(isset($this->valorMinimo) and ($valorMaximo < $this->valorMinimo)) {
-                throw new FormException("valorMaximo nao pode ser menor que valorMinimo.");
+                throw new FormException("valorMaximo não pode ser menor que valorMinimo.");
             }
 
             $this->valorMaximo = $valorMaximo;
             return $this;
         } else {
-            throw new FormException("valorMaximo: O valor informado nao e float.");
+            throw new FormException("valorMaximo: O valor informado não é float.");
         }
     }
     
@@ -156,13 +156,13 @@ class FormInputFloat extends \Zion\Form\FormBasico
         if($this->numero->isFloat($valorMinimo) === true){
 
             if(isset($this->valorMaximo) and ($valorMinimo > $this->valorMaximo)) {
-                throw new FormException("valorMinimo nao pode ser maior que valorMaximo.");
+                throw new FormException("valorMinimo não pode ser maior que valorMaximo.");
             }
 
             $this->valorMinimo = $valorMinimo;
             return $this;
         } else {
-            throw new FormException("valorMinimo: O valor informado nao e float.");
+            throw new FormException("valorMinimo: O valor informado não é float.");
         }
     }
     
@@ -212,7 +212,7 @@ class FormInputFloat extends \Zion\Form\FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
+            throw new FormException("obrigatorio: Valor não booleano");
         }
     }
 

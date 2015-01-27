@@ -93,7 +93,7 @@ class FormInputButton extends \Zion\Form\FormInputButton
 
     public function getemColunaDeTamanho()
     {
-        return $this->emColunaDeTamanho;
+        return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
 
     /**

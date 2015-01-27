@@ -101,14 +101,14 @@ class FormInputData extends \Zion\Form\FormBasico
         if($this->data->validaData($dataMinima) === true){
 
             if(isset($this->dataMaxima) and $this->data->verificaDiferencaDataHora($this->dataMaxima, $dataMinima) == 1) {
-                throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
+                throw new FormException("dataMinima não pode ser maior que dataMaxima.");
             }
 
             $this->dataMinima = $dataMinima;        
             return $this;
 
         } else {
-            throw new FormException("dataMinima: O valor informado nao e uma data/hora valida.");
+            throw new FormException("dataMinima: O valor informado não é uma data/hora válida.");
         }
     }
     
@@ -132,14 +132,14 @@ class FormInputData extends \Zion\Form\FormBasico
         if($this->data->validaData($dataMaxima)){
 
             if(isset($this->dataMinima) and $this->data->verificaDiferencaDataHora($this->dataMinima, $dataMaxima) == -1) {
-                throw new FormException("dataMinima nao pode ser maior que dataMaxima.");
+                throw new FormException("dataMinima não pode ser maior que dataMaxima.");
             }
 
             $this->dataMaxima = $dataMaxima;
             return $this;
 
         } else {
-            throw new FormException("dataMaxima: O valor informado nao e uma data/hora valida.");
+            throw new FormException("dataMaxima: O valor informado não é uma data/hora válida.");
         }
     }
     
@@ -189,7 +189,7 @@ class FormInputData extends \Zion\Form\FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor nao booleano");
+            throw new FormException("obrigatorio: Valor não booleano");
         }
     }
 
