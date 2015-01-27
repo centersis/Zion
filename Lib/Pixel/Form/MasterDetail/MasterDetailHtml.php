@@ -22,9 +22,9 @@ class MasterDetailHtml
         $js = new \Zion\Layout\JavaScript();
         $objPai = $config->getObjetoPai();
 
-        $bufferJS = '';
-        $buffer = $this->abreGrupo($config);
-        $buffer.= $this->botaoAdd($config, $nomeForm);
+        $textoJs = '';
+        $html = '';
+        $ativos = '';
 
         $acao = $objPai->getAcao();
 
@@ -32,26 +32,30 @@ class MasterDetailHtml
 
             $dadosGrupo = $this->camposDoBanco($config, $nomeForm);
 
-            $buffer .= $dadosGrupo['html'];
-            $bufferJS = $dadosGrupo['js'];
+            $html .= $dadosGrupo['html'];
+            $textoJs = $dadosGrupo['js'];
+            $ativos = $dadosGrupo['ativos'];
         } else {
             for ($i = 0; $i < $totalInicio; $i++) {
 
                 $coringa = $this->coringa();
 
-                $buffer.= $this->abreItem($config, $coringa);
+                $html.= $this->abreItem($config, $coringa);
 
                 $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm);
 
-                $buffer .= $dadosGrupo['html'];
-                $bufferJS .=$dadosGrupo['js'];
+                $html .= $dadosGrupo['html'];
+                $textoJs .=$dadosGrupo['js'];
 
-                $buffer .= $this->fechaItem($config, $coringa);
+                $html .= $this->fechaItem($config, $coringa);
             }
         }
 
+        $buffer = $this->abreGrupo($config);
+        $buffer .= $this->botaoAdd($config, $nomeForm, $ativos);
+        $buffer .= $html;
         $buffer .= $this->fechaGrupo($config);
-        $buffer .= $js->entreJS($js->abreLoadJQuery() . $bufferJS . $js->fechaLoadJQuery());
+        $buffer .= $js->entreJS($js->abreLoadJQuery() . $textoJs . $js->fechaLoadJQuery());
 
         return $buffer;
     }
@@ -61,10 +65,15 @@ class MasterDetailHtml
         $con = \Zion\Banco\Conexao::conectar();
 
         $tabela = $config->getTabela();
+        $codigo = $config->getCodigo();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
         $campos = $config->getCampos();
         $nomeCampos = \array_keys($campos);
+
+        if (!\in_array($codigo, $nomeCampos)) {
+            $nomeCampos[] = $codigo;
+        }
 
         $qb = $con->link()->createQueryBuilder();
         $qb->select(\implode(',', $nomeCampos))
@@ -75,9 +84,11 @@ class MasterDetailHtml
 
         $bufferJS = '';
         $buffer = '';
-        while ($dados = $rs->fetch()) {            
+        $ativos = [];
+        while ($dados = $rs->fetch()) {
 
-            $coringa = $this->coringa();
+            $coringa = $dados[$codigo];
+            $ativos[] = $coringa;
             $buffer.= $this->abreItem($config, $coringa);
             $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $dados);
             $buffer .= $dadosGrupo['html'];
@@ -86,7 +97,7 @@ class MasterDetailHtml
             $buffer .= $this->fechaItem($config, $coringa);
         }
 
-        return ['html' => $buffer, 'js' => $bufferJS];
+        return ['html' => $buffer, 'js' => $bufferJS, 'ativos' => \implode(',', $ativos)];
     }
 
     private function montaGrupoDeCampos($config, $coringa, $nomeForm, array $valores = [])
@@ -103,15 +114,15 @@ class MasterDetailHtml
         foreach ($campos as $nomeOriginal => $configuracao) {
 
             $arCampos = [];
-            
+
             $novoNomeId = $nomeOriginal . $coringa;
             $nomeOriginalMinusculo = \strtolower($nomeOriginal);
 
-            if(!empty($valores) and \array_key_exists($nomeOriginalMinusculo, $valores)){
-                
+            if (!empty($valores) and \array_key_exists($nomeOriginalMinusculo, $valores)) {
+
                 $configuracao->setValor($valores[$nomeOriginalMinusculo]);
-            }            
-            
+            }
+
             $arCampos[] = $configuracao->setNome($novoNomeId)->setId($novoNomeId);
             $form->processarForm($arCampos);
             $htmlForm .= $form->getFormHtml($arCampos[0]);
@@ -123,10 +134,7 @@ class MasterDetailHtml
 
     private function abreGrupo($config)
     {
-        $buffer = $this->html->abreTagAberta('div', array('id' => 'sisMasterDetail' . $config->getNome(), 'class' => 'col-sm-12'));
-        //$buffer .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'sisMasterDetailGrupo[]', 'value' => $config->getNome()]);
-
-        return $buffer;
+        return $this->html->abreTagAberta('div', array('id' => 'sisMasterDetail' . $config->getNome(), 'class' => 'col-sm-12'));
     }
 
     private function fechaGrupo($config)
@@ -159,7 +167,7 @@ class MasterDetailHtml
         return $buffer;
     }
 
-    private function botaoAdd(\Pixel\Form\MasterDetail\FormMasterDetail $config, $nomeForm)
+    private function botaoAdd(\Pixel\Form\MasterDetail\FormMasterDetail $config, $nomeForm, $ativos)
     {
         $js = new \Zion\Layout\JavaScript();
 
@@ -169,7 +177,7 @@ class MasterDetailHtml
 
         $htmlModelo = $this->abreItem($config, $coringa) . $dadosGrupo['html'] . $this->fechaItem($config, $coringa);
         $jsModelo = $js->abreLoadJQuery() . $dadosGrupo['js'] . $js->fechaLoadJQuery();
-        $dadosConfig = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover(), 'coringa' => $coringa];
+        $dadosConfig = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover(), 'coringa' => $coringa, 'ativos' => $ativos];
         $nameId = 'sisMasterDetailConf' . $config->getNome();
 
 

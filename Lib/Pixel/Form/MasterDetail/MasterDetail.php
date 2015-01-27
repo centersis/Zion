@@ -33,10 +33,9 @@ namespace Pixel\Form\MasterDetail;
 
 class MasterDetail
 {
-    public function gravar(\Pixel\Form\MasterDetail\FormMasterDetail $config)
-    {  
-        $crudUtil = new \Pixel\Crud\CrudUtil();
 
+    public function gravar(\Pixel\Form\MasterDetail\FormMasterDetail $config)
+    {
         $identifica = $config->getIdentifica();
 
         try {
@@ -45,53 +44,86 @@ class MasterDetail
             throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
-        $this->removeItens($config);
+        $nome = $config->getNome();        
 
-        $nome = $config->getNome();
+        $itens = \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
+        $confHidden = \json_decode(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)));
+
+        $doBanco = \explode(',', $confHidden->ativos);
+        $ativos = [];
+
+        foreach ($itens as $coringa) {
+
+            if ($coringa == $confHidden->coringa) {
+                continue;
+            }
+
+            if (\in_array($coringa, $doBanco)) {
+                $ativos[] = $coringa;
+                
+                $this->update($config, $coringa);
+                
+            } else {
+                $this->insert($config, $coringa);
+            }
+        }
+
+        $this->removeItens($config, $ativos);
+    }
+
+    private function insert($config, $coringa)
+    {
+        $crudUtil = new \Pixel\Crud\CrudUtil();
+     
         $tabela = $config->getTabela();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
         $campos = $config->getCampos();
         $objPai = $config->getObjetoPai();
+        
+        $colunasCrud = [];
+        $grupo = [];
+        foreach ($campos as $campo => $objForm) {
 
-        $itens = \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
-        $confHidden = \json_decode(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)));
-
-        foreach ($itens as $coringa) {
-            
-            if ($coringa != $confHidden->coringa) {                
-                
-                $colunasCrud = [];
-                $grupo = [];
-                foreach($campos as $campo => $objForm){                    
-                    
-                    $objForm->setNome($campo);
-                    $objForm->setValor($objPai->retornaValor($campo.$coringa));
-                    $colunasCrud[] = $campo;
-                    $grupo[] = $objForm;
-                }                
-                
-                $objPai->processarForm($grupo);
-                
-                $objPai->validar();
-                
-                $colunasCrud[] = $campoReferencia;
-                $objPai->set($campoReferencia,$codigoReferencia, 'numero');
-                
-                $crudUtil->insert($tabela, $colunasCrud, $objPai);
-            }
+            $objForm->setNome($campo);
+            $objForm->setValor($objPai->retornaValor($campo . $coringa));
+            $colunasCrud[] = $campo;
+            $grupo[] = $objForm;
         }
+
+        $objPai->processarForm($grupo);
+
+        $objPai->validar();
+
+        $colunasCrud[] = $campoReferencia;
+        $objPai->set($campoReferencia, $codigoReferencia, 'numero');
+
+        $crudUtil->insert($tabela, $colunasCrud, $objPai);
     }
 
-    private function removeItens(\Pixel\Form\MasterDetail\FormMasterDetail $config)
+    private function removeItens(\Pixel\Form\MasterDetail\FormMasterDetail $config, array $ignore = [])
     {
+        $con = \Zion\Banco\Conexao::conectar();
+
         $crudUtil = new \Pixel\Crud\CrudUtil();
 
         $tabela = $config->getTabela();
+        $codigo = $config->getCodigo();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
 
-        $crudUtil->delete($tabela, $codigoReferencia, $campoReferencia);
+        $qb = $con->link()->createQueryBuilder();
+        $qb->select($codigo)
+                ->from($tabela, '')
+                ->where($qb->expr()->eq($campoReferencia, ':cod'))
+                ->setParameter(':cod', $codigoReferencia);
+        $rs = $con->executar($qb);
+
+        while ($dados = $rs->fetch()) {
+            if (!\in_array($codigo, $ignore)) {
+                $crudUtil->delete($tabela, $codigo, $dados[$codigo]);
+            }
+        }
     }
 
     private function validaDados(\Pixel\Form\MasterDetail\FormMasterDetail $config)
@@ -102,12 +134,17 @@ class MasterDetail
         $addMax = $config->getAddMax();
         $addMin = $config->getAddMin();
         $tabela = $config->getTabela();
+        $codigo = $config->getCodigo();
         $campos = $config->getCampos();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
 
         if (empty($tabela)) {
             throw new \Exception('Tabela não informada!');
+        }
+
+        if (empty($codigo)) {
+            throw new \Exception('Código da Tabela não informado!');
         }
 
         if (\count($campos) < 1) {
