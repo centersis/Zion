@@ -84,7 +84,11 @@ class Template extends \Zion\Layout\Padrao
 
     public function setConteudoMain($conteudo = '')
     {
-
+        if(is_object($conteudo)){
+            if(preg_match('/exception/i', get_class($conteudo))){
+                $conteudo = '<pre>'. $conteudo .'</pre>';
+            }
+        }
         $this->conteudoMain .= $conteudo;
     }
 
