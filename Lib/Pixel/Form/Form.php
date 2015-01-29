@@ -66,7 +66,7 @@ class Form extends \Zion\Form\Form
 
     public function senha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('password', $nome, $identifica, $obrigatorio);
+        return new \Pixel\Form\FormInputSenha('senha', $nome, $identifica, $obrigatorio);
     }
 
     public function numero($nome, $identifica, $obrigatorio = false)
@@ -231,6 +231,9 @@ class Form extends \Zion\Form\Form
                     break;
                 case 'texto' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaTexto($objCampos);
+                    break;
+                case 'senha' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaSenha($objCampos);
                     break;
                 case 'textarea' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaTextArea($objCampos);

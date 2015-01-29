@@ -576,6 +576,9 @@ class Form
                 case 'texto' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaTexto($objCampos);
                     break;
+                case 'senha' :
+                    $htmlCampos[$idCampo] = $this->formHtml->montaSenha($objCampos);
+                    break;
                 case 'textarea' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaTextArea($objCampos);
                     break;
@@ -584,10 +587,7 @@ class Form
                     break;
                 case 'hora' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaHora($objCampos);
-                    break;
-                case 'senha' :
-                    $htmlCampos[$idCampo] = $this->formHtml->montaSenha($objCampos);
-                    break;
+                    break;                
                 case 'number' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaNumber($objCampos);
                     break;

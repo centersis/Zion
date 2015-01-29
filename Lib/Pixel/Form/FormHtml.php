@@ -80,6 +80,19 @@ class FormHtml extends \Zion\Form\FormHtml
 
         return $this->prepareInputPixel($config, parent::montaTexto($config));
     }
+    
+    public function montaSenha($config)
+    {
+        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
+        $config->setClassCss($classCss);
+
+        if ($config->getToolTipMsg()) {
+            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+            $config->setComplemento($complemento);
+        }
+
+        return $this->prepareInputPixel($config, parent::montaSenha($config));
+    }
 
     public function montaTextArea(FormInputTextArea $config)
     {
