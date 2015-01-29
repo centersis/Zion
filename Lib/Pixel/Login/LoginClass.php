@@ -31,33 +31,38 @@
 namespace Pixel\Login;
 
 class LoginClass extends LoginSql
-{ 
+{
 
     public function getAuth($l,$p)
     {
-        
-        $_SESSION['usuarioCod']     = 1;//$getAuth['usuariocod'];
-        $_SESSION['organogramaCod'] = 26;//$getAuth['organogramacod'];
-        return true;
-        
-        $con = \Zion\Banco\Conexao::conectar();
-        $sql = new \Pixel\Login\LoginSql();
+        $con        = \Zion\Banco\Conexao::conectar();
+        $loginSql   = new \Pixel\Login\LoginSql();
 
-        $getAuth = $con->execLinhaArray($sql->getAuth($l,$p));
+        $getAuth = $con->execLinhaArray($loginSql->getAuth($l, $this->getSenhaHash($p)));
 
-        if(!empty($getAuth['usuariocod']) and !empty($getAuth['organogramacod'])) {
+        if(!empty($getAuth['usuariocod']) and !empty($getAuth['organogramacod']) and !empty($getAuth['perfilcod'])) {
 
-            unset($_SESSION['usuarioCod'], $_SESSION['organogramaCod']);
+            unset($_SESSION['usuarioCod'], $_SESSION['organogramaCod'], $_SESSION['perfilCod']);
 
             $_SESSION['usuarioCod']     = $getAuth['usuariocod'];
             $_SESSION['organogramaCod'] = $getAuth['organogramacod'];
+            $_SESSION['perfilCod']      = $getAuth['perfilcod'];
+            $_SESSION['usuarioNome']    = $getAuth['usuarionome'];
 
             return true;
 
         }
 
-        return false;
+        if(!empty($getAuth['usuariocod']) and (empty($getAuth['organogramacod']) or empty($getAuth['perfilcod']))){
+            throw new \Exception("Login desativado ou com inconsistência nas permissões!");
+        }
 
+        return false;
+    }
+    
+    public function getSenhaHash($password)
+    {
+        return crypt($password, SIS_STRING_CRYPT);
     }    
 
 }

@@ -83,14 +83,20 @@ class LoginController extends \Zion\Core\Controller
         $l = \filter_input(INPUT_POST, 'signin_username');
         $p = \filter_input(INPUT_POST, 'signin_password');
 
-        if($this->loginClass->getAuth($l,$p)) {
+        try{
 
-            header('location: ' . SIS_URL_BASE . 'Dashboard');
+            if($this->loginClass->getAuth($l,$p)) {
+    
+                header('location: ' . SIS_URL_BASE . 'Dashboard');
+    
+            } else {
+    
+                header('location: ./?err=Oops! Dados incorretos...');
+    
+            }
 
-        } else {
-
-            header('location: ./?err=Oops! Dados incorretos...');
-
+        } catch(\Exception $e){
+            header('location: ./?err='. $e->getMessage());
         }
 
     }
