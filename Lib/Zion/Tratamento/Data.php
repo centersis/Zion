@@ -134,14 +134,14 @@ class Data
     {
 
         if(empty($data)){
-            return;
+            return false;
         }
         
         $validaData = \Zion\Validacao\Data::instancia();
         
         if(!$validaData->validaData($data))
         {
-            return;
+            return false;
         }
         
         if (preg_match('[-]', $data)) {
@@ -186,9 +186,15 @@ class Data
      */
     public function converteDataHora($dataHora)
     {
-        list($data, $hora) = explode(' ', $dataHora);
-        
-        return $this->converteData($data).' '.$hora;
+        $pattern = preg_split('/\s| /', $dataHora);
+
+        if(is_array($pattern) and count($pattern) >= 2){
+            list($data, $hora) = $pattern;
+        } else {
+            $data = $pattern[0];
+            $hora = "";
+        }
+        return $this->converteData($data).(!empty($hora) ? ' '. $hora : NULL);
     }
 
     /**
@@ -343,7 +349,7 @@ class Data
      */
     public function getMesExt($mes)
     {
-        throw new RuntimeException("Método ainda não implementado.");
+        throw new \RuntimeException("Método ainda não implementado.");
     }
 
     /**
@@ -356,7 +362,7 @@ class Data
      */
     public function getDataExt($data)
     {
-        throw new RuntimeException("Método ainda não implementado.");
+        throw new \RuntimeException("Método ainda não implementado.");
     }
 
 }
