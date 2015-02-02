@@ -63,56 +63,33 @@ class Menu extends \Zion\Layout\Padrao
 
         if ($obj['sucesso'] == true) {
 
+            $i = 0;
             foreach ($obj['retorno'] as $valor) {
 
-                if (\is_array($valor)) {
+                if(!empty($valor['grupo'])){
 
-                    foreach ($valor as $indice1 => $valor1) {
+                    $buffer .= $this->abreGrupoMenu();
+                    $buffer .= $this->populaGrupoMenu($valor);
+                    $buffer .= $this->abreConjuntoSubMenu();
 
-                        if ($indice1 == 'grupo') {
+                    foreach($valor['modulosGrupo'] as $modulo){
+                        
+                        if(is_array($modulo['subs'])){
 
-                            $buffer .= $this->abreGrupoMenu();
-                            $buffer .= $this->populaGrupoMenu(array('grupoClass' => $valor['grupoclass'], 'grupo' => $valor1));
+                            $buffer .= $this->populaSubs($modulo);//print_r($modulo);
+                            //exit($buffers);
+                        } else {
+                            $buffer .= $this->populaSubMenu($modulo);
                         }
-
-                        if (\is_array($valor1)) {
-
-                            $buffer .= $this->abreConjuntoSubMenu();
-
-                            foreach ($valor1 as $valor2) {
-
-                                if (!empty($valor2['modulo'])) {
-
-                                    $buffer .= $this->populaSubMenu($valor2);
-                                }
-
-                                if (is_array($valor2)) {
-
-                                    foreach ($valor2 as $valor3) {
-
-                                        if (is_array($valor3)) {
-
-                                            foreach ($valor3 as $valor4) {
-
-                                                if (is_array($valor4)) {
-
-                                                    foreach ($valor4 as $valor5) {
-                                                        
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            $buffer .= $this->fechaConjuntoSubMenu();
-                        }
+                   
                     }
 
-                    $buffer .= $this->fechaGrupoMenu();
                 }
+                
+                $buffer .= $this->fechaConjuntoSubMenu();
+                $buffer .= $this->fechaGrupoMenu();
             }
+            $i++;
         } else {
 
             $buffer = '';
@@ -121,6 +98,61 @@ class Menu extends \Zion\Layout\Padrao
         return $buffer;
     }
 
+    private function populaSubs($menu, $buffer = NULL, $count = 0)
+    {
+        $buffer .= $this->abreSubsHtml($menu, true);
+
+        foreach($menu['subs'] as $sub) {
+
+            if(is_array($sub['subs'])){
+                $buffer = $this->populaSubs($sub, $buffer);
+                continue;
+            } else {
+                if(empty($sub['menu'])) continue;
+                $buffer .= $this->populaSubMenu($sub);
+            }
+        }
+
+        $buffer .= $this->fechaSubsHtml();
+
+        return $buffer;
+    }
+    
+    private function abreSubsHtml($subs, $main = false)
+    {
+        $buffer = '';
+        if($main === false){
+            foreach($subs as $sub){
+
+                if(is_array($sub['subs'])){
+                    $buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
+                    $buffer .= $this->html->abreTagAberta('a', array('href' => "#", 'tabindex' => '-1'));
+                    $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $sub['moduloClass'] . '')) . $this->html->fechaTag('i');
+                    $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $sub['menu'] . $this->html->fechaTag('span');
+                    $buffer .= $this->html->fechaTag('a');
+                    $buffer .= $this->html->abreTagAberta('ul');        
+                }
+            }
+        } else {
+
+            $buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
+            $buffer .= $this->html->abreTagAberta('a', array('href' => "#", 'tabindex' => '-1'));
+            $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $subs['moduloClass'] . '')) . $this->html->fechaTag('i');
+            $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $subs['menu'] . $this->html->fechaTag('span');
+            $buffer .= $this->html->fechaTag('a');
+            $buffer .= $this->html->abreTagAberta('ul');        
+        }
+
+        return $buffer;
+    }
+    
+    private function fechaSubsHtml()
+    {
+        $buffer = $this->html->fechaTag('ul');
+        $buffer .= $this->html->fechaTag('li');
+        return $buffer;
+    }
+    
     private function abreGrupoMenu()
     {
 
@@ -129,6 +161,12 @@ class Menu extends \Zion\Layout\Padrao
         return $buffer;
     }
 
+    private function abreSubGrupoMenu($subGrupo)
+    {
+        $buffer = '';
+        $buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
+        return $buffer;
+    }
     private function fechaGrupoMenu()
     {
 
@@ -166,9 +204,9 @@ class Menu extends \Zion\Layout\Padrao
 
     private function populaSubMenu($valor)
     {
-
+        
         $buffer = '';
-        $buffer .= $this->html->abreTagAberta('li', array('class' => ' '));
+        $buffer .= $this->html->abreTagAberta('li', array('class' => ''));
         $buffer .= $this->html->abreTagAberta('a', array('href' => $valor['menuUrl'], 'tabindex' => '-1'));
         $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $valor['moduloClass'] . '')) . $this->html->fechaTag('i');
         $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $valor['menu'] . $this->html->fechaTag('span');
