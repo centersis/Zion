@@ -419,7 +419,7 @@ class Form
                     case 'float':
                         $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);
                         break;
-                    case 'numero':
+                    case 'numero': case 'inteiro': 
                         $this->objetos[$nome] = new \Zion\Form\FormInputNumber('number', $nome, '-', false);
                         break;
                     case 'data':
