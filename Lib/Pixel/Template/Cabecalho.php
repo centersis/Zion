@@ -33,7 +33,7 @@ namespace Pixel\Template;
 class Cabecalho extends \Zion\Layout\Padrao
 {
 
-    public function getCabecalho()
+    public function getCabecalho($conteudoHeader = '')
     {
 
         $buffer = '';
@@ -67,7 +67,7 @@ class Cabecalho extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-pace/0.5.6/pace.css', 'rel' => 'stylesheet', 'type' => 'text/css'));
         $buffer .= $this->html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/bootstrap-tags/bootstrap-tagsinput.css', 'rel' => 'stylesheet', 'type' => 'text/css'));        
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/2.0.3/jquery.min.js')) . $this->html->fechaTag('script');        
-//$buffer .= $this->conteudoHeader;
+        $buffer .= $conteudoHeader;
         $buffer .= $this->html->fechaTag('head');
         
         return $buffer;

@@ -212,7 +212,7 @@ class Template extends \Zion\Layout\Padrao
     {
 
         $cabecalho = new \Pixel\Template\Cabecalho();
-        return $cabecalho->getCabecalho();
+        return $cabecalho->getCabecalho($this->conteudoHeader);
     }
 
     private function getInicioCorpo()

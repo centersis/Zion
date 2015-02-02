@@ -166,7 +166,7 @@ abstract class FormBasico
              $this->valorPadrao = $valorPadrao;
             return $this;
         } else {
-            throw new FormException("valorPadrao: Nenhum valor informado.");
+            //throw new FormException("valorPadrao: Nenhum valor informado.");
         }
     }
 

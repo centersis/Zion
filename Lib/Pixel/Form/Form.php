@@ -386,7 +386,7 @@ class Form extends \Zion\Form\Form
 
         //Desabilita campos
         foreach ($this->objetos as $objeto) {
-            if (method_exists($objeto, 'setDisabled')) {
+            if (\method_exists($objeto, 'setDisabled')) {
 
                 if ($objeto->getAcao() !== 'button') {
                     $objeto->setDisabled(true);
