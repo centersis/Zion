@@ -1,33 +1,33 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
+/**
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 /**
  * \Zion\Form\FormEscolha()
  * 
@@ -52,14 +52,13 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $multiplo;
     private $expandido;
     private $chosen;
-    
     private $ordena;
     private $array;
     private $inicio;
     private $tabela;
     private $campoCod;
     private $campoDesc;
-    private $where;
+    private $orderBy;
     private $sqlCompleto;
     private $idConexao;
     private $aliasSql;
@@ -120,11 +119,11 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         return $this->obrigatorio;
     }
-    
+
     public function setSelecaoMaxima($selecaoMaxima)
     {
-        if(is_numeric($selecaoMaxima)){
-            if(isset($this->selecaoMinima) and $selecaoMaxima < $this->selecaoMinima){
+        if (is_numeric($selecaoMaxima)) {
+            if (isset($this->selecaoMinima) and $selecaoMaxima < $this->selecaoMinima) {
                 throw new FormException("selecaoMaxima não pode ser menor que selecao mínima.");
             }
             $this->selecaoMaxima = $selecaoMaxima;
@@ -133,16 +132,16 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("selecaoMaxima: O valor informado deve ser do tipo numérico.");
         }
     }
-    
+
     public function getSelecaoMaxima()
     {
         return $this->selecaoMaxima;
     }
-    
+
     public function setSelecaoMinima($selecaoMinima)
     {
-        if(is_numeric($selecaoMinima)){
-            if(isset($this->selecaoMaxima) and $selecaoMinima > $this->selecaoMaxima){
+        if (is_numeric($selecaoMinima)) {
+            if (isset($this->selecaoMaxima) and $selecaoMinima > $this->selecaoMaxima) {
                 throw new FormException("selecaoMinima não pode ser maior que seleção máxima.");
             }
             $this->selecaoMinima = $selecaoMinima;
@@ -151,13 +150,12 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("selecaoMinima: O valor informado deve ser do tipo numérico.");
         }
     }
-    
+
     public function getSelecaoMinima()
     {
         return $this->selecaoMinima;
     }
-    
-    
+
     /**
      * FormEscolha::getMultiplo()
      * 
@@ -214,12 +212,11 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         $this->chosen = $chosen;
     }
-    
+
     public function getChosen()
     {
         return $this->chosen;
     }
-
 
     /**
      * FormEscolha::getOrdena()
@@ -377,29 +374,20 @@ class FormEscolha extends \Zion\Form\FormBasico
         }
     }
 
-    /**
-     * FormEscolha::getWhere()
-     * 
-     * @return
-     */
-    public function getWhere()
+    public function getOrderBy()
     {
-        return $this->where;
+        return $this->orderBy;
     }
 
-    /**
-     * FormEscolha::setWhere()
-     * 
-     * @param mixed $where
-     * @return
-     */
-    public function setWhere($where)
+    public function setOrderBy($orderBy)
     {
-        if (!is_null($where)) {
-            $this->where = $where;
-            return $this;
-        } else {
-            throw new FormException("where: Nenhum Valor foi informado.");
+        if (!empty($orderBy)) {
+            if (\is_array($orderBy)) {
+                $this->orderBy[] = $orderBy;
+                return $this;
+            } else {
+                throw new FormException("setOrderBy: Se informado o valor deve ser um array.");
+            }
         }
     }
 
@@ -438,7 +426,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         return $this->idConexao;
     }
-    
+
     /**
      * FormEscolha::setIdConexao()
      * 
@@ -455,13 +443,13 @@ class FormEscolha extends \Zion\Form\FormBasico
         }
     }
 
-
     /**
      * FormEscolha::getAliasSql()
      * 
      * @return string
      */
-    public function getAliasSql(){
+    public function getAliasSql()
+    {
         return $this->aliasSql;
     }
 
@@ -480,7 +468,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("aliasSql: Nenhum valor informado");
         }
     }
-    
+
     public function setIgnoreCod($ignoreCod)
     {
         if (is_array($ignoreCod)) {
@@ -490,7 +478,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("ignoreCod: O valor informado não é um array.");
         }
     }
-    
+
     public function getIgnoreCod()
     {
         return $this->ignoreCod;
@@ -607,7 +595,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);

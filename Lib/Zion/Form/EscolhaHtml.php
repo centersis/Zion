@@ -1,33 +1,33 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
+/**
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 /**
  * \Zion\Form\EscolhaHtml()
  * 
@@ -77,7 +77,7 @@ class EscolhaHtml
         $tabela = $config->getTabela();
         $campoCod = $config->getCampoCod();
         $campoDesc = $config->getCampoDesc();
-        $where = $config->getWhere();
+        $orderBy = $config->getOrderBy();
         $sqlCompleto = $config->getSqlCompleto();
         $ignoreCod = $config->getIgnoreCod();
 
@@ -88,15 +88,17 @@ class EscolhaHtml
             if (!empty($sqlCompleto)) {
                 $sql = $sqlCompleto;
             } else {
-                
+
                 $sql = $con->link()->createQueryBuilder();
-                
-                $sql->select($campoCod,$campoDesc)
-                        ->from($tabela);
-                
-                if($where){
-                    $sql->where($where);
-                }                
+
+                $sql->select($campoCod, $campoDesc)
+                        ->from($tabela);               
+
+                if ($orderBy) {
+                    foreach ($orderBy as $orderChave => $orderTipo) {
+                        $sql->addOrderBy($orderChave, $orderTipo);
+                    }
+                }
             }
 
             $rs = $con->executar($sql);
@@ -118,10 +120,10 @@ class EscolhaHtml
                 $array = \array_reverse($this->ordenaArray($array));
             }
         }
-        
-        if(\is_array($ignoreCod)){
-            foreach ($ignoreCod as $ignorar){
-                if(\key_exists($ignorar, $array)){
+
+        if (\is_array($ignoreCod)) {
+            foreach ($ignoreCod as $ignorar) {
+                if (\key_exists($ignorar, $array)) {
                     unset($array[$ignorar]);
                 }
             }
@@ -132,10 +134,10 @@ class EscolhaHtml
 
     private function ordenaArray($vetor)
     {
-        if(!\is_array($vetor)){
+        if (!\is_array($vetor)) {
             return [];
         }
-        
+
         $texto = \Zion\Validacao\Texto::instancia();
 
         $original = $vetor;
@@ -195,7 +197,7 @@ class EscolhaHtml
 
         foreach ($array as $chave => $vale) {
 
-            $id = 'id="' . str_replace('[]', '', $config->getId()) . $chave . '"';
+            $id = 'id="' . \str_replace('[]', '', $config->getId()) . $chave . '"';
             $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
             $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
 
@@ -204,13 +206,13 @@ class EscolhaHtml
             $checked = '';
             if ($eSelecionado === false) {
 
-                if (is_array($valor)) {
+                if (\is_array($valor)) {
 
                     if (empty($valor)) {
 
-                        if (is_array($valorPadrao)) {
+                        if (\is_array($valorPadrao)) {
 
-                            if (in_array($chave, $valorPadrao)) {
+                            if (\in_array($chave, $valorPadrao)) {
                                 $checked = 'checked="checked"';
                             }
                         } else {
@@ -219,7 +221,7 @@ class EscolhaHtml
                                 $checked = 'checked="checked"';
                             }
                         }
-                    } elseif (in_array($chave, $valor)) {
+                    } elseif (\in_array($chave, $valor)) {
                         $checked = 'checked="checked"';
                     }
                 } else {
@@ -228,7 +230,7 @@ class EscolhaHtml
 
                         if (is_array($valorPadrao)) {
 
-                            if (in_array($chave, $valorPadrao)) {
+                            if (\in_array($chave, $valorPadrao)) {
                                 $checked = 'checked="checked"';
                             }
                         } else {
@@ -246,8 +248,8 @@ class EscolhaHtml
             }
 
             //Complemento
-            if (is_array($complementos)) {
-                if (key_exists($chave, $complementos)) {
+            if (\is_array($complementos)) {
+                if (\key_exists($chave, $complementos)) {
                     $complemento = $complementos[$chave];
                 } else {
                     $complemento = '';
@@ -256,7 +258,7 @@ class EscolhaHtml
                 $complemento = $complementos;
             }
 
-            $html = sprintf("<input %s %s %s %s %s %s %s %s>", $type, $name, $id, $value, $complemento, $disable, $checked, $classCss);
+            $html = \sprintf("<input %s %s %s %s %s %s %s %s>", $type, $name, $id, $value, $complemento, $disable, $checked, $classCss);
 
             $buffer = '';
 
@@ -269,7 +271,7 @@ class EscolhaHtml
             if ($config->getContainer()) {
                 $buffer .= '</div>';
             }
-            
+
             if ($retornarArray === true) {
                 $retorno[] = [
                     'html' => $buffer,
@@ -277,7 +279,7 @@ class EscolhaHtml
             } else {
                 $retorno .= $buffer;
             }
-        }        
+        }
 
         return $retorno;
     }
@@ -292,7 +294,7 @@ class EscolhaHtml
     {
         $inicio = $config->getInicio();
         $name = 'name="' . $config->getNome() . '"';
-        $id = 'id="' . str_replace('[]', '', $config->getId()) . '"';
+        $id = 'id="' . \str_replace('[]', '', $config->getId()) . '"';
         $complemento = $config->getComplemento();
         $classCss = $config->getClassCss() ? 'class="' . $config->getClassCss() . '"' : '';
         $disable = ($config->getDisabled() === true) ? 'disabled="disabled"' : '';
@@ -323,19 +325,19 @@ class EscolhaHtml
         $eSelecionado = false;
         $cont = 0;
 
-        if(is_array($array)) {
+        if (\is_array($array)) {
             foreach ($array as $chave => $vale) {
 
                 $cont++;
 
                 $opcoes .= '<option value="' . $chave . '" ';
 
-                if (is_array($valor)) {
+                if (\is_array($valor)) {
                     if (empty($valor)) {
 
-                        if (is_array($valorPadrao)) {
+                        if (\is_array($valorPadrao)) {
 
-                            if (in_array($chave, $valorPadrao)) {
+                            if (\in_array($chave, $valorPadrao)) {
                                 $opcoes .= 'selected';
                             }
                         } else {
@@ -344,16 +346,16 @@ class EscolhaHtml
                                 $opcoes .= 'selected';
                             }
                         }
-                    } elseif (in_array($chave, $valor)) {
+                    } elseif (\in_array($chave, $valor)) {
                         $opcoes .= 'selected';
                     }
                 } else {
                     if ($eSelecionado === false) {
                         if ($valor == '') {
 
-                            if (is_array($valorPadrao)) {
+                            if (\is_array($valorPadrao)) {
 
-                                if (in_array($chave, $valorPadrao)) {
+                                if (\in_array($chave, $valorPadrao)) {
                                     $opcoes .= 'selected';
                                 }
                             } else {
@@ -373,7 +375,7 @@ class EscolhaHtml
             }
         }
 
-        $retorno = sprintf('<select %s %s %s %s %s>%s</select>', $name, $id, $complemento, $disable, $classCss, $opcoes);
+        $retorno = \sprintf('<select %s %s %s %s %s>%s</select>', $name, $id, $complemento, $disable, $classCss, $opcoes);
 
         $buffer = '';
 

@@ -64,7 +64,6 @@ class FormPixelJavaScript
         $parametros .= '&cd=' . $config->getCampoDesc();
         $parametros .= '&cb=' . $config->getCampoBusca();
         $parametros .= '&idc=' . $config->getIdConexao();
-        $parametros .= '&cnd=' . $config->getCondicao();
         $parametros .= '&l=' . $config->getLimite();
         $parametros .= $config->getParametros();
 
@@ -114,32 +113,32 @@ class FormPixelJavaScript
 
 
         //Validacão de obrigatório
-        if (method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
+        if (\method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
             $this->regras[$config->getNome()][] = 'required : true';
             $this->mensagens[$config->getNome()][] = "required : '{$config->getIdentifica()} é obrigatório!'";
         }
 
-        if (method_exists($config, 'getMaximoCaracteres') and $config->getMaximoCaracteres()) {
+        if (\method_exists($config, 'getMaximoCaracteres') and $config->getMaximoCaracteres()) {
             $this->regras[$config->getNome()][] = 'maxlength : ' . $config->getMaximoCaracteres();
             $this->mensagens[$config->getNome()][] = "maxlength : '{$config->getIdentifica()} deve ter no máximo {$config->getMaximoCaracteres()} caracteres!'";
         }
 
-        if (method_exists($config, 'getMinimoCaracteres') and $config->getMinimoCaracteres()) {
+        if (\method_exists($config, 'getMinimoCaracteres') and $config->getMinimoCaracteres()) {
             $this->regras[$config->getNome()][] = 'minlength : ' . $config->getMinimoCaracteres();
             $this->mensagens[$config->getNome()][] = "minlength : '{$config->getIdentifica()} deve ter no mínimo {$config->getMinimoCaracteres()} caracteres!'";
         }
 
-        if (method_exists($config, 'getValorMaximo') and $config->getValorMaximo()) {
+        if (\method_exists($config, 'getValorMaximo') and $config->getValorMaximo()) {
             $this->regras[$config->getNome()][] = 'max : ' . $config->getValorMaximo();
             $this->mensagens[$config->getNome()][] = "max : '{$config->getIdentifica()} deve ter valor máximo de {$config->getValorMaximo()}!'";
         }
 
-        if (method_exists($config, 'getValorMinimo') and $config->getValorMinimo()) {
+        if (\method_exists($config, 'getValorMinimo') and $config->getValorMinimo()) {
             $this->regras[$config->getNome()][] = 'min : ' . $config->getValorMinimo();
             $this->mensagens[$config->getNome()][] = "min : '{$config->getIdentifica()} deve ter valor mínimo de {$config->getValorMinimo()}!'";
         }
 
-        if (method_exists($config, 'getDeveSerIgual') and $config->getDeveSerIgual()) {
+        if (\method_exists($config, 'getDeveSerIgual') and $config->getDeveSerIgual()) {
             $this->regras[$config->getNome()][] = 'equalTo : #' . $config->getDeveSerIgual();
             $this->mensagens[$config->getNome()][] = "equalTo : '{$config->getIdentifica()} deve ser igual ao campo acima!'";
         }

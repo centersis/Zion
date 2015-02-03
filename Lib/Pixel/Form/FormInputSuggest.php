@@ -45,7 +45,6 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $campoCod;
     private $campoDesc;
     private $campoBusca;
-    private $condicao;
     private $limite;
     private $parametros;
     private $url;
@@ -208,21 +207,6 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             return $this;
         } else {
             throw new FormException("campoBusca: Nenhum valor informado.");
-        }
-    }
-
-    public function getCondicao()
-    {
-        return $this->condicao;
-    }
-
-    public function setCondicao($condicao)
-    {
-        if (!empty($condicao)) {
-            $this->condicao = $condicao;
-            return $this;
-        } else {
-            throw new FormException("condicao: Nenhum valor informado.");
         }
     }
 

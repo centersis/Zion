@@ -73,15 +73,15 @@ class Menu extends \Zion\Layout\Padrao
                     $buffer .= $this->abreConjuntoSubMenu();
 
                     foreach($valor['modulosGrupo'] as $modulo){
-
+                        
                         if(is_array($modulo['subs'])){
 
-                            $buffer .= $this->populaSubs($modulo);
-
+                            $buffer .= $this->populaSubs($modulo);//print_r($modulo);
+                            //exit($buffers);
                         } else {
                             $buffer .= $this->populaSubMenu($modulo);
                         }
-
+                   
                     }
 
                 }
@@ -98,7 +98,7 @@ class Menu extends \Zion\Layout\Padrao
         return $buffer;
     }
 
-    private function populaSubs($menu, $buffer = NULL)
+    private function populaSubs($menu, $buffer = NULL, $count = 0)
     {
         $buffer .= $this->abreSubsHtml($menu, true);
 
@@ -155,6 +155,7 @@ class Menu extends \Zion\Layout\Padrao
     
     private function abreGrupoMenu()
     {
+
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
         return $buffer;
@@ -168,6 +169,7 @@ class Menu extends \Zion\Layout\Padrao
     }
     private function fechaGrupoMenu()
     {
+
         $buffer = '';
         $buffer .= $this->html->fechaTag('li');
         return $buffer;
@@ -175,6 +177,7 @@ class Menu extends \Zion\Layout\Padrao
 
     private function populaGrupoMenu($valor)
     {
+
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('a', array('href' => '#'));
         $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $valor['grupoClass'] . '')) . $this->html->fechaTag('i');
@@ -185,6 +188,7 @@ class Menu extends \Zion\Layout\Padrao
 
     private function abreConjuntoSubMenu()
     {
+
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('ul', array('class' => ''));
         return $buffer;
@@ -192,6 +196,7 @@ class Menu extends \Zion\Layout\Padrao
 
     private function fechaConjuntoSubMenu()
     {
+
         $buffer = '';
         $buffer .= $this->html->fechaTag('ul');
         return $buffer;
@@ -199,6 +204,7 @@ class Menu extends \Zion\Layout\Padrao
 
     private function populaSubMenu($valor)
     {
+        
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('li', array('class' => ''));
         $buffer .= $this->html->abreTagAberta('a', array('href' => $valor['menuUrl'], 'tabindex' => '-1'));

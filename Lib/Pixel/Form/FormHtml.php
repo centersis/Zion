@@ -410,7 +410,7 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $buffer .= $html->abreTagAberta('div', array('class' => 'col-sm-9 has-feedback'));
 
-        if (method_exists($config, 'getLabelAntes') or method_exists($config, 'getLabelDepois')) {
+        if (\method_exists($config, 'getLabelAntes') or \method_exists($config, 'getLabelDepois')) {
 
             if ($config->getLabelAntes() or $config->getLabelDepois()) {
 
@@ -425,12 +425,12 @@ class FormHtml extends \Zion\Form\FormHtml
 
         $buffer .= $campo;
 
-        if (method_exists($config, 'getIconFA') and $config->getIconFA()) {
+        if (\method_exists($config, 'getIconFA') and $config->getIconFA()) {
             $buffer.= $html->abreTagAberta('span', array('class' => 'fa ' . $config->getIconFA() . ' form-control-feedback'));
             $buffer .= $html->fechaTag('span');
         }
 
-        if (method_exists($config, 'getLabelAntes') or method_exists($config, 'getLabelDepois')) {
+        if (\method_exists($config, 'getLabelAntes') or \method_exists($config, 'getLabelDepois')) {
 
             if ($config->getLabelDepois()) {
                 $buffer .= $html->abreTagAberta('span', ['id' => 'labelDepois_' . $config->getId(), 'class' => 'input-group-addon bg-default no-border']);

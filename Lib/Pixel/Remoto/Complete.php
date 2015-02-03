@@ -61,20 +61,9 @@ class Complete
         $campoBusca = $valida->texto()->trata(\filter_input(\INPUT_GET, 'cb'));
         $termoBusca = $valida->texto()->trata(\filter_input(\INPUT_GET, 'term'));
         $idConexao = $valida->texto()->trata(\filter_input(\INPUT_GET, 'idc'));
-        //$condicao = $valida->texto()->trata(filter_input(INPUT_GET, 'cnd'));
-        $condicao = \filter_input(\INPUT_GET, 'cnd');
 
         $l = \filter_input(\INPUT_GET, 'l');
         $limite = (\is_numeric($l) and $l < 50) ? $l : 10;
-
-        //Converte Condicao
-        $condicaoD = '';
-        if (!empty($condicao)) {
-            $condicaoA = ' ' . $condicao;
-            $condicaoB = str_replace(":", "'", $condicaoA);
-            $condicaoC = str_replace(" e ", " AND ", $condicaoB);
-            $condicaoD = str_replace(" ou ", " OR ", $condicaoC);
-        }
 
         try {
             $con = \Zion\Banco\Conexao::conectar($idConexao);
@@ -87,10 +76,7 @@ class Complete
             $sql = $qb->select($ccod . ' cod', $cdes.' dsc')
                     ->from($tabela,'')                    
                     ->where($qb->expr()->like($cbus, $qb->expr()->literal('%'.$termoBusca.'%')))
-                    //->setParameter($condicaoD,'')
                     ->setMaxResults($limite);
-
-            //$sql = "SELECT $ccod cod, $cdes as dsc FROM $tabela WHERE $cbus LIKE '" . $termoBusca . "%' $condicaoD LIMIT $limite ";
 
             $rs = $con->executar($sql);
 
