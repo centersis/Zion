@@ -149,17 +149,21 @@ class MasterDetailHtml
     private function fechaGrupo($config)
     {
         $buffer = $this->html->abreTagFechada('div', array('id' => 'sisMasterDetailAppend' . $config->getNome(), 'class' => 'col-sm-12'));
+                $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg', 'onclick' => 'sisAddMasterDetail(\'' . $config->getNome() . '\')']);
+        $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-plus']);
+        $buffer .= $config->getAddTexto();
+        $buffer .= $this->html->fechaTag('button');
         $buffer .= $this->html->fechaTag('div');
         return $buffer;
     }
 
     private function abreItem($config, $cont)
     {
-        $buffer = $this->html->abreTagAberta('div', array('id' => 'sisMasterDetailIten' . $config->getNome() . $cont, 'class' => 'col-sm-12'));
+        $buffer = $this->html->abreTagAberta('div', array('id' => 'sisMasterDetailIten' . $config->getNome() . $cont, 'class' => 'col-sm-12 bloco-registro'));
 
         $colunas = $config->getBotaoRemover() ? '11' : '12';
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'col-sm-' . $colunas));
+        $buffer .= $this->html->abreTagAberta('div');
 
         $buffer .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'sisMasterDetailIten' . $config->getNome() . '[]', 'value' => $cont]);
 
@@ -191,10 +195,6 @@ class MasterDetailHtml
 
 
         $buffer = $this->html->abreTagAberta('div', array('class' => 'col-sm-12'));
-        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg', 'onclick' => 'sisAddMasterDetail(\'' . $config->getNome() . '\')']);
-        $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-plus']);
-        $buffer .= $config->getAddTexto();
-        $buffer .= $this->html->fechaTag('button');
         $buffer .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => $nameId, 'id' => $nameId, 'value' => \str_replace('"', "'", \json_encode($dadosConfig))]);
         $buffer .= $this->html->fechaTag('div');
 
@@ -215,12 +215,11 @@ class MasterDetailHtml
             return '';
         }
 
-        $buffer = $this->html->abreTagAberta('div', array('id' => 'sisMasterDetail' . $config->getNome() . $id, 'class' => 'col-sm-1'));
-        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg', 'onclick' => 'sisRemoverMasterDetail(\'' . $config->getNome() . '\',\'' . $id . '\')']);
-        $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-minus']);
+        $buffer = $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-xs btn-labeled btn-danger btn-remover-registro', 'title' => 'Remover' , 'data-toggle' => 'tooltip', 'onclick' => 'sisRemoverMasterDetail(\'' . $config->getNome() . '\',\'' . $id . '\')']);
+        $buffer .= $this->html->abreTagAberta('strong');
         $buffer .= 'Remover';
+        $buffer .= $this->html->fechaTag('strong');
         $buffer .= $this->html->fechaTag('button');
-        $buffer .= $this->html->fechaTag('div');
 
         return $buffer;
     }
