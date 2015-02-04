@@ -63,7 +63,6 @@ class Menu extends \Zion\Layout\Padrao
 
         if ($obj['sucesso'] == true) {
 
-            $i = 0;
             foreach ($obj['retorno'] as $valor) {
 
                 if(!empty($valor['grupo'])){
@@ -75,9 +74,7 @@ class Menu extends \Zion\Layout\Padrao
                     foreach($valor['modulosGrupo'] as $modulo){
 
                         if(is_array($modulo['subs'])){
-
                             $buffer .= $this->populaSubs($modulo);
-
                         } else {
                             $buffer .= $this->populaSubMenu($modulo);
                         }
@@ -89,7 +86,6 @@ class Menu extends \Zion\Layout\Padrao
                 $buffer .= $this->fechaConjuntoSubMenu();
                 $buffer .= $this->fechaGrupoMenu();
             }
-            $i++;
         } else {
 
             $buffer = '';

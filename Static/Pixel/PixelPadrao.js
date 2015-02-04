@@ -6,24 +6,24 @@
  Website do autor: www.braconsultoria.com.br/sappiens
  Email do autor: sappiens@braconsultoria.com.br
  
- Website do projeto, equipe e documenta√ß√£o: www.sappiens.com.br
+ Website do projeto, equipe e documentaÁ„o: www.sappiens.com.br
  
- Este programa √© software livre; voc√™ pode redistribu√≠-lo e/ou
- modific√°-lo sob os termos da Licen√ßa P√∫blica Geral GNU, conforme
- publicada pela Free Software Foundation, vers√£o 2.
+ Este programa È software livre; vocÍ pode redistribuÌ-lo e/ou
+ modific·-lo sob os termos da LicenÁa P˙blica Geral GNU, conforme
+ publicada pela Free Software Foundation, vers„o 2.
  
- Este programa √© distribu√≠do na expectativa de ser √∫til, mas SEM
- QUALQUER GARANTIA; sem mesmo a garantia impl√≠cita de
- COMERCIALIZA√á√ÉO ou de ADEQUA√á√ÉO A QUALQUER PROP√ìSITO EM
- PARTICULAR. Consulte a Licen√ßa P√∫blica Geral GNU para obter mais
+ Este programa È distribuÌdo na expectativa de ser ˙til, mas SEM
+ QUALQUER GARANTIA; sem mesmo a garantia implÌcita de
+ COMERCIALIZA«√O ou de ADEQUA«√O A QUALQUER PROP”SITO EM
+ PARTICULAR. Consulte a LicenÁa P˙blica Geral GNU para obter mais
  detalhes.
  
- Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral GNU
- junto com este programa; se n√£o, escreva para a Free Software
+ VocÍ deve ter recebido uma cÛpia da LicenÁa P˙blica Geral GNU
+ junto com este programa; se n„o, escreva para a Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  02111-1307, USA.
  
- C√≥pias da licen√ßa dispon√≠veis em /Sappiens/_doc/licenca
+ CÛpias da licenÁa disponÌveis em /Sappiens/_doc/licenca
  
  */
 
@@ -60,9 +60,9 @@ $(document).ready(function () {
     });
 });
 
-/* CRUD B√ÅSICO */
+/* CRUD B¡SICO */
 
-/* FUN√á√ïES ESPECIAIS */
+/* FUN«’ES ESPECIAIS */
 function cKupdate() {
 
     try {
@@ -88,10 +88,10 @@ function sisSerializeUpload(container)
     return new FormData($(container)[0]);
 }
 
-/* FUN√á√îES DEFAULT */
+/* FUN«‘ES DEFAULT */
 function sisMsgFailPadrao()
 {
-    sisSetCrashAlert('Erro', 'Houve um erro ao enviar sua solicita√ß√£o!<br>Tente novamente mais tarde.');
+    sisSetCrashAlert('Erro', 'Houve um erro ao enviar sua solicitaÁ„o!<br>Tente novamente mais tarde.');
 }
 
 function sisContaCheck()
@@ -129,7 +129,7 @@ function sisDescartarPadrao(form)
 
 /* FILTRO */
 function sisFiltrarPadrao(p) {
-    $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
+    $.ajax({type: "get", url: "?acao=filtrar&sisOrigem=n", data: p, dataType: "json"}).done(function (ret) {
         $("#sisContainerGrid").html(ret.retorno);
     }).fail(function ()
     {
@@ -246,7 +246,7 @@ function sisAlterarPadrao(nomeForm, upload) {
     });
 }
 
-/* REMO√á√ÉO */
+/* REMO«√O */
 
 function sisRemoverPadrao()
 {
@@ -278,7 +278,7 @@ function sisRemovePadrao() {
 
                 var msgPlural = (ap === 1) ? 'apenas foi removido com sucesso' : 'foram removidos com sucesso';
                 var msgRemovidos = "Entre os " + se + " registros selecionados " + ap + " " + msgPlural + ".\n\n";
-                var msg = "Aten√ß√£o, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem;
+                var msg = "AtenÁ„o, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem;
                 sisSetCrashAlert('Erro', msg);
                 sisFiltrarPadrao('');
             } else {
@@ -290,7 +290,7 @@ function sisRemovePadrao() {
             }
         } else {
 
-            var msg = "Aten√ß√£o nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
+            var msg = "AtenÁ„o nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
             sisSetAlert('false', msg);
         }
 
@@ -300,7 +300,7 @@ function sisRemovePadrao() {
     });
 }
 
-/* VISUALIZA√á√ÉO */
+/* VISUALIZA«√O */
 
 function sisVisualizarPadrao()
 {
@@ -344,7 +344,7 @@ function sisUploadMultiplo(id) {
         if (obj.value === "") {
             html = "Nenhum arquivo selecionado!";
         } else {
-            html += "Seu navegador n√£o suporta este recurso!";
+            html += "Seu navegador n„o suporta este recurso!";
         }
     }
 
@@ -378,7 +378,7 @@ function sisRemoverMasterDetail(container, id) {
     var atual = $("#sisMasterDetail" + container + " div[id^='sisMasterDetailIten" + container + "']").length - 1; //Ignorando o campo modelo
 
     if (atual <= conf.addMin) {
-        sisSetAlert('', 'N√£o foi poss√≠vel remover, pois este grupo requer no m√≠nimo ' + conf.addMin + ' itens');
+        sisSetAlert('', 'N„o foi possÌvel remover, pois este grupo requer no mÌnimo ' + conf.addMin + ' itens');
     }
     else {
         $("#sisMasterDetailIten" + container + id).remove();
@@ -395,7 +395,7 @@ function sisSetDialog(msg, actionTrue)
             if (result == true) {
                 actionTrue();
             } else {
-                sisSetAlert('', 'Sua solicita√ß√£o foi cancelada!');
+                sisSetAlert('', 'Sua solicitaÁ„o foi cancelada!');
             }
         },
         className: "bootbox-sm"
@@ -415,7 +415,7 @@ function sisSetAlert(a, b, c)
     if (a == 'true' && b == undefined) {
         var b = "Salvo com sucesso!";
     } else if (a == 'false' && b == undefined) {
-        var b = "Problemas na execu√ß√£o. Tente novamente mais tarde...";
+        var b = "Problemas na execuÁ„o. Tente novamente mais tarde...";
     }
 
     if (a == 'false') {
@@ -423,7 +423,7 @@ function sisSetAlert(a, b, c)
     } else if (a == 'true') {
         $.growl.notice({title: 'Ueba!', message: b, size: 'large', duration: time});
     } else if (a == 'warning') {
-        $.growl.warning({title: 'Aten√ß√£o!', message: b, size: 'large', duration: time});
+        $.growl.warning({title: 'AtenÁ„o!', message: b, size: 'large', duration: time});
     } else if (a == '') {
         $.growl({title: 'Humm?!', message: b, size: 'large', duration: time});
     }
@@ -570,8 +570,8 @@ function sisCarregaDependencia(ur, fo, co, id, me, cl, nc)
 
 /*
  ** var a => recebe a id do campo que invocou o evento
- ** var b => recebe o elemento que sofrer√° update
- ** var c => recebe a coluna que ser√° retornada do banco
+ ** var b => recebe o elemento que sofrer· update
+ ** var c => recebe a coluna que ser· retornada do banco
  ** var d => recebe o metodo
  */
 function chNxt(a, b, c, d)
@@ -589,7 +589,7 @@ function chNxt(a, b, c, d)
 
 /*
  ** var a => recebe a id do campo que invocou o evento
- ** var b => recebe o elemento que sofrer√° update
+ ** var b => recebe o elemento que sofrer· update
  ** var c => recebe o metodo
  */
 function chChosen(a, b, c)
@@ -632,7 +632,7 @@ function sisSalvarPDF() {
             }
             else
             {
-                alert('Houve um erro ao enviar sua solicita√ß√£o!\n\nTente novamente mais tarde.\n');
+                alert('Houve um erro ao enviar sua solicitaÁ„o!\n\nTente novamente mais tarde.\n');
             }
         }
     });

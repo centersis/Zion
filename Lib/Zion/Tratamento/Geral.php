@@ -154,6 +154,18 @@ class Geral
     }
 
     /**
+     * Geral::destrataCEP()
+     * 
+     * @param mixed $cep
+     * @return
+     */
+    public function destrataCEP($cep)
+    {
+        return preg_replace('/[^0-9]/', '', $cep);
+    }
+
+    
+    /**
      * Geral::formataTelefone()
      * 
      * @param mixed $telefone
