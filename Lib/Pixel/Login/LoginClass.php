@@ -47,7 +47,7 @@ class LoginClass extends LoginSql
             $_SESSION['usuarioCod']     = $getAuth['usuariocod'];
             $_SESSION['organogramaCod'] = $getAuth['organogramacod'];
             $_SESSION['perfilCod']      = $getAuth['perfilcod'];
-            $_SESSION['usuarioNome']    = $getAuth['usuarionome'];
+            //$_SESSION['usuarioNome']    = $getAuth['usuarionome'];
 
             return true;
 
