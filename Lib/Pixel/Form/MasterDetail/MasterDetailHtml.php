@@ -21,6 +21,7 @@ class MasterDetailHtml
         $totalInicio = $config->getTotalItensInicio();
         $js = new \Zion\Layout\JavaScript();
         $objPai = $config->getObjetoPai();
+        $valorItensDeInicio = $config->getValorItensDeInicio();
 
         $textoJs = '';
         $html = '';
@@ -42,7 +43,9 @@ class MasterDetailHtml
 
                 $html.= $this->abreItem($config, $coringa);
 
-                $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm);
+                $valoresInicio = \is_array($valorItensDeInicio[$i]) ? \array_change_key_case($valorItensDeInicio[$i]) : [];
+
+                $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $valoresInicio);
 
                 $html .= $dadosGrupo['html'];
                 $textoJs .=$dadosGrupo['js'];
@@ -149,7 +152,7 @@ class MasterDetailHtml
     private function fechaGrupo($config)
     {
         $buffer = $this->html->abreTagFechada('div', array('id' => 'sisMasterDetailAppend' . $config->getNome(), 'class' => 'col-sm-12'));
-                $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg', 'onclick' => 'sisAddMasterDetail(\'' . $config->getNome() . '\')']);
+        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg', 'onclick' => 'sisAddMasterDetail(\'' . $config->getNome() . '\')']);
         $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-plus']);
         $buffer .= $config->getAddTexto();
         $buffer .= $this->html->fechaTag('button');
@@ -215,7 +218,7 @@ class MasterDetailHtml
             return '';
         }
 
-        $buffer = $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-xs btn-labeled btn-danger btn-remover-registro', 'title' => 'Remover' , 'data-toggle' => 'tooltip', 'onclick' => 'sisRemoverMasterDetail(\'' . $config->getNome() . '\',\'' . $id . '\')']);
+        $buffer = $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-xs btn-labeled btn-danger btn-remover-registro', 'title' => 'Remover', 'data-toggle' => 'tooltip', 'onclick' => 'sisRemoverMasterDetail(\'' . $config->getNome() . '\',\'' . $id . '\')']);
         $buffer .= $this->html->abreTagAberta('strong');
         $buffer .= 'Remover';
         $buffer .= $this->html->fechaTag('strong');

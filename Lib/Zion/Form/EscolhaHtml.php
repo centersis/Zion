@@ -81,7 +81,7 @@ class EscolhaHtml
         $sqlCompleto = $config->getSqlCompleto();
         $ignoreCod = $config->getIgnoreCod();
 
-        if ($tabela and $campoCod and $campoDesc) {
+        if (($tabela and $campoCod and $campoDesc) or ( $sqlCompleto and $campoCod and $campoDesc )) {
 
             $con = \Zion\Banco\Conexao::conectar($config->getIdConexao());
 
@@ -92,7 +92,7 @@ class EscolhaHtml
                 $sql = $con->link()->createQueryBuilder();
 
                 $sql->select($campoCod, $campoDesc)
-                        ->from($tabela);               
+                        ->from($tabela);
 
                 if ($orderBy) {
                     foreach ($orderBy as $orderChave => $orderTipo) {
