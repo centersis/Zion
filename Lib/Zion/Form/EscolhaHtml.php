@@ -176,6 +176,8 @@ class EscolhaHtml
 
     private function montaCheckRadio($tipo, FormEscolha $config, $array, $retornarArray)
     {
+        $retorno = '';
+        
         $type = $tipo === 'radio' ? 'type="radio"' : 'type="checkbox"';
 
         $name = 'name="' . $config->getNome() . '"';
