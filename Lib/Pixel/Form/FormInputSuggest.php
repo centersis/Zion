@@ -237,11 +237,11 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
             $query = '';
 
-            foreach ($this->parametros as $campo => $valor) {
+            foreach ($parametros as $campo => $valor) {
                 $query .= "&" . $campo . "=" . $valor;
             }
 
-            $this->parametros = \substr($query, 1);
+            $this->parametros = $query;
         } else {
             throw new FormException("parametros: O valor informado é inválido.");
         }
