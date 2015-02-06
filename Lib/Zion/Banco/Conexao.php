@@ -118,6 +118,16 @@ class Conexao
     }
 
     /**
+     * Cria uma instancia direta do SQL query builder.
+     *
+     * @return \Doctrine\DBAL\Query\QueryBuilder
+     */
+    public function qb($banco = \NULL)
+    {
+        return self::$link[$banco ? $banco : $this->banco]->createQueryBuilder();
+    }
+
+    /**
      * Retorna uma mensagem de erro de acordo com o código informado
      * @param int $cod
      * @return string
@@ -328,6 +338,10 @@ class Conexao
         $resultSet = $this->executar($sql);
 
         $array = $this->linha($resultSet);
+
+        if (!\is_numeric($posicao)) {
+            $posicao = \strtolower($posicao);
+        }
 
         if (\key_exists($posicao, $array)) {
             return $array[$posicao];

@@ -47,6 +47,7 @@ class FormMasterDetail
     private $campos;
     private $botaoRemover;
     private $totalItensInicio;
+    private $valorItensDeInicio;
     private $objetoPai;
     private $campoReferencia;
     private $codigoReferencia;
@@ -129,6 +130,11 @@ class FormMasterDetail
     public function getTotalItensInicio()
     {
         return $this->totalItensInicio;
+    }
+    
+    public function getValorItensDeInicio()
+    {
+        return $this->valorItensDeInicio;
     }
     
     public function getObjetoPai()
@@ -316,6 +322,20 @@ class FormMasterDetail
         $this->totalItensInicio = $totalItensInicio;
         return $this;
     }   
+    
+    public function setValorItensDeInicio($valorItensDeInicio)
+    {
+        if(!empty($valorItensDeInicio)){
+            
+            if(!\is_array($valorItensDeInicio)){
+                throw new FormException('setValorItensDeInicio: Informe um array!');
+            }
+            
+            $this->valorItensDeInicio = $valorItensDeInicio;
+        }
+        
+        return $this;
+    }
     
     public function setObjetoPai($objetoPai)
     {

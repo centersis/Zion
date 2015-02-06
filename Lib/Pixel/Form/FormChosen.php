@@ -113,9 +113,9 @@ class FormChosen extends \Zion\Form\FormEscolha
         return $this;
     }
 
-    public function setWhere($where)
+    public function setOrderBy($orderBy)
     {
-        parent::setWhere($where);
+        parent::setOrderBy($orderBy);
         return $this;
     }
 

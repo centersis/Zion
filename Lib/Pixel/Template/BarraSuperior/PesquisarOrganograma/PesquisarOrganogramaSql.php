@@ -32,19 +32,53 @@ namespace Pixel\Template\BarraSuperior\PesquisarOrganograma;
 
 class PesquisarOrganogramaSql
 {
+    
+    private $con;
+    private $util;
+
+    public function __construct()
+    {
+
+        $this->con = \Zion\Banco\Conexao::conectar();
+
+    }     
 
     public function getDadosOrganograma($cod)
     {
+        
+        $qb = $this->con->link()->createQueryBuilder();
+        
+        $qb->select('*')
+           ->from('organograma', 'a')
+           ->where($qb->expr()->eq('a.organogramaCod', ':organogramaCod'))
+           ->setParameter('organogramaCod', $cod);
+
+        return $qb;        
+/*        
         return "SELECT *
                   FROM  organograma
                  WHERE  organogramaCod = ".$cod;
+ * 
+ */
     }
 
-    public function getDadosUsuario($cod)
+    public function getDadosUsuario()
     {
+        
+        $qb = $this->con->link()->createQueryBuilder();
+        
+        $qb->select('*')
+           ->from('_usuario', 'a')
+           ->where($qb->expr()->eq('a.usuarioCod', ':usuarioCod'))
+           ->setParameter('usuarioCod', $_SESSION['usuarioCod']);
+
+        return $qb;  
+/*        
         return "SELECT *
                   FROM  _usuario
                  WHERE  usuarioCod = ".$cod;
+ * 
+ */
     }    
 
 }

@@ -118,10 +118,10 @@ class FormEscolha extends \Zion\Form\FormEscolha
         parent::setCampoDesc($campoDesc);
         return $this;
     }
-
-    public function setWhere($where)
+    
+    public function setOrderBy($orderBy)
     {
-        parent::setWhere($where);
+        parent::setOrderBy($orderBy);
         return $this;
     }
 
