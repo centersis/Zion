@@ -329,6 +329,10 @@ class Conexao
 
         $array = $this->linha($resultSet);
 
+        if (!\is_numeric($posicao)) {
+            $posicao = \strtolower($posicao);
+        }
+
         if (\key_exists($posicao, $array)) {
             return $array[$posicao];
         } else {
