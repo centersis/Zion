@@ -80,7 +80,7 @@ class LoginClass extends LoginSql
     
     public function recovery($l)
     {
-        $dadosUsuario = $this->con->paraArray($this->getDadosRecoverySql($l))[0];
+        $dadosUsuario = $this->con->execLinha($this->getDadosRecoverySql($l));
         if(!empty($dadosUsuario['usuariocod']) and !empty($dadosUsuario['usuariologin'])){
             
             if($dadosUsuario['usuariostatus'] === "I"){
@@ -149,6 +149,11 @@ class LoginClass extends LoginSql
     public function validaHash($email, $hash)
     {
         $dadosUsuario   = $this->con->execLinha($this->getDadosRecoverySql($email));
+
+        if(empty($dadosUsuario['usuariocod'])){
+            return false;
+        }
+
         $sql            = parent::validaHashSql($dadosUsuario['usuariocod'], $hash);
         $dadosHash      = $this->con->execLinha($sql);
 
