@@ -52,11 +52,8 @@ class LoginController extends \Zion\Core\Controller
             $html = new \Zion\Layout\Html();
             $template = new \Pixel\Template\Template();
 
-            //$template->setConteudoHeader($html->abreTagAberta('link', array('href' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/stylesheets/login.css', 'rel' => 'stylesheet', 'type' => 'text/css')));
             $template->setConteudoBody('theme-default page-signin');
-//            $template->setConteudoScripts($html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/login-prescripts.js')) . $html->fechaTag('script'));
             $template->setConteudoScripts($html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/login-postscripts.js')) . $html->fechaTag('script'));    
-            //$template->setConteudoFooter();              
 
             define('DEFAULT_GRUPO_NOME', 'Accounts');
             define('DEFAULT_MODULO_NOME', 'Login');
@@ -79,9 +76,16 @@ class LoginController extends \Zion\Core\Controller
 
     protected function getAuth()
     {
-
-        $l = \filter_input(INPUT_POST, 'signin_username');
+        $l = \filter_input(INPUT_POST, 'email');
         $p = \filter_input(INPUT_POST, 'signin_password');
+
+        $html = new \Zion\Layout\Html();
+        $template = new \Pixel\Template\Template();
+
+        $template->setConteudoBody('theme-default page-signin');
+        $retorno  = $template->getTemplate('cabecalho');
+        $retorno .= $template->getTemplate('inicioCorpo');
+        $template->setConteudoScripts($html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/login-postscripts.js')) . $html->fechaTag('script'));
 
         try{
 
@@ -90,14 +94,119 @@ class LoginController extends \Zion\Core\Controller
                 header('location: ' . SIS_URL_BASE . 'Dashboard');
     
             } else {
-    
-                header('location: ./?err=Oops! Dados incorretos...');
+
+                $retorno .= $template->setConteudoLogin($this->loginForm->getLogin("Oops! Dados incorretos..."));
     
             }
 
         } catch(\Exception $e){
-            header('location: ./?err='. $e->getMessage());
+            $retorno .= $template->setConteudoLogin($this->loginForm->getLogin($e->getMessage()));
         }
+        
+        $retorno .= $template->getTemplate('fimCorpo');
+        $retorno .= $template->getTemplate('rodape');
+
+        return $retorno;
+    }
+
+    protected function recovery()
+    {
+        $l = \filter_input(INPUT_POST, 'email');
+        $html = new \Zion\Layout\Html();
+        $template = new \Pixel\Template\Template();
+
+        $template->setConteudoBody('theme-default page-signin');
+        $retorno  = $template->getTemplate('cabecalho');
+        $retorno .= $template->getTemplate('inicioCorpo');
+        $template->setConteudoScripts($html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/login-postscripts.js')) . $html->fechaTag('script'));
+
+        try{
+
+            if($this->loginClass->recovery($l) === true){
+                $mensagem = 'Um email com instruções para a redefinição da sua senha foi enviado para <span class="negrito">'. $l .'</span>.<br /><br />';
+                $retorno .= $template->setConteudoLogin($this->loginForm->getFormLimpo('Redefinir Senha', $mensagem));
+            }
+
+        } catch(\Exception $e){
+            $retorno .= $template->setConteudoLogin($this->loginForm->getLogin($e->getMessage()));
+        }
+
+        $retorno .= $template->getTemplate('fimCorpo');
+        $retorno .= $template->getTemplate('rodape');
+
+        return $retorno;
+
+    }
+    
+    protected function recoverPass()
+    {
+
+        $email  = \filter_input(INPUT_GET, 'email');
+        $hash   = \filter_input(INPUT_GET, 'hash');
+
+        $html = new \Zion\Layout\Html();
+        $template = new \Pixel\Template\Template();
+
+        $template->setConteudoBody('theme-default page-signin');
+        $retorno  = $template->getTemplate('cabecalho');
+        $retorno .= $template->getTemplate('inicioCorpo');
+        $template->setConteudoScripts($html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/login-postscripts.js')) . $html->fechaTag('script'));
+
+        try {
+
+            if($this->loginClass->validaHash($email, $hash) === false){
+                header("location: ". SIS_URL_BASE .'');
+            }
+
+            $retorno .= $template->setConteudoLogin($this->loginForm->formRecovery());
+
+        } catch(\Exception $e){
+            $retorno .= $template->setConteudoLogin($this->loginForm->formRecovery($e->getMessage()));
+        }
+        
+        $retorno .= $template->getTemplate('fimCorpo');
+        $retorno .= $template->getTemplate('rodape');
+
+        return $retorno;
+
+    }
+
+    protected function setNewPass()
+    {
+
+        $email  = \filter_input(INPUT_POST, 'email');
+        $hash   = \filter_input(INPUT_POST, 'hash');
+        
+        $senha  = \filter_input(INPUT_POST, 'new_password');
+        $senhaB = \filter_input(INPUT_POST, 'new_password_b');
+
+        $html = new \Zion\Layout\Html();
+        $template = new \Pixel\Template\Template();
+
+        $template->setConteudoBody('theme-default page-signin');
+        $retorno  = $template->getTemplate('cabecalho');
+        $retorno .= $template->getTemplate('inicioCorpo');
+        $template->setConteudoScripts($html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/login-postscripts.js')) . $html->fechaTag('script'));
+
+        try {
+
+            if($this->loginClass->validaHash($email, $hash) === false){
+                header("location: ". SIS_URL_BASE .'');
+            }
+
+            if($this->loginClass->setNewPass($email, $hash, $senha, $senhaB) === true){
+                $mensagem = 'Sua senha foi redefinida com sucesso. Para continuar, clique no link abaixo. <br /><br />';
+                $retorno .= $template->setConteudoLogin($this->loginForm->getFormLimpo('Redefinir Senha', $mensagem));
+            }
+
+        } catch(\Exception $e){
+            $retorno .= $template->setConteudoLogin($this->loginForm->formRecovery($e->getMessage()));
+        }
+        
+        $retorno .= $template->getTemplate('fimCorpo');
+        $retorno .= $template->getTemplate('rodape');
+
+        return $retorno;
 
     }
 

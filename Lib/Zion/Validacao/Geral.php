@@ -250,5 +250,9 @@ class Geral extends \Zion\Tratamento\Geral
         \json_decode($string);
         return (\json_last_error() == \JSON_ERROR_NONE);
     }
-
+    
+    public function validaEmail($email)
+    {
+        return (preg_match("/[a-z]{1,}@[a-z]{1,}/", $email) ? true : false);
+    }
 }
