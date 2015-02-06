@@ -129,7 +129,7 @@ class LoginClass extends LoginSql
                 Mais mãos, fazem um software melhor.
                 <br />';
 
-        $mailer->enviarEmail("feliphe@braconsultoria.com.br", "Recuperação de senha do ". SIS_DESCRICAO, $msg, "noreply");
+        $mailer->enviarEmail($dadosUsuario['usuariologin'], "Recuperação de senha do ". SIS_DESCRICAO, $msg, "noreply");
        
         return true;
     }
