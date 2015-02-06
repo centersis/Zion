@@ -262,7 +262,7 @@ class FormEscolha extends \Zion\Form\FormBasico
      */
     public function setArray($array)
     {
-        if (is_array($array)) {
+        if (\is_array($array)) {
             $this->array = $array;
             return $this;
         } else {
