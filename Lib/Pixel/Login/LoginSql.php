@@ -39,7 +39,7 @@ class LoginSql
         $con = \Zion\Banco\Conexao::conectar();
         $qb = $con->link()->createQueryBuilder();
 
-        $qb->select('a.usuarioCod', 'a.organogramaCod', 'a.perfilCod', 'a.usuarioNome')
+        $qb->select('*')
            ->from('_usuario', 'a')
            ->where('a.usuarioLogin = :usuarioLogin')
            ->andWhere('a.usuarioSenha = :usuarioSenha')

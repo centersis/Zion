@@ -32,14 +32,18 @@ namespace Pixel\Template\BarraSuperior\PesquisarOrganograma;
 
 class PesquisarOrganogramaController extends \Zion\Core\Controller
 {
-
-    private $pesquisarOrganogramaClass;
-    private $pesquisarOrganogramaForm;
+    
+    private $con;
+    private $sql;
+    private $class;
+    private $form;
 
     public function __construct()
     {
-        $this->pesquisarOrganogramaClass = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaClass();
-        $this->pesquisarOrganogramaForm = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaForm();
+        $this->con = \Zion\Banco\Conexao::conectar();
+        $this->sql = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaSql();
+        $this->class = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaClass();
+        $this->form = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaForm();
     }  
 
     protected function iniciar()
@@ -50,7 +54,7 @@ class PesquisarOrganogramaController extends \Zion\Core\Controller
         try {
 
             //$template = new \Pixel\Template\Template();
-            return $this->pesquisarOrganogramaForm->getForm();
+            return $this->form->getForm();
 
         } catch (\Exception $ex) {
             
@@ -75,10 +79,10 @@ class PesquisarOrganogramaController extends \Zion\Core\Controller
     {
         //new \Zion\Acesso\Acesso('filtrar');
 
-        $con = \Zion\Banco\Conexao::conectar();
-        $sql = new \Sappiens\Dashboard\DashboardSql();
-        $getDadosUsuario = $con->execLinhaArray($sql->getDadosUsuario($_SESSION['usuarioCod']));          
-        $organogramaCodUsuario = $getDadosUsuario['organogramaCod'];        
+        //$con = \Zion\Banco\Conexao::conectar();
+        //$sql = new \Sappiens\Dashboard\DashboardSql();
+        $getDadosUsuario = $this->class->getDadosUsuario();          
+        $organogramaCodUsuario = $getDadosUsuario['organogramacod'];        
 
         $_SESSION['organogramaCod'] = $organogramaCodUsuario;
         return $_SESSION['organogramaCod'];       

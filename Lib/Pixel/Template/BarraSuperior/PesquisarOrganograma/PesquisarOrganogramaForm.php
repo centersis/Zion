@@ -33,7 +33,7 @@ namespace Pixel\Template\BarraSuperior\PesquisarOrganograma;
 class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
 {
 
-	private $con;
+    private $con;
     private $pesquisarOrganogramaSql;
 
     public function __construct()
@@ -41,7 +41,8 @@ class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
 
     	$this->con = \Zion\Banco\Conexao::conectar();
     	$this->html = new \Zion\Layout\Html();
-        $this->pesquisarOrganogramaSql = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaSql();
+        //$this->pesquisarOrganogramaSql = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaSql();
+        $this->pesquisarOrganogramaClass = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaClass();
 
     }  	
 
@@ -51,37 +52,38 @@ class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
      */
     public function getForm()
     {	
-        return '';
+        //return '';
     	$buffer = '';
 
     	if($_SESSION['usuarioCod']) {
 
-		    $getDadosUsuario = $this->con->execLinhaArray($this->pesquisarOrganogramaSql->getDadosUsuario($_SESSION['usuarioCod']));
-		    $form = $this->getFormPesquisarOrganograma();
+            //$getDadosUsuario = $this->con->execLinhaArray($this->pesquisarOrganogramaSql->getDadosUsuario($_SESSION['usuarioCod']));
+            $getDadosUsuario = $this->pesquisarOrganogramaClass->getDadosUsuario();
+            $form = $this->getFormPesquisarOrganograma();
 
-		    $buffer  = '';
-		    $buffer .= $this->html->abreTagAberta('li', array('class' => 'clearfix'));
-		    $buffer .= $this->html->abreTagAberta('form', array('id' => 'FormOrganograma', 'name' => 'FormOrganograma', 'class' => 'navbar-form clearfix'));
-		    $buffer .= $form->getFormHtml('organograma');
+            $buffer  = '';
+            $buffer .= $this->html->abreTagAberta('li', array('class' => 'clearfix'));
+            $buffer .= $this->html->abreTagAberta('form', array('id' => 'FormOrganograma', 'name' => 'FormOrganograma', 'class' => 'navbar-form clearfix'));
+            $buffer .= $form->getFormHtml('organograma');
 
-		    if($getDadosUsuario['organogramaCod'] <> $_SESSION['organogramaCod']) {
+            if($getDadosUsuario['organogramacod'] <> $_SESSION['organogramaCod']) {
 
-		    	$buffer .= $this->html->abreTagAberta('div', array('style' => 'float:inherit; position:relative; margin-top:-37px; padding-right:15px;'));
-		    	$buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'title' => 'Redefinir organograma', 'onclick' => 'getController(\'organogramaCod\', \'organograma\', \'resetOrganogramaCod\')', 'class' => 'close')) . '×' . $this->html->fechaTag('a');
-		    	$buffer .= $this->html->fechaTag('div');	 
+                $buffer .= $this->html->abreTagAberta('div', array('style' => 'float:inherit; position:relative; margin-top:-37px; padding-right:15px;'));
+                $buffer .= $this->html->abreTagAberta('a', array('href' => '#', 'title' => 'Redefinir organograma', 'onclick' => 'getController(\'organogramaCod\', \'organograma\', \'resetOrganogramaCod\')', 'class' => 'close')) . '×' . $this->html->fechaTag('a');
+                $buffer .= $this->html->fechaTag('div');	 
 
-		    }
+            }
 
-		    $buffer .= $this->html->fechaTag('form');   	    	    
-		    $buffer .= $this->html->fechaTag('li');
-		    $buffer .= $form->javaScript(false, true)->getLoad(true);
-		    $buffer .= $this->getJSEstatico();    
-
-		}
-
-	    return $buffer;	    
+            $buffer .= $this->html->fechaTag('form');   	    	    
+            $buffer .= $this->html->fechaTag('li');
+            $buffer .= $form->javaScript(false, true)->getLoad(true);
+            $buffer .= $this->getJSEstatico();    
 
 	}
+
+        return $buffer;	    
+
+    }
 
     public function getFormPesquisarOrganograma()
     {
@@ -91,20 +93,19 @@ class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
         $form->config('FormOrganograma', 'GET')
                 ->setNovalidate(true);
 
-//        $getDadosOrganograma = $this->con->execLinhaArray($this->pesquisarOrganogramaSql->getDadosOrganograma($_SESSION['organogramaCod']));
-//        $organogramaNome = $getDadosOrganograma['organogramaNome'];
+        //$getDadosOrganograma = $this->con->execLinhaArray($this->pesquisarOrganogramaSql->getDadosOrganograma($_SESSION['organogramaCod']));
+        $getDadosOrganograma = $this->pesquisarOrganogramaClass->getDadosOrganograma($_SESSION['organogramaCod']);
+        $organogramaNome = $getDadosOrganograma['organogramanome'];
 
         $campos[] = $form->texto('organograma', 'organograma');
-//        $campos[] = $form->suggest('organograma', 'organograma', false)
-//                ->setTabela('organograma')
-//                ->setCampoCod('organogramaCod')
-//                ->setCampoDesc('organogramaNome')
-//                ->setClassCss('clearfix')
-//                ->setPlaceHolder($organogramaNome)
-//                ->setCondicao("e INSTR(organogramaAncestral,CONCAT(:|:," . $_SESSION['organogramaCod'] . ",:|:)) > 0")
-//                ->setHiddenValue('organogramaCod')
-//                ->setOnSelect('getController(\'organogramaCod\', \'organograma\', \'setOrganogramaCod\')')
-//                ->setLayoutPixel(false);
+        $campos[] = $form->suggest('organograma', 'organograma', false)
+                ->setUrl(SIS_URL_BASE . 'Dashboard/')
+                ->setParametros(['acao' => 'getSuggest'])
+                ->setClassCss('clearfix')
+                ->setPlaceHolder($organogramaNome)
+                ->setHiddenValue('organogramaCod')
+                ->setOnSelect('getController(\'organogramaCod\', \'organograma\', \'setOrganogramaCod\')')
+                ->setLayoutPixel(false);
 
         return $form->processarForm($campos);
     }  	
@@ -113,7 +114,7 @@ class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
     {
 
         $jsStatic = \Pixel\Form\FormJavaScript::iniciar();
-        $jQuery = new \Zion\JQuery\JQuery();                
+        //$jQuery = new \Zion\JQuery\JQuery();                
         return $jsStatic->getFunctions($jsStatic->setFunctions($this->getMeuJS()));
 
     }    
