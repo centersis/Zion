@@ -154,7 +154,7 @@ class LoginController extends \Zion\Core\Controller
 
         try {
 
-            if($this->loginClass->validaHash($email, $hash) === false){ print "ASD";
+            if($this->loginClass->validaHash($email, $hash) === false){
                 header("location: ". SIS_URL_BASE .'');
             }
 
