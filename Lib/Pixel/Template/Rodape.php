@@ -38,7 +38,7 @@ class Rodape extends \Zion\Layout\Padrao
 
         $buffer = '';
         $buffer .= $template->getConteudoFooter();
-        $buffer .= $this->html->abreComentario() . 'Sappiens Framework: starting scripts block' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Sappiens Framework: starting scripts block' . $this->html->fechaComentario();
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/bootstrap.min.js')) . $this->html->fechaTag('script');
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . 'libs/jquery/plugins/jquery-maskMoney/3.0.2/jquery.maskMoney.min.js')) . $this->html->fechaTag('script');
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/pixel-admin.js')) . $this->html->fechaTag('script');
@@ -48,10 +48,10 @@ class Rodape extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_FM_BASE . 'Ckeditor/ckeditor.js')) . $this->html->fechaTag('script');
         $buffer .= $template->getTooltipForm();
         $buffer .= $template->getScripts();
-        $buffer .= $this->html->abreComentario() . 'Sappiens Framework: ending scripts block' . $this->html->fechaComentario();
-        $buffer .= $this->html->abreComentario() . 'Sappiens Framework: starting generic footer' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Sappiens Framework: ending scripts block' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Sappiens Framework: starting generic footer' . $this->html->fechaComentario();
         $buffer .= $this->rodape();
-        $buffer .= $this->html->abreComentario() . 'Sappiens Framework: ending generic footer' . $this->html->fechaComentario();
+        //$buffer .= $this->html->abreComentario() . 'Sappiens Framework: ending generic footer' . $this->html->fechaComentario();
         $buffer .= $this->html->abreComentario() . 'Sappiens Framework: good by!' . $this->html->fechaComentario();
         return $buffer;
 
