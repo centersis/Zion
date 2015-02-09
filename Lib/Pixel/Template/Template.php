@@ -1,32 +1,33 @@
 <?php
+
 /**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 
 namespace Pixel\Template;
 
@@ -74,7 +75,7 @@ class Template extends \Zion\Layout\Padrao
     {
 
         $this->conteudoFiltros .= $conteudo;
-    }    
+    }
 
     public function setConteudoGrid($conteudo = '')
     {
@@ -84,9 +85,9 @@ class Template extends \Zion\Layout\Padrao
 
     public function setConteudoMain($conteudo = '')
     {
-        if(is_object($conteudo)){
-            if(preg_match('/exception/i', get_class($conteudo))){
-                $conteudo = '<pre>'. $conteudo .'</pre>';
+        if (is_object($conteudo)) {
+            if (preg_match('/exception/i', get_class($conteudo))) {
+                $conteudo = '<pre>' . $conteudo . '</pre>';
             }
         }
         $this->conteudoMain .= $conteudo;
@@ -119,7 +120,7 @@ class Template extends \Zion\Layout\Padrao
     public function setTooltipForm($Form = 'sisContainer')
     {
         return $this->tooltipForm = $Form;
-    }      
+    }
 
     public function setConteudoIconeModulo($conteudo = '')
     {
@@ -129,12 +130,12 @@ class Template extends \Zion\Layout\Padrao
     public function setConteudoNomeModulo($conteudo = '')
     {
         return $this->conteudoNomeModulo = $conteudo;
-    }    
+    }
 
     public function setConteudoLogin($conteudo = '')
     {
         return $this->conteudoLogin = $conteudo;
-    }     
+    }
 
     public function getTemplate($modo = '')
     {
@@ -283,10 +284,10 @@ class Template extends \Zion\Layout\Padrao
 
         $buffer .= $this->html->abreTagAberta('ul', array('class' => 'nav navbar-nav pull-right right-navbar-nav'));
 
-            $buffer .= $formPesquisar->getForm();
-            $buffer .= $notificacoes->getNotificacoes();
-            $buffer .= $mensagens->getMensagens();
-            $buffer .= $usuario->getUsuario();
+        $buffer .= $formPesquisar->getForm();
+        $buffer .= $notificacoes->getNotificacoes();
+        $buffer .= $mensagens->getMensagens();
+        $buffer .= $usuario->getUsuario();
 
         // end: navbar-nav
         $buffer .= $this->html->fechaTag('ul');
@@ -384,7 +385,6 @@ class Template extends \Zion\Layout\Padrao
 
         //return $this->conteudoFiltros;
         //return $this->getPanel('box-filters', 'Filtros especiais', $this->conteudoFiltros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
-
     }
 
     private function getContainerLogin()
@@ -396,6 +396,25 @@ class Template extends \Zion\Layout\Padrao
 
     private function getPageHeader()
     {
+        $icone = $this->conteudoIconeModulo;
+        $nomeModulo = $this->conteudoNomeModulo;
+
+        if ((!$icone or ! $nomeModulo) and \defined('MODULO')) {
+
+            $con = \Zion\Banco\Conexao::conectar();
+
+            $qb = $con->link()->createQueryBuilder();
+
+            $qb->select('moduloclass', 'modulodesc')
+                    ->from('_modulo', '')
+                    ->where('moduloNome = :moduloNome')
+                    ->setParameter('moduloNome', \MODULO);
+
+            $dadosModulo = $con->execLinha($qb);
+
+            $icone = $dadosModulo['moduloclass'];
+            $nomeModulo = $dadosModulo['modulodesc'];
+        }
 
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'page-header'));
@@ -403,7 +422,7 @@ class Template extends \Zion\Layout\Padrao
         //$buffer .= $this->getSpark();
 
         $buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
-        $buffer .= $this->html->abreTagAberta('i', array('class' => $this->conteudoIconeModulo . ' page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . $this->conteudoNomeModulo;
+        $buffer .= $this->html->abreTagAberta('i', array('class' => $icone . ' page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . $nomeModulo;
         $buffer .= $this->html->fechaTag('h1');
 
         $buffer .= $this->html->fechaTag('div');
@@ -441,7 +460,6 @@ class Template extends \Zion\Layout\Padrao
                 <!-- end sparks -->
             </div>';
         return $buffer;
-
     }
 
     private function getStatPanel()
@@ -455,9 +473,8 @@ class Template extends \Zion\Layout\Padrao
                         <span class="text-bg">Comments</span><br>
                         <span class="text-sm">New comments today</span>
                     </div>
-                </div>';        
+                </div>';
         return $buffer;
-
     }
 
     private function getFimContainer()
@@ -496,12 +513,11 @@ class Template extends \Zion\Layout\Padrao
     public function getTooltipForm()
     {
 
-        $buffer  = '';
+        $buffer = '';
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/javascripts/jquery-ui-extras.min.js')) . $this->html->fechaTag('script');
         $buffer .= $this->html->entreTags('script', 'var initTooltipsDemo=function(){if(window.JQUERY_UI_EXTRAS_LOADED){$(\'#' . $this->tooltipForm . '\').tooltip()}};init.push(initTooltipsDemo);');
         return $buffer;
-
-    } 
+    }
 
     private function getRodape()
     {
@@ -515,16 +531,14 @@ class Template extends \Zion\Layout\Padrao
 
         $panel = new \Pixel\Template\Main\Panel();
         return $panel->getPanel($panelId, $panelTitle, $panelBody, $opcoes);
-
-    }    
+    }
 
     public function getTab($tabId, $arrayConfs, $arrayTab)
     {
 
         $tab = new \Pixel\Template\Main\Tab();
         return $tab->getTab($tabId, $arrayConfs, $arrayTab);
-
-    }     
+    }
 
     public function getLabel($array, $conteudo = '')
     {
@@ -533,28 +547,25 @@ class Template extends \Zion\Layout\Padrao
 
         $addClass = (empty($conteudo)) ? ' hidden ' : '';
         return $this->abreTagAberta('span', ['id' => 'sisLabel' . $id, 'class' => 'label label-' . $tipo . $addClass]) . $conteudo . $this->fechaTag('span');
-
     }
 
     public function getBadge($array, $conteudo = '')
     {
         $id = key_exists('id', $array) ? $array['id'] : '';
         $tipo = key_exists('tipo', $array) ? $array['tipo'] : '';
-        
+
         $addClass = (empty($conteudo)) ? ' hidden ' : '';
         return $this->abreTagAberta('span', ['id' => 'sisBadge' . $id, 'class' => 'badge badge-' . $tipo . $addClass]) . $conteudo . $this->fechaTag('span');
-
-    }    
+    }
 
     public function getTag($array, $conteudo = '')
     {
         $id = key_exists('id', $array) ? $array['id'] : '';
         $tipo = key_exists('tipo', $array) ? $array['tipo'] : '';
-        
+
         $addClass = (empty($conteudo)) ? ' hidden ' : '';
         return $this->abreTagAberta('span', ['id' => 'sisTag' . $id, 'class' => 'label label-tag label-' . $tipo . $addClass]) . $conteudo . $this->fechaTag('span');
-
-    }      
+    }
 
     private function getEstatisticas($modo = '')
     {
