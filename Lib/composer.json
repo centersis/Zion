@@ -1,0 +1,14 @@
+{
+    "name": "Sappiens",
+    "description": "Módulos baseados em sappiens framework",
+    "authors": [
+        {
+            "name": "Sappiens",
+            "email": "team@sappiens.com.br"
+        }
+    ],
+    "require": {
+        "twig/twig": "~1.0",
+		"doctrine/dbal": "2.3.5"
+    }
+}

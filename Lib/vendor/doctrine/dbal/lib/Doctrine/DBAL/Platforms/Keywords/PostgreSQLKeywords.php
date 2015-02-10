@@ -17,29 +17,25 @@
  * <http://www.doctrine-project.org>.
  */
 
+
 namespace Doctrine\DBAL\Platforms\Keywords;
 
 /**
- * PostgreSQL Keywordlist.
+ * PostgreSQL Keywordlist
  *
- * @link   www.doctrine-project.org
- * @since  2.0
- * @author Benjamin Eberlei <kontakt@beberlei.de>
- * @author Marcelo Santos Araujo <msaraujo@php.net>
+ * @license     BSD http://www.opensource.org/licenses/bsd-license.php
+ * @link        www.doctrine-project.com
+ * @since       2.0
+ * @author      Benjamin Eberlei <kontakt@beberlei.de>
+ * @author      Marcelo Santos Araujo <msaraujo@php.net>
  */
 class PostgreSQLKeywords extends KeywordList
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'PostgreSQL';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getKeywords()
     {
         return array(

@@ -19,6 +19,8 @@
 
 namespace Doctrine\DBAL\Sharding;
 
+use Doctrine\DBAL\Sharding\ShardChoser\ShardChoser;
+
 /**
  * Shard Manager for the Connection Pooling Shard Strategy
  *
@@ -26,24 +28,10 @@ namespace Doctrine\DBAL\Sharding;
  */
 class PoolingShardManager implements ShardManager
 {
-    /**
-     * @var \Doctrine\DBAL\Sharding\PoolingShardConnection
-     */
     private $conn;
-
-    /**
-     * @var \Doctrine\DBAL\Sharding\ShardChoser\ShardChoser
-     */
     private $choser;
-
-    /**
-     * @var string|null
-     */
     private $currentDistributionValue;
 
-    /**
-     * @param \Doctrine\DBAL\Sharding\PoolingShardConnection $conn
-     */
     public function __construct(PoolingShardConnection $conn)
     {
         $params       = $conn->getParams();
@@ -51,20 +39,12 @@ class PoolingShardManager implements ShardManager
         $this->choser = $params['shardChoser'];
     }
 
-    /**
-     * @return void
-     */
     public function selectGlobal()
     {
         $this->conn->connect(0);
         $this->currentDistributionValue = null;
     }
 
-    /**
-     * @param string $distributionValue
-     *
-     * @return void
-     */
     public function selectShard($distributionValue)
     {
         $shardId = $this->choser->pickShard($distributionValue, $this->conn);
@@ -72,17 +52,11 @@ class PoolingShardManager implements ShardManager
         $this->currentDistributionValue = $distributionValue;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCurrentDistributionValue()
     {
         return $this->currentDistributionValue;
     }
 
-    /**
-     * @return array
-     */
     public function getShards()
     {
         $params = $this->conn->getParams();
@@ -95,15 +69,6 @@ class PoolingShardManager implements ShardManager
         return $shards;
     }
 
-    /**
-     * @param string $sql
-     * @param array  $params
-     * @param array  $types
-     *
-     * @return array
-     *
-     * @throws \RuntimeException
-     */
     public function queryAll($sql, array $params, array $types)
     {
         $shards = $this->getShards();
@@ -130,3 +95,4 @@ class PoolingShardManager implements ShardManager
         return $result;
     }
 }
+

@@ -92,7 +92,7 @@ class EscolhaHtml
                 $sql = $con->link()->createQueryBuilder();
 
                 $sql->select($campoCod, $campoDesc)
-                        ->from($tabela);
+                        ->from($tabela,'');
 
                 if ($orderBy) {
                     foreach ($orderBy as $orderChave => $orderTipo) {

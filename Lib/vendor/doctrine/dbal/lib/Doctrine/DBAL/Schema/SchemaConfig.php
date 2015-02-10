@@ -20,21 +20,22 @@
 namespace Doctrine\DBAL\Schema;
 
 /**
- * Configuration for a Schema.
+ * Configuration for a Schema
  *
- * @link   www.doctrine-project.org
- * @since  2.0
- * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * 
+ * @link    www.doctrine-project.org
+ * @since   2.0
+ * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
 class SchemaConfig
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $hasExplicitForeignKeyIndexes = false;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $maxIdentifierLength = 63;
 
@@ -49,7 +50,7 @@ class SchemaConfig
     protected $defaultTableOptions = array();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasExplicitForeignKeyIndexes()
     {
@@ -57,9 +58,7 @@ class SchemaConfig
     }
 
     /**
-     * @param boolean $flag
-     *
-     * @return void
+     * @param bool $flag
      */
     public function setExplicitForeignKeyIndexes($flag)
     {
@@ -67,9 +66,7 @@ class SchemaConfig
     }
 
     /**
-     * @param integer $length
-     *
-     * @return void
+     * @param int $length
      */
     public function setMaxIdentifierLength($length)
     {
@@ -77,7 +74,7 @@ class SchemaConfig
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getMaxIdentifierLength()
     {
@@ -85,7 +82,7 @@ class SchemaConfig
     }
 
     /**
-     * Gets the default namespace of schema objects.
+     * Get default namespace of schema objects.
      *
      * @return string
      */
@@ -95,11 +92,9 @@ class SchemaConfig
     }
 
     /**
-     * Sets the default namespace name of schema objects.
+     * set default namespace name of schema objects.
      *
-     * @param string $name The value to set.
-     *
-     * @return void
+     * @param string $name the value to set.
      */
     public function setName($name)
     {
@@ -107,7 +102,7 @@ class SchemaConfig
     }
 
     /**
-     * Gets the default options that are passed to Table instances created with
+     * Get the default options that are passed to Table instances created with
      * Schema#createTable().
      *
      * @return array
@@ -117,11 +112,6 @@ class SchemaConfig
         return $this->defaultTableOptions;
     }
 
-    /**
-     * @param array $defaultTableOptions
-     *
-     * @return void
-     */
     public function setDefaultTableOptions(array $defaultTableOptions)
     {
         $this->defaultTableOptions = $defaultTableOptions;

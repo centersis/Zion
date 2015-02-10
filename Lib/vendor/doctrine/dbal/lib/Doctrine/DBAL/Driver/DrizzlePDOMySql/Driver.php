@@ -19,15 +19,12 @@
 
 namespace Doctrine\DBAL\Driver\DrizzlePDOMySql;
 
-use Doctrine\DBAL\Platforms\DrizzlePlatform;
-use Doctrine\DBAL\Schema\DrizzleSchemaManager;
-
 /**
  * Drizzle driver using PDO MySql.
  *
  * @author Kim Hemsø Rasmussen <kimhemsoe@gmail.com>
  */
-class Driver extends \Doctrine\DBAL\Driver\PDOMySql\Driver
+class Driver implements \Doctrine\DBAL\Driver
 {
     /**
      * {@inheritdoc}
@@ -35,21 +32,36 @@ class Driver extends \Doctrine\DBAL\Driver\PDOMySql\Driver
     public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
     {
         $conn = new Connection(
-            $this->constructPdoDsn($params),
+            $this->_constructPdoDsn($params),
             $username,
             $password,
             $driverOptions
         );
-
         return $conn;
     }
 
     /**
-     * {@inheritdoc}
+     * Constructs the Drizzle MySql PDO DSN.
+     *
+     * @return string  The DSN.
      */
-    public function createDatabasePlatformForVersion($version)
+    private function _constructPdoDsn(array $params)
     {
-        return $this->getDatabasePlatform();
+        $dsn = 'mysql:';
+        if (isset($params['host']) && $params['host'] != '') {
+            $dsn .= 'host=' . $params['host'] . ';';
+        }
+        if (isset($params['port'])) {
+            $dsn .= 'port=' . $params['port'] . ';';
+        }
+        if (isset($params['dbname'])) {
+            $dsn .= 'dbname=' . $params['dbname'] . ';';
+        }
+        if (isset($params['unix_socket'])) {
+            $dsn .= 'unix_socket=' . $params['unix_socket'] . ';';
+        }
+
+        return $dsn;
     }
 
     /**
@@ -57,7 +69,7 @@ class Driver extends \Doctrine\DBAL\Driver\PDOMySql\Driver
      */
     public function getDatabasePlatform()
     {
-        return new DrizzlePlatform();
+        return new \Doctrine\DBAL\Platforms\DrizzlePlatform();
     }
 
     /**
@@ -65,7 +77,7 @@ class Driver extends \Doctrine\DBAL\Driver\PDOMySql\Driver
      */
     public function getSchemaManager(\Doctrine\DBAL\Connection $conn)
     {
-        return new DrizzleSchemaManager($conn);
+        return new \Doctrine\DBAL\Schema\DrizzleSchemaManager($conn);
     }
 
     /**
@@ -74,5 +86,14 @@ class Driver extends \Doctrine\DBAL\Driver\PDOMySql\Driver
     public function getName()
     {
         return 'drizzle_pdo_mysql';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDatabase(\Doctrine\DBAL\Connection $conn)
+    {
+        $params = $conn->getParams();
+        return $params['dbname'];
     }
 }

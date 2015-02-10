@@ -55,12 +55,6 @@ class Conexao
      */
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
-        require_once SIS_FM_BASE . 'Lib/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
-
-        $classLoader = new ClassLoader('Doctrine', SIS_FM_BASE . 'Lib/vendor/doctrine/dbal/lib');
-
-        $classLoader->register();
-
         $this->banco = $banco;
 
         $this->arrayExcecoes[0] = "Conexão: Problemas com o servidor impedem a conexão com o banco de dados.<br>";

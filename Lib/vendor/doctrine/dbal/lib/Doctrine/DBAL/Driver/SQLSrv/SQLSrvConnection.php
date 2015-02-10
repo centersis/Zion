@@ -19,16 +19,13 @@
 
 namespace Doctrine\DBAL\Driver\SQLSrv;
 
-use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
-
 /**
  * SQL Server implementation for the Connection interface.
  *
  * @since 2.3
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class SQLSrvConnection implements Connection, ServerInfoAwareConnection
+class SQLSrvConnection implements \Doctrine\DBAL\Driver\Connection
 {
     /**
      * @var resource
@@ -36,16 +33,11 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
     protected $conn;
 
     /**
-     * @var \Doctrine\DBAL\Driver\SQLSrv\LastInsertId
+     * @var LastInsertId
      */
     protected $lastInsertId;
 
-    /**
-     * @param string $serverName
-     * @param array  $connectionOptions
-     *
-     * @throws \Doctrine\DBAL\Driver\SQLSrv\SQLSrvException
-     */
+
     public function __construct($serverName, $connectionOptions)
     {
         if ( ! sqlsrv_configure('WarningsReturnAsErrors', 0)) {
@@ -57,24 +49,6 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
             throw SQLSrvException::fromSqlSrvErrors();
         }
         $this->lastInsertId = new LastInsertId();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getServerVersion()
-    {
-        $serverInfo = sqlsrv_server_info($this->conn);
-
-        return $serverInfo['SQLServerVersion'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresQueryForServerVersion()
-    {
-        return false;
     }
 
     /**
@@ -94,7 +68,6 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
         $sql = $args[0];
         $stmt = $this->prepare($sql);
         $stmt->execute();
-
         return $stmt;
     }
 
@@ -106,7 +79,7 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
     {
         if (is_int($value)) {
             return $value;
-        } elseif (is_float($value)) {
+        } else if (is_float($value)) {
             return sprintf('%F', $value);
         }
 
@@ -120,7 +93,6 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
     {
         $stmt = $this->prepare($statement);
         $stmt->execute();
-
         return $stmt->rowCount();
     }
 
@@ -179,7 +151,6 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
         if ($errors) {
             return $errors[0]['code'];
         }
-
         return false;
     }
 
@@ -191,3 +162,4 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
         return sqlsrv_errors(SQLSRV_ERR_ERRORS);
     }
 }
+

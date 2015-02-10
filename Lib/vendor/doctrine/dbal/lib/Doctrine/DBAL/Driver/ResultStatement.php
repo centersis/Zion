@@ -19,6 +19,8 @@
 
 namespace Doctrine\DBAL\Driver;
 
+use PDO;
+
 /**
  * Interface for the reading part of a prepare statement only.
  *
@@ -29,67 +31,63 @@ interface ResultStatement extends \Traversable
     /**
      * Closes the cursor, enabling the statement to be executed again.
      *
-     * @return boolean TRUE on success or FALSE on failure.
+     * @return boolean              Returns TRUE on success or FALSE on failure.
      */
-    public function closeCursor();
+    function closeCursor();
+
 
     /**
+     * columnCount
      * Returns the number of columns in the result set
      *
-     * @return integer The number of columns in the result set represented
-     *                 by the PDOStatement object. If there is no result set,
-     *                 this method should return 0.
+     * @return integer              Returns the number of columns in the result set represented
+     *                              by the PDOStatement object. If there is no result set,
+     *                              this method should return 0.
      */
-    public function columnCount();
+    function columnCount();
 
     /**
-     * Sets the fetch mode to use while iterating this statement.
+     * setFetchMode
+     * Set the fetch mode to use while iterating this statement.
      *
-     * @param integer $fetchMode The fetch mode must be one of the PDO::FETCH_* constants.
-     * @param mixed   $arg2
-     * @param mixed   $arg3
-     *
-     * @return boolean
-     *
-     * @see PDO::FETCH_* constants.
+     * @param integer $fetchMode
      */
-    public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null);
+    function setFetchMode($fetchMode, $arg2 = null, $arg3 = null);
 
     /**
-     * Returns the next row of a result set.
+     * fetch
      *
-     * @param integer|null $fetchMode Controls how the next row will be returned to the caller.
-     *                                The value must be one of the PDO::FETCH_* constants,
-     *                                defaulting to PDO::FETCH_BOTH.
+     * @see Query::HYDRATE_* constants
+     * @param integer $fetchMode            Controls how the next row will be returned to the caller.
+     *                                      This value must be one of the Query::HYDRATE_* constants,
+     *                                      defaulting to Query::HYDRATE_BOTH
      *
-     * @return mixed The return value of this method on success depends on the fetch mode. In all cases, FALSE is
-     *               returned on failure.
-     *
-     * @see PDO::FETCH_* constants.
+     * @return mixed
      */
-    public function fetch($fetchMode = null);
+    function fetch($fetchMode = null);
 
     /**
-     * Returns an array containing all of the result set rows.
+     * Returns an array containing all of the result set rows
      *
-     * @param integer|null $fetchMode Controls how the next row will be returned to the caller.
-     *                                The value must be one of the PDO::FETCH_* constants,
-     *                                defaulting to PDO::FETCH_BOTH.
+     * @param integer $fetchMode            Controls how the next row will be returned to the caller.
+     *                                      This value must be one of the Query::HYDRATE_* constants,
+     *                                      defaulting to Query::HYDRATE_BOTH
      *
      * @return array
-     *
-     * @see PDO::FETCH_* constants.
      */
-    public function fetchAll($fetchMode = null);
+    function fetchAll($fetchMode = null);
 
     /**
-     * Returns a single column from the next row of a result set or FALSE if there are no more rows.
+     * fetchColumn
+     * Returns a single column from the next row of a
+     * result set or FALSE if there are no more rows.
      *
-     * @param integer $columnIndex 0-indexed number of the column you wish to retrieve from the row.
-     *                             If no value is supplied, PDOStatement->fetchColumn()
-     *                             fetches the first column.
+     * @param integer $columnIndex          0-indexed number of the column you wish to retrieve from the row. If no
+     *                                      value is supplied, PDOStatement->fetchColumn()
+     *                                      fetches the first column.
      *
-     * @return string|boolean A single column in the next row of a result set, or FALSE if there are no more rows.
+     * @return string                       returns a single column in the next row of a result set.
      */
-    public function fetchColumn($columnIndex = 0);
+    function fetchColumn($columnIndex = 0);
 }
+
