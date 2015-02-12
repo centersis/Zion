@@ -1,5 +1,7 @@
 <?php
 /*
+ *  $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -20,39 +22,27 @@
 namespace Doctrine\DBAL\Logging;
 
 /**
- * Includes executed SQLs in a Debug Stack.
+ * Includes executed SQLs in a Debug Stack
  *
- * @link   www.doctrine-project.org
- * @since  2.0
- * @author Benjamin Eberlei <kontakt@beberlei.de>
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- * @author Jonathan Wage <jonwage@gmail.com>
- * @author Roman Borschel <roman@code-factory.org>
+ * 
+ * @link    www.doctrine-project.org
+ * @since   2.0
+ * @version $Revision$
+ * @author  Benjamin Eberlei <kontakt@beberlei.de>
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author  Jonathan Wage <jonwage@gmail.com>
+ * @author  Roman Borschel <roman@code-factory.org>
  */
 class DebugStack implements SQLLogger
 {
-    /**
-     * Executed SQL queries.
-     *
-     * @var array
-     */
+    /** @var array $queries Executed SQL queries. */
     public $queries = array();
 
-    /**
-     * If Debug Stack is enabled (log queries) or not.
-     *
-     * @var boolean
-     */
+    /** @var boolean $enabled If Debug Stack is enabled (log queries) or not. */
     public $enabled = true;
 
-    /**
-     * @var float|null
-     */
     public $start = null;
 
-    /**
-     * @var integer
-     */
     public $currentQuery = 0;
 
     /**
@@ -76,3 +66,4 @@ class DebugStack implements SQLLogger
         }
     }
 }
+

@@ -15,37 +15,38 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
- */
+*/
 
 namespace Doctrine\DBAL\Event;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\ColumnDiff;
-use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Platforms\AbstractPlatform,
+    Doctrine\DBAL\Schema\ColumnDiff,
+    Doctrine\DBAL\Schema\TableDiff;
 
 /**
  * Event Arguments used when SQL queries for changing table columns are generated inside Doctrine\DBAL\Platform\*Platform.
  *
- * @link   www.doctrine-project.org
- * @since  2.2
- * @author Jan Sorgalla <jsorgalla@googlemail.com>
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.com
+ * @since       2.2
+ * @author      Jan Sorgalla <jsorgalla@googlemail.com>
  */
 class SchemaAlterTableChangeColumnEventArgs extends SchemaEventArgs
 {
     /**
      * @var \Doctrine\DBAL\Schema\ColumnDiff
      */
-    private $_columnDiff;
+    private $_columnDiff = null;
 
     /**
      * @var \Doctrine\DBAL\Schema\TableDiff
      */
-    private $_tableDiff;
+    private $_tableDiff = null;
 
     /**
      * @var \Doctrine\DBAL\Platforms\AbstractPlatform
      */
-    private $_platform;
+    private $_platform = null;
 
     /**
      * @var array
@@ -53,8 +54,8 @@ class SchemaAlterTableChangeColumnEventArgs extends SchemaEventArgs
     private $_sql = array();
 
     /**
-     * @param \Doctrine\DBAL\Schema\ColumnDiff          $columnDiff
-     * @param \Doctrine\DBAL\Schema\TableDiff           $tableDiff
+     * @param \Doctrine\DBAL\Schema\ColumnDiff $columnDiff
+     * @param \Doctrine\DBAL\Schema\TableDiff $tableDiff
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
      */
     public function __construct(ColumnDiff $columnDiff, TableDiff $tableDiff, AbstractPlatform $platform)
@@ -90,7 +91,6 @@ class SchemaAlterTableChangeColumnEventArgs extends SchemaEventArgs
 
     /**
      * @param string|array $sql
-     *
      * @return \Doctrine\DBAL\Event\SchemaAlterTableChangeColumnEventArgs
      */
     public function addSql($sql)

@@ -19,24 +19,19 @@
 
 namespace Doctrine\DBAL\Driver\Mysqli;
 
-use Doctrine\DBAL\Driver\AbstractMySQLDriver;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver as DriverInterface;
 
 /**
  * @author Kim Hemsø Rasmussen <kimhemsoe@gmail.com>
  */
-class Driver extends AbstractMySQLDriver
+class Driver implements DriverInterface
 {
     /**
      * {@inheritdoc}
      */
     public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
     {
-        try {
-            return new MysqliConnection($params, $username, $password, $driverOptions);
-        } catch (MysqliException $e) {
-            throw DBALException::driverException($this, $e);
-        }
+        return new MysqliConnection($params, $username, $password, $driverOptions);
     }
 
     /**
@@ -45,5 +40,30 @@ class Driver extends AbstractMySQLDriver
     public function getName()
     {
         return 'mysqli';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSchemaManager(\Doctrine\DBAL\Connection $conn)
+    {
+        return new \Doctrine\DBAL\Schema\MySqlSchemaManager($conn);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDatabasePlatform()
+    {
+        return new \Doctrine\DBAL\Platforms\MySqlPlatform();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDatabase(\Doctrine\DBAL\Connection $conn)
+    {
+        $params = $conn->getParams();
+        return $params['dbname'];
     }
 }

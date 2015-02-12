@@ -232,10 +232,11 @@ class FormPixelJavaScript
                 $metodoDependencia = $config->getMetodoDependencia();
                 $classeDependencia = $config->getClasseDependencia();
                 $nomeCampo = $config->getNome();
-
+                $callback = $config->getCallback() ? $config->getCallback() : 'false';               
+                
                 $url = SIS_DEFAULT_DEPENDENCIA;
 
-                $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\');  });';
+                $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\','.$callback.');  });';
             }
         }
 

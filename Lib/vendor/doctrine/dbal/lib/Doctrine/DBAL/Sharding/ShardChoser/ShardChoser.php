@@ -30,12 +30,12 @@ use Doctrine\DBAL\Sharding\PoolingShardConnection;
 interface ShardChoser
 {
     /**
-     * Picks a shard for the given distribution value.
+     * Pick a shard for the given distribution value
      *
-     * @param string                                         $distributionValue
-     * @param \Doctrine\DBAL\Sharding\PoolingShardConnection $conn
-     *
-     * @return integer
+     * @param string $distributionValue
+     * @param PoolingShardConnection $conn
+     * @return int
      */
     function pickShard($distributionValue, PoolingShardConnection $conn);
 }
+

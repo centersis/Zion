@@ -19,6 +19,8 @@
 
 namespace Doctrine\DBAL\Sharding;
 
+use Doctrine\DBAL\Connection;
+
 /**
  * Sharding Manager gives access to APIs to implementing sharding on top of
  * Doctrine\DBAL\Connection instances.
@@ -32,7 +34,7 @@ namespace Doctrine\DBAL\Sharding;
  * necessary data for all use-cases. Switching between shards should be done with
  * caution, especially if lazy loading is implemented. Any query is always
  * executed against the last shard that was selected. If a query is created for
- * a shard Y but then a shard X is selected when its actually executed you
+ * a shard Y but then a shard X is selected when its actually excecuted you
  * will hit the wrong shard.
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
@@ -40,7 +42,7 @@ namespace Doctrine\DBAL\Sharding;
 interface ShardManager
 {
     /**
-     * Selects global database with global data.
+     * Select global database with global data.
      *
      * This is the default database that is connected when no shard is
      * selected.
@@ -50,44 +52,44 @@ interface ShardManager
     function selectGlobal();
 
     /**
-     * Selects the shard against which the queries after this statement will be issued.
+     * SELECT queries after this statement will be issued against the selected
+     * shard.
      *
-     * @param string $distributionValue
-     *
+     * @throws ShardingException If no value is passed as shard identifier.
+     * @param mixed $distributionValue
+     * @param array $options
      * @return void
-     *
-     * @throws \Doctrine\DBAL\Sharding\ShardingException If no value is passed as shard identifier.
      */
     function selectShard($distributionValue);
 
     /**
-     * Gets the distribution value currently used for sharding.
+     * Get the distribution value currently used for sharding.
      *
      * @return string
      */
     function getCurrentDistributionValue();
 
     /**
-     * Gets information about the amount of shards and other details.
+     * Get information about the amount of shards and other details.
      *
-     * Format is implementation specific, each shard is one element and has an
-     * 'id' attribute at least.
+     * Format is implementation specific, each shard is one element and has a
+     * 'name' attribute at least.
      *
      * @return array
      */
     function getShards();
 
     /**
-     * Queries all shards in undefined order and return the results appended to
+     * Query all shards in undefined order and return the results appended to
      * each other. Restore the previous distribution value after execution.
      *
-     * Using {@link \Doctrine\DBAL\Connection::fetchAll} to retrieve rows internally.
+     * Using {@link Connection::fetchAll} to retrieve rows internally.
      *
      * @param string $sql
-     * @param array  $params
-     * @param array  $types
-     *
+     * @param array $params
+     * @param array $types
      * @return array
      */
     function queryAll($sql, array $params, array $types);
 }
+

@@ -28,27 +28,17 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  */
 class ArrayType extends Type
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
     {
         return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
     {
-        // @todo 3.0 - $value === null check to save real NULL in database
         return serialize($value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
     {
         if ($value === null) {
             return null;
@@ -59,21 +49,14 @@ class ArrayType extends Type
         if ($val === false && $value != 'b:0;') {
             throw ConversionException::conversionFailed($value, $this->getName());
         }
-
         return $val;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return Type::TARRAY;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
         return true;

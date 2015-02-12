@@ -63,6 +63,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $idConexao;
     private $aliasSql;
     private $ignoreCod;
+    private $callback;
 
     /**
      * FormEscolha::__construct()
@@ -482,6 +483,21 @@ class FormEscolha extends \Zion\Form\FormBasico
     public function getIgnoreCod()
     {
         return $this->ignoreCod;
+    }
+    
+    public function setCallback($callback)
+    {
+        if (\is_string($callback)) {            
+            $this->callback = $callback;
+            return $this;
+        } else {
+            throw new FormException("callback: O valor informado não é uma string.");
+        }
+    }
+
+    public function getCallback()
+    {
+        return $this->callback;
     }
 
     /**

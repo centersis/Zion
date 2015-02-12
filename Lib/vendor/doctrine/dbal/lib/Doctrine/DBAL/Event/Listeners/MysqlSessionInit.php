@@ -15,7 +15,7 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
- */
+*/
 
 namespace Doctrine\DBAL\Event\Listeners;
 
@@ -24,34 +24,32 @@ use Doctrine\DBAL\Events;
 use Doctrine\Common\EventSubscriber;
 
 /**
- * MySQL Session Init Event Subscriber which allows to set the Client Encoding of the Connection.
+ * MySQL Session Init Event Subscriber which allows to set the Client Encoding of the Connection
  *
- * @link       www.doctrine-project.org
- * @since      1.0
- * @author     Benjamin Eberlei <kontakt@beberlei.de>
- * @deprecated Use "charset" option to PDO MySQL Connection instead.
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.com
+ * @since       1.0
+ * @version     $Revision$
+ * @author      Benjamin Eberlei <kontakt@beberlei.de>
+ * @deprecated  Use "charset" option to PDO MySQL Connection instead.
  */
 class MysqlSessionInit implements EventSubscriber
 {
     /**
-     * The charset.
-     *
      * @var string
      */
     private $_charset;
 
     /**
-     * The collation, or FALSE if no collation.
-     *
-     * @var string|boolean
+     * @var string
      */
     private $_collation;
 
     /**
-     * Configure Charset and Collation options of MySQL Client for each Connection.
+     * Configure Charset and Collation options of MySQL Client for each Connection
      *
-     * @param string         $charset   The charset.
-     * @param string|boolean $collation The collation, or FALSE if no collation.
+     * @param string $charset
+     * @param string $collation
      */
     public function __construct($charset = 'utf8', $collation = false)
     {
@@ -60,8 +58,7 @@ class MysqlSessionInit implements EventSubscriber
     }
 
     /**
-     * @param \Doctrine\DBAL\Event\ConnectionEventArgs $args
-     *
+     * @param ConnectionEventArgs $args
      * @return void
      */
     public function postConnect(ConnectionEventArgs $args)
@@ -70,9 +67,6 @@ class MysqlSessionInit implements EventSubscriber
         $args->getConnection()->executeUpdate("SET NAMES ".$this->_charset . $collation);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSubscribedEvents()
     {
         return array(Events::postConnect);

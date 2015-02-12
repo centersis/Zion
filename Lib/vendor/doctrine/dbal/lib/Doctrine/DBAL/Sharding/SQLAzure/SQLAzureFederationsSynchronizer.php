@@ -24,16 +24,15 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 
 use Doctrine\DBAL\Schema\Synchronizer\AbstractSchemaSynchronizer;
-use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
-use Doctrine\DBAL\Schema\Synchronizer\SchemaSynchronizer;
+use Doctrine\DBAL\Sharding\SingleDatabaseSynchronizer;
 
 /**
- * SQL Azure Schema Synchronizer.
+ * SQL Azure Schema Synchronizer
  *
  * Will iterate over all shards when performing schema operations. This is done
  * by partitioning the passed schema into subschemas for the federation and the
  * global database and then applying the operations step by step using the
- * {@see \Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer}.
+ * {@see \Doctrine\DBAL\Sharding\SingleDatabaseSynchronizer}.
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
@@ -42,21 +41,17 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     const FEDERATION_TABLE_FEDERATED   = 'azure.federated';
     const FEDERATION_DISTRIBUTION_NAME = 'azure.federatedOnDistributionName';
 
+
     /**
-     * @var \Doctrine\DBAL\Sharding\SQLAzure\SQLAzureShardManager
+     * @var SQLAzureShardManager
      */
     private $shardManager;
 
     /**
-     * @var \Doctrine\DBAL\Schema\Synchronizer\SchemaSynchronizer
+     * @var SchemaSynchronizer
      */
     private $synchronizer;
 
-    /**
-     * @param \Doctrine\DBAL\Connection                                  $conn
-     * @param \Doctrine\DBAL\Sharding\SQLAzure\SQLAzureShardManager      $shardManager
-     * @param \Doctrine\DBAL\Schema\Synchronizer\SchemaSynchronizer|null $sync
-     */
     public function __construct(Connection $conn, SQLAzureShardManager $shardManager, SchemaSynchronizer $sync = null)
     {
         parent::__construct($conn);
@@ -65,7 +60,10 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     }
 
     /**
-     * {@inheritdoc}
+     * Get the SQL statements that can be executed to create the schema.
+     *
+     * @param Schema $createSchema
+     * @return array
      */
     public function getCreateSchema(Schema $createSchema)
     {
@@ -94,27 +92,37 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     }
 
     /**
-     * {@inheritdoc}
+     * Get the SQL Statements to update given schema with the underlying db.
+     *
+     * @param Schema $toSchema
+     * @param bool $noDrops
+     * @return array
      */
     public function getUpdateSchema(Schema $toSchema, $noDrops = false)
     {
-        return $this->work($toSchema, function ($synchronizer, $schema) use ($noDrops) {
+        return $this->work($toSchema, function($synchronizer, $schema) use ($noDrops) {
             return $synchronizer->getUpdateSchema($schema, $noDrops);
         });
     }
 
     /**
-     * {@inheritdoc}
+     * Get the SQL Statements to drop the given schema from underlying db.
+     *
+     * @param Schema $dropSchema
+     * @return array
      */
     public function getDropSchema(Schema $dropSchema)
     {
-        return $this->work($dropSchema, function ($synchronizer, $schema) {
+        return $this->work($dropSchema, function($synchronizer, $schema) {
             return $synchronizer->getDropSchema($schema);
         });
     }
 
     /**
-     * {@inheritdoc}
+     * Create the Schema
+     *
+     * @param Schema $createSchema
+     * @return void
      */
     public function createSchema(Schema $createSchema)
     {
@@ -122,7 +130,10 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     }
 
     /**
-     * {@inheritdoc}
+     * Update the Schema to new schema version.
+     *
+     * @param Schema $toSchema
+     * @return void
      */
     public function updateSchema(Schema $toSchema, $noDrops = false)
     {
@@ -130,7 +141,10 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     }
 
     /**
-     * {@inheritdoc}
+     * Drop the given database schema from the underlying db.
+     *
+     * @param Schema $dropSchema
+     * @return void
      */
     public function dropSchema(Schema $dropSchema)
     {
@@ -138,7 +152,9 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     }
 
     /**
-     * {@inheritdoc}
+     * Get the SQL statements to drop all schema assets from underlying db.
+     *
+     * @return array
      */
     public function getDropAllSchema()
     {
@@ -169,18 +185,15 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     }
 
     /**
-     * {@inheritdoc}
+     * Drop all assets from the underyling db.
+     *
+     * @return void
      */
     public function dropAllSchema()
     {
         $this->processSqlSafely($this->getDropAllSchema());
     }
 
-    /**
-     * @param \Doctrine\DBAL\Schema\Schema $schema
-     *
-     * @return array
-     */
     private function partitionSchema(Schema $schema)
     {
         return array(
@@ -189,25 +202,17 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
         );
     }
 
-    /**
-     * @param \Doctrine\DBAL\Schema\Schema $schema
-     * @param boolean                      $isFederation
-     *
-     * @return \Doctrine\DBAL\Schema\Schema
-     *
-     * @throws \RuntimeException
-     */
     private function extractSchemaFederation(Schema $schema, $isFederation)
     {
-        $partitionedSchema = clone $schema;
+        $partionedSchema = clone $schema;
 
-        foreach ($partitionedSchema->getTables() as $table) {
+        foreach ($partionedSchema->getTables() as $table) {
             if ($isFederation) {
                 $table->addOption(self::FEDERATION_DISTRIBUTION_NAME, $this->shardManager->getDistributionKey());
             }
 
-            if ($table->hasOption(self::FEDERATION_TABLE_FEDERATED) !== $isFederation) {
-                $partitionedSchema->dropTable($table->getName());
+            if ( $table->hasOption(self::FEDERATION_TABLE_FEDERATED) !== $isFederation) {
+                $partionedSchema->dropTable($table->getName());
             } else {
                 foreach ($table->getForeignKeys() as $fk) {
                     $foreignTable = $schema->getTable($fk->getForeignTableName());
@@ -218,17 +223,16 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
             }
         }
 
-        return $partitionedSchema;
+        return $partionedSchema;
     }
 
     /**
      * Work on the Global/Federation based on currently existing shards and
-     * perform the given operation on the underlying schema synchronizer given
-     * the different partitioned schema instances.
+     * perform the given operation on the underyling schema synchronizer given
+     * the different partioned schema instances.
      *
-     * @param \Doctrine\DBAL\Schema\Schema $schema
-     * @param \Closure                     $operation
-     *
+     * @param Schema $schema
+     * @param Closure $operation
      * @return array
      */
     private function work(Schema $schema, \Closure $operation)
@@ -260,9 +264,6 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
         return $sql;
     }
 
-    /**
-     * @return string
-     */
     private function getFederationTypeDefaultValue()
     {
         $federationType = Type::getType($this->shardManager->getDistributionType());
@@ -283,9 +284,6 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
         return $defaultValue;
     }
 
-    /**
-     * @return string
-     */
     private function getCreateFederationStatement()
     {
         $federationType = Type::getType($this->shardManager->getDistributionType());
@@ -295,3 +293,4 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
                "CREATE FEDERATION " . $this->shardManager->getFederationName() . " (" . $this->shardManager->getDistributionKey() . " " . $federationTypeSql ."  RANGE)";
     }
 }
+

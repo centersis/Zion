@@ -1,5 +1,7 @@
 <?php
 /*
+ *  $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -19,77 +21,86 @@
 
 namespace Doctrine\DBAL\Schema\Visitor;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
-use Doctrine\DBAL\Schema\Sequence;
+use Doctrine\DBAL\Platforms\AbstractPlatform,
+    Doctrine\DBAL\Schema\Table,
+    Doctrine\DBAL\Schema\Schema,
+    Doctrine\DBAL\Schema\Column,
+    Doctrine\DBAL\Schema\ForeignKeyConstraint,
+    Doctrine\DBAL\Schema\Constraint,
+    Doctrine\DBAL\Schema\Sequence,
+    Doctrine\DBAL\Schema\Index;
 
-class CreateSchemaSqlCollector extends AbstractVisitor
+class CreateSchemaSqlCollector implements Visitor
 {
     /**
      * @var array
      */
-    private $createNamespaceQueries = array();
+    private $_createTableQueries = array();
 
     /**
      * @var array
      */
-    private $createTableQueries = array();
+    private $_createSequenceQueries = array();
 
     /**
      * @var array
      */
-    private $createSequenceQueries = array();
-
-    /**
-     * @var array
-     */
-    private $createFkConstraintQueries = array();
+    private $_createFkConstraintQueries = array();
 
     /**
      *
      * @var \Doctrine\DBAL\Platforms\AbstractPlatform
      */
-    private $platform = null;
+    private $_platform = null;
 
     /**
      * @param AbstractPlatform $platform
      */
     public function __construct(AbstractPlatform $platform)
     {
-        $this->platform = $platform;
+        $this->_platform = $platform;
     }
 
     /**
-     * {@inheritdoc}
+     * @param Schema $schema
      */
-    public function acceptNamespace($namespaceName)
+    public function acceptSchema(Schema $schema)
     {
-        if ($this->platform->supportsSchemas()) {
-            $this->createNamespaceQueries = array_merge(
-                $this->createNamespaceQueries,
-                (array) $this->platform->getCreateSchemaSQL($namespaceName)
-            );
-        }
+
     }
 
     /**
-     * {@inheritdoc}
+     * Generate DDL Statements to create the accepted table with all its dependencies.
+     *
+     * @param Table $table
      */
     public function acceptTable(Table $table)
     {
-        $this->createTableQueries = array_merge($this->createTableQueries, (array) $this->platform->getCreateTableSQL($table));
+        $namespace = $this->getNamespace($table);
+
+        $this->_createTableQueries[$namespace] = array_merge(
+            $this->_createTableQueries[$namespace],
+            $this->_platform->getCreateTableSQL($table)
+        );
+    }
+
+    public function acceptColumn(Table $table, Column $column)
+    {
+
     }
 
     /**
-     * {@inheritdoc}
+     * @param Table $localTable
+     * @param ForeignKeyConstraint $fkConstraint
      */
     public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint)
     {
-        if ($this->platform->supportsForeignKeyConstraints()) {
-            $this->createFkConstraintQueries = array_merge(
-                $this->createFkConstraintQueries,
-                (array) $this->platform->getCreateForeignKeySQL(
+        $namespace = $this->getNamespace($localTable);
+
+        if ($this->_platform->supportsForeignKeyConstraints()) {
+            $this->_createFkConstraintQueries[$namespace] = array_merge(
+                $this->_createFkConstraintQueries[$namespace],
+                (array) $this->_platform->getCreateForeignKeySQL(
                     $fkConstraint, $localTable
                 )
             );
@@ -97,52 +108,71 @@ class CreateSchemaSqlCollector extends AbstractVisitor
     }
 
     /**
-     * {@inheritdoc}
+     * @param Table $table
+     * @param Index $index
+     */
+    public function acceptIndex(Table $table, Index $index)
+    {
+
+    }
+
+    /**
+     * @param Sequence $sequence
      */
     public function acceptSequence(Sequence $sequence)
     {
-        $this->createSequenceQueries = array_merge(
-            $this->createSequenceQueries,
-            (array)$this->platform->getCreateSequenceSQL($sequence)
+        $namespace = $this->getNamespace($sequence);
+
+        $this->_createSequenceQueries[$namespace] = array_merge(
+            $this->_createSequenceQueries[$namespace],
+            (array)$this->_platform->getCreateSequenceSQL($sequence)
         );
     }
 
-    /**
-     * @return void
-     */
-    public function resetQueries()
+    private function getNamespace($asset)
     {
-        $this->createNamespaceQueries = array();
-        $this->createTableQueries = array();
-        $this->createSequenceQueries = array();
-        $this->createFkConstraintQueries = array();
+        $namespace = $asset->getNamespaceName() ?: 'default';
+        if ( !isset($this->_createTableQueries[$namespace])) {
+            $this->_createTableQueries[$namespace] = array();
+            $this->_createSequenceQueries[$namespace] = array();
+            $this->_createFkConstraintQueries[$namespace] = array();
+        }
+
+        return $namespace;
     }
 
     /**
-     * Gets all queries collected so far.
+     * @return array
+     */
+    public function resetQueries()
+    {
+        $this->_createTableQueries = array();
+        $this->_createSequenceQueries = array();
+        $this->_createFkConstraintQueries = array();
+    }
+
+    /**
+     * Get all queries collected so far.
      *
      * @return array
      */
     public function getQueries()
     {
         $sql = array();
-
-        foreach ($this->createNamespaceQueries as $schemaSql) {
-            $sql = array_merge($sql, (array) $schemaSql);
+        foreach (array_keys($this->_createTableQueries) as $namespace) {
+            if ($this->_platform->supportsSchemas()) {
+                // TODO: Create Schema here
+            }
         }
-
-        foreach ($this->createTableQueries as $schemaSql) {
-            $sql = array_merge($sql, (array) $schemaSql);
+        foreach ($this->_createTableQueries as $schemaSql) {
+            $sql = array_merge($sql, $schemaSql);
         }
-
-        foreach ($this->createSequenceQueries as $schemaSql) {
-            $sql = array_merge($sql, (array) $schemaSql);
+        foreach ($this->_createSequenceQueries as $schemaSql) {
+            $sql = array_merge($sql, $schemaSql);
         }
-
-        foreach ($this->createFkConstraintQueries as $schemaSql) {
-            $sql = array_merge($sql, (array) $schemaSql);
+        foreach ($this->_createFkConstraintQueries as $schemaSql) {
+            $sql = array_merge($sql, $schemaSql);
         }
-
         return $sql;
     }
 }
