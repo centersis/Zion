@@ -238,6 +238,12 @@ class FormEscolha extends \Zion\Form\FormEscolha
         parent::setIgnoreCod($ignoreCod);
         return $this;
     }
+    
+    public function setCallback($callback)
+    {
+        parent::setCallback($callback);
+        return $this;
+    }
 
     /**
      * Sobrecarga de Metodos Básicos
