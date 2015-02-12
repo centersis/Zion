@@ -51,6 +51,7 @@ function showHiddenFilters() {
 }
 
 $(document).ready(function () {
+
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemRemoved', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
@@ -58,6 +59,7 @@ $(document).ready(function () {
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
+
 });
 
 /* CRUD BÁSICO */
@@ -633,4 +635,35 @@ function sisSalvarPDF() {
         $('#formGrid').append(ifr);
     }
 
+}
+
+function validaSenhaUser(campo, url)
+{
+    valor = campo.value;
+
+    if(valor.length >= 6 && valor.length <= 30) {
+        $.ajax({type: "post", url: url, dataType: "json", data:  {'s': valor}, beforeSend: function () {
+            $('#iconFA').attr('class', 'fa fa-refresh form-control-feedback');
+            $('#iconFA').attr('title', 'Verificando autenticidade da senha.');
+        }}).done(function (ret) {
+
+            if(ret.sucesso === 'true'){
+                if(ret.retorno === 'true'){
+                    $('#iconFA').attr('class', 'fa fa-check-circle form-control-feedback');
+                    $('#iconFA').attr('title', 'Senha autêntica.');
+                } else {
+                    $('#iconFA').attr('class', 'fa fa-lock form-control-feedback');
+                    $('#iconFA').attr('title', 'Senha inválida.');
+                }
+            } else {
+                $('#iconFA').attr('class', 'fa fa-times-circle form-control-feedback');
+                $('#iconFA').attr('title', 'Sessão expirada! Faça login novamente para continuar...');
+            }
+        }).fail(function (event) {
+            $('#iconFA').attr('class', 'fa fa-check form-control-feedback');
+            $('#iconFA').attr('title', 'Não pudemos verificar a autenticidade de sua senha no momento, mas o faremos ao salvar.');
+        });
+    }
+    
+    return true;
 }

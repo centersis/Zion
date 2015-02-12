@@ -277,6 +277,11 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'suggest') {
             $this->suggest($formNome, $config);
         }
+        
+        if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
+            $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "'. SIS_DEFAULT_VALIDA_SENHA .'");});';
+        }
+
     }
 
     public function montaValidacao($formNome, $acao, $jsExtra = true)
