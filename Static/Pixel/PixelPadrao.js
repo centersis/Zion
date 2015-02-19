@@ -158,8 +158,11 @@ function sisDesmarcarTodos()
 }
 
 /* CADASTRO */
-function sisCadastrarLayoutPadrao() {
-    $.ajax({type: "get", url: "?acao=cadastrar", dataType: "json"}).done(function (ret) {
+function sisCadastrarLayoutPadrao(param) {
+    if(!param) {
+        param = {};
+    }
+    $.ajax({type: "get", url: "?acao=cadastrar", data:param, dataType: "json"}).done(function (ret) {
         $("#sisContainerManu").html(ret.retorno);
     }).fail(function ()
     {
@@ -200,13 +203,22 @@ function sisCadastrarPadrao(nomeForm, upload) {
 
 /* ALTERACAO */
 
-function sisAlterarLayoutPadrao() {
+function sisAlterarLayoutPadrao(param) {
 
+    if(!param) {
+        param = '';
+    } else {
+        var v;
+        for(v in param) {
+            param += '&' + v + '=' + param[v];
+        }
+    }
+    
     if (sisContaCheck() < 1) {
         sisSetAlert('false', 'Nenhum registro selecionado.');
     } else {
 
-        $.ajax({type: "get", url: "?acao=alterar", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
+        $.ajax({type: "get", url: "?acao=alterar"+param, data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
             $("#sisContainerManu").html(ret.retorno);
         }).fail(function ()
         {
