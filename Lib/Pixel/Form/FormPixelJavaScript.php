@@ -232,10 +232,11 @@ class FormPixelJavaScript
                 $metodoDependencia = $config->getMetodoDependencia();
                 $classeDependencia = $config->getClasseDependencia();
                 $nomeCampo = $config->getNome();
-
+                $callback = $config->getCallback() ? $config->getCallback() : 'false';               
+                
                 $url = SIS_DEFAULT_DEPENDENCIA;
 
-                $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\');  });';
+                $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\','.$callback.');  });';
             }
         }
 
@@ -277,6 +278,11 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'suggest') {
             $this->suggest($formNome, $config);
         }
+        
+        if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
+            $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "'. SIS_DEFAULT_VALIDA_SENHA .'");});';
+        }
+
     }
 
     public function montaValidacao($formNome, $acao, $jsExtra = true)

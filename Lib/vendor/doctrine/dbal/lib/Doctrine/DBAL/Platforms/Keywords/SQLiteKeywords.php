@@ -17,28 +17,24 @@
  * <http://www.doctrine-project.org>.
  */
 
+
 namespace Doctrine\DBAL\Platforms\Keywords;
 
 /**
- * SQLite Keywordlist.
+ * SQLite Keywords
  *
- * @link   www.doctrine-project.org
- * @since  2.0
- * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.com
+ * @since       2.0
+ * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
 class SQLiteKeywords extends KeywordList
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'SQLite';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getKeywords()
     {
         return array(

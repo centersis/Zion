@@ -15,31 +15,33 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
- */
+*/
 
 namespace Doctrine\DBAL\Event;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Platforms\AbstractPlatform,
+    Doctrine\DBAL\Schema\Column,
+    Doctrine\DBAL\Schema\TableDiff;
 
 /**
  * Event Arguments used when SQL queries for creating tables are generated inside Doctrine\DBAL\Platform\*Platform.
  *
- * @link   www.doctrine-project.org
- * @since  2.2
- * @author Jan Sorgalla <jsorgalla@googlemail.com>
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.com
+ * @since       2.2
+ * @author      Jan Sorgalla <jsorgalla@googlemail.com>
  */
 class SchemaAlterTableEventArgs extends SchemaEventArgs
 {
     /**
      * @var \Doctrine\DBAL\Schema\TableDiff
      */
-    private $_tableDiff;
+    private $_tableDiff = null;
 
     /**
      * @var \Doctrine\DBAL\Platforms\AbstractPlatform
      */
-    private $_platform;
+    private $_platform = null;
 
     /**
      * @var array
@@ -47,7 +49,7 @@ class SchemaAlterTableEventArgs extends SchemaEventArgs
     private $_sql = array();
 
     /**
-     * @param \Doctrine\DBAL\Schema\TableDiff           $tableDiff
+     * @param \Doctrine\DBAL\Schema\TableDiff $tableDiff
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
      */
     public function __construct(TableDiff $tableDiff, AbstractPlatform $platform)
@@ -74,7 +76,6 @@ class SchemaAlterTableEventArgs extends SchemaEventArgs
 
     /**
      * @param string|array $sql
-     *
      * @return \Doctrine\DBAL\Event\SchemaAlterTableEventArgs
      */
     public function addSql($sql)

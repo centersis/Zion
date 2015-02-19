@@ -49,6 +49,8 @@ class LoginController extends \Zion\Core\Controller
 
         try {
 
+            $this->loginClass->verificaSessaoIniciada();
+            
             $html = new \Zion\Layout\Html();
             $template = new \Pixel\Template\Template();
 

@@ -1,35 +1,35 @@
 ﻿/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 
-function sisSpa(p) {
-    $("#sisPaginaAtual").val(p);
-}
+        function sisSpa(p) {
+            $("#sisPaginaAtual").val(p);
+        }
 function replaceContentElem(e) {
     $(e).fadeToggle('slow', function () {
         $(e).html('');
@@ -51,6 +51,7 @@ function showHiddenFilters() {
 }
 
 $(document).ready(function () {
+
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemRemoved', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
@@ -58,6 +59,7 @@ $(document).ready(function () {
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
+
 });
 
 /* CRUD BÁSICO */
@@ -366,7 +368,7 @@ function sisUploadMultiplo(id) {
 /*MASTER DETAIL*/
 
 function sisAddMasterDetail(container) {
-    
+
     var conf = $.parseJSON($("#sisMasterDetailConf" + container).val().replace(/'/g, '"'));
 
     var novoCoringa = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
@@ -563,10 +565,20 @@ function parametrosFiltro(origem)
     return par;
 }
 
-//DEPENDENCIA
-function sisCarregaDependencia(ur, fo, co, id, me, cl, nc)
+//DEPENDENCIA - INICIO
+function sisCarregaDependencia(ur, fo, co, id, me, cl, nc, fc)
 {
-    $.ajax({type: "get", url: ur, data: {'m': me, 'c': cl, 'r': id, 'n': nc}, dataType: "json"}).done(function (ret) {
+    var par = {'m': me, 'c': cl, 'r': id, 'n': nc};
+
+    if (fc) {
+        var pE = fc(fo);
+        var v;
+        for (v in pE) {
+            par[v] = pE[v];
+        }
+    }
+
+    $.ajax({type: "get", url: ur, data: par, dataType: "json"}).done(function (ret) {
 
         if (ret.sucesso === 'true') {
             $("#" + fo + " #" + co + " select").html(ret.retorno);
@@ -579,6 +591,8 @@ function sisCarregaDependencia(ur, fo, co, id, me, cl, nc)
         sisMsgFailPadrao();
     });
 }
+
+//DEPENDENCIA - FIM
 
 function chNxt(a, b, c, d)
 {
@@ -645,4 +659,35 @@ function sisSalvarPDF() {
         $('#formGrid').append(ifr);
     }
 
+}
+
+function validaSenhaUser(campo, url)
+{
+    valor = campo.value;
+
+    if(valor.length >= 6 && valor.length <= 30) {
+        $.ajax({type: "post", url: url, dataType: "json", data:  {'s': valor}, beforeSend: function () {
+            $('#iconFA').attr('class', 'fa fa-refresh form-control-feedback');
+            $('#iconFA').attr('title', 'Verificando autenticidade da senha.');
+        }}).done(function (ret) {
+
+            if(ret.sucesso === 'true'){
+                if(ret.retorno === 'true'){
+                    $('#iconFA').attr('class', 'fa fa-check-circle form-control-feedback');
+                    $('#iconFA').attr('title', 'Senha autêntica.');
+                } else {
+                    $('#iconFA').attr('class', 'fa fa-lock form-control-feedback');
+                    $('#iconFA').attr('title', 'Senha inválida.');
+                }
+            } else {
+                $('#iconFA').attr('class', 'fa fa-times-circle form-control-feedback');
+                $('#iconFA').attr('title', 'Sessão expirada! Faça login novamente para continuar...');
+            }
+        }).fail(function (event) {
+            $('#iconFA').attr('class', 'fa fa-check form-control-feedback');
+            $('#iconFA').attr('title', 'Não pudemos verificar a autenticidade de sua senha no momento, mas o faremos ao salvar.');
+        });
+    }
+    
+    return true;
 }

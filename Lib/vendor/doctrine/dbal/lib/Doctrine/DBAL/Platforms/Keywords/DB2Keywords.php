@@ -17,28 +17,24 @@
  * <http://www.doctrine-project.org>.
  */
 
+
 namespace Doctrine\DBAL\Platforms\Keywords;
 
 /**
- * DB2 Keywords.
+ * DB2 Keywords
  *
- * @link   www.doctrine-project.org
- * @since  2.0
- * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.com
+ * @since       2.0
+ * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
 class DB2Keywords extends KeywordList
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'DB2';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getKeywords()
     {
         return array(
@@ -439,3 +435,4 @@ class DB2Keywords extends KeywordList
         );
     }
 }
+

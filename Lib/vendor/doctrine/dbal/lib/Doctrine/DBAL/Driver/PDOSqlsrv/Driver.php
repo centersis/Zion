@@ -19,18 +19,13 @@
 
 namespace Doctrine\DBAL\Driver\PDOSqlsrv;
 
-use Doctrine\DBAL\Driver\AbstractSQLServerDriver;
-
 /**
  * The PDO-based Sqlsrv driver.
  *
  * @since 2.0
  */
-class Driver extends AbstractSQLServerDriver
+class Driver implements \Doctrine\DBAL\Driver
 {
-    /**
-     * {@inheritdoc}
-     */
     public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
     {
         return new Connection(
@@ -44,9 +39,7 @@ class Driver extends AbstractSQLServerDriver
     /**
      * Constructs the Sqlsrv PDO DSN.
      *
-     * @param array $params
-     *
-     * @return string The DSN.
+     * @return string  The DSN.
      */
     private function _constructPdoDsn(array $params)
     {
@@ -60,7 +53,7 @@ class Driver extends AbstractSQLServerDriver
             $dsn .= ',' . $params['port'];
         }
 
-        if (isset($params['dbname'])) {
+        if (isset($params['dbname'])) {;
             $dsn .= ';Database=' .  $params['dbname'];
         }
 
@@ -71,11 +64,24 @@ class Driver extends AbstractSQLServerDriver
         return $dsn;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function getDatabasePlatform()
+    {
+        return new \Doctrine\DBAL\Platforms\SQLServer2008Platform();
+    }
+
+    public function getSchemaManager(\Doctrine\DBAL\Connection $conn)
+    {
+        return new \Doctrine\DBAL\Schema\SQLServerSchemaManager($conn);
+    }
+
     public function getName()
     {
         return 'pdo_sqlsrv';
+    }
+
+    public function getDatabase(\Doctrine\DBAL\Connection $conn)
+    {
+        $params = $conn->getParams();
+        return $params['dbname'];
     }
 }

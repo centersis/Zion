@@ -41,8 +41,6 @@ class LoginClass extends LoginSql
     
     public function getAuth($l,$p)
     {
-        $loginSql   = new \Pixel\Login\LoginSql();
-
         $getAuth = $this->con->execLinhaArray(parent::getAuth($l, $this->getSenhaHash($p)));
 
         if(!empty($getAuth['usuariocod']) and !empty($getAuth['organogramacod']) and !empty($getAuth['perfilcod'])) {
@@ -64,6 +62,44 @@ class LoginClass extends LoginSql
         }
 
         return false;
+    }
+
+    public function validaSenhaUsuario($usuarioCod, $usuarioSenha) {
+
+        $getAuth = $this->con->execLinha(parent::validaSenhaUsuarioSql($usuarioCod, $this->getSenhaHash($usuarioSenha)));
+
+        if(isset($getAuth['usuariocod'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function verificaSessaoIniciada()
+    {
+        $padrao     = array('usuarioCod' => 1, 'organogramaCod' => 1, 'perfilCod' => 1, 'urlLogin' => 1);
+        $session    = array_intersect_key($_SESSION, $padrao);
+        $keys       = array_keys($session);
+
+        $session = array_map(function($val) use ($session, $keys){
+
+            if(isset($session[$val])){
+                return 1;
+            } else {
+                return 0;
+            }
+            
+        }, array_combine(array_keys($padrao), array_keys($padrao)));
+
+        if(count(array_diff_assoc($session, $padrao)) < 1){
+            if(SIS_URL_BASE === $_SESSION['urlLogin']){
+                header("location: http:". SIS_URL_BASE);
+            } else {
+                header("location: http:". SIS_URL_BASE ."Accounts/Logoff/");
+            }
+        }
+        
+        return;
     }
     
     public function getSenhaHash($password)

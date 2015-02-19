@@ -19,13 +19,14 @@
 
 namespace Doctrine\DBAL\Sharding\SQLAzure\Schema;
 
-use Doctrine\DBAL\Schema\Visitor\Visitor;
-use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
-use Doctrine\DBAL\Schema\Sequence;
-use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Visitor\Visitor,
+    Doctrine\DBAL\Schema\Table,
+    Doctrine\DBAL\Schema\Schema,
+    Doctrine\DBAL\Schema\Column,
+    Doctrine\DBAL\Schema\ForeignKeyConstraint,
+    Doctrine\DBAL\Schema\Constraint,
+    Doctrine\DBAL\Schema\Sequence,
+    Doctrine\DBAL\Schema\Index;
 
 /**
  * Converts a single tenant schema into a multi-tenant schema for SQL Azure
@@ -73,11 +74,6 @@ class MultiTenantVisitor implements Visitor
      */
     private $distributionName;
 
-    /**
-     * @param array       $excludedTables
-     * @param string      $tenantColumnName
-     * @param string|null $distributionName
-     */
     public function __construct(array $excludedTables = array(), $tenantColumnName = 'tenant_id', $distributionName = null)
     {
         $this->excludedTables = $excludedTables;
@@ -86,7 +82,7 @@ class MultiTenantVisitor implements Visitor
     }
 
     /**
-     * {@inheritdoc}
+     * @param Table $table
      */
     public function acceptTable(Table $table)
     {
@@ -113,19 +109,12 @@ class MultiTenantVisitor implements Visitor
         }
     }
 
-    /**
-     * @param \Doctrine\DBAL\Schema\Table $table
-     *
-     * @return \Doctrine\DBAL\Schema\Index
-     *
-     * @throws \RuntimeException
-     */
     private function getClusteredIndex($table)
     {
         foreach ($table->getIndexes() as $index) {
             if ($index->isPrimary() && ! $index->hasFlag('nonclustered')) {
                 return $index;
-            } elseif ($index->hasFlag('clustered')) {
+            } else if ($index->hasFlag('clustered')) {
                 return $index;
             }
         }
@@ -133,37 +122,40 @@ class MultiTenantVisitor implements Visitor
     }
 
     /**
-     * {@inheritdoc}
+     * @param Schema $schema
      */
     public function acceptSchema(Schema $schema)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * @param Column $column
      */
     public function acceptColumn(Table $table, Column $column)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * @param Table $localTable
+     * @param ForeignKeyConstraint $fkConstraint
      */
     public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * @param Table $table
+     * @param Index $index
      */
     public function acceptIndex(Table $table, Index $index)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * @param Sequence $sequence
      */
     public function acceptSequence(Sequence $sequence)
     {
     }
 }
+

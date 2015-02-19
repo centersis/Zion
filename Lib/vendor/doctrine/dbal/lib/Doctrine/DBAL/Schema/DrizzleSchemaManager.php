@@ -19,8 +19,6 @@
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Types\Type;
-
 /**
  * Schema manager for the Drizzle RDBMS.
  *
@@ -28,11 +26,9 @@ use Doctrine\DBAL\Types\Type;
  */
 class DrizzleSchemaManager extends AbstractSchemaManager
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function _getPortableTableColumnDefinition($tableColumn)
     {
+        $tableName = $tableColumn['COLUMN_NAME'];
         $dbType = strtolower($tableColumn['DATA_TYPE']);
 
         $type = $this->_platform->getDoctrineTypeMapping($dbType);
@@ -42,43 +38,26 @@ class DrizzleSchemaManager extends AbstractSchemaManager
         $options = array(
             'notnull' => !(bool)$tableColumn['IS_NULLABLE'],
             'length' => (int)$tableColumn['CHARACTER_MAXIMUM_LENGTH'],
-            'default' => isset($tableColumn['COLUMN_DEFAULT']) ? $tableColumn['COLUMN_DEFAULT'] : null,
+            'default' => empty($tableColumn['COLUMN_DEFAULT']) ? null : $tableColumn['COLUMN_DEFAULT'],
             'autoincrement' => (bool)$tableColumn['IS_AUTO_INCREMENT'],
             'scale' => (int)$tableColumn['NUMERIC_SCALE'],
             'precision' => (int)$tableColumn['NUMERIC_PRECISION'],
-            'comment' => isset($tableColumn['COLUMN_COMMENT']) && '' !== $tableColumn['COLUMN_COMMENT']
-                ? $tableColumn['COLUMN_COMMENT']
-                : null,
+            'comment' => (isset($tableColumn['COLUMN_COMMENT']) ? $tableColumn['COLUMN_COMMENT'] : null),
         );
 
-        $column = new Column($tableColumn['COLUMN_NAME'], Type::getType($type), $options);
-
-        if ( ! empty($tableColumn['COLLATION_NAME'])) {
-            $column->setPlatformOption('collation', $tableColumn['COLLATION_NAME']);
-        }
-
-        return $column;
+        return new Column($tableName, \Doctrine\DBAL\Types\Type::getType($type), $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _getPortableDatabaseDefinition($database)
     {
         return $database['SCHEMA_NAME'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _getPortableTableDefinition($table)
     {
         return $table['TABLE_NAME'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function _getPortableTableForeignKeyDefinition($tableForeignKey)
     {
         $columns = array();
@@ -103,9 +82,6 @@ class DrizzleSchemaManager extends AbstractSchemaManager
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _getPortableTableIndexesList($tableIndexes, $tableName = null)
     {
         $indexes = array();
@@ -117,3 +93,4 @@ class DrizzleSchemaManager extends AbstractSchemaManager
         return parent::_getPortableTableIndexesList($indexes, $tableName);
     }
 }
+

@@ -41,7 +41,6 @@ class LoginSql
 
     public function getAuth($l, $p)
     {
-
         $qb = $this->con->link()->createQueryBuilder();
 
         $qb->select('a.usuarioCod', 'a.organogramaCod', 'a.perfilCod', "a.numeroAcessos")
@@ -50,10 +49,24 @@ class LoginSql
            ->andWhere($qb->expr()->eq('a.usuarioSenha', ':usuarioSenha'))
            ->setParameters([':usuarioLogin' => $l, ':usuarioSenha' => $p]);
 
-        return $qb;    
+        return $qb;
                 
     }
-   
+
+    public function validaSenhaUsuarioSql($usuarioCod, $usuarioSenha)
+    {
+        $qb = $this->con->link()->createQueryBuilder();
+
+        $qb->select('a.usuarioCod')
+           ->from('_usuario', 'a')
+           ->where($qb->expr()->eq('a.usuarioCod', ':usuarioCod'))
+           ->andWhere($qb->expr()->eq('a.usuarioSenha', ':usuarioSenha'))
+           ->setParameters([':usuarioCod' => $usuarioCod, ':usuarioSenha' => $usuarioSenha], [\PDO::PARAM_INT, \PDO::PARAM_STR]);
+
+        return $qb;
+                
+    }
+
     public function registraAcessoSql($usuarioCod, $numeroAcessos)
     {
         $qb = $this->con->link()->createQueryBuilder();

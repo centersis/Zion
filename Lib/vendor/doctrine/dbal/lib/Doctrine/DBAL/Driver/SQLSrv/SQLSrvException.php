@@ -19,14 +19,12 @@
 
 namespace Doctrine\DBAL\Driver\SQLSrv;
 
-use Doctrine\DBAL\DBALException;
-
-class SQLSrvException extends DBALException
+class SQLSrvException extends \Doctrine\DBAL\DBALException
 {
     /**
      * Helper method to turn sql server errors into exception.
      *
-     * @return \Doctrine\DBAL\Driver\SQLSrv\SQLSrvException
+     * @return SQLSrvException
      */
     static public function fromSqlSrvErrors()
     {
@@ -36,9 +34,10 @@ class SQLSrvException extends DBALException
             $message .= "SQLSTATE [".$error['SQLSTATE'].", ".$error['code']."]: ". $error['message']."\n";
         }
         if ( ! $message) {
-            $message = "SQL Server error occurred but no error message was retrieved from driver.";
+            $message = "SQL Server error occured but no error message was retrieved from driver.";
         }
 
         return new self(rtrim($message));
     }
 }
+

@@ -131,6 +131,18 @@ class FormChosen extends \Zion\Form\FormEscolha
         return $this;
     }
     
+    public function setIgnoreCod($ignoreCod)
+    {
+        parent::setIgnoreCod($ignoreCod);
+        return $this;
+    }
+    
+    public function setCallback($callback)
+    {
+        parent::setCallback($callback);
+        return $this;
+    }
+    
     public function setToolTipMsg($toolTipMsg)
     {
         $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,16 +23,18 @@ namespace Doctrine\DBAL\Portability;
 use PDO;
 
 /**
- * Portability wrapper for a Statement.
+ * Portability Wrapper for a Statement
  *
- * @link   www.doctrine-project.org
- * @since  2.0
- * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.com
+ * @since       2.0
+ * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
 class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
 {
+
     /**
-     * @var integer
+     * @var int
      */
     private $portability;
 
@@ -41,20 +44,20 @@ class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
     private $stmt;
 
     /**
-     * @var integer
+     * @var int
      */
     private $case;
 
     /**
-     * @var integer
+     * @var int
      */
     private $defaultFetchMode = PDO::FETCH_BOTH;
 
     /**
-     * Wraps <tt>Statement</tt> and applies portability measures.
+     * Wraps <tt>Statement</tt> and applies portability measures
      *
-     * @param \Doctrine\DBAL\Driver\Statement       $stmt
-     * @param \Doctrine\DBAL\Portability\Connection $conn
+     * @param \Doctrine\DBAL\Driver\Statement $stmt
+     * @param \Doctrine\DBAL\Connection $conn
      */
     public function __construct($stmt, Connection $conn)
     {
@@ -63,85 +66,53 @@ class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
         $this->case = $conn->getFetchCase();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function bindParam($column, &$variable, $type = null, $length = null)
+    public function bindParam($column, &$variable, $type = null,$length = null)
     {
-        return $this->stmt->bindParam($column, $variable, $type, $length);
+        return $this->stmt->bindParam($column, $variable, $type);
     }
-    /**
-     * {@inheritdoc}
-     */
 
     public function bindValue($param, $value, $type = null)
     {
         return $this->stmt->bindValue($param, $value, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function closeCursor()
     {
         return $this->stmt->closeCursor();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function columnCount()
     {
         return $this->stmt->columnCount();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function errorCode()
     {
         return $this->stmt->errorCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function errorInfo()
     {
         return $this->stmt->errorInfo();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute($params = null)
     {
         return $this->stmt->execute($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setFetchMode($fetchMode, $arg1 = null, $arg2 = null)
     {
         $this->defaultFetchMode = $fetchMode;
-
-        return $this->stmt->setFetchMode($fetchMode, $arg1, $arg2);
+        $this->stmt->setFetchMode($fetchMode, $arg1, $arg2);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIterator()
     {
         $data = $this->fetchAll();
-
         return new \ArrayIterator($data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fetch($fetchMode = null)
     {
         $fetchMode = $fetchMode ?: $this->defaultFetchMode;
@@ -156,9 +127,6 @@ class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
         return $row;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fetchAll($fetchMode = null, $columnIndex = 0)
     {
         $fetchMode = $fetchMode ?: $this->defaultFetchMode;
@@ -182,13 +150,6 @@ class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
         return $rows;
     }
 
-    /**
-     * @param mixed   $row
-     * @param integer $iterateRow
-     * @param boolean $fixCase
-     *
-     * @return array
-     */
     protected function fixRow($row, $iterateRow, $fixCase)
     {
         if ( ! $row) {
@@ -203,18 +164,14 @@ class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
             foreach ($row as $k => $v) {
                 if (($this->portability & Connection::PORTABILITY_EMPTY_TO_NULL) && $v === '') {
                     $row[$k] = null;
-                } elseif (($this->portability & Connection::PORTABILITY_RTRIM) && is_string($v)) {
+                } else if (($this->portability & Connection::PORTABILITY_RTRIM) && is_string($v)) {
                     $row[$k] = rtrim($v);
                 }
             }
         }
-
         return $row;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fetchColumn($columnIndex = 0)
     {
         $value = $this->stmt->fetchColumn($columnIndex);
@@ -222,7 +179,7 @@ class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
         if ($this->portability & (Connection::PORTABILITY_EMPTY_TO_NULL|Connection::PORTABILITY_RTRIM)) {
             if (($this->portability & Connection::PORTABILITY_EMPTY_TO_NULL) && $value === '') {
                 $value = null;
-            } elseif (($this->portability & Connection::PORTABILITY_RTRIM) && is_string($value)) {
+            } else if (($this->portability & Connection::PORTABILITY_RTRIM) && is_string($value)) {
                 $value = rtrim($value);
             }
         }
@@ -230,11 +187,9 @@ class Statement implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rowCount()
     {
         return $this->stmt->rowCount();
     }
+
 }

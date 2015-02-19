@@ -15,54 +15,55 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
- */
+*/
 
 namespace Doctrine\DBAL\Event;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Connection,
+    Doctrine\DBAL\Schema\Column;
 
 /**
  * Event Arguments used when the portable column definition is generated inside Doctrine\DBAL\Schema\AbstractSchemaManager.
  *
- * @link   www.doctrine-project.org
- * @since  2.2
- * @author Jan Sorgalla <jsorgalla@googlemail.com>
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.com
+ * @since       2.2
+ * @author      Jan Sorgalla <jsorgalla@googlemail.com>
  */
 class SchemaColumnDefinitionEventArgs extends SchemaEventArgs
 {
     /**
-     * @var \Doctrine\DBAL\Schema\Column|null
+     * @var \Doctrine\DBAL\Schema\Column
      */
     private $_column = null;
 
     /**
-     * Raw column data as fetched from the database.
+     * Raw column data as fetched from the database
      *
      * @var array
      */
-    private $_tableColumn;
+    private $_tableColumn = null;
 
     /**
      * @var string
      */
-    private $_table;
+    private $_table = null;
 
     /**
      * @var string
      */
-    private $_database;
+    private $_database = null;
 
     /**
      * @var \Doctrine\DBAL\Connection
      */
-    private $_connection;
+    private $_connection = null;
 
     /**
-     * @param array                     $tableColumn
-     * @param string                    $table
-     * @param string                    $database
-     * @param \Doctrine\DBAL\Connection $connection
+     * @param array  $tableColumn
+     * @param string $table
+     * @param string $database
+     * @param \Doctrine\DBAL\Connection $conn
      */
     public function __construct(array $tableColumn, $table, $database, Connection $connection)
     {
@@ -77,8 +78,7 @@ class SchemaColumnDefinitionEventArgs extends SchemaEventArgs
      * tables column list.
      *
      * @param null|\Doctrine\DBAL\Schema\Column $column
-     *
-     * @return \Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs
+     * @return SchemaColumnDefinitionEventArgs
      */
     public function setColumn(Column $column = null)
     {
@@ -88,7 +88,7 @@ class SchemaColumnDefinitionEventArgs extends SchemaEventArgs
     }
 
     /**
-     * @return \Doctrine\DBAL\Schema\Column|null
+     * @return \Doctrine\DBAL\Schema\Column
      */
     public function getColumn()
     {
