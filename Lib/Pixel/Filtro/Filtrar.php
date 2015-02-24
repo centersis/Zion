@@ -193,6 +193,8 @@ class Filtrar
 
     private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
     {
+        $tratar = \Zion\Tratamento\Tratamento::instancia();
+        
         if (\in_array($operador, $this->operadores)) {
 
             $rand = \mt_rand(1, 9999);
@@ -205,6 +207,10 @@ class Filtrar
 
                     if ($acao == 'number') {
                         $tipoParametro = \PDO::PARAM_INT;
+                    }
+                    
+                    if ($acao == 'date') {
+                        $valor = $tratar->data()->converteData($valor);
                     }
 
                     switch ($operador) {
