@@ -124,6 +124,19 @@ class Geral
         
         return $cnpjFormatado;
     }
+    
+    /**
+     * Geral::limpaCPF_CNPJ()
+     * 
+     * @param mixed $str
+     * @return
+     */    
+    public function limpaCPF_CNPJ($str)
+    {
+        
+        return \preg_replace('/[^0-9]/', '', $str);
+        
+    }
 
 
     /**

@@ -43,7 +43,7 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Form\Exception\FormInvalidArgumentException as FormInvalidArgumeException;
-use \Pixel\Login\LoginClass as LoginClass;
+use \Sappiens\Accounts\Login\LoginClass as LoginClass;
 
 class FormValida
 {

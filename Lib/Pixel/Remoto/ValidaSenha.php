@@ -38,7 +38,7 @@ class ValidaSenha
 
         try {
             
-            $loginCLass = new \Pixel\Login\LoginClass();
+            $loginCLass = new \Sappiens\Accounts\Login\LoginClass();
 
             if(!isset($_SESSION['usuarioCod'])){
                 throw new \Exception("0x001");
