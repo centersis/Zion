@@ -39,9 +39,9 @@ class Autenticacao
 
     public static function validaSenha($form, $campos)
     {
-        array_push($campos, $form->layout('validaSenhaUserDiv', '<div class="col-sm-12"><br /><br /><hr /></div>'));
+        \array_push($campos, $form->layout('validaSenhaUserDiv', '<div class="col-sm-12"><br /><br /><hr /></div>'));
                 
-        array_push($campos, $form->senha('validaSenhaUser', 'Sua senha de utilizador', true)
+        \array_push($campos, $form->senha('validaSenhaUser', 'Sua senha de utilizador', true)
                                  ->setMaximoCaracteres(30)
                                  ->setMinimoCaracteres(6)
                                  ->setValor($form->retornaValor('validaSenhaUser'))
