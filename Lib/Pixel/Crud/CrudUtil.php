@@ -141,17 +141,14 @@ class CrudUtil
             case 'REGEXP':
 
                 return $this->modoBuscaREGEXP($filtroDinamico);                
-                break;
 
             case 'LIKE':
 
                 return $this->modoBuscaLIKE($filtroDinamico);                
-                break;
             
             case 'FULLTEXT':
 
                 return $this->modoBuscaFULLTEXT($filtroDinamico);                
-                break;            
             
         }
         
