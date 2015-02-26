@@ -217,6 +217,7 @@ class FormValida
 
                         $fv = new EscolhaHtml();
                         $valoresReais = $fv->dadosCampo($input);
+                        $dependencia = $input->getCampoDependencia();
 
                         if (\is_array($userValue)) {
 
@@ -224,9 +225,11 @@ class FormValida
                                 throw new FormException($identifica . ": Você deve selecionar uma ou mais opções!");
                             }
 
-                            foreach ($userValue as $valorSelecionado) {
-                                if (!\array_key_exists($valorSelecionado, $valoresReais)) {
-                                    throw new FormException($identifica . ": O valor recuperado não corresponde a um valor válido!");
+                            if (!$dependencia) {
+                                foreach ($userValue as $valorSelecionado) {
+                                    if (!\array_key_exists($valorSelecionado, $valoresReais)) {
+                                        throw new FormException($identifica . ": O valor recuperado não corresponde a um valor válido!");
+                                    }
                                 }
                             }
                         } else {
@@ -239,7 +242,7 @@ class FormValida
                                 throw new FormException($identifica . ": selecione uma ou mais opções!");
                             }
 
-                            if (!\array_key_exists($userValue, $valoresReais)) {
+                            if (!$dependencia and $userValue and ! \array_key_exists($userValue, $valoresReais)) {
                                 throw new FormException($identifica . ": O valor recuperado não corresponde a um valor válido!");
                             }
                         }
