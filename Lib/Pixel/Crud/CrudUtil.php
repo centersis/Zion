@@ -512,6 +512,29 @@ class CrudUtil
 
         return $this->con->executar($qb);
     }
+    
+    public function masterDetail($objForm, $codigo)
+    {
+        
+        $arrayForm = $objForm->getObjetos();
+        
+        foreach ($arrayForm as $objeto) {
+
+            $tipoBase = $objeto->getTipoBase();
+
+            switch ($tipoBase) {
+
+                case 'masterDetail':
+
+                    $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
+                    $objeto->setCodigoReferencia($codigo);
+                    $masterDetail->gravar($objeto);
+                    break;
+                
+            }
+        }        
+        
+    }    
 
     /**
      * Receber uma string de parametros e o objetoform e processa-os retornando um vetor com os paremtros prontos para a inserção
