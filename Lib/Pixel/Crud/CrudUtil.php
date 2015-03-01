@@ -41,14 +41,13 @@ class CrudUtil
 {
 
     private $con;
-    
-    public function __construct($banco = '') 
+
+    public function __construct($banco = '')
     {
-            
-        $this->con = \Zion\Banco\Conexao::conectar($banco);                       
-        
+
+        $this->con = \Zion\Banco\Conexao::conectar($banco);
     }
-    
+
     public function getParametrosGrid($objForm)
     {
         $fil = new \Pixel\Filtro\Filtrar();
@@ -62,7 +61,7 @@ class CrudUtil
 
     public function getParametrosPadroes()
     {
-        return ["pa", "qo", "to"];
+        return ["pa", "qo", "to","sisBuscaGeral"];
     }
 
     public function setParametrosForm($objForm, $parametrosSql, $cod = 0)
@@ -132,135 +131,123 @@ class CrudUtil
 
         $this->sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca);
     }
-    
+
     private function modoBusca($modoBusca, $filtroDinamico)
     {
-        
+
         switch ($modoBusca) {
-            
+
             case 'REGEXP':
 
-                return $this->modoBuscaREGEXP($filtroDinamico);                
+                return $this->modoBuscaREGEXP($filtroDinamico);
 
             case 'LIKE':
 
-                return $this->modoBuscaLIKE($filtroDinamico);                
-            
+                return $this->modoBuscaLIKE($filtroDinamico);
+
             case 'FULLTEXT':
 
-                return $this->modoBuscaFULLTEXT($filtroDinamico);                
-            
+                return $this->modoBuscaFULLTEXT($filtroDinamico);
         }
-        
     }
-    
+
     private function modoBuscaREGEXP($filtroDinamico)
     {
-        
+
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
-        
+
         if ($buscaGeral) {
-            
+
             $sql = ' (';
 
             $campos = \str_replace(',', '|', $buscaGeral);
 
             $total = \count($filtroDinamico);
             $this->cont = 0;
-            
+
             foreach ($filtroDinamico as $coluna => $aliasSql) {
-                
+
                 $this->cont++;
                 $alias = $aliasSql ? $aliasSql . '.' : '';
 
                 $sql.= $alias . $coluna . " REGEXP '" . $campos . "'";
                 $sql.= $total == $this->cont ? '' : ' OR ';
-                
             }
-           
+
             $sql .= ') ';
 
             return $sql;
-            
-        }        
-        
+        }
     }
-    
+
     private function modoBuscaLIKE($filtroDinamico)
     {
-        
+
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
-        
+
         if ($buscaGeral) {
-            
+
             $sql = ' (';
 
             $campos = \str_replace(',', '|', $buscaGeral);
 
             $total = \count($filtroDinamico);
             $this->cont = 0;
-            
+
             foreach ($filtroDinamico as $coluna => $aliasSql) {
-                
+
                 $this->cont++;
                 $alias = $aliasSql ? $aliasSql . '.' : '';
 
                 $sql.= $alias . $coluna . " LIKE '%" . $campos . "%'";
                 $sql.= $total == $this->cont ? '' : ' OR ';
-                
             }
-           
+
             $sql .= ') ';
 
             return $sql;
-            
-        }        
-        
-    }    
-    
+        }
+    }
+
     private function modoBuscaFULLTEXT($filtroDinamico)
     {
-        
+
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
-        
+
         if ($buscaGeral) {
-            
+
             $sql = ' MATCH(';
 
             $campos = \str_replace(',', '|', $buscaGeral);
 
             $total = \count($filtroDinamico);
             $this->cont = 0;
-            
+
             foreach ($filtroDinamico as $coluna => $aliasSql) {
-                
+
                 $this->cont++;
                 $alias = $aliasSql ? $aliasSql . '.' : '';
 
                 $sql .= $alias . $coluna;
                 $sql .= $total == $this->cont ? '' : ', ';
-                
             }
-           
+
             $sql .= ')';
-            $sql .= ' AGAINST(\'"' . $campos . '"\')' ;
+            $sql .= ' AGAINST(\'"' . $campos . '"\')';
 
             return $sql;
-            
-        }        
-        
-    }    
+        }
+    }
 
     private function sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca)
     {
-        
+
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
 
         if ($buscaGeral) {
-            
+
             $sql = $this->modoBusca($modoBusca, $filtroDinamico);
             $queryBuilder->where($sql);
-            
         }
     }
 
@@ -372,7 +359,7 @@ class CrudUtil
 
     public function update($tabela, array $campos, $objForm, array $criterio, array $tipagemCriterio = [])
     {
-        
+
         $upload = new \Pixel\Arquivo\ArquivoUpload();
 
         $arrayValores = [];
@@ -439,22 +426,22 @@ class CrudUtil
 
             $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
         }
-        
+
         $pos = $chave;
         foreach ($criterio as $campo => $valor) {
             $pos++;
-            
+
             $tipo = \PDO::PARAM_INT;
-            if(\array_key_exists($campo, $tipagemCriterio)){
+            if (\array_key_exists($campo, $tipagemCriterio)) {
                 $tipo = $tipagemCriterio[$campo];
             }
-            
+
             $qb->andWhere($qb->expr()->eq($campo, '?'))
                     ->setParameter($pos, $valor, $tipo);
-        }        
+        }
 
         $codigo = \current($criterio);
-        
+
         $linhasAfetadas = $this->con->executar($qb);
 
 
@@ -500,24 +487,24 @@ class CrudUtil
         $pos = 0;
         foreach ($criterio as $campo => $valor) {
             $pos++;
-            
+
             $tipo = \PDO::PARAM_INT;
-            if(\array_key_exists($campo, $tipagemCriterio)){
+            if (\array_key_exists($campo, $tipagemCriterio)) {
                 $tipo = $tipagemCriterio[$campo];
             }
-            
+
             $qb->andWhere($qb->expr()->eq($campo, '?'))
                     ->setParameter($pos, $valor, $tipo);
         }
 
         return $this->con->executar($qb);
     }
-    
+
     public function masterDetail($objForm, $codigo)
     {
-        
+
         $arrayForm = $objForm->getObjetos();
-        
+
         foreach ($arrayForm as $objeto) {
 
             $tipoBase = $objeto->getTipoBase();
@@ -530,11 +517,9 @@ class CrudUtil
                     $objeto->setCodigoReferencia($codigo);
                     $masterDetail->gravar($objeto);
                     break;
-                
             }
-        }        
-        
-    }    
+        }
+    }
 
     /**
      * Receber uma string de parametros e o objetoform e processa-os retornando um vetor com os paremtros prontos para a inserção
