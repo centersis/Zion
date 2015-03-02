@@ -373,8 +373,32 @@ class Form
      * @param mixed $nome
      * @return
      */
-    public function retornaValor($nome)
+    public function retornaValor($nome, $metodo = '')
     {
+        
+        if($metodo) {
+            
+            $metodo = \strtoupper($metodo);            
+            
+            if($metodo == 'REQUEST') {                
+            
+                if(\array_key_exists($nome, $_GET)) {
+
+                    $metodo = 'GET';
+
+                } elseif(\array_key_exists($nome, $_POST)) {
+
+                    $metodo = 'POST';
+
+                }
+                
+            }            
+
+            $metodoOriginal = $this->formConfig->getMethod();
+            $this->formConfig->setMethod($metodo);
+            
+        }
+
         switch ($this->formConfig->getMethod()) {
             case "POST" :
 
@@ -386,18 +410,26 @@ class Form
 
                 break;
             case "GET" :
-
+                
                 if (\substr_count($nome, '[]') > 0) {
                     $valor = \filter_input(\INPUT_GET, \str_replace('[]', '', $nome), \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
                 } else {
                     $valor = \filter_input(\INPUT_GET, $nome);
                 }
 
-                break;
+                break;              
+                
             default: $valor = null;
+        }
+        
+        if($metodo) {
+            
+            $this->formConfig->setMethod($metodoOriginal);
+            
         }
 
         return $valor;
+        
     }
 
     /**

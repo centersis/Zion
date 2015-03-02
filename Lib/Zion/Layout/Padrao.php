@@ -83,11 +83,11 @@ class Padrao extends \Zion\Layout\Html
         $buffer .= $this->html->entreTags('title', 'Sappiens Framework');
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'generator','content'=>"Sappiens Framework"));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'manifest','content'=>"Tah olhando o codigo-fonte? Vem trabalhar com a gente! [curriculos@braconsultoria.com.br]"));
-        $buffer .= $this->html->abreTagAberta('meta', array('name'=>'description','content'=>SIS_DESCRICAO));
+        $buffer .= $this->html->abreTagAberta('meta', array('name'=>'description','content'=>SIS_NOME_PROJETO));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'author','content'=>SIS_AUTOR));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'release','content'=>SIS_RELEASE));
         $buffer .= $this->html->abreTagAberta('meta', array('name'=>'viewport','content'=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));                                        
-        $buffer .= $this->html->abreTagAberta('link', array('rel'=>'canonical','href'=> SIS_URL_BASE_DEFAULT . $_SERVER['REQUEST_URI']));           
+        $buffer .= $this->html->abreTagAberta('link', array('rel'=>'canonical','href'=> 'http://localhost/' . $_SERVER['REQUEST_URI']));           
         
         return $buffer;
     }

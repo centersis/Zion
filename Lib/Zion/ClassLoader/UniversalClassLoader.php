@@ -275,7 +275,7 @@ class UniversalClassLoader
                 foreach ($dirs as $dir) {
                     $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass . '.php';
 					
-					if(\defined('DEBUG')) {
+					if(SIS_DEBUG === true) {
 					
 						echo $file;
 						echo "<br>";

@@ -68,7 +68,7 @@ class EscolhaHtml
         }
     }
 
-    private function dadosCampo($config)
+    public function dadosCampo($config)
     {
         $ordena = $config->getOrdena();
 
