@@ -31,8 +31,6 @@
 
 namespace Zion\Banco;
 
-use Doctrine\Common\ClassLoader;
-
 class Conexao
 {
 
