@@ -277,7 +277,7 @@ class FormValida
 
                 case 'obrigatorio':
                     if ($input->getObrigatorio() === true) {
-                        if (empty($userValue)) {
+                        if (empty($userValue) and $userValue <> 0) {
                             throw new FormException($identifica . ": Nenhum valor informado!");
                         }
                     }
