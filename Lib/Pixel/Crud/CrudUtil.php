@@ -270,7 +270,7 @@ class CrudUtil
             $objeto = false;
 
             if (\is_array($objForm)) {
-                $arrayForm = $arrayForm;
+                $arrayForm = $objForm;
             } else {
                 throw new \Exception('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
             }
@@ -297,8 +297,8 @@ class CrudUtil
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
                     $form->set($nomeParametro, \current($arrayForm[$nomeParametro]), \key($arrayForm[$nomeParametro]));
-                    $arrayValores[] = $objForm->getSql($nomeParametro);
-                    $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
+                    $arrayValores[] = $form->getSql($nomeParametro);
+                    $arrayTipos[] = $form->getTipoPDO($nomeParametro);
                 } else {
                     $arrayValores[] = \NULL;
                     $arrayTipos[] = \PDO::PARAM_NULL;
@@ -330,26 +330,30 @@ class CrudUtil
         /**
          * Tipos Especiais
          */
-        foreach ($arrayForm as $objeto) {
+        if ($objeto) {
+            
+            foreach ($arrayForm as $objeto) {
 
-            $tipoBase = $objeto->getTipoBase();
+                $tipoBase = $objeto->getTipoBase();
 
-            switch ($tipoBase) {
+                switch ($tipoBase) {
 
-                case 'upload':
+                    case 'upload':
 
-                    $upload = new \Pixel\Arquivo\ArquivoUpload();
-                    $objeto->setCodigoReferencia($uid);
-                    $upload->sisUpload($objeto);
-                    break;
+                        $upload = new \Pixel\Arquivo\ArquivoUpload();
+                        $objeto->setCodigoReferencia($uid);
+                        $upload->sisUpload($objeto);
+                        break;
 
-                case 'masterDetail':
+                    case 'masterDetail':
 
-                    $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
-                    $objeto->setCodigoReferencia($uid);
-                    $masterDetail->gravar($objeto);
-                    break;
+                        $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
+                        $objeto->setCodigoReferencia($uid);
+                        $masterDetail->gravar($objeto);
+                        break;
+                }
             }
+            
         }
 
         $this->con->stopTransaction();
