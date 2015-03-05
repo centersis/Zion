@@ -283,6 +283,10 @@ class FormPixelJavaScript
             $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "'. \SIS_URL_BASE . 'includes/valida_senha/' .'");});';
         }
 
+        if ($config->getAcao() == 'divWebSocket') {
+            return "<h1>SOCKET</h1>";
+            //$this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "'. \SIS_URL_BASE . 'includes/valida_senha/' .'");});';
+        }
     }
 
     public function montaValidacao($formNome, $acao, $jsExtra = true)

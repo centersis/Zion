@@ -27,9 +27,9 @@
  *
  */
 
-        function sisSpa(p) {
-            $("#sisPaginaAtual").val(p);
-        }
+function sisSpa(p) {
+    $("#sisPaginaAtual").val(p);
+}
 function replaceContentElem(e) {
     $(e).fadeToggle('slow', function () {
         $(e).html('');
@@ -690,4 +690,8 @@ function validaSenhaUser(campo, url)
     }
     
     return true;
+}
+
+function webSocket(){
+    
 }
