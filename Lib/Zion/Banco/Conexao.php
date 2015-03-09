@@ -80,6 +80,10 @@ class Conexao
 
         $config = new \Doctrine\DBAL\Configuration();
 
+        if($cSenha === 'NULL'){
+            $cSenha = NULL;
+        }
+        
         $connectionParams = [
             'dbname' => $cBanco,
             'user' => $cUsuario,
