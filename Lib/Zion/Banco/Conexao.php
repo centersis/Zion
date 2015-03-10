@@ -34,7 +34,7 @@ namespace Zion\Banco;
 class Conexao
 {
 
-    private static $transaction;
+    private static $transaction = [];
     public static $link = [];
     public static $instancia = [];
     private $banco;
@@ -491,11 +491,11 @@ class Conexao
      */
     public function startTransaction()
     {
-        if (self::$transaction < 1) {
+        if (!\array_key_exists($this->banco, self::$transaction)) {
             self::$link[$this->banco]->beginTransaction();
-            self::$transaction = 1;
+            self::$transaction[$this->banco] = 1;
         } else {
-            self::$transaction += 1;
+            self::$transaction[$this->banco] += 1;
         }
     }
 
@@ -506,18 +506,22 @@ class Conexao
      */
     public function stopTransaction($erro = '')
     {
-        if (self::$transaction == 1) {
+        if(!\array_key_exists($this->banco, self::$transaction)){
+            return false;
+        }
+        
+        if (self::$transaction[$this->banco] == 1) {
             if (!empty($erro)) {
                 self::$link[$this->banco]->rollBack();
-                self::$transaction -= 1;
+                self::$transaction[$this->banco] -= 1;
                 return false;
             } else {
                 self::$link[$this->banco]->commit();
-                self::$transaction -= 1;
+                self::$transaction[$this->banco] -= 1;
                 return true;
             }
         } else {
-            self::$transaction -= 1;
+            self::$transaction[$this->banco] -= 1;
         }
     }
 
