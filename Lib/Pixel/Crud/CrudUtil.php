@@ -44,8 +44,11 @@ class CrudUtil
 
     public function __construct($banco = '')
     {
-
-        $this->con = \Zion\Banco\Conexao::conectar($banco);
+        if (\is_object($banco)) {
+            $this->con = $banco;
+        } else {
+            $this->con = \Zion\Banco\Conexao::conectar($banco);
+        }
     }
 
     public function getParametrosGrid($objForm)
@@ -61,7 +64,7 @@ class CrudUtil
 
     public function getParametrosPadroes()
     {
-        return ["pa", "qo", "to","sisBuscaGeral"];
+        return ["pa", "qo", "to", "sisBuscaGeral"];
     }
 
     public function setParametrosForm($objForm, $parametrosSql, $cod = 0)
@@ -331,7 +334,7 @@ class CrudUtil
          * Tipos Especiais
          */
         if ($objeto) {
-            
+
             foreach ($arrayForm as $objeto) {
 
                 $tipoBase = $objeto->getTipoBase();
@@ -353,7 +356,6 @@ class CrudUtil
                         break;
                 }
             }
-            
         }
 
         $this->con->stopTransaction();

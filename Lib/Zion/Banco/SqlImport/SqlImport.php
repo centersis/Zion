@@ -25,39 +25,53 @@ class SqlImport
         }
     }
 
-    public function importar($origem)
+    public function importarDeArquivo($origem)
     {
-        $lines = \file($origem, \FILE_IGNORE_NEW_LINES | \FILE_SKIP_EMPTY_LINES);
+        $linhas = \file($origem, \FILE_IGNORE_NEW_LINES | \FILE_SKIP_EMPTY_LINES);
+        
+        return $this->importar($linhas);
+    }
+    
+    public function importarDeTexto($texto)
+    {
+        $linhas = \preg_split ('/$\R?^/m', $texto);
+        
+        return $this->importar($linhas);
+    }
+    
+    private function importar($linhas)
+    {
+        
         $buffer = '';
 
-        foreach ($lines as $line) {
+        foreach ($linhas as $linha) {
             
-            if (($line = \trim($line)) == ''){
+            if (($linha = \trim($linha)) == ''){
                 continue;
             }
 
             // skipping SQL comments
-            if (\substr(\ltrim($line), 0, 2) == '--'){
+            if (\substr(\ltrim($linha), 0, 2) == '--'){
                 continue;
             }
 
             // An SQL statement could span over multiple lines ...
-            if (\substr($line, -1) != ';') {
+            if (\substr($linha, -1) != ';') {
                 // Add to buffer
-                $buffer .= ' '.$line;
+                $buffer .= ' '.$linha;
                 // Next line
                 continue;
             } else
             if ($buffer) {
-                $line = $buffer .' '. $line;
+                $linha = $buffer .' '. $linha;
                 // Ok, reset the buffer
                 $buffer = '';
             }
 
             // strip the trailing ;
-            $line = \substr($line, 0, -1);
+            $linha = \substr($linha, 0, -1);
 
-            $this->con->executar($line);
+            $this->con->executar($linha);
         }
     }
 
