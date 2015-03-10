@@ -110,7 +110,7 @@ class FormSocket
         $wsObject = "webSocket". $configs['nome'];
         
         $html = '<div id="'. $wsObject .'" name="'. $wsObject .'">'. $conteudo .'</div>';
-        $html .= $this->getScript($wsObject);
+        $html .= '<script type="text/javascript">'. $this->getScript($wsObject) .'</script>';
         
         \array_push($campos, $form->layout('divWebSocket', $html));
         
@@ -126,13 +126,13 @@ class FormSocket
         
         $callback = (empty($configs['callback']) ? '$(\'#'. $wsObject .'\').html(data.retorno[0]);' : $configs['callback']);
         
-        $script = '<script type="text/javascript">';
-        $script .= $evento;
-        $script .= 'socketAPI.conecta("'. $threadId .'", '. $configs['pesquisa'] .', "'. $callback .'");';
+        $script = $evento;
+        $script .= 'function get'. $configs['nome'] .'(retorno) { '. $callback .'}';
+        $script .= 'socketAPI.conecta("'. $threadId .'", '. $configs['pesquisa'] .');';
         $script .= '});';
-        $script .= '</script>';
-        
-        return $script;
+        $script .= 'function get'. $configs['nome'] .'(retorno) { '. $callback .'}';
+       
+        return preg_replace('/@/', '', $script);
     }
     
     private function getRandomThreadId()
