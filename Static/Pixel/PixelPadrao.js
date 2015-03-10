@@ -27,9 +27,9 @@
  *
  */
 
-        function sisSpa(p) {
-            $("#sisPaginaAtual").val(p);
-        }
+function sisSpa(p) {
+    $("#sisPaginaAtual").val(p);
+}
 function replaceContentElem(e) {
     $(e).fadeToggle('slow', function () {
         $(e).html('');
@@ -59,9 +59,13 @@ $(document).ready(function () {
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
-
+    /*
+var param = new Array();
+param['sisReg[]'] = 1
+sisAlterarLayoutPadrao(param);
 });
-
+*/
+});
 /* CRUD BÁSICO */
 
 /* FUNÇÕES ESPECIAIS */
@@ -227,7 +231,7 @@ function sisAlterarLayoutPadrao(param) {
         }
     }
 
-    if (sisContaCheck() < 1) {
+    if (sisContaCheck() < 1 && !param) {
         sisSetAlert('false', 'Nenhum registro selecionado.');
     } else {
 
