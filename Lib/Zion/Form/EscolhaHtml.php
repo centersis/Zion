@@ -89,7 +89,7 @@ class EscolhaHtml
                 $sql = $sqlCompleto;
             } else {
 
-                $sql = $con->link()->createQueryBuilder();
+                $sql = $con->qb();
 
                 $sql->select($campoCod, $campoDesc)
                         ->from($tabela,'');

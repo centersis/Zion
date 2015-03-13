@@ -141,7 +141,7 @@ class MasterDetail
         $metodoRemover = $config->getMetodoRemover();
 
 
-        $qb = $con->link()->createQueryBuilder();
+        $qb = $con->qb();
         $qb->select($codigo)
                 ->from($tabela, '')
                 ->where($qb->expr()->eq($campoReferencia, ':cod'))

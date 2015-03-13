@@ -313,7 +313,7 @@ class CrudUtil
 
         $this->con->startTransaction();
 
-        $qb = $this->con->link()->createQueryBuilder();
+        $qb = $this->con->qb();
 
         $qb->insert($tabela);
 
@@ -420,7 +420,7 @@ class CrudUtil
 
         $this->con->startTransaction();
 
-        $qb = $this->con->link()->createQueryBuilder();
+        $qb = $this->con->qb();
 
         $qb->update($tabela);
 
@@ -486,7 +486,7 @@ class CrudUtil
     public function delete($tabela, array $criterio, array $tipagemCriterio = [])
     {
 
-        $qb = $this->con->link()->createQueryBuilder();
+        $qb = $this->con->qb();
 
         $qb->delete($tabela, '');
 

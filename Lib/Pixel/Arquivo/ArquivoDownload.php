@@ -42,7 +42,7 @@ class ArquivoDownload
 
         $moduloCod = $upload->getModuloCod($modulo);
 
-        $qbSelect = $con->link()->createQueryBuilder();
+        $qbSelect = $con->qb();
 
         $qbSelect->select('uploadCod', 'uploadCodReferencia', 'uploadNomeOriginal', 'uploadDataCadastro')
                 ->from('_upload')

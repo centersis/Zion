@@ -31,6 +31,10 @@
 
 namespace Zion\Banco;
 
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\Portability\Connection;
+use Doctrine\DBAL\DriverManager;
+
 class Conexao
 {
 
@@ -69,7 +73,7 @@ class Conexao
             $cDriver = $driver;
         } else {
 
-            $namespace = '\\' . SIS_ID_NAMESPACE_PROJETO . '\\Config';
+            $namespace = '\\' . \SIS_ID_NAMESPACE_PROJETO . '\\Config';
 
             $cHost = $namespace::$SIS_CFG['bases'][$banco]['host'];
             $cUsuario = $namespace::$SIS_CFG['bases'][$banco]['usuario'];
@@ -78,7 +82,7 @@ class Conexao
             $cDriver = $namespace::$SIS_CFG['bases'][$banco]['driver'];
         }
 
-        $config = new \Doctrine\DBAL\Configuration();
+        $config = new Configuration();
 
         if($cSenha === 'NULL'){
             $cSenha = NULL;
@@ -92,7 +96,7 @@ class Conexao
             'driver' => $cDriver,
             'charset' => 'utf8',
             'wrapperClass' => 'Doctrine\DBAL\Portability\Connection',
-            'portability' => \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL,
+            'portability' => Connection::PORTABILITY_ALL,
             'fetch_case' => \PDO::CASE_LOWER,
             'driverOptions' => [
                 1002 => 'SET NAMES utf8']
@@ -100,15 +104,15 @@ class Conexao
 
 
         //$config->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
-        self::$link[$banco] = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        self::$link[$banco] = DriverManager::getConnection($connectionParams, $config);
     }
-
+    
     /**
      * Retorna uma instancia de conexão com o banco de dados
      * @param string $banco
      * @return \Doctrine\DBAL\Connection
      */
-    public function link($banco = \NULL)
+    public function dbal($banco = \NULL)
     {
         return self::$link[$banco ? $banco : $this->banco];
     }
@@ -227,7 +231,7 @@ class Conexao
      */
     public function ultimoId($campo = null)
     {
-        return $this->link()->lastInsertId($campo);
+        return $this->dbal()->lastInsertId($campo);
     }
 
     /**
@@ -449,7 +453,7 @@ class Conexao
      */
     public function maiorId($tabela, $idTabela)
     {
-        $qb = $this->link()->createQueryBuilder();
+        $qb = $this->qb();
         $qb->select($qb->expr()->max($idTabela))
                 ->from($tabela, '');
 
@@ -468,7 +472,7 @@ class Conexao
      */
     public function existe($tabela, $campo, $valor, $inteiro = false)
     {
-        $qb = $this->link()->createQueryBuilder();
+        $qb = $this->qb();
 
         $qb->select($campo)
                 ->from($tabela, '');
