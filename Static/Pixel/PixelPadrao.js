@@ -187,6 +187,7 @@ function sisDesmarcarTodos()
 /*BOTOES*/
 function botoesPadrao(nomeForm, acao)
 {
+    $("#" + nomeForm + " #sisSalvarEContinuar").prop('disabled', acao);
     $("#" + nomeForm + " #sisSalvar").prop('disabled', acao);
     $("#" + nomeForm + " #sisDescartar").prop('disabled', acao);
 }
