@@ -338,6 +338,56 @@ class Data
     {
         return(preg_match('[/]', $data) ? '/' : '-');
     }
+    
+    /**
+     * Data::getTimeAgo()
+     * Retorna o tempo passado deste $dataHora até $dataHoraAtual.
+     * 
+     * @param String $dataHora data/hora inicial para contagem.
+     * @param String $completo NULL para retornar o intervalo de tempo maior encontrado, NOT NULL para retornar todos os intervalos de anos a segundos.
+     * @param String $dataHoraAtual data/hora final para contagem, se for igual a NULL ou omitido, será substituído pela data/hora atual.
+     * @return String
+     * @example 10 meses ou 0 Anos, 10 meses, 5 dias, 2 horas, 40 minutos e 20 segundos.
+     */
+    public function getTimeAgo($dataHora, $completo = NULL, $dataHoraAtual = NULL)
+    {
+        $formato = $this->getFormatoDataHora($dataHora);
+        $dataHoraAtual = (is_null($dataHoraAtual) ? date($formato) : $dataHoraAtual);
+
+        $dI = \DateTime::createFromFormat($formato, $dataHora);
+        $dF = \DateTime::createFromFormat($formato, $dataHoraAtual);
+
+        $diff = (array) $dI->diff($dF);
+
+        $textAgo = '';
+
+        if($completo === NULL){
+
+            if($diff['y'] > 0) {
+                $textAgo = $diff['y']. ($diff['y'] > 1 ? ' Anos' : ' Ano');
+            } elseif($diff['y'] == 0 and $diff['m'] > 0) {
+                $textAgo = $diff['m']. ($diff['m'] > 1 ? ' Meses' : ' Mês');
+            } elseif($diff['m'] == 0 and $diff['d'] > 0) {
+                $textAgo = $diff['d']. ($diff['d'] > 1 ?  ' Dias' : ' Dia');
+            } elseif($diff['d'] == 0 and $diff['h'] > 0) {
+                $textAgo = $diff['h']. ($diff['h'] > 1 ? ' Horas' : ' Hora');
+            } elseif($diff['h'] == 0 and $diff['i'] > 0) {
+                $textAgo = $diff['i']. ($diff['i'] > 1 ? ' Minutos' : ' Minuto');
+            } elseif($diff['i'] == 0 and $diff['s'] > 0) {
+                $textAgo = $diff['s']. ($diff['s'] > 1 ? ' Segundos' : ' Segundo');
+            } elseif($diff['h'] == 0 and $diff['m'] == 0 and $diff['s'] == 0) {
+                $textAgo = 'Agora mesmo';
+            } else {
+                $textAgo = 'Desconhecido';
+            }
+        } else {
+            $textAgo = $diff['y'] ." Anos, ". $diff['m'] ." meses, ". $diff['d'] ." dias, ". $diff['h'] ." horas, ". $diff['m'] ." minutos e ". $diff['s'] ." segundos.";
+        }
+
+        return $textAgo;
+
+    }
+
 
     /**
      * Data::getMesExt()

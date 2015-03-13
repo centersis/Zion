@@ -26,6 +26,9 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
+var notificacoesNaoLidas = 0;
+
+sisRedirAlterar();
 
 function sisSpa(p) {
     $("#sisPaginaAtual").val(p);
@@ -59,14 +62,32 @@ $(document).ready(function () {
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
-    /*
-var param = new Array();
-param['sisReg[]'] = 1
-sisAlterarLayoutPadrao(param);
-});
-*/
+    
+    $("#notificationsMain").click(function (event){
+        sisAtualizaNotificacoes();
+    });
+
 });
 /* CRUD BÁSICO */
+
+function sisRedirAlterar(){
+    
+    var qS = document.location.search;
+
+    if(qS.search(/\?[id=]{3}[0-9]{1,}/) !== -1){
+
+        var id = qS.replace(/\?[id=]{3}/, '');
+        var param = new Array();
+
+        param['sisReg[]'] = id;
+        sisAlterarLayoutPadrao(param);
+
+    } else {
+        
+        return true;
+    }
+    
+}
 
 /* FUNÇÕES ESPECIAIS */
 function cKupdate() {
@@ -708,4 +729,73 @@ function validaSenhaUser(campo, url)
     }
 
     return true;
+}
+
+function sisAddNotificacao(notificacoes) {
+
+    var notificationsNumber = $("#notificationsNumber");
+    var atual = parseInt(notificationsNumber.html());
+    var n = null;
+
+    if(isNaN(atual)){
+        n = notificacoes;
+    } else {
+        n = (notificacoes + atual);
+    }
+
+    notificacoesNaoLidas = n;
+    notificationsNumber.html(n);
+
+    var obj = $('title');
+    var title = obj.html();
+
+    if(title.search(/\([0-9]{1,}\)/) !== -1){
+        obj.html(title.replace(/\([0-9]{1,}\)/, "("+ n +")"));
+    } else {
+        obj.append(" ("+ n +")");
+    }
+
+    return true;
+}
+
+function limpaNotificacoes(){
+
+    var obj = $('title');
+    var title = obj.html();
+
+    if(title.search(/\s\([0-9]{1,}\)/) !== -1){
+        obj.html(title.replace(/\s\([0-9]{1,}\)/, ""));
+    }
+    
+    $("#notificationsNumber").html('');
+    
+    return true;
+}
+
+function sisAtualizaNotificacoes(){
+
+    var notificationDiv = $("#main-navbar-notifications");
+    
+    if(notificacoesNaoLidas === 0) return true;
+  
+    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {'target': 'notificationBar'}, dataType: "json", beforeSend: function () {
+        
+        notificationDiv.html("");
+
+    }}).done(function(data){
+        if(data.sucesso === "true"){
+            limpaNotificacoes();
+            notificationDiv.html(data.retorno);
+        } else {
+            sisSetAlert('false', "Falha ao carregar suas notificações.");
+        }
+    });
+}
+
+function acessaNotificacao(id, url){
+    
+    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'limpaNotificacao', id: id}, dataType: "json"}).done(function(data){
+        document.location.href = url;
+    });
+
 }

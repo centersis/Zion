@@ -36,6 +36,12 @@ class FormSocket
     private $campos;
     private $form;
     
+    public function __construct($config = []) {
+        
+        $this->configs = $config;
+    }
+
+
     public function setConfigs($configs)
     {
         if(is_array($configs)){
@@ -92,29 +98,32 @@ class FormSocket
      *                              ]
      * @return object Objeto do método.
      */
-    public function openWebSocket($form, $campos, $configs = false)
+    public function openWebSocket($form, $campos, $configs)
     {
         $this->setConfigs($configs);
         $this->setCampos($campos);
         $this->setForm($form);
 
-        return $this;
-    }
-    
-    public function processar($conteudo)
-    {
-        $configs    = $this->configs;
-        $campos     = $this->campos;
-        $form       = $this->form;
-
         $wsObject = "webSocket". $configs['nome'];
         
-        $html = '<div id="'. $wsObject .'" name="'. $wsObject .'">'. $conteudo .'</div>';
+        $html  = '<div id="'. $wsObject .'" name="'. $wsObject .'"></div>';
         $html .= '<script type="text/javascript">'. $this->getScript($wsObject) .'</script>';
         
         \array_push($campos, $form->layout('divWebSocket', $html));
         
         return $campos;
+
+    }
+    
+    public function processar()
+    {
+        $configs    = $this->configs;
+
+        $wsObject = "webSocket". $configs['nome'];
+        
+        $html = '<script type="text/javascript">'. $this->getScript($wsObject) .'</script>';
+        
+        return $html;
     }
     
     private function getScript($wsObject)
@@ -125,16 +134,15 @@ class FormSocket
         $threadId   = $this->getRandomThreadId();
         
         $callback = (empty($configs['callback']) ? '$(\'#'. $wsObject .'\').html(data.retorno[0]);' : $configs['callback']);
-        
-        $script = $evento;
-        $script .= 'function get'. $configs['nome'] .'(retorno) { '. $callback .'}';
-        $script .= 'socketAPI.conecta("'. $threadId .'", '. $configs['pesquisa'] .');';
+
+        $script  = 'function get'. $configs['nome'] .'(retorno) { '. $callback .'}';
+        $script .= $evento;
+        $script .= 'socketAPI.poll("'. $threadId .'", '. $configs['pesquisa'] .');';
         $script .= '});';
-        $script .= 'function get'. $configs['nome'] .'(retorno) { '. $callback .'}';
        
-        return preg_replace('/@/', '', $script);
+        return preg_replace('/\@/', '', $script);
     }
-    
+
     private function getRandomThreadId()
     {
         return md5(bin2hex(openssl_random_pseudo_bytes(30)));
