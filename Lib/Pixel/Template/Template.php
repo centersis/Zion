@@ -403,7 +403,7 @@ class Template extends \Zion\Layout\Padrao
 
             $con = \Zion\Banco\Conexao::conectar();
 
-            $qb = $con->link()->createQueryBuilder();
+            $qb = $con->qb();
 
             $qb->select('moduloclass', 'modulodesc')
                     ->from('_modulo', '')

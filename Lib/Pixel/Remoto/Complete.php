@@ -72,7 +72,7 @@ class Complete
             $cdes = $campoDesc ? $campoDesc : "''";
             $cbus = $campoBusca ? $campoBusca : $campoDesc;            
 
-            $qb = $con->link()->createQueryBuilder();
+            $qb = $con->qb();
             $sql = $qb->select($ccod . ' cod', $cdes.' dsc')
                     ->from($tabela,'')                    
                     ->where($qb->expr()->like($cbus, $qb->expr()->literal('%'.$termoBusca.'%')))

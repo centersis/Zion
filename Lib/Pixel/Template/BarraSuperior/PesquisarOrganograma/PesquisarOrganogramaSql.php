@@ -46,7 +46,7 @@ class PesquisarOrganogramaSql
     public function getDadosOrganograma($cod)
     {
         
-        $qb = $this->con->link()->createQueryBuilder();
+        $qb = $this->con->qb();
         
         $qb->select('*')
            ->from('organograma', 'a')
@@ -65,7 +65,7 @@ class PesquisarOrganogramaSql
     public function getDadosUsuario()
     {
         
-        $qb = $this->con->link()->createQueryBuilder();
+        $qb = $this->con->qb();
         
         $qb->select('*')
            ->from('_usuario', 'a')

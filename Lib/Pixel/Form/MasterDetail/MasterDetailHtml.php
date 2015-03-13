@@ -78,7 +78,7 @@ class MasterDetailHtml
             $nomeCampos[] = $codigo;
         }
 
-        $qb = $con->link()->createQueryBuilder();
+        $qb = $con->qb();
         $qb->select(\implode(',', $nomeCampos))
                 ->from($tabela, '')
                 ->where($qb->expr()->eq($campoReferencia, ':cod'))
