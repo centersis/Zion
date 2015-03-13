@@ -33,6 +33,12 @@ namespace Zion\Arquivo;
 class ManipulaImagem extends ManipulaArquivo
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+
     /**
      * Verifica se as funções nescessárias para manipulação básica de imagens 
      * estão disponíveis no servidor
