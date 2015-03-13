@@ -106,16 +106,6 @@ class Conexao
         //$config->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         self::$link[$banco] = DriverManager::getConnection($connectionParams, $config);
     }
-
-    /**
-     * Retorna uma instancia de conexão com o banco de dados
-     * @param string $banco
-     * @return \Doctrine\DBAL\Connection
-     */
-    public function link($banco = \NULL)
-    {
-        return $this->dbal($banco);
-    }
     
     /**
      * Retorna uma instancia de conexão com o banco de dados
