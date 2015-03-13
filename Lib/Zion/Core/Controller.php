@@ -223,5 +223,33 @@ class Controller
             return $this->jsonSucesso('PDF gerado com sucesso!');
         }
     }
+    
+    protected function getNotificacoes(){
+        
+        $usuarioCod = $_SESSION['usuarioCod'];
+        $acao     = filter_input(INPUT_POST, 'acao');
+
+        $notificacoes           = new \Pixel\Template\BarraSuperior\Notificacoes();
+        $notificacoesConteudo   = $notificacoes->getNotificacoesConteudo($usuarioCod);
+
+        if($acao == 'limpaNotificacao'){
+            
+            $notificacao    = new \Pixel\Notificacao\Notificacao();
+            
+            $notificacaoCod = filter_input(INPUT_POST, 'id');
+
+            $notificacao->limpaNotificacao($notificacaoCod, $usuarioCod);
+
+            return $this->jsonSucesso(true);
+            
+        } else {
+        
+            if($notificacoesConteudo){
+                return $this->jsonSucesso($notificacoesConteudo);
+            } else {
+                return $this->jsonErro("Erro ao processar sua solicitação.");
+            }     
+        }
+    }
 
 }

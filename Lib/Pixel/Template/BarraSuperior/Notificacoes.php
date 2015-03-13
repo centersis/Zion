@@ -29,24 +29,42 @@
 */
 
 namespace Pixel\Template\BarraSuperior;
+use Pixel\Notificacao\Notificacao;
+use Zion\Tratamento\Data;
+use Pixel\Form\FormSocket;
+use Pixel\Form\Form;
 
 class Notificacoes extends \Zion\Layout\Padrao
 {
+    private $notificacao;
+    private $tData;
+            
+    public function __construct() {
+        $this->notificacao  = new Notificacao();
+        $this->tData        = Data::instancia();
+        parent::__construct();
+    }
 
     /**
      * 
      * @return Notificacoes
      */
     public function getNotificacoes()
-    {	
+    {
 
-        $buffer = '';
+        $wsConfig = ['nome'     => 'Notificacoes',
+                     'pesquisa' => '{"metodo"    : "getNotificacoes"}',
+                     'evento'    => '$(document).ready(function(){',
+                     'callback'  => "return sisAddNotificacao(retorno);"
+                    ];
+
+        $buffer  = (new FormSocket($wsConfig))->processar();
         $buffer .= $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-danger dropdown'));
+      
+        $buffer .= $this->html->abreTagAberta('a', array('href' => '#notifications', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown', 'id' => 'notificationsMain'));
 
-        $buffer .= $this->html->abreTagAberta('a', array('href' => '#notifications', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
-
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'label'));
-        $buffer .= "6";
+        $buffer .= $this->html->abreTagAberta('span', array('class' => 'label', 'id' => 'notificationsNumber'));
+        $buffer .= "";
         $buffer .= $this->html->fechaTag('span');
         $buffer .= $this->html->abreTagFechada('i', array('class' => 'nav-icon fa fa-bullhorn'));
         $buffer .= $this->html->abreTagAberta('span', array('class' => 'small-screen-text'));
@@ -54,7 +72,7 @@ class Notificacoes extends \Zion\Layout\Padrao
         $buffer .= $this->html->fechaTag('span');
 
         $buffer .= $this->html->fechaTag('a');
-
+               
         $buffer .= $this->html->abreTagAberta('script');
         $buffer .= 'init.push(function () {$(\'#main-navbar-notifications\').slimScroll({ height: 250 });});';
         $buffer .= $this->html->fechaTag('script');
@@ -63,23 +81,7 @@ class Notificacoes extends \Zion\Layout\Padrao
 
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'main-navbar-notifications', 'class' => 'notifications-list'));
 
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
-
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-title text-danger')) . 'SYSTEM' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-description')) . '<strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-ago')) . '12h atrás' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-icon fa fa-hdd-o bg-danger')) . $this->html->fechaTag('div');
-
-        $buffer .= $this->html->fechaTag('div');
-
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification'));
-
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-title text-info')) . 'SYSTEM' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-description')) . '<strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-ago')) . '12h atrás' . $this->html->fechaTag('div');
-        $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-icon fa fa-hdd-o bg-info')) . $this->html->fechaTag('div');
-
-        $buffer .= $this->html->fechaTag('div');
+        $buffer.= $this->getNotificacoesConteudo($_SESSION['usuarioCod']);
 
         $buffer .= $this->html->fechaTag('div');
 
@@ -91,6 +93,29 @@ class Notificacoes extends \Zion\Layout\Padrao
 
         return $buffer;
 
-	}
+    }
+        
+    public function getNotificacoesConteudo($usuarioCod)
+    {
+
+        $notificacoes = $this->notificacao->getUltimasNotificacoes($usuarioCod);
+
+        $buffer = '';
+
+        foreach($notificacoes as $notificacao) {
+
+            $status = ($notificacao['notificacaolida'] === "S" ? '#F0F0F0' : '#FFFFFF');
+            $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification', "onclick" => "acessaNotificacao(this.id, this.attributes['url']['value'])", 'style' => 'background-color: '. $status, 'id' => $notificacao['notificacaocod'], 'url' => $notificacao['notificacaolink']));
+            $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-title text')) . $notificacao['notificacaotitulo'] . $this->html->fechaTag('div');
+            $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-description')) . '<strong>'. $notificacao['notificacaodesc'] .'</strong>' . $this->html->fechaTag('div');
+            $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-ago')) . $this->tData->getTimeAgo($notificacao['notificacaodatahora']) . $this->html->fechaTag('div');
+            $buffer .= $this->html->abreTagAberta('div', array('class' => 'notification-icon fa fa-hdd-o bg')) . $this->html->fechaTag('div');
+            $buffer .= $this->html->fechaTag('div');
+        }
+
+        return $buffer;
+
+    }
+        
 
 }
