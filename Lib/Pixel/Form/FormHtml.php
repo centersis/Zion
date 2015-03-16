@@ -57,12 +57,14 @@ class FormHtml extends \Zion\Form\FormHtml
         $ret = vsprintf($this->prepareInput(count($attr), $config), $attr);
 
 
-        if ($config->getHiddenValue()) {
+        if ($config->getHidden()) {
 
-            $cofHidden = new \Zion\Form\FormInputHidden('hidden', $config->getHiddenValue());
-            $cofHidden->setValor($config->getValor());
+            $nome = $config->getNome();
+            
+            $cofHidden = new \Zion\Form\FormInputHidden('hidden', 'sisH'.$nome);
+            $cofHidden->setValor($config->getHiddenValue());
 
-            $ret.= $this->montaHidden($cofHidden);
+            $ret.= $this->montaHidden($cofHidden);            
         }
 
         return $this->prepareInputPixel($config, $ret);
