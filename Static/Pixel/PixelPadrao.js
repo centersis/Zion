@@ -187,6 +187,7 @@ function sisDesmarcarTodos()
 /*BOTOES*/
 function botoesPadrao(nomeForm, acao)
 {
+    $("#" + nomeForm + " #sisSalvarEContinuar").prop('disabled', acao);
     $("#" + nomeForm + " #sisSalvar").prop('disabled', acao);
     $("#" + nomeForm + " #sisDescartar").prop('disabled', acao);
 }
@@ -220,12 +221,15 @@ function sisCadastrarPadrao(nomeForm, upload) {
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
+            
             sisSetAlert('true', 'Registro cadastrado com sucesso!');
 
+            botoesPadrao(nomeForm,false);
+            
             if ($('#sisTab' + cod + 'Global').length < 1) {
                 $("#sisContainerManu").empty();
             }
-
+            
             sisFiltrarPadrao('');
         }
         else {
@@ -281,12 +285,14 @@ function sisAlterarPadrao(nomeForm, upload) {
         if (ret.sucesso === 'true') {
 
             sisSetAlert('true', 'Registro alterado com sucesso!');
-
+            
+            botoesPadrao(nomeForm,false);
+            
             if ($('#sisTab' + cod + 'Global').length < 1) {
                 $("#panel" + nomeForm).remove();
             }
 
-            sisFiltrarPadrao('');
+            sisFiltrarPadrao('');            
         }
         else {
             botoesPadrao(nomeForm,false);

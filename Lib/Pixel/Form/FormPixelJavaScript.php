@@ -84,8 +84,8 @@ class FormPixelJavaScript
         }
 
         $onSelect = '';
-        if ($config->getHiddenValue()) {
-            $onSelect .= '$("#' . $formNome . ' #' . $config->getHiddenValue() . '").val(ui.item.id); ';
+        if ($config->getHidden()) {
+            $onSelect .= '$("#' . $formNome . ' #sisH' . $config->getNome() . '").val(ui.item.id); ';
         }
 
         if ($config->getOnSelect()) {

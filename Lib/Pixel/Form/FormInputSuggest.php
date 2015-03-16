@@ -51,6 +51,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $url;
     private $espera;
     private $tamanhoMinimo;
+    private $hidden;
     private $hiddenValue;
     private $onSelect;
     private $converterHtml;
@@ -291,6 +292,22 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             return $this;
         } else {
             throw new FormException("tamanhoMinimo: Nenhum valor informado.");
+        }
+    }
+    
+    
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
+
+    public function setHidden($hidden)
+    {
+        if (\is_bool($hidden)) {
+            $this->hidden = $hidden;
+            return $this;
+        } else {
+            throw new FormException("hidden: Nenhum valor informado.");
         }
     }
 
