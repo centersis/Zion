@@ -528,5 +528,14 @@ class Conexao
             self::$transaction[$this->banco] -= 1;
         }
     }
+    
+    public function verificarHost($host)
+    {
+        $status = 0;
+        $ignorada = null;
+        \exec("ping -n 3 $host", $ignorada, $status);
+        
+        return ($status === 0) ? true : false;
+    }
 
 }
