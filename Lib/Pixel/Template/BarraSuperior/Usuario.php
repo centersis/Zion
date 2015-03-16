@@ -44,7 +44,7 @@ class Usuario extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('li', ['class' => 'dropdown']);        
             $buffer .= $this->html->abreTagAberta('a', ['href' => '#user', 'class' => 'dropdown-toggle user-menu', 'data-toggle' => 'dropdown']);
                 $buffer .= $this->html->abreTagAberta('img', ['src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/avatars/1.jpg']);
-                $buffer .= $this->html->abreTagAberta('span') . $_SESSION['usuarioLogin'] . $this->html->fechaTag('span');
+                $buffer .= $this->html->abreTagAberta('span') . $_SESSION['pessoaFisicaNome'] . $this->html->fechaTag('span');
             $buffer .= $this->html->fechaTag('a');
             $buffer .= $this->html->abreTagAberta('ul', ['class' => 'dropdown-menu']);  
 
