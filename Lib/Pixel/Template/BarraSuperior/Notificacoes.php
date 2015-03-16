@@ -58,8 +58,8 @@ class Notificacoes extends \Zion\Layout\Padrao
                      'callback'  => "return sisAddNotificacao(retorno);"
                     ];
 
-        //$buffer  = (new FormSocket($wsConfig))->processar();
-        $buffer = $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-danger dropdown'));
+        $buffer  = (new FormSocket($wsConfig))->processar();
+        $buffer .= $this->html->abreTagAberta('li', array('class' => 'nav-icon-btn nav-icon-btn-danger dropdown'));
       
         $buffer .= $this->html->abreTagAberta('a', array('href' => '#notifications', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown', 'id' => 'notificationsMain'));
 

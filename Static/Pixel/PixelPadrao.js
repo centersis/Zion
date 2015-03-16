@@ -74,12 +74,12 @@ function sisRedirAlterar(){
     
     var qS = document.location.search;
 
-    if(qS.search(/\?[id=]{3}[0-9]{1,}/) !== -1){
+    if(qS.search(/\?[sisRedir]{8}/) !== -1 && qS.search(/\&[id=]{3}[0-9]{1,}/) !== -1){
 
-        var id = qS.replace(/\?[id=]{3}/, '');
+        var id = qS.replace(/\?[sisRedir=]{9}\w{1,}\&[id=]{3}/, '');
         var param = new Array();
 
-        param['sisReg[]'] = id;
+        param['sisReg[]'] = parseInt(id);
         sisAlterarLayoutPadrao(param);
 
     } else {
