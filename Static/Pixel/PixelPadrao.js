@@ -227,6 +227,7 @@ function sisCadastrarPadrao(nomeForm, upload) {
                 $("#sisContainerManu").empty();
             }
 
+            botoesPadrao(nomeForm,true);
             sisFiltrarPadrao('');
         }
         else {
@@ -288,6 +289,7 @@ function sisAlterarPadrao(nomeForm, upload) {
             }
 
             sisFiltrarPadrao('');
+            botoesPadrao(nomeForm,true);
         }
         else {
             botoesPadrao(nomeForm,false);
