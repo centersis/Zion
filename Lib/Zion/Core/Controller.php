@@ -227,28 +227,27 @@ class Controller
     protected function getNotificacoes(){
         
         $usuarioCod = $_SESSION['usuarioCod'];
-        $acao     = filter_input(INPUT_POST, 'acao');
+        $acao       = filter_input(INPUT_POST, 'acao');
 
         $notificacoes           = new \Pixel\Template\BarraSuperior\Notificacoes();
         $notificacoesConteudo   = $notificacoes->getNotificacoesConteudo($usuarioCod);
+        $notificacao            = new \Pixel\Notificacao\Notificacao();
 
         if($acao == 'limpaNotificacao'){
-            
-            $notificacao    = new \Pixel\Notificacao\Notificacao();
-            
+           
             $notificacaoCod = filter_input(INPUT_POST, 'id');
 
             $notificacao->limpaNotificacao($notificacaoCod, $usuarioCod);
 
             return $this->jsonSucesso(true);
             
+        } elseif($acao == 'getNumeroNotificacoes') { 
+
+            return $this->jsonSucesso($notificacao->getNumeroNotificacoes($usuarioCod));
+            
         } else {
         
-            if($notificacoesConteudo){
-                return $this->jsonSucesso($notificacoesConteudo);
-            } else {
-                return $this->jsonErro("Erro ao processar sua solicitação.");
-            }     
+            return $this->jsonSucesso($notificacoesConteudo);
         }
     }
 

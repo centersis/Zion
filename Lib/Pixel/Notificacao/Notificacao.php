@@ -52,4 +52,18 @@ class Notificacao extends NotificacaoSql
     {
         return parent::limpaNotificacaoSql($notificacaoCod, $usuarioCod)->execute();
     }
+    
+    public function getNumeroNotificacoes($usuarioCod)
+    {
+        $resource = $this->con->executar(parent::getNumeroNotificacoesSql($usuarioCod));
+        
+        $notificacoes = array();
+        
+        while($dados = $resource->fetch()){
+            array_push($notificacoes, $dados['id']);
+        }
+        
+        return $notificacoes;
+    }
+    
 }

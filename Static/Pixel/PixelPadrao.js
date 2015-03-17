@@ -26,7 +26,8 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
-var notificacoesNaoLidas = 0;
+
+var notificadas = new Array();
 
 sisRedirAlterar();
 
@@ -782,8 +783,6 @@ function sisAtualizaNotificacoes(){
 
     var notificationDiv = $("#main-navbar-notifications");
     
-    if(notificacoesNaoLidas === 0) return true;
-  
     $.ajax({type: "post", url: "?acao=getNotificacoes", data: {'target': 'notificationBar'}, dataType: "json", beforeSend: function () {
         
         notificationDiv.html("");
@@ -804,4 +803,45 @@ function acessaNotificacao(id, url){
         document.location.href = url;
     });
 
+}
+
+function getNotificacoesAlternativo(){
+
+    console.log("Buscando notificações através da solução alternativa.");
+
+    getNotificacoesAjax();
+    
+    setInterval(function(){
+        getNotificacoesAjax();
+    }, 10000);
+
+}
+
+function getNotificacoesAjax(){
+    
+    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'getNumeroNotificacoes'}, dataType: "json"}).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            var notificar = array_diff(notificadas, ret.retorno).length;
+
+            if(notificar > 0){
+
+                notificadas = (ret.retorno);
+                sisAddNotificacao(notificar);
+            }
+        }
+
+    }).fail(function (event) {
+        console.log(event);
+    });
+
+
+}
+function array_diff(array1, array2) {
+    
+    var diff = [];
+    diff = $.grep(array2, function(el) { return $.inArray(el, array1 ) === -1; });
+    
+    return diff;
 }

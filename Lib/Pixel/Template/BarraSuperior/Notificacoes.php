@@ -54,8 +54,8 @@ class Notificacoes extends \Zion\Layout\Padrao
 
         $wsConfig = ['nome'     => 'Notificacoes',
                      'pesquisa' => '{"metodo"    : "getNotificacoes"}',
-                     'evento'    => '$(document).ready(function(){',
-                     'callback'  => "return sisAddNotificacao(retorno);"
+                     'evento'   => '$(document).ready(function(){',
+                     'callback' => "return sisAddNotificacao(retorno);"
                     ];
 
         $buffer  = (new FormSocket($wsConfig))->processar();
@@ -116,6 +116,5 @@ class Notificacoes extends \Zion\Layout\Padrao
         return $buffer;
 
     }
-        
 
 }
