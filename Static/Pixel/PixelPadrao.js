@@ -813,7 +813,7 @@ function getNotificacoesAlternativo(){
     
     setInterval(function(){
         getNotificacoesAjax();
-    }, 10000);
+    }, 60000);
 
 }
 
