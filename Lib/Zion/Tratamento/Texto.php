@@ -250,4 +250,12 @@ class Texto
     {
         return addslashes($texto);
     }
+    
+    public function parteString($texto, $explode = ' ', $partes = '')
+    {
+        
+        $str = \explode($explode, $texto);
+        return $str;
+        
+    }
 }
