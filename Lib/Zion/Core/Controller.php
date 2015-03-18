@@ -40,6 +40,12 @@
 
 namespace Zion\Core;
 
+use Zion\Validacao\Valida;
+use Pixel\Layout\Tab;
+use Zion\Acesso\Acesso;
+use Pixel\Grid\Impressao;
+use Pixel\Twig\Carregador;
+
 class Controller
 {
 
@@ -52,7 +58,7 @@ class Controller
      * @return string json
      * @throws \Exception
      */
-    public function controle($acao)
+    public function controle($acao = '')
     {
         if (empty($acao)) {
             $acao = 'iniciar';
@@ -66,11 +72,15 @@ class Controller
             }
 
             return $this->{$acao}();
-
         } catch (\Exception $e) {
 
             return $this->jsonErro($e->getMessage());
         }
+    }
+
+    public function layout($namespace)
+    {
+        return new Carregador($namespace);
     }
 
     /**
@@ -90,7 +100,7 @@ class Controller
      */
     public function jsonErro($erro)
     {
-        $tratar = \Zion\Validacao\Valida::instancia();
+        $tratar = Valida::instancia();
 
         return \json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
     }
@@ -154,7 +164,7 @@ class Controller
     {
         $numArgs = \func_num_args();
 
-        $tabs = new \Pixel\Layout\Tab('Tab' . $cod, 12);
+        $tabs = new Tab('Tab' . $cod, 12);
 
         for ($i = 0; $i < $numArgs; $i++) {
 
@@ -169,7 +179,6 @@ class Controller
             if (\get_class($objForm) == 'stdClass') {
                 $retorno = $objForm->conteudo;
                 $abaNome = $objForm->tabNome;
-                
             } else {
                 if ($this->acao === 'visualizar') {
                     $retorno = $objForm->montaFormVisualizar();
@@ -178,10 +187,10 @@ class Controller
                     $retorno .= $objForm->javaScript()->getLoad(true);
                     $objForm->javaScript()->resetLoad();
                 }
-                
+
                 $nomeAtual = $objForm->getConfig()->getHeader();
                 $abaNome = $nomeAtual ? $nomeAtual : 'Aba ' . $i;
-            }            
+            }
 
             $tabs->config($i)->setAtiva($ativa)->setTitulo($abaNome)->setConteudo($retorno);
         }
@@ -191,13 +200,13 @@ class Controller
 
     protected function imprimir()
     {
-        new \Zion\Acesso\Acesso('imprimir');
+        new Acesso('imprimir');
 
-        $impressao = new \Pixel\Grid\Impressao();
+        $impressao = new Impressao();
 
         $dados = json_decode($this->filtrar(), true);
 
-        $impressao->setLogo('http:' . SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
+        $impressao->setLogo('http:' . \SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
 
         $retorno = $impressao->imprimeHTML($dados['retorno']);
 
@@ -210,45 +219,45 @@ class Controller
 
     protected function salvarPDF()
     {
-        new \Zion\Acesso\Acesso('salvarPDF');
+        new Acesso('salvarPDF');
 
-        $impressao = new \Pixel\Grid\Impressao();
+        $impressao = new Impressao();
 
         $dados = json_decode($this->filtrar(), true);
 
-        $impressao->setLogo('http:' . SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
+        $impressao->setLogo('http:' . \SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
         if ($impressao->imprimePDF($dados['retorno']) === false) {
             return $this->jsonErro('Falaha ao gerar PDF para impressão!');
         } else {
             return $this->jsonSucesso('PDF gerado com sucesso!');
         }
     }
-    
-    protected function getNotificacoes(){
-        
+
+    protected function getNotificacoes()
+    {
+
         $usuarioCod = $_SESSION['usuarioCod'];
-        $acao     = filter_input(INPUT_POST, 'acao');
+        $acao = filter_input(INPUT_POST, 'acao');
 
-        $notificacoes           = new \Pixel\Template\BarraSuperior\Notificacoes();
-        $notificacoesConteudo   = $notificacoes->getNotificacoesConteudo($usuarioCod);
+        $notificacoes = new \Pixel\Template\BarraSuperior\Notificacoes();
+        $notificacoesConteudo = $notificacoes->getNotificacoesConteudo($usuarioCod);
 
-        if($acao == 'limpaNotificacao'){
-            
-            $notificacao    = new \Pixel\Notificacao\Notificacao();
-            
+        if ($acao == 'limpaNotificacao') {
+
+            $notificacao = new \Pixel\Notificacao\Notificacao();
+
             $notificacaoCod = filter_input(INPUT_POST, 'id');
 
             $notificacao->limpaNotificacao($notificacaoCod, $usuarioCod);
 
             return $this->jsonSucesso(true);
-            
         } else {
-        
-            if($notificacoesConteudo){
+
+            if ($notificacoesConteudo) {
                 return $this->jsonSucesso($notificacoesConteudo);
             } else {
                 return $this->jsonErro("Erro ao processar sua solicitação.");
-            }     
+            }
         }
     }
 
