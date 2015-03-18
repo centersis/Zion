@@ -427,28 +427,32 @@ class CrudUtil
         foreach ($camposVistoriados as $coluna) {
             $qb->set($coluna, '?');
         }
+        
+        if(\is_array($arrayValores) and !empty($arrayValores)){ 
 
-        foreach ($arrayValores as $chave => $valor) {
+            foreach ($arrayValores as $chave => $valor) {
 
-            $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
-        }
-
-        $pos = $chave;
-        foreach ($criterio as $campo => $valor) {
-            $pos++;
-
-            $tipo = \PDO::PARAM_INT;
-            if (\array_key_exists($campo, $tipagemCriterio)) {
-                $tipo = $tipagemCriterio[$campo];
+                $qb->setParameter($chave, $valor, $arrayTipos[$chave]);
             }
 
-            $qb->andWhere($qb->expr()->eq($campo, '?'))
-                    ->setParameter($pos, $valor, $tipo);
+            $pos = $chave;
+            foreach ($criterio as $campo => $valor) {
+                $pos++;
+
+                $tipo = \PDO::PARAM_INT;
+                if (\array_key_exists($campo, $tipagemCriterio)) {
+                    $tipo = $tipagemCriterio[$campo];
+                }
+
+                $qb->andWhere($qb->expr()->eq($campo, '?'))
+                        ->setParameter($pos, $valor, $tipo);
+            }
+
+            $linhasAfetadas = $this->con->executar($qb);
+            
         }
-
-        $codigo = \current($criterio);
-
-        $linhasAfetadas = $this->con->executar($qb);
+        
+        $codigo = \current($criterio);        
 
 
         /**
@@ -481,6 +485,7 @@ class CrudUtil
         $this->con->stopTransaction();
 
         return $linhasAfetadas;
+        //return 1;
     }
 
     public function delete($tabela, array $criterio, array $tipagemCriterio = [])

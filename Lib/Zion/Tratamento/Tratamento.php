@@ -53,7 +53,8 @@ class Tratamento
      * 
      * @return void
      */
-    private function __construct(){
+    public function __construct()
+    {
         
     }
 
@@ -63,7 +64,8 @@ class Tratamento
      * 
      * @return Tratamento
      */
-    public static function instancia(){
+    public static function instancia()
+    {
         
         if(!isset(self::$instancia)){
             self::$instancia = new self;

@@ -68,4 +68,16 @@ class NotificacaoSql
         return $qb;
     }
 
+    public function getNumeroNotificacoesSql($usuarioCod)
+    {
+
+        $qb = $this->con->qb();
+        $qb->select("notificacaoCod AS id")
+           ->from("_notificacao")
+           ->where($qb->expr()->eq("notificacaoUsuarioCod", ":usuarioCod"))
+           ->andWhere($qb->expr()->eq("notificacaoLida", $qb->expr()->literal('N')))
+           ->setParameter("usuarioCod", $usuarioCod, \PDO::PARAM_INT);
+        return $qb;
+    }
+
 }

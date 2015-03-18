@@ -103,8 +103,9 @@ class PesquisarOrganogramaForm extends \Zion\Layout\Padrao
                 ->setParametros(['acao' => 'getSuggest'])
                 ->setClassCss('clearfix')
                 ->setPlaceHolder($organogramaNome)
+                ->setHidden(true)
                 ->setHiddenValue('organogramaCod')
-                ->setOnSelect('getController(\'organogramaCod\', \'organograma\', \'setOrganogramaCod\')')
+                ->setOnSelect('getController(\'sisHorganograma\', \'organograma\', \'setOrganogramaCod\')')
                 ->setLayoutPixel(false);
 
         return $form->processarForm($campos);
