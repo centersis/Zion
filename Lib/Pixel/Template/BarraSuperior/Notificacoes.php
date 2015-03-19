@@ -74,7 +74,7 @@ class Notificacoes extends \Zion\Layout\Padrao
         $buffer .= $this->html->fechaTag('a');
                
         $buffer .= $this->html->abreTagAberta('script');
-        $buffer .= 'init.push(function () {$(\'#main-navbar-notifications\').slimScroll({ height: 250 });});';
+        $buffer .= 'init.push(function () {$(\'#main-navbar-notifications\').slimScroll({ height: 200});}); var old = $(".slimScrollDiv").attr("style"); $(".slimScrollDiv").attr("style");';
         $buffer .= $this->html->fechaTag('script');
 
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'dropdown-menu widget-notifications no-padding', 'style' => 'width: 300px'));
@@ -92,7 +92,7 @@ class Notificacoes extends \Zion\Layout\Padrao
         $buffer .= $this->html->fechaTag('li');
 
         return $buffer;
-
+//background-color: #F0F0F0;
     }
         
     public function getNotificacoesConteudo($usuarioCod)
