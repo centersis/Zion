@@ -41,7 +41,7 @@ class BlocoUsuario extends \Zion\Layout\Padrao
 
         $buffer .= $this->html->abreTagAberta('div');
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'text-bg'));
-        $buffer .= $this->html->abreTagAberta('span', array('class' => 'text-slim')) . 'Vinícius Pozzebon' . $this->html->fechaTag('span');
+        $buffer .= $this->html->abreTagAberta('span', array('class' => 'text-slim')) . $_SESSION['pessoaFisicaNome'] . $this->html->fechaTag('span');
         $buffer .= $this->html->fechaTag('div');
         $buffer .= $this->html->abreTagAberta('img', array('src' => SIS_URL_BASE_STATIC .'PixelAdmin/1.3.0/assets/demo/avatars/1.jpg'));
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'btn-group'));

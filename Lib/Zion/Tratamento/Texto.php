@@ -65,7 +65,8 @@ class Texto
      * 
      * @return void
      */
-    private function __construct(){
+    private function __construct()
+    {
         
     }
 
@@ -75,7 +76,8 @@ class Texto
      * 
      * @return Texto
      */
-    public static function instancia(){
+    public static function instancia()
+    {
         
         if(!isset(self::$instancia)){
             self::$instancia = new self;
@@ -251,11 +253,19 @@ class Texto
         return addslashes($texto);
     }
     
-    public function parteString($texto, $explode = ' ', $partes = '')
+    /**
+     * Texto::parteString()
+     * Retorna um array com as posições inicial e final de uma string.
+     * 
+     * @param String $texto Texto a ser tratado.
+     * @return Array com as posiçoes start e end;
+     */    
+    public function parteString($texto, $explode = ' ')
     {
         
         $str = \explode($explode, $texto);
-        return $str;
+        $t = \count($str) -1;
+        return ['start' => $str[0], 'end' => $str[$t]];
         
     }
 }
