@@ -39,11 +39,11 @@ class Log extends LogSql
         $this->con = \Zion\Banco\Conexao::conectar();       
     }
     
-    public function registraLog(\Doctrine\DBAL\Query\QueryBuilder $sql)
+    public function registraLog(\Doctrine\DBAL\Query\QueryBuilder $sql, $logHash)
     {
         $sqlCompleta    = $this->getSqlCompleta($sql);
         $actParams      = $this->getActionParams();
-        $this->salvarlLog($actParams, $sqlCompleta);
+        $this->salvarlLog($actParams, $sqlCompleta, $logHash);
     }
     
     private function getActionParams()
@@ -91,8 +91,8 @@ class Log extends LogSql
         return $this->con->execLinha(parent::getDadosModuloSql($moduloNome));
     }
     
-    protected function salvarlLog($actParams, $sqlCompleta)
+    protected function salvarlLog($actParams, $sqlCompleta, $logHash)
     {
-        parent::salvarLogSql($actParams, $sqlCompleta)->execute();
+        parent::salvarLogSql($actParams, $sqlCompleta, $logHash)->execute();
     }
 }

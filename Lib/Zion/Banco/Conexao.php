@@ -45,6 +45,8 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
+    
+    private static $logHash;
    
     /**
      * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
@@ -159,7 +161,11 @@ class Conexao
         if (!isset(self::$instancia[$bancoMaiusculo])) {
             self::$instancia[$bancoMaiusculo] = new Conexao($bancoMaiusculo);
         }
-
+        
+        if (!isset(self::$logHash)) {
+            self::$logHash = \bin2hex(\openssl_random_pseudo_bytes(25));
+        }
+        
         return self::$instancia[$bancoMaiusculo];
     }
 
@@ -218,7 +224,7 @@ class Conexao
             }
             
             if($sql->getType() !== 0 and $this->linhasAfetadas > 0){
-                (new \Zion\Log\Log())->registraLog($sql);
+                (new \Zion\Log\Log())->registraLog($sql, self::$logHash);
             }
 
             return $resultSet;
