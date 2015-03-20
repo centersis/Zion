@@ -32,6 +32,7 @@
 namespace Pixel\Twig;
 
 use Zion\Arquivo\ManipulaDiretorio;
+use Zion\Menu\Menu;
 
 class Carregador
 {
@@ -68,23 +69,38 @@ class Carregador
         }
 
         $this->twig = new \Twig_Environment($this->loader, $this->conf);
-        
+
         $urlBase = new \Twig_SimpleFunction('urlBase', function ($url) {
-            return \SIS_URL_BASE.$url;
+            return \SIS_URL_BASE . $url;
         });
-        
+
         $urlBaseTema = new \Twig_SimpleFunction('urlBaseTema', function ($url) {
-            return \SIS_URL_BASE.'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/'.$url;
+            return \SIS_URL_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/' . $url;
         });
-        
+
         $urlFramework = new \Twig_SimpleFunction('urlFramework', function ($url) {
-            return \SIS_URL_FM_BASE.$url;
+            return \SIS_URL_FM_BASE . $url;
         });
-        
+
+        $menu = new \Twig_SimpleFunction('menu', function () {
+
+            $m = new Menu();
+            $dados = $m->geraMenu(true);
+
+            $dadosMenu = [
+                'titulo' => \SIS_NOME_PROJETO,
+                'versao' => \SIS_RELEASE,
+                'nomeUsuario' => $_SESSION['pessoaFisicaNome'],
+                'menu' => $dados
+            ];
+
+            return $this->twig->render('menu.html.twig', $dadosMenu);
+        });
+
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
         $this->twig->addFunction($urlFramework);
-        
+        $this->twig->addFunction($menu);
     }
 
     public function twig()
