@@ -84,9 +84,17 @@ class Carregador
 
         $menu = new \Twig_SimpleFunction('menu', function () {
 
-            $m = new \Zion\Menu\Menu();
-            $dados = $m->geraMenu();
-            return $this->twig->render('menu.html.twig', ['menu' => $dados]);
+            $m = new Menu();
+            $dados = $m->geraMenu(true);
+
+            $dadosMenu = [
+                'titulo' => \SIS_NOME_PROJETO,
+                'versao' => \SIS_RELEASE,
+                'nomeUsuario' => $_SESSION['pessoaFisicaNome'],
+                'menu' => $dados
+            ];
+
+            return $this->twig->render('menu.html.twig', $dadosMenu);
         });
 
         $this->twig->addFunction($urlBase);
