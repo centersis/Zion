@@ -34,6 +34,7 @@ namespace Zion\Banco;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Portability\Connection;
 use Doctrine\DBAL\DriverManager;
+use Zion\Log\Log;
 
 class Conexao
 {
@@ -44,7 +45,7 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
-
+   
     /**
      * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
      * forem informados o metodo então tenta achar os parametros provenientes
@@ -58,7 +59,7 @@ class Conexao
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
         $this->banco = $banco;
-
+        
         $this->arrayExcecoes[0] = "Conexão: Problemas com o servidor impedem a conexão com o banco de dados.<br>";
         $this->arrayExcecoes[1] = "Conexão: Problemas ao executar a clausula SQL.<br>";
         $this->arrayExcecoes[2] = "Conexão: ResultSet inválido.";
@@ -205,7 +206,7 @@ class Conexao
         }
 
         $this->linhasAfetadas = 0;
-
+       
         if (\is_object($sql)) {
 
             $resultSet = $sql->execute();
@@ -214,6 +215,10 @@ class Conexao
                 $this->linhasAfetadas = $this->nLinhas($resultSet);
             } else {
                 $this->linhasAfetadas = $resultSet;
+            }
+            
+            if($sql->getType() !== 0 and $this->linhasAfetadas > 0){
+                (new \Zion\Log\Log())->registraLog($sql);
             }
 
             return $resultSet;
