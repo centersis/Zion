@@ -370,6 +370,7 @@ class CrudUtil
 
         $arrayValores = [];
         $arrayTipos = [];
+        $linhasAfetadas = 0;
 
         $objeto = true;
 
