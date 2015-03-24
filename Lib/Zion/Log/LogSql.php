@@ -44,13 +44,15 @@ class LogSql
         return $qb;
     }
     
-    protected function salvarLogSql($actParams, $sqlCompleta)
+    protected function salvarLogSql($actParams, $sqlCompleta, $logHash)
     {
+        /* @var $qb \Doctrine\DBAL\Query\QueryBuilder */
         $qb = $this->con->qb();
 
         $qb->insert('_log')
            ->values(['usuarioCod'   => ':usuarioCod',
                      'moduloCod'    => ':moduloCod',
+                     'logHash'      => ':logHash',
                      'logId'        => ':logId',
                      'logAcao'      => ':logAcao',
                      'logTab'       => ':logTab',
@@ -58,10 +60,19 @@ class LogSql
                     ])
            ->setParameters(['usuarioCod'   => $actParams['usuarioCod'],
                             'moduloCod'    => $actParams['modulo']['modulocod'],
+                            'logHash'      => $logHash,
                             'logId'        => $actParams['id'],
                             'logAcao'      => $actParams['acao'],
                             'logTab'       => $actParams['tab'],
                             'logSql'       => $sqlCompleta
+                           ],
+                           ['usuarioCod'   => \PDO::PARAM_INT,
+                            'moduloCod'    => \PDO::PARAM_INT,
+                            'logHash'      => \PDO::PARAM_STR,
+                            'logId'        => \PDO::PARAM_INT,
+                            'logAcao'      => \PDO::PARAM_STR,
+                            'logTab'       => \PDO::PARAM_STR,
+                            'logSql'       => \PDO::PARAM_STR
                            ]);
 
         return $qb;
