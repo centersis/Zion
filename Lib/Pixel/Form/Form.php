@@ -341,19 +341,8 @@ class Form extends \Zion\Form\Form
 
     public function montaForm()
     {
-        $buffer = $this->abreFormManu();
 
-        $footer = '';
-
-        $campos = $this->getFormHtml();
-
-        foreach ($campos as $nome => $textoHtml) {
-            if ($this->objetos[$nome]->getTipoBase() == 'button') {
-                $footer.= $textoHtml . "&nbsp;&nbsp;";
-            } else {
-                $buffer.= $textoHtml;
-            }
-        }
+        return $this->getFormHtml();
 
         if ($footer) {
             $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
