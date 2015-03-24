@@ -33,6 +33,7 @@ namespace Pixel\Twig;
 
 use Zion\Arquivo\ManipulaDiretorio;
 use Zion\Menu\Menu;
+use Zion\Banco\Conexao;
 
 class Carregador
 {
@@ -85,17 +86,16 @@ class Carregador
         $menu = new \Twig_SimpleFunction('menu', function () {
 
             $m = new Menu();
-            $dados = $m->geraMenu(true);
 
-            $dadosMenu = [
+            $dados = [
                 'titulo' => \SIS_NOME_PROJETO,
                 'versao' => \SIS_RELEASE,
                 'nomeUsuario' => $_SESSION['pessoaFisicaNome'],
-                'menu' => $dados
+                'menu' => $m->geraMenu(true)
             ];
 
-            return $this->twig->render('menu.html.twig', $dadosMenu);
-        });
+            return $this->twig->render('menu.html.twig', $dados);
+        });        
 
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);

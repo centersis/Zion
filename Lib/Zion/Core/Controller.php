@@ -45,6 +45,7 @@ use Pixel\Layout\Tab;
 use Zion\Acesso\Acesso;
 use Pixel\Grid\Impressao;
 use Pixel\Twig\Carregador;
+use Zion\Banco\Conexao;
 
 class Controller
 {
@@ -259,6 +260,27 @@ class Controller
                 return $this->jsonErro("Erro ao processar sua solicitação.");
             }
         }
+    }
+
+    protected function pageHeader()
+    {
+        $dadosModulo = [];
+        
+        if (\defined('MODULO')) {
+
+            $con = Conexao::conectar();
+
+            $qb = $con->qb();
+
+            $qb->select('moduloclass', 'modulodesc')
+                    ->from('_modulo', '')
+                    ->where('moduloNome = :moduloNome')
+                    ->setParameter('moduloNome', \MODULO);
+
+            $dadosModulo = $con->execLinha($qb);
+        }
+        
+        return $dadosModulo;
     }
 
 }
