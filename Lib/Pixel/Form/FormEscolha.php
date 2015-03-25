@@ -35,7 +35,6 @@ class FormEscolha extends \Zion\Form\FormEscolha
 
     private $toolTipMsg;
     private $emColunaDeTamanho;
-    private $layoutPixel;
     private $inLine;
     private $formSetPixel;
     private $processarJS;
@@ -157,17 +156,6 @@ class FormEscolha extends \Zion\Form\FormEscolha
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
-    }
-
-    public function setLayoutPixel($layoutPixel)
-    {
-        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
-        return $this;
-    }
-
-    public function getLayoutPixel()
-    {
-        return $this->layoutPixel;
     }
 
     public function setInLine($inLine)

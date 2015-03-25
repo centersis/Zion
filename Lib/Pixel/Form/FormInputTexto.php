@@ -38,7 +38,6 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
-    private $layoutPixel;
     private $labelAntes;
     private $labelDepois;
     private $processarJS;
@@ -184,17 +183,6 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     public function getEmColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
-    }
-
-    public function setLayoutPixel($layoutPixel)
-    {
-        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
-        return $this;
-    }
-
-    public function getLayoutPixel()
-    {
-        return $this->layoutPixel;
     }
 
     public function setLabelAntes($labelAntes)

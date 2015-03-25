@@ -36,7 +36,6 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
-    private $layoutPixel;
     private $processarJS;
     private $tipoFiltro;
     
@@ -109,17 +108,6 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
-    }
-
-    public function setLayoutPixel($layoutPixel)
-    {
-        $this->layoutPixel = $this->formSetPixel->setLayoutPixel($layoutPixel);
-        return $this;
-    }
-    
-    public function getLayoutPixel()
-    {
-        return $this->layoutPixel;
     }
     
     public function setProcessarJS($processarJS)

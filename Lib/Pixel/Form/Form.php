@@ -1,36 +1,61 @@
 <?php
+
 /**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 
 namespace Pixel\Form;
 
-class Form extends \Zion\Form\Form
+use Zion\Form\Form as FormZion;
+use Pixel\Form\FormHtml;
+use Zion\Layout\Html;
+use Pixel\Form\FormInputTexto;
+use Pixel\Form\FormInputSuggest;
+use Pixel\Form\FormInputData;
+use Pixel\Form\FormInputHora;
+use Pixel\Form\FormInputSenha;
+use Pixel\Form\FormInputNumber;
+use Pixel\Form\FormInputFloat;
+use Pixel\Form\FormInputCpf;
+use Pixel\Form\FormInputCnpj;
+use Pixel\Form\FormInputCep;
+use Pixel\Form\FormInputTelefone;
+use Pixel\Form\FormInputEmail;
+use Pixel\Form\FormEscolha;
+use Pixel\Form\FormChosen;
+use Pixel\Form\FormInputTextArea;
+use Pixel\Form\FormUpload;
+use Zion\Form\FormInputButton;
+use Pixel\Form\MasterDetail\FormMasterDetail;
+use Pixel\Form\FormPixelJavaScript;
+use Pixel\Form\FormJavaScript;
+
+class Form extends FormZion
 {
 
     private $formPixel;
@@ -40,98 +65,98 @@ class Form extends \Zion\Form\Form
     {
         parent::__construct();
 
-        $this->formPixel = new \Pixel\Form\FormHtml();
-        $this->html = new \Zion\Layout\Html();
+        $this->formPixel = new FormHtml();
+        $this->html = new Html();
     }
 
     public function texto($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
+        return new FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
 
     public function suggest($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
+        return new FormInputSuggest('suggest', $nome, $identifica, $obrigatorio);
     }
 
     public function data($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputData('date', $nome, $identifica, $obrigatorio);
+        return new FormInputData('date', $nome, $identifica, $obrigatorio);
     }
 
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputHora('time', $nome, $identifica, $obrigatorio);
+        return new FormInputHora('time', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputSenha('senha', $nome, $identifica, $obrigatorio);
+        return new FormInputSenha('senha', $nome, $identifica, $obrigatorio);
     }
 
     public function numero($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputNumber('number', $nome, $identifica, $obrigatorio);
+        return new FormInputNumber('number', $nome, $identifica, $obrigatorio);
     }
 
     public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputFloat('float', $nome, $identifica, $obrigatorio);
+        return new FormInputFloat('float', $nome, $identifica, $obrigatorio);
     }
 
     public function cpf($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputCpf('cpf', $nome, $identifica, $obrigatorio);
+        return new FormInputCpf('cpf', $nome, $identifica, $obrigatorio);
     }
 
     public function cnpj($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputCnpj('cnpj', $nome, $identifica, $obrigatorio);
+        return new FormInputCnpj('cnpj', $nome, $identifica, $obrigatorio);
     }
 
     public function cep($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputCep('cep', $nome, $identifica, $obrigatorio);
+        return new FormInputCep('cep', $nome, $identifica, $obrigatorio);
     }
 
     public function telefone($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTelefone('telefone', $nome, $identifica, $obrigatorio);
+        return new FormInputTelefone('telefone', $nome, $identifica, $obrigatorio);
     }
 
     public function email($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputEmail('email', $nome, $identifica, $obrigatorio);
+        return new FormInputEmail('email', $nome, $identifica, $obrigatorio);
     }
 
     public function escolha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormEscolha('escolha', $nome, $identifica, $obrigatorio);
+        return new FormEscolha('escolha', $nome, $identifica, $obrigatorio);
     }
 
     public function chosen($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormChosen('chosen', $nome, $identifica, $obrigatorio);
+        return new FormChosen('chosen', $nome, $identifica, $obrigatorio);
     }
 
     public function textArea($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
+        return new FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
     }
 
     public function editor($nome, $identifica, $obrigatorio = false)
     {
-        return new \Pixel\Form\FormInputTextArea('editor', $nome, $identifica, $obrigatorio);
+        return new FormInputTextArea('editor', $nome, $identifica, $obrigatorio);
     }
 
     public function upload($nome, $identifica, $tratarComo)
     {
-        return new \Pixel\Form\FormUpload('upload', $nome, $identifica, $tratarComo);
+        return new FormUpload('upload', $nome, $identifica, $tratarComo);
     }
 
     public function botaoSubmit($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('submit', $nome, $identifica);
+        return new FormInputButton('submit', $nome, $identifica);
     }
 
     /**
@@ -139,7 +164,7 @@ class Form extends \Zion\Form\Form
      */
     public function botaoSalvarPadrao()
     {
-        $botaoSalvar = new \Zion\Form\FormInputButton('submit', 'sisSalvar', 'Salvar');
+        $botaoSalvar = new FormInputButton('submit', 'sisSalvar', 'Salvar');
         $botaoSalvar->setClassCss('btn btn-primary');
 
         return $botaoSalvar;
@@ -147,7 +172,7 @@ class Form extends \Zion\Form\Form
 
     public function botaoSalvarEContinuar()
     {
-        $botaoSalvar = new \Zion\Form\FormInputButton('submit', 'sisSalvarEContinuar', 'Salvar');
+        $botaoSalvar = new FormInputButton('submit', 'sisSalvarEContinuar', 'Salvar');
         $botaoSalvar->setClassCss('btn btn-primary');
 
         return $botaoSalvar;
@@ -157,7 +182,7 @@ class Form extends \Zion\Form\Form
     {
         $nomeForm = $this->getConfig()->getNome();
 
-        $botaoDescartar = new \Zion\Form\FormInputButton('button', 'sisDescartar', 'Descartar');
+        $botaoDescartar = new FormInputButton('button', 'sisDescartar', 'Descartar');
 
         $botaoDescartar->setClassCss('btn btn-default')
                 ->setComplemento('onclick="sisDescartarPadrao(\'' . $nomeForm . '\')"');
@@ -167,48 +192,17 @@ class Form extends \Zion\Form\Form
 
     public function botaoSimples($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('button', $nome, $identifica);
+        return new FormInputButton('button', $nome, $identifica);
     }
 
     public function botaoReset($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('reset', $nome, $identifica);
+        return new FormInputButton('reset', $nome, $identifica);
     }
 
     public function masterDetail($nome, $identifica)
     {
-        return new \Pixel\Form\MasterDetail\FormMasterDetail($nome, $identifica);
-    }
-
-    public function abreFormManu()
-    {
-        $ret = $this->html->abreTagAberta('div', array('class' => 'panel', 'id' => 'panel' . $this->formConfig->getNome()));
-        $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-heading'));
-        $ret .= $this->html->abreTagAberta('span', array('class' => 'panel-title'));
-        $ret .= $this->formConfig->getHeader();
-        $ret .= $this->html->fechaTag('span');
-        $ret .= $this->html->fechaTag('div');
-        $ret .= $this->html->abreTagAberta('div', array('class' => 'panel-body'));
-
-        $this->formConfig->setClassCss($this->formConfig->getClassCss() . ' form-horizontal');
-
-        $ret .= parent::abreForm();
-
-        return $ret;
-    }
-
-    public function abreFormFiltro()
-    {
-        return $this->html->abreTagAberta('form', ['id' => $this->formConfig->getNome(), 'class' => 'form-horizontal']);
-    }
-
-    public function fechaForm()
-    {
-        $ret = parent::fechaForm();
-        $ret .= $this->html->fechaTag('div');
-        $ret .= $this->html->fechaTag('div');
-
-        return $ret;
+        return new FormMasterDetail($nome, $identifica);
     }
 
     public function getFormHtml($nomeOuObjeto = null)
@@ -216,14 +210,14 @@ class Form extends \Zion\Form\Form
         $htmlCampos = [];
 
         if (\is_object($nomeOuObjeto)) {
-            $obj[$nomeOuObjeto->getNome()] = $nomeOuObjeto; 
+            $obj[$nomeOuObjeto->getNome()] = $nomeOuObjeto;
             $nome = $nomeOuObjeto->getNome();
         } else {
             $nome = $nomeOuObjeto;
             $obj = $nomeOuObjeto ? [$nomeOuObjeto => $this->objetos[$nomeOuObjeto]] : $this->objetos;
         }
 
-        foreach ($obj as $idCampo => $objCampos) {                        
+        foreach ($obj as $idCampo => $objCampos) {
 
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :
@@ -285,10 +279,10 @@ class Form extends \Zion\Form\Form
                     break;
                 case 'telefone' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaTelefone($objCampos);
-                    break;  
+                    break;
                 case 'email' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaEmail($objCampos);
-                    break;                                        
+                    break;
                 default : throw new \Exception('Tipo Base não encontrado! ' . $idCampo);
             }
         }
@@ -302,10 +296,9 @@ class Form extends \Zion\Form\Form
      */
     public function javaScript($validacao = true, $javaScriptExtra = true)
     {
-        $smartJs = new \Pixel\Form\FormPixelJavaScript();
-        $jsStatic = \Pixel\Form\FormJavaScript::iniciar();
+        $smartJs = new FormPixelJavaScript();
+        $jsStatic = FormJavaScript::iniciar();
 
-        //print_r($this->objetos);
         if ($validacao or $javaScriptExtra) {
 
             foreach ($this->objetos as $config) {
@@ -332,91 +325,87 @@ class Form extends \Zion\Form\Form
 
     public function processarJSObjeto($objeto)
     {
-        $smartJs = new \Pixel\Form\FormPixelJavaScript();
+        $smartJs = new FormPixelJavaScript();
 
         $smartJs->processarJS($this->formConfig->getNome(), $objeto);
 
         return $smartJs->getJS();
     }
 
-    public function montaForm()
+    public function montaForm($disabled = false)
     {
+        $buffer = [];
 
-        return $this->getFormHtml();
+        if ($disabled) {
+            foreach ($this->objetos as $objeto) {
+                if (\method_exists($objeto, 'setDisabled')) {
 
-        if ($footer) {
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-12'));
-
-            $buffer.= $this->html->abreTagFechada('hr', array('class' => 'panel-wide'));
-
-            $buffer.= $this->html->fechaTag('div');
-            $buffer.= $this->html->fechaTag('div');
-
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-offset-3 col-sm-9'));
-
-            $buffer.= $footer;
-
-            $buffer.= $this->html->fechaTag('div');
-            $buffer.= $this->html->fechaTag('div');
-        }
-
-        $buffer .= $this->fechaForm();
-
-        return $buffer;
-    }
-
-    public function montaFormVisualizar()
-    {
-        $buffer = $this->abreFormManu();
-
-        $footer = '';
-
-        //Desabilita campos
-        foreach ($this->objetos as $objeto) {
-            if (\method_exists($objeto, 'setDisabled')) {
-
-                if ($objeto->getAcao() !== 'button') {
-                    $objeto->setDisabled(true);
+                    if ($objeto->getAcao() !== 'button') {
+                        $objeto->setDisabled(true);
+                    }
                 }
             }
         }
 
         $campos = $this->getFormHtml();
+
+        $buffer['formConfig']['id'] = $this->formConfig->getId();
+        $buffer['formConfig']['nome'] = $this->formConfig->getNome();
+        $buffer['formConfig']['action'] = $this->formConfig->getAction();
+        $buffer['formConfig']['autoComplete'] = $this->formConfig->getAutoComplete();
+        $buffer['formConfig']['enctype'] = $this->formConfig->getEnctype();
+        $buffer['formConfig']['method'] = $this->formConfig->getMethod();
+        $buffer['formConfig']['novalidate'] = $this->formConfig->getNovalidate();
+        $buffer['formConfig']['target'] = $this->formConfig->getTarget();
+        $buffer['formConfig']['complemento'] = $this->formConfig->getComplemento();
+        $buffer['formConfig']['classCss'] = $this->formConfig->getClassCss();
+        $buffer['formConfig']['header'] = $this->formConfig->getHeader();
+
         foreach ($campos as $nome => $textoHtml) {
 
-            if ($this->objetos[$nome]->getTipoBase() == 'button') {
+            if ($disabled) {
+                
+                if ($this->objetos[$nome]->getTipoBase() == 'button') {
 
-                if ($this->objetos[$nome]->getAcao() == 'button') {
-                    $footer.= $textoHtml . "&nbsp;&nbsp;";
+                    if ($this->objetos[$nome]->getAcao() !== 'button') {
+                        continue;
+                    }
                 }
+            }
+
+            if (\method_exists($this->objetos[$nome], 'getLabelAntes') and $this->objetos[$nome]->getLabelAntes()) {
+                $buffer['labelAntes'][$nome] = $this->objetos[$nome]->getLabelAntes();
+            }
+
+            if (\method_exists($this->objetos[$nome], 'getLabelAntes') and $this->objetos[$nome]->getLabelDepois()) {
+                $buffer['labelAntes'][$nome] = $this->objetos[$nome]->getLabelDepois();
+            }
+
+            if (\method_exists($this->objetos[$nome], 'getIconFA') and $this->objetos[$nome]->getIconFA()) {
+                $buffer['iconFA'][$nome] = 'fa ' . $this->objetos[$nome]->getIconFA() . ' form-control-feedback';
+            }
+
+            $buffer['tipos'][$nome] = $this->objetos[$nome]->getTipoBase();
+
+            if ($this->objetos[$nome]->getTipoBase() == 'button') {
+                $buffer['botoes'][$nome] = $textoHtml;
             } else {
-                $buffer.= $textoHtml;
+
+                $buffer['campos'][$nome] = $textoHtml;
+
+                $colunas = 12;
+
+                if (\method_exists($this->objetos[$nome], 'getEmColunaDeTamanho')) {
+                    $colunas = $this->objetos[$nome]->getEmColunaDeTamanho();
+                }
+
+                $buffer['colunas'][$nome] = $colunas;
+                $buffer['identifica'][$nome] = $this->objetos[$nome]->getIdentifica();
             }
         }
 
-        if ($footer) {
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-12'));
-
-            $buffer.= $this->html->abreTagFechada('hr', array('class' => 'panel-wide'));
-
-            $buffer.= $this->html->fechaTag('div');
-            $buffer.= $this->html->fechaTag('div');
-
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'form-group'));
-            $buffer.= $this->html->abreTagAberta('div', array('class' => 'col-sm-offset-3 col-sm-9'));
-
-            $buffer.= $footer;
-
-            $buffer.= $this->html->fechaTag('div');
-            $buffer.= $this->html->fechaTag('div');
-        }
-
-        $buffer .= $this->fechaForm();
+        $buffer['javascript'] = $this->javaScript()->getLoad(true);
 
         return $buffer;
     }
-
 }
