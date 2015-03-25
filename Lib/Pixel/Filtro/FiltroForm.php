@@ -71,11 +71,9 @@ class FiltroForm
 
         foreach ($objetos as $nomeObjeto => $objCampo) {
 
-            $objCampo->setLayoutPixel(false);
             $nomeCampo = $objCampo->getNome();
 
             $tipoFiltro = \key($this->getTipoFiltro($objCampo->getTipoFiltro()));
-            $acao       = $objCampo->getAcao();
 
             //Campo
             \array_push($objeto, [  'campo'         => $nomeCampo,
@@ -108,10 +106,7 @@ class FiltroForm
     {
         $this->atualizaCampo($nomeCampo, $objCampo, $prefixo, $sufixo);
 
-        $objCampo->setLayoutPixel(false);
-
         $tipoFiltro = key($this->getTipoFiltro($objCampo->getTipoFiltro()));
-        $acao = $objCampo->getAcao();
 
         return array('campo'         => $objCampo->getNome(),
                      'campoHtml'     => $objForm->getFormHtml($nomeCampo),
