@@ -279,7 +279,7 @@ class Controller
             
             $modulo = $con->execLinha($qb);
             
-            $dadosModulo = array('titulo' => $modulo['modulodesc'], 'versao' => SIS_NOME_PROJETO . ' 1.0');
+            $dadosModulo = array('titulo' => $modulo['modulodesc'], 'moduloclass' => $modulo['moduloclass'], 'modulodesc' => $modulo['modulodesc'], 'versao' => SIS_NOME_PROJETO . ' 1.0');
         }
         
         return $dadosModulo;
