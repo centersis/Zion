@@ -50,6 +50,18 @@ function sisSvo(q, t) {
 }
 
 function showHiddenFilters() {
+    
+    var caretClass = $("#caretFilter").attr('class');
+    
+    $("#caretFilter").removeAttr("class");
+    
+    if(caretClass === "fa fa-caret-down")
+        $("#caretFilter").addClass('fa fa-caret-up');
+    else if(caretClass === "fa fa-caret-up")
+        $("#caretFilter").addClass('fa fa-caret-down');
+    else
+        return false;
+
     $(".showHidden").slideToggle();
     $(".showHidden").removeClass("hidden");
 }

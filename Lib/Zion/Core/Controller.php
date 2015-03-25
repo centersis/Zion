@@ -276,8 +276,10 @@ class Controller
                     ->from('_modulo', '')
                     ->where('moduloNome = :moduloNome')
                     ->setParameter('moduloNome', \MODULO);
-
-            $dadosModulo = $con->execLinha($qb);
+            
+            $modulo = $con->execLinha($qb);
+            
+            $dadosModulo = array('titulo' => $modulo['modulodesc'], 'moduloclass' => $modulo['moduloclass'], 'modulodesc' => $modulo['modulodesc'], 'versao' => SIS_NOME_PROJETO . ' 1.0');
         }
         
         return $dadosModulo;
