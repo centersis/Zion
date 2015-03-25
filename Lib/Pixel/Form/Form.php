@@ -364,7 +364,7 @@ class Form extends FormZion
         foreach ($campos as $nome => $textoHtml) {
 
             if ($disabled) {
-                
+
                 if ($this->objetos[$nome]->getTipoBase() == 'button') {
 
                     if ($this->objetos[$nome]->getAcao() !== 'button') {
@@ -400,7 +400,10 @@ class Form extends FormZion
                 }
 
                 $buffer['colunas'][$nome] = $colunas;
-                $buffer['identifica'][$nome] = $this->objetos[$nome]->getIdentifica();
+
+                if (\method_exists($this->objetos[$nome], 'getIdentifica')) {
+                    $buffer['identifica'][$nome] = $this->objetos[$nome]->getIdentifica();
+                }
             }
         }
 
@@ -408,4 +411,5 @@ class Form extends FormZion
 
         return $buffer;
     }
+
 }
