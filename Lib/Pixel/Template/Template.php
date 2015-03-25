@@ -240,6 +240,14 @@ class Template extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('div', array('id' => $idContainer));
         return $buffer;
     }
+    
+    public function getOrganogramaForm()
+    {
+        
+        $formPesquisar = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaForm();
+        return $formPesquisar->getForm();
+        
+    }    
 
     private function getBarraSuperior()
     {
