@@ -45,12 +45,11 @@ use Pixel\Layout\Tab;
 use Zion\Acesso\Acesso;
 use Pixel\Grid\Impressao;
 use Pixel\Twig\Carregador;
-use Zion\Banco\Conexao;
 
 class Controller
 {
 
-    private $acao;
+    protected $acao;
 
     /**
      * Instancia de controler que intancia o metodo que lhe foi informado no
@@ -232,61 +231,6 @@ class Controller
         } else {
             return $this->jsonSucesso('PDF gerado com sucesso!');
         }
-    }
-
-    protected function getNotificacoes()
-    {
-
-        $usuarioCod = $_SESSION['usuarioCod'];
-        $acao = filter_input(INPUT_POST, 'acao');
-
-        $notificacoes = new \Pixel\Template\BarraSuperior\Notificacoes();
-        $notificacoesConteudo = $notificacoes->getNotificacoesConteudo($usuarioCod);
-
-        if ($acao == 'limpaNotificacao') {
-
-            $notificacao = new \Pixel\Notificacao\Notificacao();
-
-            $notificacaoCod = filter_input(INPUT_POST, 'id');
-
-            $notificacao->limpaNotificacao($notificacaoCod, $usuarioCod);
-
-            return $this->jsonSucesso(true);
-        } else {
-
-            if ($notificacoesConteudo) {
-                return $this->jsonSucesso($notificacoesConteudo);
-            } else {
-                return $this->jsonErro("Erro ao processar sua solicitação.");
-            }
-        }
-    }
-
-    protected function pageHeader()
-    {
-        $dadosModulo = [];
-        
-        if (\defined('MODULO')) {
-
-            $con = Conexao::conectar();
-
-            $qb = $con->qb();
-
-            $qb->select('moduloclass', 'modulodesc')
-                    ->from('_modulo', '')
-                    ->where('moduloNome = :moduloNome')
-                    ->setParameter('moduloNome', \MODULO);
-            
-            $modulo = $con->execLinha($qb);
-            
-            $dadosModulo = ['titulo'        => SIS_NOME_PROJETO, 
-                            'moduloclass'   => $modulo['moduloclass'], 
-                            'modulodesc'    => $modulo['modulodesc'], 
-                            'versao'        => SIS_RELEASE
-                ];
-        }
-        
-        return $dadosModulo;
     }
 
 }
