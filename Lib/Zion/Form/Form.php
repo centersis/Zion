@@ -1,45 +1,58 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
 /**
- * \Zion\Form\Form()
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
  * 
- * @author The Sappiens Team
- * @copyright Sappiens 2014
- * @version 2014
- * @access public
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
  */
 
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Form\Exception\FormException;
+use Zion\Form\FormLayout;
+use Zion\Form\FormHtml;
+use Zion\Form\FormTag;
+use Zion\Form\FormInputHidden;
+use Zion\Form\FormInputTexto;
+use Zion\Form\FormInputData;
+use Zion\Form\FormInputHora;
+use Zion\Form\FormInputSenha;
+use Zion\Form\FormInputNumber;
+use Zion\Form\FormInputFloat;
+use Zion\Form\FormInputCpf;
+use Zion\Form\FormInputCnpj;
+use Zion\Form\FormInputCep;
+use Zion\Form\FormInputTelefone;
+use Zion\Form\FormInputEmail;
+use Zion\Form\FormEscolha;
+use Zion\Form\FormInputTextArea;
+use Zion\Form\FormUpload;
+use Zion\Form\FormInputButton;
+use Zion\Tratamento\Tratamento;
+use Zion\Form\FormValida;
 
 class Form
 {
@@ -49,16 +62,11 @@ class Form
     protected $formHtml;
     protected $acao;
 
-    /**
-     * Form::__construct()
-     * 
-     * @return
-     */
     public function __construct()
     {
-        $this->formHtml = new \Zion\Form\FormHtml();
+        $this->formHtml = new FormHtml();
 
-        $this->formConfig = new \Zion\Form\FormTag();
+        $this->formConfig = new FormTag();
 
         $this->formConfig->setNome('formManu')
                 ->setMethod('POST');
@@ -66,255 +74,101 @@ class Form
         $this->objetos = [];
     }
 
-    /**
-     * Form::layout()
-     * 
-     * @param mixed $nome
-     * @param mixed $conteudo
-     * @return
-     */
     public function layout($nome, $conteudo)
     {
-        return new \Zion\Form\FormLayout($nome, $conteudo);
+        return new FormLayout($nome, $conteudo);
     }
 
-    /**
-     * Form::hidden()
-     * 
-     * @param mixed $nome
-     * @return
-     */
     public function hidden($nome)
     {
-        return new \Zion\Form\FormInputHidden('hidden', $nome);
+        return new FormInputHidden('hidden', $nome);
     }
 
-    /**
-     * Form::texto()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function texto($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTexto('texto', $nome, $identifica, $obrigatorio);
+        return new FormInputTexto('texto', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::data()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function data($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputData('data', $nome, $identifica, $obrigatorio);
+        return new FormInputData('data', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::hora()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function hora($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputHora('hora', $nome, $identifica, $obrigatorio);
+        return new FormInputHora('hora', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::senha()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function senha($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputSenha('password', $nome, $identifica, $obrigatorio);
+        return new FormInputSenha('password', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::numero()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function numero($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputNumber('number', $nome, $identifica, $obrigatorio);
+        return new FormInputNumber('number', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::float()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function float($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputFloat('float', $nome, $identifica, $obrigatorio);
+        return new FormInputFloat('float', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::cpf()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function cpf($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputCpf('cpf', $nome, $identifica, $obrigatorio);
+        return new FormInputCpf('cpf', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::cnpj()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function cnpj($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputCnpj('cnpj', $nome, $identifica, $obrigatorio);
+        return new FormInputCnpj('cnpj', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::cep()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function cep($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputCep('cep', $nome, $identifica, $obrigatorio);
+        return new FormInputCep('cep', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::telefone()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function telefone($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTelefone('telefone', $nome, $identifica, $obrigatorio);
+        return new FormInputTelefone('telefone', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::email()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function email($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputEmail('email', $nome, $identifica, $obrigatorio);
+        return new FormInputEmail('email', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::escolha()
-     * 
-     * @return
-     */
     public function escolha()
     {
-        return new \Zion\Form\FormEscolha('escolha');
+        return new FormEscolha('escolha');
     }
 
-    /**
-     * Form::textArea()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function textArea($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
+        return new FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::upload()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @param bool $obrigatorio
-     * @return
-     */
     public function upload($nome, $identifica, $obrigatorio = false)
     {
-        return new \Zion\Form\FormUpload('upload', $nome, $identifica, $obrigatorio);
+        return new FormUpload('upload', $nome, $identifica, $obrigatorio);
     }
 
-    /**
-     * Form::botaoSubmit()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @return
-     */
     public function botaoSubmit($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('submit', $nome, $identifica);
+        return new FormInputButton('submit', $nome, $identifica);
     }
 
-    /**
-     * Form::botaoSimples()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @return
-     */
     public function botaoSimples($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('button', $nome, $identifica);
+        return new FormInputButton('button', $nome, $identifica);
     }
 
-    /**
-     * Form::botaoReset()
-     * 
-     * @param mixed $nome
-     * @param mixed $identifica
-     * @return
-     */
     public function botaoReset($nome, $identifica)
     {
-        return new \Zion\Form\FormInputButton('reset', $nome, $identifica);
+        return new FormInputButton('reset', $nome, $identifica);
     }
 
-    /**
-     * @return FormTag 
-     */
-
-    /**
-     * Form::config()
-     * 
-     * @param mixed $nome
-     * @param mixed $metodo
-     * @return
-     */
     public function config($nome, $metodo = 'GET')
     {
         $this->formConfig->setNome($nome)->setMethod($metodo);
@@ -327,32 +181,6 @@ class Form
         return $this->formConfig;
     }
 
-    /**
-     * Form::abreForm()
-     * 
-     * @return
-     */
-    public function abreForm()
-    {
-        return $this->formHtml->abreForm($this->formConfig);
-    }
-
-    /**
-     * Form::fechaForm()
-     * 
-     * @return
-     */
-    public function fechaForm()
-    {
-        return $this->formHtml->fechaForm();
-    }
-
-    /**
-     * Form::processarForm()
-     * 
-     * @param mixed $campos
-     * @return Form
-     */
     public function processarForm(array $campos)
     {
         foreach ($campos as $objCampos) {
@@ -367,36 +195,26 @@ class Form
         return $this;
     }
 
-    /**
-     * Form::retornaValor()
-     * 
-     * @param mixed $nome
-     * @return
-     */
     public function retornaValor($nome, $metodo = '')
     {
-        
-        if($metodo) {
-            
-            $metodo = \strtoupper($metodo);            
-            
-            if($metodo == 'REQUEST') {                
-            
-                if(\array_key_exists($nome, $_GET)) {
+
+        if ($metodo) {
+
+            $metodo = \strtoupper($metodo);
+
+            if ($metodo == 'REQUEST') {
+
+                if (\array_key_exists($nome, $_GET)) {
 
                     $metodo = 'GET';
-
-                } elseif(\array_key_exists($nome, $_POST)) {
+                } elseif (\array_key_exists($nome, $_POST)) {
 
                     $metodo = 'POST';
-
                 }
-                
-            }            
+            }
 
             $metodoOriginal = $this->formConfig->getMethod();
             $this->formConfig->setMethod($metodo);
-            
         }
 
         switch ($this->formConfig->getMethod()) {
@@ -410,55 +228,46 @@ class Form
 
                 break;
             case "GET" :
-                
+
                 if (\substr_count($nome, '[]') > 0) {
                     $valor = \filter_input(\INPUT_GET, \str_replace('[]', '', $nome), \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
                 } else {
                     $valor = \filter_input(\INPUT_GET, $nome);
                 }
 
-                break;              
-                
+                break;
+
             default: $valor = null;
         }
-        
-        if($metodo) {
-            
+
+        if ($metodo) {
+
             $this->formConfig->setMethod($metodoOriginal);
-            
         }
 
         return $valor;
-        
     }
 
-    /**
-     * Form::set()
-     * 
-     * @param mixed $nome
-     * @param mixed $valor
-     * @return
-     */
     public function set($nome, $valor, $tipo = 'texto')
     {
         if (!\is_null($nome) or ! \is_null($nome)) {
 
-            if (\key_exists($nome, $this->objetos)) {
+            if (\array_key_exists($nome, $this->objetos)) {
                 $this->objetos[$nome]->setValor($valor);
             } else {
                 switch (\strtolower($tipo)) {
 
                     case 'float':
-                        $this->objetos[$nome] = new \Zion\Form\FormInputFloat('number', $nome, '-', false);
+                        $this->objetos[$nome] = new FormInputFloat('number', $nome, '-', false);
                         break;
-                    case 'numero': case 'inteiro': 
-                        $this->objetos[$nome] = new \Zion\Form\FormInputNumber('number', $nome, '-', false);
+                    case 'numero': case 'inteiro':
+                        $this->objetos[$nome] = new FormInputNumber('number', $nome, '-', false);
                         break;
                     case 'data':
-                        $this->objetos[$nome] = new \Zion\Form\FormInputData('date', $nome, '-', false);
+                        $this->objetos[$nome] = new FormInputData('date', $nome, '-', false);
                         break;
                     default :
-                        $this->objetos[$nome] = new \Zion\Form\FormInputTexto('texto', $nome, '-', false);
+                        $this->objetos[$nome] = new FormInputTexto('texto', $nome, '-', false);
                 }
                 $this->objetos[$nome]->setValor($valor);
             }
@@ -467,15 +276,9 @@ class Form
         }
     }
 
-    /**
-     * Form::get()
-     * 
-     * @param mixed $nome
-     * @return
-     */
     public function get($nome)
     {
-        if (\key_exists($nome, $this->objetos)) {
+        if (\array_key_exists($nome, $this->objetos)) {
             return $this->objetos[$nome]->getValor();
         } else {
             return NULL;
@@ -519,7 +322,7 @@ class Form
 
     public function getSql($idObjeto)
     {
-        $tratar = \Zion\Tratamento\Tratamento::instancia();
+        $tratar = Tratamento::instancia();
 
         $valor = $this->objetos[$idObjeto]->getValor();
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
@@ -552,7 +355,7 @@ class Form
 
     public function getFiltroSql($idObjeto)
     {
-        $tratar = \Zion\Tratamento\Tratamento::instancia();
+        $tratar = Tratamento::instancia();
 
         $valor = $this->objetos[$idObjeto]->getValor();
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
@@ -574,26 +377,15 @@ class Form
         }
     }
 
-    /**
-     * Form::getObjetos()
-     * 
-     * @return
-     */
     public function getObjetos($nome = null)
     {
-        if ($nome and ! \key_exists($nome, $this->objetos)) {
+        if ($nome and ! \array_key_exists($nome, $this->objetos)) {
             throw new \Exception('Objeto ' . $nome . ' não existe!');
         }
 
         return $nome ? $this->objetos[$nome] : $this->objetos;
     }
 
-    /**
-     * Form::getFormHtml()
-     * 
-     * @param mixed $nome
-     * @return
-     */
     public function getFormHtml($nome = null)
     {
         $htmlCampos = [];
@@ -619,7 +411,7 @@ class Form
                     break;
                 case 'hora' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaHora($objCampos);
-                    break;                
+                    break;
                 case 'number' :
                     $htmlCampos[$idCampo] = $this->formHtml->montaNumber($objCampos);
                     break;
@@ -648,15 +440,9 @@ class Form
         return $nome ? $htmlCampos[$nome] : $htmlCampos;
     }
 
-    /**
-     * Form::validar()
-     * 
-     * @param mixed $nome
-     * @return
-     */
     public function validar($nome = null)
     {
-        $valida = new \Zion\Form\FormValida();
+        $valida = new FormValida();
 
         $obj = $nome ? array($this->objetos[$nome]) : $this->objetos;
 
