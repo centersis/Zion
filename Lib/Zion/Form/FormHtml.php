@@ -240,4 +240,8 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareButton(\count($attr), $config), $attr);
     }
 
+    public function montaLayout(FormLayout $config)
+    {
+        return $config->getConteudo();
+    }
 }
