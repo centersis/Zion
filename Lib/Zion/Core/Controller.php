@@ -49,6 +49,11 @@ use Pixel\Twig\Carregador;
 class Controller
 {
 
+    public function __construct()
+    {
+        
+    }
+
     protected $acao;
 
     /**
