@@ -43,6 +43,11 @@ class Log extends LogSql
     {
         $sqlCompleta    = $this->getSqlCompleta($sql);
         $actParams      = $this->getActionParams();
+        
+        if(empty($actParams['id'])){
+            $actParams['id'] = $this->getIdRegistroSql($sql, $sqlCompleta);
+        }
+        
         $this->salvarlLog($actParams, $sqlCompleta, $logHash);
     }
     
@@ -61,17 +66,49 @@ class Log extends LogSql
                ];
 
     }
-      
+    
+    private function getIdRegistroSql(\Doctrine\DBAL\Query\QueryBuilder $sql, $sqlCompleta)
+    {
+        $parts = $this->getAtributosPrivados($sql->getQueryPart('where'))['parts'];
+        
+        $idRegistro = NULL;
+
+        foreach($parts as $k => $v) {
+            
+            $param = \preg_replace('/\s/', '', \explode('=', $v)[0]);
+            $matches = [];
+            \preg_match('/'. $param .'\s=\s[0-9]{1,}/', $sqlCompleta, $matches);
+            
+            $valParam = (int) \explode('=', $matches[0])[1];
+            
+            if($valParam > 0){
+                $idRegistro = $valParam;
+                break;
+            }
+        }
+        
+        return $idRegistro;
+    }
+    
+    private function getAtributosPrivados($input)
+    {
+        $attrs = array();
+        foreach (((array) $input) as $key => $val) {
+
+            $key = preg_replace(array('/'. \addslashes('Doctrine\DBAL\Query\Expression\CompositeExpression') .'/', '/\W/'), '', $key);
+            $attrs[$key] = $val;
+        }
+
+        return $attrs;
+    }
+
     private function getSqlCompleta(\Doctrine\DBAL\Query\QueryBuilder $sql)
     {
         $params     = $sql->getParameters();
-        $types      = $sql->getParameterTypes();
 
-
-        $paramTypes = $params;
         $paramTypes = \array_map(function($param) {
                         return (\is_numeric($param) ? 1 : 2);
-                      }, $paramTypes);
+                      }, $params);
 
         
         $sqlCompleta = $sql->getSQL();

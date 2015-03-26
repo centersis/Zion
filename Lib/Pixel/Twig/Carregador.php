@@ -94,12 +94,13 @@ class Carregador
             ];
 
             return $this->twig->render('menu.html.twig', $dados);
-        });        
+        });             
 
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
         $this->twig->addFunction($urlFramework);
         $this->twig->addFunction($menu);
+        
     }
 
     public function twig()
