@@ -1,71 +1,94 @@
 <?php
 
 /**
- * @author Pablo Vanni
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
  */
 
 namespace Pixel\Form\MasterDetail;
 
+use Pixel\Form\MasterDetail\FormMasterDetail;
+use Zion\Banco\Conexao;
+use Pixel\Form\Form;
+use Pixel\Form\FormPixelJavaScript;
+use Pixel\Twig\Carregador;
+
 class MasterDetailHtml
 {
 
-    private $html;
+    private $buffer;
 
     public function __construct()
     {
-        $this->html = new \Zion\Layout\Html();
+        $this->buffer = [];
+
+        $this->buffer['ativos'] = '';
     }
 
-    public function montaMasterDetail(\Pixel\Form\MasterDetail\FormMasterDetail $config, $nomeForm)
+    public function montaMasterDetail(FormMasterDetail $config, $nomeForm)
     {
         $totalInicio = $config->getTotalItensInicio();
-        $js = new \Zion\Layout\JavaScript();
         $objPai = $config->getObjetoPai();
         $valorItensDeInicio = $config->getValorItensDeInicio();
 
-        $textoJs = '';
-        $html = '';
-        $ativos = '';
-
+        $this->buffer['id'] = $config->getNome();
+        
         $acao = $objPai->getAcao();
 
         if ($acao == 'alterar') {
 
-            $dadosGrupo = $this->camposDoBanco($config, $nomeForm);
-
-            $html .= $dadosGrupo['html'];
-            $textoJs = $dadosGrupo['js'];
-            $ativos = $dadosGrupo['ativos'];
+            $this->camposDoBanco($config, $nomeForm);
         } else {
             for ($i = 0; $i < $totalInicio; $i++) {
 
                 $coringa = $this->coringa();
 
-                $html.= $this->abreItem($config, $coringa);
-
                 $valoresInicio = \is_array($valorItensDeInicio[$i]) ? \array_change_key_case($valorItensDeInicio[$i]) : [];
 
-                $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $valoresInicio);
-
-                $html .= $dadosGrupo['html'];
-                $textoJs .=$dadosGrupo['js'];
-
-                $html .= $this->fechaItem($config, $coringa);
+                $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $valoresInicio);
             }
         }
 
-        $buffer = $this->abreGrupo($config);
-        $buffer .= $this->botaoAdd($config, $nomeForm, $ativos);
-        $buffer .= $html;
-        $buffer .= $this->fechaGrupo($config);
-        $buffer .= $js->entreJS($js->abreLoadJQuery() . $textoJs . $js->fechaLoadJQuery());
+        $this->botaoAdd($config, $nomeForm, $this->buffer['ativos']);
 
-        return $buffer;
+        if ($config->getBotaoRemover()) {
+            $this->buffer['botaoRemover'] = 'true';
+        }                
+
+        $carregador = new Carregador();
+
+        return $carregador->render('master_detail.html.twig', $this->buffer);
     }
 
-    private function camposDoBanco(\Pixel\Form\MasterDetail\FormMasterDetail $config, $nomeForm)
+    private function camposDoBanco(FormMasterDetail $config, $nomeForm)
     {
-        $con = \Zion\Banco\Conexao::conectar();
+        $con = Conexao::conectar();
+
+        $ativos = [];
 
         $tabela = $config->getTabela();
         $codigo = $config->getCodigo();
@@ -85,33 +108,23 @@ class MasterDetailHtml
                 ->setParameter(':cod', $codigoReferencia);
         $rs = $con->executar($qb);
 
-        $bufferJS = '';
-        $buffer = '';
-        $ativos = [];
         while ($dados = $rs->fetch()) {
 
             $coringa = $dados[$codigo];
             $ativos[] = $coringa;
-            $buffer.= $this->abreItem($config, $coringa);
-            $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $dados);
-            $buffer .= $dadosGrupo['html'];
-            $bufferJS .=$dadosGrupo['js'];
-
-            $buffer .= $this->fechaItem($config, $coringa);
+            $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $dados);
         }
 
-        return ['html' => $buffer, 'js' => $bufferJS, 'ativos' => \implode(',', $ativos)];
+        $this->buffer['ativos'] = \implode(',', $ativos);
     }
 
     private function montaGrupoDeCampos($config, $coringa, $nomeForm, array $valores = [], $limpar = false)
     {
-        $form = new \Pixel\Form\Form();
-        $pixelJs = new \Pixel\Form\FormPixelJavaScript();
+        $form = new Form();
+        $pixelJs = new FormPixelJavaScript();
 
         $campos = $config->getCampos();
 
-        $htmlForm = '';
-        $javaScript = '';
         $nomeOriginal = '';
 
         foreach ($campos as $nomeOriginal => $configuracao) {
@@ -131,100 +144,51 @@ class MasterDetailHtml
                 if ($valorPadrao) {
                     $configuracao->setValor($valorPadrao);
                 } else {
-                    $configuracao->setValor(NULL);
+                    $configuracao->setValor(\NULL);
                 }
             }
 
             $arCampos[] = $configuracao->setNome($novoNomeId)->setId($novoNomeId);
             $form->processarForm($arCampos);
-            $htmlForm .= $form->getFormHtml($arCampos[0]);
-            $javaScript .= $pixelJs->getJsExtraObjeto($arCampos, $nomeForm);
+            $this->buffer['campos'][$coringa][$nomeOriginal] = $form->getFormHtml($arCampos[0]);
+
+            $this->buffer['tipos'][$nomeOriginal] = $configuracao->getTipoBase();
+            
+            if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
+                $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
+            }
+
+            if (\method_exists($configuracao, 'getIdentifica')) {
+                $this->buffer['identifica'][$nomeOriginal] = $configuracao->getIdentifica();
+            }
+
+            if (\method_exists($configuracao, 'getLabelAntes') and $configuracao->getLabelAntes()) {
+                $this->buffer['labelAntes'][$nomeOriginal] = $configuracao->getLabelAntes();
+            }
+
+            if (\method_exists($configuracao, 'getLabelAntes') and $configuracao->getLabelDepois()) {
+                $this->buffer['labelAntes'][$nomeOriginal] = $configuracao->getLabelDepois();
+            }
+
+            if (\method_exists($configuracao, 'getIconFA') and $configuracao->getIconFA()) {
+                $this->buffer['iconFA'][$nomeOriginal] = 'fa ' . $configuracao->getIconFA() . ' form-control-feedback';
+            }
+
+            $js = $pixelJs->getJsExtraObjeto($arCampos, $nomeForm);
+
+            if ($js) {
+                $this->buffer['javascript'][$coringa] = $js;
+            }
         }
-
-        return ['html' => $htmlForm, 'js' => $javaScript];
     }
 
-    private function abreGrupo($config)
+    private function botaoAdd(FormMasterDetail $config, $nomeForm, $ativos)
     {
-        return $this->html->abreTagAberta('div', array('id' => 'sisMasterDetail' . $config->getNome(), 'class' => 'col-sm-12'));
-    }
-
-    private function fechaGrupo($config)
-    {
-        $buffer = $this->html->abreTagFechada('div', array('id' => 'sisMasterDetailAppend' . $config->getNome(), 'class' => 'col-sm-12'));
-        $buffer .= $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-lg', 'onclick' => 'sisAddMasterDetail(\'' . $config->getNome() . '\')']);
-        $buffer .= $this->html->abreTagFechada('i', ['class' => 'fa fa-plus']);
-        $buffer .= $config->getAddTexto();
-        $buffer .= $this->html->fechaTag('button');
-        $buffer .= $this->html->fechaTag('div');
-        return $buffer;
-    }
-
-    private function abreItem($config, $cont)
-    {
-        $buffer = $this->html->abreTagAberta('div', array('id' => 'sisMasterDetailIten' . $config->getNome() . $cont, 'class' => 'col-sm-12 bloco-registro'));
-
-        $colunas = $config->getBotaoRemover() ? '11' : '12';
-
-        $buffer .= $this->html->abreTagAberta('div');
-
-        $buffer .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => 'sisMasterDetailIten' . $config->getNome() . '[]', 'value' => $cont]);
-
-        return $buffer;
-    }
-
-    private function fechaItem($config, $cont)
-    {
-        $buffer = $this->html->fechaTag('div');
-
-        $buffer.= $this->botaoRemover($config, $cont);
-        $buffer .= $this->html->fechaTag('div');
-
-        return $buffer;
-    }
-
-    private function botaoAdd(\Pixel\Form\MasterDetail\FormMasterDetail $config, $nomeForm, $ativos)
-    {
-        $js = new \Zion\Layout\JavaScript();
-
         $coringa = $this->coringa();
 
-        $dadosGrupo = $this->montaGrupoDeCampos($config, $coringa, $nomeForm, [], true);
+        $this->montaGrupoDeCampos($config, $coringa, $nomeForm, [], true);
 
-        $htmlModelo = $this->abreItem($config, $coringa) . $dadosGrupo['html'] . $this->fechaItem($config, $coringa);
-        $jsModelo = $js->abreLoadJQuery() . $dadosGrupo['js'] . $js->fechaLoadJQuery();
-        $dadosConfig = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover(), 'coringa' => $coringa, 'ativos' => $ativos];
-        $nameId = 'sisMasterDetailConf' . $config->getNome();
-
-
-        $buffer = $this->html->abreTagAberta('div', array('class' => 'col-sm-12'));
-        $buffer .= $this->html->abreTagFechada('input', ['type' => 'hidden', 'name' => $nameId, 'id' => $nameId, 'value' => \str_replace('"', "'", \json_encode($dadosConfig))]);
-        $buffer .= $this->html->fechaTag('div');
-
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'sisMasterDetailModeloHtml' . $config->getNome(), 'style' => 'display:none'));
-        $buffer .= $htmlModelo;
-        $buffer .= $this->html->fechaTag('div');
-
-        $buffer .= $this->html->abreTagAberta('div', array('id' => 'sisMasterDetailModeloJS' . $config->getNome(), 'style' => 'display:none'));
-        $buffer .= $jsModelo;
-        $buffer .= $this->html->fechaTag('div');
-
-        return $buffer;
-    }
-
-    private function botaoRemover($config, $id)
-    {
-        if (!$config->getBotaoRemover()) {
-            return '';
-        }
-
-        $buffer = $this->html->abreTagAberta('button', ['type' => 'button', 'class' => 'btn btn-xs btn-labeled btn-danger btn-remover-registro', 'title' => 'Remover', 'data-toggle' => 'tooltip', 'onclick' => 'sisRemoverMasterDetail(\'' . $config->getNome() . '\',\'' . $id . '\')']);
-        $buffer .= $this->html->abreTagAberta('strong');
-        $buffer .= 'Remover';
-        $buffer .= $this->html->fechaTag('strong');
-        $buffer .= $this->html->fechaTag('button');
-
-        return $buffer;
+        $this->buffer['config'] = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover() ? 'true' : 'false', 'coringa' => $coringa, 'ativos' => $ativos];
     }
 
     private function coringa()
