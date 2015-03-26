@@ -33,7 +33,6 @@ namespace Pixel\Twig;
 
 use Zion\Arquivo\ManipulaDiretorio;
 use Zion\Menu\Menu;
-use Zion\Banco\Conexao;
 
 class Carregador
 {

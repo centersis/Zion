@@ -30,7 +30,7 @@
 
 namespace Pixel\Form\MasterDetail;
 
-use \Zion\Form\Exception\FormException as FormException;
+use \Zion\Form\Exception\FormException;
 
 class FormMasterDetail
 {

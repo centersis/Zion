@@ -31,10 +31,15 @@
 
 namespace Pixel\Form\MasterDetail;
 
+use Pixel\Form\MasterDetail\FormMasterDetail;
+use Pixel\Crud\CrudUtil;
+use Zion\Banco\Conexao;
+use Zion\Validacao\Geral;
+
 class MasterDetail
 {
 
-    public function gravar(\Pixel\Form\MasterDetail\FormMasterDetail $config)
+    public function gravar(FormMasterDetail $config)
     {
         $identifica = $config->getIdentifica();
 
@@ -74,7 +79,7 @@ class MasterDetail
 
     private function update($config, $coringa)
     {
-        $crudUtil = new \Pixel\Crud\CrudUtil();
+        $crudUtil = new CrudUtil();
 
         $tabela = $config->getTabela();
         $codigo = $config->getCodigo();
@@ -100,7 +105,7 @@ class MasterDetail
 
     private function insert($config, $coringa)
     {
-        $crudUtil = new \Pixel\Crud\CrudUtil();
+        $crudUtil = new CrudUtil();
 
         $tabela = $config->getTabela();
         $campoReferencia = $config->getCampoReferencia();
@@ -127,11 +132,11 @@ class MasterDetail
         $crudUtil->insert($tabela, $colunasCrud, $objPai);
     }
 
-    private function removeItens(\Pixel\Form\MasterDetail\FormMasterDetail $config, array $aRemover = [])
+    private function removeItens(FormMasterDetail $config, array $aRemover = [])
     {
-        $con = \Zion\Banco\Conexao::conectar();
+        $con = Conexao::conectar();
 
-        $crudUtil = new \Pixel\Crud\CrudUtil();
+        $crudUtil = new CrudUtil();
 
         $tabela = $config->getTabela();
         $codigo = $config->getCodigo();
@@ -139,7 +144,6 @@ class MasterDetail
         $codigoReferencia = $config->getCodigoReferencia();
         $objetoRemover = $config->getObjetoRemover();
         $metodoRemover = $config->getMetodoRemover();
-
 
         $qb = $con->qb();
         $qb->select($codigo)
@@ -161,9 +165,9 @@ class MasterDetail
         }
     }
 
-    private function validaDados(\Pixel\Form\MasterDetail\FormMasterDetail $config)
+    private function validaDados(FormMasterDetail $config)
     {
-        $valida = \Zion\Validacao\Geral::instancia();
+        $valida = Geral::instancia();
 
         $nome = $config->getNome();
         $addMax = $config->getAddMax();

@@ -252,7 +252,7 @@ class FormHtml extends FormHtmlZion
         $retorno = '';
         foreach ($arrayCampos as $dadosCampo) {
 
-            $retorno .= sprintf('<label class="%s">%s<span class="lbl">%s</span></label>', $classCss, $dadosCampo['html'], $dadosCampo['label']);
+            $retorno .= \sprintf('<label class="%s">%s<span class="lbl">%s</span></label>', $classCss, $dadosCampo['html'], $dadosCampo['label']);
         }
 
         return $retorno;
