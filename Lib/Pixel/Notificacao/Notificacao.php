@@ -31,6 +31,7 @@
 namespace Pixel\Notificacao;
 use Pixel\Notificacao\NotificacaoSql;
 use Zion\Banco\Conexao;
+use Zion\Tratamento\Data;
 
 class Notificacao extends NotificacaoSql
 {
@@ -45,7 +46,13 @@ class Notificacao extends NotificacaoSql
     
     public function getUltimasNotificacoes($usuarioCod)
     {
-        return $this->con->paraArray(parent::getUltimasNotificacoesSql($usuarioCod)); 
+        $notificacoes = $this->con->paraArray(parent::getUltimasNotificacoesSql($usuarioCod));
+     
+        foreach($notificacoes as $key => $val) {
+            $notificacoes[$key]['notificacaotimeago'] = Data::instancia()->getTimeAgo($val['notificacaodatahora']);
+        }
+
+        return $notificacoes; 
     }
     
     public function limpaNotificacao($notificacaoCod, $usuarioCod)
