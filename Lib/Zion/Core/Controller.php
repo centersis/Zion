@@ -83,9 +83,9 @@ class Controller
         }
     }
 
-    public function layout($namespace)
+    public function layout()
     {
-        return new Carregador($namespace);
+        return new Carregador();
     }
 
     /**
