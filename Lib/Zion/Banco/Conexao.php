@@ -224,7 +224,7 @@ class Conexao
             }
             
             if($sql->getType() !== 0 and $this->linhasAfetadas > 0){
-                (new \Zion\Log\Log())->registraLog($sql, self::$logHash);
+                (new Log())->registraLog($sql, self::$logHash);
             }
 
             return $resultSet;
