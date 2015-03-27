@@ -32,7 +32,6 @@
 namespace Pixel\Twig;
 
 use Zion\Arquivo\ManipulaDiretorio;
-use Zion\Menu\Menu;
 
 class Carregador
 {
@@ -71,26 +70,11 @@ class Carregador
 
         $urlFramework = new \Twig_SimpleFunction('urlFramework', function ($url) {
             return \SIS_URL_FM_BASE . $url;
-        });
-
-        $menu = new \Twig_SimpleFunction('menu', function () {
-
-            $m = new Menu();
-
-            $dados = [
-                'titulo' => \SIS_NOME_PROJETO,
-                'versao' => \SIS_RELEASE,
-                'nomeUsuario' => $_SESSION['pessoaFisicaNome'],
-                'menu' => $m->geraMenu(true)
-            ];
-
-            return $this->twig->render('menu.html.twig', $dados);
-        });             
+        });              
 
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
-        $this->twig->addFunction($urlFramework);
-        $this->twig->addFunction($menu);
+        $this->twig->addFunction($urlFramework);        
         
     }
 
