@@ -32,7 +32,6 @@
 namespace Pixel\Twig;
 
 use Zion\Arquivo\ManipulaDiretorio;
-use Zion\Menu\Menu;
 
 class Carregador
 {
@@ -43,19 +42,10 @@ class Carregador
     private $conf;
     private $dir;
 
-    public function __construct($namespace = '')
+    public function __construct()
     {
         $this->caminhos = [];
         $this->dir = new ManipulaDiretorio();
-
-
-        if ($namespace) {
-            $dirnamespace = $this->interpretaNamespace($namespace) . '/Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
-
-            if ($this->dir->eDiretorio($dirnamespace)) {
-                $this->caminhos[] = $this->interpretaNamespace($namespace) . '/Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
-            }
-        }
 
         $this->caminhos[] = \SIS_DIR_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
 
@@ -80,26 +70,11 @@ class Carregador
 
         $urlFramework = new \Twig_SimpleFunction('urlFramework', function ($url) {
             return \SIS_URL_FM_BASE . $url;
-        });
-
-        $menu = new \Twig_SimpleFunction('menu', function () {
-
-            $m = new Menu();
-
-            $dados = [
-                'titulo' => \SIS_NOME_PROJETO,
-                'versao' => \SIS_RELEASE,
-                'nomeUsuario' => $_SESSION['pessoaFisicaNome'],
-                'menu' => $m->geraMenu(true)
-            ];
-
-            return $this->twig->render('menu.html.twig', $dados);
-        });             
+        });              
 
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
-        $this->twig->addFunction($urlFramework);
-        $this->twig->addFunction($menu);
+        $this->twig->addFunction($urlFramework);        
         
     }
 
@@ -135,17 +110,4 @@ class Carregador
 
         $this->loader->addPath($caminhoCompleto);
     }
-
-    private function interpretaNamespace($namespace)
-    {
-        if ($namespace !== '') {
-
-            $caminho = \SIS_DIR_BASE . \str_replace(\SIS_ID_NAMESPACE_PROJETO . '\\', '', $namespace);
-
-            return $this->dir->padronizaDiretorio($caminho, '/');
-        }
-
-        return $namespace;
-    }
-
 }
