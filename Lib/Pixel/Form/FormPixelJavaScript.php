@@ -149,8 +149,8 @@ class FormPixelJavaScript
         }
 
         if ($config->getAcao() == 'date') {
-            $this->regras[$config->getNome()][] = 'dateBR : true';
-            $this->mensagens[$config->getNome()][] = " dateBR : '{$config->getIdentifica()} deve conter uma data válida!'";
+            //$this->regras[$config->getNome()][] = 'dateBR : true';
+            //$this->mensagens[$config->getNome()][] = " required : '{$config->getIdentifica()} deve conter uma data válida!'";
         }
 
         if ($config->getAcao() === 'escolha' or $config->getAcao() === 'chosen') {
