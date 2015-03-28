@@ -85,7 +85,8 @@ class FormAtributos
                 $ret = 'multiple';
                 break;
             case 'caixa':
-                $ret = $valor == 'ALTA' ? 'uppercase' : 'lowercase';
+                
+                $ret = \strtoupper($valor) == 'ALTA' ? 'uppercase' : 'lowercase';
                 break;
             case 'autocomplete':
                 $ret = $valor === true ? 'on' : 'off';
