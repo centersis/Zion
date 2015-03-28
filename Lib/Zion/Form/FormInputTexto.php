@@ -195,7 +195,7 @@ class FormInputTexto extends FormBasico
      */
     public function setCaixa($caixa)
     {
-        if (strtoupper($caixa) == "ALTA" or strtoupper($caixa) == "BAIXA") {
+        if (\strtoupper($caixa) == "ALTA" or \strtoupper($caixa) == "BAIXA") {
             $this->caixa = $caixa;
             return $this;
         } else {
