@@ -47,10 +47,7 @@ class Dependencia
             
             $i = new $instancia();
 
-            $form = $i->{$metodo}($cod);            
-            
-            $objeto = $form->getObjetos($nomeCampo);
-            $objeto->setLayoutPixel(false);
+            $form = $i->{$metodo}($cod);                        
             
             $campoOriginal = $form->getFormHtml($nomeCampo);
             $campo = \strip_tags($campoOriginal,'<option>');           
