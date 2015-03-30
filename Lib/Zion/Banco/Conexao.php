@@ -1,34 +1,5 @@
 <?php
 
-/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documenta√ß√£o: www.sappiens.com.br
- *   
- *    Este programa √© software livre; voc√™ pode redistribu√≠-lo e/ou
- *    modific√°-lo sob os termos da Licen√ßa P√∫blica Geral GNU, conforme
- *    publicada pela Free Software Foundation, vers√£o 2.
- *
- *    Este programa √© distribu√≠do na expectativa de ser √∫til, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia impl√≠cita de
- *    COMERCIALIZA√á√ÉO ou de ADEQUA√á√ÉO A QUALQUER PROP√ìSITO EM
- *    PARTICULAR. Consulte a Licen√ßa P√∫blica Geral GNU para obter mais
- *    detalhes.
- * 
- *    Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral GNU
- *    junto com este programa; se n√£o, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    C√≥pias da licen√ßa dispon√≠veis em /Sappiens/_doc/licenca
- *
- */
-
 namespace Zion\Banco;
 
 use Doctrine\DBAL\Configuration;
@@ -45,13 +16,12 @@ class Conexao
     private $banco;
     private $arrayExcecoes = [];
     private $linhasAfetadas = 0;
-    
     private static $logHash;
-   
+
     /**
-     * Inicia uma conex√£o com o banco de dados, se os parametros opcionais n√£o 
-     * forem informados o metodo ent√£o tenta achar os parametros provenientes
-     * do arquivo de configura√ß√£o do sistema
+     * Inicia uma conex„o com o banco de dados, se os parametros opcionais n„o 
+     * forem informados o metodo ent„o tenta achar os parametros provenientes
+     * do arquivo de configuraÁ„o do sistema
      * @param string $banco
      * @param string $host
      * @param string $usuario
@@ -61,12 +31,12 @@ class Conexao
     private function __construct($banco, $host = '', $usuario = '', $senha = '', $driver = '')
     {
         $this->banco = $banco;
-        
-        $this->arrayExcecoes[0] = "Conex√£o: Problemas com o servidor impedem a conex√£o com o banco de dados.<br>";
-        $this->arrayExcecoes[1] = "Conex√£o: Problemas ao executar a clausula SQL.<br>";
-        $this->arrayExcecoes[2] = "Conex√£o: ResultSet inv√°lido.";
-        $this->arrayExcecoes[3] = "Conex√£o: A query SQL esta vazia.";
-        $this->arrayExcecoes[4] = "Conex√£o: Array de querys inv√°lido.";
+
+        $this->arrayExcecoes[0] = "Conex„o: Problemas com o servidor impedem a conex„o com o banco de dados.<br>";
+        $this->arrayExcecoes[1] = "Conex„o: Problemas ao executar a clausula SQL.<br>";
+        $this->arrayExcecoes[2] = "Conex„o: ResultSet inv√°lido.";
+        $this->arrayExcecoes[3] = "Conex„o: A query SQL esta vazia.";
+        $this->arrayExcecoes[4] = "Conex„o: Array de querys inv√°lido.";
 
         if ($host) {
             $cHost = $host;
@@ -87,10 +57,10 @@ class Conexao
 
         $config = new Configuration();
 
-        if($cSenha === 'NULL'){
+        if ($cSenha === 'NULL') {
             $cSenha = NULL;
         }
-        
+
         $connectionParams = [
             'dbname' => $cBanco,
             'user' => $cUsuario,
@@ -109,9 +79,9 @@ class Conexao
         //$config->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         self::$link[$banco] = DriverManager::getConnection($connectionParams, $config);
     }
-    
+
     /**
-     * Retorna uma instancia de conex√£o com o banco de dados
+     * Retorna uma instancia de conex„o com o banco de dados
      * @param string $banco
      * @return \Doctrine\DBAL\Connection
      */
@@ -131,7 +101,7 @@ class Conexao
     }
 
     /**
-     * Retorna uma mensagem de erro de acordo com o c√≥digo informado
+     * Retorna uma mensagem de erro de acordo com o cÛdigo informado
      * @param int $cod
      * @return string
      */
@@ -141,7 +111,7 @@ class Conexao
     }
 
     /**
-     * Retorna o n√∫mero de linhas afetadas por uma clausula sql
+     * Retorna o n˙mero de linhas afetadas por uma clausula sql
      * @return int
      */
     public function getLinhasAfetadas()
@@ -150,7 +120,7 @@ class Conexao
     }
 
     /**
-     * Cria uma conex√£o com o banco de dados MYSQL (SINGLETON)
+     * Cria uma conex„o com o banco de dados MYSQL (SINGLETON)
      * @param string $banco
      * @return Conexao
      */
@@ -161,16 +131,16 @@ class Conexao
         if (!isset(self::$instancia[$bancoMaiusculo])) {
             self::$instancia[$bancoMaiusculo] = new Conexao($bancoMaiusculo);
         }
-        
+
         if (!isset(self::$logHash)) {
             self::$logHash = \bin2hex(\openssl_random_pseudo_bytes(25));
         }
-        
+
         return self::$instancia[$bancoMaiusculo];
     }
 
     /**
-     * Retorna um link de conex√£o com o banco de dados ap√≥s a informa√ß√£o dos
+     * Retorna um link de conex„o com o banco de dados apÛs a informaÁ„o dos
      * paremetros nescess√°rios
      * @param string $host
      * @param string $banco
@@ -189,7 +159,7 @@ class Conexao
     }
 
     /**
-     * Fecha a conex√£o co banco de dados
+     * Fecha a conex„o co banco de dados
      * @param string $banco
      */
     public function fecharConexao($banco = \NULL)
@@ -199,7 +169,7 @@ class Conexao
 
     /**
      * Executa uma string sql ou um objeto querybuilder, retorna um ResultSet
-     * em caso de SELECT ou o n√∫mero de linhas afetadas em caso de Insert
+     * em caso de SELECT ou o n˙mero de linhas afetadas em caso de Insert
      * Update e Delete 
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return ResultSet
@@ -212,7 +182,7 @@ class Conexao
         }
 
         $this->linhasAfetadas = 0;
-       
+
         if (\is_object($sql)) {
 
             $resultSet = $sql->execute();
@@ -222,8 +192,8 @@ class Conexao
             } else {
                 $this->linhasAfetadas = $resultSet;
             }
-            
-            if($sql->getType() !== 0 and $this->linhasAfetadas > 0){
+
+            if ($sql->getType() !== 0 and $this->linhasAfetadas > 0) {
                 //(new Log())->registraLog($sql, self::$logHash);
             }
 
@@ -338,7 +308,7 @@ class Conexao
 
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o 
-     * valor contido na posi√ß√£o especificada pelo parametro $posicao
+     * valor contido na posiÁ„o especificada pelo parametro $posicao
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string|int $posicao
      * @return string
@@ -357,7 +327,11 @@ class Conexao
         if (\key_exists($posicao, $array)) {
             return $array[$posicao];
         } else {
-            throw new \Exception('Conex√£o: Posi√ß√£o ' . $posicao . ' informada n√£o foi encontrada!');
+            if (empty($array)) {
+                return \NULL;
+            }
+
+            throw new \Exception('Conex„o: PosiÁ„o ' . $posicao . ' informada n„o foi encontrada!');
         }
 
         return \current($array);
@@ -365,7 +339,7 @@ class Conexao
 
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o 
-     * valor contido na posi√ß√£o especificada pelos parametros $posicao
+     * valor contido na posiÁ„o especificada pelos parametros $posicao
      * e $indice caso forem especificados
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string $posicao
@@ -394,7 +368,7 @@ class Conexao
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Conex√£o: Indice $indice n√£o encontrado!");
+                            throw new \Exception("Conex„o: Indice $indice n„o encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row;
@@ -402,13 +376,13 @@ class Conexao
                 } else {
                     if (empty($indice)) {
                         if (!\key_exists($posicao, $row)) {
-                            throw new \Exception("Conex√£o: Posi√ß√£o $posicao n√£o encontrada!");
+                            throw new \Exception("Conex„o: PosiÁ„o $posicao n„o encontrada!");
                         }
                         $rows[] = $row[$posicao];
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Conex√£o: Indice $indice n√£o encontrado!");
+                            throw new \Exception("Conex„o: Indice $indice n„o encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row[$posicao];
@@ -423,7 +397,7 @@ class Conexao
     }
 
     /**
-     * Retornando o n√∫mero de resultados de um ResultSet
+     * Retornando o n˙mero de resultados de um ResultSet
      * @param \Doctrine\DBAL\Driver\Statement $resultSet
      * @return int
      * @throws \Exception
@@ -438,7 +412,7 @@ class Conexao
     }
 
     /**
-     * Executa uma string Sql ou um objeto query builder e retorna o n√∫mero
+     * Executa uma string Sql ou um objeto query builder e retorna o n˙mero
      * de linhas afetadas pela consulta
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return int
@@ -502,7 +476,7 @@ class Conexao
     }
 
     /**
-     * Inicia uma Transa√ß√£o
+     * Inicia uma TransaÁ„o
      */
     public function startTransaction()
     {
@@ -515,16 +489,16 @@ class Conexao
     }
 
     /**
-     * Finaliza uma Transa√ß√£o - Commit se for vazio, sen√£o Rollback
+     * Finaliza uma TransaÁ„o - Commit se for vazio, sen„o Rollback
      * @param string $erro
      * @return boolean
      */
     public function stopTransaction($erro = '')
     {
-        if(!\array_key_exists($this->banco, self::$transaction)){
+        if (!\array_key_exists($this->banco, self::$transaction)) {
             return false;
         }
-        
+
         if (self::$transaction[$this->banco] == 1) {
             if (!empty($erro)) {
                 self::$link[$this->banco]->rollBack();
@@ -539,13 +513,13 @@ class Conexao
             self::$transaction[$this->banco] -= 1;
         }
     }
-    
+
     public function verificarHost($host)
     {
         $status = 0;
         $ignorada = null;
         \exec("ping -n 3 $host", $ignorada, $status);
-        
+
         return ($status === 0) ? true : false;
     }
 
