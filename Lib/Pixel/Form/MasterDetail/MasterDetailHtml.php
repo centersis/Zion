@@ -78,7 +78,7 @@ class MasterDetailHtml
         if ($config->getBotaoRemover()) {
             $this->buffer['botaoRemover'] = 'true';
         }                
-
+        
         $carregador = new Carregador();
 
         return $carregador->render('master_detail.html.twig', $this->buffer);
@@ -185,7 +185,9 @@ class MasterDetailHtml
     private function botaoAdd(FormMasterDetail $config, $nomeForm, $ativos)
     {
         $coringa = $this->coringa();
-
+        
+        $this->buffer['botaoAdd'] = $config->getAddTexto();
+        
         $this->montaGrupoDeCampos($config, $coringa, $nomeForm, [], true);
 
         $this->buffer['config'] = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover() ? 'true' : 'false', 'coringa' => $coringa, 'ativos' => $ativos];
