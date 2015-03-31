@@ -78,8 +78,9 @@ class Controller
 
             return $this->{$acao}();
         } catch (\Exception $e) {
-
-            return $this->jsonErro($e->getMessage());
+            if($e->getMessage() === 'Opção inválida!'){
+                return $this->layout()->render('erro.html.twig', ['exception'   => $e]);
+            }
         }
     }
 
