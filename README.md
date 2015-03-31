@@ -35,3 +35,17 @@ Se você fez alguma contribuição e nós eventualmente não publicamos no ender
 Copyright e licenciamento
 
 Código e documentação copyright 2014/2015, BRA Consultoria. Licenciamento sob General Public License, versão 2.0.
+
+-------
+
+Instalando os vendors através do Composer
+
+1) Este tutorial considera que o Composer já esteja instalado em seu SO;
+1.1) Se você não possui o Composer instalado, baixe-o a partir da URL: https://getcomposer.org/download/
+
+2) No diretório /Zion/Lib, pressione SHIFT e clique com o botão direito do mouse, selecionando a opção “Abrir prompt de comando aqui”;
+2.1) No prompt, escreva:
+2.1.2) "composer install" (sem aspas)
+
+3) O Composer irá criar um diretório /Zion/Lib/vendor e nele baixará e alocará todos os vendors utilizados pelo Sappiens Framework;
+
