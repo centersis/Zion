@@ -52,6 +52,7 @@ use Pixel\Form\FormInputTextArea;
 use Pixel\Form\FormUpload;
 use Zion\Form\FormInputButton;
 use Pixel\Form\MasterDetail\FormMasterDetail;
+use Pixel\Form\MasterVinculo\FormMasterVinculo;
 use Pixel\Form\FormPixelJavaScript;
 use Pixel\Form\FormJavaScript;
 
@@ -204,6 +205,11 @@ class Form extends FormZion
     {
         return new FormMasterDetail($nome, $identifica);
     }
+    
+    public function masterVinculo($nome, $identifica)
+    {
+        return new FormMasterVinculo($nome, $identifica);
+    }
 
     public function getFormHtml($nomeOuObjeto = null)
     {
@@ -276,6 +282,9 @@ class Form extends FormZion
                     break;
                 case 'masterDetail':
                     $htmlCampos[$idCampo] = $this->formPixel->montaMasterDetail($objCampos, $this->formConfig->getNome());
+                    break;
+                case 'masterVinculo':
+                    $htmlCampos[$idCampo] = $this->formPixel->montaMasterVinculo($objCampos, $this->formConfig->getNome());
                     break;
                 case 'telefone' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaTelefone($objCampos);
