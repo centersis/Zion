@@ -434,7 +434,9 @@ function sisAddMasterDetail(container) {
     var modeloHtml = converteModelo($("#sisMasterDetailModeloHtml" + container).html(), String(conf.coringa), novoCoringa);
     var modeloJs = converteModelo($("#sisMasterDetailModeloJS" + container).html(), String(conf.coringa), novoCoringa);
     $("#sisMasterDetailAppend" + container).append(modeloHtml);
-    eval(modeloJs);
+    
+    var novoModelo = modeloJs.replace(/&amp;/g, '&');
+    eval(novoModelo);
 }
 
 function converteModelo(modelo, coringa, novoCoringa) {
