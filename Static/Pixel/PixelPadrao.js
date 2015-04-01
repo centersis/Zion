@@ -284,7 +284,7 @@ function sisAlterarLayoutPadrao(param) {
 
 function sisAlterarPadrao(nomeForm, upload) {
 
-    botoesPadrao(nomeForm,true);
+    botoesPadrao(nomeForm, true);
     var cod = $("#" + nomeForm + " #cod").val();
 
     if (upload === true) {
@@ -305,9 +305,9 @@ function sisAlterarPadrao(nomeForm, upload) {
                 $("#panel" + nomeForm).remove();
             }
 
-            sisFiltrarPadrao('');            
-        }
-        else {
+            sisFiltrarPadrao('');
+            
+        } else {
             botoesPadrao(nomeForm,false);
             sisSetCrashAlert('Erro', ret.retorno);
         }
