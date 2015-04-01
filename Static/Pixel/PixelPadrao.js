@@ -27,7 +27,7 @@
  *
  */
 
-var notificadas = new Array();
+        var notificadas = new Array();
 
 sisRedirAlterar();
 
@@ -50,14 +50,14 @@ function sisSvo(q, t) {
 }
 
 function showHiddenFilters() {
-    
+
     var caretClass = $("#caretFilter").attr('class');
-    
+
     $("#caretFilter").removeAttr("class");
-    
-    if(caretClass === "fa fa-caret-down")
+
+    if (caretClass === "fa fa-caret-down")
         $("#caretFilter").addClass('fa fa-caret-up');
-    else if(caretClass === "fa fa-caret-up")
+    else if (caretClass === "fa fa-caret-up")
         $("#caretFilter").addClass('fa fa-caret-down');
     else
         return false;
@@ -75,19 +75,19 @@ $(document).ready(function () {
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
     });
-    
-    $("#notificationsMain").click(function (event){
+
+    $("#notificationsMain").click(function (event) {
         sisAtualizaNotificacoes();
     });
 
 });
 /* CRUD BÁSICO */
 
-function sisRedirAlterar(){
-    
+function sisRedirAlterar() {
+
     var qS = document.location.search;
 
-    if(qS.search(/\?[sisRedir]{8}/) !== -1 && qS.search(/\&[id=]{3}[0-9]{1,}/) !== -1){
+    if (qS.search(/\?[sisRedir]{8}/) !== -1 && qS.search(/\&[id=]{3}[0-9]{1,}/) !== -1) {
 
         var id = qS.replace(/\?[sisRedir=]{9}\w{1,}\&[id=]{3}/, '');
         var param = new Array();
@@ -96,10 +96,10 @@ function sisRedirAlterar(){
         sisAlterarLayoutPadrao(param);
 
     } else {
-        
+
         return true;
     }
-    
+
 }
 
 /* FUNÇÕES ESPECIAIS */
@@ -220,7 +220,7 @@ function sisCadastrarLayoutPadrao(param) {
 
 function sisCadastrarPadrao(nomeForm, upload) {
 
-    botoesPadrao(nomeForm,true);
+    botoesPadrao(nomeForm, true);
 
     var cod = $("#" + nomeForm + " #cod").val();
 
@@ -234,24 +234,24 @@ function sisCadastrarPadrao(nomeForm, upload) {
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
-            
+
             sisSetAlert('true', 'Registro cadastrado com sucesso!');
 
-            botoesPadrao(nomeForm,false);
-            
+            botoesPadrao(nomeForm, false);
+
             if ($('#sisTab' + cod + 'Global').length < 1) {
                 $("#sisContainerManu").empty();
             }
-            
+
             sisFiltrarPadrao('');
         }
         else {
-            botoesPadrao(nomeForm,false);
+            botoesPadrao(nomeForm, false);
             sisSetCrashAlert('Erro', ret.retorno);
         }
     }).fail(function ()
     {
-        botoesPadrao(nomeForm,false);
+        botoesPadrao(nomeForm, false);
         sisMsgFailPadrao();
     });
 }
@@ -284,7 +284,7 @@ function sisAlterarLayoutPadrao(param) {
 
 function sisAlterarPadrao(nomeForm, upload) {
 
-    botoesPadrao(nomeForm,true);
+    botoesPadrao(nomeForm, true);
     var cod = $("#" + nomeForm + " #cod").val();
 
     if (upload === true) {
@@ -298,22 +298,22 @@ function sisAlterarPadrao(nomeForm, upload) {
         if (ret.sucesso === 'true') {
 
             sisSetAlert('true', 'Registro alterado com sucesso!');
-            
-            botoesPadrao(nomeForm,false);
-            
+
+            botoesPadrao(nomeForm, false);
+
             if ($('#sisTab' + cod + 'Global').length < 1) {
                 $("#panel" + nomeForm).remove();
             }
 
-            sisFiltrarPadrao('');            
+            sisFiltrarPadrao('');
         }
         else {
-            botoesPadrao(nomeForm,false);
+            botoesPadrao(nomeForm, false);
             sisSetCrashAlert('Erro', ret.retorno);
         }
     }).fail(function ()
     {
-        botoesPadrao(nomeForm,false);
+        botoesPadrao(nomeForm, false);
         sisMsgFailPadrao();
     });
 }
@@ -429,14 +429,21 @@ function sisAddMasterDetail(container) {
 
     var conf = $.parseJSON($("#sisMasterDetailConf" + container).val().replace(/'/g, '"'));
 
-    var novoCoringa = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+    var atual = $("#sisMasterDetail" + container + " div[id^='sisMasterDetailIten" + container + "']").length - 1; //Ignorando o campo modelo
 
-    var modeloHtml = converteModelo($("#sisMasterDetailModeloHtml" + container).html(), String(conf.coringa), novoCoringa);
-    var modeloJs = converteModelo($("#sisMasterDetailModeloJS" + container).html(), String(conf.coringa), novoCoringa);
-    $("#sisMasterDetailAppend" + container).append(modeloHtml);
-    
-    var novoModelo = modeloJs.replace(/&amp;/g, '&');
-    eval(novoModelo);
+    if (atual >= conf.addMax) {
+        sisSetAlert('', 'Não foi possível adicionar, pois este grupo permite no máximo ' + conf.addMax + ' itens');
+    }
+    else {
+        var novoCoringa = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+
+        var modeloHtml = converteModelo($("#sisMasterDetailModeloHtml" + container).html(), String(conf.coringa), novoCoringa);
+        var modeloJs = converteModelo($("#sisMasterDetailModeloJS" + container).html(), String(conf.coringa), novoCoringa);
+        $("#sisMasterDetailAppend" + container).append(modeloHtml);
+
+        var novoModelo = modeloJs.replace(/&amp;/g, '&');
+        eval(novoModelo);
+    }
 }
 
 function converteModelo(modelo, coringa, novoCoringa) {
@@ -758,7 +765,7 @@ function sisAddNotificacao(notificacoes) {
     var atual = parseInt(notificationsNumber.html());
     var n = null;
 
-    if(isNaN(atual)){
+    if (isNaN(atual)) {
         n = notificacoes;
     } else {
         n = (notificacoes + atual);
@@ -770,39 +777,39 @@ function sisAddNotificacao(notificacoes) {
     var obj = $('title');
     var title = obj.html();
 
-    if(title.search(/\([0-9]{1,}\)/) !== -1){
-        obj.html(title.replace(/\([0-9]{1,}\)/, "("+ n +")"));
+    if (title.search(/\([0-9]{1,}\)/) !== -1) {
+        obj.html(title.replace(/\([0-9]{1,}\)/, "(" + n + ")"));
     } else {
-        obj.append(" ("+ n +")");
+        obj.append(" (" + n + ")");
     }
 
     return true;
 }
 
-function limpaNotificacoes(){
+function limpaNotificacoes() {
 
     var obj = $('title');
     var title = obj.html();
 
-    if(title.search(/\s\([0-9]{1,}\)/) !== -1){
+    if (title.search(/\s\([0-9]{1,}\)/) !== -1) {
         obj.html(title.replace(/\s\([0-9]{1,}\)/, ""));
     }
-    
+
     $("#notificationsNumber").html('');
-    
+
     return true;
 }
 
-function sisAtualizaNotificacoes(){
+function sisAtualizaNotificacoes() {
 
     var notificationDiv = $("#main-navbar-notifications");
-    
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {'target': 'notificationBar'}, dataType: "json", beforeSend: function () {
-        
-        notificationDiv.html("");
 
-    }}).done(function(data){
-        if(data.sucesso === "true"){
+    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {'target': 'notificationBar'}, dataType: "json", beforeSend: function () {
+
+            notificationDiv.html("");
+
+        }}).done(function (data) {
+        if (data.sucesso === "true") {
             limpaNotificacoes();
             notificationDiv.html(data.retorno);
         } else {
@@ -811,35 +818,35 @@ function sisAtualizaNotificacoes(){
     });
 }
 
-function acessaNotificacao(id, url){
-    
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'limpaNotificacao', id: id}, dataType: "json"}).done(function(data){
+function acessaNotificacao(id, url) {
+
+    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'limpaNotificacao', id: id}, dataType: "json"}).done(function (data) {
         document.location.href = url;
     });
 
 }
 
-function getNotificacoesAlternativo(){
+function getNotificacoesAlternativo() {
 
     console.log("Buscando notificações através da solução alternativa.");
 
     getNotificacoesAjax();
-    
-    setInterval(function(){
+
+    setInterval(function () {
         getNotificacoesAjax();
     }, 60000);
 
 }
 
-function getNotificacoesAjax(){
-    
+function getNotificacoesAjax() {
+
     $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'getNumeroNotificacoes'}, dataType: "json"}).done(function (ret) {
 
         if (ret.sucesso === 'true') {
 
             var notificar = array_diff(notificadas, ret.retorno).length;
 
-            if(notificar > 0){
+            if (notificar > 0) {
 
                 notificadas = (ret.retorno);
                 sisAddNotificacao(notificar);
@@ -853,9 +860,11 @@ function getNotificacoesAjax(){
 
 }
 function array_diff(array1, array2) {
-    
+
     var diff = [];
-    diff = $.grep(array2, function(el) { return $.inArray(el, array1 ) === -1; });
-    
+    diff = $.grep(array2, function (el) {
+        return $.inArray(el, array1) === -1;
+    });
+
     return diff;
 }
