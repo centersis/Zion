@@ -29,15 +29,15 @@
  *
  */
 
-namespace Pixel\Form\MasterDetail;
+namespace Pixel\Form\MasterVinculo;
 
-use Pixel\Form\MasterDetail\FormMasterDetail;
+use Pixel\Form\MasterVinculo\FormMasterVinculo;
 use Zion\Banco\Conexao;
 use Pixel\Form\Form;
 use Pixel\Form\FormPixelJavaScript;
 use Pixel\Twig\Carregador;
 
-class MasterDetailHtml
+class MasterVinculoHtml
 {
 
     private $buffer;
@@ -49,14 +49,14 @@ class MasterDetailHtml
         $this->buffer['ativos'] = '';
     }
 
-    public function montaMasterDetail(FormMasterDetail $config, $nomeForm)
+    public function montaMasterVinculo(FormMasterVinculo $config, $nomeForm)
     {
         $totalInicio = $config->getTotalItensInicio();
         $objPai = $config->getObjetoPai();
         $valorItensDeInicio = $config->getValorItensDeInicio();
 
         $this->buffer['id'] = $config->getNome();
-
+        
         $acao = $objPai->getAcao();
 
         if ($acao == 'alterar') {
@@ -77,14 +77,14 @@ class MasterDetailHtml
 
         if ($config->getBotaoRemover()) {
             $this->buffer['botaoRemover'] = 'true';
-        }
-
+        }                
+        
         $carregador = new Carregador();
 
         return $carregador->render('master_detail.html.twig', $this->buffer);
     }
 
-    private function camposDoBanco(FormMasterDetail $config, $nomeForm)
+    private function camposDoBanco(FormMasterVinculo $config, $nomeForm)
     {
         $con = Conexao::conectar();
 
@@ -97,14 +97,7 @@ class MasterDetailHtml
         $campos = $config->getCampos();
         $nomeCampos = \array_keys($campos);
 
-        foreach ($nomeCampos as $chave => $nome) {
-            if ($campos[$nome]->getTipoBase() === 'upload') {
-                unset($nomeCampos[$chave]);
-            }
-        }
-
         if (!\in_array($codigo, $nomeCampos)) {
-
             $nomeCampos[] = $codigo;
         }
 
@@ -160,7 +153,7 @@ class MasterDetailHtml
             $this->buffer['campos'][$coringa][$nomeOriginal] = $form->getFormHtml($arCampos[0]);
 
             $this->buffer['tipos'][$nomeOriginal] = $configuracao->getTipoBase();
-
+            
             if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
                 $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
             }
@@ -189,12 +182,12 @@ class MasterDetailHtml
         }
     }
 
-    private function botaoAdd(FormMasterDetail $config, $nomeForm, $ativos)
+    private function botaoAdd(FormMasterVinculo $config, $nomeForm, $ativos)
     {
         $coringa = $this->coringa();
-
+        
         $this->buffer['botaoAdd'] = $config->getAddTexto();
-
+        
         $this->montaGrupoDeCampos($config, $coringa, $nomeForm, [], true);
 
         $this->buffer['config'] = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover() ? 'true' : 'false', 'coringa' => $coringa, 'ativos' => $ativos];

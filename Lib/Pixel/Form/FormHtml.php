@@ -36,6 +36,8 @@ use Zion\Form\FormInputHidden;
 use Zion\Layout\JavaScript;
 use Pixel\Form\MasterDetail\FormMasterDetail;
 use Pixel\Form\MasterDetail\MasterDetailHtml;
+use Pixel\Form\MasterVinculo\FormMasterVinculo;
+use Pixel\Form\MasterVinculo\MasterVinculoHtml;
 use Pixel\Arquivo\ArquivoUpload;
 
 class FormHtml extends FormHtmlZion
@@ -244,6 +246,15 @@ class FormHtml extends FormHtmlZion
         return (new MasterDetailHtml())->montaMasterDetail($config, $nomeForm);
     }
 
+    /**
+     * 
+     * @param \Pixel\Form\FormMasterVinculo $config
+     */
+    public function montaMasterVinculo(FormMasterVinculo $config, $nomeForm)
+    {
+        return (new MasterVinculoHtml())->montaMasterVinculo($config, $nomeForm);
+    }
+    
     private function montaCheckRadioPixel($tipo, $arrayCampos, $config)
     {
         $type = $tipo === 'check' ? 'checkbox' : 'radio';
