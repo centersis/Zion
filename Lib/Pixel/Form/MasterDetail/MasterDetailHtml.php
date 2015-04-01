@@ -56,7 +56,7 @@ class MasterDetailHtml
         $valorItensDeInicio = $config->getValorItensDeInicio();
 
         $this->buffer['id'] = $config->getNome();
-        
+
         $acao = $objPai->getAcao();
 
         if ($acao == 'alterar') {
@@ -77,8 +77,8 @@ class MasterDetailHtml
 
         if ($config->getBotaoRemover()) {
             $this->buffer['botaoRemover'] = 'true';
-        }                
-        
+        }
+
         $carregador = new Carregador();
 
         return $carregador->render('master_detail.html.twig', $this->buffer);
@@ -97,7 +97,14 @@ class MasterDetailHtml
         $campos = $config->getCampos();
         $nomeCampos = \array_keys($campos);
 
+        foreach ($nomeCampos as $chave => $nome) {
+            if ($campos[$nome]->getTipoBase() === 'upload') {
+                unset($nomeCampos[$chave]);
+            }
+        }
+
         if (!\in_array($codigo, $nomeCampos)) {
+
             $nomeCampos[] = $codigo;
         }
 
@@ -153,7 +160,7 @@ class MasterDetailHtml
             $this->buffer['campos'][$coringa][$nomeOriginal] = $form->getFormHtml($arCampos[0]);
 
             $this->buffer['tipos'][$nomeOriginal] = $configuracao->getTipoBase();
-            
+
             if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
                 $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
             }
@@ -185,9 +192,9 @@ class MasterDetailHtml
     private function botaoAdd(FormMasterDetail $config, $nomeForm, $ativos)
     {
         $coringa = $this->coringa();
-        
+
         $this->buffer['botaoAdd'] = $config->getAddTexto();
-        
+
         $this->montaGrupoDeCampos($config, $coringa, $nomeForm, [], true);
 
         $this->buffer['config'] = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover() ? 'true' : 'false', 'coringa' => $coringa, 'ativos' => $ativos];
