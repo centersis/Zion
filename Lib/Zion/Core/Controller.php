@@ -78,7 +78,7 @@ class Controller
 
             return $this->{$acao}();
         } catch (\Exception $e) {
-            return $this->layout()->render('erro.html.twig', ['exception'   => $e]);
+            return $this->jsonErro($e->getMessage());
         }
     }
 
