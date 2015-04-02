@@ -39,11 +39,7 @@ class Dependencia
 
         $instancia = '\\' . $novoNamespace;
 
-        try {
-            
-            if(!\is_numeric($cod)){
-               $cod = 0;
-            }
+        try {            
             
             $i = new $instancia();
 
