@@ -38,10 +38,12 @@
  */
  
 namespace Zion\Form;
-use \Zion\Form\Exception\FormException as FormException;
-use \Zion\Validacao\Numero as Numero;
 
-class FormInputFloat extends \Zion\Form\FormBasico
+use Zion\Form\Exception\FormException;
+use Zion\Tratamento\Numero;
+use Zion\Form\FormBasico;
+
+class FormInputFloat extends FormBasico
 {
     private $tipoBase;
     private $acao; 
@@ -68,7 +70,7 @@ class FormInputFloat extends \Zion\Form\FormBasico
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         
-        $this->numero = new Numero();
+        $this->numero = Numero::instancia();
     }
     
     /**
