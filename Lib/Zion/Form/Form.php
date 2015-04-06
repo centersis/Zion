@@ -190,7 +190,7 @@ class Form
             }
             
             if($objCampos->getTipoBase() === 'suggest'){
-                if($objCampos->getHidden() === true){
+                if($objCampos->getHidden() === true and $objCampos->getHiddenValue()){
                     $this->set($objCampos->getHiddenValue(), $this->retornaValor($objCampos->getHiddenValue()));
                 }
             }
