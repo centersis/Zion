@@ -56,7 +56,8 @@ class LogSql
                      'logId'        => ':logId',
                      'logAcao'      => ':logAcao',
                      'logTab'       => ':logTab',
-                     'logSql'       => ':logSql'
+                     'logSql'       => ':logSql',
+                     'logDataHora'  => $qb->expr()->literal(date('Y-m-d H:i:s'))
                     ])
            ->setParameters(['usuarioCod'   => $actParams['usuarioCod'],
                             'moduloCod'    => $actParams['modulo']['modulocod'],

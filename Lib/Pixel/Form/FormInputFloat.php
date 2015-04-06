@@ -49,16 +49,6 @@ class FormInputFloat extends \Zion\Form\FormInputFloat
         $this->setIconFA('fa-calculator');
     }
     
-    public function getTipoBase()
-    {
-        return $this->tipoBase;
-    }
-    
-    public function getAcao()
-    {
-        return $this->acao;
-    }
-    
     public function setLargura($largura)
     {
         parent::setLargura($largura);
