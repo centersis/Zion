@@ -35,6 +35,7 @@ use Pixel\Form\MasterDetail\FormMasterDetail;
 use Pixel\Crud\CrudUtil;
 use Zion\Banco\Conexao;
 use Zion\Validacao\Geral;
+use Pixel\Arquivo\ArquivoUpload;
 
 class MasterDetail
 {
@@ -42,6 +43,7 @@ class MasterDetail
     public function gravar(FormMasterDetail $config)
     {
         $identifica = $config->getIdentifica();
+        $upload = new ArquivoUpload();
 
         try {
             $this->validaDados($config);
@@ -57,6 +59,9 @@ class MasterDetail
         $doBanco = \explode(',', $confHidden->ativos);
         $ativos = [];
 
+        
+        $coringas = [];
+        $coringasMaster = [];
         foreach ($itens as $coringa) {
 
             if ($coringa == $confHidden->coringa) {
@@ -64,13 +69,39 @@ class MasterDetail
             }
 
             if (\in_array($coringa, $doBanco)) {
+                
                 $ativos[] = $coringa;
-
+                $coringasMaster[] = $coringa;
+                
                 $this->update($config, $coringa);
             } else {
-                $this->insert($config, $coringa);
+                $coringasMaster[] = $this->insert($config, $coringa);
             }
+            
+            $coringas[] = $coringa;
         }
+        
+        $objPai = $config->getObjetoPai();
+        
+        $objetos = $objPai->getObjetos();
+        
+        $cont = 0;
+        foreach ($objetos as $objeto) {            
+            if ($objeto->getTipoBase() === 'upload') {
+                
+                if($cont === 0){
+                    $nomeOriginal = $objeto->getId();
+                }
+                
+                $objeto->setNome($nomeOriginal . $coringas[$cont]);               
+                $objeto->setValor($nomeOriginal . $coringas[$cont]);
+                $objeto->setId($nomeOriginal . $coringas[$cont]);                
+                
+                $objeto->setCodigoReferencia($coringasMaster[$cont]);
+                $upload->sisUpload($objeto);
+                $cont++;
+            }
+        }        
 
         $aRemover = \array_diff($doBanco, $ativos);
 
@@ -92,7 +123,13 @@ class MasterDetail
 
             $objForm->setNome($campo);
             $objForm->setValor($objPai->retornaValor($campo . $coringa));
-            $colunasCrud[] = $campo;
+
+            if ($objForm->getTipoBase() === 'upload') {
+                $objForm->setNome($objForm->getNome() . $coringa);                
+            } else {
+                $colunasCrud[] = $campo;
+            }
+
             $grupo[] = $objForm;
         }
 
@@ -100,7 +137,7 @@ class MasterDetail
 
         $objPai->validar();
 
-        $crudUtil->update($tabela, $colunasCrud, $objPai, [$codigo => $coringa]);
+        $crudUtil->update($tabela, $colunasCrud, $objPai, [$codigo => $coringa], [], ['upload']);
     }
 
     private function insert($config, $coringa)
@@ -119,7 +156,13 @@ class MasterDetail
 
             $objForm->setNome($campo);
             $objForm->setValor($objPai->retornaValor($campo . $coringa));
-            $colunasCrud[] = $campo;
+
+            if ($objForm->getTipoBase() === 'upload') {
+                $objForm->setNome($objForm->getNome() . $coringa);
+            } else {
+                $colunasCrud[] = $campo;
+            }
+
             $grupo[] = $objForm;
         }
 
@@ -129,7 +172,7 @@ class MasterDetail
 
         $colunasCrud[] = $campoReferencia;
         $objPai->set($campoReferencia, $codigoReferencia, 'numero');
-        $crudUtil->insert($tabela, $colunasCrud, $objPai);
+        return $crudUtil->insert($tabela, $colunasCrud, $objPai,['upload']);
     }
 
     private function removeItens(FormMasterDetail $config, array $aRemover = [])
@@ -211,7 +254,7 @@ class MasterDetail
         }
 
         $itens = \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
-        $totalItens = \count($itens);
+        $totalItens = \count($itens) - 1;
 
         if (!$valida->validaJSON(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)))) {
             throw new \Exception('O sistema não conseguiu recuperar o array de configuração corretamente!');

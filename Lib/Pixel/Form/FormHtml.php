@@ -275,7 +275,8 @@ class FormHtml extends FormHtmlZion
 
         $this->preConfig($config);
 
-        $complemento = $config->getComplemento() . 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
+        //$complemento = $config->getComplemento() . 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
+        $complemento = 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
         $config->setComplemento($complemento);
 
         $nomeTratado = \str_replace('[]', '', $config->getNome());
