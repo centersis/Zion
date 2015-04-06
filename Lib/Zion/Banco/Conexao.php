@@ -194,7 +194,7 @@ class Conexao
             }
 
             if ($sql->getType() !== 0 and $this->linhasAfetadas > 0) {
-                (new Log())->registraLog($sql, self::$logHash);
+                //(new Log())->registraLog($sql, self::$logHash);
             }
 
             return $resultSet;
