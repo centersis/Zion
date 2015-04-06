@@ -59,7 +59,7 @@ class MasterDetail
         $doBanco = \explode(',', $confHidden->ativos);
         $ativos = [];
 
-        
+
         $coringas = [];
         $coringasMaster = [];
         foreach ($itens as $coringa) {
@@ -69,39 +69,40 @@ class MasterDetail
             }
 
             if (\in_array($coringa, $doBanco)) {
-                
+
                 $ativos[] = $coringa;
                 $coringasMaster[] = $coringa;
-                
+
                 $this->update($config, $coringa);
             } else {
                 $coringasMaster[] = $this->insert($config, $coringa);
             }
-            
+
             $coringas[] = $coringa;
         }
-        
+
         $objPai = $config->getObjetoPai();
-        
+
         $objetos = $objPai->getObjetos();
-        
+
         $cont = 0;
-        foreach ($objetos as $objeto) {            
+        foreach ($objetos as $objeto) {
             if ($objeto->getTipoBase() === 'upload') {
-                
-                if($cont === 0){
+
+                if ($cont === 0) {
                     $nomeOriginal = $objeto->getId();
                 }
-                
-                $objeto->setNome($nomeOriginal . $coringas[$cont]);               
+
+                $objeto->setNome($nomeOriginal . $coringas[$cont]);
                 $objeto->setValor($nomeOriginal . $coringas[$cont]);
-                $objeto->setId($nomeOriginal . $coringas[$cont]);                
-                
+                $objeto->setId($nomeOriginal . $coringas[$cont]);
+                $objeto->setNomeCampo($nomeOriginal . $coringasMaster[$cont]);
+
                 $objeto->setCodigoReferencia($coringasMaster[$cont]);
                 $upload->sisUpload($objeto);
                 $cont++;
             }
-        }        
+        }
 
         $aRemover = \array_diff($doBanco, $ativos);
 
@@ -125,7 +126,7 @@ class MasterDetail
             $objForm->setValor($objPai->retornaValor($campo . $coringa));
 
             if ($objForm->getTipoBase() === 'upload') {
-                $objForm->setNome($objForm->getNome() . $coringa);                
+                $objForm->setNome($objForm->getNome() . $coringa);
             } else {
                 $colunasCrud[] = $campo;
             }
@@ -172,7 +173,7 @@ class MasterDetail
 
         $colunasCrud[] = $campoReferencia;
         $objPai->set($campoReferencia, $codigoReferencia, 'numero');
-        return $crudUtil->insert($tabela, $colunasCrud, $objPai,['upload']);
+        return $crudUtil->insert($tabela, $colunasCrud, $objPai, ['upload']);
     }
 
     private function removeItens(FormMasterDetail $config, array $aRemover = [])
