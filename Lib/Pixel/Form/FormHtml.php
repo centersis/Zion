@@ -56,6 +56,7 @@ class FormHtml extends FormHtmlZion
             $this->attr('type', 'text'),
             $this->attr('size', $config->getLargura()),
             $this->attr('caixa', $config->getCaixa()),
+            $this->attr('autocomplete', 'false'),
             $this->attr('placeholder', $config->getPlaceHolder())));
 
         $ret = \vsprintf($this->prepareInput(count($attr), $config), $attr);

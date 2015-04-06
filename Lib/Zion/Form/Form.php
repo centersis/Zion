@@ -188,7 +188,13 @@ class Form
             if (\method_exists($objCampos, 'setNomeForm')) {
                 $objCampos->setNomeForm($this->formConfig->getNome());
             }
-
+            
+            if($objCampos->getTipoBase() === 'suggest'){
+                if($objCampos->getHidden() === true){
+                    $this->set($objCampos->getHiddenValue(), $this->retornaValor($objCampos->getHiddenValue()));
+                }
+            }
+            
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
