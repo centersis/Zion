@@ -146,7 +146,8 @@ class Controller
      */
     protected function metodoPOST()
     {
-        return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'POST' ? true : false;
+        //return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'POST' ? true : false;
+        return ($_SERVER['REQUEST_METHOD']) === 'POST' ? true : false;
     }
     
     /**
@@ -155,7 +156,8 @@ class Controller
      */
     protected function metodoGET()
     {
-        return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'GET' ? true : false;
+        //return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'GET' ? true : false;
+        return ($_SERVER['REQUEST_METHOD']) === 'GET' ? true : false;
     }    
 
     /**
