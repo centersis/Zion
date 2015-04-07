@@ -133,7 +133,7 @@ class Controller
             }
         }
 
-        if (empty($selecionados) or ! \is_array($selecionados)) {
+        if (empty($selecionados) or !\is_array($selecionados)) {
             throw new \Exception("Nenhum registro selecionado!");
         }
 
