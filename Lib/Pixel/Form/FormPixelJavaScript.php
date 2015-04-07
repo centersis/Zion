@@ -111,6 +111,18 @@ class FormPixelJavaScript
             $this->upload = true;
         }
 
+        if ($config->getTipoBase() == 'masterDetail') {
+
+            $campos = $config->getCampos();
+
+            foreach ($campos as $objFormMaster) {
+
+                if ($objFormMaster->getTipoBase() === 'upload') {
+                    $this->upload = true;
+                    break;
+                }
+            }
+        }
 
         //Validacão de obrigatório
         if (\method_exists($config, 'getObrigatorio') and $config->getObrigatorio()) {
@@ -232,11 +244,11 @@ class FormPixelJavaScript
                 $metodoDependencia = $config->getMetodoDependencia();
                 $classeDependencia = $config->getClasseDependencia();
                 $nomeCampo = $config->getNome();
-                $callback = $config->getCallback() ? $config->getCallback() : 'false';               
-                
+                $callback = $config->getCallback() ? $config->getCallback() : 'false';
+
                 $url = \SIS_URL_BASE . 'includes/dependencia/';
 
-                $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\','.$callback.');  });';
+                $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\',' . $callback . ');  });';
             }
         }
 
@@ -278,9 +290,9 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'suggest') {
             $this->suggest($formNome, $config);
         }
-        
+
         if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
-            $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "'. \SIS_URL_BASE . 'includes/valida_senha/' .'");});';
+            $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "' . \SIS_URL_BASE . 'includes/valida_senha/' . '");});';
         }
         
         if (\method_exists($config, 'getMascara') and !empty($config->getMascara())) {
@@ -337,7 +349,7 @@ class FormPixelJavaScript
     public function getJsExtraObjeto($objeto, $formNome = '')
     {
         foreach ($objeto as $config) {
-            
+
             $this->processarJS($formNome, $config);
         }
 

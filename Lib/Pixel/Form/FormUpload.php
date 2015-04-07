@@ -50,6 +50,7 @@ class FormUpload extends \Zion\Form\FormUpload
     private $tamanhoMaximoEmBytes;
     private $minimoArquivos;
     private $maximoArquivos;
+    private $nomeCampo;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $tratarComo)
@@ -297,6 +298,18 @@ class FormUpload extends \Zion\Form\FormUpload
         } else {
             throw new FormException("maximoArquivos: Valor não numérico.");
         }
+    }
+    
+    public function getNomeCampo()
+    {
+        return $this->nomeCampo;
+    }
+
+    public function setNomeCampo($nomeCampo)
+    {
+        $this->nomeCampo = $nomeCampo;
+        
+        return $this;
     }
 
     public function setTipoFiltro($tipoFiltro)

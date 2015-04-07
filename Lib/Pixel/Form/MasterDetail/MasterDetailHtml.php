@@ -155,9 +155,25 @@ class MasterDetailHtml
                 }
             }
 
+            //upload
+            if ($configuracao->getTipoBase() === 'upload' and \is_numeric($coringa)) {
+                $configuracao->setCodigoReferencia($coringa);
+            }
+
             $arCampos[] = $configuracao->setNome($novoNomeId)->setId($novoNomeId);
+
+            if ($configuracao->getTipoBase() === 'upload') {
+                //echo $configuracao->getNome() . '-' . $novoNomeId . '-' . $coringa . ' - ' . $configuracao->getTipoBase() . "\n\n\n";
+            }
+
             $form->processarForm($arCampos);
+
             $this->buffer['campos'][$coringa][$nomeOriginal] = $form->getFormHtml($arCampos[0]);
+
+            //upload
+            if ($configuracao->getTipoBase() === 'upload' and \is_numeric($coringa)) {
+                $configuracao->setCodigoReferencia(\NULL);
+            }
 
             $this->buffer['tipos'][$nomeOriginal] = $configuracao->getTipoBase();
 

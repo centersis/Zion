@@ -258,7 +258,7 @@ class CrudUtil
      * Receber uma string de parametros e o objetoform e processa-os retornando um vetor com os paremtros prontos para a inserção
      * retorna Array
      */
-    public function insert($tabela, array $campos, $objForm)
+    public function insert($tabela, array $campos, $objForm, array $ignorarObjetos = [])
     {
 
         $arrayValores = [];
@@ -338,6 +338,10 @@ class CrudUtil
             foreach ($arrayForm as $objeto) {
 
                 $tipoBase = $objeto->getTipoBase();
+                
+                if(\in_array($tipoBase, $ignorarObjetos)){
+                    continue;
+                }
 
                 switch ($tipoBase) {
 
@@ -363,7 +367,7 @@ class CrudUtil
         return $uid;
     }
 
-    public function update($tabela, array $campos, $objForm, array $criterio, array $tipagemCriterio = [])
+    public function update($tabela, array $campos, $objForm, array $criterio, array $tipagemCriterio = [], array $ignorarObjetos = [])
     {
 
         $upload = new \Pixel\Arquivo\ArquivoUpload();
@@ -464,10 +468,14 @@ class CrudUtil
 
                 $tipoBase = $objeto->getTipoBase();
 
+                if(\in_array($tipoBase, $ignorarObjetos)){
+                    continue;
+                }
+                
                 switch ($tipoBase) {
 
                     case 'upload':
-
+                        
                         $upload = new \Pixel\Arquivo\ArquivoUpload();
                         $objeto->setCodigoReferencia($codigo);
                         $upload->sisUpload($objeto);
