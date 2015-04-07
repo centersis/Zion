@@ -185,16 +185,16 @@ class Conexao
 
         if (\is_object($sql)) {
 
+            if ($sql->getType() !== 0) {
+                (new Log())->registraLog($sql, self::$logHash);
+            }
+
             $resultSet = $sql->execute();
 
             if ($sql->getType() === 0) { //0 = SELECT                
                 $this->linhasAfetadas = $this->nLinhas($resultSet);
             } else {
                 $this->linhasAfetadas = $resultSet;
-            }
-
-            if ($sql->getType() !== 0 and $this->linhasAfetadas > 0) {
-                (new Log())->registraLog($sql, self::$logHash);
             }
 
             return $resultSet;

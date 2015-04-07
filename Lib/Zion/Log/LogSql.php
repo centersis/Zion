@@ -60,7 +60,7 @@ class LogSql
                      'logDataHora'  => $qb->expr()->literal(date('Y-m-d H:i:s'))
                     ])
            ->setParameters(['usuarioCod'   => $actParams['usuarioCod'],
-                            'moduloCod'    => $actParams['modulo']['modulocod'],
+                            'moduloCod'    => $actParams['moduloCod'],
                             'logHash'      => $logHash,
                             'logId'        => $actParams['id'],
                             'logAcao'      => $actParams['acao'],

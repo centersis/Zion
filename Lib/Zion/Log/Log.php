@@ -39,13 +39,34 @@ class Log extends LogSql
         $this->con = \Zion\Banco\Conexao::conectar();       
     }
     
+    /**
+     * Registro de LOG segundo a perspectiva humana
+     * 
+     * 
+     */
+    public function registraLogUsuario($usuarioCod, $moduloCod, $logAcao, \Doctrine\DBAL\Query\QueryBuilder $logSql, $logId = NULL, $logHash = false, $logTab = NULL)
+    {
+       
+        $this->salvarlLog(['usuarioCod' => $usuarioCod,
+                            'moduloCod' => $moduloCod, 
+                            'id'        => $logId, 
+                            'acao'      => $logAcao,
+                            'tab'       => $logTab
+                           ], $this->getSqlCompleta($logSql), ($logHash ?: \bin2hex(\openssl_random_pseudo_bytes(25))));
+    }
+    
     public function registraLog(\Doctrine\DBAL\Query\QueryBuilder $sql, $logHash)
     {
         $sqlCompleta    = $this->getSqlCompleta($sql);
         $actParams      = $this->getActionParams();
-        
+
         if(empty($actParams['id'])){
-            $actParams['id'] = $this->getIdRegistroSql($sql, $sqlCompleta);
+
+            if($sql->getType() === 1 or $sql->getType() === 2){
+                $actParams['id'] = $this->getIdRegistroSql($sql, $sqlCompleta);
+            } elseif($sql->getType() === 3) {
+                $actParams['id'] = NULL;
+            }
         }
         
         $this->salvarlLog($actParams, $sqlCompleta, $logHash);
@@ -59,7 +80,7 @@ class Log extends LogSql
         $acao   = \filter_input(\INPUT_GET, 'acao');
               
         return ['usuarioCod'    => $_SESSION['usuarioCod'],
-                'modulo'        => $modulo, 
+                'moduloCod'     => $modulo['modulocod'], 
                 'id'            => $id, 
                 'acao'          => $acao,
                 'tab'           => $tab
@@ -69,11 +90,15 @@ class Log extends LogSql
     
     private function getIdRegistroSql(\Doctrine\DBAL\Query\QueryBuilder $sql, $sqlCompleta)
     {
-        $parts = $this->getAtributosPrivados($sql->getQueryPart('where'))['parts'];
+        $parts = $this->getAtributosPrivados($sql->getQueryPart('where'));
+        
+        if(!isset($parts['parts'])){
+            return NULL;
+        }
         
         $idRegistro = NULL;
 
-        foreach($parts as $k => $v) {
+        foreach($parts['parts'] as $k => $v) {
             
             $param = \preg_replace('/\s/', '', \explode('=', $v)[0]);
             $matches = [];
