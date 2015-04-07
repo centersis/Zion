@@ -309,7 +309,7 @@ function sisAlterarPadrao(nomeForm, upload) {
                 $("#panel" + nomeForm).remove();
             }
 
-            //sisFiltrarPadrao('');
+            sisFiltrarPadrao('');
         }
         else {
             botoesPadrao(nomeForm, false);
