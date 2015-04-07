@@ -132,11 +132,11 @@ class Controller
                 $selecionados = 0;
             }
         }
-
+/*
         if (empty($selecionados) or !\is_array($selecionados)) {
             throw new \Exception("Oops! Nenhum registro selecionado!");
         }
-
+*/
         return $selecionados;
     }
 
