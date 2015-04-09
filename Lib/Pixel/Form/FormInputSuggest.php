@@ -52,6 +52,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $espera;
     private $tamanhoMinimo;
     private $hidden;
+    private $hiddenSql;
     private $onSelect;
     private $converterHtml;
     private $autoTrim;
@@ -309,6 +310,18 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         }
     }
 
+    public function getHiddenSql()
+    {
+        return $this->hiddenSql;
+    }
+
+    public function setHiddenSql($hiddenSql)
+    {
+        $this->hiddenSql = $hiddenSql;
+        
+        return $this;
+    }
+
     public function getOnSelect()
     {
         return $this->onSelect;
@@ -483,7 +496,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 //
 //            $valor = \filter_input($tipo, 'sisH' . $this->getNome());
 //        }
-        
+
         parent::setValor($valor);
 
         return $this;

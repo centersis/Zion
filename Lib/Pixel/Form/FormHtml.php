@@ -62,17 +62,22 @@ class FormHtml extends FormHtmlZion
 
             if (\is_numeric($valorOriginal)) {
                 $con = Conexao::conectar();
-                $qb = $con->qb();
 
-                $qb->select($config->getCampoDesc())
-                        ->from($config->getTabela(), '')
-                        ->where($qb->expr()->eq($config->getCampoCod(), ':campoCod'))
+                if ($config->getHiddenSql()) {
+                    $qb = $config->getHiddenSql();
+                } else {
+                    $qb = $con->qb();
+                    $qb->select($config->getCampoDesc())
+                            ->from($config->getTabela(), '');
+                }
+
+                $qb->where($qb->expr()->eq($config->getCampoCod(), ':campoCod'))
                         ->setParameter('campoCod', $valorOriginal, \PDO::PARAM_INT);
 
                 $valorTexto = $con->execRLinha($qb);
-                $config->setValor($valorTexto);              
+                $config->setValor($valorTexto);
             }
-            
+
             $config->setNome('sisL' . $nome);
             $config->setId('sisL' . $nome);
 
