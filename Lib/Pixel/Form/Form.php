@@ -242,6 +242,9 @@ class Form extends FormZion
                     $htmlCampos[$idCampo] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'suggest' :
+                    
+                    $objCampos->setMethod($this->formConfig->getMethod());
+                    
                     $htmlCampos[$idCampo] = $this->formPixel->montaSuggest($objCampos);
                     break;
                 case 'data' :

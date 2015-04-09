@@ -34,6 +34,7 @@ namespace Pixel\Form;
 use Zion\Form\FormHtml as FormHtmlZion;
 use Zion\Form\FormInputHidden;
 use Zion\Layout\JavaScript;
+use Zion\Banco\Conexao;
 use Pixel\Form\MasterDetail\FormMasterDetail;
 use Pixel\Form\MasterDetail\MasterDetailHtml;
 use Pixel\Form\MasterVinculo\FormMasterVinculo;
@@ -52,6 +53,35 @@ class FormHtml extends FormHtmlZion
     {
         $this->preConfig($config);
 
+        $nome = $config->getNome();
+        $valorOriginal = '';
+        $retHidden = '';
+        if ($config->getHidden()) {
+
+            $valorOriginal = $config->getValor();
+
+            if (\is_numeric($valorOriginal)) {
+                $con = Conexao::conectar();
+                $qb = $con->qb();
+
+                $qb->select($config->getCampoDesc())
+                        ->from($config->getTabela(), '')
+                        ->where($qb->expr()->eq($config->getCampoCod(), ':campoCod'))
+                        ->setParameter('campoCod', $valorOriginal, \PDO::PARAM_INT);
+
+                $valorTexto = $con->execRLinha($qb);
+                $config->setValor($valorTexto);              
+            }
+            
+            $config->setNome('sisL' . $nome);
+            $config->setId('sisL' . $nome);
+
+            $cofHidden = new FormInputHidden('hidden', $nome);
+            $cofHidden->setValor($valorOriginal);
+
+            $retHidden = $this->montaHidden($cofHidden);
+        }
+
         $attr = \array_merge($this->opcoesBasicas($config), array(
             $this->attr('type', 'text'),
             $this->attr('size', $config->getLargura()),
@@ -61,18 +91,7 @@ class FormHtml extends FormHtmlZion
 
         $ret = \vsprintf($this->prepareInput(count($attr), $config), $attr);
 
-
-        if ($config->getHidden()) {
-
-            $nome = $config->getNome();
-
-            $cofHidden = new FormInputHidden('hidden', 'sisH' . $nome);
-            $cofHidden->setValor($config->getHiddenValue());
-
-            $ret.= $this->montaHidden($cofHidden);
-        }
-
-        return $ret;
+        return $ret . $retHidden;
     }
 
     public function montaTexto($config)
@@ -255,7 +274,7 @@ class FormHtml extends FormHtmlZion
     {
         return (new MasterVinculoHtml())->montaMasterVinculo($config, $nomeForm);
     }
-    
+
     private function montaCheckRadioPixel($tipo, $arrayCampos, $config)
     {
         $type = $tipo === 'check' ? 'checkbox' : 'radio';
