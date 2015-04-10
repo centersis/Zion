@@ -67,7 +67,6 @@ class FormPixelJavaScript
         $parametros .= '&l=' . $config->getLimite();
         $parametros .= $config->getParametros();
 
-
         $abre = ' $( "#' . $formNome . ' #' . $id . '" ).autocomplete({ ';
         $attr[] = ' source: "' . $url . $parametros . '"';
 
@@ -85,7 +84,7 @@ class FormPixelJavaScript
 
         $onSelect = '';
         if ($config->getHidden()) {
-            $onSelect .= '$("#' . $formNome . ' #sisH' . $config->getNome() . '").val(ui.item.id); ';
+            $onSelect .= '$("#' . $formNome . ' #' . \str_replace('sisL', '', $id) . '").val(ui.item.id); ';
         }
 
         if ($config->getOnSelect()) {
@@ -294,11 +293,10 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
             $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "' . \SIS_URL_BASE . 'includes/valida_senha/' . '");});';
         }
-        
-        if (\method_exists($config, 'getMascara') and !empty($config->getMascara())) {
-            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("'. $config->getMascara() .'");';
-        }
 
+        if (\method_exists($config, 'getMascara') and ! empty($config->getMascara())) {
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("' . $config->getMascara() . '");';
+        }
     }
 
     public function montaValidacao($formNome, $acao, $jsExtra = true)

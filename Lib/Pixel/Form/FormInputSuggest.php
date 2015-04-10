@@ -52,7 +52,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $espera;
     private $tamanhoMinimo;
     private $hidden;
-    private $hiddenValue;
+    private $hiddenSql;
     private $onSelect;
     private $converterHtml;
     private $autoTrim;
@@ -64,6 +64,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $processarJS;
     private $tipoFiltro;
     private $formSetPixel;
+    private $method;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -108,7 +109,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setCaixa($caixa)
     {
-        if (strtoupper($caixa) == "ALTA" or strtoupper($caixa) == "BAIXA") {
+        if (\strtoupper($caixa) == "ALTA" or \strtoupper($caixa) == "BAIXA") {
             $this->caixa = $caixa;
             return $this;
         } else {
@@ -293,8 +294,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             throw new FormException("tamanhoMinimo: Nenhum valor informado.");
         }
     }
-    
-    
+
     public function getHidden()
     {
         return $this->hidden;
@@ -310,19 +310,16 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         }
     }
 
-    public function getHiddenValue()
+    public function getHiddenSql()
     {
-        return $this->hiddenValue;
+        return $this->hiddenSql;
     }
 
-    public function setHiddenValue($hiddenValue)
+    public function setHiddenSql($hiddenSql)
     {
-        if (!empty($hiddenValue)) {
-            $this->hiddenValue = $hiddenValue;
-            return $this;
-        } else {
-            throw new FormException("hiddenValue: Nenhum valor informado.");
-        }
+        $this->hiddenSql = $hiddenSql;
+        
+        return $this;
     }
 
     public function getOnSelect()
@@ -455,8 +452,19 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->tipoFiltro;
     }
 
+    public function setMethod($method)
+    {
+        $this->method = \strtoupper($method);
+        return $this;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
     /**
-     * Sobrecarga de Metodos Básicos
+     * Sobrecarga de Methods Básicos
      */
     public function setId($id)
     {
@@ -478,7 +486,19 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setValor($valor)
     {
+//        if ($this->getHidden()) {
+//
+//            if ($this->method === 'POST') {
+//                $tipo = \INPUT_POST;
+//            } else {
+//                $tipo = \INPUT_GET;
+//            }
+//
+//            $valor = \filter_input($tipo, 'sisH' . $this->getNome());
+//        }
+
         parent::setValor($valor);
+
         return $this;
     }
 

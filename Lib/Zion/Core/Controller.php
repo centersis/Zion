@@ -133,21 +133,32 @@ class Controller
             }
         }
 
-        if (empty($selecionados) or ! \is_array($selecionados)) {
-            throw new \Exception("Nenhum registro selecionado!");
+        if (empty($selecionados) or !\is_array($selecionados)) {
+            throw new \Exception("Oops! Nenhum registro selecionado!");
         }
 
         return $selecionados;
     }
 
     /**
-     * Retona verdadeiro cado o metodo da requisição seja POST
+     * Retona verdadeiro caso o metodo da requisição seja POST
      * @return boolean
      */
     protected function metodoPOST()
     {
-        return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'POST' ? true : false;
+        //return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'POST' ? true : false;
+        return ($_SERVER['REQUEST_METHOD']) === 'POST' ? true : false;
     }
+    
+    /**
+     * Retona verdadeiro caso o metodo da requisição seja GET
+     * @return boolean
+     */
+    protected function metodoGET()
+    {
+        //return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'GET' ? true : false;
+        return ($_SERVER['REQUEST_METHOD']) === 'GET' ? true : false;
+    }    
 
     /**
      * Recupera o valor da variavel cod enviada via POST
@@ -157,6 +168,15 @@ class Controller
     {
         return \filter_input(\INPUT_POST, 'cod');
     }
+    
+    /**
+     * Recupera o valor da variavel cod enviada via GET
+     * @return int
+     */
+    protected function getCod()
+    {
+        return \filter_input(\INPUT_GET, 'cod');
+    }    
 
     /**
      * Monta o layout do formulário em abas, após o primeiro parametro são 
