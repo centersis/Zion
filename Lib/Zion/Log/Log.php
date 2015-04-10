@@ -44,11 +44,10 @@ class Log extends LogSql
      * 
      * 
      */
-    public function registraLogUsuario($usuarioCod, $moduloCod, $logAcao, \Doctrine\DBAL\Query\QueryBuilder $logSql, $logId = NULL, $logHash = false, $logTab = NULL)
+    public function registraLogUsuario($usuarioCod, $moduloNome, $logAcao, \Doctrine\DBAL\Query\QueryBuilder $logSql, $logId = NULL, $logHash = false, $logTab = NULL)
     {
-       
         $this->salvarlLog(['usuarioCod' => $usuarioCod,
-                            'moduloCod' => $moduloCod, 
+                            'moduloCod' => $this->getDadosModulo($moduloNome)['modulocod'], 
                             'id'        => $logId, 
                             'acao'      => $logAcao,
                             'tab'       => $logTab
