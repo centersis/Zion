@@ -43,18 +43,13 @@ class FormMasterVinculo
     private $addMax;
     private $addMin;
     private $addTexto;
-    private $codigo;
     private $botaoRemover;
     private $totalItensInicio;
     private $valorItensDeInicio;
     private $objetoPai;
-    private $campoReferencia;
     private $codigoReferencia;
     private $objetoRemover;
     private $metodoRemover;
-    private $tabelaCampos;
-    private $formCampos;
-    private $vinculo;
 
     /**
      * Construtor
@@ -89,96 +84,6 @@ class FormMasterVinculo
         return $this->nome;
     }
 
-    public function getIdentifica()
-    {
-        return $this->identifica;
-    }
-
-    public function getAddMax()
-    {
-        return $this->addMax;
-    }
-
-    public function getAddMin()
-    {
-        return $this->addMin;
-    }
-
-    public function getAddTexto()
-    {
-        return $this->addTexto;
-    }
-
-    public function getTabela()
-    {
-        return $this->tabela;
-    }
-
-    public function getCodigo()
-    {
-        return \strtolower($this->codigo);
-    }
-
-    public function getCampos()
-    {
-        return $this->campos;
-    }
-
-    public function getBotaoRemover()
-    {
-        return $this->botaoRemover;
-    }
-
-    public function getTotalItensInicio()
-    {
-        return $this->totalItensInicio;
-    }
-
-    public function getValorItensDeInicio()
-    {
-        return $this->valorItensDeInicio;
-    }
-
-    public function getObjetoPai()
-    {
-        return $this->objetoPai;
-    }
-
-    public function getCampoReferencia()
-    {
-        return $this->campoReferencia;
-    }
-
-    public function getCodigoReferencia()
-    {
-        return $this->codigoReferencia;
-    }
-
-    public function getObjetoRemover()
-    {
-        return $this->objetoRemover;
-    }
-
-    public function getMetodoRemover()
-    {
-        return $this->metodoRemover;
-    }
-
-    public function getTabelaCampos()
-    {
-        return $this->tabelaCampos;
-    }
-
-    public function getFormCampos()
-    {
-        return $this->formCampos;
-    }
-
-    public function getVinculo()
-    {
-        return $this->vinculo;
-    }
-
     /**
      * Nome do componente
      * @param string $nome
@@ -195,6 +100,11 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getIdentifica()
+    {
+        return $this->identifica;
+    }
+
     /**
      * Identificador do componente
      * @param string $identifica
@@ -209,6 +119,11 @@ class FormMasterVinculo
 
         $this->identifica = $identifica;
         return $this;
+    }
+
+    public function getAddMax()
+    {
+        return $this->addMax;
     }
 
     /**
@@ -229,6 +144,11 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getAddMin()
+    {
+        return $this->addMin;
+    }
+
     /**
      * Número mínimo de itens que podem ser adicionados, por padrão o valor 
      * inicial deste atributo é 0, oque siguinifica que ele aceita 0 (Zero) ou
@@ -244,6 +164,11 @@ class FormMasterVinculo
 
         $this->addMin = $addMin;
         return $this;
+    }
+
+    public function getAddTexto()
+    {
+        return $this->addTexto;
     }
 
     /**
@@ -262,49 +187,26 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getGravar()
+    {
+        return $this->gravar;
+    }
+
     /**
      * Tabela do banco de dados
-     * @param string $tabela
+     * @param array $dados
      * @return \Pixel\Form\FormMasterVinculo
      * @throws FormException
      */
-    public function setTabela($tabela)
+    public function setGravar(array $dados)
     {
-        if (!\is_string($tabela) or empty($tabela)) {
-            throw new FormException('setTabela: Informe a tabela de referencia corretamente!');
-        }
-
-        $this->tabela = $tabela;
+        $this->tabela = $dados;
         return $this;
     }
 
-    public function setCodigo($codigo)
+    public function getBotaoRemover()
     {
-        if (!\is_string($codigo) or empty($codigo)) {
-            throw new FormException('setCodigo: Informe o código da tabela corretamente!');
-        }
-
-        $this->codigo = $codigo;
-        return $this;
-    }
-
-    /**
-     * Deve ser informado um array com a seguinte estrutura:
-     * A chave do array deve conter a coluna da tabela informada em setTabela()
-     * O valor da chave, deve ser um objeto do tipo Form configurado de acordo
-     * com as nescessidades
-     * @param array $campos
-     * @return \Pixel\Form\FormMasterVinculo
-     * @throws FormException
-     */
-    public function setCampos($campos)
-    {
-        if (!\is_array($campos) or empty($campos)) {
-            throw new FormException('setCampos: Informe a configuração de campos corretamente!');
-        }
-
-        $this->campos = $campos;
-        return $this;
+        return $this->botaoRemover;
     }
 
     /**
@@ -323,6 +225,11 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getTotalItensInicio()
+    {
+        return $this->totalItensInicio;
+    }
+
     /**
      * Indica o número de itens que devem existir inicialemnte
      * @param int $totalItensInicio
@@ -339,6 +246,11 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getValorItensDeInicio()
+    {
+        return $this->valorItensDeInicio;
+    }
+
     public function setValorItensDeInicio($valorItensDeInicio)
     {
         if (!empty($valorItensDeInicio)) {
@@ -353,6 +265,11 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getObjetoPai()
+    {
+        return $this->objetoPai;
+    }
+
     public function setObjetoPai($objetoPai)
     {
         if (\is_object($objetoPai)) {
@@ -364,15 +281,9 @@ class FormMasterVinculo
         return $this;
     }
 
-    public function setCampoReferencia($campoReferencia)
+    public function getCodigoReferencia()
     {
-        if (!empty($campoReferencia) and \is_string($campoReferencia)) {
-            $this->campoReferencia = $campoReferencia;
-        } else {
-            throw new FormException("campoReferencia: Valor não é válido.");
-        }
-
-        return $this;
+        return $this->codigoReferencia;
     }
 
     public function setCodigoReferencia($codigoReferencia)
@@ -390,6 +301,11 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getObjetoRemover()
+    {
+        return $this->objetoRemover;
+    }
+
     public function setObjetoRemover($objetoRemover, $metodoRemover)
     {
         if (\is_object($objetoRemover)) {
@@ -403,6 +319,11 @@ class FormMasterVinculo
         return $this;
     }
 
+    public function getMetodoRemover()
+    {
+        return $this->metodoRemover;
+    }
+
     private function setMetodoRemover($metodoRemover)
     {
         if (!empty($metodoRemover) and \is_string($metodoRemover)) {
@@ -414,18 +335,4 @@ class FormMasterVinculo
         return $this;
     }
 
-    public function setTabelaCampos($tabela, array $campos)
-    {
-        $this->tabelaCampos[$tabela] = $campos;
-    }
-
-    public function setFormCampos(array $campos)
-    {
-        $this->formCampos = $campos;
-    }
-
-    public function setVinculo(array $vinculo)
-    {
-        $this->vinculo = $vinculo;
-    }
 }
