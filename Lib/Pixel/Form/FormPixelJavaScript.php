@@ -293,10 +293,12 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
             $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "' . \SIS_URL_BASE . 'includes/valida_senha/' . '");});';
         }
-
+/*
         if (\method_exists($config, 'getMascara') and ! empty($config->getMascara())) {
             $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("' . $config->getMascara() . '");';
         }
+ */
+        
     }
 
     public function montaValidacao($formNome, $acao, $jsExtra = true)
