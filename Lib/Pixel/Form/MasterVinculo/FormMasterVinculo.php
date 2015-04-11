@@ -42,6 +42,7 @@ class FormMasterVinculo
     private $identifica;
     private $addMax;
     private $addMin;
+    private $gravar;
     private $addTexto;
     private $botaoRemover;
     private $totalItensInicio;
@@ -187,20 +188,26 @@ class FormMasterVinculo
         return $this;
     }
 
-    public function getGravar()
+    public function getGravar($tabela = '')
     {
+        if($tabela and \array_key_exists($tabela, $this->gravar)){
+            return $this->gravar[$tabela];
+        }
+        
         return $this->gravar;
     }
 
     /**
      * Tabela do banco de dados
-     * @param array $dados
+     * @param string $tabela
+     * @param array $gravar
      * @return \Pixel\Form\FormMasterVinculo
      * @throws FormException
      */
-    public function setGravar(array $dados)
+    public function setGravar($tabela, array $gravar)
     {
-        $this->tabela = $dados;
+        $this->gravar[$tabela] = $gravar;
+        
         return $this;
     }
 

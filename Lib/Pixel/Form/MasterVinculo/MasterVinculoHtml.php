@@ -56,7 +56,7 @@ class MasterVinculoHtml
         $valorItensDeInicio = $config->getValorItensDeInicio();
 
         $this->buffer['id'] = $config->getNome();
-        
+
         $acao = $objPai->getAcao();
 
         if ($acao == 'alterar') {
@@ -77,11 +77,11 @@ class MasterVinculoHtml
 
         if ($config->getBotaoRemover()) {
             $this->buffer['botaoRemover'] = 'true';
-        }                
-        
+        }
+
         $carregador = new Carregador();
 
-        return $carregador->render('master_detail.html.twig', $this->buffer);
+        return $carregador->render('master_vinculo.html.twig', $this->buffer);
     }
 
     private function camposDoBanco(FormMasterVinculo $config, $nomeForm)
@@ -118,66 +118,73 @@ class MasterVinculoHtml
         $this->buffer['ativos'] = \implode(',', $ativos);
     }
 
-    private function montaGrupoDeCampos($config, $coringa, $nomeForm, array $valores = [], $limpar = false)
+    private function montaGrupoDeCampos(FormMasterVinculo $config, $coringa, $nomeForm, array $valores = [], $limpar = false)
     {
         $form = new Form();
         $pixelJs = new FormPixelJavaScript();
 
-        $campos = $config->getCampos();
+        $tabelas = $config->getGravar();
 
-        $nomeOriginal = '';
+        foreach ($tabelas as $camposTabela) {
 
-        foreach ($campos as $nomeOriginal => $configuracao) {
+            $nomeOriginal = '';
 
-            $arCampos = [];
+            foreach ($camposTabela as $nomeOriginal => $configuracao) {
 
-            $novoNomeId = $nomeOriginal . $coringa;
-            $nomeOriginalMinusculo = \strtolower($nomeOriginal);
-
-            if (!empty($valores) and \array_key_exists($nomeOriginalMinusculo, $valores)) {
-
-                $configuracao->setValor($valores[$nomeOriginalMinusculo]);
-            }
-
-            if ($limpar) {
-                $valorPadrao = $configuracao->getValorPadrao();
-                if ($valorPadrao) {
-                    $configuracao->setValor($valorPadrao);
-                } else {
-                    $configuracao->setValor(\NULL);
+                if(!\is_object($configuracao)){
+                    continue;
                 }
-            }
+                
+                $arCampos = [];
 
-            $arCampos[] = $configuracao->setNome($novoNomeId)->setId($novoNomeId);
-            $form->processarForm($arCampos);
-            $this->buffer['campos'][$coringa][$nomeOriginal] = $form->getFormHtml($arCampos[0]);
+                $novoNomeId = $nomeOriginal . $coringa;
+                $nomeOriginalMinusculo = \strtolower($nomeOriginal);
 
-            $this->buffer['tipos'][$nomeOriginal] = $configuracao->getTipoBase();
-            
-            if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
-                $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
-            }
+                if (!empty($valores) and \array_key_exists($nomeOriginalMinusculo, $valores)) {
 
-            if (\method_exists($configuracao, 'getIdentifica')) {
-                $this->buffer['identifica'][$nomeOriginal] = $configuracao->getIdentifica();
-            }
+                    $configuracao->setValor($valores[$nomeOriginalMinusculo]);
+                }
 
-            if (\method_exists($configuracao, 'getLabelAntes') and $configuracao->getLabelAntes()) {
-                $this->buffer['labelAntes'][$nomeOriginal] = $configuracao->getLabelAntes();
-            }
+                if ($limpar) {
+                    $valorPadrao = $configuracao->getValorPadrao();
+                    if ($valorPadrao) {
+                        $configuracao->setValor($valorPadrao);
+                    } else {
+                        $configuracao->setValor(\NULL);
+                    }
+                }
 
-            if (\method_exists($configuracao, 'getLabelAntes') and $configuracao->getLabelDepois()) {
-                $this->buffer['labelAntes'][$nomeOriginal] = $configuracao->getLabelDepois();
-            }
+                $arCampos[] = $configuracao->setNome($novoNomeId)->setId($novoNomeId);
+                $form->processarForm($arCampos);
+                $this->buffer['campos'][$coringa][$nomeOriginal] = $form->getFormHtml($arCampos[0]);
 
-            if (\method_exists($configuracao, 'getIconFA') and $configuracao->getIconFA()) {
-                $this->buffer['iconFA'][$nomeOriginal] = 'fa ' . $configuracao->getIconFA() . ' form-control-feedback';
-            }
+                $this->buffer['tipos'][$nomeOriginal] = $configuracao->getTipoBase();
 
-            $js = $pixelJs->getJsExtraObjeto($arCampos, $nomeForm);
+                if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
+                    $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
+                }
 
-            if ($js) {
-                $this->buffer['javascript'][$coringa] = $js;
+                if (\method_exists($configuracao, 'getIdentifica')) {
+                    $this->buffer['identifica'][$nomeOriginal] = $configuracao->getIdentifica();
+                }
+
+                if (\method_exists($configuracao, 'getLabelAntes') and $configuracao->getLabelAntes()) {
+                    $this->buffer['labelAntes'][$nomeOriginal] = $configuracao->getLabelAntes();
+                }
+
+                if (\method_exists($configuracao, 'getLabelAntes') and $configuracao->getLabelDepois()) {
+                    $this->buffer['labelAntes'][$nomeOriginal] = $configuracao->getLabelDepois();
+                }
+
+                if (\method_exists($configuracao, 'getIconFA') and $configuracao->getIconFA()) {
+                    $this->buffer['iconFA'][$nomeOriginal] = 'fa ' . $configuracao->getIconFA() . ' form-control-feedback';
+                }
+
+                $js = $pixelJs->getJsExtraObjeto($arCampos, $nomeForm);
+
+                if ($js) {
+                    $this->buffer['javascript'][$coringa] = $js;
+                }
             }
         }
     }
@@ -185,9 +192,9 @@ class MasterVinculoHtml
     private function botaoAdd(FormMasterVinculo $config, $nomeForm, $ativos)
     {
         $coringa = $this->coringa();
-        
+
         $this->buffer['botaoAdd'] = $config->getAddTexto();
-        
+
         $this->montaGrupoDeCampos($config, $coringa, $nomeForm, [], true);
 
         $this->buffer['config'] = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover() ? 'true' : 'false', 'coringa' => $coringa, 'ativos' => $ativos];
