@@ -90,31 +90,41 @@ class MasterVinculoHtml
 
         $ativos = [];
 
-        $tabela = $config->getTabela();
-        $codigo = $config->getCodigo();
-        $campoReferencia = $config->getCampoReferencia();
+        $tabelas = $config->getGravar();
         $codigoReferencia = $config->getCodigoReferencia();
-        $campos = $config->getCampos();
-        $nomeCampos = \array_keys($campos);
 
-        if (!\in_array($codigo, $nomeCampos)) {
-            $nomeCampos[] = $codigo;
+        foreach ($tabelas as $tabela => $campos) {
+
+            if (!\is_object($campos)) {
+                var_dump($campos);
+                echo "\n\n";
+                continue;
+            }
+
+            $codigo = $config->getCampoCod($tabela);
+
+            $nomeCampos = \array_keys($campos);
+
+            if (!\in_array($codigo, $nomeCampos)) {
+                $nomeCampos[] = $codigo;
+            }
+
+            $qb = $con->qb();
+            $qb->select(\implode(',', $nomeCampos))
+                    ->from($tabela, '')
+                    ->where($qb->expr()->eq($codigo, ':cod'))
+                    ->setParameter(':cod', $codigoReferencia);
+            echo "Merda".$qb;
+            $rs = $con->executar($qb);
+
+            while ($dados = $rs->fetch()) {
+
+                $coringa = $dados[$codigo];
+                $ativos[] = $coringa;
+                $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $dados);
+            }            
         }
-
-        $qb = $con->qb();
-        $qb->select(\implode(',', $nomeCampos))
-                ->from($tabela, '')
-                ->where($qb->expr()->eq($campoReferencia, ':cod'))
-                ->setParameter(':cod', $codigoReferencia);
-        $rs = $con->executar($qb);
-
-        while ($dados = $rs->fetch()) {
-
-            $coringa = $dados[$codigo];
-            $ativos[] = $coringa;
-            $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $dados);
-        }
-
+        
         $this->buffer['ativos'] = \implode(',', $ativos);
     }
 
@@ -131,10 +141,10 @@ class MasterVinculoHtml
 
             foreach ($camposTabela as $nomeOriginal => $configuracao) {
 
-                if(!\is_object($configuracao)){
+                if (!\is_object($configuracao)) {
                     continue;
                 }
-                
+
                 $arCampos = [];
 
                 $novoNomeId = $nomeOriginal . $coringa;

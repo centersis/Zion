@@ -43,6 +43,7 @@ class FormMasterVinculo
     private $addMax;
     private $addMin;
     private $gravar;
+    private $campoCod;
     private $addTexto;
     private $botaoRemover;
     private $totalItensInicio;
@@ -196,6 +197,15 @@ class FormMasterVinculo
         
         return $this->gravar;
     }
+    
+    public function getCampoCod($campoCod = '')
+    {
+        if($campoCod and \array_key_exists($campoCod, $this->campoCod)){
+            return $this->campoCod[$campoCod];
+        }
+        
+        return $this->campoCod;
+    }
 
     /**
      * Tabela do banco de dados
@@ -204,9 +214,10 @@ class FormMasterVinculo
      * @return \Pixel\Form\FormMasterVinculo
      * @throws FormException
      */
-    public function setGravar($tabela, array $gravar)
+    public function setGravar($tabela, array $gravar, $colunaCod)
     {
         $this->gravar[$tabela] = $gravar;
+        $this->campoCod[$tabela] = $colunaCod;
         
         return $this;
     }

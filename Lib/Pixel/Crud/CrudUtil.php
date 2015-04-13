@@ -338,8 +338,8 @@ class CrudUtil
             foreach ($arrayForm as $objeto) {
 
                 $tipoBase = $objeto->getTipoBase();
-                
-                if(\in_array($tipoBase, $ignorarObjetos)){
+
+                if (\in_array($tipoBase, $ignorarObjetos)) {
                     continue;
                 }
 
@@ -357,6 +357,13 @@ class CrudUtil
                         $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
                         $objeto->setCodigoReferencia($uid);
                         $masterDetail->gravar($objeto);
+                        break;
+
+                    case 'masterVinculo':
+
+                        $masterVinculo = new \Pixel\Form\MasterVinculo\MasterVinculo();
+                        $objeto->setCodigoReferencia($uid);
+                        $masterVinculo->gravar($objeto);
                         break;
                 }
             }
@@ -432,8 +439,8 @@ class CrudUtil
         foreach ($camposVistoriados as $coluna) {
             $qb->set($coluna, '?');
         }
-        
-        if(\is_array($arrayValores) and !empty($arrayValores)){ 
+
+        if (\is_array($arrayValores) and ! empty($arrayValores)) {
 
             foreach ($arrayValores as $chave => $valor) {
 
@@ -454,10 +461,9 @@ class CrudUtil
             }
 
             $linhasAfetadas = $this->con->executar($qb);
-            
         }
-        
-        $codigo = \current($criterio);        
+
+        $codigo = \current($criterio);
 
 
         /**
@@ -468,14 +474,14 @@ class CrudUtil
 
                 $tipoBase = $objeto->getTipoBase();
 
-                if(\in_array($tipoBase, $ignorarObjetos)){
+                if (\in_array($tipoBase, $ignorarObjetos)) {
                     continue;
                 }
-                
+
                 switch ($tipoBase) {
 
                     case 'upload':
-                        
+
                         $upload = new \Pixel\Arquivo\ArquivoUpload();
                         $objeto->setCodigoReferencia($codigo);
                         $upload->sisUpload($objeto);
@@ -486,6 +492,13 @@ class CrudUtil
                         $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
                         $objeto->setCodigoReferencia($codigo);
                         $masterDetail->gravar($objeto);
+                        break;
+                    
+                    case 'masterVinculo':
+
+                        $masterVinculo = new \Pixel\Form\MasterVinculo\MasterVinculo();
+                        $objeto->setCodigoReferencia($uid);
+                        $masterVinculo->gravar($objeto);
                         break;
                 }
             }
