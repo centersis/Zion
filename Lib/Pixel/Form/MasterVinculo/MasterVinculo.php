@@ -77,70 +77,109 @@ class MasterVinculo
         $this->removeItens($config, $aRemover);
     }
 
-    private function update($config, $coringa)
+    private function update(FormMasterVinculo $config, $coringa)
     {
         $crudUtil = new CrudUtil();
 
-        $tabela = $config->getTabela();
-        $codigo = $config->getCodigo();
-        $campos = $config->getCampos();
+        $tabelas = $config->getGravar();
         $objPai = $config->getObjetoPai();
 
-        $colunasCrud = [];
-        $grupo = [];
-        foreach ($campos as $campo => $objForm) {
+        foreach ($tabelas as $tabela => $campos) {
 
-            $objForm->setNome($campo);
-            $objForm->setValor($objPai->retornaValor($campo . $coringa));
-            $colunasCrud[] = $campo;
-            $grupo[] = $objForm;
+            $colunasCrud = [];
+            $grupo = [];
+            foreach ($campos as $campo => $objForm) {
+
+                if (\substr_count($campo, "|") < 1) {
+                    continue;
+                }
+
+                $campoLimpo = $this->parseCampo($campo);
+
+                if (!\is_object($objForm)) {
+                    $objForm = $this->parseValor($campo, $objForm, $config);
+                } else {
+                    $objForm->setNome($campoLimpo);
+                    $objForm->setValor($objPai->retornaValor($campo . $coringa));                                        
+                }
+                
+                $colunasCrud[] = $campoLimpo;
+                $grupo[] = $objForm;
+            }
+
+            $objPai->processarForm($grupo);
+
+            $objPai->validar();            
+            
+            $crudUtil->update($tabela, $colunasCrud, $objPai, [$config->getCampoCod($tabela) => $coringa]);
         }
-
-        $objPai->processarForm($grupo);
-
-        $objPai->validar();
-
-        $crudUtil->update($tabela, $colunasCrud, $objPai, [$codigo => $coringa]);
     }
 
-    private function insert($config, $coringa)
+    private function insert(FormMasterVinculo $config, $coringa)
     {
         $crudUtil = new CrudUtil();
-
-        $tabela = $config->getTabela();
-        $campoReferencia = $config->getCampoReferencia();
-        $codigoReferencia = $config->getCodigoReferencia();
-        $campos = $config->getCampos();
+        $tabelas = $config->getGravar();
         $objPai = $config->getObjetoPai();
 
-        $colunasCrud = [];
-        $grupo = [];
-        foreach ($campos as $campo => $objForm) {
 
-            $objForm->setNome($campo);
-            $objForm->setValor($objPai->retornaValor($campo . $coringa));
-            $colunasCrud[] = $campo;
-            $grupo[] = $objForm;
+        foreach ($tabelas as $tabela => $campos) {
+
+            $colunasCrud = [];
+            $grupo = [];
+            $referencia = [];
+            foreach ($campos as $campo => $objForm) {
+
+                if (\substr_count($campo, "|") < 1) {
+                    continue;
+                }
+
+                $campoLimpo = $this->parseCampo($campo);
+
+                if (!\is_object($objForm)) {
+                    $objForm = $this->parseValor($campo, $objForm, $config);
+                } else {
+
+                    $objForm->setNome($campoLimpo);
+                    $objForm->setValor($objPai->retornaValor($campo . $coringa));
+                }
+
+                $colunasCrud[] = $campoLimpo;
+                $grupo[] = $objForm;
+            }
+
+            $objPai->processarForm($grupo);
+
+            $objPai->validar();
+
+            $referencia[$tabela] = $crudUtil->insert($tabela, $colunasCrud, $objPai);
+        }
+    }
+
+    private function parseValor($campo, $valor, FormMasterVinculo $config)
+    {
+        if ($valor === '{REF}') {
+
+            $objPai = $config->getObjetoPai();
+
+            return $objPai->texto($this->parseCampo($campo), 'Fake', true)
+                            ->setValor($config->getCodigoReferencia());
         }
 
-        $objPai->processarForm($grupo);
+        return $valor;
+    }
 
-        $objPai->validar();
-
-        $colunasCrud[] = $campoReferencia;
-        $objPai->set($campoReferencia, $codigoReferencia, 'numero');
-        $crudUtil->insert($tabela, $colunasCrud, $objPai);
+    private function parseCampo($campo)
+    {
+        return \end(\explode('|', $campo));
     }
 
     private function removeItens(FormMasterVinculo $config, array $aRemover = [])
     {
+        return;
         $con = Conexao::conectar();
 
         $crudUtil = new CrudUtil();
 
-        $tabela = $config->getTabela();
-        $codigo = $config->getCodigo();
-        $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
         $objetoRemover = $config->getObjetoRemover();
         $metodoRemover = $config->getMetodoRemover();
@@ -172,28 +211,13 @@ class MasterVinculo
         $nome = $config->getNome();
         $addMax = $config->getAddMax();
         $addMin = $config->getAddMin();
-        $tabela = $config->getTabela();
-        $codigo = $config->getCodigo();
-        $campos = $config->getCampos();
-        $campoReferencia = $config->getCampoReferencia();
+        $gravar = $config->getGravar();
         $codigoReferencia = $config->getCodigoReferencia();
         $objetoRemover = $config->getObjetoRemover();
         $metodoRemover = $config->getMetodoRemover();
 
-        if (empty($tabela)) {
-            throw new \Exception('Tabela não informada!');
-        }
-
-        if (empty($codigo)) {
-            throw new \Exception('Código da Tabela não informado!');
-        }
-
-        if (\count($campos) < 1) {
-            throw new \Exception('Nenhum campo foi encontrado!');
-        }
-
-        if (empty($campoReferencia)) {
-            throw new \Exception('Campo de referência deve ser informado!');
+        if (empty($gravar)) {
+            throw new \Exception('Dados para gravação não informados!');
         }
 
         if (empty($codigoReferencia)) {
