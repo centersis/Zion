@@ -46,7 +46,7 @@ class Carregador
     {
         $this->caminhos = [];
         $this->dir = new ManipulaDiretorio();
-        
+
         if ($namespace) {
             $dirnamespace = $this->interpretaNamespace($namespace) . '/Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
 
@@ -55,7 +55,16 @@ class Carregador
             }
         }
 
-        $this->caminhos[] = \SIS_DIR_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
+        $caminhoBase = \SIS_DIR_DEFAULT_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
+        $caminhoProjeto = \SIS_DIR_DEFAULT_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
+
+        if ($this->dir->eDiretorio($caminhoBase)) {
+            $this->caminhos[] = $caminhoBase;
+        }
+
+        if ($this->dir->eDiretorio($caminhoProjeto)) {
+            $this->caminhos[] = $caminhoProjeto;
+        }
 
         $this->loader = new \Twig_Loader_Filesystem($this->caminhos);
 
@@ -73,17 +82,16 @@ class Carregador
         });
 
         $urlBaseTema = new \Twig_SimpleFunction('urlBaseTema', function ($url) {
-            return \SIS_URL_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/' . $url;
+            return \SIS_URL_DEFAULT_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/' . $url;
         });
 
         $urlFramework = new \Twig_SimpleFunction('urlFramework', function ($url) {
             return \SIS_URL_FM_BASE . $url;
-        });              
+        });
 
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
-        $this->twig->addFunction($urlFramework);        
-        
+        $this->twig->addFunction($urlFramework);
     }
 
     public function twig()
@@ -118,7 +126,7 @@ class Carregador
 
         $this->loader->addPath($caminhoCompleto);
     }
-    
+
     private function interpretaNamespace($namespace)
     {
         if ($namespace !== '') {
@@ -130,4 +138,5 @@ class Carregador
 
         return $namespace;
     }
+
 }

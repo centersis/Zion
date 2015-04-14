@@ -247,7 +247,7 @@ class UniversalClassLoader
      */
     public function loadClass($class)
     {
-        if ($file = $this->findFile($class)) {
+        if (($file = $this->findFile($class))) {
             require $file;
             return true;
         }
@@ -274,12 +274,12 @@ class UniversalClassLoader
 
                 foreach ($dirs as $dir) {
                     $file = $dir.DIRECTORY_SEPARATOR.$normalizedClass . '.php';
-					
+		
                     if(SIS_DEBUG === true) {
                         \array_push($_SESSION['autoLoaderReport'], $file);
                     }
 
-                    if(is_file($file )) {
+                    if(\is_file($file )) {
                         return $file;
                     }
                 }
