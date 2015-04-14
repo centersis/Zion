@@ -61,7 +61,7 @@ class Carregador
         $this->twig = new \Twig_Environment($this->loader, $this->conf);
 
         $urlBase = new \Twig_SimpleFunction('urlBase', function ($url) {
-            return \SIS_URL_BASE . \SIS_VENDOR . '/' . \SIS_SISTEMA . '/' . $url;
+            return \SIS_URL_BASE . $url;
         });
 
         $urlBaseTema = new \Twig_SimpleFunction('urlBaseTema', function ($url) {
