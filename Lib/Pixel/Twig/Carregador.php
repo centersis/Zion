@@ -42,10 +42,18 @@ class Carregador
     private $conf;
     private $dir;
 
-    public function __construct()
+    public function __construct($namespace = '')
     {
         $this->caminhos = [];
         $this->dir = new ManipulaDiretorio();
+        
+        if ($namespace) {
+            $dirnamespace = $this->interpretaNamespace($namespace) . '/Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
+
+            if ($this->dir->eDiretorio($dirnamespace)) {
+                $this->caminhos[] = $this->interpretaNamespace($namespace) . '/Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
+            }
+        }
 
         $this->caminhos[] = \SIS_DIR_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
 
@@ -109,5 +117,17 @@ class Carregador
         $this->caminhos[] = $caminhoCompleto;
 
         $this->loader->addPath($caminhoCompleto);
+    }
+    
+    private function interpretaNamespace($namespace)
+    {
+        if ($namespace !== '') {
+
+            $caminho = \SIS_DIR_BASE . \str_replace(\SIS_ID_NAMESPACE_PROJETO . '\\', '', $namespace);
+
+            return $this->dir->padronizaDiretorio($caminho, '/');
+        }
+
+        return $namespace;
     }
 }
