@@ -56,7 +56,7 @@ class Carregador
         }
 
         $caminhoBase = \SIS_DIR_DEFAULT_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
-        $caminhoProjeto = \SIS_DIR_DEFAULT_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
+        $caminhoProjeto = \SIS_DIR_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/views';
 
         if ($this->dir->eDiretorio($caminhoBase)) {
             $this->caminhos[] = $caminhoBase;
