@@ -61,7 +61,7 @@ class FormHtml extends FormHtmlZion
             $valorOriginal = $config->getValor();
 
             if (\is_numeric($valorOriginal)) {
-                $con = Conexao::conectar();
+                $con = Conexao::conectar($config->getIdConexao());
 
                 if ($config->getHiddenSql()) {
                     $qb = $config->getHiddenSql();
