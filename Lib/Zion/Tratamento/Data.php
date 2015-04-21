@@ -1,33 +1,33 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
+/**
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 /**
  * Data
  * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
@@ -44,7 +44,7 @@ namespace Zion\Tratamento;
 class Data
 {
 
-    /** 
+    /**
      * @var object $instancia Instância da classe singleton
      */
     private static $instancia;
@@ -55,7 +55,8 @@ class Data
      * 
      * @return void
      */
-    private function __construct(){
+    private function __construct()
+    {
         
     }
 
@@ -65,9 +66,10 @@ class Data
      * 
      * @return Data
      */
-    public static function instancia(){
-        
-        if(!isset(self::$instancia)){
+    public static function instancia()
+    {
+
+        if (!isset(self::$instancia)) {
             self::$instancia = new self;
         }
 
@@ -104,22 +106,21 @@ class Data
      */
     public function getFormatoDataHora($dataHora)
     {
-        if(preg_match('/^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}$|^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
-           $f = "d/m/Y";
-        } elseif(preg_match('/^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}$|^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+        if (preg_match('/^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}$|^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+            $f = "d/m/Y";
+        } elseif (preg_match('/^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}$|^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
             $f = "Y-m-d";
-        } elseif(preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
+        } elseif (preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
             $f = "H:i:s";
         } else {
             return false;
         }
 
-        if(preg_match('/\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)){
+        if (preg_match('/\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
             $f .= " H:i:s";
         }
 
         return $f;
-
     }
 
     /**
@@ -133,17 +134,16 @@ class Data
     public function converteData($data)
     {
 
-        if(empty($data)){
+        if (empty($data)) {
             return false;
         }
-        
+
         $validaData = \Zion\Validacao\Data::instancia();
-        
-        if(!$validaData->validaData($data))
-        {
+
+        if (!$validaData->validaData($data)) {
             return false;
         }
-        
+
         if (preg_match('[-]', $data)) {
 
             $dExt = explode('-', $data);
@@ -157,7 +157,7 @@ class Data
 
                 return $dExt[2] . '/' . $dExt[1] . '/' . $dExt[0];
             } else {
-                trigger_error(var_export($dExt,true), E_USER_NOTICE);
+                trigger_error(var_export($dExt, true), E_USER_NOTICE);
                 return $dExt[2] . '-' . $dExt[1] . '-' . $dExt[0];
             }
         } else {
@@ -178,7 +178,7 @@ class Data
             }
         }
     }
-    
+
     /**
      * Revisar este metodo
      * @param type $dataHora
@@ -188,13 +188,13 @@ class Data
     {
         $pattern = preg_split('/\s| /', $dataHora);
 
-        if(is_array($pattern) and count($pattern) >= 2){
+        if (is_array($pattern) and count($pattern) >= 2) {
             list($data, $hora) = $pattern;
         } else {
             $data = $pattern[0];
             $hora = "";
         }
-        return $this->converteData($data).(!empty($hora) ? ' '. $hora : NULL);
+        return $this->converteData($data) . (!empty($hora) ? ' ' . $hora : NULL);
     }
 
     /**
@@ -226,21 +226,33 @@ class Data
     public function somaData($dataA, $dataB)
     {
 
-        if ($this->getSeparador($dataA) == "/"){
+        if ($this->getSeparador($dataA) == "/") {
             $dataA = $this->converteData($dataA);
         }
 
         $delim = $this->getSeparador($dataA);
         $delimB = $this->getSeparador($dataB);
 
-        if ($delimB != $delim){
+        if ($delimB != $delim) {
             $dataB = $this->converteData($dataB);
         }
-        
+
         list($anoA, $mesA, $diaA) = explode($delim, $dataA);
         list($anoB, $mesB, $diaB) = explode($delim, $dataB);
 
         return date('d/m/Y', mktime(0, 0, 0, ($mesA + $mesB), ($diaA + $diaB), ($anoA + ($anoB <= 15 ? $anoB : 0))));
+    }
+
+    public function atribuiData($data, $dias, $meses, $anos, $separador, $operacao)
+    {
+        //Verifica a Integridade da data
+        if (!$this->verificaData($data))
+            throw new Exception("Data informada para atribui��o Inv�lida! - 001");
+
+        //Valores da data
+        list($dia, $mes, $ano) = explode($separador, $data);
+
+        return($operacao == "-") ? date('d' . $separador . 'm' . $separador . 'Y', @mktime(0, 0, 0, $mes - $meses, $dia - $dias, $ano - $anos)) : date('d' . $separador . 'm' . $separador . 'Y', @mktime(0, 0, 0, $mes + $meses, $dia + $dias, $ano + $anos));
     }
 
     /**
@@ -255,17 +267,17 @@ class Data
     public function subtraiData($dataA, $dataB)
     {
 
-        if ($this->getSeparador($dataA) == "/"){
+        if ($this->getSeparador($dataA) == "/") {
             $dataA = $this->converteData($dataA);
         }
 
         $delim = $this->getSeparador($dataA);
         $delimB = $this->getSeparador($dataB);
 
-        if ($delimB != $delim){
+        if ($delimB != $delim) {
             $dataB = $this->converteData($dataB);
         }
-        
+
         //Detecta qual valor é o mais alto para subtrair deste, evitando resultudos negativos.
         if ($dataA > $dataB) {
             $dataY = $dataA;
@@ -338,7 +350,7 @@ class Data
     {
         return(preg_match('[/]', $data) ? '/' : '-');
     }
-    
+
     /**
      * Data::getTimeAgo()
      * Retorna o tempo passado deste $dataHora até $dataHoraAtual.
@@ -361,33 +373,31 @@ class Data
 
         $textAgo = '';
 
-        if($completo === NULL){
+        if ($completo === NULL) {
 
-            if($diff['y'] > 0) {
-                $textAgo = $diff['y']. ($diff['y'] > 1 ? ' Anos' : ' Ano');
-            } elseif($diff['y'] == 0 and $diff['m'] > 0) {
-                $textAgo = $diff['m']. ($diff['m'] > 1 ? ' Meses' : ' Mês');
-            } elseif($diff['m'] == 0 and $diff['d'] > 0) {
-                $textAgo = $diff['d']. ($diff['d'] > 1 ?  ' Dias' : ' Dia');
-            } elseif($diff['d'] == 0 and $diff['h'] > 0) {
-                $textAgo = $diff['h']. ($diff['h'] > 1 ? ' Horas' : ' Hora');
-            } elseif($diff['h'] == 0 and $diff['i'] > 0) {
-                $textAgo = $diff['i']. ($diff['i'] > 1 ? ' Minutos' : ' Minuto');
-            } elseif($diff['i'] == 0 and $diff['s'] > 0) {
-                $textAgo = $diff['s']. ($diff['s'] > 1 ? ' Segundos' : ' Segundo');
-            } elseif($diff['h'] == 0 and $diff['m'] == 0 and $diff['s'] == 0) {
+            if ($diff['y'] > 0) {
+                $textAgo = $diff['y'] . ($diff['y'] > 1 ? ' Anos' : ' Ano');
+            } elseif ($diff['y'] == 0 and $diff['m'] > 0) {
+                $textAgo = $diff['m'] . ($diff['m'] > 1 ? ' Meses' : ' Mês');
+            } elseif ($diff['m'] == 0 and $diff['d'] > 0) {
+                $textAgo = $diff['d'] . ($diff['d'] > 1 ? ' Dias' : ' Dia');
+            } elseif ($diff['d'] == 0 and $diff['h'] > 0) {
+                $textAgo = $diff['h'] . ($diff['h'] > 1 ? ' Horas' : ' Hora');
+            } elseif ($diff['h'] == 0 and $diff['i'] > 0) {
+                $textAgo = $diff['i'] . ($diff['i'] > 1 ? ' Minutos' : ' Minuto');
+            } elseif ($diff['i'] == 0 and $diff['s'] > 0) {
+                $textAgo = $diff['s'] . ($diff['s'] > 1 ? ' Segundos' : ' Segundo');
+            } elseif ($diff['h'] == 0 and $diff['m'] == 0 and $diff['s'] == 0) {
                 $textAgo = 'Agora mesmo';
             } else {
                 $textAgo = 'Desconhecido';
             }
         } else {
-            $textAgo = $diff['y'] ." Anos, ". $diff['m'] ." meses, ". $diff['d'] ." dias, ". $diff['h'] ." horas, ". $diff['m'] ." minutos e ". $diff['s'] ." segundos.";
+            $textAgo = $diff['y'] . " Anos, " . $diff['m'] . " meses, " . $diff['d'] . " dias, " . $diff['h'] . " horas, " . $diff['m'] . " minutos e " . $diff['s'] . " segundos.";
         }
 
         return $textAgo;
-
     }
-
 
     /**
      * Data::getMesExt()
