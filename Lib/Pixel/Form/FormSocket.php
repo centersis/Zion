@@ -130,7 +130,7 @@ class FormSocket
     {
 
         $configs    = $this->configs;
-        $evento     = (empty($configs['evento']) ? '$(document).ready(function(){' : $configs['evento']);
+        $evento     = (empty($configs['evento']) ? 'setTimeout(function(){' : $configs['evento']);
         $threadId   = $this->getRandomThreadId();
         
         $callback = (empty($configs['callback']) ? '$(\'#'. $wsObject .'\').html(data.retorno[0]);' : $configs['callback']);
@@ -138,7 +138,7 @@ class FormSocket
         $script  = 'function get'. $configs['nome'] .'(retorno) { '. $callback .'}';
         $script .= $evento;
         $script .= 'socketAPI.poll("'. $threadId .'", '. $configs['pesquisa'] .');';
-        $script .= '});';
+        $script .= (empty($configs['evento']) ? '}, 3000);' : '});');
        
         return preg_replace('/\@/', '', $script);
     }

@@ -27,7 +27,7 @@
  *
  */
 
-        var notificadas = new Array();
+var notificadas = new Array();
 
 sisRedirAlterar();
 
@@ -869,7 +869,7 @@ function acessaNotificacao(id, url) {
 
 function getNotificacoesAlternativo() {
 
-    console.log("Buscando notificações através da solução alternativa.");
+    console.log("Using standard xhr polling to request notifications.");
 
     getNotificacoesAjax();
 
