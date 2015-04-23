@@ -138,7 +138,7 @@ class FormSocket
         $script  = 'function get'. $configs['nome'] .'(retorno) { '. $callback .'}';
         $script .= $evento;
         $script .= 'socketAPI.poll("'. $threadId .'", '. $configs['pesquisa'] .');';
-        $script .= (empty($configs['evento']) ? '}, 3000);' : '});');
+        $script .= (empty($configs['evento']) ? '}, 30000);' : '});');
        
         return preg_replace('/\@/', '', $script);
     }
