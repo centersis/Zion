@@ -38,7 +38,8 @@
  */
  
 namespace Zion\Form;
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Form\Exception\FormException as FormException;
+use Zion\Validacao\Data;
 
 class FormInputData extends \Zion\Form\FormBasico
 {
@@ -68,7 +69,7 @@ class FormInputData extends \Zion\Form\FormBasico
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         
-        $this->data = \Zion\Tratamento\Data::instancia();
+        $this->data = Data::instancia();
     }
     
     /**
