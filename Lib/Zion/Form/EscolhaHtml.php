@@ -68,7 +68,7 @@ class EscolhaHtml
         }
     }
 
-    public function dadosCampo($config)
+    public function dadosCampo(FormEscolha $config)
     {
         $ordena = $config->getOrdena();
 
@@ -89,10 +89,16 @@ class EscolhaHtml
                 $sql = $sqlCompleto;
             } else {
 
+                $instucoes = $config->getInstrucoes();
+
                 $sql = $con->qb();
 
                 $sql->select($campoCod, $campoDesc)
-                        ->from($tabela,'');
+                        ->from($tabela, '');
+
+                if ($instucoes) {
+                    $this->processarInstrucoes($instucoes, $sql);
+                }
 
                 if ($orderBy) {
                     foreach ($orderBy as $orderChave => $orderTipo) {
@@ -111,7 +117,7 @@ class EscolhaHtml
         if ($ordena !== false) {
 
             if (!\is_bool($ordena)) {
-                $ordena = strtoupper($ordena);
+                $ordena = \strtoupper($ordena);
             }
 
             if ($ordena === "ASC" or $ordena === "" or $ordena === true) {
@@ -130,6 +136,29 @@ class EscolhaHtml
         }
 
         return $array;
+    }
+
+    private function processarInstrucoes($instucoes, $sql)
+    {
+        foreach ($instucoes as $conf) {
+
+            $campoTabela = $conf[0];
+            $tipoPDO = $conf[1];
+            $comparacao = \strtoupper($conf[2]);
+            $valor = $conf[3];
+
+            switch ($comparacao) {
+                case 'IGUAL':
+                    $sql->andWhere($sql->expr()->eq($campoTabela, ':' . $campoTabela))
+                            ->setParameter($campoTabela, $valor, $tipoPDO);
+                    break;
+
+                case 'DIFERENTE':
+                    $sql->andWhere($sql->expr()->neq($campoTabela, ':' . $campoTabela))
+                            ->setParameter($campoTabela, $valor, $tipoPDO);
+                    break;
+            }
+        }
     }
 
     private function ordenaArray($vetor)
@@ -177,7 +206,7 @@ class EscolhaHtml
     private function montaCheckRadio($tipo, FormEscolha $config, $array, $retornarArray)
     {
         $retorno = '';
-        
+
         $type = $tipo === 'radio' ? 'type="radio"' : 'type="checkbox"';
 
         $name = 'name="' . $config->getNome() . '"';
