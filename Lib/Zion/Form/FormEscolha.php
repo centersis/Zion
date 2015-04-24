@@ -58,6 +58,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $tabela;
     private $campoCod;
     private $campoDesc;
+    private $instrucoes;
     private $orderBy;
     private $sqlCompleto;
     private $idConexao;
@@ -84,6 +85,7 @@ class FormEscolha extends \Zion\Form\FormBasico
         $this->chosen = false;
         $this->ordena = 'ASC';
         $this->inicio = 'Selecione...';
+        $this->instrucoes = [];
     }
 
     /**
@@ -373,6 +375,21 @@ class FormEscolha extends \Zion\Form\FormBasico
         } else {
             throw new FormException("campoDesc: Nenhum Valor foi informado.");
         }
+    }
+    
+    
+    public function getInstrucoes()
+    {
+        return $this->instrucoes;
+    }
+
+    public function setInstrucoes(array $instrucoes)
+    {
+        if (!empty($instrucoes)) {
+            $this->instrucoes[] = $instrucoes;            
+        }
+        
+        return $this;
     }
 
     public function getOrderBy()

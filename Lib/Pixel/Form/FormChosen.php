@@ -111,6 +111,12 @@ class FormChosen extends \Zion\Form\FormEscolha
         parent::setCampoDesc($campoDesc);
         return $this;
     }
+    
+    public function setInstrucoes($instrucoes)
+    {
+        parent::setInstrucoes($instrucoes);
+        return $this;
+    }
 
     public function setOrderBy($orderBy)
     {

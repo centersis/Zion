@@ -118,6 +118,12 @@ class FormEscolha extends \Zion\Form\FormEscolha
         return $this;
     }
     
+    public function setInstrucoes($instrucoes)
+    {
+        parent::setInstrucoes($instrucoes);
+        return $this;
+    }
+    
     public function setOrderBy($orderBy)
     {
         parent::setOrderBy($orderBy);
