@@ -286,12 +286,21 @@ class CrudUtil
             }
         }
 
-        $arrayParametros = \array_map("trim", $campos);
+        $camposLimpos = \array_map("trim", $campos);
+        $arrayParametros = \array_combine($camposLimpos, $camposLimpos);
 
         if ($objeto) {
             foreach ($arrayParametros as $nomeParametro) {
+
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
+                    if (\method_exists($arrayForm[$nomeParametro],'getDisabled')) {
+                        if ($arrayForm[$nomeParametro]->getDisabled()) {
+                            unset($arrayParametros[$nomeParametro]);
+                            continue;
+                        }
+                    }
+                    
                     $arrayValores[] = $objForm->getSql($nomeParametro);
                     $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
                 } else {
@@ -316,7 +325,7 @@ class CrudUtil
             }
         }
 
-        $camposVistoriados = $this->removeColchetes($campos);
+        $camposVistoriados = $this->removeColchetes($arrayParametros);
 
         $this->con->startTransaction();
 
@@ -336,7 +345,7 @@ class CrudUtil
         $this->con->executar($qb);
 
         $codigo = $this->con->ultimoId();
-        
+
         $this->tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos);
 
         $this->con->stopTransaction();
@@ -365,11 +374,20 @@ class CrudUtil
             }
         }
 
-        $arrayParametros = \array_map("trim", $campos);
+        $camposLimpos = \array_map("trim", $campos);
+        $arrayParametros = \array_combine($camposLimpos, $camposLimpos);
 
         if ($objeto) {
-            foreach ($arrayParametros as $nomeParametro) {
+            foreach ($arrayParametros as $nomeParametro) {                
+
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
+                    
+                    if (\method_exists($arrayForm[$nomeParametro],'getDisabled')) {
+                        if ($arrayForm[$nomeParametro]->getDisabled()) {
+                            unset($arrayParametros[$nomeParametro]);
+                            continue;
+                        }
+                    }
 
                     $arrayValores[] = $objForm->getSql($nomeParametro);
                     $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
@@ -395,7 +413,7 @@ class CrudUtil
             }
         }
 
-        $camposVistoriados = $this->removeColchetes($campos);
+        $camposVistoriados = $this->removeColchetes($arrayParametros);
 
         $this->con->startTransaction();
 
