@@ -227,7 +227,7 @@ class Form extends FormZion
 
             switch ($objCampos->getTipoBase()) {
                 case 'hidden' :
-                    $htmlCampos[$idCampo] = $this->formHtml->montaHidden($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaHiddenHtml($objCampos);
                     break;
                 case 'texto' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaTexto($objCampos);

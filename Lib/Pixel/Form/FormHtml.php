@@ -84,7 +84,7 @@ class FormHtml extends FormHtmlZion
             $cofHidden = new FormInputHidden('hidden', $nome);
             $cofHidden->setValor($valorOriginal);
 
-            $retHidden = $this->montaHidden($cofHidden);
+            $retHidden = parent::montaHiddenHtml($cofHidden);
         }
 
         $attr = \array_merge($this->opcoesBasicas($config), array(
@@ -103,14 +103,14 @@ class FormHtml extends FormHtmlZion
     {
         $this->preConfig($config);
 
-        return parent::montaTexto($config);
+        return parent::montaTextoHtml($config);
     }
 
     public function montaSenha($config)
     {
         $this->preConfig($config);
 
-        return parent::montaSenha($config);
+        return parent::montaSenhaHtml($config);
     }
 
     public function montaTextArea(FormInputTextArea $config)
@@ -130,56 +130,56 @@ class FormHtml extends FormHtmlZion
             $config->setClassCss($classCss);
         }
 
-        return parent::montaTextArea($config) . $jsFinal;
+        return parent::montaTextAreaHtml($config) . $jsFinal;
     }
 
     public function montaData(FormInputData $config)
     {
         $this->preConfig($config);
 
-        return parent::montaData($config);
+        return parent::montaDataHtml($config);
     }
 
     public function montaHora(FormInputHora $config)
     {
         $this->preConfig($config);
 
-        return parent::montaHora($config);
+        return parent::montaHoraHtml($config);
     }
 
     public function montaCpf(FormInputCpf $config)
     {
         $this->preConfig($config);
 
-        return parent::montaCpf($config);
+        return parent::montaCpfHtml($config);
     }
 
     public function montaCnpj(FormInputCnpj $config)
     {
         $this->preConfig($config);
 
-        return parent::montaCnpj($config);
+        return parent::montaCnpjHtml($config);
     }
 
     public function montaCep(FormInputCep $config)
     {
         $this->preConfig($config);
 
-        return parent::montaCep($config);
+        return parent::montaCepHtml($config);
     }
 
     public function montaNumber(FormInputNumber $config)
     {
         $this->preConfig($config);
 
-        return parent::montaNumber($config);
+        return parent::montaNumberHtml($config);
     }
 
     public function montaFloat(FormInputFloat $config)
     {
         $this->preConfig($config);
 
-        return parent::montaFloat($config);
+        return parent::montaFloatHtml($config);
     }
 
     public function montaEscolha($config, $form)
@@ -230,7 +230,7 @@ class FormHtml extends FormHtmlZion
                 }
             }
 
-            return parent::montaEscolha($config, false);
+            return parent::montaEscolhaHtml($config, false);
         } else {
             $retorno = '';
 
@@ -238,10 +238,10 @@ class FormHtml extends FormHtmlZion
 
             if ($expandido === true and $multiplo === true) {
 
-                $retorno = $this->montaCheckRadioPixel('check', parent::montaEscolha($config, true), $config);
+                $retorno = $this->montaCheckRadioPixel('check', parent::montaEscolhaHtml($config, true), $config);
             } else if ($expandido === true and $multiplo === false) {
 
-                $retorno = $this->montaCheckRadioPixel('radio', parent::montaEscolha($config, true), $config);
+                $retorno = $this->montaCheckRadioPixel('radio', parent::montaEscolhaHtml($config, true), $config);
             }
 
             return $retorno;
@@ -252,14 +252,14 @@ class FormHtml extends FormHtmlZion
     {
         $this->preConfig($config);
 
-        return parent::montaTelefone($config);
+        return parent::montaTelefoneHtml($config);
     }
 
     public function montaEmail(FormInputEmail $config)
     {
         $this->preConfig($config);
 
-        return parent::montaEmail($config);
+        return parent::montaEmailHtml($config);
     }
 
     /**
@@ -308,12 +308,12 @@ class FormHtml extends FormHtmlZion
 
         $htmlAlterar = $arquivoUpload->visualizarArquivos($nomeTratado, $config->getCodigoReferencia());
 
-        return \sprintf('%s<div id="sisUploadMultiploLista' . $config->getId() . '"></div>', parent::montaUpload($config) . $htmlAlterar);
+        return \sprintf('%s<div id="sisUploadMultiploLista' . $config->getId() . '"></div>', parent::montaUploadHtml($config) . $htmlAlterar);
     }
 
     public function montaButton($config)
     {
-        return parent::montaButton($config);
+        return parent::montaButtonHtml($config);
     }
 
     public function montaLayout(FormLayout $config)
@@ -321,7 +321,7 @@ class FormHtml extends FormHtmlZion
         return $config->getConteudo();
     }
 
-    private function preConfig($config)
+    protected function preConfig($config)
     {
         $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
         $config->setClassCss($classCss);

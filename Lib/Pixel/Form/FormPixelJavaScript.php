@@ -208,8 +208,8 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'telefone') {
 
-            $this->regras[$config->getNome()][] = 'celular : true';
-            $this->mensagens[$config->getNome()][] = " celular : '{$config->getIdentifica()} deve conter um número de telefone válido!'";
+            //$this->regras[$config->getNome()][] = 'celular : true';
+            //$this->mensagens[$config->getNome()][] = " celular : '{$config->getIdentifica()} deve conter um número de telefone válido!'";
         }
     }
 
