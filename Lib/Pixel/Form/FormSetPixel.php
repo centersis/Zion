@@ -56,10 +56,19 @@ class FormSetPixel
 
     public function setEmColunaDeTamanho($emColunaDeTamanho)
     {
-        if (\in_array($emColunaDeTamanho, range(1, 12))) {
+        if (\in_array($emColunaDeTamanho, \range(1, 12))) {
             return $emColunaDeTamanho;
         } else {
             throw new FormException("emColunaDeTamanho: Use variação de 1 a 12");
+        }
+    }
+    
+    public function setOffsetColuna($offsetColuna)
+    {
+        if (\in_array($offsetColuna, \range(1, 11))) {
+            return $offsetColuna;
+        } else {
+            throw new FormException("offsetColuna: Use variação de 1 a 11");
         }
     }
 

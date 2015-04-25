@@ -1,32 +1,33 @@
 <?php
+
 /**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 
 namespace Pixel\Form;
 
@@ -36,8 +37,8 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $offsetColuna;
     private $processarJS;
-   
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -94,13 +95,11 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
         return $this;
     }
 
-
     public function setForm($form)
     {
         parent::setForm($form);
         return $this;
     }
-
 
     public function setIconFA($iconFA)
     {
@@ -112,7 +111,7 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     {
         return $this->iconFA;
     }
-    
+
     public function setToolTipMsg($toolTipMsg)
     {
         $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);
@@ -123,9 +122,9 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     {
         return $this->toolTipMsg;
     }
-    
+
     public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
+    {
         $this->emColunaDeTamanho = $this->formSetPixel->setEmColunaDeTamanho($emColunaDeTamanho);
         return $this;
     }
@@ -134,13 +133,24 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
-    
-        public function setProcessarJS($processarJS)
+
+    public function setOffsetColuna($offsetColuna)
+    {
+        $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
+        return $this;
+    }
+
+    public function getOffsetColuna()
+    {
+        return $this->offsetColuna ? $this->offsetColuna : 3;
+    }
+
+    public function setProcessarJS($processarJS)
     {
         $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
         return $this;
     }
-    
+
     public function getProcessarJS()
     {
         return $this->processarJS;
@@ -202,7 +212,7 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);

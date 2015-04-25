@@ -36,6 +36,7 @@ class FormInputSenha extends \Zion\Form\FormInputSenha
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $offsetColuna;
     private $processarJS;
     private $tipoFiltro;
     
@@ -107,6 +108,17 @@ class FormInputSenha extends \Zion\Form\FormInputSenha
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
+    }
+    
+    public function setOffsetColuna($offsetColuna)
+    {
+        $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
+        return $this;
+    }
+
+    public function getOffsetColuna()
+    {
+        return $this->offsetColuna ? $this->offsetColuna : 3;
     }
     
         public function setProcessarJS($processarJS)

@@ -36,6 +36,7 @@ class FormInputButton extends \Zion\Form\FormInputButton
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $offsetColuna;
     
     private $formSetPixel;
 
@@ -94,6 +95,17 @@ class FormInputButton extends \Zion\Form\FormInputButton
     public function getemColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
+    }
+    
+    public function setOffsetColuna($offsetColuna)
+    {
+        $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
+        return $this;
+    }
+
+    public function getOffsetColuna()
+    {
+        return $this->offsetColuna ? $this->offsetColuna : 3;
     }
 
     /**

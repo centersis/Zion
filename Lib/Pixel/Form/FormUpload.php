@@ -38,6 +38,7 @@ class FormUpload extends \Zion\Form\FormUpload
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $offsetColuna;
     private $processarJS;
     private $codigoReferencia;
     private $alturaMaxima;
@@ -93,6 +94,17 @@ class FormUpload extends \Zion\Form\FormUpload
     public function getEmColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
+    }
+    
+    public function setOffsetColuna($offsetColuna)
+    {
+        $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
+        return $this;
+    }
+
+    public function getOffsetColuna()
+    {
+        return $this->offsetColuna ? $this->offsetColuna : 3;
     }
 
     public function setProcessarJS($processarJS)
