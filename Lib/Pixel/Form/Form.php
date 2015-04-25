@@ -406,12 +406,16 @@ class Form extends FormZion
                 $buffer['campos'][$nome] = $textoHtml;
 
                 $colunas = 12;
+                $offsetColunaA = 3;
 
                 if (\method_exists($this->objetos[$nome], 'getEmColunaDeTamanho')) {
                     $colunas = $this->objetos[$nome]->getEmColunaDeTamanho();
+                    $offsetColunaA = $this->objetos[$nome]->getOffsetColuna();
                 }
 
                 $buffer['colunas'][$nome] = $colunas;
+                $buffer['offsetColunaA'][$nome] = $offsetColunaA;
+                $buffer['offsetColunaB'][$nome] = (12 - $offsetColunaA);
 
                 if (\method_exists($this->objetos[$nome], 'getIdentifica')) {
                     $buffer['identifica'][$nome] = $this->objetos[$nome]->getIdentifica();

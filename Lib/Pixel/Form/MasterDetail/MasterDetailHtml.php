@@ -179,6 +179,10 @@ class MasterDetailHtml
 
             if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
                 $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
+                
+                $offsetColunaA = $configuracao->getOffsetColuna();
+                $this->buffer['offsetColunaA'][$nomeOriginal] = $offsetColunaA;
+                $this->buffer['offsetColunaB'][$nomeOriginal] = (12 - $offsetColunaA);
             }
 
             if (\method_exists($configuracao, 'getIdentifica')) {
