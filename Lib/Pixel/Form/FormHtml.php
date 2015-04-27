@@ -306,7 +306,7 @@ class FormHtml extends FormHtmlZion
 
         $nomeTratado = \str_replace('[]', '', $config->getNome());
 
-        $htmlAlterar = $arquivoUpload->visualizarArquivos($nomeTratado, $config->getCodigoReferencia());
+        $htmlAlterar = $arquivoUpload->visualizarArquivos($nomeTratado, $config->getCodigoReferencia(), $config->getModulo());
 
         return \sprintf('%s<div id="sisUploadMultiploLista' . $config->getId() . '"></div>', parent::montaUploadHtml($config) . $htmlAlterar);
     }

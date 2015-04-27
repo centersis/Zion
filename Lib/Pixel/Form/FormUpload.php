@@ -397,5 +397,11 @@ class FormUpload extends \Zion\Form\FormUpload
         parent::setContainer($container);
         return $this;
     }
+    
+    public function setModulo($modulo)
+    {
+        parent::setModulo($modulo);
+        return $this;
+    }
 
 }
