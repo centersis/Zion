@@ -113,7 +113,7 @@ class FormUpload extends FormBasico
     
     public function getTratarComo()
     {
-        return $this->tratarComo;
+        return \strtoupper($this->tratarComo);
     }
 
     public function setTratarComo($tratarComo)
