@@ -40,6 +40,7 @@ class FormUpload extends FormBasico
     private $multiple;
     private $form;
     private $tratarComo;
+    private $modulo;
 
     /**
      * FormInputTexto::__construct()
@@ -112,7 +113,7 @@ class FormUpload extends FormBasico
     
     public function getTratarComo()
     {
-        return $this->tratarComo;
+        return \strtoupper($this->tratarComo);
     }
 
     public function setTratarComo($tratarComo)
@@ -123,6 +124,18 @@ class FormUpload extends FormBasico
         } else {
             throw new FormException("tratarComo: Valor desconhecido. Para utilizar recursos de imagem, informe 'IMAGEM' para este atributo.");
         }
+    }
+    
+    public function getModulo()
+    {
+        return $this->modulo;
+    }
+
+    public function setModulo($modulo)
+    {
+        $this->modulo = $modulo;            
+        
+        return $this;
     }
 
     /**

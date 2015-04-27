@@ -38,6 +38,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $offsetColuna;
     private $labelAntes;
     private $labelDepois;
     private $processarJS;
@@ -185,6 +186,17 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
 
+    public function setOffsetColuna($offsetColuna)
+    {
+        $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
+        return $this;
+    }
+
+    public function getOffsetColuna()
+    {
+        return $this->offsetColuna ? $this->offsetColuna : 3;
+    }
+    
     public function setLabelAntes($labelAntes)
     {
         $this->labelAntes = $this->formSetPixel->setLabelAntes($labelAntes);

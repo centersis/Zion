@@ -190,26 +190,26 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'cpf') {
 
-            $this->regras[$config->getNome()][] = 'cpf : true';
-            $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
+           // $this->regras[$config->getNome()][] = 'cpf : true';
+            //$this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
         }
 
         if ($config->getAcao() == 'cnpj') {
 
-            $this->regras[$config->getNome()][] = 'cnpj : true';
-            $this->mensagens[$config->getNome()][] = " cnpj : '{$config->getIdentifica()} deve conter um CNPJ válido!'";
+            //$this->regras[$config->getNome()][] = 'cnpj : true';
+            //$this->mensagens[$config->getNome()][] = " cnpj : '{$config->getIdentifica()} deve conter um CNPJ válido!'";
         }
 
         if ($config->getAcao() == 'cep') {
 
-            $this->regras[$config->getNome()][] = 'cep : true';
-            $this->mensagens[$config->getNome()][] = " cep : '{$config->getIdentifica()} deve conter um CEP válido!'";
+            //$this->regras[$config->getNome()][] = 'cep : true';
+            //$this->mensagens[$config->getNome()][] = " cep : '{$config->getIdentifica()} deve conter um CEP válido!'";
         }
 
         if ($config->getAcao() == 'telefone') {
 
-            $this->regras[$config->getNome()][] = 'celular : true';
-            $this->mensagens[$config->getNome()][] = " celular : '{$config->getIdentifica()} deve conter um número de telefone válido!'";
+            //$this->regras[$config->getNome()][] = 'celular : true';
+            //$this->mensagens[$config->getNome()][] = " celular : '{$config->getIdentifica()} deve conter um número de telefone válido!'";
         }
     }
 

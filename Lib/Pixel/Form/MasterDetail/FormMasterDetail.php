@@ -53,6 +53,8 @@ class FormMasterDetail
     private $codigoReferencia;
     private $objetoRemover;
     private $metodoRemover;
+    
+    private $iUpload;
 
     /**
      * Construtor
@@ -160,6 +162,11 @@ class FormMasterDetail
     public function getMetodoRemover()
     {
         return $this->metodoRemover;
+    }
+    
+    public function getIUpload()
+    {
+        return $this->iUpload;
     }
 
     /**
@@ -397,5 +404,12 @@ class FormMasterDetail
         
         return $this;
     }  
+    
+    public function setIUpload($iUpload)
+    {
+        $this->iUpload = $iUpload;
+        
+        return $this;
+    }
 
 }

@@ -60,6 +60,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $offsetColuna;
     private $aliasSql;
     private $processarJS;
     private $tipoFiltro;
@@ -415,6 +416,17 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
 
+    public function setOffsetColuna($offsetColuna)
+    {
+        $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
+        return $this;
+    }
+
+    public function getOffsetColuna()
+    {
+        return $this->offsetColuna ? $this->offsetColuna : 3;
+    }
+    
     public function setAliasSql($aliasSql)
     {
         if (!is_null($aliasSql)) {

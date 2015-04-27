@@ -43,7 +43,12 @@ class MasterDetail
     public function gravar(FormMasterDetail $config)
     {
         $identifica = $config->getIdentifica();
-        $upload = new ArquivoUpload();
+
+        if ($config->getIUpload()) {
+            $upload = $config->getIUpload();
+        } else {
+            $upload = new ArquivoUpload();
+        }
 
         try {
             $this->validaDados($config);

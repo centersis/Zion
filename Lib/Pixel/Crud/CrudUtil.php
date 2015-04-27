@@ -37,6 +37,13 @@
 
 namespace Pixel\Crud;
 
+use Zion\Banco\Conexao;
+use Pixel\Filtro\Filtrar;
+use Pixel\Arquivo\ArquivoUpload;
+use Pixel\Form\MasterDetail\MasterDetail;
+use Pixel\Form\MasterVinculo\MasterVinculo;
+use Zion\Form\Form;
+
 class CrudUtil
 {
 
@@ -47,13 +54,13 @@ class CrudUtil
         if (\is_object($banco)) {
             $this->con = $banco;
         } else {
-            $this->con = \Zion\Banco\Conexao::conectar($banco);
+            $this->con = Conexao::conectar($banco);
         }
     }
 
     public function getParametrosGrid($objForm)
     {
-        $fil = new \Pixel\Filtro\Filtrar();
+        $fil = new Filtrar();
 
         $meusParametros = $this->getParametrosForm($objForm);
 
@@ -279,12 +286,21 @@ class CrudUtil
             }
         }
 
-        $arrayParametros = \array_map("trim", $campos);
+        $camposLimpos = \array_map("trim", $campos);
+        $arrayParametros = \array_combine($camposLimpos, $camposLimpos);
 
         if ($objeto) {
             foreach ($arrayParametros as $nomeParametro) {
+
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
+                    if (\method_exists($arrayForm[$nomeParametro],'getDisabled')) {
+                        if ($arrayForm[$nomeParametro]->getDisabled()) {
+                            unset($arrayParametros[$nomeParametro]);
+                            continue;
+                        }
+                    }
+                    
                     $arrayValores[] = $objForm->getSql($nomeParametro);
                     $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
                 } else {
@@ -294,7 +310,7 @@ class CrudUtil
             }
         } else {
 
-            $form = new \Zion\Form\Form();
+            $form = new Form();
 
             foreach ($arrayParametros as $nomeParametro) {
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
@@ -309,7 +325,7 @@ class CrudUtil
             }
         }
 
-        $camposVistoriados = $this->removeColchetes($campos);
+        $camposVistoriados = $this->removeColchetes($arrayParametros);
 
         $this->con->startTransaction();
 
@@ -328,57 +344,17 @@ class CrudUtil
 
         $this->con->executar($qb);
 
-        $uid = $this->con->ultimoId();
+        $codigo = $this->con->ultimoId();
 
-        /**
-         * Tipos Especiais
-         */
-        if ($objeto) {
-
-            foreach ($arrayForm as $objeto) {
-
-                $tipoBase = $objeto->getTipoBase();
-
-                if (\in_array($tipoBase, $ignorarObjetos)) {
-                    continue;
-                }
-
-                switch ($tipoBase) {
-
-                    case 'upload':
-
-                        $upload = new \Pixel\Arquivo\ArquivoUpload();
-                        $objeto->setCodigoReferencia($uid);
-                        $upload->sisUpload($objeto);
-                        break;
-
-                    case 'masterDetail':
-
-                        $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
-                        $objeto->setCodigoReferencia($uid);
-                        $masterDetail->gravar($objeto);
-                        break;
-
-                    case 'masterVinculo':
-
-                        $masterVinculo = new \Pixel\Form\MasterVinculo\MasterVinculo();
-                        $objeto->setCodigoReferencia($uid);
-                        $masterVinculo->gravar($objeto);
-                        break;
-                }
-            }
-        }
+        $this->tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos);
 
         $this->con->stopTransaction();
 
-        return $uid;
+        return $codigo;
     }
 
     public function update($tabela, array $campos, $objForm, array $criterio, array $tipagemCriterio = [], array $ignorarObjetos = [])
     {
-
-        $upload = new \Pixel\Arquivo\ArquivoUpload();
-
         $arrayValores = [];
         $arrayTipos = [];
         $linhasAfetadas = 0;
@@ -398,11 +374,20 @@ class CrudUtil
             }
         }
 
-        $arrayParametros = \array_map("trim", $campos);
+        $camposLimpos = \array_map("trim", $campos);
+        $arrayParametros = \array_combine($camposLimpos, $camposLimpos);
 
         if ($objeto) {
-            foreach ($arrayParametros as $nomeParametro) {
+            foreach ($arrayParametros as $nomeParametro) {                
+
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
+                    
+                    if (\method_exists($arrayForm[$nomeParametro],'getDisabled')) {
+                        if ($arrayForm[$nomeParametro]->getDisabled()) {
+                            unset($arrayParametros[$nomeParametro]);
+                            continue;
+                        }
+                    }
 
                     $arrayValores[] = $objForm->getSql($nomeParametro);
                     $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
@@ -413,7 +398,7 @@ class CrudUtil
             }
         } else {
 
-            $form = new \Zion\Form\Form();
+            $form = new Form();
 
             foreach ($arrayParametros as $nomeParametro) {
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
@@ -428,7 +413,7 @@ class CrudUtil
             }
         }
 
-        $camposVistoriados = $this->removeColchetes($campos);
+        $camposVistoriados = $this->removeColchetes($arrayParametros);
 
         $this->con->startTransaction();
 
@@ -465,11 +450,17 @@ class CrudUtil
 
         $codigo = \current($criterio);
 
+        $this->tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos);
 
-        /**
-         * Tipos Especiais
-         */
+        $this->con->stopTransaction();
+
+        return $linhasAfetadas;
+    }
+
+    private function tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos)
+    {
         if ($objeto) {
+
             foreach ($arrayForm as $objeto) {
 
                 $tipoBase = $objeto->getTipoBase();
@@ -482,32 +473,27 @@ class CrudUtil
 
                     case 'upload':
 
-                        $upload = new \Pixel\Arquivo\ArquivoUpload();
+                        $upload = new ArquivoUpload();
                         $objeto->setCodigoReferencia($codigo);
                         $upload->sisUpload($objeto);
                         break;
 
                     case 'masterDetail':
 
-                        $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
+                        $masterDetail = new MasterDetail();
                         $objeto->setCodigoReferencia($codigo);
                         $masterDetail->gravar($objeto);
                         break;
-                    
+
                     case 'masterVinculo':
 
-                        $masterVinculo = new \Pixel\Form\MasterVinculo\MasterVinculo();
-                        $objeto->setCodigoReferencia($uid);
+                        $masterVinculo = new MasterVinculo();
+                        $objeto->setCodigoReferencia($codigo);
                         $masterVinculo->gravar($objeto);
                         break;
                 }
             }
         }
-
-        $this->con->stopTransaction();
-
-        return $linhasAfetadas;
-        //return 1;
     }
 
     public function delete($tabela, array $criterio, array $tipagemCriterio = [])

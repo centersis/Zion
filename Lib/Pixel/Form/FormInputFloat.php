@@ -35,6 +35,7 @@ class FormInputFloat extends \Zion\Form\FormInputFloat
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
+    private $offsetColuna;
     private $processarJS;
     private $tipoFiltro;
 
@@ -120,6 +121,17 @@ class FormInputFloat extends \Zion\Form\FormInputFloat
     public function getEmColunaDeTamanho()
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
+    }
+    
+    public function setOffsetColuna($offsetColuna)
+    {
+        $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
+        return $this;
+    }
+
+    public function getOffsetColuna()
+    {
+        return $this->offsetColuna ? $this->offsetColuna : 3;
     }
     
     public function setProcessarJS($processarJS)

@@ -35,9 +35,9 @@ class FormInputHidden extends \Zion\Form\FormInputHidden
   
     private $formSetPixel;
 
-    public function __construct($acao, $nome, $identifica, $obrigatorio)
+    public function __construct($acao, $nome)
     {
-        parent::__construct($acao, $nome, $identifica, $obrigatorio);
+        parent::__construct($acao, $nome);
 
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
     }

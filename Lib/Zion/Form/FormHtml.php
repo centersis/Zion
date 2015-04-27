@@ -63,7 +63,7 @@ class FormHtml extends FormAtributos
             $this->attr('classCss', $config->getClassCss())];
     }
 
-    public function montaHidden(FormInputHidden $config)
+    public function montaHiddenHtml(FormInputHidden $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'hidden')]);
@@ -71,7 +71,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaUpload(FormUpload $config)
+    public function montaUploadHtml(FormUpload $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'file'),
@@ -81,7 +81,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaTexto(FormInputTexto $config)
+    public function montaTextoHtml(FormInputTexto $config)
     {
         $type = 'text';
 
@@ -96,7 +96,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaCpf(FormInputCpf $config)
+    public function montaCpfHtml(FormInputCpf $config)
     {
 
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -107,7 +107,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaCnpj(FormInputCnpj $config)
+    public function montaCnpjHtml(FormInputCnpj $config)
     {
 
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -118,7 +118,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaCep(FormInputCep $config)
+    public function montaCepHtml(FormInputCep $config)
     {
 
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -129,7 +129,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaEmail(FormInputEmail $config)
+    public function montaEmailHtml(FormInputEmail $config)
     {
 
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -140,7 +140,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaTelefone(FormInputTelefone $config)
+    public function montaTelefoneHtml(FormInputTelefone $config)
     {
 
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -151,7 +151,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaSenha(FormInputSenha $config)
+    public function montaSenhaHtml(FormInputSenha $config)
     {
 
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -162,7 +162,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaTextArea(FormInputTextArea $config)
+    public function montaTextAreaHtml(FormInputTextArea $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'textarea'),
@@ -178,7 +178,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareTextArea(\count($attr), $config), $attr);
     }
 
-    public function montaData(FormInputData $config)
+    public function montaDataHtml(FormInputData $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
@@ -189,7 +189,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaHora(FormInputHora $config)
+    public function montaHoraHtml(FormInputHora $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
@@ -200,7 +200,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaNumber(FormInputNumber $config)
+    public function montaNumberHtml(FormInputNumber $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'number'),
@@ -212,7 +212,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaFloat(FormInputFloat $config)
+    public function montaFloatHtml(FormInputFloat $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text')]);
@@ -220,12 +220,12 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
 
-    public function montaEscolha(FormEscolha $config, $retornarArray)
+    public function montaEscolhaHtml(FormEscolha $config, $retornarArray)
     {
         return (new EscolhaHtml())->montaEscolha($config, $retornarArray);
     }
 
-    public function montaButton($config)
+    public function montaButtonHtml($config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('name', $config->getNome()),
@@ -240,7 +240,7 @@ class FormHtml extends FormAtributos
         return \vsprintf($this->prepareButton(\count($attr), $config), $attr);
     }
 
-    public function montaLayout(FormLayout $config)
+    public function montaLayoutHtml(FormLayout $config)
     {
         return $config->getConteudo();
     }
