@@ -135,13 +135,13 @@ class Data
     {
 
         if (empty($data)) {
-            return false;
+            return '';
         }
 
         $validaData = \Zion\Validacao\Data::instancia();
 
         if (!$validaData->validaData($data)) {
-            return false;
+            return '';
         }
 
         if (preg_match('[-]', $data)) {
@@ -247,7 +247,7 @@ class Data
     {
         //Verifica a Integridade da data
         if (!$this->verificaData($data))
-            throw new Exception("Data informada para atribuição Inválida! - 001");
+            throw new Exception("Data informada para atribuiï¿½ï¿½o Invï¿½lida! - 001");
 
         //Valores da data
         list($dia, $mes, $ano) = explode($separador, $data);
