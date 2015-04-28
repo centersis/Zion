@@ -61,6 +61,8 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $offsetColuna;
+    private $maximoCaracteres;
+    private $minimoCaracteres;
     private $aliasSql;
     private $processarJS;
     private $tipoFiltro;
@@ -108,6 +110,68 @@ class FormInputSuggest extends \Zion\Form\FormBasico
         return $this->largura;
     }
 
+    /**
+     * FormInputTexto::setMaximoCaracteres()
+     * 
+     * @param mixed $maximoCaracteres
+     * @return
+     */
+    public function setMaximoCaracteres($maximoCaracteres)
+    {
+        if (is_numeric($maximoCaracteres)) {
+
+            if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
+                throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
+            }
+            $this->maximoCaracteres = $maximoCaracteres;
+            return $this;
+
+        } else {
+            throw new FormException("maximoCaracteres: Valor não numerico.");
+        }
+    }
+
+    /**
+     * FormInputTexto::getMaximoCaracteres()
+     * 
+     * @return
+     */
+    public function getMaximoCaracteres()
+    {
+        return $this->maximoCaracteres;
+    }
+
+    /**
+     * FormInputTexto::setMinimoCaracteres()
+     * 
+     * @param mixed $minimoCaracteres
+     * @return
+     */
+    public function setMinimoCaracteres($minimoCaracteres)
+    {
+        if (is_numeric($minimoCaracteres)) {
+
+            if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
+                throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
+            }
+
+            $this->minimoCaracteres = $minimoCaracteres;
+            return $this;
+        } else {
+            throw new FormException("minimoCaracteres: Valor não numérico.");
+        }
+    }
+
+    /**
+     * FormInputTexto::getMinimoCaracteres()
+     * 
+     * @return
+     */
+    public function getMinimoCaracteres()
+    {
+        return $this->minimoCaracteres;
+    }
+    
     public function setCaixa($caixa)
     {
         if (\strtoupper($caixa) == "ALTA" or \strtoupper($caixa) == "BAIXA") {
