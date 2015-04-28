@@ -56,7 +56,7 @@ class FormPixelJavaScript
     {
         $attr = [];
 
-        $url = $config->getUrl() ? $config->getUrl() : \SIS_URL_BASE . 'includes/autocomplete/';
+        $url = $config->getUrl() ? $config->getUrl() : \SIS_URL_BASE . 'Ext/Remoto/autocomplete/';
         $id = $config->getId() ? $config->getId() : $config->getNome();
 
         $parametros = '?t=' . $config->getTabela();
@@ -245,7 +245,7 @@ class FormPixelJavaScript
                 $nomeCampo = $config->getNome();
                 $callback = $config->getCallback() ? $config->getCallback() : 'false';
 
-                $url = \SIS_URL_BASE . 'includes/dependencia/';
+                $url = \SIS_URL_BASE . 'Ext/Remoto/dependencia/';
 
                 $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\',' . $callback . ');  });';
             }
@@ -293,12 +293,7 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
             $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "' . \SIS_URL_BASE . 'includes/valida_senha/' . '");});';
         }
-/*
-        if (\method_exists($config, 'getMascara') and ! empty($config->getMascara())) {
-            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("' . $config->getMascara() . '");';
-        }
- */
-        
+       
     }
 
     public function montaValidacao($formNome, $acao, $jsExtra = true)
