@@ -22,16 +22,16 @@
  * 
  *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
  *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 
  *    02111-1307, USA.
  *
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
 
-namespace Pixel\Autenticacao;
+namespace Pixel\Form;
 
-class Autenticacao
+class FormAutenticacao
 {
 
     private function __construct()
@@ -39,17 +39,14 @@ class Autenticacao
         return;
     }
 
-    public static function validaSenha($form, $campos)
+    public static function validaSenha($form)
     {
-        \array_push($campos, $form->layout('validaSenhaUserDiv', '<div class="col-sm-12"><hr /></div>'));
-
-        \array_push($campos, $form->senha('validaSenhaUser', 'Sua senha de utilizador', true)
+        
+        return $form->senha('validaSenhaUser', 'Sua senha de utilizador', true)
                         ->setMaximoCaracteres(30)
                         ->setMinimoCaracteres(6)
                         ->setValor($form->retornaValor('validaSenhaUser'))
-                        ->setIconFA('fa-lock'));
-
-        return $campos;
+                        ->setIconFA('fa-lock');
     }
 
 }

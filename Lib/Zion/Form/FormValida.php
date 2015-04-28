@@ -43,30 +43,11 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Form\Exception\FormInvalidArgumentException as FormInvalidArgumeException;
-use \Sappiens\Accounts\Login\LoginClass as LoginClass;
+
+use Zion\Validacao\Valida;
 
 class FormValida
 {
-
-    /**
-     * @var string $instance Recebe o nome da classe passada por parâmetro, para detecção automática dos atributos da classe.
-     */
-    private $instance;
-
-    /**
-     * @var string $instaceBasico Nome da classe básica extendida por todas as classes em \Zion\Form;
-     */
-    private $instanceBasico = 'Zion\Form\FormBasico';
-
-    /**
-     * @var string $instanceZion Nome da classe Zion extendida por todas as classes em \Pixel\Form;
-     */
-    private $instanceZion;
-
-    /**
-     * @var string $instanceParent Nome da classe parent extendida por todas as classes em \Zion\Form;
-     */
-    private $instanceParent;
 
     /**
      * @var object $texto Instância da classe de validação de strings
@@ -89,6 +70,11 @@ class FormValida
     private $geral;
 
     /**
+     * @var object $instances
+     */
+    private $instances = [];
+    
+    /**
      * FormValida::__construct()
      * Construtor
      * 
@@ -96,64 +82,68 @@ class FormValida
      */
     public function __construct()
     {
-        $valida = \Zion\Validacao\Valida::instancia();
+        $valida = Valida::instancia();
 
         $this->texto = $valida->texto();
         $this->numero = $valida->numero();
         $this->data = $valida->data();
         $this->geral = $valida->geral();
-
-        $this->instanceBasico = \addslashes($this->instanceBasico);
     }
 
     /**
-     * FormValida::validar()
+     * FormValida::configuraInstances()
      * Detecta o tipo de input a ser validado, seta informações básicas necessárias para a validação.
      * 
      * @param Zion\Form $form Instância de uma classe de formulário com as configurações do input a ser validado.
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\InvalidArgumeException se $form não for uma instância válida de uma das classes de formulário.
      */
-    public function validar($form)
+    private function configuraInstances($formInput)
     {
-        if (\is_object($form) === false) {
+        if (\is_object($formInput) === false) {
             throw new FormInvalidArgumeException('O argumento informado não é uma instância de uma classe válida!');
         }
 
-        $className = \get_class($form);
+        $className = \get_class($formInput);
+        
+        $vendorName = \substr($className, 0, \strpos($className, '\\'));        
 
-        $vendorName = \substr($className, 0, \strpos($className, '\\'));
+        $this->setInstances([\addslashes($className),
+                             \preg_replace('/[' . $vendorName . ']{' . \strlen($vendorName) . '}/', 'Zion', \addslashes($className)),
+                             \addslashes(\get_parent_class($formInput)),
+                             \addslashes("Zion\Form\FormBasico"),
+                             '\W'
+                            ]);
 
-        $this->instance = \addslashes($className);
-
-        $this->instanceZion = \preg_replace('/[' . $vendorName . ']{' . \strlen($vendorName) . '}/', 'Zion', $this->instance);
-
-        $this->instanceParent = \addslashes(\get_parent_class($form));
-
-        return $this->validaFormInput($form);
+        return $this;
     }
 
     /**
-     * FormValida::validaFormInputTexto()
+     * FormValida::validar()
      * Valida input do tipo Texto
      * 
-     * @param mixed $input Instância da classe \Zion\Form; ou \Pixel\Form; com as configurações do input a ser validado.
+     * @param mixed $formInput Instância da classe \Zion\Form; ou \Pixel\Form; com as configurações do input a ser validado.
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
-    protected function validaFormInput($input)
+    public function validar($formInput)
     {
-        $attrs = $this->getAtributos($input);
+        $attrs = $this->getAtributos($formInput);
 
         if (!\in_array('valor', $attrs)) {
             return true;
         }
 
-        $userValue = $input->getValor();
-        $identifica = $input->getIdentifica();
-        $obrigatorio = (in_array('obrigatorio', $attrs) ? $input->getObrigatorio() : false);
-
-        $acao = \strtoupper($input->getAcao());
+        $userValue      = $formInput->getValor();
+        $identifica     = $formInput->getIdentifica();
+        $obrigatorio    = (\in_array('obrigatorio', $attrs) ? $formInput->getObrigatorio() : false);
+        $disabled       = (\in_array('disabled', $attrs) ? $formInput->getDisabled() : false);
+        
+        $acao = \strtoupper($formInput->getAcao());
+        
+        if($disabled === true){
+            return true;
+        }
 
         foreach (($attrs) as $value) {
 
@@ -206,7 +196,7 @@ class FormValida
                                 break;
 
 //                            case 'ESCOLHA':
-//                                if (empty($userValue) and $input->getObrigatorio() === true) {
+//                                if (empty($userValue) and $formInput->getObrigatorio() === true) {
 //                                    throw new FormException($identifica . ": Você deve selecionar uma das opções!");
 //                                }
 //                                break;
@@ -216,12 +206,12 @@ class FormValida
                     if ($acao == 'CHOSEN' || $acao == 'ESCOLHA') {
 
                         $fv = new EscolhaHtml();
-                        $valoresReais = $fv->dadosCampo($input);
-                        $dependencia = $input->getCampoDependencia();
+                        $valoresReais = $fv->dadosCampo($formInput);
+                        $dependencia = $formInput->getCampoDependencia();
 
                         if (\is_array($userValue)) {
 
-                            if (\count($userValue) < 1 and $input->getObrigatorio() === true) {
+                            if (\count($userValue) < 1 and $formInput->getObrigatorio() === true) {
                                 throw new FormException($identifica . ": Você deve selecionar uma ou mais opções!");
                             }
 
@@ -234,11 +224,11 @@ class FormValida
                             }
                         } else {
 
-                            if ($input->getMultiplo() === true) {
+                            if ($formInput->getMultiplo() === true) {
                                 throw new FormException($identifica . ": A opção 'multiplo' está ativada, o valor submetido deve ser um array!");
                             }
 
-                            if (empty($userValue) and $input->getObrigatorio() === true) {
+                            if (empty($userValue) and $formInput->getObrigatorio() === true) {
                                 throw new FormException($identifica . ": selecione uma ou mais opções!");
                             }
 
@@ -248,17 +238,10 @@ class FormValida
                         }
                     }
 
-                    if ($acao == 'SENHA' and $input->getNome() == 'validaSenhaUser') {
-                        $loginClass = new LoginClass();
-                        if ($loginClass->validaSenhaUsuario($_SESSION['usuarioCod'], $userValue) === false) {
-                            throw new FormException($identifica . ": Você deve informar corretamente sua <br />senha para concluir estas alterações!");
-                        }
-                    }
-
                     break;
 
                 case 'selecaoMinima':
-                    $val = $input->getSelecaoMinima();
+                    $val = $formInput->getSelecaoMinima();
                     if (!empty($val) and ( !empty($userValue) or $obrigatorio === true)) {
                         if (\count($userValue) < $val) {
                             throw new FormException($identifica . ": Você deve selecionar no mínimo " . $val . " # opções! ");
@@ -267,7 +250,7 @@ class FormValida
                     break;
 
                 case 'selecaoMaxima':
-                    $val = $input->getSelecaoMaxima();
+                    $val = $formInput->getSelecaoMaxima();
                     if (!empty($val) and ( \is_array($userValue) or $obrigatorio === true)) {
                         if (\count($userValue) > $val) {
                             throw new FormException($identifica . ": Você deve selecionar no máximo " . $val . " opções!");
@@ -276,7 +259,7 @@ class FormValida
                     break;
 
                 case 'obrigatorio':
-                    if ($input->getObrigatorio() === true) {
+                    if ($formInput->getObrigatorio() === true) {
                         if (empty($userValue) and $userValue <> 0) {
                             throw new FormException($identifica . ": Nenhum valor informado!");
                         }
@@ -284,7 +267,7 @@ class FormValida
                     break;
 
                 case 'minimoCaracteres':
-                    $val = $input->getMinimoCaracteres();
+                    $val = $formInput->getMinimoCaracteres();
                     if (!empty($val) and ( !empty($userValue) or $obrigatorio === true)) {
                         if ($this->texto->verificaMinimoCaracteres($val, $userValue) === false) {
                             throw new FormException($identifica . ": O valor informado é menor que o tamanho mínimo solicitado de " . $val . " caracteres!");
@@ -293,7 +276,7 @@ class FormValida
                     break;
 
                 case 'maximoCaracteres':
-                    $val = $input->getMaximoCaracteres();
+                    $val = $formInput->getMaximoCaracteres();
                     if (!empty($val) and ( !empty($userValue) or $obrigatorio === true)) {
                         if ($this->texto->verificaMaximoCaracteres($val, $userValue) === false) {
                             throw new FormException($identifica . ": O valor informado excede o tamanho máximo permitido de " . $val . " caracteres!");
@@ -302,7 +285,7 @@ class FormValida
                     break;
 
                 case 'valorMinimo':
-                    $val = $input->getValorMinimo();
+                    $val = $formInput->getValorMinimo();
                     if (\is_numeric($val) and ( !empty($userValue) or $obrigatorio === true)) {
                         if ($this->numero->verificaValorMinimo($val, $userValue) === false) {
                             throw new FormException($identifica . ": O valor informado não pode ser menor que " . $val . "!");
@@ -311,7 +294,7 @@ class FormValida
                     break;
 
                 case 'valorMaximo':
-                    $val = $input->getValorMaximo();
+                    $val = $formInput->getValorMaximo();
                     if (\is_numeric($val) and ( !empty($userValue) or $obrigatorio === true)) {
                         if ($this->numero->verificaValorMaximo($val, $userValue) === false) {
                             throw new FormException($identifica . ": O valor informado não pode ser maior que " . $val . "!");
@@ -320,7 +303,7 @@ class FormValida
                     break;
 
                 case 'dataMinima':
-                    $val = $input->getDataMinima();
+                    $val = $formInput->getDataMinima();
                     if (isset($val) and ( !empty($userValue) or $obrigatorio === true)) {
                         if ($this->data->verificaDiferencaDataHora($userValue, $val) > 0) {
                             throw new FormException($identifica . ": O valor informado não pode ser menor que " . $val . "!");
@@ -329,7 +312,7 @@ class FormValida
                     break;
 
                 case 'dataMaxima':
-                    $val = $input->getDataMaxima();
+                    $val = $formInput->getDataMaxima();
                     if (isset($val) and ( !empty($userValue) or $obrigatorio === true)) {
                         if ($this->data->verificaDiferencaDataHora($userValue, $val) < 0) {
                             throw new FormException($identifica . ": O valor informado não pode ser maior que " . $val . "!");
@@ -346,21 +329,42 @@ class FormValida
      * FormValida::getAtributos()
      * Detecta todos os atributos da classe e seus respectivos valores.
      * 
-     * @param \Zion\Form $input Instância de uma das classes de formulário com as configurações do input a ser validado.
+     * @param \Zion\Form $formInput Instância de uma das classes de formulário com as configurações do input a ser validado.
      * @return array()
      */
-    private function getAtributos($input)
+    protected function getAtributos($formInput)
     {
+        $this->configuraInstances($formInput);
+        
+        $instances =  \array_map(function($val){
+            return '/'. $val .'/';
+        }, $this->instances);
+
         $attrs = array();
 
         $i = 0;
-        foreach (\array_keys((array) $input) as $key) {
-
-            $key = \preg_replace(array('/' . $this->instance . '/', '/' . $this->instanceZion . '/', '/' . $this->instanceBasico . '/', '/' . $this->instanceParent . '/', '/\W/'), array('', '', '', '', ''), $key);
+        foreach (\array_keys((array) $formInput) as $key) {
+            $key = \preg_replace($instances, '', $key);
             $attrs[$i++] = $key;
         }
 
         return $attrs;
     }
+
+    protected function getInstances() 
+    {
+        return $this->instances;
+    }
+
+    protected function setInstances($instance) 
+    {
+        if(\is_array($instance)){
+            $this->instances = $instance;
+        } else {
+            \array_push($this->instances, $instance);
+        }
+        return $this;
+    }
+
 
 }
