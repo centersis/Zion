@@ -55,9 +55,11 @@ class FormHtml extends FormAtributos
 
     public function opcoesBasicas($config)
     {
+        $valor = $config->getValor() ? $config->getValor() : $config->getValorPadrao();
+        
         return [$this->attr('name', $config->getNome()),
             $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
-            $this->attr('value', $config->getValor()),
+            $this->attr('value', $valor),
             $this->attr('complemento', $config->getComplemento()),
             $this->attr('disabled', $config->getDisabled()),
             $this->attr('classCss', $config->getClassCss())];
@@ -136,6 +138,14 @@ class FormHtml extends FormAtributos
             $this->attr('type', 'text'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder())]);
+
+        return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
+    }
+    
+    public function montaCorHtml($config)
+    {
+        $attr = \array_merge($this->opcoesBasicas($config), [
+            $this->attr('type', 'hidden')]);
 
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }

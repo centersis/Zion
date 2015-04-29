@@ -50,7 +50,7 @@ abstract class FormBasico
     private $disabled;
     private $complemento;
     private $atributos;
-    private $classCss;    
+    private $classCss = [];    
     private $container;
     private $nomeForm;
 
@@ -163,11 +163,12 @@ abstract class FormBasico
     public function setValorPadrao($valorPadrao)
     {
         if(!empty($valorPadrao)){
-             $this->valorPadrao = $valorPadrao;
-            return $this;
+             $this->valorPadrao = $valorPadrao;            
         } else {
             //throw new FormException("valorPadrao: Nenhum valor informado.");
         }
+        
+        return $this;
     }
 
     /**
@@ -266,8 +267,10 @@ abstract class FormBasico
      */
     public function setClassCss($classCss)
     {
-        if(!empty($classCss)){
-             $this->classCss = $classCss;
+        $class = \trim($classCss);
+        
+        if(!empty($class)){
+             $this->classCss[$class] = $class;
             return $this;
         } else {
             throw new FormException("classCss: Nenhum valor informado.");
@@ -281,7 +284,7 @@ abstract class FormBasico
      */
     public function getClassCss()
     {
-        return $this->classCss;
+        return \implode(' ', $this->classCss);
     }
 
     

@@ -219,6 +219,10 @@ class FormPixelJavaScript
             return;
         }
 
+        if ($config->getAcao() == 'cor') {
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").minicolors({ theme: "bootstrap" });';
+        }
+        
         if ($config->getAcao() == 'float') {
             $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
         }
