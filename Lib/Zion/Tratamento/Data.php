@@ -186,7 +186,7 @@ class Data
      */
     public function converteDataHora($dataHora)
     {
-        $pattern = preg_split('/\s| /', $dataHora);
+        $pattern = \preg_split('/\s| /', $dataHora);
 
         if (is_array($pattern) and count($pattern) >= 2) {
             list($data, $hora) = $pattern;

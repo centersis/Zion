@@ -139,12 +139,20 @@ class FormHtml extends FormHtmlZion
 
         return parent::montaDataHtml($config);
     }
+    
 
     public function montaHora(FormInputHora $config)
     {
         $this->preConfig($config);
 
         return parent::montaHoraHtml($config);
+    }
+    
+    public function montaDataHora(FormInputDataHora $config)
+    {
+        $this->preConfig($config);
+
+        return parent::montaDataHoraHtml($config);
     }
 
     public function montaCpf(FormInputCpf $config)

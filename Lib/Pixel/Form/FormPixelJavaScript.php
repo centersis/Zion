@@ -231,6 +231,10 @@ class FormPixelJavaScript
             $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999").datepicker({ dateFormat: "dd/mm/yy" }); ';
         }
 
+        if ($config->getAcao() == 'dateTime') {
+            $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999 99:99").datetimepicker({ dateFormat: "dd/mm/yy" }); ';
+        }
+        
         if ($config->getAcao() === 'chosen' or $config->getAcao() === 'escolha') {
 
             if ($config->getAcao() === 'chosen') {

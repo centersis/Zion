@@ -198,6 +198,17 @@ class FormHtml extends FormAtributos
 
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
+    
+    public function montaDataHoraHtml(FormInputDataHora $config)
+    {
+        $attr = \array_merge($this->opcoesBasicas($config), [
+            $this->attr('type', 'text'),
+            $this->attr('placeholder', $config->getPlaceHolder()),
+            $this->attr('max', $config->getDataHoraMaxima()),
+            $this->attr('min', $config->getDataHoraMinima())]);
+
+        return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
+    }
 
     public function montaHoraHtml(FormInputHora $config)
     {

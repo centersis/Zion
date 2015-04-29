@@ -38,6 +38,7 @@ use Pixel\Form\FormInputTexto;
 use Pixel\Form\FormInputSuggest;
 use Pixel\Form\FormInputData;
 use Pixel\Form\FormInputHora;
+use Pixel\Form\FormInputDataHora;
 use Pixel\Form\FormInputSenha;
 use Pixel\Form\FormInputNumber;
 use Pixel\Form\FormInputFloat;
@@ -89,6 +90,11 @@ class Form extends FormZion
     public function hora($nome, $identifica, $obrigatorio = false)
     {
         return new FormInputHora('time', $nome, $identifica, $obrigatorio);
+    }
+    
+    public function dataHora($nome, $identifica, $obrigatorio = false)
+    {
+        return new FormInputDataHora('dateTime', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
@@ -258,6 +264,10 @@ class Form extends FormZion
                     break;
                 case 'hora' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaHora($objCampos);
+                    break;
+                
+                case 'dataHora' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaDataHora($objCampos);
                     break;
                 case 'number' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaNumber($objCampos);
