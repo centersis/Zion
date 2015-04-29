@@ -323,8 +323,7 @@ class FormHtml extends FormHtmlZion
 
     protected function preConfig($config)
     {
-        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
-        $config->setClassCss($classCss);
+        $config->setClassCss('form-control');
 
         if ($config->getToolTipMsg()) {
             $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
