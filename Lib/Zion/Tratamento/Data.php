@@ -55,7 +55,7 @@ class Data
      * 
      * @return void
      */
-    private function __construct()
+    public function __construct()
     {
         
     }
@@ -246,8 +246,8 @@ class Data
     public function atribuiData($data, $dias, $meses, $anos, $separador, $operacao)
     {
         //Verifica a Integridade da data
-        if (!$this->verificaData($data))
-            throw new Exception("Data informada para atribui��o Inv�lida! - 001");
+        //if (!$this->verificaData($data))
+        //    throw new Exception("Data informada para atribui��o Inv�lida! - 001");
 
         //Valores da data
         list($dia, $mes, $ano) = explode($separador, $data);
@@ -423,6 +423,43 @@ class Data
     public function getDataExt($data)
     {
         throw new \RuntimeException("Método ainda não implementado.");
+    }
+    
+    public function getAnosBissextosIntervalo($a1, $a2)
+    {
+                
+        $anoBissexto = 0;
+        for($i = $a1; $i < $a2; $i++) {
+                if(checkdate(2, 29, $i)) $anoBissexto++;
+        }       
+        
+        return $anoBissexto;
+        
+    }
+    
+    public function getDataPrevisaoDias($dias, $dataInicial = '')
+    {
+        
+        if(empty($dataInicial)) $dataInicial = \date('Y-m-d');
+        
+        $d1 = \substr($dataInicial,0,2);
+        $m1 = \substr($dataInicial,3,2);
+        $a1 = \substr($dataInicial,6,4);
+
+        $preData = new \DateTime($dataInicial);
+
+        if($dias < 0) {
+            $preData->sub(new \DateInterval('P'.$dias.'D'));            
+            $anosBissextos = $this->getAnosBissextosIntervalo($a1, $preData->format('Y'));
+            $preData->sub(new \DateInterval('P'.($dias + $anosBissextos).'D'));                        
+        } else {
+            $preData->add(new \DateInterval('P'.$dias.'D'));
+            echo $anosBissextos = $this->getAnosBissextosIntervalo($a1, $preData->format('Y'));
+            $preData->add(new \DateInterval('P'.($dias + $anosBissextos).'D'));                        
+        }
+        
+        return $preData->format('d/m/Y');  
+        
     }
 
 }
