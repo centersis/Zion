@@ -163,11 +163,12 @@ abstract class FormBasico
     public function setValorPadrao($valorPadrao)
     {
         if(!empty($valorPadrao)){
-             $this->valorPadrao = $valorPadrao;
-            return $this;
+             $this->valorPadrao = $valorPadrao;            
         } else {
             //throw new FormException("valorPadrao: Nenhum valor informado.");
         }
+        
+        return $this;
     }
 
     /**

@@ -51,6 +51,7 @@ use Pixel\Form\FormChosen;
 use Pixel\Form\FormInputTextArea;
 use Pixel\Form\FormUpload;
 use Zion\Form\FormInputButton;
+use Pixel\Form\FormColor;
 use Pixel\Form\MasterDetail\FormMasterDetail;
 use Pixel\Form\MasterVinculo\FormMasterVinculo;
 use Pixel\Form\FormPixelJavaScript;
@@ -201,6 +202,11 @@ class Form extends FormZion
         return new FormInputButton('reset', $nome, $identifica);
     }
 
+    public function cor($nome, $identifica, $obrigatorio = false)
+    {
+        return new FormColor('cor', $nome, $identifica, $obrigatorio);
+    }
+    
     public function masterDetail($nome, $identifica)
     {
         return new FormMasterDetail($nome, $identifica);
@@ -294,6 +300,9 @@ class Form extends FormZion
                     break;
                 case 'email' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaEmail($objCampos);
+                    break;                
+                case 'cor' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaCor($objCampos);
                     break;
                 default : throw new \Exception('Tipo Base não encontrado! ' . $idCampo);
             }

@@ -262,6 +262,13 @@ class FormHtml extends FormHtmlZion
         return parent::montaEmailHtml($config);
     }
 
+    public function montaCor($config)
+    {
+        $this->preConfig($config);
+
+        return parent::montaCorHtml($config);
+    }
+
     /**
      * 
      * @param \Pixel\Form\FormMasterDetail $config
@@ -325,9 +332,12 @@ class FormHtml extends FormHtmlZion
     {
         $config->setClassCss('form-control');
 
-        if ($config->getToolTipMsg()) {
-            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
-            $config->setComplemento($complemento);
+        if (\method_exists($config, 'getToolTipMsg')) {
+
+            if ($config->getToolTipMsg()) {
+                $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+                $config->setComplemento($complemento);
+            }
         }
     }
 
