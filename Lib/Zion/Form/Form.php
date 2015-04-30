@@ -187,8 +187,8 @@ class Form
 
             if (\method_exists($objCampos, 'setNomeForm')) {
                 $objCampos->setNomeForm($this->formConfig->getNome());
-            }                       
-            
+            }
+
             $this->objetos[$objCampos->getNome()] = $objCampos;
         }
 
@@ -266,6 +266,9 @@ class Form
                     case 'data':
                         $this->objetos[$nome] = new FormInputData('date', $nome, '-', false);
                         break;
+                    case 'datahora':
+                        $this->objetos[$nome] = new FormInputDataHora('dateTime', $nome, '-', false);
+                        break;
                     default :
                         $this->objetos[$nome] = new FormInputTexto('texto', $nome, '-', false);
                 }
@@ -290,14 +293,14 @@ class Form
         $valor = $this->objetos[$idObjeto]->getValor();
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
-        switch ($tipoBase) {
-            case 'date' :
+        switch (\strtolower($tipoBase)) {
+            case 'data' :
 
                 return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
 
-            case 'datetime' :
+            case 'datahora' :
 
-                return $valor == '' ? \PDO::PARAM_NULL : 'detetime';
+                return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
 
             case 'float' :
 
@@ -327,11 +330,20 @@ class Form
         $valor = $this->objetos[$idObjeto]->getValor();
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
-        switch ($tipoBase) {
-            case 'date' :
-                $dataConvertida = $tratar->data()->converteData($valor);
+        switch (\strtolower($tipoBase)) {
+            case 'data' :
 
-                return empty($dataConvertida) ? NULL : $dataConvertida;
+                return empty($valor) ? NULL : $valor;
+
+            case 'datahora' :
+
+                if (\strlen($valor) === 16) {
+                    $valor = $valor . ':00';
+                }
+                
+                $dataHoraConvertida = $valor;                
+
+                return empty($dataHoraConvertida) ? NULL : $dataHoraConvertida;
 
             case 'float' :
                 $float = $tratar->numero()->floatBanco($valor);
@@ -361,7 +373,7 @@ class Form
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
         switch ($tipoBase) {
-            case 'date' :
+            case 'data' :
                 $dataConvertida = $tratar->data()->converteData($valor);
                 return $dataConvertida;
 

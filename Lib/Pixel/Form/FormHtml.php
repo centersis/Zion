@@ -139,12 +139,20 @@ class FormHtml extends FormHtmlZion
 
         return parent::montaDataHtml($config);
     }
+    
 
     public function montaHora(FormInputHora $config)
     {
         $this->preConfig($config);
 
         return parent::montaHoraHtml($config);
+    }
+    
+    public function montaDataHora(FormInputDataHora $config)
+    {
+        $this->preConfig($config);
+
+        return parent::montaDataHoraHtml($config);
     }
 
     public function montaCpf(FormInputCpf $config)
@@ -262,6 +270,13 @@ class FormHtml extends FormHtmlZion
         return parent::montaEmailHtml($config);
     }
 
+    public function montaCor($config)
+    {
+        $this->preConfig($config);
+
+        return parent::montaCorHtml($config);
+    }
+
     /**
      * 
      * @param \Pixel\Form\FormMasterDetail $config
@@ -323,12 +338,14 @@ class FormHtml extends FormHtmlZion
 
     protected function preConfig($config)
     {
-        $classCss = \str_replace('form-control', '', $config->getClassCss()) . ' form-control';
-        $config->setClassCss($classCss);
+        $config->setClassCss('form-control');
 
-        if ($config->getToolTipMsg()) {
-            $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
-            $config->setComplemento($complemento);
+        if (\method_exists($config, 'getToolTipMsg')) {
+
+            if ($config->getToolTipMsg()) {
+                $complemento = $config->getComplemento() . ' title="' . $config->getToolTipMsg() . '"';
+                $config->setComplemento($complemento);
+            }
         }
     }
 

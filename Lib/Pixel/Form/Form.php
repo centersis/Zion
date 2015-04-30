@@ -38,6 +38,7 @@ use Pixel\Form\FormInputTexto;
 use Pixel\Form\FormInputSuggest;
 use Pixel\Form\FormInputData;
 use Pixel\Form\FormInputHora;
+use Pixel\Form\FormInputDataHora;
 use Pixel\Form\FormInputSenha;
 use Pixel\Form\FormInputNumber;
 use Pixel\Form\FormInputFloat;
@@ -51,6 +52,7 @@ use Pixel\Form\FormChosen;
 use Pixel\Form\FormInputTextArea;
 use Pixel\Form\FormUpload;
 use Zion\Form\FormInputButton;
+use Pixel\Form\FormColor;
 use Pixel\Form\MasterDetail\FormMasterDetail;
 use Pixel\Form\MasterVinculo\FormMasterVinculo;
 use Pixel\Form\FormPixelJavaScript;
@@ -88,6 +90,11 @@ class Form extends FormZion
     public function hora($nome, $identifica, $obrigatorio = false)
     {
         return new FormInputHora('time', $nome, $identifica, $obrigatorio);
+    }
+    
+    public function dataHora($nome, $identifica, $obrigatorio = false)
+    {
+        return new FormInputDataHora('dateTime', $nome, $identifica, $obrigatorio);
     }
 
     public function senha($nome, $identifica, $obrigatorio = false)
@@ -201,6 +208,11 @@ class Form extends FormZion
         return new FormInputButton('reset', $nome, $identifica);
     }
 
+    public function cor($nome, $identifica, $obrigatorio = false)
+    {
+        return new FormColor('cor', $nome, $identifica, $obrigatorio);
+    }
+    
     public function masterDetail($nome, $identifica)
     {
         return new FormMasterDetail($nome, $identifica);
@@ -253,6 +265,10 @@ class Form extends FormZion
                 case 'hora' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaHora($objCampos);
                     break;
+                
+                case 'dataHora' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaDataHora($objCampos);
+                    break;
                 case 'number' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaNumber($objCampos);
                     break;
@@ -294,6 +310,9 @@ class Form extends FormZion
                     break;
                 case 'email' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaEmail($objCampos);
+                    break;                
+                case 'cor' :
+                    $htmlCampos[$idCampo] = $this->formPixel->montaCor($objCampos);
                     break;
                 default : throw new \Exception('Tipo Base não encontrado! ' . $idCampo);
             }

@@ -45,7 +45,7 @@ class Data extends \Zion\Tratamento\Data
 
     private static $instancia;
 
-    private function __construct()
+    public function __construct()
     {
         
     }
