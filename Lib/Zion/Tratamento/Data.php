@@ -427,12 +427,16 @@ class Data
     
     public function getAnosBissextosIntervalo($a1, $a2)
     {
-                
+
         $anoBissexto = 0;
-        for($i = $a1; $i < $a2; $i++) {
-                if(checkdate(2, 29, $i)) $anoBissexto++;
+        for($i = $a1; $i <= $a2; $i++) {
+                if(\checkdate(2, 29, $i)) {
+                    
+                    $anoBissexto++;
+                    
+                }
         }       
-        
+
         return $anoBissexto;
         
     }
@@ -440,11 +444,11 @@ class Data
     public function getDataPrevisaoDias($dias, $dataInicial = '')
     {
         
-        if(empty($dataInicial)) $dataInicial = \date('Y-m-d');
+        if(empty($dataInicial)) $a1 = \date('Y');
         
-        $d1 = \substr($dataInicial,0,2);
-        $m1 = \substr($dataInicial,3,2);
-        $a1 = \substr($dataInicial,6,4);
+        //$d1 = \substr($dataInicial,0,2);
+        //$m1 = \substr($dataInicial,3,2);
+        $a1 = \substr($dataInicial,0,4);
 
         $preData = new \DateTime($dataInicial);
 
@@ -454,7 +458,8 @@ class Data
             $preData->sub(new \DateInterval('P'.($dias + $anosBissextos).'D'));                        
         } else {
             $preData->add(new \DateInterval('P'.$dias.'D'));
-            echo $anosBissextos = $this->getAnosBissextosIntervalo($a1, $preData->format('Y'));
+            $anosBissextos = $this->getAnosBissextosIntervalo($a1, $preData->format('Y'));
+            $preData->add(new \DateInterval('P'.$dias.'D'));
             $preData->add(new \DateInterval('P'.($dias + $anosBissextos).'D'));                        
         }
         
