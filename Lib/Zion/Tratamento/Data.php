@@ -55,7 +55,7 @@ class Data
      * 
      * @return void
      */
-    public function __construct()
+    private function __construct()
     {
         
     }
@@ -250,9 +250,9 @@ class Data
         //    throw new Exception("Data informada para atribui��o Inv�lida! - 001");
 
         //Valores da data
-        list($dia, $mes, $ano) = explode($separador, $data);
+        list($dia, $mes, $ano) = \explode($separador, $data);
 
-        return($operacao == "-") ? date('d' . $separador . 'm' . $separador . 'Y', @mktime(0, 0, 0, $mes - $meses, $dia - $dias, $ano - $anos)) : date('d' . $separador . 'm' . $separador . 'Y', @mktime(0, 0, 0, $mes + $meses, $dia + $dias, $ano + $anos));
+        return($operacao == "-") ? \date('d' . $separador . 'm' . $separador . 'Y', @\mktime(0, 0, 0, $mes - $meses, $dia - $dias, $ano - $anos)) : \date('d' . $separador . 'm' . $separador . 'Y', @\mktime(0, 0, 0, $mes + $meses, $dia + $dias, $ano + $anos));
     }
 
     /**
@@ -430,38 +430,48 @@ class Data
 
         $anoBissexto = 0;
         for($i = $a1; $i <= $a2; $i++) {
-                if(\checkdate(2, 29, $i)) {
-                    
-                    $anoBissexto++;
-                    
-                }
+            if(\checkdate(2, 29, $i)) {                    
+                $anoBissexto++;                    
+            }
         }       
 
         return $anoBissexto;
         
     }
     
+    public function getDataParse($data, $format = "d/m/Y")
+    {
+
+        return \date_parse_from_format($format, $data);
+
+    }    
+    
+    public function getDataAddDays($dias, $data = '')
+    {
+        
+        $arrayData = $this->getDataParse($data, 'd-m-Y');
+        $preData = new \DateTime($arrayData['year'].'-'.$arrayData['month'].'-'.$arrayData['day']); 
+        $preData->add(new \DateInterval('P'.$dias.'D'));
+        return $preData->format('d/m/Y'); 
+        
+    }
+    
     public function getDataPrevisaoDias($dias, $dataInicial = '')
     {
         
-        if(empty($dataInicial)) $a1 = \date('Y');
-        
-        //$d1 = \substr($dataInicial,0,2);
-        //$m1 = \substr($dataInicial,3,2);
-        $a1 = \substr($dataInicial,0,4);
-
-        $preData = new \DateTime($dataInicial);
-
-        if($dias < 0) {
-            $preData->sub(new \DateInterval('P'.$dias.'D'));            
-            $anosBissextos = $this->getAnosBissextosIntervalo($a1, $preData->format('Y'));
-            $preData->sub(new \DateInterval('P'.($dias + $anosBissextos).'D'));                        
+        if(empty($dataInicial)) {
+            $dataInicial = \date('Y-m-d');
+        } else {
+            $dataInicial = \substr($dataInicial,0,4);            
+        }
+    
+        $arrayData = $this->getDataParse($dataInicial, 'Y-m-d');
+        $preData = new \DateTime($arrayData['year'].'-'.$arrayData['month'].'-'.$arrayData['day']);
+        if($dias < 0) {            
+            $preData->sub(new \DateInterval('P'.($dias * -1).'D'));            
         } else {
             $preData->add(new \DateInterval('P'.$dias.'D'));
-            $anosBissextos = $this->getAnosBissextosIntervalo($a1, $preData->format('Y'));
-            $preData->add(new \DateInterval('P'.$dias.'D'));
-            $preData->add(new \DateInterval('P'.($dias + $anosBissextos).'D'));                        
-        }
+        }               
         
         return $preData->format('d/m/Y');  
         

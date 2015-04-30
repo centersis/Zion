@@ -349,7 +349,7 @@ class FormValida
      * @param \Zion\Form $input Instância de uma das classes de formulário com as configurações do input a ser validado.
      * @return array()
      */
-    private function getAtributos($input)
+    protected function getAtributos($input)
     {
         $attrs = array();
 
