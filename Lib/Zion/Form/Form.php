@@ -332,9 +332,8 @@ class Form
 
         switch (\strtolower($tipoBase)) {
             case 'data' :
-                $dataConvertida = $tratar->data()->converteData($valor);
 
-                return empty($dataConvertida) ? NULL : $dataConvertida;
+                return empty($valor) ? NULL : $valor;
 
             case 'datahora' :
 
