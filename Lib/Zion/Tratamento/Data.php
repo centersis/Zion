@@ -476,5 +476,70 @@ class Data
         return $preData->format('d/m/Y'); 
         
     }    
+    
+    public function getIntervaloExtenso(
+            $dataInicial, 
+            $dataFinal = '', 
+            $showAnos = true, 
+            $showMeses = true, 
+            $showDias = true)
+    {
+        
+        $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
+        $dI = $this->getDataParse($dataInicial, 'Y-m-d');
+        $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
+        
+        $difftime = (@\mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) - @\mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+        
+        $bissextFix = 0;
+        $bissextyears = 0;
+        
+        for($i=($dF['year'] - $bissextFix); $i < $dF['year']; $i++) {
+           $x = 0 + ($i / 4);
+           if (($x - floor($x)) == 0) {
+                 $bissextyears ++;
+           }
+        }
+        
+        $years  = '';        
+        $months = '';   
+        $days   = '';        
+        
+        if ($showAnos) {
+            $years = \floor($difftime / (3600 * 24 * (365 + $bissextyears)));
+            $difftime = $difftime % (3600 * 24 * (365 + $bissextyears));
+        }
+        if ($showMeses) {
+            $months = \floor($difftime / (3600 * 24 * ((365  + $bissextyears)/12)));
+            $difftime = $difftime % (3600 * 24 * ((365  + $bissextyears)/12));
+        }
+        if ($showDias) {
+            $days = \floor($difftime / (3600 * 24));
+            $difftime = $difftime % (3600 * 24);
+        }
+        
+        $diff = [];
+        
+        if($years > 0 && $years > 1) {
+           \array_push($diff, $years . ' anos');
+        } else if ($years == 1) {
+           \array_push($diff, ' 1 ano');
+        }
+        
+        if($months > 0 && $months > 1) {
+           \array_push($diff, $months . ' meses');
+        } else if ($months == 1) {
+           \array_push($diff, $months . ' mes');
+        }
+        
+        if($days > 0 && $days > 1) {
+           \array_push($diff, $days . ' dias');
+        } else if ($days == 1) {
+           \array_push($diff, '1 dia');
+        }
+        
+        return \implode(', ', $diff);   
+        
+    }
 
 }
