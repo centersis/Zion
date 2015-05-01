@@ -485,11 +485,16 @@ class Data
             $showDias = true)
     {
         
+        require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
+        
         $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
         $dI = $this->getDataParse($dataInicial, 'Y-m-d');
         $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
         
-        $difftime = (@\mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) - @\mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+        $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
+                  - @\adodb_mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+        
+        //echo \date('d/m/Y', \adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']));
         
         $bissextFix = 0;
         $bissextyears = 0;
@@ -541,5 +546,17 @@ class Data
         return \implode(', ', $diff);   
         
     }
+    
+    public function getDatasMinMax($arrayDatas, $acao = 'max')
+    {
+        
+        foreach ($arrayDatas as $data) {
+            $d = $this->getDataParse($data, 'd/m/Y');
+            $v[] = $d['year'].'-'.\str_pad($d['month'],2,'0',\STR_PAD_LEFT).'-'.\str_pad($d['day'],2,'0',\STR_PAD_LEFT);
+        }    
+        $r = ($acao == 'max') ? \max($v) : \min($v);
+        return $this->converteData($r);
+        
+    }    
 
 }
