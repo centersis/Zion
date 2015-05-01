@@ -437,24 +437,7 @@ class Data
 
         return $anoBissexto;
         
-    }
-    
-    public function getDataParse($data, $format = "d/m/Y")
-    {
-
-        return \date_parse_from_format($format, $data);
-
     }    
-    
-    public function getDataAddDays($dias, $data = '')
-    {
-        
-        $arrayData = $this->getDataParse($data, 'd-m-Y');
-        $preData = new \DateTime($arrayData['year'].'-'.$arrayData['month'].'-'.$arrayData['day']); 
-        $preData->add(new \DateInterval('P'.$dias.'D'));
-        return $preData->format('d/m/Y'); 
-        
-    }
     
     public function getDataPrevisaoDias($dias, $dataInicial = '')
     {
@@ -476,5 +459,22 @@ class Data
         return $preData->format('d/m/Y');  
         
     }
+    
+    public function getDataParse($data, $format = "d/m/Y")
+    {
+
+        return \date_parse_from_format($format, $data);
+
+    }    
+    
+    public function getDataAddDays($dias, $data = '')
+    {
+        
+        $arrayData = $this->getDataParse($data, 'd-m-Y');
+        $preData = new \DateTime($arrayData['year'].'-'.$arrayData['month'].'-'.$arrayData['day']); 
+        $preData->add(new \DateInterval('P'.$dias.'D'));
+        return $preData->format('d/m/Y'); 
+        
+    }    
 
 }
