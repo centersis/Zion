@@ -323,6 +323,14 @@ class Form
         }
     }
 
+    public function unsetObjeto($idObjeto)
+    {
+
+        if (\array_key_exists($idObjeto, $this->objetos)) {
+            unset($this->objetos[$idObjeto]);
+        }
+    }
+
     public function getSql($idObjeto)
     {
         $tratar = Tratamento::instancia();
@@ -340,8 +348,8 @@ class Form
                 if (\strlen($valor) === 16) {
                     $valor = $valor . ':00';
                 }
-                
-                $dataHoraConvertida = $valor;                
+
+                $dataHoraConvertida = $valor;
 
                 return empty($dataHoraConvertida) ? NULL : $dataHoraConvertida;
 
