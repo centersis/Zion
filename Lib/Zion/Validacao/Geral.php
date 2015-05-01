@@ -151,6 +151,7 @@ class Geral extends \Zion\Tratamento\Geral
     {
 
         $j = 0;
+        $num = [];
         for ($i = 0; $i < (strlen($cnpj)); $i++) {
             if (is_numeric($cnpj[$i])) {
                 $num[$j] = $cnpj[$i];
@@ -253,6 +254,6 @@ class Geral extends \Zion\Tratamento\Geral
     
     public function validaEmail($email)
     {
-        return (preg_match("/[a-z]{1,}@[a-z]{1,}/", $email) ? true : false);
+        return (preg_match("/[a-z0-9]{1,}@[a-z0-9\.]{1,}/", $email) ? true : false);
     }
 }
