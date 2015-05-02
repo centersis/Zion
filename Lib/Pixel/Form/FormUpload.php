@@ -125,12 +125,13 @@ class FormUpload extends \Zion\Form\FormUpload
 
     public function setCodigoReferencia($codigoReferencia)
     {
-        if (empty($codigoReferencia) or is_numeric($codigoReferencia)) {
-            $this->codigoReferencia = $codigoReferencia;
-            return $this;
-        } else {
-            throw new FormException("codigoReferencia: Valor não numérico.");
+        if (!empty($codigoReferencia) and !\is_numeric($codigoReferencia)) {
+            throw new FormException("codigoReferencia: Valor não numérico.".$codigoReferencia);
         }
+        
+        $this->codigoReferencia = $codigoReferencia;                           
+        
+        return $this;
     }    
     
     public function getAlturaMaxima()
