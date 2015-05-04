@@ -233,6 +233,16 @@ class Geral extends \Zion\Tratamento\Geral
             return($cepValido > 0 ? true : false);
         }
     }
+    
+    public function verificaTelefoneFixo($telefone)
+    {
+        if(preg_match('/\)[8-9]{1}|\)\s[8-9]{1}|[8-9]{1}|\)\s[8-9]{1}/', $telefone)){
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
 
     /**
      * Geral::validaTelefone()
