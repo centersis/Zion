@@ -222,39 +222,4 @@ class Controller
         return $tabs->criar();
     }
 
-    protected function imprimir()
-    {
-        new Acesso('imprimir');
-
-        $impressao = new Impressao();
-
-        $dados = json_decode($this->filtrar(), true);
-
-        $impressao->setLogo('http:' . \SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
-
-        $retorno = $impressao->imprimeHTML($dados['retorno']);
-
-        if ($retorno === false) {
-            return $this->jsonErro('Falaha ao gerar PDF para impressão!');
-        } else {
-            return $retorno;
-        }
-    }
-
-    protected function salvarPDF()
-    {
-        new Acesso('salvarPDF');
-
-        $impressao = new Impressao();
-
-        $dados = json_decode($this->filtrar(), true);
-
-        $impressao->setLogo('http:' . \SIS_URL_BASE . 'Arquivos/logo_exemplo.jpg');
-        if ($impressao->imprimePDF($dados['retorno']) === false) {
-            return $this->jsonErro('Falaha ao gerar PDF para impressão!');
-        } else {
-            return $this->jsonSucesso('PDF gerado com sucesso!');
-        }
-    }
-
 }

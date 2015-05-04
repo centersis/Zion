@@ -12,8 +12,6 @@
 // Changes:  See changelog.txt                                                  *
 // ******************************************************************************
 
-\set_error_handler("\\Sappiens\\sisErro", \E_WARNING);
-
 define('mPDF_VERSION','5.7');
 
 //Scale factor
@@ -48,7 +46,7 @@ if (!defined('_MPDF_TTFONTDATAPATH')) { define('_MPDF_TTFONTDATAPATH',_MPDF_PATH
 
 $errorlevel=error_reporting();
 $errorlevel=error_reporting($errorlevel & ~E_NOTICE);
-\set_error_handler("\\Sappiens\\sisErro", \E_WARNING);
+\set_error_handler("\\App\\sisErro", \E_CORE_ERROR);
 //error_reporting(E_ALL);
 
 if(function_exists("date_default_timezone_set")) {
@@ -748,7 +746,7 @@ var $pages;              //array containing pages
 var $state;              //current document state
 var $compress;           //compression flag
 var $DefOrientation;     //default orientation
-var $CurOrientation;     //current orientation
+var $CurOrientation = "L";     //current orientation
 var $OrientationChanges; //array indicating orientation changes
 var $k;                  //scale factor (number of points in user unit)
 var $fwPt;
