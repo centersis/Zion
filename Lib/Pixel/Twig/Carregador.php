@@ -88,10 +88,16 @@ class Carregador
         $urlFramework = new \Twig_SimpleFunction('urlFramework', function ($url) {
             return \SIS_URL_FM_BASE . $url;
         });
+        
+        $urlBaseSite = new \Twig_SimpleFunction('urlBaseSite', function ($url) {
+            return \SIS_URL_BASE_SITE . $url;
+        });        
 
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
         $this->twig->addFunction($urlFramework);
+        $this->twig->addFunction($urlBaseSite);
+        
     }
 
     public function twig()
@@ -116,6 +122,7 @@ class Carregador
         \array_unshift($this->caminhos, $caminhoCompleto);
 
         $this->loader->prependPath($caminhoCompleto);
+        return $this;
     }
 
     public function setCaminhoDepois($caminho)
@@ -125,6 +132,7 @@ class Carregador
         $this->caminhos[] = $caminhoCompleto;
 
         $this->loader->addPath($caminhoCompleto);
+        return $this;
     }
 
     private function interpretaNamespace($namespace)
@@ -137,6 +145,6 @@ class Carregador
         }
 
         return $namespace;
-    }
+    }     
 
 }
