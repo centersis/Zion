@@ -485,11 +485,16 @@ class Data
             $showDias = true)
     {
         
+        require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
+        
         $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
         $dI = $this->getDataParse($dataInicial, 'Y-m-d');
         $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
         
-        $difftime = (@\mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) - @\mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+        $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
+                  - @\adodb_mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+        
+        //echo \date('d/m/Y', \adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']));
         
         $bissextFix = 0;
         $bissextyears = 0;
@@ -505,41 +510,55 @@ class Data
         $months = '';   
         $days   = '';        
         
-        if ($showAnos) {
-            $years = \floor($difftime / (3600 * 24 * (365 + $bissextyears)));
-            $difftime = $difftime % (3600 * 24 * (365 + $bissextyears));
-        }
-        if ($showMeses) {
-            $months = \floor($difftime / (3600 * 24 * ((365  + $bissextyears)/12)));
-            $difftime = $difftime % (3600 * 24 * ((365  + $bissextyears)/12));
-        }
-        if ($showDias) {
-            $days = \floor($difftime / (3600 * 24));
-            $difftime = $difftime % (3600 * 24);
-        }
+        $years = \floor($difftime / (3600 * 24 * (365 + $bissextyears)));
+        $difftime = $difftime % (3600 * 24 * (365 + $bissextyears));
+            
+        $months = \floor($difftime / (3600 * 24 * ((365  + $bissextyears)/12)));
+        $difftime = $difftime % (3600 * 24 * ((365  + $bissextyears)/12));
+
+        $days = \floor($difftime / (3600 * 24));
+        $difftime = $difftime % (3600 * 24);
         
         $diff = [];
         
-        if($years > 0 && $years > 1) {
-           \array_push($diff, $years . ' anos');
-        } else if ($years == 1) {
-           \array_push($diff, ' 1 ano');
+        if ($showAnos) {
+            if($years > 0 && $years > 1) {
+               \array_push($diff, $years . ' anos');
+            } else if ($years == 1) {
+               \array_push($diff, ' 1 ano');
+            }
         }
         
-        if($months > 0 && $months > 1) {
-           \array_push($diff, $months . ' meses');
-        } else if ($months == 1) {
-           \array_push($diff, $months . ' mes');
+        if ($showMeses) {
+            if($months > 0 && $months > 1) {
+               \array_push($diff, $months . ' meses');
+            } else if ($months == 1) {
+               \array_push($diff, $months . ' mes');
+            }
         }
         
-        if($days > 0 && $days > 1) {
-           \array_push($diff, $days . ' dias');
-        } else if ($days == 1) {
-           \array_push($diff, '1 dia');
+        if ($showDias or (!$months and !$years)) {
+            if($days > 0 && $days > 1) {
+               \array_push($diff, $days . ' dias');
+            } else if ($days == 1) {
+               \array_push($diff, '1 dia');
+            }
         }
         
         return \implode(', ', $diff);   
         
     }
+    
+    public function getDatasMinMax($arrayDatas, $acao = 'max')
+    {
+        
+        foreach ($arrayDatas as $data) {
+            $d = $this->getDataParse($data, 'd/m/Y');
+            $v[] = $d['year'].'-'.\str_pad($d['month'],2,'0',\STR_PAD_LEFT).'-'.\str_pad($d['day'],2,'0',\STR_PAD_LEFT);
+        }    
+        $r = ($acao == 'max') ? \max($v) : \min($v);
+        return $this->converteData($r);
+        
+    }    
 
 }
