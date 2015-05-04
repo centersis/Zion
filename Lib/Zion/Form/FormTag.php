@@ -53,6 +53,7 @@ class FormTag
     private $complemento;
     private $classCss;
     private $header;
+    private $acaoSubmit;
 
     /**
      * FormTag::setId()
@@ -274,26 +275,26 @@ class FormTag
         return $this->classCss;
     }
     
-    /**
-     * FormTag::setHeader()
-     * 
-     * @param mixed $header
-     * @return
-     */
     public function setHeader($header)
     {
         $this->header = $header;
         return $this;
     }
 
-    /**
-     * FormTag::getHeader()
-     * 
-     * @return
-     */
     public function getHeader()
     {
         return $this->header;
+    }
+    
+    public function setAcaoSubmit($acaoSubmit)
+    {
+        $this->acaoSubmit = $acaoSubmit;
+        return $this;
+    }
+
+    public function getAcaoSubmit()
+    {
+        return $this->acaoSubmit;
     }
 
 }

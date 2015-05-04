@@ -343,7 +343,7 @@ class Form extends FormZion
             }
 
             if ($validacao) {
-                $js = $smartJs->montaValidacao($this->formConfig->getNome(), $this->getAcao());
+                $js = $smartJs->montaValidacao($this->formConfig, $this->getAcao());
             } else {
                 $js = $smartJs->getJS();
             }
