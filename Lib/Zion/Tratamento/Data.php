@@ -510,37 +510,39 @@ class Data
         $months = '';   
         $days   = '';        
         
-        if ($showAnos) {
-            $years = \floor($difftime / (3600 * 24 * (365 + $bissextyears)));
-            $difftime = $difftime % (3600 * 24 * (365 + $bissextyears));
-        }
-        if ($showMeses) {
-            $months = \floor($difftime / (3600 * 24 * ((365  + $bissextyears)/12)));
-            $difftime = $difftime % (3600 * 24 * ((365  + $bissextyears)/12));
-        }
-        if ($showDias) {
-            $days = \floor($difftime / (3600 * 24));
-            $difftime = $difftime % (3600 * 24);
-        }
+        $years = \floor($difftime / (3600 * 24 * (365 + $bissextyears)));
+        $difftime = $difftime % (3600 * 24 * (365 + $bissextyears));
+            
+        $months = \floor($difftime / (3600 * 24 * ((365  + $bissextyears)/12)));
+        $difftime = $difftime % (3600 * 24 * ((365  + $bissextyears)/12));
+
+        $days = \floor($difftime / (3600 * 24));
+        $difftime = $difftime % (3600 * 24);
         
         $diff = [];
         
-        if($years > 0 && $years > 1) {
-           \array_push($diff, $years . ' anos');
-        } else if ($years == 1) {
-           \array_push($diff, ' 1 ano');
+        if ($showAnos) {
+            if($years > 0 && $years > 1) {
+               \array_push($diff, $years . ' anos');
+            } else if ($years == 1) {
+               \array_push($diff, ' 1 ano');
+            }
         }
         
-        if($months > 0 && $months > 1) {
-           \array_push($diff, $months . ' meses');
-        } else if ($months == 1) {
-           \array_push($diff, $months . ' mes');
+        if ($showMeses) {
+            if($months > 0 && $months > 1) {
+               \array_push($diff, $months . ' meses');
+            } else if ($months == 1) {
+               \array_push($diff, $months . ' mes');
+            }
         }
         
-        if($days > 0 && $days > 1) {
-           \array_push($diff, $days . ' dias');
-        } else if ($days == 1) {
-           \array_push($diff, '1 dia');
+        if ($showDias or (!$months and !$years)) {
+            if($days > 0 && $days > 1) {
+               \array_push($diff, $days . ' dias');
+            } else if ($days == 1) {
+               \array_push($diff, '1 dia');
+            }
         }
         
         return \implode(', ', $diff);   
