@@ -435,7 +435,7 @@ function sisAddMasterDetail(container) {
 
     var atual = $("#sisMasterDetail" + container + " div[id^='sisMasterDetailIten" + container + "']").length - 1; //Ignorando o campo modelo
 
-    if (atual >= conf.addMax) {
+    if (conf.addMax !== 0 && atual >= conf.addMax) {
         sisSetAlert('', 'Não foi possível adicionar, pois este grupo permite no máximo ' + conf.addMax + ' itens');
     }
     else {

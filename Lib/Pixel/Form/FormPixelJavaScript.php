@@ -190,7 +190,7 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'cpf') {
 
-           // $this->regras[$config->getNome()][] = 'cpf : true';
+            // $this->regras[$config->getNome()][] = 'cpf : true';
             //$this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
         }
 
@@ -222,7 +222,7 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'cor') {
             $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").minicolors({ theme: "bootstrap" });';
         }
-        
+
         if ($config->getAcao() == 'float') {
             $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
         }
@@ -234,7 +234,7 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'dateTime') {
             $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999 99:99").datetimepicker({ dateFormat: "dd/mm/yy" }); ';
         }
-        
+
         if ($config->getAcao() === 'chosen' or $config->getAcao() === 'escolha') {
 
             if ($config->getAcao() === 'chosen') {
@@ -301,11 +301,13 @@ class FormPixelJavaScript
         if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
             $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "' . \SIS_URL_BASE . 'Ext/Remoto/ValidaSenha/' . '");});';
         }
-       
     }
 
-    public function montaValidacao($formNome, $acao, $jsExtra = true)
+    public function montaValidacao($objConfig, $acao, $jsExtra = true)
     {
+        $formNome = $objConfig->getNome();
+        $acaoSubmit = $objConfig->getAcaoSubmit();
+
         $textoGeral = ' $("#' . $formNome . '").validate({ ';
 
         $textoRegra = ' rules : { ';
@@ -327,17 +329,17 @@ class FormPixelJavaScript
 
         $upload = $this->upload ? 'true' : 'false';
 
-        if ($acao == 'cadastrar') {
-            $funcaoAcao = 'sisCadastrarPadrao($(form).attr("name"),' . $upload . ');';
-        } else if ($acao == 'alterar') {
-            $funcaoAcao = 'sisAlterarPadrao($(form).attr("name"),' . $upload . ');';
-        } else if ($acao == 'alterar') {
-            $funcaoAcao = 'sisFiltrarPadrao($(form).attr("name"));';
-        } else {
-            $funcaoAcao = $acao;
+        if (empty($acaoSubmit)) {
+            if ($acao == 'cadastrar') {
+                $acaoSubmit = 'sisCadastrarPadrao($(form).attr("name"),' . $upload . ');';
+            } else if ($acao == 'alterar') {
+                $acaoSubmit = 'sisAlterarPadrao($(form).attr("name"),' . $upload . ');';
+            } else {
+                $acaoSubmit = $acao;
+            }
         }
 
-        $textoSubmit = ' submitHandler: function(form) { ' . $funcaoAcao . ' } ';
+        $textoSubmit = ' submitHandler: function(form) { ' . $acaoSubmit . ' } ';
 
         $extra = $jsExtra ? $this->getJS() : '';
 
