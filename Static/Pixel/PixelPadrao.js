@@ -751,6 +751,10 @@ function sisSalvarPDF() {
 
             if (ret['sucesso'] === 'false')
             {
+                sisSetAlert('false', ret['retorno']);
+            }
+            else if(ret['sucesso'] === 'true')
+            {
                 sisSetAlert('true', ret['retorno']);
             }
             else

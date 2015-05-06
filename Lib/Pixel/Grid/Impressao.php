@@ -105,7 +105,7 @@ class Impressao
                     font-size: 12px;
                     text-decoration: none;
                 }
-                </style><body onload="print(); window.close();">';
+                </style><body onload="">';
         return $css . $this->trataHTML($html) . '</body>';
     }
 
