@@ -48,7 +48,7 @@ class FormInputCep extends \Zion\Form\FormInputCep
         $this->formSetPixel = new \Pixel\Form\FormSetPixel();
         $this->tipoFiltro = 'ValorFixo';
 
-        $this->setPlaceHolder('00000-000');
+        $this->setPlaceHolder('00.000-000');
     }
 
     public function setMaximoCaracteres($maximoCaracteres)
