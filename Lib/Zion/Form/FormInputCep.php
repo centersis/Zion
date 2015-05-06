@@ -101,11 +101,12 @@ class FormInputCep extends FormBasico
                 throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
 
-            $this->maximoCaracteres = $maximoCaracteres;
-            return $this;
+            $this->maximoCaracteres = $maximoCaracteres;            
         } else {
             throw new FormException("maximoCaracteres: Valor não numerico.");
         }
+        
+        return $this;
     }
 
     /**
@@ -131,11 +132,12 @@ class FormInputCep extends FormBasico
                 throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
-            $this->minimoCaracteres = $minimoCaracteres;
-            return $this;
+            $this->minimoCaracteres = $minimoCaracteres;            
         } else {
             throw new FormException("minimoCaracteres: Valor não numerico.");
         }
+        
+        return $this;
     }
 
     /**
@@ -156,11 +158,12 @@ class FormInputCep extends FormBasico
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
-            $this->obrigatorio = $obrigatorio;
-            return $this;
+            $this->obrigatorio = $obrigatorio;            
         } else {
             throw new FormException("obrigatorio: Valor não booleano");
         }
+        
+        return $this;
     }
 
     /**
@@ -181,11 +184,12 @@ class FormInputCep extends FormBasico
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
-            $this->placeHolder = $placeHolder;
-            return $this;
+            $this->placeHolder = $placeHolder;       
         } else {
             throw new FormException("placeHolder: Nenhum valor informado");
         }
+        
+        return $this;
     }
 
     /**
@@ -206,11 +210,12 @@ class FormInputCep extends FormBasico
     public function setAliasSql($aliasSql)
     {
         if (!is_null($aliasSql)) {
-            $this->aliasSql = $aliasSql;
-            return $this;
+            $this->aliasSql = $aliasSql;            
         } else {
             throw new FormException("aliasSql: Nenhum valor informado");
         }
+        
+        return $this;
     }
 
     /**

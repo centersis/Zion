@@ -297,7 +297,7 @@ class Form extends FormZion
                     $htmlCampos[$idCampo] = $this->formPixel->montaUpload($objCampos);
                     break;
                 case 'layout':
-                    $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
+                    $htmlCampos[$idCampo] = $this->formHtml->montaLayoutHtml($objCampos);
                     break;
                 case 'masterDetail':
                     $htmlCampos[$idCampo] = $this->formPixel->montaMasterDetail($objCampos, $this->formConfig->getNome());
