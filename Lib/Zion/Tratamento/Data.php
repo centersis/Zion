@@ -487,12 +487,26 @@ class Data
         
         require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
         
-        $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
-        $dI = $this->getDataParse($dataInicial, 'Y-m-d');
-        $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
+        if(\is_numeric($dataInicial)) {
+            
+            $totalDias = $dataInicial;
+            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
+            $dI = $this->getDataParse(\date('Y-m-d'), 'Y-m-d');
+            $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
+
+            $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
+                      -  @\adodb_mktime(0,0,0,$dI['month'],($dI['day'] - $totalDias),$dI['year']));            
+            
+        } else {
         
-        $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
-                  - @\adodb_mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
+            $dI = $this->getDataParse($dataInicial, 'Y-m-d');
+            $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
+
+            $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
+                      -  @\adodb_mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+
+        }
         
         //echo \date('d/m/Y', \adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']));
         
