@@ -38,6 +38,7 @@
  */
 
 namespace Zion\Tratamento;
+use Zion\Tratamento\Tratamento;
 
 class Texto
 {
@@ -59,6 +60,8 @@ class Texto
      */
     private static $instancia;
 
+    private $trata;
+    
     /**
      * Texto::__construct()
      * Construtor, tão tosco quanto necessário para a implementação singleton.
@@ -78,7 +81,6 @@ class Texto
      */
     public static function instancia()
     {
-        
         if(!isset(self::$instancia)){
             self::$instancia = new self;
         }
@@ -112,7 +114,7 @@ class Texto
     }
 
     /**
-     * Texto::limtaTexto()
+     * Texto::limitaTexto()
      * Trunca um texto de acordo com os parâmetros de inicio e comprimento.
      * 
      * @param mixed $texto Texto a ser truncado.
@@ -120,7 +122,7 @@ class Texto
      * @param bool $length Comprimento do texto a partir do início da truncagem.
      * @return String Texto resultante após a truncagem.
      */
-    public function limtaTexto($texto, $start = false, $length = false)
+    public function limitaTexto($texto, $start = false, $length = false)
     {
         return substr($texto, $start, $length);
     }
@@ -268,4 +270,80 @@ class Texto
         return ['start' => $str[0], 'end' => $str[$t]];
         
     }
+    
+    public function substituaPor($subs, $dados)
+    {
+        $substituidos = $dados;
+
+        foreach($dados as $key => $value) {
+        
+            if(\is_array($subs) and \array_key_exists($key, $subs)) {
+
+                if (\array_key_exists($value, $subs[$key])) {
+                    $substituidos[$key] = $subs[$key][$value];
+                } else {
+                    if ($value == '') {
+                        $substituidos[$key] = \current($subs[$value]);
+                    }
+                }
+            }
+        }
+        return $substituidos;
+    }
+    
+    public function tratarComo($formatos, $dados)
+    {
+        $formatados = $dados;
+        $this->trata = Tratamento::instancia();
+
+        if(\is_array($formatos)) {
+            foreach($dados as $key => $value) {
+                if (\array_key_exists($key, $formatos)) {
+
+                    $como = \strtoupper($formatos[$key]);
+
+                    switch ($como) {
+                        case "DATA" : $formatados[$key] = $this->trata->data()->converteData($value);
+                            break;
+                        case "DATAHORA": $formatados[$key] = $this->trata->data()->converteDataHora($value);
+                            break;
+                        case "NUMERO" : $formatados[$key] = $this->trata->numero()->floatCliente($value);
+                            break;
+                        case "MOEDA" : $formatados[$key] = $this->trata->numero()->moedaCliente($value);
+                            break;
+                    }
+                }
+            }
+        }
+        
+        return $formatados;
+    }
+
+    /*
+     *         $arrayPublica = $texto->passaTratamento($result, 
+            [
+                'SUBSTITUAPOR' => 
+                    [
+                        'pessoafisicaaverbtipo' => 
+                            [
+                                'P' => 'Público',
+                                'V' => 'Privado',
+                                'S' => 'Sem Contr'
+                            ]
+                    ],
+                'TRATARCOMO' =>
+                    [
+                        'DATA' =>
+                            [
+                                'pessoafisicaaverbdatainicial',
+                                'pessoafisicaaverbdatafinal'
+                            ],
+                        'DATAHORA'
+                            [
+                                'campo'
+                            ]
+                    ]
+            ]
+        );
+     */
 }
