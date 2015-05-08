@@ -321,11 +321,13 @@ class Texto
 
     public function passaTratamento($dados, $tratamentos)
     {
+
         $tratados = $dados;
+        $this->trata = Tratamento::instancia();
 
         foreach($dados as $k => $linha){
             
-            foreach($linha as $key => $val){
+            foreach($linha as $key => $val) {
 
                 if(isset($tratamentos['SUBSTITUA']) and \array_key_exists($key, $tratamentos['SUBSTITUA'])){
 
@@ -338,6 +340,10 @@ class Texto
                 } elseif(isset($tratamentos['TRATA']['DATAHORA']) and \in_array($key, $tratamentos['TRATA']['DATAHORA'])){
 
                     $tratados[$k] = $this->tratarComo([$key => 'DATAHORA'], $tratados[$k]);
+
+                } elseif(isset($tratamentos['TRATA']['DATAEXT']) and \in_array($key, $tratamentos['TRATA']['DATAEXT'])) {
+                    
+                    $tratados[$k][$key] = $this->trata->data()->getIntervaloExtenso($val);
 
                 }
             }
