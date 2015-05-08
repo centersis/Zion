@@ -153,6 +153,7 @@ class MasterDetail
         $tabela = $config->getTabela();
         $campoReferencia = $config->getCampoReferencia();
         $codigoReferencia = $config->getCodigoReferencia();
+        
         $campos = $config->getCampos();
         $objPai = $config->getObjetoPai();
 
@@ -184,7 +185,7 @@ class MasterDetail
                 $colunasCrud[] = $confExtra[0];
                 $objPai->set($confExtra[0], $confExtra[1], $confExtra[2]);
             }
-        }
+        } 
         
         $colunasCrud[] = $campoReferencia;
         $objPai->set($campoReferencia, $codigoReferencia, 'numero');
