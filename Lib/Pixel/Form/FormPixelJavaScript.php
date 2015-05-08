@@ -223,9 +223,9 @@ class FormPixelJavaScript
             $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").minicolors({ theme: "bootstrap" });';
         }
 
-        if ($config->getAcao() == 'float') {
-            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
-        }
+//        if ($config->getAcao() == 'float') {
+//            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
+//        }
 
         if ($config->getAcao() == 'date') {
             $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999").datepicker({ dateFormat: "dd/mm/yy" }); ';
