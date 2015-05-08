@@ -114,7 +114,7 @@ class Texto
     }
 
     /**
-     * Texto::limtaTexto()
+     * Texto::limitaTexto()
      * Trunca um texto de acordo com os parâmetros de inicio e comprimento.
      * 
      * @param mixed $texto Texto a ser truncado.
@@ -122,7 +122,7 @@ class Texto
      * @param bool $length Comprimento do texto a partir do início da truncagem.
      * @return String Texto resultante após a truncagem.
      */
-    public function limtaTexto($texto, $start = false, $length = false)
+    public function limitaTexto($texto, $start = false, $length = false)
     {
         return substr($texto, $start, $length);
     }
