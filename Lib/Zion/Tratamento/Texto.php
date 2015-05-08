@@ -319,31 +319,37 @@ class Texto
         return $formatados;
     }
 
-    /*
-     *         $arrayPublica = $texto->passaTratamento($result, 
-            [
-                'SUBSTITUAPOR' => 
-                    [
-                        'pessoafisicaaverbtipo' => 
-                            [
-                                'P' => 'Público',
-                                'V' => 'Privado',
-                                'S' => 'Sem Contr'
-                            ]
-                    ],
-                'TRATARCOMO' =>
-                    [
-                        'DATA' =>
-                            [
-                                'pessoafisicaaverbdatainicial',
-                                'pessoafisicaaverbdatafinal'
-                            ],
-                        'DATAHORA'
-                            [
-                                'campo'
-                            ]
-                    ]
-            ]
-        );
-     */
+    public function passaTratamento($dados, $tratamentos)
+    {
+
+        $tratados = $dados;
+        $this->trata = Tratamento::instancia();
+
+        foreach($dados as $k => $linha){
+            
+            foreach($linha as $key => $val) {
+
+                if(isset($tratamentos['SUBSTITUA']) and \array_key_exists($key, $tratamentos['SUBSTITUA'])){
+
+                    $tratados[$k] = $this->substituaPor($tratamentos['SUBSTITUA'], $tratados[$k]);
+
+                } elseif(isset($tratamentos['TRATA']['DATA']) and \in_array($key, $tratamentos['TRATA']['DATA'])){
+
+                    $tratados[$k] = $this->tratarComo([$key => 'DATA'], $tratados[$k]);
+
+                } elseif(isset($tratamentos['TRATA']['DATAHORA']) and \in_array($key, $tratamentos['TRATA']['DATAHORA'])){
+
+                    $tratados[$k] = $this->tratarComo([$key => 'DATAHORA'], $tratados[$k]);
+
+                } elseif(isset($tratamentos['TRATA']['DATAEXT']) and \in_array($key, $tratamentos['TRATA']['DATAEXT'])) {
+                    
+                    $tratados[$k][$key] = $this->trata->data()->getIntervaloExtenso($val);
+
+                }
+            }
+        }
+        
+        return $tratados;
+    }
+
 }
