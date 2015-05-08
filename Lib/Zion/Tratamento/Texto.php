@@ -327,16 +327,20 @@ class Texto
             
             foreach($linha as $key => $val){
 
-                if(\array_key_exists($key, $tratamentos['SUBSTITUA'])){
+                if(isset($tratamentos['SUBSTITUA']) and \array_key_exists($key, $tratamentos['SUBSTITUA'])){
+
                     $tratados[$k] = $this->substituaPor($tratamentos['SUBSTITUA'], $tratados[$k]);
-                } elseif(\in_array($key, $tratamentos['TRATA']['DATA'])){
+
+                } elseif(isset($tratamentos['TRATA']['DATA']) and \in_array($key, $tratamentos['TRATA']['DATA'])){
+
                     $tratados[$k] = $this->tratarComo([$key => 'DATA'], $tratados[$k]);
-                } elseif(\in_array($key, $tratamentos['TRATA']['DATAHORA'])){
+
+                } elseif(isset($tratamentos['TRATA']['DATAHORA']) and \in_array($key, $tratamentos['TRATA']['DATAHORA'])){
+
                     $tratados[$k] = $this->tratarComo([$key => 'DATAHORA'], $tratados[$k]);
+
                 }
-
             }
-
         }
         
         return $tratados;
