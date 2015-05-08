@@ -175,7 +175,17 @@ class MasterDetail
         $objPai->processarForm($grupo);
 
         $objPai->validar();
-
+        
+        //Crud Extra
+        $crudExtra = $config->getCrudExtra();
+        
+        if($crudExtra){
+            foreach ($crudExtra as $confExtra){
+                $colunasCrud[] = $confExtra[0];
+                $objPai->set($confExtra[0], $confExtra[1], $confExtra[2]);
+            }
+        }
+        
         $colunasCrud[] = $campoReferencia;
         $objPai->set($campoReferencia, $codigoReferencia, 'numero');
         return $crudUtil->insert($tabela, $colunasCrud, $objPai, ['upload']);
