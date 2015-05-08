@@ -84,7 +84,7 @@ class Numero
      */
     public function floatCliente($numero)
     {
-        $float = $this->floatBoleto($numero);
+        $float = $this->floatBanco($numero);
         return number_format($float, 2, ',', '.');
     }
 
