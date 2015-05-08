@@ -81,7 +81,7 @@ class MasterDetailHtml
 
         $carregador = new Carregador();
 
-        return $carregador->render('master_detail.html.twig', $this->buffer);
+        return $carregador->render($config->getView(), $this->buffer);
     }
 
     private function camposDoBanco(FormMasterDetail $config, $nomeForm)
