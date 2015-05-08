@@ -319,4 +319,31 @@ class Texto
         return $formatados;
     }
 
+    /*
+     *         $arrayPublica = $texto->passaTratamento($result, 
+            [
+                'SUBSTITUAPOR' => 
+                    [
+                        'pessoafisicaaverbtipo' => 
+                            [
+                                'P' => 'Público',
+                                'V' => 'Privado',
+                                'S' => 'Sem Contr'
+                            ]
+                    ],
+                'TRATARCOMO' =>
+                    [
+                        'DATA' =>
+                            [
+                                'pessoafisicaaverbdatainicial',
+                                'pessoafisicaaverbdatafinal'
+                            ],
+                        'DATAHORA'
+                            [
+                                'campo'
+                            ]
+                    ]
+            ]
+        );
+     */
 }
