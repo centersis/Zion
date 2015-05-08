@@ -506,9 +506,7 @@ class Data
             $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
                       -  @\adodb_mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
 
-        }
-        
-        //echo \date('d/m/Y', \adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']));
+        }        
         
         $bissextFix = 0;
         $bissextyears = 0;
