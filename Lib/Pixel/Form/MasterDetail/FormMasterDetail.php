@@ -1,32 +1,33 @@
 <?php
+
 /**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 
 namespace Pixel\Form\MasterDetail;
 
@@ -53,7 +54,8 @@ class FormMasterDetail
     private $codigoReferencia;
     private $objetoRemover;
     private $metodoRemover;
-    
+    private $view;
+    private $crudExtra;
     private $iUpload;
 
     /**
@@ -65,13 +67,14 @@ class FormMasterDetail
         $this->tipoBase = 'masterDetail';
         $this->acao = $this->tipoBase;
 
-        $this->nome = $nome;   
+        $this->nome = $nome;
         $this->identifica = $identifica;
         $this->botaoRemover = true;
         $this->addMax = 20;
         $this->addMin = 0;
         $this->addTexto = 'Novo Registro';
         $this->totalItensInicio = 1;
+        $this->view = 'master_detail.html.twig';
     }
 
     public function getAcao()
@@ -82,91 +85,6 @@ class FormMasterDetail
     public function getTipoBase()
     {
         return $this->tipoBase;
-    }
-
-    public function getNome()
-    {
-        return $this->nome;
-    }
-    
-    public function getIdentifica()
-    {
-        return $this->identifica;
-    }
-
-    public function getAddMax()
-    {
-        return $this->addMax;
-    }
-
-    public function getAddMin()
-    {
-        return $this->addMin;
-    }
-
-    public function getAddTexto()
-    {
-        return $this->addTexto;
-    }
-
-    public function getTabela()
-    {
-        return $this->tabela;
-    }
-    
-    public function getCodigo()
-    {
-        return \strtolower($this->codigo);
-    }
-
-    public function getCampos()
-    {
-        return $this->campos;
-    }
-
-    public function getBotaoRemover()
-    {
-        return $this->botaoRemover;
-    }
-
-    public function getTotalItensInicio()
-    {
-        return $this->totalItensInicio;
-    }
-    
-    public function getValorItensDeInicio()
-    {
-        return $this->valorItensDeInicio;
-    }
-    
-    public function getObjetoPai()
-    {
-        return $this->objetoPai;
-    }
-    
-    public function getCampoReferencia()
-    {
-        return $this->campoReferencia;
-    }
-    
-    public function getCodigoReferencia()
-    {
-        return $this->codigoReferencia;
-    }
-    
-    public function getObjetoRemover()
-    {
-        return $this->objetoRemover;
-    }
-    
-    public function getMetodoRemover()
-    {
-        return $this->metodoRemover;
-    }
-    
-    public function getIUpload()
-    {
-        return $this->iUpload;
     }
 
     /**
@@ -184,7 +102,12 @@ class FormMasterDetail
         $this->nome = $nome;
         return $this;
     }
-    
+
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
     /**
      * Identificador do componente
      * @param string $identifica
@@ -199,6 +122,11 @@ class FormMasterDetail
 
         $this->identifica = $identifica;
         return $this;
+    }
+
+    public function getIdentifica()
+    {
+        return $this->identifica;
     }
 
     /**
@@ -219,6 +147,11 @@ class FormMasterDetail
         return $this;
     }
 
+    public function getAddMax()
+    {
+        return $this->addMax;
+    }
+
     /**
      * Número mínimo de itens que podem ser adicionados, por padrão o valor 
      * inicial deste atributo é 0, oque siguinifica que ele aceita 0 (Zero) ou
@@ -234,6 +167,11 @@ class FormMasterDetail
 
         $this->addMin = $addMin;
         return $this;
+    }
+
+    public function getAddMin()
+    {
+        return $this->addMin;
     }
 
     /**
@@ -252,6 +190,11 @@ class FormMasterDetail
         return $this;
     }
 
+    public function getAddTexto()
+    {
+        return $this->addTexto;
+    }
+
     /**
      * Tabela do banco de dados
      * @param string $tabela
@@ -267,7 +210,12 @@ class FormMasterDetail
         $this->tabela = $tabela;
         return $this;
     }
-    
+
+    public function getTabela()
+    {
+        return $this->tabela;
+    }
+
     public function setCodigo($codigo)
     {
         if (!\is_string($codigo) or empty($codigo)) {
@@ -277,7 +225,11 @@ class FormMasterDetail
         $this->codigo = $codigo;
         return $this;
     }
-    
+
+    public function getCodigo()
+    {
+        return \strtolower($this->codigo);
+    }
 
     /**
      * Deve ser informado um array com a seguinte estrutura:
@@ -298,6 +250,11 @@ class FormMasterDetail
         return $this;
     }
 
+    public function getCampos()
+    {
+        return $this->campos;
+    }
+
     /**
      * Indica se o botão remover deve existir
      * @param boolean $botaoRemover
@@ -314,6 +271,11 @@ class FormMasterDetail
         return $this;
     }
 
+    public function getBotaoRemover()
+    {
+        return $this->botaoRemover;
+    }
+
     /**
      * Indica o número de itens que devem existir inicialemnte
      * @param int $totalItensInicio
@@ -328,88 +290,163 @@ class FormMasterDetail
 
         $this->totalItensInicio = $totalItensInicio;
         return $this;
-    }   
-    
+    }
+
+    public function getTotalItensInicio()
+    {
+        return $this->totalItensInicio;
+    }
+
     public function setValorItensDeInicio($valorItensDeInicio)
     {
-        if(!empty($valorItensDeInicio)){
-            
-            if(!\is_array($valorItensDeInicio)){
+        if (!empty($valorItensDeInicio)) {
+
+            if (!\is_array($valorItensDeInicio)) {
                 throw new FormException('setValorItensDeInicio: Informe um array!');
             }
-            
+
             $this->valorItensDeInicio = $valorItensDeInicio;
         }
-        
+
         return $this;
     }
-    
+
+    public function getValorItensDeInicio()
+    {
+        return $this->valorItensDeInicio;
+    }
+
     public function setObjetoPai($objetoPai)
     {
         if (\is_object($objetoPai)) {
-            $this->objetoPai = $objetoPai;            
+            $this->objetoPai = $objetoPai;
         } else {
             throw new FormException("objetoPai: Valor não é um objeto válido.");
         }
-        
+
         return $this;
     }
-    
+
+    public function getObjetoPai()
+    {
+        return $this->objetoPai;
+    }
+
     public function setCampoReferencia($campoReferencia)
     {
         if (!empty($campoReferencia) and \is_string($campoReferencia)) {
-            $this->campoReferencia = $campoReferencia;            
+            $this->campoReferencia = $campoReferencia;
         } else {
             throw new FormException("campoReferencia: Valor não é válido.");
         }
-        
+
         return $this;
-    }    
+    }
+
+    public function getCampoReferencia()
+    {
+        return $this->campoReferencia;
+    }
 
     public function setCodigoReferencia($codigoReferencia)
     {
-        if(empty($codigoReferencia)){
+        if (empty($codigoReferencia)) {
             return $this;
         }
-        
+
         if (\is_numeric($codigoReferencia)) {
-            $this->codigoReferencia = $codigoReferencia;               
+            $this->codigoReferencia = $codigoReferencia;
         } else {
             throw new FormException("codigoReferencia: Valor não numérico.");
         }
-        
+
         return $this;
-    }    
-    
+    }
+
+    public function getCodigoReferencia()
+    {
+        return $this->codigoReferencia;
+    }
+
     public function setObjetoRemover($objetoRemover, $metodoRemover)
     {
         if (\is_object($objetoRemover)) {
-            $this->objetoRemover = $objetoRemover;            
+            $this->objetoRemover = $objetoRemover;
         } else {
             throw new FormException("objetoRemover: Valor não é um objeto válido.");
         }
-        
+
         $this->setMetodoRemover($metodoRemover);
-        
+
         return $this;
     }
-    
+
+    public function getObjetoRemover()
+    {
+        return $this->objetoRemover;
+    }
+
     private function setMetodoRemover($metodoRemover)
     {
         if (!empty($metodoRemover) and \is_string($metodoRemover)) {
-            $this->metodoRemover = $metodoRemover;            
+            $this->metodoRemover = $metodoRemover;
         } else {
             throw new FormException("objetoRemover -> metodoRemover: Valor não é válido.");
         }
-        
+
         return $this;
-    }  
-    
+    }
+
+    public function getMetodoRemover()
+    {
+        return $this->metodoRemover;
+    }
+
     public function setIUpload($iUpload)
     {
         $this->iUpload = $iUpload;
-        
+
         return $this;
+    }
+
+    public function getIUpload()
+    {
+        return $this->iUpload;
+    }
+
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    /**
+     * 
+     * @param type $nome - serve para identificação do campo, não influencia
+     * no funcionamento do componente
+     * @param array $crudExtra - deve conter um array com 3 posições
+     * 1 - Nome do Campo na Tabela
+     * 2 - Valor do Campo a ser inserido no banco de dados
+     * 3 - Tipo do campo a ser inserido no banco de dados
+     * Ex: ...setCrudExtra('organogramaCod', ['organogramaCod',$_SESSION['organogramaCod','Inteiro']]);
+     * @return \Pixel\Form\MasterDetail\FormMasterDetail
+     */
+    public function setCrudExtra($nome, array $crudExtra)
+    {
+        $this->crudExtra[$nome] = $crudExtra;
+
+        return $this;
+    }
+
+    public function getCrudExtra($nome = '')
+    {
+        return $nome ? $this->crudExtra[$nome] : $this->crudExtra;
     }
 
 }

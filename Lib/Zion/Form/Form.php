@@ -257,16 +257,16 @@ class Form
             } else {
                 switch (\strtolower($tipo)) {
 
-                    case 'float':
+                    case 'float': case 'double':
                         $this->objetos[$nome] = new FormInputFloat('number', $nome, '-', false);
                         break;
                     case 'numero': case 'inteiro':
                         $this->objetos[$nome] = new FormInputNumber('number', $nome, '-', false);
                         break;
-                    case 'data':
+                    case 'data': case 'date':
                         $this->objetos[$nome] = new FormInputData('date', $nome, '-', false);
                         break;
-                    case 'datahora':
+                    case 'datahora': case 'datetime':
                         $this->objetos[$nome] = new FormInputDataHora('dateTime', $nome, '-', false);
                         break;
                     default :
@@ -294,19 +294,19 @@ class Form
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
         switch (\strtolower($tipoBase)) {
-            case 'data' :
+            case 'data' : case 'date' :
 
                 return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
 
-            case 'datahora' :
+            case 'datahora' : case 'datetime' :
 
                 return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
 
-            case 'float' :
+            case 'float' : case 'double' :
 
                 return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
 
-            case 'number' :
+            case 'number' : case 'numero' :
 
                 return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_INT;
 
@@ -339,11 +339,11 @@ class Form
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
         switch (\strtolower($tipoBase)) {
-            case 'data' :
+            case 'data' : case 'date' :
 
                 return empty($valor) ? NULL : $valor;
 
-            case 'datahora' :
+            case 'datahora' : case 'datetime' :
 
                 if (\strlen($valor) === 16) {
                     $valor = $valor . ':00';
@@ -353,12 +353,12 @@ class Form
 
                 return empty($dataHoraConvertida) ? NULL : $dataHoraConvertida;
 
-            case 'float' :
+            case 'float' : case 'double' :
                 $float = $tratar->numero()->floatBanco($valor);
 
                 return \is_numeric($float) ? $float : NULL;
 
-            case 'number' :
+            case 'number' : case 'numero' : case 'inteiro' :
                 return \is_numeric($valor) ? $valor : NULL;
 
             default:
@@ -381,15 +381,15 @@ class Form
         $tipoBase = $this->objetos[$idObjeto]->getTipoBase();
 
         switch ($tipoBase) {
-            case 'data' :
+            case 'data' : case 'date' :
                 $dataConvertida = $tratar->data()->converteData($valor);
                 return $dataConvertida;
 
-            case 'float' :
+            case 'float' : case 'double' :
                 $valorConvertido = $tratar->numero()->floatBanco($valor);
                 return $valorConvertido;
 
-            case 'number' :
+            case 'number' : case 'numero' : case 'inteiro' :
                 return $valor;
 
             default:
