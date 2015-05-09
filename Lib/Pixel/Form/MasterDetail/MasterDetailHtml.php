@@ -79,7 +79,7 @@ class MasterDetailHtml
             $this->buffer['botaoRemover'] = 'true';
         }
 
-        $carregador = new Carregador();
+        $carregador = new Carregador($config->getNamespace());
 
         return $carregador->render($config->getView(), $this->buffer);
     }
