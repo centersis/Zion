@@ -490,6 +490,7 @@ class Data
         if(\is_numeric($dataInicial)) {
             
             $totalDias = $dataInicial;
+            if($totalDias <= 0) return 'Nenhum dia';
             $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
             $dI = $this->getDataParse(\date('Y-m-d'), 'Y-m-d');
             $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
