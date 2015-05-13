@@ -109,10 +109,10 @@ class Numero extends \Zion\Tratamento\Numero
      */
     public function isFloat($numero)
     {
-        if (\preg_match('/[0-9]{1,3}[\.|,][0-9]{1,2}$/', $numero)) {
-            return true;
-        } else {
+        if (\preg_match('/[^0-9\.\,]/', $numero)) {
             return false;
+        } else {
+            return true;
         }
     }
 

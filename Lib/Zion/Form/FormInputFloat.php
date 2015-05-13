@@ -40,7 +40,7 @@
 namespace Zion\Form;
 
 use Zion\Form\Exception\FormException;
-use Zion\Tratamento\Numero;
+use Zion\Validacao\Numero;
 use Zion\Form\FormBasico;
 
 class FormInputFloat extends FormBasico

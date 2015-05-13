@@ -15,13 +15,13 @@ class Conexao
     public static $instancia = [];
     private $banco;
     private $arrayExcecoes = [];
-    private $linhasAfetadas = 0;
+    private $linhasAfetadas;
     private static $logHash;
 
     /**
-     * Inicia uma conex�o com o banco de dados, se os parametros opcionais n�o 
-     * forem informados o metodo ent�o tenta achar os parametros provenientes
-     * do arquivo de configura��o do sistema
+     * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
+     * forem informados o metodo então tenta achar os parametros provenientes
+     * do arquivo de configuração do sistema
      * @param string $banco
      * @param string $host
      * @param string $usuario
@@ -32,11 +32,11 @@ class Conexao
     {
         $this->banco = $banco;
 
-        $this->arrayExcecoes[0] = "Conex�o: Problemas com o servidor impedem a conex�o com o banco de dados.<br>";
-        $this->arrayExcecoes[1] = "Conex�o: Problemas ao executar a clausula SQL.<br>";
-        $this->arrayExcecoes[2] = "Conex�o: ResultSet inválido.";
-        $this->arrayExcecoes[3] = "Conex�o: A query SQL esta vazia.";
-        $this->arrayExcecoes[4] = "Conex�o: Array de querys inválido.";
+        $this->arrayExcecoes[0] = "Conexão: Problemas com o servidor impedem a conexão com o banco de dados.<br>";
+        $this->arrayExcecoes[1] = "Conexão: Problemas ao executar a clausula SQL.<br>";
+        $this->arrayExcecoes[2] = "Conexão: ResultSet inválido.";
+        $this->arrayExcecoes[3] = "Conexão: A query SQL esta vazia.";
+        $this->arrayExcecoes[4] = "Conexão: Array de querys inválido.";
 
         if ($host) {
             $cHost = $host;
@@ -81,7 +81,7 @@ class Conexao
     }
 
     /**
-     * Retorna uma instancia de conex�o com o banco de dados
+     * Retorna uma instancia de conexão com o banco de dados
      * @param string $banco
      * @return \Doctrine\DBAL\Connection
      */
@@ -101,7 +101,7 @@ class Conexao
     }
 
     /**
-     * Retorna uma mensagem de erro de acordo com o c�digo informado
+     * Retorna uma mensagem de erro de acordo com o código informado
      * @param int $cod
      * @return string
      */
@@ -111,7 +111,7 @@ class Conexao
     }
 
     /**
-     * Retorna o n�mero de linhas afetadas por uma clausula sql
+     * Retorna o número de linhas afetadas por uma clausula sql
      * @return int
      */
     public function getLinhasAfetadas()
@@ -120,7 +120,7 @@ class Conexao
     }
 
     /**
-     * Cria uma conex�o com o banco de dados MYSQL (SINGLETON)
+     * Cria uma conexão com o banco de dados MYSQL (SINGLETON)
      * @param string $banco
      * @return Conexao
      */
@@ -140,7 +140,7 @@ class Conexao
     }
 
     /**
-     * Retorna um link de conex�o com o banco de dados ap�s a informa��o dos
+     * Retorna um link de conexão com o banco de dados após a informação dos
      * paremetros nescessários
      * @param string $host
      * @param string $banco
@@ -159,7 +159,7 @@ class Conexao
     }
 
     /**
-     * Fecha a conex�o co banco de dados
+     * Fecha a conexão co banco de dados
      * @param string $banco
      */
     public function fecharConexao($banco = \NULL)
@@ -169,7 +169,7 @@ class Conexao
 
     /**
      * Executa uma string sql ou um objeto querybuilder, retorna um ResultSet
-     * em caso de SELECT ou o n�mero de linhas afetadas em caso de Insert
+     * em caso de SELECT ou o número de linhas afetadas em caso de Insert
      * Update e Delete 
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return ResultSet
@@ -308,7 +308,7 @@ class Conexao
 
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o 
-     * valor contido na posi��o especificada pelo parametro $posicao
+     * valor contido na posição especificada pelo parametro $posicao
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string|int $posicao
      * @return string
@@ -331,7 +331,7 @@ class Conexao
                 return \NULL;
             }
 
-            throw new \Exception('Conex�o: Posi��o ' . $posicao . ' informada n�o foi encontrada!');
+            throw new \Exception('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
         }
 
         return \current($array);
@@ -339,7 +339,7 @@ class Conexao
 
     /**
      * Executa uma string Sql ou um objeto query builder e retorna o 
-     * valor contido na posi��o especificada pelos parametros $posicao
+     * valor contido na posição especificada pelos parametros $posicao
      * e $indice caso forem especificados
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string $posicao
@@ -368,7 +368,7 @@ class Conexao
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Conex�o: Indice $indice n�o encontrado!");
+                            throw new \Exception("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row;
@@ -376,13 +376,13 @@ class Conexao
                 } else {
                     if (empty($indice)) {
                         if (!\key_exists($posicao, $row)) {
-                            throw new \Exception("Conex�o: Posi��o $posicao n�o encontrada!");
+                            throw new \Exception("Conexão: Posição $posicao não encontrada!");
                         }
                         $rows[] = $row[$posicao];
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Conex�o: Indice $indice n�o encontrado!");
+                            throw new \Exception("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row[$posicao];
@@ -397,7 +397,7 @@ class Conexao
     }
 
     /**
-     * Retornando o n�mero de resultados de um ResultSet
+     * Retornando o número de resultados de um ResultSet
      * @param \Doctrine\DBAL\Driver\Statement $resultSet
      * @return int
      * @throws \Exception
@@ -412,7 +412,7 @@ class Conexao
     }
 
     /**
-     * Executa uma string Sql ou um objeto query builder e retorna o n�mero
+     * Executa uma string Sql ou um objeto query builder e retorna o número
      * de linhas afetadas pela consulta
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return int
@@ -476,7 +476,7 @@ class Conexao
     }
 
     /**
-     * Inicia uma Transa��o
+     * Inicia uma Transação
      */
     public function startTransaction()
     {
@@ -489,7 +489,7 @@ class Conexao
     }
 
     /**
-     * Finaliza uma Transa��o - Commit se for vazio, sen�o Rollback
+     * Finaliza uma Transação - Commit se for vazio, senão Rollback
      * @param string $erro
      * @return boolean
      */
@@ -499,7 +499,7 @@ class Conexao
             return false;
         }
 
-        if (self::$transaction[$this->banco] == 1) {
+        if (self::$transaction[$this->banco] === 1) {
             if (!empty($erro)) {
                 self::$link[$this->banco]->rollBack();
                 self::$transaction[$this->banco] -= 1;

@@ -55,6 +55,7 @@ class FormMasterDetail
     private $objetoRemover;
     private $metodoRemover;
     private $view;
+    private $namespace;
     private $crudExtra;
     private $iUpload;
 
@@ -414,16 +415,30 @@ class FormMasterDetail
         return $this->iUpload;
     }
 
-    public function setView($view)
+    public function setView($view, $namespace = '')
     {
         $this->view = $view;
 
+        if($namespace){
+            $this->setNamespace($namespace);
+        }
+        
         return $this;
     }
 
     public function getView()
     {
         return $this->view;
+    }
+    
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+    }
+
+    public function getNamespace()
+    {
+        return $this->namespace;
     }
 
     /**
