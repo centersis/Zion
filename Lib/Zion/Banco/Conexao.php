@@ -15,7 +15,7 @@ class Conexao
     public static $instancia = [];
     private $banco;
     private $arrayExcecoes = [];
-    private $linhasAfetadas = 0;
+    private $linhasAfetadas;
     private static $logHash;
 
     /**
