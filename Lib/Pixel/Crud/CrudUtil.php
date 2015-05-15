@@ -78,7 +78,7 @@ class CrudUtil
     {
         $arrayObjetos = $objForm->getObjetos();
 
-        if ($cod) {
+        if ($cod and \array_key_exists('cod', $arrayObjetos)) {
             $arrayObjetos['cod']->setValor($cod);
         }
 

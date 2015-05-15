@@ -74,6 +74,10 @@ class Data extends \Zion\Tratamento\Data
      */
     public function validaData($data)
     {
+        if(empty($data)){
+            return false;
+        }
+        
         $dataLimpa = \str_replace(['/', '-'], '', $data);
         
         if ($dataLimpa === '00000000') {
