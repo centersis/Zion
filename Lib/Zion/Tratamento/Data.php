@@ -399,6 +399,19 @@ class Data
         return $textAgo;
     }
 
+    public function diferenca($dataHora, $dataHoraAtual = NULL)
+    {
+        $formato = $this->getFormatoDataHora($dataHora);
+        $dataAtual = (\is_null($dataHoraAtual) ? \date($formato) : $dataHoraAtual);
+
+        $dI = \DateTime::createFromFormat($formato, $dataHora);
+        $dF = \DateTime::createFromFormat($formato, $dataAtual);
+
+        $diff = (array) $dI->diff($dF);
+
+        return $diff;
+    }
+    
     /**
      * Data::getMesExt()
      * Retorna o equivalente por extenso de um mês númerico.
