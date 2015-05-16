@@ -157,6 +157,14 @@ class EscolhaHtml
                     $sql->andWhere($sql->expr()->neq($campoTabela, ':' . $campoTabela))
                             ->setParameter($campoTabela, $valor, $tipoPDO);
                     break;
+                
+                case 'ISNULL':
+                    $sql->andWhere($sql->expr()->isNull($campoTabela));
+                    break;
+                
+                case 'ISNOTNULL':
+                    $sql->andWhere($sql->expr()->isNotNull($campoTabela));
+                    break;
             }
         }
     }
