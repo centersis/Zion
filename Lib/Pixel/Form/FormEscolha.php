@@ -43,6 +43,7 @@ class FormEscolha extends \Zion\Form\FormEscolha
     private $campoDependencia;
     private $metodoDependencia;
     private $classeDependencia;
+    private $parametros;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -209,11 +210,12 @@ class FormEscolha extends \Zion\Form\FormEscolha
         return $this->tipoFiltro;
     }
 
-    public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia)
+    public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia, $parametros = [])
     {
         $this->campoDependencia = $campoDependencia;
         $this->metodoDependencia = $metodoDependencia;
         $this->classeDependencia = \str_replace('\\', '/', $classeDependencia);
+        $this->parametros = $parametros;
 
         return $this;
     }
@@ -231,6 +233,11 @@ class FormEscolha extends \Zion\Form\FormEscolha
     public function getClasseDependencia()
     {
         return $this->classeDependencia;
+    }
+    
+    public function getParametros()
+    {
+        return $this->parametros;
     }
 
     public function setAliasSql($aliasSql)

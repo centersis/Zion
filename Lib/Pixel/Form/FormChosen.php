@@ -41,6 +41,7 @@ class FormChosen extends \Zion\Form\FormEscolha
     private $campoDependencia;
     private $metodoDependencia;
     private $classeDependencia;
+    private $parametros;
    
     private $formSetPixel;
 
@@ -209,11 +210,12 @@ class FormChosen extends \Zion\Form\FormEscolha
         return $this;
     }
     
-    public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia)
+    public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia, $parametros = [])
     {
         $this->campoDependencia = $campoDependencia;
         $this->metodoDependencia = $metodoDependencia;
-        $this->classeDependencia = \str_replace('\\', '/', $classeDependencia);
+        $this->classeDependencia = \str_replace('\\', '/', $classeDependencia);        
+        $this->parametros = $parametros;
 
         return $this;
     }
@@ -231,6 +233,11 @@ class FormChosen extends \Zion\Form\FormEscolha
     public function getClasseDependencia()
     {
         return $this->classeDependencia;
+    }
+    
+    public function getParametros()
+    {
+        return $this->parametros;
     }
 
     /**

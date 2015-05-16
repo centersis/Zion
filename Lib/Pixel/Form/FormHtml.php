@@ -139,7 +139,6 @@ class FormHtml extends FormHtmlZion
 
         return parent::montaDataHtml($config);
     }
-    
 
     public function montaHora(FormInputHora $config)
     {
@@ -147,7 +146,7 @@ class FormHtml extends FormHtmlZion
 
         return parent::montaHoraHtml($config);
     }
-    
+
     public function montaDataHora(FormInputDataHora $config)
     {
         $this->preConfig($config);
@@ -226,7 +225,7 @@ class FormHtml extends FormHtmlZion
 
                     $i = new $instancia();
 
-                    $formE = $i->{$dMetodo}($dCod);
+                    $formE = $i->{$dMetodo}($dCod, $config->getParametros());
 
                     $objeto = $formE->getObjetos($config->getNome());
                     $objeto->setValor($config->getValor());

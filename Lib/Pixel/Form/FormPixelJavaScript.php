@@ -31,6 +31,8 @@
 
 namespace Pixel\Form;
 
+use Zion\Paginacao\Parametros;
+
 class FormPixelJavaScript
 {
 
@@ -252,8 +254,15 @@ class FormPixelJavaScript
                 $classeDependencia = $config->getClasseDependencia();
                 $nomeCampo = $config->getNome();
                 $callback = $config->getCallback() ? $config->getCallback() : 'false';
+                
+                $parametros = $config->getParametros();
+                
+                $urlPar = '';
+                if($parametros){
+                    $urlPar = Parametros::addQueryString('', $parametros);
+                }
 
-                $url = \SIS_URL_BASE . 'Ext/Remoto/dependencia/';
+                $url = \SIS_URL_BASE . 'Ext/Remoto/dependencia/?'.$urlPar;
 
                 $this->extra[] = '$("#' . $formNome . ' #' . $campoDependencia . '").change(function() { sisCarregaDependencia(\'' . $url . '\', \'' . $formNome . '\',\'' . $config->getContainer() . '\',$(this).val(),\'' . $metodoDependencia . '\',\'' . $classeDependencia . '\',\'' . $nomeCampo . '\',' . $callback . ');  });';
             }
