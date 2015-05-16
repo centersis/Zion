@@ -1,32 +1,33 @@
 <?php
+
 /**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 
 namespace Pixel\Filtro;
 
@@ -81,23 +82,30 @@ class Filtrar
         $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n' . $nomeCampo));
         $valor = \filter_input(\INPUT_GET, 'n' . $nomeCampo);
 
-        $rand = \mt_rand(1, 9999); //Como o objeto pode ser repetido inumeras vezes, adota-se uma nome randomico para não haver conflito
-        //Valida Informações        
-        if ($operador == '' or $acao == '') {
-            if ($valor <> '') {
+        if (\strtoupper($valor) === 'SISNOTNULL') {
+            $queryBuilder->andWhere($queryBuilder->expr()->isNotNull($campoBanco));
+        }else if (\strtoupper($valor) === 'SISNULL') {
+            $queryBuilder->andWhere($queryBuilder->expr()->isNull($campoBanco));
+        } else {
 
-                $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp01' . $rand))
-                        ->setParameter('camp01' . $rand, $queryBuilder->expr()->literal($valor), \PDO::PARAM_STR);
+            $rand = \mt_rand(1, 9999); //Como o objeto pode ser repetido inumeras vezes, "adota-se" uma nome randomico para não haver conflito
+            //Valida Informações        
+            if ($operador == '' or $acao == '') {
+                if ($valor <> '') {
+
+                    $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp01' . $rand))
+                            ->setParameter('camp01' . $rand, $queryBuilder->expr()->literal($valor), \PDO::PARAM_STR);
+                    return;
+                }
+
                 return;
             }
 
-            return;
-        }
+            //Retorna Sql	
+            if ("$valor" <> "") {
 
-        //Retorna Sql	
-        if ("$valor" <> "") {
-
-            $this->condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder);
+                $this->condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder);
+            }
         }
     }
 
@@ -194,7 +202,7 @@ class Filtrar
     private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
     {
         $tratar = \Zion\Tratamento\Tratamento::instancia();
-        
+
         if (\in_array($operador, $this->operadores)) {
 
             $rand = \mt_rand(1, 9999);
@@ -208,7 +216,7 @@ class Filtrar
                     if ($acao == 'number') {
                         $tipoParametro = \PDO::PARAM_INT;
                     }
-                    
+
                     if ($acao == 'date') {
                         $valor = $tratar->data()->converteData($valor);
                     }

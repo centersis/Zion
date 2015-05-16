@@ -284,7 +284,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setLimite($limite)
     {
-        if (!empty($limite) and is_numeric($campoCod)) {
+        if (!empty($limite) and is_numeric($limite)) {
             $this->limite = $limite;
             return $this;
         } else {
