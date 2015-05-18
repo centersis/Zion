@@ -72,10 +72,22 @@ class FormInputTextArea extends FormInputTextAreaZion
 
                     return "{
                     toolbar: [
-                    { name: 'document', items: [ 'Source','-','Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
-                    [ 'Find', 'Replace' ],['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                    { name: 'document', items: 
+                        ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'] 
+                    },
+                        ['Undo', 'Redo'],
+                        [ 'Link', 'Unlink','-','SpecialChar', '-', 'Source'],                        
                     '/',
-                    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],},[ 'Link', 'Unlink','-','HorizontalRule','-','SpecialChar' ]]}";
+                    {'name':'styles','groups':['styles']},
+                    { name: 'basicstyles', items: 
+                        [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],
+                    },
+                        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                        ['NumberedList', 'BulletedList'], 
+                        ['Outdent', 'Indent', '-', 'HorizontalRule', '-', 'Blockquote'],
+                        [ 'Find', 'Replace' ]                        
+                    ]
+                    }";
 
                 default : return null;
             }
