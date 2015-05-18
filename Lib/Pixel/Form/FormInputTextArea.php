@@ -9,7 +9,7 @@
  *    Email do autor: sappiens@braconsultoria.com.br
  *
  *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
+ *
  *    Este programa é software livre; você pode redistribuí-lo e/ou
  *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
  *    publicada pela Free Software Foundation, versão 2.
@@ -19,7 +19,7 @@
  *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
  *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
  *    detalhes.
- * 
+ *
  *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
  *    junto com este programa; se não, escreva para a Free Software
  *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -31,9 +31,13 @@
 
 namespace Pixel\Form;
 
-class FormInputTextArea extends \Zion\Form\FormInputTextArea
+use Pixel\Form\FormSetPixel;
+use Zion\Form\FormInputTextArea as FormInputTextAreaZion;
+
+class FormInputTextArea extends FormInputTextAreaZion
 {
 
+    private $ferramentas;
     private $iconFA;
     private $toolTipMsg;
     private $emColunaDeTamanho;
@@ -44,7 +48,38 @@ class FormInputTextArea extends \Zion\Form\FormInputTextArea
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
+    }
+
+    public function setFerramentas($ferramentas)
+    {
+        $this->ferramentas = $ferramentas;
+
+        return $this;
+    }
+
+    public function getFerramentas()
+    {
+        if (\is_array($this->ferramentas)) {
+            return \json_encode($this->ferramentas);
+        } else {
+            switch (\strtoupper($this->ferramentas)) {
+
+                case 'PADRAO': case 'COMPLETO':
+                    return null;
+
+                case 'BASICA':
+
+                    return "{
+                    toolbar: [
+                    { name: 'document', items: [ 'Source','-','Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                    [ 'Find', 'Replace' ],['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                    '/',
+                    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],},[ 'Link', 'Unlink','-','HorizontalRule','-','SpecialChar' ]]}";
+
+                default : return null;
+            }
+        }
     }
 
     public function setMaximoCaracteres($maximoCaracteres)

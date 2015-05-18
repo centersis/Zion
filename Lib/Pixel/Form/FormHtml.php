@@ -124,7 +124,14 @@ class FormHtml extends FormHtmlZion
             $config->setId($idEditor);
 
             $js = new JavaScript();
-            $jsFinal = $js->entreJS("CKEDITOR.replace( '" . $config->getId() . "' );");
+
+            $barra = $config->getFerramentas();
+
+            if ($barra) {
+                $barra = ',' . $barra;
+            }
+
+            $jsFinal = $js->entreJS("CKEDITOR.replace( '" . $config->getId() . "'" . $barra . " );");
 
             $classCss = $config->getClassCss() . ' ignore';
             $config->setClassCss($classCss);
