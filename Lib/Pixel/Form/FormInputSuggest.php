@@ -65,6 +65,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     private $minimoCaracteres;
     private $aliasSql;
     private $processarJS;
+    private $complementoExterno;
     private $tipoFiltro;
     private $formSetPixel;
     private $method;
@@ -526,6 +527,17 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
     public function setMethod($method)

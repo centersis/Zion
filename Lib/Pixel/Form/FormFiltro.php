@@ -31,7 +31,22 @@
 
 namespace Pixel\Form;
 
-class FormFiltro extends \Pixel\Form\Form
+use Pixel\Form\Form;
+use Pixel\Form\FormInputTexto;
+use Pixel\Form\FormInputSuggest;
+use Pixel\Form\FormInputData;
+use Pixel\Form\FormInputHora;
+use Pixel\Form\FormInputNumber;
+use Pixel\Form\FormInputFloat;
+use Pixel\Form\FormInputCpf;
+use Pixel\Form\FormInputCnpj;
+use Pixel\Form\FormInputCep;
+use Pixel\Form\FormInputTelefone;
+use Pixel\Form\FormInputEmail;
+use Pixel\Form\FormEscolha;
+use Pixel\Form\FormChosen;
+
+class FormFiltro extends Form
 {
 
     public function __construct()
@@ -41,8 +56,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function texto($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputTexto('texto', $nome, $identifica, false);
-        
+        $obj = new FormInputTexto('texto', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -50,8 +65,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function suggest($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputSuggest('suggest', $nome, $identifica, false);
-        
+        $obj = new FormInputSuggest('suggest', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -59,8 +74,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function data($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputData('date', $nome, $identifica, false);
-        
+        $obj = new FormInputData('date', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -68,22 +83,17 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function hora($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputHora('time', $nome, $identifica, false);
-        
+        $obj = new FormInputHora('time', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
     }
 
-    public function senha()
-    {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
-    }
-
     public function numero($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputNumber('number', $nome, $identifica, false);
-        
+        $obj = new FormInputNumber('number', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -91,8 +101,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function float($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputFloat('float', $nome, $identifica, false);
-        
+        $obj = new FormInputFloat('float', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -100,8 +110,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function cpf($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputCpf('cpf', $nome, $identifica, false);
-        
+        $obj = new FormInputCpf('cpf', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -109,8 +119,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function cnpj($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputCnpj('cnpj', $nome, $identifica, false);
-        
+        $obj = new FormInputCnpj('cnpj', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -118,8 +128,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function cep($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputCep('cep', $nome, $identifica, false);
-        
+        $obj = new FormInputCep('cep', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -127,8 +137,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function telefone($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputTelefone('telefone', $nome, $identifica, false);
-        
+        $obj = new FormInputTelefone('telefone', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -136,8 +146,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function email($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormInputEmail('email', $nome, $identifica, false);
-        
+        $obj = new FormInputEmail('email', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -145,8 +155,8 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function escolha($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormEscolha('escolha', $nome, $identifica, false);
-        
+        $obj = new FormEscolha('escolha', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
@@ -154,61 +164,66 @@ class FormFiltro extends \Pixel\Form\Form
 
     public function chosen($nome, $identifica, $aliasSql)
     {
-        $obj = new \Pixel\Form\FormChosen('chosen', $nome, $identifica, false);
-        
+        $obj = new FormChosen('chosen', $nome, $identifica, false);
+
         $obj->setAliasSql($aliasSql);
 
         return $obj;
     }
 
+    public function senha()
+    {
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
+    }
+
     public function textArea()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function editor()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function upload()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSubmit()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSalvarPadrao()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSalvarEContinuar()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoDescartarPadrao()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSimples()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoReset()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function masterDetail()
     {
-        throw new \Exception('Não pode usar '.__METHOD__.' como filtro!');
+        throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
 }

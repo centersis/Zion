@@ -37,6 +37,7 @@ class FormInputButton extends \Zion\Form\FormInputButton
     private $toolTipMsg;
     private $emColunaDeTamanho;
     private $offsetColuna;
+    private $complementoExterno;
     
     private $formSetPixel;
 
@@ -106,6 +107,17 @@ class FormInputButton extends \Zion\Form\FormInputButton
     public function getOffsetColuna()
     {
         return $this->offsetColuna ? $this->offsetColuna : 3;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
     /**

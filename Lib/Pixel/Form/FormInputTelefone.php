@@ -39,6 +39,7 @@ class FormInputTelefone extends \Zion\Form\FormInputTelefone
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $processarJS;
+    private $complementoExterno;
     private $tipoFiltro;
     private $formSetPixel;
 
@@ -138,6 +139,17 @@ class FormInputTelefone extends \Zion\Form\FormInputTelefone
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
     public function getTipoFiltro()

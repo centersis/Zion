@@ -91,7 +91,7 @@ class Form extends FormZion
     {
         return new FormInputHora('time', $nome, $identifica, $obrigatorio);
     }
-    
+
     public function dataHora($nome, $identifica, $obrigatorio = false)
     {
         return new FormInputDataHora('dateTime', $nome, $identifica, $obrigatorio);
@@ -212,12 +212,12 @@ class Form extends FormZion
     {
         return new FormColor('cor', $nome, $identifica, $obrigatorio);
     }
-    
+
     public function masterDetail($nome, $identifica)
     {
         return new FormMasterDetail($nome, $identifica);
     }
-    
+
     public function masterVinculo($nome, $identifica)
     {
         return new FormMasterVinculo($nome, $identifica);
@@ -254,9 +254,9 @@ class Form extends FormZion
                     $htmlCampos[$idCampo] = $this->formPixel->montaTextArea($objCampos);
                     break;
                 case 'suggest' :
-                    
+
                     $objCampos->setMethod($this->formConfig->getMethod());
-                    
+
                     $htmlCampos[$idCampo] = $this->formPixel->montaSuggest($objCampos);
                     break;
                 case 'data' :
@@ -265,7 +265,7 @@ class Form extends FormZion
                 case 'hora' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaHora($objCampos);
                     break;
-                
+
                 case 'dataHora' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaDataHora($objCampos);
                     break;
@@ -310,7 +310,7 @@ class Form extends FormZion
                     break;
                 case 'email' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaEmail($objCampos);
-                    break;                
+                    break;
                 case 'cor' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaCor($objCampos);
                     break;
@@ -414,6 +414,10 @@ class Form extends FormZion
 
             if (\method_exists($this->objetos[$nome], 'getIconFA') and $this->objetos[$nome]->getIconFA()) {
                 $buffer['iconFA'][$nome] = 'fa ' . $this->objetos[$nome]->getIconFA() . ' form-control-feedback';
+            }
+
+            if (\method_exists($this->objetos[$nome], 'getComplementoExterno') and $this->objetos[$nome]->getComplementoExterno()) {
+                $buffer['complementoExterno'][$nome] = $this->objetos[$nome]->getComplementoExterno();                
             }
 
             $buffer['tipos'][$nome] = $this->objetos[$nome]->getTipoBase();

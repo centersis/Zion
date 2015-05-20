@@ -39,6 +39,7 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $processarJS;
+    private $complementoExterno;
     private $tipoFiltro;
     private $formSetPixel;
 
@@ -136,6 +137,17 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
         return $this->processarJS;
     }
 
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
+    }
+    
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);

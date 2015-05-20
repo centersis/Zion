@@ -39,6 +39,7 @@ class FormColor extends \Zion\Form\FormBasico
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $processarJS;
+    private $complementoExterno;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -109,6 +110,17 @@ class FormColor extends \Zion\Form\FormBasico
     public function getProcessarJS()
     {
         return $this->processarJS;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
     /**
