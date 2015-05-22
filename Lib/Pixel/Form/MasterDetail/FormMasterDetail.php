@@ -58,6 +58,9 @@ class FormMasterDetail
     private $namespace;
     private $crudExtra;
     private $iUpload;
+    private $dados;
+    private $gravar;
+    private $naoRepetir;
 
     /**
      * Construtor
@@ -76,6 +79,9 @@ class FormMasterDetail
         $this->addTexto = 'Novo Registro';
         $this->totalItensInicio = 1;
         $this->view = 'master_detail.html.twig';
+        $this->dados = [];
+        $this->gravar = true;
+        $this->naoRepetir = [];
     }
 
     public function getAcao()
@@ -419,10 +425,10 @@ class FormMasterDetail
     {
         $this->view = $view;
 
-        if($namespace){
+        if ($namespace) {
             $this->setNamespace($namespace);
         }
-        
+
         return $this;
     }
 
@@ -430,7 +436,7 @@ class FormMasterDetail
     {
         return $this->view;
     }
-    
+
     public function setNamespace($namespace)
     {
         $this->namespace = $namespace;
@@ -462,6 +468,57 @@ class FormMasterDetail
     public function getCrudExtra($nome = '')
     {
         return $nome ? $this->crudExtra[$nome] : $this->crudExtra;
+    }
+
+    /**
+     * 
+     * @param array $dados - Dados recebidos pelo masterDetail devem ser
+     * encapsulados em um array, estes dados são setados automaticamente 
+     * pelo componente.
+     * @return \Pixel\Form\MasterDetail\FormMasterDetail
+     */
+    public function setDados($dados)
+    {
+        $this->dados = $dados;
+
+        return $this;
+    }
+
+    public function getDados()
+    {
+        return $this->dados;
+    }
+
+    public function setGravar($gravar)
+    {
+        if (\is_null($gravar) or \is_bool($gravar)) {
+            $this->gravar = $gravar;
+        } else {
+            throw new FormException("gravar: valor informado é inválido, use null, true ou false");
+        }
+
+        return $this;
+    }
+
+    public function getGravar()
+    {
+        return $this->gravar;
+    }
+    
+    public function setNaoRepetir($naoRepetir)
+    {
+        if (\is_null($naoRepetir) or \is_array($naoRepetir)) {
+            $this->naoRepetir = $naoRepetir;
+        } else {
+            throw new FormException("naoRepetir: valor informado é inválido, use null ou array");
+        }
+
+        return $this;
+    }
+
+    public function getNaoRepetir()
+    {
+        return \is_array($this->naoRepetir) ? $this->naoRepetir : [];
     }
 
 }
