@@ -57,26 +57,26 @@ class MasterDetail
             $upload = $config->getIUpload();
         } else {
             $upload = new ArquivoUpload();
-        }
-
-        try {
-            $this->validaDados($config);
-        } catch (\Exception $ex) {
-            throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
-        }
+        }        
 
         $nome = $config->getNome();
 
         $itens = \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
         $confHidden = \json_decode(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)));
 
+        try {
+            $this->validaDados($config, $confHidden->coringa);
+        } catch (\Exception $ex) {
+            throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+        }
+        
         if ($confHidden) {
             $doBanco = \explode(',', $confHidden->ativos);
         } else {
             $doBanco = [];
         }
+        
         $ativos = [];
-
 
         $coringas = [];
         $coringasMaster = [];
@@ -101,8 +101,6 @@ class MasterDetail
 
             $coringas[] = $coringa;
         }
-
-        print_r($this->contaRepeticao);
 
         $config->setDados($this->dados);
 
@@ -290,7 +288,7 @@ class MasterDetail
         }
     }
 
-    private function validaDados(FormMasterDetail $config)
+    private function validaDados(FormMasterDetail $config, $coringa)
     {
         $valida = Geral::instancia();
 
@@ -335,8 +333,15 @@ class MasterDetail
             }
         }
 
-        $itens = \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
-        $totalItens = \count($itens) - 1;
+        $itens = (array) \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
+        
+        $totalItens = 0;
+        
+        foreach ($itens as $nomeCoringa){
+            if($nomeCoringa !== $coringa){
+                $totalItens++;
+            }
+        }               
 
         if (!$valida->validaJSON(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)))) {
             throw new \Exception('O sistema não conseguiu recuperar o array de configuração corretamente!');
