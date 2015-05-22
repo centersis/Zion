@@ -303,7 +303,7 @@ class Texto
                     $como = \strtoupper($formatos[$key]);
 
                     switch ($como) {
-                        case "DATA" : $formatados[$key] = $this->trata->data()->converteData($value);
+                        case "DATA" : $formatados[$key] = \substr($this->trata->data()->converteData($value), 0, 10);
                             break;
                         case "DATAHORA": $formatados[$key] = $this->trata->data()->converteDataHora($value);
                             break;
