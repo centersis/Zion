@@ -39,6 +39,7 @@ class FormInputDataHora extends \Zion\Form\FormInputDataHora
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $processarJS;
+    private $complementoExterno;
     private $tipoFiltro;
     private $formSetPixel;
 
@@ -140,6 +141,17 @@ class FormInputDataHora extends \Zion\Form\FormInputDataHora
     public function getProcessarJS()
     {
         return $this->processarJS;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
     public function setTipoFiltro($tipoFiltro)

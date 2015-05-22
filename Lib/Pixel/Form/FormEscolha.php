@@ -39,6 +39,7 @@ class FormEscolha extends \Zion\Form\FormEscolha
     private $inLine;
     private $formSetPixel;
     private $processarJS;
+    private $complementoExterno;
     private $tipoFiltro;
     private $campoDependencia;
     private $metodoDependencia;
@@ -199,6 +200,17 @@ class FormEscolha extends \Zion\Form\FormEscolha
         return $this->processarJS;
     }
 
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
+    }
+    
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);

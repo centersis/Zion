@@ -42,6 +42,7 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     private $labelAntes;
     private $labelDepois;
     private $processarJS;
+    private $complementoExterno;
     private $tipoFiltro;
     private $formSetPixel;
 
@@ -228,6 +229,17 @@ class FormInputTexto extends \Zion\Form\FormInputTexto
     public function getProcessarJS()
     {
         return $this->processarJS;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
     public function setTipoFiltro($tipoFiltro)

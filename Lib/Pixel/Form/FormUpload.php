@@ -40,6 +40,7 @@ class FormUpload extends \Zion\Form\FormUpload
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $processarJS;
+    private $complementoExterno;
     private $codigoReferencia;
     private $alturaMaxima;
     private $larguraMaxima;
@@ -116,6 +117,17 @@ class FormUpload extends \Zion\Form\FormUpload
     public function getProcessarJS()
     {
         return $this->processarJS;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
     
     public function getCodigoReferencia()

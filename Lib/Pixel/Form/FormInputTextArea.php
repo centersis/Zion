@@ -43,6 +43,7 @@ class FormInputTextArea extends FormInputTextAreaZion
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $processarJS;
+    private $complementoExterno;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -201,6 +202,17 @@ class FormInputTextArea extends FormInputTextAreaZion
     public function getProcessarJS()
     {
         return $this->processarJS;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
     /**

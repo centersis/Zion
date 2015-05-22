@@ -38,6 +38,7 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $processarJS;
+    private $complementoExterno;
     private $tipoFiltro;
     
     private $formSetPixel;
@@ -131,6 +132,17 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     public function getProcessarJS()
     {
         return $this->processarJS;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
     
     public function setTipoFiltro($tipoFiltro)
