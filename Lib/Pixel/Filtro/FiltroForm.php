@@ -55,8 +55,7 @@ class FiltroForm
     public function montaFiltro($objForm)
     {
         return array('normal'       => $this->getFiltroNormal($objForm), 
-                     'operacaoE'    => $this->getFiltroDuplo($objForm, 'e'),
-                     'operacaoO'    => $this->getFiltroDuplo($objForm, 'o')
+                     'operacaoE'    => $this->getFiltroDuplo($objForm, 'e')
                 );
     }
 
