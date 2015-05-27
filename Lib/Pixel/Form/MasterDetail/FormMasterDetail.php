@@ -455,7 +455,7 @@ class FormMasterDetail
      * 1 - Nome do Campo na Tabela
      * 2 - Valor do Campo a ser inserido no banco de dados
      * 3 - Tipo do campo a ser inserido no banco de dados
-     * Ex: ...setCrudExtra('organogramaCod', ['organogramaCod',$_SESSION['organogramaCod','Inteiro']]);
+     * Ex: ...setCrudExtra('organogramaCod', ['organogramaCod',$_SESSION['organogramaCod'],'Inteiro']);
      * @return \Pixel\Form\MasterDetail\FormMasterDetail
      */
     public function setCrudExtra($nome, array $crudExtra)
