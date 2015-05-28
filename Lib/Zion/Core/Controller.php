@@ -92,7 +92,7 @@ class Controller
      * @param string $retorno
      * @return string json
      */
-    public function jsonSucesso($retorno)
+    public function jsonSucesso($retorno = '')
     {
         return \json_encode(array('sucesso' => 'true', 'retorno' => $retorno));
     }

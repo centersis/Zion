@@ -58,12 +58,16 @@ class CrudUtil
         }
     }
 
-    public function getParametrosGrid($objForm)
+    public function getParametrosGrid($objForm = null)
     {
         $fil = new Filtrar();
 
-        $meusParametros = $this->getParametrosForm($objForm);
-
+        if ($objForm) {
+            $meusParametros = $this->getParametrosForm($objForm);
+        } else {
+            $meusParametros = [];
+        }
+        
         $hiddenParametros = $fil->getHiddenParametros($meusParametros);
 
         return \array_merge($this->getParametrosPadroes(), $meusParametros, $hiddenParametros);
@@ -294,13 +298,13 @@ class CrudUtil
 
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
 
-                    if (\method_exists($arrayForm[$nomeParametro],'getDisabled')) {
+                    if (\method_exists($arrayForm[$nomeParametro], 'getDisabled')) {
                         if ($arrayForm[$nomeParametro]->getDisabled()) {
                             unset($arrayParametros[$nomeParametro]);
                             continue;
                         }
                     }
-                    
+
                     $arrayValores[] = $objForm->getSql($nomeParametro);
                     $arrayTipos[] = $objForm->getTipoPDO($nomeParametro);
                 } else {
@@ -378,11 +382,11 @@ class CrudUtil
         $arrayParametros = \array_combine($camposLimpos, $camposLimpos);
 
         if ($objeto) {
-            foreach ($arrayParametros as $nomeParametro) {                
+            foreach ($arrayParametros as $nomeParametro) {
 
                 if (\array_key_exists($nomeParametro, $arrayForm)) {
-                    
-                    if (\method_exists($arrayForm[$nomeParametro],'getDisabled')) {
+
+                    if (\method_exists($arrayForm[$nomeParametro], 'getDisabled')) {
                         if ($arrayForm[$nomeParametro]->getDisabled()) {
                             unset($arrayParametros[$nomeParametro]);
                             continue;
