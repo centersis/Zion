@@ -40,7 +40,7 @@ class Carregador
     private $loader;
     private $caminhos;
     private $conf;
-    private $dir;
+    protected $dir;
 
     public function __construct($namespace = '')
     {
@@ -147,4 +147,12 @@ class Carregador
         return $namespace;
     }     
 
+    public function setConf($conf)
+    {
+        if(\is_array($conf)){
+            $key = \key($conf);
+            $this->conf[$key] = $conf[$key];
+        }
+        return $this;
+    }
 }
