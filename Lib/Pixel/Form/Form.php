@@ -417,7 +417,7 @@ class Form extends FormZion
             }
 
             if (\method_exists($this->objetos[$nome], 'getComplementoExterno') and $this->objetos[$nome]->getComplementoExterno()) {
-                $buffer['complementoExterno'][$nome] = $this->objetos[$nome]->getComplementoExterno();                
+                $buffer['complementoExterno'][$nome] = $this->objetos[$nome]->getComplementoExterno();
             }
 
             $buffer['tipos'][$nome] = $this->objetos[$nome]->getTipoBase();
