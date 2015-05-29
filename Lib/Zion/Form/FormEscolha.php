@@ -28,14 +28,6 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
-/**
- * \Zion\Form\FormEscolha()
- * 
- * @author The Sappiens Team
- * @copyright Sappiens 2014
- * @version 2014
- * @access public
- */
 
 namespace Zion\Form;
 
@@ -65,6 +57,7 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $aliasSql;
     private $ignoreCod;
     private $callback;
+    private $naoSelecionaveis;
 
     /**
      * FormEscolha::__construct()
@@ -376,8 +369,7 @@ class FormEscolha extends \Zion\Form\FormBasico
             throw new FormException("campoDesc: Nenhum Valor foi informado.");
         }
     }
-    
-    
+
     public function getInstrucoes()
     {
         return $this->instrucoes;
@@ -386,9 +378,9 @@ class FormEscolha extends \Zion\Form\FormBasico
     public function setInstrucoes(array $instrucoes)
     {
         if (!empty($instrucoes)) {
-            $this->instrucoes[] = $instrucoes;            
+            $this->instrucoes[] = $instrucoes;
         }
-        
+
         return $this;
     }
 
@@ -501,10 +493,10 @@ class FormEscolha extends \Zion\Form\FormBasico
     {
         return $this->ignoreCod;
     }
-    
+
     public function setCallback($callback)
     {
-        if (\is_string($callback)) {            
+        if (\is_string($callback)) {
             $this->callback = $callback;
             return $this;
         } else {
@@ -515,6 +507,21 @@ class FormEscolha extends \Zion\Form\FormBasico
     public function getCallback()
     {
         return $this->callback;
+    }
+
+    public function setNaoSelecionaveis($naoSelecionaveis)
+    {
+        if (\is_null($naoSelecionaveis) or \is_array($naoSelecionaveis)) {
+            $this->naoSelecionaveis = $naoSelecionaveis;
+            return $this;
+        } else {
+            throw new FormException("naoSelecionaveis: O valor informado não é um null ou array.");
+        }
+    }
+
+    public function getNaoSelecionaveis()
+    {
+        return empty($this->naoSelecionaveis) ? [] : $this->naoSelecionaveis;
     }
 
     /**

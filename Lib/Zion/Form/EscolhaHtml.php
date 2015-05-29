@@ -157,11 +157,11 @@ class EscolhaHtml
                     $sql->andWhere($sql->expr()->neq($campoTabela, ':' . $campoTabela))
                             ->setParameter($campoTabela, $valor, $tipoPDO);
                     break;
-                
+
                 case 'ISNULL':
                     $sql->andWhere($sql->expr()->isNull($campoTabela));
                     break;
-                
+
                 case 'ISNOTNULL':
                     $sql->andWhere($sql->expr()->isNotNull($campoTabela));
                     break;
@@ -364,33 +364,23 @@ class EscolhaHtml
         $eSelecionado = false;
         $cont = 0;
 
+        $naoSelecionaveis = $config->getNaoSelecionaveis();
+
         if (\is_array($array)) {
             foreach ($array as $chave => $vale) {
 
                 $cont++;
 
-                $opcoes .= '<option value="' . $chave . '" ';
-
-                if (\is_array($valor)) {
-                    if (empty($valor)) {
-
-                        if (\is_array($valorPadrao)) {
-
-                            if (\in_array($chave, $valorPadrao)) {
-                                $opcoes .= 'selected';
-                            }
-                        } else {
-
-                            if ("{$valorPadrao}" === "$chave") {
-                                $opcoes .= 'selected';
-                            }
-                        }
-                    } elseif (\in_array($chave, $valor)) {
-                        $opcoes .= 'selected';
-                    }
+                $etiqueta = 'option';
+                if (\in_array($chave, $naoSelecionaveis)) {
+                    $etiqueta = 'optgroup';
+                    $opcoes .= '<' . $etiqueta . ' label="' . $vale . '" ';
                 } else {
-                    if ($eSelecionado === false) {
-                        if ($valor == '') {
+
+                    $opcoes .= '<' . $etiqueta . ' value="' . $chave . '" ';
+
+                    if (\is_array($valor)) {
+                        if (empty($valor)) {
 
                             if (\is_array($valorPadrao)) {
 
@@ -403,14 +393,33 @@ class EscolhaHtml
                                     $opcoes .= 'selected';
                                 }
                             }
-                        } elseif ("{$chave}" === "{$valor}") {
-                            $eSelecionado = true;
+                        } elseif (\in_array($chave, $valor)) {
                             $opcoes .= 'selected';
+                        }
+                    } else {
+                        if ($eSelecionado === false) {
+                            if ($valor == '') {
+
+                                if (\is_array($valorPadrao)) {
+
+                                    if (\in_array($chave, $valorPadrao)) {
+                                        $opcoes .= 'selected';
+                                    }
+                                } else {
+
+                                    if ("{$valorPadrao}" === "$chave") {
+                                        $opcoes .= 'selected';
+                                    }
+                                }
+                            } elseif ("{$chave}" === "{$valor}") {
+                                $eSelecionado = true;
+                                $opcoes .= 'selected';
+                            }
                         }
                     }
                 }
 
-                $opcoes .= ' > ' . $vale . ' </option>';
+                $opcoes .= ' > ' . $vale . ' </' . $etiqueta . '>';
             }
         }
 
