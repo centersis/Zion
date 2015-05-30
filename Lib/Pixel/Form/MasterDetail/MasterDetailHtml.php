@@ -90,6 +90,8 @@ class MasterDetailHtml
 
         $ativos = [];
 
+        $sqlBusca = $config->getSqlBusca();
+
         $tabela = $config->getTabela();
         $codigo = $config->getCodigo();
         $campoReferencia = $config->getCampoReferencia();
@@ -108,11 +110,16 @@ class MasterDetailHtml
             $nomeCampos[] = $codigo;
         }
 
-        $qb = $con->qb();
-        $qb->select(\implode(',', $nomeCampos))
-                ->from($tabela, '')
-                ->where($qb->expr()->eq($campoReferencia, ':cod'))
-                ->setParameter(':cod', $codigoReferencia);
+        if ($sqlBusca) {
+            $qb = $sqlBusca;
+        } else {
+            $qb = $con->qb();
+            $qb->select(\implode(',', $nomeCampos))
+                    ->from($tabela, '')
+                    ->where($qb->expr()->eq($campoReferencia, ':cod'))
+                    ->setParameter(':cod', $codigoReferencia);
+        }
+
         $rs = $con->executar($qb);
 
         while ($dados = $rs->fetch()) {
@@ -179,7 +186,7 @@ class MasterDetailHtml
 
             if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
                 $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
-                
+
                 $offsetColunaA = $configuracao->getOffsetColuna();
                 $this->buffer['offsetColunaA'][$nomeOriginal] = $offsetColunaA;
                 $this->buffer['offsetColunaB'][$nomeOriginal] = (12 - $offsetColunaA);

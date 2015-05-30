@@ -61,6 +61,7 @@ class FormMasterDetail
     private $dados;
     private $gravar;
     private $naoRepetir;
+    private $sqlBusca;
 
     /**
      * Construtor
@@ -521,4 +522,19 @@ class FormMasterDetail
         return \is_array($this->naoRepetir) ? $this->naoRepetir : [];
     }
 
+    public function setSqlBusca($sqlBusca)
+    {
+        if (\is_null($sqlBusca) or \is_object($sqlBusca)) {
+            $this->sqlBusca = $sqlBusca;
+        } else {
+            throw new FormException("sqlBusca: valor informado é inválido, use null ou array");
+        }
+
+        return $this;
+    }
+
+    public function getSqlBusca()
+    {
+        return $this->sqlBusca;
+    }
 }
