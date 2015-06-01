@@ -170,9 +170,9 @@ class Form extends FormZion
     /**
      * @return \Zion\Form\FormInputButton
      */
-    public function botaoSalvarPadrao()
+    public function botaoSalvarPadrao($identifica = 'Salvar')
     {
-        $botaoSalvar = new FormInputButton('submit', 'sisSalvar', 'Salvar');
+        $botaoSalvar = new FormInputButton('submit', 'sisSalvar', $identifica);
         $botaoSalvar->setClassCss('btn btn-primary');
 
         return $botaoSalvar;
