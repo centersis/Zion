@@ -689,7 +689,7 @@ function sisCarregaDependencia(ur, fo, co, id, me, cl, nc, fc)
     $.ajax({type: "get", url: ur, data: par, dataType: "json"}).done(function (ret) {
 
         if (ret.sucesso === 'true') {
-            $("#" + fo + " #" + co + " select").html(ret.retorno);
+            $("#" + fo + " #" + co + "").html(ret.retorno);
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
