@@ -129,7 +129,7 @@ class ManipulaImagem extends ManipulaArquivo
      * @param int $largura
      * @throws \Exception
      */
-    public function uploadImagem($nomeImagem, $origem, $destino, $altura = 0, $largura = 0)
+    public function uploadImagem($nomeImagem, $origem, $destino, $altura = 0, $largura = 0, $qualidade = 100)
     {
         $postMax = \ini_get("post_max_size");
         $upMax = \ini_get("upload_max_filesize");
@@ -153,6 +153,10 @@ class ManipulaImagem extends ManipulaArquivo
             if (!$this->permiteEscrita($destino)) {
                 throw new \Exception("Este arquivo já existe e você não tem permissão para substituí-lo.");
             }
+        }
+        
+        if($qualidade > 100 or $qualidade < 0){
+            throw new \Exception("Qualidade deve ser um número inteiro entre 1 e 100");
         }
 
         //Verifica a existencia das funãoes
@@ -198,7 +202,7 @@ class ManipulaImagem extends ManipulaArquivo
 
         if (\imagecopyresampled($img, $origem, 0, 0, 0, 0, $proporcao['L'], $proporcao['A'], \imagesx($origem), \imagesy($origem))) {
             if ($extensao == 'jpg' or $extensao == 'jpeg') {
-                if (!(\imagejpeg($img, $destino, 100))) {
+                if (!(\imagejpeg($img, $destino, $qualidade))) {
                     throw new \Exception("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'gif') {
@@ -206,7 +210,7 @@ class ManipulaImagem extends ManipulaArquivo
                     throw new \Exception("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'png') {
-                if (!(\imagepng($img, $destino))) {
+                if (!(\imagepng($img, $destino, $qualidade))) {
                     throw new \Exception("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             }

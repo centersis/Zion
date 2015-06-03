@@ -30,9 +30,11 @@
 
 namespace Pixel\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Form\Exception\FormException as FormException;
+use Zion\Form\FormUpload as FormUploadZion;
+use Pixel\Form\FormSetPixel;
 
-class FormUpload extends \Zion\Form\FormUpload
+class FormUpload extends FormUploadZion
 {
 
     private $iconFA;
@@ -42,11 +44,7 @@ class FormUpload extends \Zion\Form\FormUpload
     private $processarJS;
     private $complementoExterno;
     private $codigoReferencia;
-    private $alturaMaxima;
-    private $larguraMaxima;
-    private $thumbnail;
-    private $alturaMaximaTB;
-    private $larguraMaximaTB;
+    private $dimensoes;
     private $extensoesPermitidas;
     private $extensoesNaoPermitidas;
     private $tamanhoMaximoEmBytes;
@@ -59,7 +57,7 @@ class FormUpload extends \Zion\Form\FormUpload
     {
         parent::__construct($acao, $nome, $identifica, $tratarComo);
 
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
 
         $this->setIconFA('fa-file');
     }
@@ -146,94 +144,46 @@ class FormUpload extends \Zion\Form\FormUpload
         return $this;
     }    
     
-    public function getAlturaMaxima()
+    public function getDimensoes()
     {
-        return $this->alturaMaxima;
+        return $this->dimensoes;
     }
 
-    public function setAlturaMaxima($alturaMaxima)
+    /**
+     * Informações sobre as dimensões das imagens em caso de "upload de imagens"
+     * Por padrão o componente já grava o arquivo original na pasta "original"
+     * mantendo as suas caracteristicas.
+     * 
+     * Ex. de Uso:
+     * 
+     * 1º Parâmetro: nome da pasta
+     * 2º Parâmetro: Array com até 3 posições com altura, largura e qualidade
+     * 
+     * setDimensoes([
+     *               '400x300'=>['largura'=>400,'altura'=>300,'qualidade'=>80],
+     *               '800x600'=>['largura'=>800]
+     *              ])
+     * 
+     * Obs: qualidade é um parâmetro opcional
+     * Obs: altura e largura são opcionais, porem pelo menos um dos dois devem
+     * ser informados, quando apelas lagura ou altura for informado a imagem
+     * irá ser redimencionada proporcionalmente
+     * 
+     * @param array $dimensoes
+     * @return \Pixel\Form\FormUpload
+     * @throws FormException
+     */
+    public function setDimensoes($dimensoes)
     {
-        if (is_numeric($alturaMaxima)) {
-            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
-                throw new FormException("alturaMaxima: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
-            }
-            $this->alturaMaxima = $alturaMaxima;
-            return $this;
+        if (\is_null($dimensoes) || \is_array($dimensoes)) {
+            
+            $this->dimensoes = $dimensoes;
+            
         } else {
-            throw new FormException("alturaMaxima: Valor não numérico.");
+            throw new FormException("dimensoes: Valor não numérico.");
         }
-    }
-
-    public function getLarguraMaxima()
-    {
-        return $this->larguraMaxima;
-    }
-
-    public function setLarguraMaxima($larguraMaxima)
-    {
-        if (is_numeric($larguraMaxima)) {
-            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
-                throw new FormException("larguraMaxima: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
-            }
-            $this->larguraMaxima = $larguraMaxima;
-            return $this;
-        } else {
-            throw new FormException("larguraMaxima: Valor não numérico.");
-        }
-    }
-
-    public function getThumbnail()
-    {
-        return $this->thumbnail;
-    }
-
-    public function setThumbnail($thumbnail)
-    {
-        if (is_bool($thumbnail)) {
-            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
-                throw new FormException("thumbnail: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
-            }
-            $this->thumbnail = $thumbnail;
-            return $this;
-        } else {
-            throw new FormException("thumbnail: Valor não booleano.");
-        }
-    }
-
-    public function getAlturaMaximaTB()
-    {
-        return $this->alturaMaximaTB;
-    }
-
-    public function setAlturaMaximaTB($alturaMaximaTB)
-    {
-        if (is_numeric($alturaMaximaTB)) {
-            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
-                throw new FormException("alturaMaximaTB: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
-            }
-            $this->alturaMaximaTB = $alturaMaximaTB;
-            return $this;
-        } else {
-            throw new FormException("alturaMaximaTB: Valor não numerico.");
-        }
-    }
-
-    public function getLarguraMaximaTB()
-    {
-        return $this->larguraMaximaTB;
-    }
-
-    public function setLarguraMaximaTB($larguraMaximaTB)
-    {
-        if (is_numeric($larguraMaximaTB)) {
-            if(strtoupper($this->getTratarComo())!= "IMAGEM"){
-                throw new FormException("larguraMaximaTB: Para utilizar recursos de imagem, informe 'IMAGEM' para o atributo tratarComo");
-            }
-            $this->larguraMaximaTB = $larguraMaximaTB;
-            return $this;
-        } else {
-            throw new FormException("larguraMaximaTB: Valor não numerico.");
-        }
+        
+        return $this;
     }
 
     public function getExtensoesPermitidas()
