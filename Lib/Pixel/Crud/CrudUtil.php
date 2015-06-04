@@ -67,7 +67,7 @@ class CrudUtil
         } else {
             $meusParametros = [];
         }
-        
+
         $hiddenParametros = $fil->getHiddenParametros($meusParametros);
 
         return \array_merge($this->getParametrosPadroes(), $meusParametros, $hiddenParametros);
@@ -123,7 +123,7 @@ class CrudUtil
 
     /**
      * Metodo que processa e retorna partes de uma clausula SQL de acordo com os filtros
-     * returna String
+     * retorna String
      */
     public function getSqlFiltro($fil, $objForm, array $filtroDinamico, $queryBuilder, $modoBusca = 'LIKE')
     {
@@ -177,15 +177,15 @@ class CrudUtil
             $campos = \str_replace(',', '|', $buscaGeral);
 
             $total = \count($filtroDinamico);
-            $this->cont = 0;
+            $cont = 0;
 
             foreach ($filtroDinamico as $coluna => $aliasSql) {
 
-                $this->cont++;
+                $cont++;
                 $alias = $aliasSql ? $aliasSql . '.' : '';
 
                 $sql.= $alias . $coluna . " REGEXP '" . $campos . "'";
-                $sql.= $total == $this->cont ? '' : ' OR ';
+                $sql.= $total == $cont ? '' : ' OR ';
             }
 
             $sql .= ') ';
@@ -203,18 +203,27 @@ class CrudUtil
 
             $sql = ' (';
 
-            $campos = \str_replace(',', '|', $buscaGeral);
+            $campos = \explode(',', $buscaGeral);
 
             $total = \count($filtroDinamico);
-            $this->cont = 0;
+            $totalCampos = \count($campos);
+            $cont = 0;
 
             foreach ($filtroDinamico as $coluna => $aliasSql) {
 
-                $this->cont++;
+                $cont++;
                 $alias = $aliasSql ? $aliasSql . '.' : '';
 
-                $sql.= $alias . $coluna . " LIKE '%" . $campos . "%'";
-                $sql.= $total == $this->cont ? '' : ' OR ';
+                $cont2 = 0;
+                foreach ($campos as $valorCampo) {
+                    $cont2++;
+
+                    $sql.= $alias . $coluna . " LIKE '%" . $valorCampo . "%'";
+                    
+                    $sql.= $totalCampos == $cont2 ? '' : ' OR ';
+                }
+
+                $sql.= $total == $cont ? '' : ' OR ';
             }
 
             $sql .= ') ';
@@ -235,15 +244,15 @@ class CrudUtil
             $campos = \str_replace(',', '|', $buscaGeral);
 
             $total = \count($filtroDinamico);
-            $this->cont = 0;
+            $cont = 0;
 
             foreach ($filtroDinamico as $coluna => $aliasSql) {
 
-                $this->cont++;
+                $cont++;
                 $alias = $aliasSql ? $aliasSql . '.' : '';
 
                 $sql .= $alias . $coluna;
-                $sql .= $total == $this->cont ? '' : ', ';
+                $sql .= $total == $cont ? '' : ', ';
             }
 
             $sql .= ')';
