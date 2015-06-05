@@ -367,7 +367,7 @@ function sisRemovePadrao() {
         } else {
 
             var msg = "Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
-            sisSetAlert('false', msg);
+            sisSetCrashAlert('Erro', msg);
         }
 
     }).fail(function ()
