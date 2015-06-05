@@ -48,7 +48,7 @@ class GridBotoes
         $this->conteudoFiltros = $filtros;
     }
 
-    public function geraBotoes()
+    public function geraBotoes($selecao = true)
     {
         $acesso = new Acesso();
 
@@ -57,7 +57,7 @@ class GridBotoes
         $posicoes = [];
 
         if (!\defined('MODULO')) {
-            
+
             throw new \Exception("O módulo não foi definido!");
         }
 
@@ -65,11 +65,11 @@ class GridBotoes
 
         $cont = 0;
         foreach ($arrayAcesso as $dados) {
-            
+
             $cont++;
-            
+
             if (!\in_array($dados['acaomoduloidpermissao'], $this->botoesExcluir)) {
-                
+
                 $cont++;
 
                 if ($dados['acaomoduloapresentacao'] == 'E') {
@@ -93,15 +93,15 @@ class GridBotoes
         foreach (\array_keys($posicoes) as $chave) {
 
             if (\array_key_exists($chave, $arrayBotoesE)) {
-                
+
                 $expandidos[] = $arrayBotoesE[$chave];
             } else {
-                
+
                 $recolhidos[] = $arrayBotoesR[$chave];
             }
         }
 
-        return ['expandidos' => $expandidos, 'recolhidos' => $recolhidos];
+        return ['expandidos' => $expandidos, 'recolhidos' => $recolhidos, 'selecao' => ($selecao ? 'true' : 'false')];
     }
 
     public function setBotoesExcluir($botoesExcluir)
