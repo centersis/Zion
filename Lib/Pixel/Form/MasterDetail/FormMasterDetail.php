@@ -55,6 +55,7 @@ class FormMasterDetail
     private $objetoRemover;
     private $metodoRemover;
     private $view;
+    private $parametrosView;
     private $namespace;
     private $crudExtra;
     private $iUpload;
@@ -422,12 +423,16 @@ class FormMasterDetail
         return $this->iUpload;
     }
 
-    public function setView($view, $namespace = '')
+    public function setView($view, $namespace = '', $parametrosView = [])
     {
         $this->view = $view;
 
         if ($namespace) {
             $this->setNamespace($namespace);
+        }
+
+        if ($parametrosView) {
+            $this->setParametrosView($parametrosView);
         }
 
         return $this;
@@ -446,6 +451,16 @@ class FormMasterDetail
     public function getNamespace()
     {
         return $this->namespace;
+    }
+
+    public function setParametrosView($parametrosView)
+    {
+        $this->parametrosView = $parametrosView;
+    }
+
+    public function getParametrosView()
+    {
+        return $this->parametrosView;
     }
 
     /**
@@ -505,7 +520,7 @@ class FormMasterDetail
     {
         return $this->gravar;
     }
-    
+
     public function setNaoRepetir($naoRepetir)
     {
         if (\is_null($naoRepetir) or \is_array($naoRepetir)) {
@@ -537,4 +552,5 @@ class FormMasterDetail
     {
         return $this->sqlBusca;
     }
+
 }

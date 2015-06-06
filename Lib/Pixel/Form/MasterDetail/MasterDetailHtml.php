@@ -54,6 +54,7 @@ class MasterDetailHtml
         $totalInicio = $config->getTotalItensInicio();
         $objPai = $config->getObjetoPai();
         $valorItensDeInicio = $config->getValorItensDeInicio();
+        $parametrosView = $config->getParametrosView();
 
         $this->buffer['id'] = $config->getNome();
 
@@ -67,7 +68,14 @@ class MasterDetailHtml
 
                 $coringa = $this->coringa();
 
-                $valoresInicio = \is_array($valorItensDeInicio[$i]) ? \array_change_key_case($valorItensDeInicio[$i]) : [];
+                $valoresInicio = [];
+                if (\is_array($valorItensDeInicio[$i])) {
+                    $valoresInicio = \array_change_key_case($valorItensDeInicio[$i]);
+
+                    if (\array_key_exists('sisCoringa', $valorItensDeInicio[$i])) {
+                        $coringa = $valorItensDeInicio[$i]['sisCoringa'];
+                    }
+                }
 
                 $this->montaGrupoDeCampos($config, $coringa, $nomeForm, $valoresInicio);
             }
@@ -77,6 +85,12 @@ class MasterDetailHtml
 
         if ($config->getBotaoRemover()) {
             $this->buffer['botaoRemover'] = 'true';
+        }
+
+        if ($parametrosView) {
+            foreach ($parametrosView as $pvChave => $pvValue) {
+                $this->buffer[$pvChave] = $pvValue;
+            }
         }
 
         $carregador = new Carregador($config->getNamespace());
