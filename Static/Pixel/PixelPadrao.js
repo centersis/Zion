@@ -367,7 +367,7 @@ function sisRemovePadrao() {
         } else {
 
             var msg = "Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
-            sisSetAlert('false', msg);
+            sisSetCrashAlert('Erro', msg);
         }
 
     }).fail(function ()
@@ -772,6 +772,46 @@ function sisSalvarPDF() {
     }
 
 }
+function getPDF(url) {
+
+    var ifr = $('<iframe/>', {
+        id: 'iframeDownload',
+        name: 'iframeDownload',
+        src: url,
+        style: 'display:none',
+        load: function () {
+
+            var conteudo = $('#iframeDownload').contents().find('body').html();
+            try {
+                var ret = $.parseJSON(conteudo);
+            } catch (fail) {
+                var ret = Array();
+                ret['sucesso'] = 'false';
+            }
+
+            if (ret['sucesso'] === 'false')
+            {
+                sisSetAlert('false', ret['retorno']);
+            }
+            else if(ret['sucesso'] === 'true')
+            {
+                sisSetAlert('true', ret['retorno']);
+            }
+            else
+            {
+                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
+            }
+        }
+    });
+
+    if ($('#iframeDownload').attr('name') !== "iframeDownload") {
+        $('body').append(ifr);
+    } else {
+        $('#iframeDownload').remove();
+        $('body').append(ifr);
+    }
+
+}
 
 function validaSenhaUser(campo, url)
 {
@@ -825,7 +865,7 @@ function sisAddNotificacao(notificacoes) {
     if (title.search(/\([0-9]{1,}\)/) !== -1) {
         obj.html(title.replace(/\([0-9]{1,}\)/, "(" + n + ")"));
     } else {
-        obj.append(" (" + n + ")");
+        obj.prepend("(" + n + ") ");
     }
 
     return true;

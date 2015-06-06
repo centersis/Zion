@@ -43,8 +43,58 @@ namespace Zion\Exportacao;
 
 class PDF 
 {
-   
-    public function imprimePDF($html, $tituloArquivo = NULL, $orientacao = NULL)
+    
+    public function imprimeRelatorioPDF($html, $css = false, $orientacao = false)
+    {
+        try {
+
+            include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
+            $mpdf = new \mPDF();
+
+            $mpdf->CurOrientation = $orientacao;
+
+            $mpdf->allow_charset_conversion = true;
+            $mpdf->charset_in = 'UTF-8';
+            $stylesheet = \SIS_URL_DEFAULT_BASE . 'Tema/Vendor/Pixel/1.3.0/stylesheets/relatorio.css';
+
+            $mpdf->setFooter('{PAGENO}/{nbpg}');
+            $mpdf->WriteHTML($this->loadCss($stylesheet), 1);
+            $mpdf->WriteHTML($html, 2);
+            $mpdf->Output(\uniqid() .'_'. \date('d/m/Y') .'.pdf', 'D');
+//print '<link rel="stylesheet" href="'. ($stylesheet) .'" />'.$html;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
+    private function loadCss($cssPath)
+    {
+        $files = \preg_replace('/\\n/', '', \file_get_contents($cssPath));
+        $css = NULL;
+        foreach(explode(';', $files) as $val){
+                
+                $start  = NULL;
+                $end    = NULL;
+
+                \preg_match('/[url(\']{5}/', $val, $start, PREG_OFFSET_CAPTURE);
+                \preg_match('/[\')]{2}/', $val, $end, PREG_OFFSET_CAPTURE);
+
+                if(isset($val[0]) === false){
+                    continue;
+                }
+                $file = \substr($val, ($start[0][1] + 5), -2);
+                if(!preg_match('/[http\:\/\/]{7}|[https\:\/\/]{8}/', $file)){
+                    $urlFile = \SIS_URL_DEFAULT_BASE .'Tema/Vendor/Pixel/1.3.0/stylesheets/'. $file;
+                } else {
+                    $urlFile = $file;
+                }
+                $css .= \file_get_contents($urlFile);
+
+        }
+        return ($css);
+    }
+
+        public function imprimePDF($html, $tituloArquivo = NULL, $orientacao = NULL)
     {
 
         $titulo     = (is_null($tituloArquivo) ? uniqid() .'_relatorio_'. date('d-m-Y-H:i:s') : $tituloArquivo) .'.pdf';
