@@ -93,7 +93,7 @@ class Data
      */
     public function dataAtual()
     {
-        return date("d/m/Y");
+        return \date("d/m/Y");
     }
 
     /**
@@ -584,6 +584,29 @@ class Data
         }    
         $r = ($acao == 'max') ? \max($v) : \min($v);
         return $this->converteData($r);
+        
+    }    
+    
+    public function getDataComparacao($data1, $data2 = '', $oper = '>=')
+    {
+
+        $data1 = $this->getDataParse($data1, 'Y-m-d');
+        $data2 = empty($data2) ? \date('Y-m-d') : $data2;
+        $data2 = $this->getDataParse($data2, 'Y-m-d');
+
+        return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) . $oper . \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
+        
+    }
+    
+    public function getIntervaloDatasParaDias($data1, $data2 = '', $oper = '-')
+    {
+
+        $data1 = $this->getDataParse($data1, 'Y-m-d');
+        $data2 = empty($data2) ? \date('Y-m-d') : $data2;
+        $data2 = $this->getDataParse($data2, 'Y-m-d');
+        //print_r($data1);                
+        $diff = (\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) . $oper . \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year']));
+        return \floor($diff / (3600 * 24));
         
     }    
 
