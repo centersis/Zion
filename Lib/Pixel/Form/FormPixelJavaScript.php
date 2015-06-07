@@ -192,8 +192,8 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'cpf') {
 
-            // $this->regras[$config->getNome()][] = 'cpf : true';
-            //$this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
+            $this->regras[$config->getNome()][] = 'cpf : true';
+            $this->mensagens[$config->getNome()][] = " cpf : '{$config->getIdentifica()} deve conter um CPF válido!'";
         }
 
         if ($config->getAcao() == 'cnpj') {

@@ -327,6 +327,13 @@ class FormInputFloat extends FormBasico
         return $this;
     }
     
+    public function getValor()
+    {              
+        $valor = parent::getValor();
+        
+        return $valor ? $this->numero->floatCliente($valor) : $valor;
+    }
+    
     /**
      * FormInputFloat::setValorPadrao()
      * 
