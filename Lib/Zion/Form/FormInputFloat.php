@@ -67,6 +67,7 @@ class FormInputFloat extends FormBasico
         $this->tipoBase = 'float';
         $this->acao = $acao;
         $this->setNome($nome);
+        $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         

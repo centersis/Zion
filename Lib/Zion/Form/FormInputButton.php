@@ -61,6 +61,7 @@ class FormInputButton extends \Zion\Form\FormBasico
         $this->tipoBase = 'button';
         $this->acao = $acao;
         $this->setNome($nome);
+        $this->setId($nome);
         $this->setValor($identifica);
     }
     

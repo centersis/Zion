@@ -59,6 +59,7 @@ class FormInputHidden extends \Zion\Form\FormBasico
         $this->tipoBase = 'hidden';        
         $this->acao = $acao;
         $this->setNome($nome);
+        $this->setId($nome);
     }
 
     /**
