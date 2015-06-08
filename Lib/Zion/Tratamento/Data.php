@@ -140,6 +140,11 @@ class Data
 
         $validaData = \Zion\Validacao\Data::instancia();
 
+        //Se for data e Hora recupera apenas a data
+        if (\substr_count($data, ' ') > 0) {
+            list($data) = \explode(' ', $data);
+        }
+
         if (!$validaData->validaData($data)) {
             return '';
         }
@@ -248,7 +253,6 @@ class Data
         //Verifica a Integridade da data
         //if (!$this->verificaData($data))
         //    throw new Exception("Data informada para atribui��o Inv�lida! - 001");
-
         //Valores da data
         list($dia, $mes, $ano) = \explode($separador, $data);
 
@@ -411,7 +415,7 @@ class Data
 
         return $diff;
     }
-    
+
     /**
      * Data::getMesExt()
      * Retorna o equivalente por extenso de um mês númerico.
@@ -437,156 +441,143 @@ class Data
     {
         throw new \RuntimeException("Método ainda não implementado.");
     }
-    
+
     public function getAnosBissextosIntervalo($a1, $a2)
     {
 
         $anoBissexto = 0;
-        for($i = $a1; $i <= $a2; $i++) {
-            if(\checkdate(2, 29, $i)) {                    
-                $anoBissexto++;                    
+        for ($i = $a1; $i <= $a2; $i++) {
+            if (\checkdate(2, 29, $i)) {
+                $anoBissexto++;
             }
-        }       
+        }
 
         return $anoBissexto;
-        
-    }    
-    
+    }
+
     public function getDataPrevisaoDias($dias, $dataInicial = '')
     {
-        
-        if(empty($dataInicial)) {
+
+        if (empty($dataInicial)) {
             $dataInicial = \date('Y-m-d');
         } else {
-            $dataInicial = \substr($dataInicial,0,4);            
+            $dataInicial = \substr($dataInicial, 0, 4);
         }
-    
+
         $arrayData = $this->getDataParse($dataInicial, 'Y-m-d');
-        $preData = new \DateTime($arrayData['year'].'-'.$arrayData['month'].'-'.$arrayData['day']);
-        if($dias < 0) {            
-            $preData->sub(new \DateInterval('P'.($dias * -1).'D'));            
+        $preData = new \DateTime($arrayData['year'] . '-' . $arrayData['month'] . '-' . $arrayData['day']);
+        if ($dias < 0) {
+            $preData->sub(new \DateInterval('P' . ($dias * -1) . 'D'));
         } else {
-            $preData->add(new \DateInterval('P'.$dias.'D'));
-        }               
-        
-        return $preData->format('d/m/Y');  
-        
+            $preData->add(new \DateInterval('P' . $dias . 'D'));
+        }
+
+        return $preData->format('d/m/Y');
     }
-    
+
     public function getDataParse($data, $format = "d/m/Y")
     {
 
         return \date_parse_from_format($format, $data);
+    }
 
-    }    
-    
     public function getDataAddDays($dias, $data = '')
     {
-        
+
         $arrayData = $this->getDataParse($data, 'd-m-Y');
-        $preData = new \DateTime($arrayData['year'].'-'.$arrayData['month'].'-'.$arrayData['day']); 
-        $preData->add(new \DateInterval('P'.$dias.'D'));
-        return $preData->format('d/m/Y'); 
-        
-    }    
-    
+        $preData = new \DateTime($arrayData['year'] . '-' . $arrayData['month'] . '-' . $arrayData['day']);
+        $preData->add(new \DateInterval('P' . $dias . 'D'));
+        return $preData->format('d/m/Y');
+    }
+
     public function getIntervaloExtenso(
-            $dataInicial, 
-            $dataFinal = '', 
-            $showAnos = true, 
-            $showMeses = true, 
-            $showDias = true)
+    $dataInicial, $dataFinal = '', $showAnos = true, $showMeses = true, $showDias = true)
     {
-        
+
         require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
-        
-        if(\is_numeric($dataInicial)) {
-            
+
+        if (\is_numeric($dataInicial)) {
+
             $totalDias = $dataInicial;
-            if($totalDias <= 0) return 'Nenhum dia';
-            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
+            if ($totalDias <= 0)
+                return 'Nenhum dia';
+            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;
             $dI = $this->getDataParse(\date('Y-m-d'), 'Y-m-d');
-            $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
+            $dF = $this->getDataParse($dataFinal, 'Y-m-d');
 
-            $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
-                      -  @\adodb_mktime(0,0,0,$dI['month'],($dI['day'] - $totalDias),$dI['year']));            
-            
+            $difftime = (@\adodb_mktime(0, 0, 0, $dF['month'], $dF['day'], $dF['year']) - @\adodb_mktime(0, 0, 0, $dI['month'], ($dI['day'] - $totalDias), $dI['year']));
         } else {
-        
-            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;        
+
+            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;
             $dI = $this->getDataParse($dataInicial, 'Y-m-d');
-            $dF = $this->getDataParse($dataFinal, 'Y-m-d');    
+            $dF = $this->getDataParse($dataFinal, 'Y-m-d');
 
-            $difftime = (@\adodb_mktime(0,0,0,$dF['month'],$dF['day'],$dF['year']) 
-                      -  @\adodb_mktime(0,0,0,$dI['month'],$dI['day'],$dI['year']));
+            $difftime = (@\adodb_mktime(0, 0, 0, $dF['month'], $dF['day'], $dF['year']) - @\adodb_mktime(0, 0, 0, $dI['month'], $dI['day'], $dI['year']));
+        }
 
-        }        
-        
         $bissextFix = 0;
         $bissextyears = 0;
-        
-        for($i=($dF['year'] - $bissextFix); $i < $dF['year']; $i++) {
-           $x = 0 + ($i / 4);
-           if (($x - floor($x)) == 0) {
-                 $bissextyears ++;
-           }
+
+        for ($i = ($dF['year'] - $bissextFix); $i < $dF['year']; $i++) {
+            $x = 0 + ($i / 4);
+            if (($x - floor($x)) == 0) {
+                $bissextyears ++;
+            }
         }
-        
-        $years  = '';        
-        $months = '';   
-        $days   = '';        
-        
+
+        $years = '';
+        $months = '';
+        $days = '';
+
         $years = \floor($difftime / (3600 * 24 * (365 + $bissextyears)));
         $difftime = $difftime % (3600 * 24 * (365 + $bissextyears));
-            
-        $months = \floor($difftime / (3600 * 24 * ((365  + $bissextyears)/12)));
-        $difftime = $difftime % (3600 * 24 * ((365  + $bissextyears)/12));
+
+        $months = \floor($difftime / (3600 * 24 * ((365 + $bissextyears) / 12)));
+        $difftime = $difftime % (3600 * 24 * ((365 + $bissextyears) / 12));
 
         $days = \floor($difftime / (3600 * 24));
         $difftime = $difftime % (3600 * 24);
-        
+
         $diff = [];
-        
+
         if ($showAnos) {
-            if($years > 0 && $years > 1) {
-               \array_push($diff, $years . ' anos');
+            if ($years > 0 && $years > 1) {
+                \array_push($diff, $years . ' anos');
             } else if ($years == 1) {
-               \array_push($diff, ' 1 ano');
+                \array_push($diff, ' 1 ano');
             }
         }
-        
+
         if ($showMeses) {
-            if($months > 0 && $months > 1) {
-               \array_push($diff, $months . ' meses');
+            if ($months > 0 && $months > 1) {
+                \array_push($diff, $months . ' meses');
             } else if ($months == 1) {
-               \array_push($diff, $months . ' mes');
+                \array_push($diff, $months . ' mes');
             }
         }
-        
-        if ($showDias or (!$months and !$years)) {
-            if($days > 0 && $days > 1) {
-               \array_push($diff, $days . ' dias');
+
+        if ($showDias or ( !$months and ! $years)) {
+            if ($days > 0 && $days > 1) {
+                \array_push($diff, $days . ' dias');
             } else if ($days == 1) {
-               \array_push($diff, '1 dia');
+                \array_push($diff, '1 dia');
             }
         }
-        
-        return \implode(', ', $diff);   
-        
+
+        return \implode(', ', $diff);
     }
-    
+
     public function getDatasMinMax($arrayDatas, $acao = 'max')
     {
-        
+
         foreach ($arrayDatas as $data) {
             $d = $this->getDataParse($data, 'd/m/Y');
-            $v[] = $d['year'].'-'.\str_pad($d['month'],2,'0',\STR_PAD_LEFT).'-'.\str_pad($d['day'],2,'0',\STR_PAD_LEFT);
-        }    
+            $v[] = $d['year'] . '-' . \str_pad($d['month'], 2, '0', \STR_PAD_LEFT) . '-' . \str_pad($d['day'], 2, '0', \STR_PAD_LEFT);
+        }
         $r = ($acao == 'max') ? \max($v) : \min($v);
         return $this->converteData($r);
-        
-    }    
-    
+    }
+
     public function getDataComparacao($data1, $data2 = '', $oper = '>=')
     {
 
@@ -595,9 +586,8 @@ class Data
         $data2 = $this->getDataParse($data2, 'Y-m-d');
 
         return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) . $oper . \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
-        
     }
-    
+
     public function getIntervaloDatasParaDias($data1, $data2 = '', $oper = '-')
     {
 
@@ -607,7 +597,6 @@ class Data
         //print_r($data1);                
         $diff = (\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) . $oper . \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year']));
         return \floor($diff / (3600 * 24));
-        
-    }    
+    }
 
 }
