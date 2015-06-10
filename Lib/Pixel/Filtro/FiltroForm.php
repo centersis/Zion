@@ -57,7 +57,7 @@ class FiltroForm
         return array('normal'       => $this->getFiltroNormal($objForm), 
                      'operacaoE'    => $this->getFiltroDuplo($objForm, 'e')
                 );
-    }
+    }       
 
     private function getFiltroNormal($objForm)
     {
