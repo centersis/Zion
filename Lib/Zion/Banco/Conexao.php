@@ -503,10 +503,12 @@ class Conexao
             if (!empty($erro)) {
                 self::$link[$this->banco]->rollBack();
                 self::$transaction[$this->banco] -= 1;
+                unset(self::$transaction[$this->banco]);
                 return false;
             } else {
                 self::$link[$this->banco]->commit();
                 self::$transaction[$this->banco] -= 1;
+                unset(self::$transaction[$this->banco]);
                 return true;
             }
         } else {
