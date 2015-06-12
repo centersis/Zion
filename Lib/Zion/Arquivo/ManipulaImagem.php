@@ -210,7 +210,7 @@ class ManipulaImagem extends ManipulaArquivo
                     throw new \Exception("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'png') {
-                if (!(\imagepng($img, $destino, $qualidade))) {
+                if (!(\imagepng($img, $destino))) {
                     throw new \Exception("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             }
