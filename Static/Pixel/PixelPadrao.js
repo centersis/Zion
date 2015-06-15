@@ -772,11 +772,11 @@ function sisSalvarPDF() {
         }
     });
 
-    if ($('#iframeDownload').attr('name') !== "iframeDownload") {
-        $('#formGrid').append(ifr);
+    if ($('body').attr('name') !== "iframeDownload") {
+        $('body').append(ifr);
     } else {
         $('#iframeDownload').remove();
-        $('#formGrid').append(ifr);
+        $('body').append(ifr);
     }
 
 }
