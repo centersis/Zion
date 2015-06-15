@@ -197,6 +197,16 @@ class Form extends FormZion
 
         return $botaoDescartar;
     }
+    
+    public function botaoDescartarAbas()
+    {
+        $botaoDescartarAbas = new FormInputButton('button', 'sisDescartaAbas', 'Descartar');
+
+        $botaoDescartarAbas->setClassCss('btn btn-default')
+                ->setComplemento('onclick="sisDescartarAbas();"');
+
+        return $botaoDescartarAbas;
+    }
 
     public function botaoSimples($nome, $identifica)
     {

@@ -258,7 +258,7 @@ class Form
                 switch (\strtolower($tipo)) {
 
                     case 'float': case 'double': case 'decimal':
-                        $this->objetos[$nome] = new FormInputFloat('number', $nome, '-', false);
+                        $this->objetos[$nome] = new FormInputFloat('float', $nome, '-', false);
                         break;
                     case 'numero': case 'inteiro': case 'int':
                         $this->objetos[$nome] = new FormInputNumber('number', $nome, '-', false);

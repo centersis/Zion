@@ -167,6 +167,11 @@ function sisDescartarPadrao(form)
     }
 }
 
+function sisDescartarAbas()
+{
+    $("#sisContainerManu").empty();
+}
+
 /* FILTRO */
 function sisFiltrarPadrao(p) {
     $.ajax({type: "get", url: "?acao=filtrar&sisOrigem=n", data: p, dataType: "json"}).done(function (ret) {

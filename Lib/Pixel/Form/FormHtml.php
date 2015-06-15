@@ -307,9 +307,11 @@ class FormHtml extends FormHtmlZion
         $classCss = $config->getInLine() === true ? $type . '-inline' : $type;
 
         $retorno = '';
-        foreach ($arrayCampos as $dadosCampo) {
+        if (\is_array($arrayCampos)) {
+            foreach ($arrayCampos as $dadosCampo) {
 
-            $retorno .= \sprintf('<label class="%s">%s<span class="lbl">%s</span></label>', $classCss, $dadosCampo['html'], $dadosCampo['label']);
+                $retorno .= \sprintf('<label class="%s">%s<span class="lbl">%s</span></label>', $classCss, $dadosCampo['html'], $dadosCampo['label']);
+            }
         }
 
         return $retorno;
