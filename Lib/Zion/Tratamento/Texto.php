@@ -305,7 +305,7 @@ class Texto
                     switch ($como) {
                         case "DATA" : $formatados[$key] = \substr($this->trata->data()->converteData($value), 0, 10);
                             break;
-                        case "DATAHORA": $formatados[$key] = $this->trata->data()->converteDataHora($value);
+                        case "DATAHORA": $formatados[$key] = \substr($this->trata->data()->converteDataHora($value), false, -3);
                             break;
                         case "NUMERO" : $formatados[$key] = $this->trata->numero()->floatCliente($value);
                             break;

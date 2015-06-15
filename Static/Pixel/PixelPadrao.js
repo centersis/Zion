@@ -729,15 +729,18 @@ function chChosen(a, b, c)
 
 function sisImprimir()
 {
-    window.open("?acao=imprimir&sisModoImpressao=1", 'imprimir');
+    var queryString = ($('#queryString').val()? '&sisOrigem=n&'+ $('#queryString').val() : '');
+    window.open("?acao=imprimir&sisModoImpressao=1"+ queryString, 'imprimir');
 }
 
 function sisSalvarPDF() {
 
+    var queryString = ($('#queryString').val()? '&sisOrigem=n&'+ $('#queryString').val() : '');
+
     var ifr = $('<iframe/>', {
         id: 'iframeDownload',
         name: 'iframeDownload',
-        src: '?acao=salvarPDF&sisModoImpressao=1',
+        src: '?acao=salvarPDF&sisModoImpressao=1' + queryString,
         style: 'display:none',
         load: function () {
 

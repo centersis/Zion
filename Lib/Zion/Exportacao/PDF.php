@@ -1,33 +1,33 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
+/**
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
+ */
 /**
  * 
  * @author Feliphe Bueno - feliphezion@gmail.com
@@ -41,11 +41,9 @@
 
 namespace Zion\Exportacao;
 
-class PDF 
-{
-    
-    public function imprimeRelatorioPDF($html, $css = false, $orientacao = false)
-    {
+class PDF {
+
+    public function imprimeRelatorioPDF($html, $css = false, $orientacao = false) {
         try {
 
             include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
@@ -55,75 +53,108 @@ class PDF
 
             $mpdf->allow_charset_conversion = true;
             $mpdf->charset_in = 'UTF-8';
-            $stylesheet = \SIS_URL_DEFAULT_BASE . 'Tema/Vendor/Pixel/1.3.0/stylesheets/relatorio.css';
+            $stylesheet = $this->getCss();
 
             $mpdf->setFooter('{PAGENO}/{nbpg}');
-            $mpdf->WriteHTML($this->loadCss($stylesheet), 1);
+            $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html, 2);
-            $mpdf->Output(\uniqid() .'_'. \date('d/m/Y') .'.pdf', 'D');
-//print '<link rel="stylesheet" href="'. ($stylesheet) .'" />'.$html;
+            //$mpdf->Output(\uniqid() . '_' . \date('d/m/Y') . '.pdf', 'D');
+            print '<style>\n' . $this->getCss() . '"\n</style>' . $html;
         } catch (Exception $e) {
             return false;
         }
     }
-    
-    private function loadCss($cssPath)
-    {
+    public function getCss() {
+        return '
+        .main {
+            margin-left: 20px;
+            width: 100%;
+        }
+
+        .main thead th {
+            border: solid 1px #000;
+            background-color: #CCC;
+            text-align: center;
+            padding: 5px;
+        }
+        td {
+            text-align: center;
+            padding: 5px;
+        }
+        .lineSpan {
+            width: 100%;
+            height: 25px;
+            clear: both;
+        }
+        .lineContent {
+            //Nada por eqto
+        }
+
+        .lineContent > td {
+            text-align: right;
+            width: 50%;
+        }
+        .lineContent td:last-child {
+            text-align: left;
+            width: 50%;
+        }
+        .lineTitle td{
+            text-align: right;
+        }';
+    }
+
+    private function loadCss($cssPath) {
         $files = \preg_replace('/\\n/', '', \file_get_contents($cssPath));
         $css = NULL;
-        foreach(explode(';', $files) as $val){
-                
-                $start  = NULL;
-                $end    = NULL;
+        foreach (explode(';', $files) as $val) {
 
-                \preg_match('/[url(\']{5}/', $val, $start, PREG_OFFSET_CAPTURE);
-                \preg_match('/[\')]{2}/', $val, $end, PREG_OFFSET_CAPTURE);
+            $start = NULL;
+            $end = NULL;
 
-                if(isset($val[0]) === false){
-                    continue;
-                }
-                $file = \substr($val, ($start[0][1] + 5), -2);
-                if(!preg_match('/[http\:\/\/]{7}|[https\:\/\/]{8}/', $file)){
-                    $urlFile = \SIS_URL_DEFAULT_BASE .'Tema/Vendor/Pixel/1.3.0/stylesheets/'. $file;
-                } else {
-                    $urlFile = $file;
-                }
-                $css .= \file_get_contents($urlFile);
+            \preg_match('/[url(\']{5}/', $val, $start, PREG_OFFSET_CAPTURE);
+            \preg_match('/[\')]{2}/', $val, $end, PREG_OFFSET_CAPTURE);
 
+            if (isset($val[0]) === false) {
+                continue;
+            }
+            $file = \substr($val, ($start[0][1] + 5), -2);
+            if (!preg_match('/[http\:\/\/]{7}|[https\:\/\/]{8}/', $file)) {
+                $urlFile = \SIS_URL_DEFAULT_BASE . 'Tema/Vendor/Pixel/1.3.0/stylesheets/' . $file;
+            } else {
+                $urlFile = $file;
+            }
+            $css .= \file_get_contents($urlFile);
         }
         return ($css);
     }
 
-        public function imprimePDF($html, $tituloArquivo = NULL, $orientacao = NULL)
-    {
+    public function imprimePDF($html, $tituloArquivo = NULL, $orientacao = NULL) {
 
-        $titulo     = (is_null($tituloArquivo) ? uniqid() .'_relatorio_'. date('d-m-Y-H:i:s') : $tituloArquivo) .'.pdf';
+        $titulo = (is_null($tituloArquivo) ? uniqid() . '_relatorio_' . date('d-m-Y-H:i:s') : $tituloArquivo) . '.pdf';
         $orientacao = (is_null($orientacao) ? 'P' : $orientacao);
 
-		try {
+        try {
 
             include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
-			$mpdf = new \mPDF();
+            $mpdf = new \mPDF();
 
-			$mpdf->CurOrientation = $orientacao;
+            $mpdf->CurOrientation = $orientacao;
 
-			$mpdf->allow_charset_conversion = true;
-			$mpdf->charset_in    = 'UTF-8';
-			$stylesheet          = $this->getEstiloRelatorio();
+            $mpdf->allow_charset_conversion = true;
+            $mpdf->charset_in = 'UTF-8';
+            $stylesheet = $this->getEstiloRelatorio();
 
-			$mpdf->setFooter('{PAGENO}/{nbpg}');
-			$mpdf->WriteHTML($stylesheet, 1);
-			$mpdf->WriteHTML($html, 2);
-			$mpdf->Output($titulo, 'D');
-//print('<style type="text/css">'. $stylesheet .'</style>'. $html);
-		 } catch(Exception $e) {
-			return false;
-		 }
-
+            $mpdf->setFooter('{PAGENO}/{nbpg}');
+            $mpdf->WriteHTML($stylesheet, 1);
+            $mpdf->WriteHTML($html, 2);
+//            $mpdf->Output($titulo, 'D');
+print('<style type="text/css">'. $stylesheet .'</style>'. $html);
+        } catch (Exception $e) {
+            return false;
+        }
     }
-    
-    private function getEstiloRelatorio()
-    {
+
+    private function getEstiloRelatorio() {
 
         $stylesheet = '
             th {
@@ -168,4 +199,6 @@ class PDF
 
         return $stylesheet;
     }
+
+
 }
