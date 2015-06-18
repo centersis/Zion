@@ -961,3 +961,33 @@ function array_diff(array1, array2) {
 
     return diff;
 }
+
+/* CONFIGURAÇÃO DE COLUNAS DA GRID */
+
+/* CONFIGURAÇÃO DE COLUNAS DA GRID */
+
+/* ALTERAR O NÙMERO DE LINHAS */
+function sisAlterarLinhas(urlBase, moduloCod)
+{
+    var linhas = $("#sisAlteraLinhas").val();
+    
+    var config = {type: "get", url: urlBase+'Ext/Remoto/linhas_grid/', dataType: "json", 
+        data: {'qLinhas':linhas, 'moduloCod':moduloCod}};    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Número de linhas da grid aletardo com sucesso!');         
+
+            sisFiltrarPadrao('');
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+}
+/* ALTERAR O NÙMERO DE LINHAS */
