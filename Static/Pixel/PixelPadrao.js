@@ -963,6 +963,27 @@ function array_diff(array1, array2) {
 }
 
 /* CONFIGURAÇÃO DE COLUNAS DA GRID */
+function sisSalvarColunasDinamicas(urlBase, moduloCod)
+{
+    var config = {type: "get", url: urlBase+'Ext/Remoto/colunas_grid/?moduloCod='+moduloCod, dataType: "json", 
+        data: $("#formGrid").serialize() };    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Configuração de colunas da grid aletarda com sucesso!');         
+
+            sisFiltrarPadrao('');
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+}
 
 /* CONFIGURAÇÃO DE COLUNAS DA GRID */
 

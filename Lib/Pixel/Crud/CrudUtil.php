@@ -219,7 +219,7 @@ class CrudUtil
                     $cont2++;
 
                     $sql.= $alias . $coluna . " LIKE '%" . $valorCampo . "%'";
-                    
+
                     $sql.= $totalCampos == $cont2 ? '' : ' OR ';
                 }
 
@@ -678,6 +678,75 @@ class CrudUtil
             $campos = \str_replace('[]', '', $campos);
         }
         return $campos;
+    }
+
+    public function getColunasDinamicas($colunas)
+    {
+        $usuarioGridColunas = '';
+
+        if (\defined('MODULO')) {
+
+            $qbModulo = $this->con->qb();
+
+            $qbModulo->select('moduloCod')
+                    ->from('_modulo', '')
+                    ->where($qbModulo->expr()->eq('moduloNome', $qbModulo->expr()->literal(\MODULO)));
+
+            $moduloCod = $this->con->execRLinha($qbModulo);
+
+            $qb = $this->con->qb();
+
+            $qb->select('usuarioGridColunas')
+                    ->from('_usuario_grid', '')
+                    ->where($qb->expr()->eq('usuarioCod', ':usuarioCod'))
+                    ->andWhere($qb->expr()->eq('moduloCod', ':moduloCod'))
+                    ->andWhere($qb->expr()->eq('organogramaCod', ':organogramaCod'))
+                    ->setParameter('usuarioCod', $_SESSION['usuarioCod'])
+                    ->setParameter('moduloCod', $moduloCod)
+                    ->setParameter('organogramaCod', $_SESSION['organogramaCod']);
+
+            $usuarioGridColunas = $this->con->execRLinha($qb);
+        }
+
+        $retorno = [];
+        if ($usuarioGridColunas) {
+            $campos = \explode(',', $usuarioGridColunas);
+
+            foreach ($colunas as $cod => $dados) {
+
+                $marcado = \in_array($cod, $campos) ? 'S' : 'N';
+
+                if (\is_array($dados)) {
+                    $retorno[$cod] = [$dados[0], $dados[1], $marcado];
+                } else {
+                    $retorno[$cod] = [$dados, $cod, $marcado];
+                }
+            }
+        } else {
+            foreach ($colunas as $cod => $dados) {
+
+                if (\is_array($dados)) {
+                    $retorno[$cod] = $dados;
+                } else {
+                    $retorno[$cod] = [$dados, $cod, 'S'];
+                }
+            }
+        }
+
+        return $retorno;
+    }
+
+    public function getColunasDinamicasSql($colunas)
+    {
+        $buffer = [];
+        foreach ($colunas as $dados) {
+
+            if ($dados[2] === 'S' or $dados[2] === true) {
+                $buffer[] = $dados[1];
+            }
+        }
+
+        return $buffer;
     }
 
 }
