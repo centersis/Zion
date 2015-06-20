@@ -61,9 +61,14 @@ function showHiddenFilters() {
         $("#caretFilter").addClass('fa fa-caret-down');
     else
         return false;
-
-    $(".showHidden").slideToggle();
-    $(".showHidden").removeClass("hidden");
+    
+    if($(".showHidden").hasClass('hidden')){
+        $(".showHidden").removeClass("hidden");
+    }else{
+        $(".showHidden").addClass("hidden");
+    }
+//    $(".showHidden").slideToggle();
+//    $(".showHidden").removeClass("hidden");
 }
 
 $(document).ready(function () {
