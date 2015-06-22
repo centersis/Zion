@@ -75,10 +75,18 @@ $(document).ready(function () {
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemRemoved', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
+        
+        if(!$(".showHidden").hasClass('hidden')){
+            $(".showHidden").addClass("hidden");
+        }        
     });
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
+        
+        if(!$(".showHidden").hasClass('hidden')){
+            $(".showHidden").addClass("hidden");
+        } 
     });
 
     $("#notificationsMain").click(function (event) {
@@ -639,6 +647,9 @@ function sisChangeFil(origem)
     }
 
     sisFiltrarPadrao(parametrosFiltro(origem));
+    
+    $('#sisBuscaGridA').tagsinput('removeAll');
+    $('#sisBuscaGridB').tagsinput('removeAll');
 }
 
 function sisOpFiltro(nomeCampo, tipo, origem)
@@ -1018,5 +1029,38 @@ function sisAlterarLinhas(urlBase, moduloCod)
 }
 /* ALTERAR O NÙMERO DE LINHAS */
 
+/* CONFIGURAÇÃO PARA SALVAMENTO DO FILTRO DA GRID */
+function sisSalvarFiltro(urlBase, moduloCod)
+{
+    var nome = $("#sisSalvarFiltroNome").val();
+    var titulo = $("#sisSalvarFiltroTitulo").val();
+    var colunas = $("#sisGridListaColunas").val();
+    var queryString = $("#sisQueryString").val();
+    
+    if(nome === ''){
+        alert('O campo "nome do filtro" deve ser informado corretamente!"');
+        return;
+    }
+    
+    var config = {type: "get", url: urlBase+'Ext/Remoto/salvar_filtro/?moduloCod='+moduloCod, dataType: "json", 
+        data: {'nome':nome,'titulo':titulo,'colunas':colunas,'qs':queryString} };    
 
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Filtro salvo com sucesso!');         
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+    
+    $('#sisModalSalvarFiltro').modal('hide'); 
+}
+
+/* CONFIGURAÇÃO PARA SALVAMENTO DO FILTRO DA GRID */
 

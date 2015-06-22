@@ -33,9 +33,6 @@ namespace Pixel\Filtro;
 
 class FiltroForm
 {
-
-    private $html;
-    private $js;
     private $complementoOriginal;
     private $onSelectOriginal;
     private $nomeOriginal;
@@ -43,9 +40,6 @@ class FiltroForm
 
     public function __construct()
     {
-        $this->html = new \Zion\Layout\Html();
-        $this->js = [];
-
         $this->complementoOriginal = [];
         $this->onSelectOriginal = [];
         $this->nomeOriginal = [];
@@ -54,10 +48,10 @@ class FiltroForm
 
     public function montaFiltro($objForm)
     {
-        return array('normal'       => $this->getFiltroNormal($objForm), 
-                     'operacaoE'    => $this->getFiltroDuplo($objForm, 'e')
-                );
-    }       
+        return array('normal' => $this->getFiltroNormal($objForm),
+            'operacaoE' => $this->getFiltroDuplo($objForm, 'e')
+        );
+    }
 
     private function getFiltroNormal($objForm)
     {
@@ -75,13 +69,12 @@ class FiltroForm
             $tipoFiltro = \key($this->getTipoFiltro($objCampo->getTipoFiltro()));
 
             //Campo
-            \array_push($objeto, [  'campo'         => $nomeCampo,
-                                    'campoHtml'     => $objForm->getFormHtml($nomeObjeto),
-                                    'campoObjeto'   => $objCampo,
-                                    'campoJs'       => $objForm->processarJSObjeto($objCampo),
-                                    'tipoFiltro'    => $tipoFiltro
-                                 ]);
-
+            \array_push($objeto, [ 'campo' => $nomeCampo,
+                'campoHtml' => $objForm->getFormHtml($nomeObjeto),
+                'campoObjeto' => $objCampo,
+                'campoJs' => $objForm->processarJSObjeto($objCampo),
+                'tipoFiltro' => $tipoFiltro
+            ]);
         }
 
         return $objeto;
@@ -89,11 +82,11 @@ class FiltroForm
 
     private function getFiltroDuplo($objForm, $prefixo)
     {
-        $objetos = $objForm->getObjetos();      
-        $objeto = array();
-        
+        $objetos = $objForm->getObjetos();
+        $objeto = [];
+
         foreach ($objetos as $nomeObjeto => $objCampo) {
-            
+
             \array_push($objeto, $this->getCampoDuplo($objForm, $nomeObjeto, $objCampo, $prefixo, 'A'));
             \array_push($objeto, $this->getCampoDuplo($objForm, $nomeObjeto, $objCampo, $prefixo, 'B'));
         }
@@ -105,14 +98,14 @@ class FiltroForm
     {
         $this->atualizaCampo($nomeCampo, $objCampo, $prefixo, $sufixo);
 
-        $tipoFiltro = key($this->getTipoFiltro($objCampo->getTipoFiltro()));
+        $tipoFiltro = \key($this->getTipoFiltro($objCampo->getTipoFiltro()));
 
-        return array('campo'         => $objCampo->getNome(),
-                     'campoHtml'     => $objForm->getFormHtml($nomeCampo),
-                     'campoObjeto'   => $objCampo,
-                     'campoJs'       => $objForm->processarJSObjeto($objCampo),
-                     'tipoFiltro'    => $tipoFiltro
-                    );
+        return array('campo' => $objCampo->getNome(),
+            'campoHtml' => $objForm->getFormHtml($nomeCampo),
+            'campoObjeto' => $objCampo,
+            'campoJs' => $objForm->processarJSObjeto($objCampo),
+            'tipoFiltro' => $tipoFiltro
+        );
     }
 
     private function atualizaCampos($objForm, $prefixo = '', $sufixo = '')
@@ -149,26 +142,6 @@ class FiltroForm
         if ($tipoBase == 'suggest') {
             $objCampo->setOnSelect($this->onSelectOriginal[$nomeObjeto] . ' sisChangeFil(\'' . $prefixo . '\');');
         }
-    }
-    
-    private function getAcao($acao)
-    {
-        switch ($acao) {
-            case 'escolha':
-                $novaAcao = 'texto';
-                break;
-            case 'number': case 'float':
-                $novaAcao = 'number';
-                break;
-
-            case 'date':
-                $novaAcao = $acao;
-                break;
-            
-            default : $novaAcao = 'texto';
-        }
-
-        return $novaAcao;
     }
 
     private function getTipoFiltro($tipoFiltro)
