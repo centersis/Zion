@@ -1054,13 +1054,42 @@ function sisSalvarFiltro(urlBase, moduloCod)
         else {
             sisSetCrashAlert('Erro', ret.retorno);
         }
-    }).fail(function ()
-    {
-        sisMsgFailPadrao();
-    });
+        }).fail(function ()
+        {
+            sisMsgFailPadrao();
+        });
     
     $('#sisModalSalvarFiltro').modal('hide'); 
 }
 
 /* CONFIGURAÇÃO PARA SALVAMENTO DO FILTRO DA GRID */
+
+
+/* FILTROS SALVOS */
+function sisCarregaFiltrosSalvos(moduloCod){
+    
+    var carregado = $("#sisFiltroSalvo").prop('carregado');
+    
+    if(carregado === 'N'){
+        
+        var config = {type: "get", url: urlBase+'Ext/Remoto/salvar_filtro/?acao=carregar&moduloCod='+moduloCod, dataType: "json" };    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+                  
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+        
+    }
+}
+
+/* FILTROS SALVOS */
 
