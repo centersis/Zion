@@ -61,19 +61,32 @@ function showHiddenFilters() {
         $("#caretFilter").addClass('fa fa-caret-down');
     else
         return false;
-
-    $(".showHidden").slideToggle();
-    $(".showHidden").removeClass("hidden");
+    
+    if($(".showHidden").hasClass('hidden')){
+        $(".showHidden").removeClass("hidden");
+    }else{
+        $(".showHidden").addClass("hidden");
+    }
+//    $(".showHidden").slideToggle();
+//    $(".showHidden").removeClass("hidden");
 }
 
 $(document).ready(function () {
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemRemoved', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
+        
+        if(!$(".showHidden").hasClass('hidden')){
+            $(".showHidden").addClass("hidden");
+        }        
     });
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
+        
+        if(!$(".showHidden").hasClass('hidden')){
+            $(".showHidden").addClass("hidden");
+        } 
     });
 
     $("#notificationsMain").click(function (event) {
@@ -634,6 +647,9 @@ function sisChangeFil(origem)
     }
 
     sisFiltrarPadrao(parametrosFiltro(origem));
+    
+    $('#sisBuscaGridA').tagsinput('removeAll');
+    $('#sisBuscaGridB').tagsinput('removeAll');
 }
 
 function sisOpFiltro(nomeCampo, tipo, origem)
@@ -961,3 +977,151 @@ function array_diff(array1, array2) {
 
     return diff;
 }
+
+/* CONFIGURAÇÃO DE COLUNAS DA GRID */
+function sisSalvarColunasDinamicas(urlBase, moduloCod)
+{
+    var config = {type: "get", url: urlBase+'Ext/Remoto/colunas_grid/?moduloCod='+moduloCod, dataType: "json", 
+        data: $("#formGrid").serialize() };    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Configuração de colunas da grid aletarda com sucesso!');         
+
+            sisFiltrarPadrao('');
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+}
+
+/* CONFIGURAÇÃO DE COLUNAS DA GRID */
+
+/* ALTERAR O NÙMERO DE LINHAS */
+function sisAlterarLinhas(urlBase, moduloCod)
+{
+    var linhas = $("#sisAlteraLinhas").val();
+    
+    var config = {type: "get", url: urlBase+'Ext/Remoto/linhas_grid/', dataType: "json", 
+        data: {'qLinhas':linhas, 'moduloCod':moduloCod}};    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Número de linhas da grid aletardo com sucesso!');         
+
+            sisFiltrarPadrao('');
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+}
+/* ALTERAR O NÙMERO DE LINHAS */
+
+/* CONFIGURAÇÃO PARA SALVAMENTO DO FILTRO DA GRID */
+function sisSalvarFiltro(urlBase, moduloCod)
+{
+    var nome = $("#sisSalvarFiltroNome").val();
+    var titulo = $("#sisSalvarFiltroTitulo").val();
+    var colunas = $("#sisGridListaColunas").val();
+    var queryString = $("#sisQueryString").val();
+    
+    if(nome === ''){
+        alert('O campo "nome do filtro" deve ser informado corretamente!"');
+        return;
+    }
+    
+    var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?moduloCod='+moduloCod, dataType: "json", 
+        data: {'nome':nome,'titulo':titulo,'colunas':colunas,'qs':queryString} };    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Filtro salvo com sucesso!'); 
+            
+            $("#sisFiltroSalvo").attr('carregado','N');
+            sisCarregaFiltrosSalvos(urlBase, moduloCod);
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+        }).fail(function ()
+        {
+            sisMsgFailPadrao();
+        });
+    
+    $('#sisModalSalvarFiltro').modal('hide'); 
+}
+
+/* CONFIGURAÇÃO PARA SALVAMENTO DO FILTRO DA GRID */
+
+
+/* FILTROS SALVOS */
+function sisCarregaFiltrosSalvos(urlBase, moduloCod){
+    
+    var carregado = $("#sisFiltroSalvo").attr('carregado');
+    
+    if(carregado === 'N'){
+        
+        var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?acao=carregar&moduloCod='+moduloCod, dataType: "json" };    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+           $("#bs-tabdrop-tab3").html(ret.retorno);
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+        
+    }
+}
+
+/* FILTROS SALVOS */
+
+/* REMOVER FILTROS SALVOS */
+
+function sisRemoverFiltroSalvo(usuarioFiltroCod, urlBase, moduloCod){
+
+    if(!confirm('Tem certeza que desja remover este filtro?')){
+        return;
+    }
+    
+    var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?acao=remover', dataType: "json", data:{'cod':usuarioFiltroCod}};    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Filtro removido com sucesso!');
+            $("#sisFiltroSalvo").attr('carregado','N');
+            sisCarregaFiltrosSalvos(urlBase, moduloCod);
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });        
+}
+
+/* REMOVER FILTROS SALVOS */
+

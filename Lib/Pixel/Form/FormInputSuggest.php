@@ -32,8 +32,10 @@
 namespace Pixel\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
+use Zion\Form\FormBasico;
+use Pixel\Form\FormSetPixel;
 
-class FormInputSuggest extends \Zion\Form\FormBasico
+class FormInputSuggest extends FormBasico
 {
 
     private $tipoBase;
@@ -72,7 +74,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
 
         $this->tipoBase = 'suggest';
         $this->acao = $acao;
@@ -126,7 +128,6 @@ class FormInputSuggest extends \Zion\Form\FormBasico
             }
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
-
         } else {
             throw new FormException("maximoCaracteres: Valor não numerico.");
         }
@@ -172,7 +173,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     {
         return $this->minimoCaracteres;
     }
-    
+
     public function setCaixa($caixa)
     {
         if (\strtoupper($caixa) == "ALTA" or \strtoupper($caixa) == "BAIXA") {
@@ -384,7 +385,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     public function setHiddenSql($hiddenSql)
     {
         $this->hiddenSql = $hiddenSql;
-        
+
         return $this;
     }
 
@@ -491,7 +492,7 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     {
         return $this->offsetColuna ? $this->offsetColuna : 3;
     }
-    
+
     public function setAliasSql($aliasSql)
     {
         if (!is_null($aliasSql)) {
@@ -528,13 +529,13 @@ class FormInputSuggest extends \Zion\Form\FormBasico
     {
         return $this->tipoFiltro;
     }
-    
+
     public function setComplementoExterno($complementoExterno)
     {
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
@@ -574,17 +575,6 @@ class FormInputSuggest extends \Zion\Form\FormBasico
 
     public function setValor($valor)
     {
-//        if ($this->getHidden()) {
-//
-//            if ($this->method === 'POST') {
-//                $tipo = \INPUT_POST;
-//            } else {
-//                $tipo = \INPUT_GET;
-//            }
-//
-//            $valor = \filter_input($tipo, 'sisH' . $this->getNome());
-//        }
-
         parent::setValor($valor);
 
         return $this;
