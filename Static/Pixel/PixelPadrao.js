@@ -1042,14 +1042,17 @@ function sisSalvarFiltro(urlBase, moduloCod)
         return;
     }
     
-    var config = {type: "get", url: urlBase+'Ext/Remoto/salvar_filtro/?moduloCod='+moduloCod, dataType: "json", 
+    var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?moduloCod='+moduloCod, dataType: "json", 
         data: {'nome':nome,'titulo':titulo,'colunas':colunas,'qs':queryString} };    
 
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
 
-            sisSetAlert('true', 'Filtro salvo com sucesso!');         
+            sisSetAlert('true', 'Filtro salvo com sucesso!'); 
+            
+            $("#sisFiltroSalvo").attr('carregado','N');
+            sisCarregaFiltrosSalvos(urlBase, moduloCod);
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
@@ -1066,19 +1069,19 @@ function sisSalvarFiltro(urlBase, moduloCod)
 
 
 /* FILTROS SALVOS */
-function sisCarregaFiltrosSalvos(moduloCod){
+function sisCarregaFiltrosSalvos(urlBase, moduloCod){
     
-    var carregado = $("#sisFiltroSalvo").prop('carregado');
+    var carregado = $("#sisFiltroSalvo").attr('carregado');
     
     if(carregado === 'N'){
         
-        var config = {type: "get", url: urlBase+'Ext/Remoto/salvar_filtro/?acao=carregar&moduloCod='+moduloCod, dataType: "json" };    
+        var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?acao=carregar&moduloCod='+moduloCod, dataType: "json" };    
 
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
 
-                  
+           $("#bs-tabdrop-tab3").html(ret.retorno);
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
@@ -1092,4 +1095,33 @@ function sisCarregaFiltrosSalvos(moduloCod){
 }
 
 /* FILTROS SALVOS */
+
+/* REMOVER FILTROS SALVOS */
+
+function sisRemoverFiltroSalvo(usuarioFiltroCod, urlBase, moduloCod){
+
+    if(!confirm('Tem certeza que desja remover este filtro?')){
+        return;
+    }
+    
+    var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?acao=remover', dataType: "json", data:{'cod':usuarioFiltroCod}};    
+
+    $.ajax(config).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+
+            sisSetAlert('true', 'Filtro removido com sucesso!');
+            $("#sisFiltroSalvo").attr('carregado','N');
+            sisCarregaFiltrosSalvos(urlBase, moduloCod);
+        }
+        else {
+            sisSetCrashAlert('Erro', ret.retorno);
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });        
+}
+
+/* REMOVER FILTROS SALVOS */
 

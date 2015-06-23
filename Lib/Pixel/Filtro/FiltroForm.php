@@ -31,8 +31,11 @@
 
 namespace Pixel\Filtro;
 
+use Zion\Banco\Conexao;
+
 class FiltroForm
 {
+
     private $complementoOriginal;
     private $onSelectOriginal;
     private $nomeOriginal;
@@ -48,8 +51,23 @@ class FiltroForm
 
     public function montaFiltro($objForm)
     {
+        $moduloCod = 0;
+        if (\defined('MODULO')) {
+
+            $con = Conexao::conectar();
+
+            $qbModulo = $con->qb();
+
+            $qbModulo->select('moduloCod')
+                    ->from('_modulo', '')
+                    ->where($qbModulo->expr()->eq('moduloNome', $qbModulo->expr()->literal(\MODULO)));
+
+            $moduloCod = $con->execRLinha($qbModulo);
+        }
+
         return array('normal' => $this->getFiltroNormal($objForm),
-            'operacaoE' => $this->getFiltroDuplo($objForm, 'e')
+            'operacaoE' => $this->getFiltroDuplo($objForm, 'e'),
+            'moduloCod' => $moduloCod
         );
     }
 
@@ -61,6 +79,7 @@ class FiltroForm
         $this->atualizaCampos($objForm, $prefixo);
 
         $objeto = array();
+
 
         foreach ($objetos as $nomeObjeto => $objCampo) {
 
@@ -104,7 +123,7 @@ class FiltroForm
             'campoHtml' => $objForm->getFormHtml($nomeCampo),
             'campoObjeto' => $objCampo,
             'campoJs' => $objForm->processarJSObjeto($objCampo),
-            'tipoFiltro' => $tipoFiltro
+            'tipoFiltro' => $tipoFiltro,
         );
     }
 

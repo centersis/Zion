@@ -32,9 +32,70 @@
 namespace Pixel\Remoto;
 
 use Zion\Banco\Conexao;
+use App\Ext\Twig\Carregador;
 
-class SalvarFiltro
+class Filtro
 {
+
+    public function carregarFiltrosSalvos($moduloCod)
+    {
+        try {
+            $carregador = new Carregador();
+            $con = Conexao::conectar();
+
+            $qbFiltro = $con->qb();
+
+            $qbFiltro->select('usuarioFiltroCod', 'usuarioFiltroNome', 'usuarioFiltroQueryString')
+                    ->from('_usuario_filtro', '')
+                    ->where($qbFiltro->expr()->eq('organogramaCod', ':organogramaCod'))
+                    ->andWhere($qbFiltro->expr()->eq('usuarioCod', ':usuarioCod'))
+                    ->andWhere($qbFiltro->expr()->eq('moduloCod', ':moduloCod'))
+                    ->setParameter('organogramaCod', $_SESSION['organogramaCod'])
+                    ->setParameter('usuarioCod', $_SESSION['usuarioCod'])
+                    ->setParameter('moduloCod', $moduloCod);
+
+            $filtros = $con->paraArray($qbFiltro);
+
+            if (empty($filtros)) {
+                $retorno = '<i class="fa fa-exclamation-triangle"></i> nenhum filtro salvo foi encontrado!';
+            } else {
+                $retorno = $carregador->render('filtros_salvos.html.twig', [
+                    'salvo' => $filtros,
+                    'moduloCod' => $moduloCod
+                ]);
+            }
+
+            return \json_encode(array('sucesso' => 'true', 'retorno' => $retorno));
+        } catch (\Exception $e) {
+            return \json_encode(array('sucesso' => 'false', 'retorno' => $e->getMessage()));
+        }
+    }
+
+    public function removerFiltroSalvo($usuarioFiltroCod)
+    {
+        try {
+            $con = Conexao::conectar();
+
+            if (!\is_numeric($usuarioFiltroCod)) {
+                throw new \Exception('Código de referência inválido!');
+            }
+
+            $qbDelete = $con->qb();
+
+            $qbDelete->delete('_usuario_filtro')
+                    ->where($qbDelete->expr()->eq('organogramaCod', ':organogramaCod'))
+                    ->andWhere($qbDelete->expr()->eq('usuarioCod', ':usuarioCod'))
+                    ->andWhere($qbDelete->expr()->eq('usuarioFiltroCod', ':usuarioFiltroCod'))
+                    ->setParameter('organogramaCod', $_SESSION['organogramaCod'])
+                    ->setParameter('usuarioCod', $_SESSION['usuarioCod'])
+                    ->setParameter('usuarioFiltroCod', $usuarioFiltroCod)
+                    ->execute();
+
+            return \json_encode(array('sucesso' => 'true'));
+        } catch (\Exception $e) {
+            return \json_encode(array('sucesso' => 'false', 'retorno' => $e->getMessage()));
+        }
+    }
 
     public function salvar($usuarioFiltroNome, $usuarioFiltroNomeRelatorio, $usuarioFiltroColunas, $usuarioFiltroQueryString, $moduloCod)
     {
@@ -54,7 +115,7 @@ class SalvarFiltro
             }
 
             if ($usuarioFiltroQueryString) {
-                $usuarioFiltroQueryString = \urlencode($usuarioFiltroQueryString);
+                $usuarioFiltroQueryString = \urldecode($usuarioFiltroQueryString);
             }
 
             if (!\is_numeric($moduloCod)) {
