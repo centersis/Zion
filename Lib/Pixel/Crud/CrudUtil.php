@@ -694,11 +694,23 @@ class CrudUtil
 
             $moduloCod = $this->con->execRLinha($qbModulo);
 
+            $ufc = \filter_input(\INPUT_GET, 'sisUFC');
+
             $qb = $this->con->qb();
 
-            $qb->select('usuarioGridColunas')
-                    ->from('_usuario_grid', '')
-                    ->where($qb->expr()->eq('usuarioCod', ':usuarioCod'))
+            if (is_numeric($ufc)) {
+
+                $qb->select('usuarioFiltroColunas')
+                        ->from('_usuario_filtro', '')
+                        ->andWhere($qb->expr()->eq('usuarioFiltroCod', ':usuarioFiltroCod'))
+                        ->setParameter('usuarioFiltroCod', $ufc);
+            } else {
+
+                $qb->select('usuarioGridColunas')
+                        ->from('_usuario_grid', '');
+            }
+
+            $qb->andWhere($qb->expr()->eq('usuarioCod', ':usuarioCod'))
                     ->andWhere($qb->expr()->eq('moduloCod', ':moduloCod'))
                     ->andWhere($qb->expr()->eq('organogramaCod', ':organogramaCod'))
                     ->setParameter('usuarioCod', $_SESSION['usuarioCod'])
@@ -710,17 +722,38 @@ class CrudUtil
 
         $retorno = [];
         if ($usuarioGridColunas) {
-            $campos = \explode(',', $usuarioGridColunas);
 
+            /* Dentro deste if é criado um array seguindo a ordem das colunas gravadas no banco */
+            $campos = \explode(',', $usuarioGridColunas);
+            $b1 = [];
+            $b2 = [];
             foreach ($colunas as $cod => $dados) {
 
                 $marcado = \in_array($cod, $campos) ? 'S' : 'N';
 
-                if (\is_array($dados)) {
-                    $retorno[$cod] = [$dados[0], $dados[1], $marcado];
+                if ($marcado === 'S') {
+                    if (\is_array($dados)) {
+                        $b1[$cod] = [$dados[0], $dados[1], $marcado];
+                    } else {
+                        $b1[$cod] = [$dados, $cod, $marcado];
+                    }
                 } else {
-                    $retorno[$cod] = [$dados, $cod, $marcado];
+                    if (\is_array($dados)) {
+                        $b2[$cod] = [$dados[0], $dados[1], $marcado];
+                    } else {
+                        $b2[$cod] = [$dados, $cod, $marcado];
+                    }
                 }
+            }
+
+            if (!empty($campos)) {
+                $b3 = [];
+                foreach ($campos as $chaveColuna) {
+                    $b3[$chaveColuna] = $b1[$chaveColuna];
+                }
+                $retorno = \array_merge($b3, $b2);
+            } else {
+                $retorno = \array_merge($b1, $b2);
             }
         } else {
             foreach ($colunas as $cod => $dados) {

@@ -1082,6 +1082,7 @@ function sisCarregaFiltrosSalvos(urlBase, moduloCod){
         if (ret.sucesso === 'true') {
 
            $("#bs-tabdrop-tab3").html(ret.retorno);
+           $("#sisFiltroSalvo").attr('carregado','S');
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
