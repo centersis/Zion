@@ -782,4 +782,19 @@ class CrudUtil
         return $buffer;
     }
 
+    public function colunasNecessarias($colunasDinamicas, $necessarias)
+    {
+        if (!\is_array($necessarias) or empty($necessarias)) {
+            return $colunasDinamicas;
+        }
+
+        foreach ($necessarias as $coluna) {
+            if (!in_array($coluna, $colunasDinamicas)) {
+                \array_push($colunasDinamicas, $coluna);
+            }
+        }
+
+        return $colunasDinamicas;
+    }
+
 }
