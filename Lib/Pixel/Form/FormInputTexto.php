@@ -31,10 +31,10 @@
 
 namespace Pixel\Form;
 
-use Zion\Form\FormInputTexto;
+use Zion\Form\FormInputTexto as FormInputTextoZion;
 use Pixel\Form\FormSetPixel;
 
-class FormInputTexto extends FormInputTexto
+class FormInputTexto extends FormInputTextoZion
 {
 
     private $prefixo;

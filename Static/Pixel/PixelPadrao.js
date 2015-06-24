@@ -1049,6 +1049,9 @@ function sisSalvarFiltro(urlBase, moduloCod)
             
             $("#sisFiltroSalvo").attr('carregado','N');
             sisCarregaFiltrosSalvos(urlBase, moduloCod);
+            
+            $("#sisSalvarFiltroNome").val('');
+            $("#sisSalvarFiltroTitulo").val('');
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
@@ -1078,6 +1081,7 @@ function sisCarregaFiltrosSalvos(urlBase, moduloCod){
         if (ret.sucesso === 'true') {
 
            $("#bs-tabdrop-tab3").html(ret.retorno);
+           $("#sisFiltroSalvo").attr('carregado','S');
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);

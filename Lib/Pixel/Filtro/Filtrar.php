@@ -31,6 +31,8 @@
 
 namespace Pixel\Filtro;
 
+use Zion\Tratamento\Tratamento;
+
 /**
  * sho foi usado para substituir hidden_sis_filtro
  * sha foi usado para substituir hiddent_sis_filtro
@@ -39,7 +41,8 @@ class Filtrar
 {
 
     private $objForm;
-    private $operadores = array();
+    private $operadores = [];
+    private $interpretarComo = [];
 
     public function __construct($objForm = null)
     {
@@ -81,10 +84,14 @@ class Filtrar
         $operador = \filter_input(\INPUT_GET, 'sho' . 'n' . $nomeCampo);
         $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n' . $nomeCampo));
         $valor = \filter_input(\INPUT_GET, 'n' . $nomeCampo);
+        
+        if(\array_key_exists($campoBanco, $this->interpretarComo)){
+            $campoBanco = $this->interpretarComo[$campoBanco];
+        }
 
         if (\strtoupper($valor) === 'SISNOTNULL') {
             $queryBuilder->andWhere($queryBuilder->expr()->isNotNull($campoBanco));
-        }else if (\strtoupper($valor) === 'SISNULL') {
+        } else if (\strtoupper($valor) === 'SISNULL') {
             $queryBuilder->andWhere($queryBuilder->expr()->isNull($campoBanco));
         } else {
 
@@ -112,6 +119,10 @@ class Filtrar
     //Para clausulas E e OR
     private function eOrSql($campoBanco, $nomeCampo, $origem, $queryBuilder)
     {
+        if(\array_key_exists($campoBanco, $this->interpretarComo)){
+            $campoBanco = $this->interpretarComo[$campoBanco];
+        }
+        
         //Recupera Operadores
         $operadorA = \filter_input(\INPUT_GET, 'sho' . $origem . $nomeCampo . 'A');
         $operadorB = \filter_input(\INPUT_GET, 'sho' . $origem . $nomeCampo . 'B');
@@ -201,7 +212,11 @@ class Filtrar
 
     private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
     {
-        $tratar = \Zion\Tratamento\Tratamento::instancia();
+        if(\array_key_exists($campoBanco, $this->interpretarComo)){
+            $campoBanco = $this->interpretarComo[$campoBanco];
+        }
+        
+        $tratar = Tratamento::instancia();
 
         if (\in_array($operador, $this->operadores)) {
 
@@ -316,6 +331,11 @@ class Filtrar
 
             return $retorno;
         }
+    }
+
+    public function interpretarComo($campo, $traducao)
+    {
+        $this->interpretarComo[$campo] = $traducao;
     }
 
 }
