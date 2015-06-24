@@ -85,7 +85,7 @@ class FiltroForm
 
             $nomeCampo = $objCampo->getNome();
 
-            $tipoFiltro = \key($this->getTipoFiltro($objCampo->getTipoFiltro()));
+            $tipoFiltro = ($this->getTipoFiltro($objCampo->getTipoFiltro()));
 
             //Campo
             \array_push($objeto, [ 'campo' => $nomeCampo,

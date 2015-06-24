@@ -750,13 +750,13 @@ function chChosen(a, b, c)
 
 function sisImprimir()
 {
-    var queryString = ($('#queryString').val()? '&sisOrigem=n&'+ $('#queryString').val() : '');
+    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&'+ $('#sisQueryString').val() : '');
     window.open("?acao=imprimir&sisModoImpressao=1"+ queryString, 'imprimir');
 }
 
 function sisSalvarPDF() {
 
-    var queryString = ($('#queryString').val()? '&sisOrigem=n&'+ $('#queryString').val() : '');
+    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&'+ $('#sisQueryString').val() : '');
 
     var ifr = $('<iframe/>', {
         id: 'iframeDownload',
@@ -767,7 +767,14 @@ function sisSalvarPDF() {
 
             var conteudo = $('#iframeDownload').contents().find('body').html();
             try {
-                var ret = $.parseJSON(conteudo);
+                if(conteudo.length > 0){
+                    var ret = Array();
+                    ret['sucesso'] = 'false';
+                } else {
+                    var ret = Array();
+                    ret['sucesso'] = 'true';
+                    ret['retorno'] = 'PDF gerado com sucesso!'
+                }
             } catch (fail) {
                 var ret = Array();
                 ret['sucesso'] = 'false';
@@ -783,7 +790,7 @@ function sisSalvarPDF() {
             }
             else
             {
-                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
+                sisSetAlert('false', ret['retorno']);
             }
         }
     });
@@ -813,18 +820,7 @@ function getPDF(url) {
                 ret['sucesso'] = 'false';
             }
 
-            if (ret['sucesso'] === 'false')
-            {
-                sisSetAlert('false', ret['retorno']);
-            }
-            else if(ret['sucesso'] === 'true')
-            {
-                sisSetAlert('true', ret['retorno']);
-            }
-            else
-            {
-                alert('Houve um erro ao enviar sua solicitação!\n\nTente novamente mais tarde.\n');
-            }
+
         }
     });
 
