@@ -1053,6 +1053,9 @@ function sisSalvarFiltro(urlBase, moduloCod)
             
             $("#sisFiltroSalvo").attr('carregado','N');
             sisCarregaFiltrosSalvos(urlBase, moduloCod);
+            
+            $("#sisSalvarFiltroNome").val('');
+            $("#sisSalvarFiltroTitulo").val('');
         }
         else {
             sisSetCrashAlert('Erro', ret.retorno);
