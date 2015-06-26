@@ -97,6 +97,7 @@ class Carregador
         $this->twig->addFunction($urlBaseTema);
         $this->twig->addFunction($urlFramework);
         $this->twig->addFunction($urlBaseSite);
+        $this->trataLegenda();
         
     }
 
@@ -155,4 +156,26 @@ class Carregador
         }
         return $this;
     }
+    
+    private function trataLegenda()
+    {
+        $this->twig()->addFunction(new \Twig_SimpleFunction('trataLegenda', function ($legenda) {
+            if(\strlen($legenda) > 10){
+                return \preg_replace([
+                    '/class="table-footer"/',
+                    '/<div class="col-sm-1">/',
+                    '|</div>|',
+                    '/btn-block/'
+                ], [
+                    '',
+                    '',
+                    '',
+                    ''
+                ], $legenda) .'</div></div>';
+            } else {
+                return NULL;
+            }
+        }));
+    }
+
 }

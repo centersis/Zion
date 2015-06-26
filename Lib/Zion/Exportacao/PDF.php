@@ -43,7 +43,7 @@ namespace Zion\Exportacao;
 
 class PDF {
     
-    public function impressaoGridPDF($dados, $cssFile, $cssPath, $controller, $logo)
+    public function impressaoGridPDF($dados, $cssFile, $cssPath, $controller, $logo, $orientacao = "P")
     {
         
         $titulo     = uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y-H:i:s') .'.pdf';
@@ -67,8 +67,8 @@ class PDF {
                                                     'modulo'            => $nomeModulo,
                                                     'dataRelatorio'     => date("d/m/Y \à\s H:i:s")
                                                    ]);
-
-            $mpdf = new \mPDF();
+            
+            $mpdf = new \mPDF('c', 'A4-'. \strtoupper($orientacao));
 
             $mpdf->CurOrientation = "L";
 
@@ -78,7 +78,7 @@ class PDF {
             if(\strlen($dadosHtml['legenda']) > 5){
                 $mpdf->SetHTMLFooter($dadosHtml['legenda']);
             } else {
-                $mpdf->SetFooter('{PAGENO}');
+                $mpdf->SetFooter('{PAGENO}/{nbpg}');
             }
             
             $mpdf->WriteHTML($stylesheet, 1);
@@ -126,7 +126,8 @@ class PDF {
         return ($css);
     }
 
-    public function imprimeRelatorioPDF($html, $css = false, $orientacao = false) {
+    public function imprimeRelatorioPDF($html, $css = false, $orientacao = false) 
+    {
         try {
 
             include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
