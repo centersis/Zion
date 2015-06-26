@@ -46,7 +46,6 @@ function setContentElem(e, c) {
 
 function sisSvo(q, t) {
     $("#sisQuemOrdena").val(q);
-    $("#sisTipoOrdenacao").val(t);
 }
 
 function showHiddenFilters() {
