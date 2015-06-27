@@ -65,7 +65,7 @@ class PDF
                 throw new \Exception('Nenhum dado a ser exibido!');
             }
 
-            include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
+            include_once(SIS_FM_BASE . 'Lib/mPDF/mpdf.php');
             
             $stylesheet = $this->loadCss($cssFile, $cssPath);
             
