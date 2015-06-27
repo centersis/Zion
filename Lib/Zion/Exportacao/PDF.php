@@ -41,12 +41,22 @@
 
 namespace Zion\Exportacao;
 
-class PDF {
+class PDF 
+{
     
-    public function impressaoGridPDF($dados, $cssFile, $cssPath, $controller, $logo, $orientacao = "P")
+    private $con;
+    
+    public function __construct() 
+    {
+        $this->con = \Zion\Banco\Conexao::conectar();
+    }
+
+        public function impressaoGridPDF($dados, $cssFile, $cssPath, $controller, $logo, $orientacao = "P")
     {
         
-        $titulo     = uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y-H:i:s') .'.pdf';
+        $nomeArquivo        = uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y-H:i:s') .'.pdf';
+        $tituloRelatorio    = (\filter_input(\INPUT_GET, 'sisUFC') ? $this->getUsuarioFiltroNome(\filter_input(\INPUT_GET, 'sisUFC')) : NULL);
+        
         $nomeModulo = (new \Base\Sistema\Modulo\ModuloClass())->getDadosModulo(MODULO)['modulonomemenu'];
 
         try {
@@ -65,6 +75,7 @@ class PDF {
                                                     'grid'              => ['retorno' => $dadosHtml],
                                                     'logo'              => $logo,
                                                     'modulo'            => $nomeModulo,
+                                                    'titulo'            => $tituloRelatorio,
                                                     'dataRelatorio'     => date("d/m/Y \à\s H:i:s")
                                                    ]);
             
@@ -84,13 +95,34 @@ class PDF {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html, 2);
             //exit('<style>'. $stylesheet .'</style>'. $html);
-            $mpdf->Output($titulo, 'D');
+            $mpdf->Output($nomeArquivo, 'D');
 
             return $this->jsonSucesso('Arquivo gerado com sucesso!');
 
          } catch(Exception $e) {
             return $this->jsonErro('Erro ao gerar PDF!');
          }
+    }
+    
+    public function getUsuarioFiltroNome($sisUFC)
+    {
+        if(!empty($sisUFC)){
+            $qb = $this->con->qb();
+            
+            $qb->select('*')
+               ->from('_usuario_filtro')
+               ->where($qb->expr()->eq('usuarioFiltroCod', ':usuarioFiltroCod'))
+               ->setParameter('usuarioFiltroCod', $sisUFC, \PDO::PARAM_INT)
+               ->setMaxResults(1);
+            
+            $linha = $this->con->execLinha($qb);
+            
+            if(isset($linha['usuariofiltronomerelatorio'])){
+                return $linha['usuariofiltronomerelatorio'];
+            } else {
+                return false;
+            }
+        }
     }
     
     private function loadCss($cssFile, $cssPath = false) 
