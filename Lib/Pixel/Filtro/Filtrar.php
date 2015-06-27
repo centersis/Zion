@@ -56,7 +56,7 @@ class Filtrar
             '<' => '<',
             '>=' => '>=',
             '<=' => '<=',
-            '≠' => '≠',
+            '<>' => '<>',
             '*A' => '*A',
             'A*' => 'A*',
             '*' => '*'];
@@ -137,11 +137,11 @@ class Filtrar
 
         //echo $operadorA.' - '.$operadorB.' | '.$acaoA.' - '.$acaoB.' | '.$valorA.' - '.$valorB.' > '.$origem.' - '.$nomeCampo."\n";
         //Converte Opreadores
-        if ($operadorA === '≠') {
+        if ($operadorA === '<>') {
             $operadorA = '<>';
         }
 
-        if ($operadorB === '≠') {
+        if ($operadorB === '<>') {
             $operadorB = '<>';
         }
 
@@ -224,7 +224,7 @@ class Filtrar
 
             switch ($operador) {
 
-                case '=': case '>': case '<': case '>=': case '<=': case '≠':
+                case '=': case '>': case '<': case '>=': case '<=': case '<>':
 
                     $tipoParametro = \PDO::PARAM_STR;
 
@@ -272,7 +272,7 @@ class Filtrar
 
                             break;
 
-                        case '≠':
+                        case '<>':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->neq($campoBanco, ':camp02' . $rand))
                                     ->setParameter('camp02' . $rand, $valor, $tipoParametro);

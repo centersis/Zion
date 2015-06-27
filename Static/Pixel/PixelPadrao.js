@@ -186,7 +186,7 @@ function sisDescartarAbas()
 
 /* FILTRO */
 function sisFiltrarPadrao(p) {
-    $.ajax({type: "get", url: "?acao=filtrar&sisOrigem=n", data: p, dataType: "json"}).done(function (ret) {
+    $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
         if(ret.sucesso === "true"){
             $("#sisContainerGrid").html(ret.retorno);
         } else {

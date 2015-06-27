@@ -166,7 +166,7 @@ class FiltroForm
     private function getTipoFiltro($tipoFiltro)
     {
         $igual = ['=' => 'Igual a'];
-        $diferente = ['≠' => 'Diferente de'];
+        $diferente = ['<>' => 'Diferente de'];
         $menor = ['<' => 'Menor que'];
         $menorIgual = ['<=' => 'Menor ou igual que'];
         $maior = ['>' => 'Maior que'];
