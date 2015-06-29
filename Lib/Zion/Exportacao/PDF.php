@@ -51,11 +51,12 @@ class PDF
         $this->con = \Zion\Banco\Conexao::conectar();
     }
 
-        public function impressaoGridPDF($dados, $cssFile, $cssPath, $controller, $logo, $orientacao = "P")
+    public function impressaoGridPDF($dados, $cssFile, $cssPath, $controller, $logo, $orientacao = "P")
     {
+        $texto = \Zion\Tratamento\Texto::instancia();
         
-        $nomeArquivo        = uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y-H:i:s') .'.pdf';
         $tituloRelatorio    = (\filter_input(\INPUT_GET, 'sisUFC') ? $this->getUsuarioFiltroNome(\filter_input(\INPUT_GET, 'sisUFC')) : NULL);
+        $nomeArquivo        = ($tituloRelatorio ? \preg_replace('/[^A-z]/', '-', $texto->removerAcentos($tituloRelatorio)) : uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y')) .'.pdf';
         
         $nomeModulo = (new \Base\Sistema\Modulo\ModuloClass())->getDadosModulo(MODULO)['modulonomemenu'];
 
@@ -64,6 +65,8 @@ class PDF
             if(\count($dados) < 1){
                 throw new \Exception('Nenhum dado a ser exibido!');
             }
+            
+            $pdfPath = \SIS_DIR_BASE .'Storage/PDF/';
 
             include_once(SIS_FM_BASE . 'Lib/mPDF/mpdf.php');
             
@@ -78,7 +81,7 @@ class PDF
                                                     'titulo'            => $tituloRelatorio,
                                                     'dataRelatorio'     => date("d/m/Y \à\s H:i:s")
                                                    ]);
-            
+
             $mpdf = new \mPDF('c', 'A4-'. \strtoupper($orientacao));
 
             $mpdf->CurOrientation = "L";
@@ -94,7 +97,8 @@ class PDF
             
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html, 2);
-            //exit('<style>'. $stylesheet .'</style>'. $html);
+
+            $mpdf->Output($pdfPath . uniqid() .'_relatorio_'. \strtolower(MODULO) .'_'. date('d-m-Y') .'.pdf', 'F');
             $mpdf->Output($nomeArquivo, 'D');
 
             return $this->jsonSucesso('Arquivo gerado com sucesso!');
