@@ -117,7 +117,7 @@ class FiltroForm
     {
         $this->atualizaCampo($nomeCampo, $objCampo, $prefixo, $sufixo);
 
-        $tipoFiltro = \key($this->getTipoFiltro($objCampo->getTipoFiltro()));
+        $tipoFiltro = ($this->getTipoFiltro($objCampo->getTipoFiltro()));
 
         return array('campo' => $objCampo->getNome(),
             'campoHtml' => $objForm->getFormHtml($nomeCampo),
