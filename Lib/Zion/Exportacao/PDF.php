@@ -41,12 +41,23 @@
 
 namespace Zion\Exportacao;
 
-class PDF {
+class PDF 
+{
     
+    private $con;
+    
+    public function __construct() 
+    {
+        $this->con = \Zion\Banco\Conexao::conectar();
+    }
+
     public function impressaoGridPDF($dados, $cssFile, $cssPath, $controller, $logo, $orientacao = "P")
     {
+        $texto = \Zion\Tratamento\Texto::instancia();
         
-        $titulo     = uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y-H:i:s') .'.pdf';
+        $tituloRelatorio    = (\filter_input(\INPUT_GET, 'sisUFC') ? $this->getUsuarioFiltroNome(\filter_input(\INPUT_GET, 'sisUFC')) : NULL);
+        $nomeArquivo        = ($tituloRelatorio ? \preg_replace('/[^A-z]/', '-', $texto->removerAcentos($tituloRelatorio)) : uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y')) .'.pdf';
+        
         $nomeModulo = (new \Base\Sistema\Modulo\ModuloClass())->getDadosModulo(MODULO)['modulonomemenu'];
 
         try {
@@ -54,8 +65,10 @@ class PDF {
             if(\count($dados) < 1){
                 throw new \Exception('Nenhum dado a ser exibido!');
             }
+            
+            $pdfPath = \SIS_DIR_BASE .'Storage/PDF/';
 
-            include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
+            include_once(SIS_FM_BASE . 'Lib/mPDF/mpdf.php');
             
             $stylesheet = $this->loadCss($cssFile, $cssPath);
             
@@ -65,9 +78,10 @@ class PDF {
                                                     'grid'              => ['retorno' => $dadosHtml],
                                                     'logo'              => $logo,
                                                     'modulo'            => $nomeModulo,
+                                                    'titulo'            => $tituloRelatorio,
                                                     'dataRelatorio'     => date("d/m/Y \à\s H:i:s")
                                                    ]);
-            
+
             $mpdf = new \mPDF('c', 'A4-'. \strtoupper($orientacao));
 
             $mpdf->CurOrientation = "L";
@@ -83,14 +97,36 @@ class PDF {
             
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html, 2);
-            //exit('<style>'. $stylesheet .'</style>'. $html);
-            $mpdf->Output($titulo, 'D');
+
+            $mpdf->Output($pdfPath . uniqid() .'_relatorio_'. \strtolower(MODULO) .'_'. date('d-m-Y') .'.pdf', 'F');
+            $mpdf->Output($nomeArquivo, 'D');
 
             return $this->jsonSucesso('Arquivo gerado com sucesso!');
 
          } catch(Exception $e) {
             return $this->jsonErro('Erro ao gerar PDF!');
          }
+    }
+    
+    public function getUsuarioFiltroNome($sisUFC)
+    {
+        if(!empty($sisUFC)){
+            $qb = $this->con->qb();
+            
+            $qb->select('*')
+               ->from('_usuario_filtro')
+               ->where($qb->expr()->eq('usuarioFiltroCod', ':usuarioFiltroCod'))
+               ->setParameter('usuarioFiltroCod', $sisUFC, \PDO::PARAM_INT)
+               ->setMaxResults(1);
+            
+            $linha = $this->con->execLinha($qb);
+            
+            if(isset($linha['usuariofiltronomerelatorio'])){
+                return $linha['usuariofiltronomerelatorio'];
+            } else {
+                return false;
+            }
+        }
     }
     
     private function loadCss($cssFile, $cssPath = false) 

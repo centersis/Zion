@@ -84,15 +84,24 @@ class Filtrar
         $operador = \filter_input(\INPUT_GET, 'sho' . 'n' . $nomeCampo);
         $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n' . $nomeCampo));
         $valor = \filter_input(\INPUT_GET, 'n' . $nomeCampo);
-        
-        if(\array_key_exists($campoBanco, $this->interpretarComo)){
+
+        if (\array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];
         }
 
         if (\strtoupper($valor) === 'SISNOTNULL') {
-            $queryBuilder->andWhere($queryBuilder->expr()->isNotNull($campoBanco));
+
+            if ($operador === '<>') {
+                $queryBuilder->andWhere($queryBuilder->expr()->isNull($campoBanco));
+            } else {
+                $queryBuilder->andWhere($queryBuilder->expr()->isNotNull($campoBanco));
+            }
         } else if (\strtoupper($valor) === 'SISNULL') {
-            $queryBuilder->andWhere($queryBuilder->expr()->isNull($campoBanco));
+            if ($operador === '<>') {
+                $queryBuilder->andWhere($queryBuilder->expr()->isNotNull($campoBanco));
+            } else {
+                $queryBuilder->andWhere($queryBuilder->expr()->isNull($campoBanco));
+            }
         } else {
 
             $rand = \mt_rand(1, 9999); //Como o objeto pode ser repetido inumeras vezes, "adota-se" uma nome randomico para não haver conflito
@@ -119,10 +128,10 @@ class Filtrar
     //Para clausulas E e OR
     private function eOrSql($campoBanco, $nomeCampo, $origem, $queryBuilder)
     {
-        if(\array_key_exists($campoBanco, $this->interpretarComo)){
+        if (\array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];
         }
-        
+
         //Recupera Operadores
         $operadorA = \filter_input(\INPUT_GET, 'sho' . $origem . $nomeCampo . 'A');
         $operadorB = \filter_input(\INPUT_GET, 'sho' . $origem . $nomeCampo . 'B');
@@ -212,10 +221,10 @@ class Filtrar
 
     private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
     {
-        if(\array_key_exists($campoBanco, $this->interpretarComo)){
+        if (\array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];
         }
-        
+
         $tratar = Tratamento::instancia();
 
         if (\in_array($operador, $this->operadores)) {

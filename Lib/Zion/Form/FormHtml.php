@@ -53,16 +53,24 @@ class FormHtml extends FormAtributos
         parent::__construct();
     }
 
-    public function opcoesBasicas($config)
+    public function opcoesBasicas($config, $ignore = [])
     {
         $valor = $config->getValor() ? $config->getValor() : $config->getValorPadrao();
-        
-        return [$this->attr('name', $config->getNome()),
-            $this->attr('id', $config->getId() ? $config->getId() : $config->getNome()),
-            $this->attr('value', $valor),
-            $this->attr('complemento', $config->getComplemento()),
-            $this->attr('disabled', $config->getDisabled()),
-            $this->attr('classCss', $config->getClassCss())];
+
+        $ret = [];
+
+        $ret['name'] = $this->attr('name', $config->getNome());
+        $ret['id'] = $this->attr('id', $config->getId() ? $config->getId() : $config->getNome());
+        $ret['value'] = $this->attr('value', $valor);
+        $ret['complemento'] = $this->attr('complemento', $config->getComplemento());
+        $ret['disabled'] = $this->attr('disabled', $config->getDisabled());
+        $ret['classCss'] = $this->attr('classCss', $config->getClassCss());
+
+        foreach ($ignore as $ignorar) {
+            unset($ret[$ignorar]);
+        }
+
+        return $ret;
     }
 
     public function montaHiddenHtml(FormInputHidden $config)
@@ -141,7 +149,7 @@ class FormHtml extends FormAtributos
 
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
-    
+
     public function montaCorHtml($config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -174,7 +182,7 @@ class FormHtml extends FormAtributos
 
     public function montaTextAreaHtml(FormInputTextArea $config)
     {
-        $attr = \array_merge($this->opcoesBasicas($config), [
+        $attr = \array_merge($this->opcoesBasicas($config,['value']), [
             $this->attr('type', 'textarea'),
             $this->attr('maxlength', $config->getMaximoCaracteres()),
             $this->attr('placeholder', $config->getPlaceHolder()),
@@ -198,7 +206,7 @@ class FormHtml extends FormAtributos
 
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
-    
+
     public function montaDataHoraHtml(FormInputDataHora $config)
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
@@ -265,4 +273,5 @@ class FormHtml extends FormAtributos
     {
         return $config->getConteudo();
     }
+
 }
