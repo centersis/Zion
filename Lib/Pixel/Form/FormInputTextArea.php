@@ -81,7 +81,7 @@ class FormInputTextArea extends FormInputTextAreaZion
                     '/',
                     {'name':'styles','groups':['styles']},
                     { name: 'basicstyles', items: 
-                        [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],
+                        ['base64image', '-', 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],
                     },
                         ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
                         ['NumberedList', 'BulletedList'], 
