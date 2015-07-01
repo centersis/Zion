@@ -55,10 +55,10 @@ class PDF
     {
         $texto = \Zion\Tratamento\Texto::instancia();
         
-        $tituloRelatorio    = (\filter_input(\INPUT_GET, 'sisUFC') ? $this->getUsuarioFiltroNome(\filter_input(\INPUT_GET, 'sisUFC')) : NULL);
-        $nomeArquivo        = ($tituloRelatorio ? \preg_replace('/[^A-z]/', '-', $texto->removerAcentos($tituloRelatorio)) : uniqid() .'_relatorio_'. MODULO .'_'. date('d-m-Y')) .'.pdf';
-        
         $nomeModulo = (new \Base\Sistema\Modulo\ModuloClass())->getDadosModulo(MODULO)['modulonomemenu'];
+        
+        $tituloRelatorio    = (\filter_input(\INPUT_GET, 'sisUFC') ? $this->getUsuarioFiltroNome(\filter_input(\INPUT_GET, 'sisUFC')) : "Relatório do módulo ". $nomeModulo);
+        $nomeArquivo        = \preg_replace('/[^A-z]/', '-', \strtolower($texto->removerAcentos($tituloRelatorio))) . '_'. \date('d-m-Y_H-i-s') .'.pdf';
 
         try {
 
