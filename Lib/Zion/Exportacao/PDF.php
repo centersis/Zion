@@ -101,10 +101,8 @@ class PDF
             $mpdf->Output($pdfPath . uniqid() .'_relatorio_'. \strtolower(MODULO) .'_'. date('d-m-Y') .'.pdf', 'F');
             $mpdf->Output($nomeArquivo, 'D');
 
-            return $this->jsonSucesso('Arquivo gerado com sucesso!');
-
-         } catch(Exception $e) {
-            return $this->jsonErro('Erro ao gerar PDF!');
+         } catch(\Exception $e) {
+             throw new \Zion\Exportacao\Exception($e->getMessage());
          }
     }
     
@@ -130,7 +128,7 @@ class PDF
     }
     
     private function loadCss($cssFile, $cssPath = false) 
-    {        
+    {
         if($cssPath === false){
             $cssPath = \SIS_URL_DEFAULT_BASE . 'Tema/Vendor/Pixel/1.3.0/stylesheets/';
         }
@@ -162,65 +160,48 @@ class PDF
         return ($css);
     }
 
-    public function imprimeRelatorioPDF($html, $css = false, $orientacao = false) 
+    public function imprimeRelatorioPDF($html, $cssFile, $cssPath, $tituloRelatorio, $legenda = false, $orientacao = "P")
     {
+        $texto = \Zion\Tratamento\Texto::instancia();
+
+        $nomeArquivo    = \preg_replace('/[^A-z|^0-9]/', '-', \strtolower($texto->removerAcentos($tituloRelatorio))) . '_'. \date('d-m-Y_H-i-s') .'.pdf';
+        
         try {
 
-            include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
-            $mpdf = new \mPDF();
+            if(\count($html) < 1){
+                throw new \Exception('Nenhum dado a ser exibido!');
+            }
+            
+            $pdfPath = \SIS_DIR_BASE .'Storage/PDF/';
+            
+            if(!\is_readable($pdfPath)){
+                \mkdir($pdfPath, 0777);
+            }
 
-            $mpdf->CurOrientation = $orientacao;
+            include_once(SIS_FM_BASE . 'Lib/mPDF/mpdf.php');
+            
+            $stylesheet = $this->loadCss($cssFile, $cssPath);
+            
+            $mpdf = new \mPDF('c', 'A4-'. \strtoupper($orientacao));
 
             $mpdf->allow_charset_conversion = true;
-            $mpdf->charset_in = 'UTF-8';
-            $stylesheet = $this->getCss();
-
-            $mpdf->setFooter('{PAGENO}/{nbpg}');
+            $mpdf->charset_in    = 'UTF-8';
+            
+            if(\strlen($legenda) > 5){
+                $mpdf->SetHTMLFooter($legenda);
+            } else {
+                $mpdf->SetFooter('{PAGENO}/{nbpg}');
+            }
+            
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html, 2);
-            //$mpdf->Output(\uniqid() . '_' . \date('d/m/Y') . '.pdf', 'D');
-            print '<style>\n' . $this->getCss() . '"\n</style>' . $html;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-    public function getCss() {
-        return '
-        .main {
-            margin-left: 20px;
-            width: 100%;
-        }
+            $mpdf->Output($nomeArquivo, 'D');
+            
+            return $this->jsonSucesso('Arquivo gerado com sucesso!');
 
-        .main thead th {
-            border: solid 1px #000;
-            background-color: #CCC;
-            text-align: center;
-            padding: 5px;
-        }
-        td {
-            text-align: center;
-            padding: 5px;
-        }
-        .lineSpan {
-            width: 100%;
-            height: 25px;
-            clear: both;
-        }
-        .lineContent {
-            //Nada por eqto
-        }
-
-        .lineContent > td {
-            text-align: right;
-            width: 50%;
-        }
-        .lineContent td:last-child {
-            text-align: left;
-            width: 50%;
-        }
-        .lineTitle td{
-            text-align: right;
-        }';
+         } catch(Exception $e) {
+            return $this->jsonErro('Erro ao gerar PDF!');
+         }
     }
 
     public function imprimePDF($html, $tituloArquivo = NULL, $orientacao = NULL) {

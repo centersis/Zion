@@ -824,14 +824,33 @@ function getPDF(url) {
         load: function () {
 
             var conteudo = $('#iframeDownload').contents().find('body').html();
+
             try {
-                var ret = $.parseJSON(conteudo);
+                if(conteudo.length > 0){
+                    var ret = Array();
+                    ret['sucesso'] = 'false';
+                } else {
+                    var ret = Array();
+                    ret['sucesso'] = 'true';
+                    ret['retorno'] = 'PDF gerado com sucesso!'
+                }
             } catch (fail) {
                 var ret = Array();
                 ret['sucesso'] = 'false';
             }
 
-
+            if (ret['sucesso'] === 'false')
+            {
+                sisSetAlert('false', ret['retorno']);
+            }
+            else if(ret['sucesso'] === 'true')
+            {
+                sisSetAlert('true', ret['retorno']);
+            }
+            else
+            {
+                sisSetAlert('false', ret['retorno']);
+            }
         }
     });
 
