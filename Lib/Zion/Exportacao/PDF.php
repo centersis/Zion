@@ -134,30 +134,39 @@ class PDF
         }
         
         $files = \preg_replace('/\\n/', '', \file_get_contents($cssPath . $cssFile));
+        
         $css = NULL;
-   
-        foreach (explode(';', $files) as $val) {
+        $matches = [];
+        
+        if(\preg_match_all('/[\@import\surl(\']{13}/', $files, $matches, \PREG_OFFSET_CAPTURE)){
 
-            $start = NULL;
-            $end = NULL;
+            foreach ($matches[0] as $val) {
 
-            \preg_match('/[url(\']{5}/', $val, $start, PREG_OFFSET_CAPTURE);
-            \preg_match('/[\')]{2}/', $val, $end, PREG_OFFSET_CAPTURE);
 
-            if (isset($val[0]) === false) {
-                continue;
+                $start = $val[1] + (\strlen($val[0]));
+                $end = [];
+
+                \preg_match('/[\')]{2}/', $files, $end, PREG_OFFSET_CAPTURE, $start);
+
+                if (isset($end[0][1]) === false) {
+                    continue;
+                }
+                
+                $length = ($end[0][1] - $start);
+                
+                $file = \substr($files, ($start), ($length));
+
+                if (!preg_match('/[http\:\/\/]{7}|[https\:\/\/]{8}/', $file)) {
+                    $urlFile = $cssPath . $file;
+                } else {
+                    $urlFile = $file;
+                }
+
+                $css .= \preg_replace('/\\n/', '', \file_get_contents($urlFile));
             }
-            $file = \substr($val, ($start[0][1] + 5), -2);
-            
-            if (!preg_match('/[http\:\/\/]{7}|[https\:\/\/]{8}/', $file)) {
-                $urlFile = $cssPath . $file;
-            } else {
-                $urlFile = $file;
-            }
-            
-            $css .= \file_get_contents($urlFile);
         }
-        return ($css);
+
+        return ($files . $css);
     }
 
     public function imprimeRelatorioPDF($html, $cssFile, $cssPath, $tituloRelatorio, $legenda = false, $orientacao = "P")
@@ -197,10 +206,10 @@ class PDF
             $mpdf->WriteHTML($html, 2);
             $mpdf->Output($nomeArquivo, 'D');
             
-            return $this->jsonSucesso('Arquivo gerado com sucesso!');
+            return false;
 
-         } catch(Exception $e) {
-            return $this->jsonErro('Erro ao gerar PDF!');
+         } catch(\Exception $e) {
+            return $e->getMessage();
          }
     }
 
