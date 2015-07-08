@@ -75,9 +75,11 @@ class GridBotoes
                 if ($dados['acaomoduloapresentacao'] == 'E') {
 
                     $arrayBotoesE[$cont] = $dados;
-                } else {
+                } elseif($dados['acaomoduloapresentacao'] == 'R') {
 
                     $arrayBotoesR[$cont] = $dados;
+                } else {
+                    continue;
                 }
 
                 $posicoes[$cont] = (int) $dados['acaomoduloposicao'];
