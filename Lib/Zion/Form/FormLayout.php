@@ -35,6 +35,9 @@ class FormLayout
 {
 
     private $nome;
+    private $id; //Compatibilidade
+    private $valor; //Compatibilidade
+    private $valorPadrao; //Compatibilidade
     private $tipoBase;
     private $acao;
     private $conteudo;
@@ -55,7 +58,40 @@ class FormLayout
             throw new FormException("nome: Nenhum valor informado.");
         }
     }
+    
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+    
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    public function setValor($valor)
+    {
+        $this->valor = $valor;
+        return $this;
+    }
+    
+    public function getValor()
+    {
+        return $this->valor;
+    }
 
+    public function setValorPadrao($valorPadrao)
+    {
+        $this->valorPadrao = $valorPadrao;
+        return $this;
+    }
+    
+    public function getValorPadrao()
+    {
+        return $this->valorPadrao;
+    }
+    
     public function getNome()
     {
         return $this->nome;
