@@ -578,14 +578,25 @@ class Data
         return $this->converteData($r);
     }
 
-    public function getDataComparacao($data1, $data2 = '', $oper = '>=')
+    public function getDataComparacao($data1, $data2 = '', $oper = 'MaiorOuIgual')
     {
 
         $data1 = $this->getDataParse($data1, 'Y-m-d');
         $data2 = empty($data2) ? \date('Y-m-d') : $data2;
         $data2 = $this->getDataParse($data2, 'Y-m-d');
+        
+        if($oper === 'MaiorOuIgual') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) >= \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
+        } elseif($oper === 'MenorOuIgual') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) <= \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
+        } elseif($oper === 'Maior') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) > \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
+        } elseif($oper === 'Menor') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) < \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
+        } elseif($oper === 'Igual') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) == \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
+        }
 
-        return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) . $oper . \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
     }
 
     public function getIntervaloDatasParaDias($data1, $data2 = '', $oper = '-')
