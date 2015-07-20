@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,23 +30,23 @@
 
 /**
  * \Zion\Form\FormInputFloat()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 use Zion\Form\Exception\FormException;
 use Zion\Validacao\Numero;
 use Zion\Form\FormBasico;
 
-class FormInputFloat extends FormBasico
+class FormInputFloat extends FormBasico implements FilterableInput
 {
     private $tipoBase;
-    private $acao; 
+    private $acao;
     private $largura;
     private $obrigatorio;
     private $valorMaximo;
@@ -54,12 +54,13 @@ class FormInputFloat extends FormBasico
     private $prefixo;
     private $placeHolder;
     private $aliasSql;
+    private $categoriaFiltro;
 
     private $numero;
-    
+
     /**
      * FormInputFloat::__construct()
-     * 
+     *
      * @return
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -70,33 +71,34 @@ class FormInputFloat extends FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
-        
+        $this->categoriaFiltro = FilterableInput::EQUAL;
+
         $this->numero = Numero::instancia();
     }
-    
+
     /**
      * FormInputFloat::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
-    
+
     /**
      * FormInputFloat::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
     {
         return $this->acao;
     }
-    
+
     /**
      * FormInputFloat::setLargura()
-     * 
+     *
      * @return
      */
     public function setLargura($largura)
@@ -111,17 +113,17 @@ class FormInputFloat extends FormBasico
 
     /**
      * FormInputFloat::getLargura()
-     * 
+     *
      * @return
      */
     public function getLargura()
     {
         return $this->largura;
     }
-    
+
     /**
      * FormInputFloat::setValorMaximo()
-     * 
+     *
      * @return
      */
     public function setValorMaximo($valorMaximo)
@@ -138,20 +140,20 @@ class FormInputFloat extends FormBasico
             throw new FormException("valorMaximo: O valor informado não é float.");
         }
     }
-    
+
     /**
      * FormInputFloat::getValorMaximo()
-     * 
+     *
      * @return
      */
     public function getValorMaximo()
     {
         return $this->valorMaximo;
     }
-    
+
     /**
      * FormInputFloat::setValorMinimo()
-     * 
+     *
      * @return
      */
     public function setValorMinimo($valorMinimo)
@@ -168,20 +170,20 @@ class FormInputFloat extends FormBasico
             throw new FormException("valorMinimo: O valor informado não é float.");
         }
     }
-    
+
     /**
      * FormInputFloat::getValorMinimo()
-     * 
+     *
      * @return
      */
     public function getValorMinimo()
     {
         return $this->valorMinimo;
     }
-    
+
     /**
      * FormInputFloat::setPrefixo()
-     * 
+     *
      * @return
      */
     public function setPrefixo($prefixo)
@@ -193,20 +195,20 @@ class FormInputFloat extends FormBasico
             throw new FormException("prefixo: Nenhum valor informado.");
         }
     }
-    
+
     /**
      * FormInputFloat::getPrefixo()
-     * 
+     *
      * @return
      */
     public function getPrefixo()
     {
         return $this->prefixo;
     }
-    
+
     /**
      * FormInputFloat::setObrigarorio()
-     * 
+     *
      * @return
      */
     public function setObrigarorio($obrigatorio)
@@ -221,17 +223,17 @@ class FormInputFloat extends FormBasico
 
     /**
      * FormInputFloat::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
-    
+
     /**
      * FormInputFloat::setPlaceHolder()
-     * 
+     *
      * @return
      */
     public function setPlaceHolder($placeHolder)
@@ -246,7 +248,7 @@ class FormInputFloat extends FormBasico
 
     /**
      * FormInputFloat::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
@@ -256,7 +258,7 @@ class FormInputFloat extends FormBasico
 
     /**
      * FormInputFloat::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -272,7 +274,7 @@ class FormInputFloat extends FormBasico
 
     /**
      * FormInputFloat::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql(){
@@ -285,18 +287,18 @@ class FormInputFloat extends FormBasico
 
     /**
      * FormInputFloat::setId()
-     * 
+     *
      * @return
      */
     public function setId($id)
     {
-        parent::setId($id);        
+        parent::setId($id);
         return $this;
     }
-    
+
     /**
      * FormInputFloat::setNome()
-     * 
+     *
      * @return
      */
     public function setNome($nome)
@@ -304,10 +306,10 @@ class FormInputFloat extends FormBasico
         parent::setNome($nome);
         return $this;
     }
-    
+
     /**
      * FormInputFloat::setIdentifica()
-     * 
+     *
      * @return
      */
     public function setIdentifica($identifica)
@@ -315,28 +317,28 @@ class FormInputFloat extends FormBasico
         parent::setIdentifica($identifica);
         return $this;
     }
-    
+
     /**
      * FormInputFloat::setValor()
-     * 
+     *
      * @return
      */
     public function setValor($valor)
-    {              
+    {
         parent::setValor($valor);
         return $this;
     }
-    
+
     public function getValor()
-    {              
+    {
         $valor = parent::getValor();
-        
+
         return $valor ? $this->numero->floatCliente($valor) : $valor;
     }
-    
+
     /**
      * FormInputFloat::setValorPadrao()
-     * 
+     *
      * @return
      */
     public function setValorPadrao($valorPadrao)
@@ -344,10 +346,10 @@ class FormInputFloat extends FormBasico
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
-    
+
     /**
      * FormInputFloat::setDisabled()
-     * 
+     *
      * @return
      */
     public function setDisabled($disabled)
@@ -355,10 +357,10 @@ class FormInputFloat extends FormBasico
         parent::setDisabled($disabled);
         return $this;
     }
-    
+
     /**
      * FormInputFloat::setComplemento()
-     * 
+     *
      * @return
      */
     public function setComplemento($complemento)
@@ -369,7 +371,7 @@ class FormInputFloat extends FormBasico
 
     /**
      * FormInputFloat::setAtributos()
-     * 
+     *
      * @return
      */
     public function setAtributos($atributos)
@@ -377,10 +379,10 @@ class FormInputFloat extends FormBasico
         parent::setAtributos($atributos);
         return $this;
     }
-    
+
     /**
      * FormInputFloat::setClassCss()
-     * 
+     *
      * @return
      */
     public function setClassCss($classCss)
@@ -388,10 +390,32 @@ class FormInputFloat extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
     }
 }

@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,7 +30,7 @@
 
 /**
  * \Zion\Form\FormInputTelefone()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
@@ -41,7 +41,7 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputTelefone extends FormBasico
+class FormInputTelefone extends FormBasico implements FilterableInput
 {
 
     private $tipoBase;
@@ -51,10 +51,11 @@ class FormInputTelefone extends FormBasico
     private $minimoCaracteres;
     private $placeHolder;
     private $aliasSql;
+    private $categoriaFiltro;
 
     /**
      * FormInputTelefone::__construct()
-     * 
+     *
      * @param mixed $acao
      * @param mixed $nome
      * @param mixed $identifica
@@ -69,11 +70,12 @@ class FormInputTelefone extends FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
     /**
      * FormInputTelefone::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
@@ -83,7 +85,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
@@ -93,7 +95,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setMaximoCaracteres()
-     * 
+     *
      * @param mixed $maximoCaracteres
      * @return
      */
@@ -114,7 +116,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::getMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMaximoCaracteres()
@@ -124,7 +126,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setMinimoCaracteres()
-     * 
+     *
      * @param mixed $minimoCaracteres
      * @return
      */
@@ -145,7 +147,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::getMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMinimoCaracteres()
@@ -155,7 +157,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setObrigarorio()
-     * 
+     *
      * @param mixed $obrigatorio
      * @return
      */
@@ -171,7 +173,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
@@ -181,7 +183,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setPlaceHolder()
-     * 
+     *
      * @param mixed $placeHolder
      * @return
      */
@@ -197,7 +199,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
@@ -207,7 +209,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -223,7 +225,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql(){
@@ -236,7 +238,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setId()
-     * 
+     *
      * @param mixed $id
      * @return
      */
@@ -248,7 +250,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setNome()
-     * 
+     *
      * @param mixed $nome
      * @return
      */
@@ -260,7 +262,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setIdentifica()
-     * 
+     *
      * @param mixed $identifica
      * @return
      */
@@ -272,7 +274,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setValor()
-     * 
+     *
      * @param mixed $valor
      * @return
      */
@@ -284,7 +286,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setValorPadrao()
-     * 
+     *
      * @param mixed $valorPadrao
      * @return
      */
@@ -296,7 +298,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setDisabled()
-     * 
+     *
      * @param mixed $disabled
      * @return
      */
@@ -308,7 +310,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setComplemento()
-     * 
+     *
      * @param mixed $complemento
      * @return
      */
@@ -320,7 +322,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setAtributos()
-     * 
+     *
      * @param mixed $atributos
      * @return
      */
@@ -332,7 +334,7 @@ class FormInputTelefone extends FormBasico
 
     /**
      * FormInputTelefone::setClassCss()
-     * 
+     *
      * @param mixed $classCss
      * @return
      */
@@ -341,11 +343,32 @@ class FormInputTelefone extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
+    }
 }

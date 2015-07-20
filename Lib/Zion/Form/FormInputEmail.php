@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,7 +30,7 @@
 
 /**
  * \Zion\Form\FormInputEmail()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
@@ -41,7 +41,7 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputEmail extends FormBasico
+class FormInputEmail extends FormBasico implements FilterableInput
 {
 
     private $tipoBase;
@@ -51,10 +51,11 @@ class FormInputEmail extends FormBasico
     private $minimoCaracteres;
     private $placeHolder;
     private $aliasSql;
+    private $categoriaFiltro;
 
     /**
      * FormInputEmail::__construct()
-     * 
+     *
      * @return
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -65,11 +66,12 @@ class FormInputEmail extends FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
     /**
      * FormInputEmail::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
@@ -79,7 +81,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
@@ -89,7 +91,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function setMaximoCaracteres($maximoCaracteres)
@@ -109,7 +111,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::getMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMaximoCaracteres()
@@ -119,7 +121,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function setMinimoCaracteres($minimoCaracteres)
@@ -139,7 +141,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::getMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMinimoCaracteres()
@@ -149,7 +151,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setObrigarorio()
-     * 
+     *
      * @return
      */
     public function setObrigarorio($obrigatorio)
@@ -164,7 +166,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
@@ -174,7 +176,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setPlaceHolder()
-     * 
+     *
      * @return
      */
     public function setPlaceHolder($placeHolder)
@@ -189,17 +191,17 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
-    
+
     /**
      * FormInputEmail::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql(){
@@ -208,7 +210,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -228,7 +230,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setId()
-     * 
+     *
      * @return
      */
     public function setId($id)
@@ -239,7 +241,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setNome()
-     * 
+     *
      * @return
      */
     public function setNome($nome)
@@ -250,7 +252,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setIdentifica()
-     * 
+     *
      * @return
      */
     public function setIdentifica($identifica)
@@ -261,7 +263,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setValor()
-     * 
+     *
      * @return
      */
     public function setValor($valor)
@@ -272,7 +274,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setValorPadrao()
-     * 
+     *
      * @return
      */
     public function setValorPadrao($valorPadrao)
@@ -283,7 +285,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setDisabled()
-     * 
+     *
      * @return
      */
     public function setDisabled($disabled)
@@ -294,7 +296,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setComplemento()
-     * 
+     *
      * @return
      */
     public function setComplemento($complemento)
@@ -305,7 +307,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setAtributos()
-     * 
+     *
      * @return
      */
     public function setAtributos($atributos)
@@ -316,7 +318,7 @@ class FormInputEmail extends FormBasico
 
     /**
      * FormInputEmail::setClassCss()
-     * 
+     *
      * @return
      */
     public function setClassCss($classCss)
@@ -324,11 +326,32 @@ class FormInputEmail extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
+    }
 }

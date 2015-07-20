@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,18 +30,18 @@
 
 /**
  * \Zion\Form\FormInputTexto()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputTexto extends FormBasico
+class FormInputTexto extends FormBasico implements FilterableInput
 {
 
     private $tipoBase;
@@ -57,10 +57,11 @@ class FormInputTexto extends FormBasico
     private $autoComplete;
     private $deveSerIgualA;
     private $aliasSql;
+    private $categoriaFiltro;
 
     /**
      * FormInputTexto::__construct()
-     * 
+     *
      * @param mixed $acao
      * @param mixed $nome
      * @param mixed $identifica
@@ -69,7 +70,7 @@ class FormInputTexto extends FormBasico
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
-        $this->tipoBase = 'texto';        
+        $this->tipoBase = 'texto';
         $this->acao = $acao;
         $this->autoTrim = true;
         $this->converterHtml = true;
@@ -77,11 +78,12 @@ class FormInputTexto extends FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->categoriaFiltro = FilterableInput::LIKE;
     }
 
     /**
      * FormInputTexto::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
@@ -91,7 +93,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
@@ -101,7 +103,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setLargura()
-     * 
+     *
      * @param mixed $largura
      * @return
      */
@@ -117,7 +119,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getLargura()
-     * 
+     *
      * @return
      */
     public function getLargura()
@@ -127,7 +129,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setMaximoCaracteres()
-     * 
+     *
      * @param mixed $maximoCaracteres
      * @return
      */
@@ -148,7 +150,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMaximoCaracteres()
@@ -158,7 +160,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setMinimoCaracteres()
-     * 
+     *
      * @param mixed $minimoCaracteres
      * @return
      */
@@ -179,7 +181,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMinimoCaracteres()
@@ -189,7 +191,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setCaixa()
-     * 
+     *
      * @param mixed $caixa
      * @return
      */
@@ -205,7 +207,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getCaixa()
-     * 
+     *
      * @return
      */
     public function getCaixa()
@@ -215,7 +217,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setObrigarorio()
-     * 
+     *
      * @param mixed $obrigatorio
      * @return
      */
@@ -231,7 +233,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
@@ -241,7 +243,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setConverterHtml()
-     * 
+     *
      * @param mixed $converterHtml
      * @return
      */
@@ -257,7 +259,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getConverterHtml()
-     * 
+     *
      * @return
      */
     public function getConverterHtml()
@@ -267,7 +269,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setAutoTrim()
-     * 
+     *
      * @param mixed $autoTrim
      * @return
      */
@@ -283,7 +285,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getAutoTrim()
-     * 
+     *
      * @return
      */
     public function getAutoTrim()
@@ -293,7 +295,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setPlaceHolder()
-     * 
+     *
      * @param mixed $placeHolder
      * @return
      */
@@ -309,7 +311,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
@@ -319,7 +321,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setAutoComplete()
-     * 
+     *
      * @param mixed $autoComplete
      * @return
      */
@@ -335,7 +337,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getAutoComplete()
-     * 
+     *
      * @return
      */
     public function getAutoComplete()
@@ -345,7 +347,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setDeveSerIgualA()
-     * 
+     *
      * @param mixed $deveSerIgualA
      * @return
      */
@@ -361,7 +363,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getDeveSerIgualA()
-     * 
+     *
      * @return
      */
     public function getDeveSerIgualA()
@@ -371,7 +373,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -387,7 +389,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql(){
@@ -400,7 +402,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setId()
-     * 
+     *
      * @param mixed $id
      * @return
      */
@@ -412,7 +414,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setNome()
-     * 
+     *
      * @param mixed $nome
      * @return
      */
@@ -424,7 +426,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setIdentifica()
-     * 
+     *
      * @param mixed $identifica
      * @return
      */
@@ -436,7 +438,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setValor()
-     * 
+     *
      * @param mixed $valor
      * @return
      */
@@ -448,7 +450,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setValorPadrao()
-     * 
+     *
      * @param mixed $valorPadrao
      * @return
      */
@@ -460,7 +462,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setDisabled()
-     * 
+     *
      * @param mixed $disabled
      * @return
      */
@@ -472,7 +474,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setComplemento()
-     * 
+     *
      * @param mixed $complemento
      * @return
      */
@@ -484,7 +486,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setAtributos()
-     * 
+     *
      * @param mixed $atributos
      * @return
      */
@@ -496,7 +498,7 @@ class FormInputTexto extends FormBasico
 
     /**
      * FormInputTexto::setClassCss()
-     * 
+     *
      * @param mixed $classCss
      * @return
      */
@@ -505,10 +507,32 @@ class FormInputTexto extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
-    }   
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
+    }
 }
