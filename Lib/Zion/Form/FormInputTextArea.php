@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,7 +30,7 @@
 
 /**
  * \Zion\Form\FormInputTextArea()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
@@ -41,7 +41,7 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputTextArea extends FormBasico
+class FormInputTextArea extends FormBasico implements FilterableInput
 {
 
     private $tipoBase;
@@ -55,10 +55,11 @@ class FormInputTextArea extends FormBasico
     private $colunas;
     private $linhas;
     private $form;
+    private $categoriaFiltro;
 
     /**
      * FormInputTextArea::__construct()
-     * 
+     *
      * @param mixed $acao
      * @param mixed $nome
      * @param mixed $identifica
@@ -73,11 +74,12 @@ class FormInputTextArea extends FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->categoriaFiltro = FilterableInput::LIKE;
     }
 
     /**
      * FormInputTextArea::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
@@ -87,7 +89,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
@@ -97,7 +99,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setMaximoCaracteres()
-     * 
+     *
      * @param mixed $maximoCaracteres
      * @return
      */
@@ -118,7 +120,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::getMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMaximoCaracteres()
@@ -128,7 +130,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setMinimoCaracteres()
-     * 
+     *
      * @param mixed $minimoCaracteres
      * @return
      */
@@ -149,7 +151,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::getMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMinimoCaracteres()
@@ -159,7 +161,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setObrigarorio()
-     * 
+     *
      * @param mixed $obrigatorio
      * @return
      */
@@ -175,7 +177,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
@@ -185,7 +187,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setPlaceHolder()
-     * 
+     *
      * @param mixed $placeHolder
      * @return
      */
@@ -201,7 +203,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
@@ -211,7 +213,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -227,7 +229,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql()
@@ -301,7 +303,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setId()
-     * 
+     *
      * @param mixed $id
      * @return
      */
@@ -313,7 +315,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setNome()
-     * 
+     *
      * @param mixed $nome
      * @return
      */
@@ -325,7 +327,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setIdentifica()
-     * 
+     *
      * @param mixed $identifica
      * @return
      */
@@ -337,7 +339,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setValor()
-     * 
+     *
      * @param mixed $valor
      * @return
      */
@@ -349,7 +351,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setValorPadrao()
-     * 
+     *
      * @param mixed $valorPadrao
      * @return
      */
@@ -361,7 +363,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setDisabled()
-     * 
+     *
      * @param mixed $disabled
      * @return
      */
@@ -373,7 +375,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setComplemento()
-     * 
+     *
      * @param mixed $complemento
      * @return
      */
@@ -385,7 +387,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setAtributos()
-     * 
+     *
      * @param mixed $atributos
      * @return
      */
@@ -397,7 +399,7 @@ class FormInputTextArea extends FormBasico
 
     /**
      * FormInputTextArea::setClassCss()
-     * 
+     *
      * @param mixed $classCss
      * @return
      */
@@ -406,17 +408,38 @@ class FormInputTextArea extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
     }
-    
+
     public function setNomeForm($nomeForm)
     {
         parent::setNomeForm($nomeForm);
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
+    }
 }

@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,18 +30,18 @@
 
 /**
  * \Zion\Form\FormInputCnpj()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputCnpj extends FormBasico
+class FormInputCnpj extends FormBasico implements FilterableInput
 {
 
     private $tipoBase;
@@ -52,10 +52,11 @@ class FormInputCnpj extends FormBasico
     private $placeHolder;
     private $aliasSql;
     private $mascara;
+    private $categoriaFiltro;
 
     /**
      * FormInputCnpj::__construct()
-     * 
+     *
      * @return
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -67,11 +68,12 @@ class FormInputCnpj extends FormBasico
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         $this->setMaximoCaracteres(18);
+        $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
     /**
      * FormInputCnpj::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
@@ -81,7 +83,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
@@ -91,7 +93,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setObrigarorio()
-     * 
+     *
      * @return
      */
     public function setObrigarorio($obrigatorio)
@@ -106,7 +108,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
@@ -131,7 +133,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCep::getMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMaximoCaracteres()
@@ -141,7 +143,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCep::setMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function setMinimoCaracteres($minimoCaracteres)
@@ -161,17 +163,17 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCep::getMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
-    
+
     /**
      * FormInputCnpj::setPlaceHolder()
-     * 
+     *
      * @return
      */
     public function setPlaceHolder($placeHolder)
@@ -186,7 +188,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
@@ -196,7 +198,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql(){
@@ -205,7 +207,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj:setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -221,7 +223,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCpf::setMascara()
-     * 
+     *
      * @param string $mascara
      *
      */
@@ -229,16 +231,16 @@ class FormInputCnpj extends FormBasico
     {
         $this->mascara = $mascara;
         return $this;
-    }    
+    }
 
     /**
      * FormInputCpf::getMascara()
-     * 
+     *
      * @return string
      */
     public function getMascara(){
         return $this->mascara;
-    }        
+    }
 
     /**
      * Sobrecarga de Metodos Básicos
@@ -246,7 +248,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setId()
-     * 
+     *
      * @return
      */
     public function setId($id)
@@ -257,7 +259,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setNome()
-     * 
+     *
      * @return
      */
     public function setNome($nome)
@@ -268,7 +270,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setIdentifica()
-     * 
+     *
      * @return
      */
     public function setIdentifica($identifica)
@@ -279,7 +281,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setValor()
-     * 
+     *
      * @return
      */
     public function setValor($valor)
@@ -290,7 +292,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setValorPadrao()
-     * 
+     *
      * @return
      */
     public function setValorPadrao($valorPadrao)
@@ -301,7 +303,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setDisabled()
-     * 
+     *
      * @return
      */
     public function setDisabled($disabled)
@@ -312,7 +314,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setComplemento()
-     * 
+     *
      * @return
      */
     public function setComplemento($complemento)
@@ -323,7 +325,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setAtributos()
-     * 
+     *
      * @return
      */
     public function setAtributos($atributos)
@@ -334,7 +336,7 @@ class FormInputCnpj extends FormBasico
 
     /**
      * FormInputCnpj::setClassCss()
-     * 
+     *
      * @return
      */
     public function setClassCss($classCss)
@@ -342,11 +344,32 @@ class FormInputCnpj extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
+    }
 }

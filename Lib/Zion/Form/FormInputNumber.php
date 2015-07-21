@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,17 +30,17 @@
 
 /**
  * \Zion\Form\FormInputNumber()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputNumber extends \Zion\Form\FormBasico
+class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
 {
     private $tipoBase;
     private $acao;
@@ -52,10 +52,11 @@ class FormInputNumber extends \Zion\Form\FormBasico
     private $valorMinimo;
     private $placeHolder;
     private $aliasSql;
-    
+    private $categoriaFiltro;
+
     /**
      * FormInputNumber::__construct()
-     * 
+     *
      * @return
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -66,31 +67,32 @@ class FormInputNumber extends \Zion\Form\FormBasico
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->categoriaFiltro = FilterableInput::EQUAL;
     }
-    
+
     /**
      * FormInputNumber::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
-    
+
     /**
      * FormInputNumber::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
     {
         return $this->acao;
     }
-    
+
     /**
      * FormInputNumber::setLargura()
-     * 
+     *
      * @return
      */
     public function setLargura($largura)
@@ -105,17 +107,17 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::getLargura()
-     * 
+     *
      * @return
      */
     public function getLargura()
     {
         return $this->largura;
     }
-    
+
     /**
      * FormInputNumber::setMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function setMaximoCaracteres($maximoCaracteres)
@@ -135,7 +137,7 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::getMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMaximoCaracteres()
@@ -145,7 +147,7 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::setMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function setMinimoCaracteres($minimoCaracteres)
@@ -165,17 +167,17 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::getMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
-    
+
     /**
      * FormInputNumber::setValorMinimo()
-     * 
+     *
      * @return
      */
     public function setValorMinimo($valorMinimo)
@@ -192,20 +194,20 @@ class FormInputNumber extends \Zion\Form\FormBasico
             throw new FormException("valorMinimo: Valor não numérico");
         }
     }
-    
+
     /**
      * FormInputNumber::getValorMinimo()
-     * 
+     *
      * @return
      */
     public function getValorMinimo()
     {
         return $this->valorMinimo;
     }
-    
+
     /**
      * FormInputNumber::setValorMaximo()
-     * 
+     *
      * @return
      */
     public function setValorMaximo($valorMaximo)
@@ -222,20 +224,20 @@ class FormInputNumber extends \Zion\Form\FormBasico
             throw new FormException("valorMaximo: Valor não numérico");
         }
     }
-    
+
     /**
      * FormInputNumber::getValorMaximo()
-     * 
+     *
      * @return
      */
     public function getValorMaximo()
     {
         return $this->valorMaximo;
     }
-    
+
     /**
      * FormInputNumber::setObrigarorio()
-     * 
+     *
      * @return
      */
     public function setObrigarorio($obrigatorio)
@@ -250,17 +252,17 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
-    
+
     /**
      * FormInputNumber::setPlaceHolder()
-     * 
+     *
      * @return
      */
     public function setPlaceHolder($placeHolder)
@@ -275,17 +277,17 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
-    
+
     /**
      * FormInputNumber::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -301,31 +303,31 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql(){
         return $this->aliasSql;
     }
-    
+
     /**
      * Sobrecarga de Metodos Básicos
      */
-     
+
     /**
      * FormInputNumber::setId()
-     * 
+     *
      * @return
      */
     public function setId($id)
     {
-        parent::setId($id);        
+        parent::setId($id);
         return $this;
     }
-    
+
     /**
      * FormInputNumber::setNome()
-     * 
+     *
      * @return
      */
     public function setNome($nome)
@@ -333,10 +335,10 @@ class FormInputNumber extends \Zion\Form\FormBasico
         parent::setNome($nome);
         return $this;
     }
-    
+
     /**
      * FormInputNumber::setIdentifica()
-     * 
+     *
      * @return
      */
     public function setIdentifica($identifica)
@@ -344,21 +346,21 @@ class FormInputNumber extends \Zion\Form\FormBasico
         parent::setIdentifica($identifica);
         return $this;
     }
-    
+
     /**
      * FormInputNumber::setValor()
-     * 
+     *
      * @return
      */
     public function setValor($valor)
-    {              
+    {
         parent::setValor($valor);
         return $this;
     }
-    
+
     /**
      * FormInputNumber::setValorPadrao()
-     * 
+     *
      * @return
      */
     public function setValorPadrao($valorPadrao)
@@ -366,10 +368,10 @@ class FormInputNumber extends \Zion\Form\FormBasico
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
-    
+
     /**
      * FormInputNumber::setDisabled()
-     * 
+     *
      * @return
      */
     public function setDisabled($disabled)
@@ -377,10 +379,10 @@ class FormInputNumber extends \Zion\Form\FormBasico
         parent::setDisabled($disabled);
         return $this;
     }
-    
+
     /**
      * FormInputNumber::setComplemento()
-     * 
+     *
      * @return
      */
     public function setComplemento($complemento)
@@ -391,7 +393,7 @@ class FormInputNumber extends \Zion\Form\FormBasico
 
     /**
      * FormInputNumber::setAtributos()
-     * 
+     *
      * @return
      */
     public function setAtributos($atributos)
@@ -399,10 +401,10 @@ class FormInputNumber extends \Zion\Form\FormBasico
         parent::setAtributos($atributos);
         return $this;
     }
-    
+
     /**
      * FormInputNumber::setClassCss()
-     * 
+     *
      * @return
      */
     public function setClassCss($classCss)
@@ -410,10 +412,32 @@ class FormInputNumber extends \Zion\Form\FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
     }
 }
