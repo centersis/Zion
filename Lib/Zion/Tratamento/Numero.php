@@ -82,10 +82,10 @@ class Numero
      * @return float
      * @example float no padrão de visualização do cliente.
      */
-    public function floatCliente($numero)
+    public function floatCliente($numero, $decimal = 2)
     {
         $float = $this->floatBanco($numero);
-        return number_format($float, 2, ',', '.');
+        return \number_format($float, $decimal, ',', '.');
     }
 
     /**
