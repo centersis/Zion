@@ -9,7 +9,7 @@
  *    Email do autor: sappiens@braconsultoria.com.br
  *
  *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
+ *
  *    Este programa é software livre; você pode redistribuí-lo e/ou
  *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
  *    publicada pela Free Software Foundation, versão 2.
@@ -19,7 +19,7 @@
  *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
  *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
  *    detalhes.
- * 
+ *
  *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
  *    junto com este programa; se não, escreva para a Free Software
  *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -33,7 +33,7 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormEscolha extends \Zion\Form\FormBasico
+class FormEscolha extends \Zion\Form\FormBasico implements FilterableInput
 {
 
     private $tipoBase;
@@ -58,10 +58,11 @@ class FormEscolha extends \Zion\Form\FormBasico
     private $ignoreCod;
     private $callback;
     private $naoSelecionaveis;
+    private $categoriaFiltro;
 
     /**
      * FormEscolha::__construct()
-     * 
+     *
      * @param mixed $acao
      * @return
      */
@@ -79,11 +80,12 @@ class FormEscolha extends \Zion\Form\FormBasico
         $this->ordena = 'ASC';
         $this->inicio = 'Selecione...';
         $this->instrucoes = [];
+        $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
     /**
      * FormEscolha::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
@@ -93,7 +95,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
@@ -154,7 +156,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getMultiplo()
-     * 
+     *
      * @return
      */
     public function getMultiplo()
@@ -164,7 +166,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setMultiplo()
-     * 
+     *
      * @param mixed $multiplo
      * @return
      */
@@ -180,7 +182,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getExpandido()
-     * 
+     *
      * @return
      */
     public function getExpandido()
@@ -190,7 +192,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setExpandido()
-     * 
+     *
      * @param mixed $expandido
      * @return
      */
@@ -216,7 +218,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getOrdena()
-     * 
+     *
      * @return
      */
     public function getOrdena()
@@ -226,7 +228,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setOrdena()
-     * 
+     *
      * @param mixed $ordena
      * @return
      */
@@ -242,7 +244,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getArray()
-     * 
+     *
      * @return
      */
     public function getArray()
@@ -252,7 +254,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setArray()
-     * 
+     *
      * @param mixed $array
      * @return
      */
@@ -268,7 +270,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getInicio()
-     * 
+     *
      * @return
      */
     public function getInicio()
@@ -278,7 +280,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setInicio()
-     * 
+     *
      * @param mixed $inicio
      * @return
      */
@@ -294,7 +296,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getTabela()
-     * 
+     *
      * @return
      */
     public function getTabela()
@@ -304,7 +306,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setTabela()
-     * 
+     *
      * @param mixed $tabela
      * @return
      */
@@ -320,7 +322,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getCampoCod()
-     * 
+     *
      * @return
      */
     public function getCampoCod()
@@ -330,7 +332,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setCampoCod()
-     * 
+     *
      * @param mixed $campoCod
      * @return
      */
@@ -346,7 +348,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getCampoDesc()
-     * 
+     *
      * @return
      */
     public function getCampoDesc()
@@ -356,7 +358,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setCampoDesc()
-     * 
+     *
      * @param mixed $campoDesc
      * @return
      */
@@ -403,7 +405,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getSqlCompleto()
-     * 
+     *
      * @return
      */
     public function getSqlCompleto()
@@ -413,7 +415,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setSqlCompleto()
-     * 
+     *
      * @param mixed $sqlCompleto
      * @return
      */
@@ -429,7 +431,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getIdConexao()
-     * 
+     *
      * @return
      */
     public function getIdConexao()
@@ -439,7 +441,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setIdConexao()
-     * 
+     *
      * @param mixed $idConexao
      * @return
      */
@@ -455,7 +457,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql()
@@ -465,7 +467,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -530,7 +532,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setId()
-     * 
+     *
      * @param mixed $id
      * @return
      */
@@ -542,7 +544,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setNome()
-     * 
+     *
      * @param mixed $nome
      * @return
      */
@@ -554,7 +556,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setIdentifica()
-     * 
+     *
      * @param mixed $identifica
      * @return
      */
@@ -566,7 +568,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setValor()
-     * 
+     *
      * @param mixed $valor
      * @return
      */
@@ -578,7 +580,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setValorPadrao()
-     * 
+     *
      * @param mixed $valorPadrao
      * @return
      */
@@ -590,7 +592,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setDisabled()
-     * 
+     *
      * @param mixed $disabled
      * @return
      */
@@ -602,7 +604,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setComplemento()
-     * 
+     *
      * @param mixed $complemento
      * @return
      */
@@ -614,7 +616,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setAtributos()
-     * 
+     *
      * @param mixed $atributos
      * @return
      */
@@ -626,7 +628,7 @@ class FormEscolha extends \Zion\Form\FormBasico
 
     /**
      * FormEscolha::setClassCss()
-     * 
+     *
      * @param mixed $classCss
      * @return
      */
@@ -642,4 +644,25 @@ class FormEscolha extends \Zion\Form\FormBasico
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($categoria)
+    {
+        $this->categoriaFiltro = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
+    }
 }

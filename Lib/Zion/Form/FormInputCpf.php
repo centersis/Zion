@@ -8,7 +8,7 @@
 *    Email do autor: sappiens@braconsultoria.com.br
 *
 *    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
+*
 *    Este programa é software livre; você pode redistribuí-lo e/ou
 *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 *    publicada pela Free Software Foundation, versão 2.
@@ -18,7 +18,7 @@
 *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 *    detalhes.
-* 
+*
 *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 *    junto com este programa; se não, escreva para a Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -30,18 +30,18 @@
 
 /**
  * \Zion\Form\FormInputCpf()
- * 
+ *
  * @author The Sappiens Team
  * @copyright 2014
  * @version 2014
  * @access public
  */
- 
+
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputCpf extends FormBasico
+class FormInputCpf extends FormBasico implements FilterableInput
 {
 
     private $tipoBase;
@@ -51,10 +51,11 @@ class FormInputCpf extends FormBasico
     private $minimoCaracteres;
     private $placeHolder;
     private $aliasSql;
+    private $categoriaFiltro;
 
     /**
      * FormInputCpf::__construct()
-     * 
+     *
      * @return
      */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -66,11 +67,12 @@ class FormInputCpf extends FormBasico
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         $this->setMaximoCaracteres(14);
+        $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
     /**
      * FormInputCpf::getTipoBase()
-     * 
+     *
      * @return
      */
     public function getTipoBase()
@@ -80,7 +82,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::getAcao()
-     * 
+     *
      * @return
      */
     public function getAcao()
@@ -90,7 +92,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setObrigarorio()
-     * 
+     *
      * @return
      */
     public function setObrigarorio($obrigatorio)
@@ -105,14 +107,14 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::getObrigatorio()
-     * 
+     *
      * @return
      */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
-    
+
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -130,7 +132,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCep::getMaximoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMaximoCaracteres()
@@ -140,7 +142,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCep::setMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function setMinimoCaracteres($minimoCaracteres)
@@ -160,7 +162,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCep::getMinimoCaracteres()
-     * 
+     *
      * @return
      */
     public function getMinimoCaracteres()
@@ -170,7 +172,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setPlaceHolder()
-     * 
+     *
      * @return
      */
     public function setPlaceHolder($placeHolder)
@@ -185,7 +187,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::getPlaceHolder()
-     * 
+     *
      * @return
      */
     public function getPlaceHolder()
@@ -195,7 +197,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::getAliasSql()
-     * 
+     *
      * @return string
      */
     public function getAliasSql(){
@@ -204,7 +206,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setAliasSql()
-     * 
+     *
      * @param string $aliasSql
      *
      */
@@ -224,7 +226,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setId()
-     * 
+     *
      * @return
      */
     public function setId($id)
@@ -235,7 +237,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setNome()
-     * 
+     *
      * @return
      */
     public function setNome($nome)
@@ -246,7 +248,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setIdentifica()
-     * 
+     *
      * @return
      */
     public function setIdentifica($identifica)
@@ -257,7 +259,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setValor()
-     * 
+     *
      * @return
      */
     public function setValor($valor)
@@ -268,7 +270,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setValorPadrao()
-     * 
+     *
      * @return
      */
     public function setValorPadrao($valorPadrao)
@@ -279,7 +281,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setDisabled()
-     * 
+     *
      * @return
      */
     public function setDisabled($disabled)
@@ -290,7 +292,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setComplemento()
-     * 
+     *
      * @return
      */
     public function setComplemento($complemento)
@@ -301,7 +303,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setAtributos()
-     * 
+     *
      * @return
      */
     public function setAtributos($atributos)
@@ -312,7 +314,7 @@ class FormInputCpf extends FormBasico
 
     /**
      * FormInputCpf::setClassCss()
-     * 
+     *
      * @return
      */
     public function setClassCss($classCss)
@@ -320,11 +322,32 @@ class FormInputCpf extends FormBasico
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return self
+     */
+    public function setCategoriaFiltro($tipo)
+    {
+        $this->categoriaFiltro = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getCategoriaFiltro()
+    {
+        return $this->categoriaFiltro;
+    }
 }
