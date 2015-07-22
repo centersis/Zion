@@ -57,7 +57,7 @@ class MasterDetail
             $upload = $config->getIUpload();
         } else {
             $upload = new ArquivoUpload();
-        }        
+        }
 
         $nome = $config->getNome();
 
@@ -69,13 +69,13 @@ class MasterDetail
         } catch (\Exception $ex) {
             throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
-        
+
         if ($confHidden) {
             $doBanco = \explode(',', $confHidden->ativos);
         } else {
             $doBanco = [];
         }
-        
+
         $ativos = [];
 
         $coringas = [];
@@ -83,24 +83,29 @@ class MasterDetail
 
         $this->dados = [];
 
-        foreach ($itens as $coringa) {
+        try {
+            foreach ($itens as $coringa) {
 
-            if ($coringa == $confHidden->coringa) {
-                continue;
+                if ($coringa == $confHidden->coringa) {
+                    continue;
+                }
+
+                if (\in_array($coringa, $doBanco)) {
+
+                    $ativos[] = $coringa;
+                    $coringasMaster[] = $coringa;
+
+                    $this->update($config, $coringa);
+                } else {
+                    $coringasMaster[] = $this->insert($config, $coringa);
+                }
+
+                $coringas[] = $coringa;
             }
-
-            if (\in_array($coringa, $doBanco)) {
-
-                $ativos[] = $coringa;
-                $coringasMaster[] = $coringa;
-
-                $this->update($config, $coringa);
-            } else {
-                $coringasMaster[] = $this->insert($config, $coringa);
-            }
-
-            $coringas[] = $coringa;
+        } catch (\Exception $ex) {
+            throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
+
 
         $config->setDados($this->dados);
 
@@ -129,7 +134,11 @@ class MasterDetail
 
         $aRemover = \array_diff($doBanco, $ativos);
 
-        $this->removeItens($config, $aRemover);
+        try {
+            $this->removeItens($config, $aRemover);
+        } catch (\Exception $ex) {
+            throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+        }
     }
 
     private function update($config, $coringa)
@@ -166,6 +175,7 @@ class MasterDetail
             }
 
             $this->dados[$coringa][$campo] = $valorCampo;
+            $this->dados[$coringa]['_cod'] = $coringa;
 
             if ($objForm->getTipoBase() === 'upload') {
                 $objForm->setNome($objForm->getNome() . $coringa);
@@ -249,7 +259,9 @@ class MasterDetail
         $objPai->set($campoReferencia, $codigoReferencia, 'numero');
 
         if ($config->getGravar()) {
-            return $crudUtil->insert($tabela, $colunasCrud, $objPai, ['upload']);
+            $codGravado = $crudUtil->insert($tabela, $colunasCrud, $objPai, ['upload']);
+            $this->dados[$coringa]['_cod'] = $codGravado;
+            return $codGravado;
         }
     }
 
@@ -334,14 +346,14 @@ class MasterDetail
         }
 
         $itens = (array) \filter_input(\INPUT_POST, 'sisMasterDetailIten' . $nome, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
-        
+
         $totalItens = 0;
-        
-        foreach ($itens as $nomeCoringa){
-            if($nomeCoringa !== $coringa){
+
+        foreach ($itens as $nomeCoringa) {
+            if ($nomeCoringa !== $coringa) {
                 $totalItens++;
             }
-        }               
+        }
 
         if (!$valida->validaJSON(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)))) {
             throw new \Exception('O sistema não conseguiu recuperar o array de configuração corretamente!');
