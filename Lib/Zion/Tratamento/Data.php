@@ -491,7 +491,7 @@ class Data
     }
 
     public function getIntervaloExtenso(
-    $dataInicial, $dataFinal = '', $showAnos = true, $showMeses = true, $showDias = true)
+    $dataInicial, $dataFinal = '', $showAnos = true, $showMeses = true, $showDias = true, $showComplementos = true)
     {
 
         require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
@@ -542,9 +542,17 @@ class Data
 
         if ($showAnos) {
             if ($years > 0 && $years > 1) {
-                \array_push($diff, $years . ' anos');
+                if($showComplementos === true) {
+                    \array_push($diff, $years . ' anos');
+                } else {
+                    \array_push($diff, $years);
+                }
             } else if ($years == 1) {
-                \array_push($diff, ' 1 ano');
+                if($showComplementos === true) {
+                    \array_push($diff, ' 1 ano');
+                } else {
+                    \array_push($diff, ' 1');
+                }
             }
         }
 
@@ -606,7 +614,7 @@ class Data
         $data2 = empty($data2) ? \date('Y-m-d') : $data2;
         $data2 = $this->getDataParse($data2, 'Y-m-d');
         //print_r($data1);                
-        $diff = (\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) . $oper . \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year']));
+        $diff = (\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) - \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year']));
         return \floor($diff / (3600 * 24));
     }
 
