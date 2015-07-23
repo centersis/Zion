@@ -66,6 +66,13 @@ class FormHtml extends FormAtributos
         $ret['disabled'] = $this->attr('disabled', $config->getDisabled());
         $ret['classCss'] = $this->attr('classCss', $config->getClassCss());
 
+        // Adiciona atributos do input, se existirem
+        if (is_array($config->getAtributos())) {
+            foreach ($config->getAtributos() as $attrName => $v) {
+                $ret[$attrName] = "{$attrName}=\"{$v}\"";
+            }
+        }
+
         foreach ($ignore as $ignorar) {
             unset($ret[$ignorar]);
         }
