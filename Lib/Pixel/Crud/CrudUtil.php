@@ -269,7 +269,7 @@ class CrudUtil
         if ($buscaGeral) {
 
             $sql = $this->modoBusca($modoBusca, $filtroDinamico);
-            $queryBuilder->where($sql);
+            $queryBuilder->andWhere($sql);
         }
     }
 
