@@ -560,7 +560,7 @@ function sisSetAlert(a, b, c)
     if (a == 'false') {
         $.growl.error({title: 'Oops!', message: b, size: 'large', duration: time});
     } else if (a == 'true') {
-        $.growl.notice({title: 'Ueba!', message: b, size: 'large', duration: time});
+        $.growl.notice({title: 'Sucesso!', message: b, size: 'large', duration: time});
     } else if (a == 'warning') {
         $.growl.warning({title: 'Atenção!', message: b, size: 'large', duration: time});
     } else if (a == '') {

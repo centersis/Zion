@@ -32,6 +32,7 @@
 namespace Pixel\Form\MasterDetail;
 
 use \Zion\Form\Exception\FormException;
+use Pixel\Form\FormSetPixel;
 
 class FormMasterDetail
 {
@@ -63,6 +64,7 @@ class FormMasterDetail
     private $gravar;
     private $naoRepetir;
     private $sqlBusca;
+    private $complementoExterno;
 
     /**
      * Construtor
@@ -84,6 +86,8 @@ class FormMasterDetail
         $this->dados = [];
         $this->gravar = true;
         $this->naoRepetir = [];
+        
+        $this->formSetPixel = new FormSetPixel();
     }
 
     public function getAcao()
@@ -551,6 +555,17 @@ class FormMasterDetail
     public function getSqlBusca()
     {
         return $this->sqlBusca;
+    }
+    
+    public function setComplementoExterno($complementoExterno)
+    {
+        $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
+        return $this;
+    }
+    
+    public function getComplementoExterno()
+    {
+        return $this->complementoExterno;
     }
 
 }
