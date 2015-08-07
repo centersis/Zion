@@ -115,6 +115,12 @@ class Carregador
     {
         return $this->twig->render($caminho, $dados);
     }
+    
+    public function setCaminhoAbsolutoAntes($caminho)
+    {
+        $this->loader->prependPath($caminho);
+        return $this;
+    }
 
     public function setCaminhoAntes($caminho)
     {

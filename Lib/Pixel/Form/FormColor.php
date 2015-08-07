@@ -31,7 +31,10 @@
 
 namespace Pixel\Form;
 
-class FormColor extends \Zion\Form\FormBasico
+use Pixel\Form\FormSetPixel;
+use Zion\Form\FormBasico;
+
+class FormColor extends FormBasico
 {
 
     private $tipoBase;
@@ -51,7 +54,7 @@ class FormColor extends \Zion\Form\FormBasico
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
 
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
     }
 
     public function getTipoBase()
@@ -111,13 +114,13 @@ class FormColor extends \Zion\Form\FormBasico
     {
         return $this->processarJS;
     }
-    
+
     public function setComplementoExterno($complementoExterno)
     {
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;

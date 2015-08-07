@@ -28,15 +28,6 @@
 *
 */
 
-/**
- * \Zion\Form\FormInputCpf()
- *
- * @author The Sappiens Team
- * @copyright 2014
- * @version 2014
- * @access public
- */
-
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -52,12 +43,8 @@ class FormInputCpf extends FormBasico implements FilterableInput
     private $placeHolder;
     private $aliasSql;
     private $categoriaFiltro;
+    private $filtroPadrao;
 
-    /**
-     * FormInputCpf::__construct()
-     *
-     * @return
-     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'cpf';
@@ -67,37 +54,23 @@ class FormInputCpf extends FormBasico implements FilterableInput
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         $this->setMaximoCaracteres(14);
+        $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
-    /**
-     * FormInputCpf::getTipoBase()
-     *
-     * @return
-     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
-    /**
-     * FormInputCpf::getAcao()
-     *
-     * @return
-     */
     public function getAcao()
     {
         return $this->acao;
     }
 
-    /**
-     * FormInputCpf::setObrigarorio()
-     *
-     * @return
-     */
     public function setObrigarorio($obrigatorio)
     {
-        if (is_bool($obrigatorio)) {
+        if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
@@ -105,11 +78,6 @@ class FormInputCpf extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputCpf::getObrigatorio()
-     *
-     * @return
-     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
@@ -117,7 +85,7 @@ class FormInputCpf extends FormBasico implements FilterableInput
 
     public function setMaximoCaracteres($maximoCaracteres)
     {
-        if (is_numeric($maximoCaracteres)) {
+        if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
@@ -130,24 +98,14 @@ class FormInputCpf extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputCep::getMaximoCaracteres()
-     *
-     * @return
-     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
-    /**
-     * FormInputCep::setMinimoCaracteres()
-     *
-     * @return
-     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
-        if (is_numeric($minimoCaracteres)) {
+        if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
                 throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
@@ -160,21 +118,11 @@ class FormInputCpf extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputCep::getMinimoCaracteres()
-     *
-     * @return
-     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
-    /**
-     * FormInputCpf::setPlaceHolder()
-     *
-     * @return
-     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -185,34 +133,18 @@ class FormInputCpf extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputCpf::getPlaceHolder()
-     *
-     * @return
-     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
-    /**
-     * FormInputCpf::getAliasSql()
-     *
-     * @return string
-     */
     public function getAliasSql(){
         return $this->aliasSql;
     }
 
-    /**
-     * FormInputCpf::setAliasSql()
-     *
-     * @param string $aliasSql
-     *
-     */
     public function setAliasSql($aliasSql)
     {
-        if (!is_null($aliasSql)) {
+        if (!\is_null($aliasSql)) {
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
@@ -224,99 +156,54 @@ class FormInputCpf extends FormBasico implements FilterableInput
      * Sobrecarga de Metodos Básicos
      */
 
-    /**
-     * FormInputCpf::setId()
-     *
-     * @return
-     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setNome()
-     *
-     * @return
-     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setIdentifica()
-     *
-     * @return
-     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setValor()
-     *
-     * @return
-     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setValorPadrao()
-     *
-     * @return
-     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setDisabled()
-     *
-     * @return
-     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setComplemento()
-     *
-     * @return
-     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setAtributos()
-     *
-     * @return
-     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
-    /**
-     * FormInputCpf::setClassCss()
-     *
-     * @return
-     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
@@ -329,11 +216,6 @@ class FormInputCpf extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
     public function setCategoriaFiltro($tipo)
     {
         $this->categoriaFiltro = $tipo;
@@ -341,13 +223,20 @@ class FormInputCpf extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
     public function getCategoriaFiltro()
     {
         return $this->categoriaFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        $this->filtroPadrao = $filtroPadrao;
+
+        return $this;
+    }
+
+    public function getFiltroPadrao()
+    {
+        return $this->filtroPadrao;
     }
 }

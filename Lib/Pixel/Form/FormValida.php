@@ -28,23 +28,12 @@
 *
 */
 
-/**
- * \Pixel\Form\FormValida
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 09/10/2014
- * @version 1.0
- * @copyright 2014
- * 
- * Validação automatizada dos formulários
- *
- */
-
 namespace Pixel\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
-use \Zion\Form\Exception\FormInvalidArgumentException as FormInvalidArgumeException;
+use Zion\Validacao\Valida;
+use Zion\Form\FormValida as FormValidaZion;
 
-class FormValida extends \Zion\Form\FormValida
+class FormValida extends FormValidaZion
 {
 
     private $instance;
@@ -54,16 +43,10 @@ class FormValida extends \Zion\Form\FormValida
     private $data;
     private $geral;
 
-    /**
-     * FormValida::__construct()
-     * Construtor
-     * 
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
-        $valida = new \Zion\Validacao\Valida();
+        $valida = new Valida();
 
         $this->texto = $valida->texto();
         $this->numero = $valida->numero();

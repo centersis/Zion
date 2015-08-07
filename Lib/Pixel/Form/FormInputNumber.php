@@ -31,7 +31,10 @@
 
 namespace Pixel\Form;
 
-class FormInputNumber extends \Zion\Form\FormInputNumber
+use Zion\Form\FormInputNumber as FormInputNumberZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputNumber extends FormInputNumberZion
 {
 
     private $iconFA;
@@ -47,7 +50,7 @@ class FormInputNumber extends \Zion\Form\FormInputNumber
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
 
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
         $this->tipoFiltro = 'ValorVariavel';
         $this->setIconFA('fa-sort-numeric-asc');
     }
@@ -177,6 +180,12 @@ class FormInputNumber extends \Zion\Form\FormInputNumber
         return $this->tipoFiltro;
     }
 
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
+        return $this;
+    }
+    
     /**
      * Sobrecarga de Metodos Básicos
      */

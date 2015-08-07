@@ -28,15 +28,6 @@
 *
 */
 
-/**
- * \Zion\Form\FormInputEmail()
- *
- * @author The Sappiens Team
- * @copyright 2014
- * @version 2014
- * @access public
- */
-
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -52,12 +43,8 @@ class FormInputEmail extends FormBasico implements FilterableInput
     private $placeHolder;
     private $aliasSql;
     private $categoriaFiltro;
+    private $filtroPadrao;
 
-    /**
-     * FormInputEmail::__construct()
-     *
-     * @return
-     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'email';
@@ -66,37 +53,23 @@ class FormInputEmail extends FormBasico implements FilterableInput
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
-    /**
-     * FormInputEmail::getTipoBase()
-     *
-     * @return
-     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
-    /**
-     * FormInputEmail::getAcao()
-     *
-     * @return
-     */
     public function getAcao()
     {
         return $this->acao;
     }
 
-    /**
-     * FormInputEmail::setMaximoCaracteres()
-     *
-     * @return
-     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
-        if (is_numeric($maximoCaracteres)) {
+        if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
@@ -109,24 +82,14 @@ class FormInputEmail extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputEmail::getMaximoCaracteres()
-     *
-     * @return
-     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
-    /**
-     * FormInputEmail::setMinimoCaracteres()
-     *
-     * @return
-     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
-        if (is_numeric($minimoCaracteres)) {
+        if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
                 throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
@@ -139,21 +102,11 @@ class FormInputEmail extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputEmail::getMinimoCaracteres()
-     *
-     * @return
-     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
-    /**
-     * FormInputEmail::setObrigarorio()
-     *
-     * @return
-     */
     public function setObrigarorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
@@ -164,21 +117,11 @@ class FormInputEmail extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputEmail::getObrigatorio()
-     *
-     * @return
-     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
-    /**
-     * FormInputEmail::setPlaceHolder()
-     *
-     * @return
-     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -189,31 +132,15 @@ class FormInputEmail extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputEmail::getPlaceHolder()
-     *
-     * @return
-     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
-    /**
-     * FormInputEmail::getAliasSql()
-     *
-     * @return string
-     */
     public function getAliasSql(){
         return $this->aliasSql;
     }
 
-    /**
-     * FormInputEmail::setAliasSql()
-     *
-     * @param string $aliasSql
-     *
-     */
     public function setAliasSql($aliasSql)
     {
         if (!is_null($aliasSql)) {
@@ -227,100 +154,54 @@ class FormInputEmail extends FormBasico implements FilterableInput
     /**
      * Sobrecarga de Metodos Básicos
      */
-
-    /**
-     * FormInputEmail::setId()
-     *
-     * @return
-     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setNome()
-     *
-     * @return
-     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setIdentifica()
-     *
-     * @return
-     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setValor()
-     *
-     * @return
-     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setValorPadrao()
-     *
-     * @return
-     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setDisabled()
-     *
-     * @return
-     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setComplemento()
-     *
-     * @return
-     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setAtributos()
-     *
-     * @return
-     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
-    /**
-     * FormInputEmail::setClassCss()
-     *
-     * @return
-     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
@@ -333,11 +214,6 @@ class FormInputEmail extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
     public function setCategoriaFiltro($tipo)
     {
         $this->categoriaFiltro = $tipo;
@@ -345,13 +221,20 @@ class FormInputEmail extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
     public function getCategoriaFiltro()
     {
         return $this->categoriaFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        $this->filtroPadrao = $filtroPadrao;
+
+        return $this;
+    }
+
+    public function getFiltroPadrao()
+    {
+        return $this->filtroPadrao;
     }
 }

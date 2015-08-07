@@ -66,7 +66,7 @@ class FiltroForm
         }
 
         return array('normal' => $this->getFiltroNormal($objForm),
-            'operacaoE' => $this->getFiltroDuplo($objForm, 'e'),
+            //'operacaoE' => $this->getFiltroDuplo($objForm, 'e'),
             'moduloCod' => $moduloCod
         );
     }

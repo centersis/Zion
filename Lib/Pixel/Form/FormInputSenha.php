@@ -30,7 +30,9 @@
 
 namespace Pixel\Form;
 
-class FormInputSenha extends \Zion\Form\FormInputSenha
+use Zion\Form\FormInputSenha as FormInputSenhaZion;
+
+class FormInputSenha extends FormInputSenhaZion
 {
 
     private $iconFA;

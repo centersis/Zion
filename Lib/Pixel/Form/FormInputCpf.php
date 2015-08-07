@@ -31,7 +31,10 @@
 
 namespace Pixel\Form;
 
-class FormInputCpf extends \Zion\Form\FormInputCpf
+use Zion\Form\FormInputCpf as FormInputCpfZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputCpf extends FormInputCpfZion
 {
 
     private $iconFA;
@@ -46,7 +49,7 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
         $this->tipoFiltro = 'ValorFixo';
 
         $this->setPlaceHolder('000.000.000-00');
@@ -159,6 +162,12 @@ class FormInputCpf extends \Zion\Form\FormInputCpf
         return $this->tipoFiltro;
     }
 
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
+        return $this;
+    }
+    
     /**
      * Sobrecarga de Metodos Básicos
      */

@@ -41,7 +41,6 @@ use Zion\Banco\Conexao;
 use Pixel\Filtro\Filtrar;
 use Pixel\Arquivo\ArquivoUpload;
 use Pixel\Form\MasterDetail\MasterDetail;
-use Pixel\Form\MasterVinculo\MasterVinculo;
 use Zion\Form\Form;
 
 class CrudUtil
@@ -270,7 +269,7 @@ class CrudUtil
         if ($buscaGeral) {
 
             $sql = $this->modoBusca($modoBusca, $filtroDinamico);
-            $queryBuilder->where($sql);
+            $queryBuilder->andWhere($sql);
         }
     }
 
@@ -487,22 +486,24 @@ class CrudUtil
                     case 'upload':
 
                         $upload = new ArquivoUpload();
-                        $objeto->setCodigoReferencia($codigo);
+                        
+                        if (!$objeto->getCodigoReferencia()) {
+                            $objeto->setCodigoReferencia($codigo);
+                        }
+                        
                         $upload->sisUpload($objeto);
                         break;
 
                     case 'masterDetail':
 
                         $masterDetail = new MasterDetail();
-                        $objeto->setCodigoReferencia($codigo);
+
+                        if (!$objeto->getCodigoReferencia()) {
+                            $objeto->setCodigoReferencia($codigo);
+                        }
+
                         $masterDetail->gravar($objeto);
-                        break;
 
-                    case 'masterVinculo':
-
-                        $masterVinculo = new MasterVinculo();
-                        $objeto->setCodigoReferencia($codigo);
-                        $masterVinculo->gravar($objeto);
                         break;
                 }
             }
@@ -545,8 +546,10 @@ class CrudUtil
 
                 case 'masterDetail':
 
-                    $masterDetail = new \Pixel\Form\MasterDetail\MasterDetail();
-                    $objeto->setCodigoReferencia($codigo);
+                    $masterDetail = new MasterDetail();
+                    if (!$objeto->getCodigoReferencia()) {
+                        $objeto->setCodigoReferencia($codigo);
+                    }
                     $masterDetail->gravar($objeto);
                     break;
             }

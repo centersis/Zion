@@ -30,7 +30,10 @@
 
 namespace Pixel\Form;
 
-class FormInputButton extends \Zion\Form\FormInputButton
+use Zion\Form\FormInputButton as FormInputButtonZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputButton extends FormInputButtonZion
 {
 
     private $iconFA;
@@ -44,7 +47,7 @@ class FormInputButton extends \Zion\Form\FormInputButton
     public function __construct($acao, $nome, $identifica)
     {
         parent::__construct($acao, $nome, $identifica);
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
     }
  
     public function setMetodo($metodo)

@@ -28,15 +28,6 @@
 *
 */
 
-/**
- * \Zion\Form\FormInputCep()
- *
- * @author The Sappiens Team
- * @copyright 2014
- * @version 2014
- * @access public
- */
-
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
@@ -52,12 +43,8 @@ class FormInputCep extends FormBasico implements FilterableInput
     private $placeHolder;
     private $aliasSql;
     private $categoriaFiltro;
+    private $filtroPadrao;
 
-    /**
-     * FormInputCep::__construct()
-     *
-     * @return
-     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'cep';
@@ -67,34 +54,20 @@ class FormInputCep extends FormBasico implements FilterableInput
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
         $this->setMaximoCaracteres(10);
+        $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
-    /**
-     * FormInputCep::getTipoBase()
-     *
-     * @return
-     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
-    /**
-     * FormInputCep::getAcao()
-     *
-     * @return
-     */
     public function getAcao()
     {
         return $this->acao;
     }
 
-    /**
-     * FormInputCep::setMaximoCaracteres()
-     *
-     * @return
-     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
         if (is_numeric($maximoCaracteres)) {
@@ -111,24 +84,14 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * FormInputCep::getMaximoCaracteres()
-     *
-     * @return
-     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
-    /**
-     * FormInputCep::setMinimoCaracteres()
-     *
-     * @return
-     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
-        if (is_numeric($minimoCaracteres)) {
+        if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
                 throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
@@ -142,24 +105,14 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * FormInputCep::getMinimoCaracteres()
-     *
-     * @return
-     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
-    /**
-     * FormInputCep::setObrigarorio()
-     *
-     * @return
-     */
     public function setObrigarorio($obrigatorio)
     {
-        if (is_bool($obrigatorio)) {
+        if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
         } else {
             throw new FormException("obrigatorio: Valor não booleano");
@@ -168,21 +121,11 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * FormInputCep::getObrigatorio()
-     *
-     * @return
-     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
-    /**
-     * FormInputCep::setPlaceHolder()
-     *
-     * @return
-     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -194,24 +137,13 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * FormInputCep::getAliasSql()
-     *
-     * @return string
-     */
     public function getAliasSql(){
         return $this->aliasSql;
     }
 
-    /**
-     * FormInputCep::setAliasSql()
-     *
-     * @param string $aliasSql
-     *
-     */
     public function setAliasSql($aliasSql)
     {
-        if (!is_null($aliasSql)) {
+        if (!\is_null($aliasSql)) {
             $this->aliasSql = $aliasSql;
         } else {
             throw new FormException("aliasSql: Nenhum valor informado");
@@ -220,11 +152,6 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * FormInputCep::getPlaceHolder()
-     *
-     * @return
-     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
@@ -233,100 +160,54 @@ class FormInputCep extends FormBasico implements FilterableInput
     /**
      * Sobrecarga de Metodos Básicos
      */
-
-    /**
-     * FormInputCep::setId()
-     *
-     * @return
-     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
-
-    /**
-     * FormInputCep::setNome()
-     *
-     * @return
-     */
+    
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
-    /**
-     * FormInputCep::setIdentifica()
-     *
-     * @return
-     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
-    /**
-     * FormInputCep::setValor()
-     *
-     * @return
-     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
-    /**
-     * FormInputCep::setValorPadrao()
-     *
-     * @return
-     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
-    /**
-     * FormInputCep::setDisabled()
-     *
-     * @return
-     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
-    /**
-     * FormInputCep::setComplemento()
-     *
-     * @return
-     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
-    /**
-     * FormInputCep::setAtributos()
-     *
-     * @return
-     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
-    /**
-     * FormInputCep::setClassCss()
-     *
-     * @return
-     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
@@ -339,11 +220,6 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
     public function setCategoriaFiltro($categoria)
     {
         $this->categoriaFiltro = $categoria;
@@ -351,13 +227,20 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
     public function getCategoriaFiltro()
     {
         return $this->categoriaFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        $this->filtroPadrao = $filtroPadrao;
+
+        return $this;
+    }
+
+    public function getFiltroPadrao()
+    {
+        return $this->filtroPadrao;
     }
 }

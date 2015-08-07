@@ -30,7 +30,10 @@
 
 namespace Pixel\Form;
 
-class FormInputEmail extends \Zion\Form\FormInputEmail
+use Zion\Form\FormInputEmail as FormInputEmailZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputEmail extends FormInputEmailZion
 {
 
     private $iconFA;
@@ -46,7 +49,7 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
         $this->tipoFiltro = 'ValorFixo';
     }
 
@@ -154,6 +157,12 @@ class FormInputEmail extends \Zion\Form\FormInputEmail
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
+        return $this;
     }
     
     /**

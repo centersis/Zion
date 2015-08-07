@@ -30,7 +30,10 @@
 
 namespace Pixel\Form;
 
-class FormInputHidden extends \Zion\Form\FormInputHidden
+use Zion\Form\FormInputHidden as FormInputHiddenZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputHidden extends FormInputHiddenZion
 {
   
     private $formSetPixel;
@@ -39,7 +42,7 @@ class FormInputHidden extends \Zion\Form\FormInputHidden
     {
         parent::__construct($acao, $nome);
 
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
     }
 
 

@@ -31,7 +31,9 @@
 
 namespace Pixel\Form;
 
-class FormEscolha extends \Zion\Form\FormEscolha
+use Zion\Form\FormEscolha as FormEscolhaZion;
+
+class FormEscolha extends FormEscolhaZion
 {
 
     private $toolTipMsg;
@@ -221,6 +223,12 @@ class FormEscolha extends \Zion\Form\FormEscolha
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
+        return $this;
     }
 
     public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia, $parametros = [])

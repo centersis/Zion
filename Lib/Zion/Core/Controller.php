@@ -28,22 +28,11 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
-/**
- * Controller()
- * @author Pablo Vanni - pablovanni@gmail.com
- * @since 11/09/2014
- * @version 1.0
- * @copyright 2014
- * 
- * Controller
- */
 
 namespace Zion\Core;
 
 use Zion\Validacao\Valida;
 use Pixel\Layout\Tab;
-use Zion\Acesso\Acesso;
-use Pixel\Grid\Impressao;
 use Pixel\Twig\Carregador;
 
 class Controller
@@ -133,7 +122,7 @@ class Controller
             }
         }
 
-        if (empty($selecionados) or !\is_array($selecionados)) {
+        if (empty($selecionados) or ! \is_array($selecionados)) {
             throw new \Exception("Oops! Nenhum registro selecionado!");
         }
 
@@ -149,7 +138,7 @@ class Controller
         //return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'POST' ? true : false;
         return ($_SERVER['REQUEST_METHOD']) === 'POST' ? true : false;
     }
-    
+
     /**
      * Retona verdadeiro caso o metodo da requisição seja GET
      * @return boolean
@@ -158,7 +147,7 @@ class Controller
     {
         //return \filter_input(\INPUT_SERVER, 'REQUEST_METHOD') === 'GET' ? true : false;
         return ($_SERVER['REQUEST_METHOD']) === 'GET' ? true : false;
-    }    
+    }
 
     /**
      * Recupera o valor da variavel cod enviada via POST
@@ -168,7 +157,7 @@ class Controller
     {
         return \filter_input(\INPUT_POST, 'cod');
     }
-    
+
     /**
      * Recupera o valor da variavel cod enviada via GET
      * @return int
@@ -176,7 +165,7 @@ class Controller
     protected function getCod()
     {
         return \filter_input(\INPUT_GET, 'cod');
-    }    
+    }
 
     /**
      * Monta o layout do formulário em abas, após o primeiro parametro são 

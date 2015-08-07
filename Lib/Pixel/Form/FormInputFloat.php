@@ -30,7 +30,10 @@
 
 namespace Pixel\Form;
 
-class FormInputFloat extends \Zion\Form\FormInputFloat
+use Zion\Form\FormInputFloat as FormInputFloatZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputFloat extends FormInputFloatZion
 {
     private $iconFA;
     private $toolTipMsg;
@@ -46,7 +49,7 @@ class FormInputFloat extends \Zion\Form\FormInputFloat
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
         
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
         $this->tipoFiltro = 'ValorVariavel';
         $this->setIconFA('fa-calculator');
     }
@@ -166,6 +169,12 @@ class FormInputFloat extends \Zion\Form\FormInputFloat
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
+        return $this;
     }
     
     /**
