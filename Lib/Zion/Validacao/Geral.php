@@ -264,6 +264,6 @@ class Geral extends \Zion\Tratamento\Geral
     
     public function validaEmail($email)
     {
-        return (preg_match("/[a-z0-9]{1,}@[a-z0-9\.]{1,}/", $email) ? true : false);
+        return (\preg_match("/[a-z0-9]{1,}@[a-z0-9]{1,}\.[a-z0-9]{1,}/", $email) ? true : false);
     }
 }
