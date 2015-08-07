@@ -28,11 +28,11 @@
 *
 */
 
-/**
- * @author Pablo Vanni
- */
-
 namespace Zion\Form;
+
+use Pixel\Form\Form;
+use Zion\Layout\Html;
+use Pixel\Form\FormMasterDetail;
 
 class MasterDetailHtml
 {
@@ -41,10 +41,10 @@ class MasterDetailHtml
 
     public function __construct()
     {
-        $this->html = new \Zion\Layout\Html();
+        $this->html = new Html();
     }
 
-    public function montaMasterDetail(\Pixel\Form\FormMasterDetail $config)
+    public function montaMasterDetail(FormMasterDetail $config)
     {
         $totalInicio = $config->getTotalItensInicio();
 
@@ -69,7 +69,7 @@ class MasterDetailHtml
 
     private function montaGrupoDeCampos($config, $cont)
     {
-        $form = new \Pixel\Form\Form();
+        $form = new Form();
 
         $campos = $config->getCampos();
 
@@ -126,7 +126,7 @@ class MasterDetailHtml
         return $buffer;
     }
 
-    private function botaoAdd(\Pixel\Form\FormMasterDetail $config)
+    private function botaoAdd(FormMasterDetail $config)
     {
         $coringa = $this->coringa();
         $htmlModelo = $this->abreItem($config, $coringa) . $this->montaGrupoDeCampos($config, $coringa) . $this->fechaItem($config, $coringa);

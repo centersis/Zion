@@ -28,24 +28,15 @@
 *
 */
 
-/**
- * \Zion\Form\FormInputHora()
- *
- * @author The Sappiens Team
- * @copyright 2014
- * @version 2014
- * @access public
- */
 
 namespace Zion\Form;
-use \Zion\Form\Exception\FormException as FormException;
-use \Zion\Validacao\Data as Data;
 
-class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
+use \Zion\Form\Exception\FormException as FormException;
+use Zion\Form\FormBasico;
+use Zion\Validacao\Data;
+
+class FormInputHora extends FormBasico implements FilterableInput
 {
-   /**
-    * @var mixed $tipoBase
-    */
     private $tipoBase;
     private $acao;
     private $obrigatorio;
@@ -55,14 +46,10 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
     private $mostrarSegundos;
     private $aliasSql;
     private $categoriaFiltro;
+    private $filtroPadrao;
 
     private $hora;
 
-    /**
-     * FormInputHora::__construct()
-     *
-     * @return
-     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'hora';
@@ -73,36 +60,22 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::GREATER_THAN;
 
-        $this->hora = \Zion\Validacao\Data::instancia();
+        $this->hora = Data::instancia();
     }
 
-    /**
-     * FormInputHora::getTipoBase()
-     *
-     * @return
-     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
-    /**
-     * FormInputHora::getAcao()
-     *
-     * @return
-     */
     public function getAcao()
     {
         return $this->acao;
     }
 
-    /**
-     * FormInputHora::setHoraMinima()
-     *
-     * @return
-     */
     public function setHoraMinima($horaMinima)
     {
         if($this->hora->validaHora($horaMinima) === true){
@@ -119,21 +92,11 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputHora::getHoraMinima()
-     *
-     * @return
-     */
     public function getHoraMinima()
     {
         return $this->horaMinima;
     }
 
-    /**
-     * FormInputHora::setHoraMaxima()
-     *
-     * @return
-     */
     public function setHoraMaxima($horaMaxima)
     {
         if($this->hora->validaHora($horaMaxima)){
@@ -150,21 +113,11 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputHora::getHoraMaxima()
-     *
-     * @return
-     */
     public function getHoraMaxima()
     {
         return $this->horaMaxima;
     }
 
-    /**
-     * FormInputHora::setPlaceHolder()
-     *
-     * @return
-     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -175,24 +128,14 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputHora::getPlaceHolder()
-     *
-     * @return
-     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
-    /**
-     * FormInputHora::setObrigarorio()
-     *
-     * @return
-     */
     public function setObrigarorio($obrigatorio)
     {
-        if (is_bool($obrigatorio)) {
+        if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
@@ -200,24 +143,14 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputHora::getObrigatorio()
-     *
-     * @return
-     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
-    /**
-     * FormInputHora::setMostrarSegundos()
-     *
-     * @return
-     */
     public function setMostrarSegundos($mostrarSegundos)
     {
-        if (is_bool($mostrarSegundos)) {
+        if (\is_bool($mostrarSegundos)) {
             $this->mostrarSegundos = $mostrarSegundos;
             return $this;
         } else {
@@ -225,25 +158,14 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputHora::getMostrarSegundos()
-     *
-     * @return
-     */
     public function getMostrarSegundos()
     {
         return $this->mostrarSegundos;
     }
 
-    /**
-     * FormInputHora::setAliasSql()
-     *
-     * @param string $aliasSql
-     *
-     */
     public function setAliasSql($aliasSql)
     {
-        if (!is_null($aliasSql)) {
+        if (!\is_null($aliasSql)) {
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
@@ -251,11 +173,6 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputHora::getAliasSql()
-     *
-     * @return string
-     */
     public function getAliasSql(){
         return $this->aliasSql;
     }
@@ -264,99 +181,54 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
      * Sobrecarga de Metodos Básicos
      */
 
-    /**
-     * FormInputHora::setId()
-     *
-     * @return
-     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
-    /**
-     * FormInputHora::setNome()
-     *
-     * @return
-     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
-    /**
-     * FormInputHora::setIdentifica()
-     *
-     * @return
-     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
-    /**
-     * FormInputHora::setValor()
-     *
-     * @return
-     */
     public function setValor($valor)
     {
         parent::setValor($valor);
         return $this;
     }
 
-    /**
-     * FormInputHora::setValorPadrao()
-     *
-     * @return
-     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
-    /**
-     * FormInputHora::setDisabled()
-     *
-     * @return
-     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
-    /**
-     * FormInputHora::setComplemento()
-     *
-     * @return
-     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
-    /**
-     * FormInputHora::setAtributos()
-     *
-     * @return
-     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
-    /**
-     * FormInputHora::setClassCss()
-     *
-     * @return
-     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
@@ -369,11 +241,6 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
     public function setCategoriaFiltro($tipo)
     {
         $this->categoriaFiltro = $tipo;
@@ -381,13 +248,20 @@ class FormInputHora extends \Zion\Form\FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
     public function getCategoriaFiltro()
     {
         return $this->categoriaFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        $this->filtroPadrao = $filtroPadrao;
+
+        return $this;
+    }
+
+    public function getFiltroPadrao()
+    {
+        return $this->filtroPadrao;
     }
 }

@@ -325,7 +325,6 @@ class Form
 
     public function unsetObjeto($idObjeto)
     {
-
         if (\array_key_exists($idObjeto, $this->objetos)) {
             unset($this->objetos[$idObjeto]);
         }

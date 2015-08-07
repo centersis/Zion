@@ -31,7 +31,10 @@
 
 namespace Pixel\Form;
 
-class FormInputDataHora extends \Zion\Form\FormInputDataHora
+use Zion\Form\FormInputDataHora as FormInputDataHoraZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputDataHora extends FormInputDataHoraZion
 {
 
     private $iconFA;
@@ -47,7 +50,7 @@ class FormInputDataHora extends \Zion\Form\FormInputDataHora
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
 
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
         $this->tipoFiltro = 'ValorVariavel';
         $this->setIconFA('fa-clock-o');
     }
@@ -163,6 +166,12 @@ class FormInputDataHora extends \Zion\Form\FormInputDataHora
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
+        return $this;
     }
 
     /**

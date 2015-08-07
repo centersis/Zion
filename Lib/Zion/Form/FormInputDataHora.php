@@ -42,6 +42,7 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
     private $placeHolder;
     private $aliasSql;
     private $categoriaFiltro;
+    private $filtroPadrao;
 
     private $data;
 
@@ -55,36 +56,22 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::GREATER_THAN;
 
         $this->data = Data::instancia();
     }
 
-    /**
-     * FormInputData::getTipoBase()
-     *
-     * @return
-     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
-    /**
-     * FormInputData::getAcao()
-     *
-     * @return
-     */
     public function getAcao()
     {
         return $this->acao;
     }
 
-    /**
-     * FormInputData::setDataHoraMinima()
-     *
-     * @return
-     */
     public function setDataHoraMinima($dataHoraMinima)
     {
         if($this->data->validaData($dataHoraMinima) === true){
@@ -101,21 +88,11 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputData::getDataHoraMinima()
-     *
-     * @return
-     */
     public function getDataHoraMinima()
     {
         return $this->dataHoraMinima;
     }
 
-    /**
-     * FormInputData::setDataHoraMaxima()
-     *
-     * @return
-     */
     public function setDataHoraMaxima($dataHoraMaxima)
     {
         if($this->data->validaData($dataHoraMaxima)){
@@ -132,21 +109,11 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputData::getDataHoraMaxima()
-     *
-     * @return
-     */
     public function getDataHoraMaxima()
     {
         return $this->dataHoraMaxima;
     }
 
-    /**
-     * FormInputData::setPlaceHolder()
-     *
-     * @return
-     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -157,24 +124,14 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputData::getPlaceHolder()
-     *
-     * @return
-     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
-    /**
-     * FormInputData::setObrigarorio()
-     *
-     * @return
-     */
     public function setObrigarorio($obrigatorio)
     {
-        if (is_bool($obrigatorio)) {
+        if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
@@ -182,34 +139,18 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputData::getObrigatorio()
-     *
-     * @return
-     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
-    /**
-     * FormInputData::getAliasSql()
-     *
-     * @return string
-     */
     public function getAliasSql(){
         return $this->aliasSql;
     }
 
-    /**
-     * FormInputData::setAliasSql()
-     *
-     * @param string $aliasSql
-     *
-     */
     public function setAliasSql($aliasSql)
     {
-        if (!is_null($aliasSql)) {
+        if (!\is_null($aliasSql)) {
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
@@ -220,45 +161,24 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
     /**
      * Sobrecarga de Metodos Básicos
      */
-
-    /**
-     * FormInputData::setId()
-     *
-     * @return
-     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
-    /**
-     * FormInputData::setNome()
-     *
-     * @return
-     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
-    /**
-     * FormInputData::setIdentifica()
-     *
-     * @return
-     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
-    /**
-     * FormInputData::setValor()
-     *
-     * @return
-     */
     public function setValor($valor)
     {
         parent::setValor($valor);
@@ -272,55 +192,30 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         return $valor;
     }
 
-    /**
-     * FormInputData::setValorPadrao()
-     *
-     * @return
-     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
-    /**
-     * FormInputData::setDisabled()
-     *
-     * @return
-     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
-    /**
-     * FormInputData::setComplemento()
-     *
-     * @return
-     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
-    /**
-     * FormInputData::setAtributos()
-     *
-     * @return
-     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
-    /**
-     * FormInputData::setClassCss()
-     *
-     * @return
-     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
@@ -333,11 +228,6 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
     public function setCategoriaFiltro($tipo)
     {
         $this->categoriaFiltro = $tipo;
@@ -345,13 +235,20 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
     public function getCategoriaFiltro()
     {
         return $this->categoriaFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        $this->filtroPadrao = $filtroPadrao;
+
+        return $this;
+    }
+
+    public function getFiltroPadrao()
+    {
+        return $this->filtroPadrao;
     }
 }

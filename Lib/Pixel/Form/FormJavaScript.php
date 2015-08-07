@@ -30,7 +30,9 @@
 
 namespace Pixel\Form;
 
-class FormJavaScript extends \Zion\Layout\JavaScript
+use Zion\Layout\JavaScript;
+
+class FormJavaScript extends JavaScript
 {
 
     public static $instancia;

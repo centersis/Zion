@@ -31,7 +31,10 @@
 
 namespace Pixel\Form;
 
-class FormInputTelefone extends \Zion\Form\FormInputTelefone
+use Zion\Form\FormInputTelefone as FormInputTelefoneZion;
+use Pixel\Form\FormSetPixel;
+
+class FormInputTelefone extends FormInputTelefoneZion
 {
 
     private $iconFA;
@@ -46,7 +49,7 @@ class FormInputTelefone extends \Zion\Form\FormInputTelefone
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
         $this->tipoFiltro = 'ValorFixo';
     }
 
@@ -138,6 +141,12 @@ class FormInputTelefone extends \Zion\Form\FormInputTelefone
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
+        return $this;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
         return $this;
     }
     

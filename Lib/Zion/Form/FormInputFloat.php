@@ -28,15 +28,6 @@
 *
 */
 
-/**
- * \Zion\Form\FormInputFloat()
- *
- * @author The Sappiens Team
- * @copyright 2014
- * @version 2014
- * @access public
- */
-
 namespace Zion\Form;
 
 use Zion\Form\Exception\FormException;
@@ -55,14 +46,10 @@ class FormInputFloat extends FormBasico implements FilterableInput
     private $placeHolder;
     private $aliasSql;
     private $categoriaFiltro;
+    private $filtroPadrao;
 
     private $numero;
 
-    /**
-     * FormInputFloat::__construct()
-     *
-     * @return
-     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'float';
@@ -71,39 +58,25 @@ class FormInputFloat extends FormBasico implements FilterableInput
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::EQUAL;
 
         $this->numero = Numero::instancia();
     }
 
-    /**
-     * FormInputFloat::getTipoBase()
-     *
-     * @return
-     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
-    /**
-     * FormInputFloat::getAcao()
-     *
-     * @return
-     */
     public function getAcao()
     {
         return $this->acao;
     }
 
-    /**
-     * FormInputFloat::setLargura()
-     *
-     * @return
-     */
     public function setLargura($largura)
     {
-        if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
+        if (\preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
             $this->largura = $largura;
             return $this;
         } else {
@@ -111,21 +84,11 @@ class FormInputFloat extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputFloat::getLargura()
-     *
-     * @return
-     */
     public function getLargura()
     {
         return $this->largura;
     }
 
-    /**
-     * FormInputFloat::setValorMaximo()
-     *
-     * @return
-     */
     public function setValorMaximo($valorMaximo)
     {
         if($this->numero->isFloat($valorMaximo) === true){
@@ -141,21 +104,11 @@ class FormInputFloat extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputFloat::getValorMaximo()
-     *
-     * @return
-     */
     public function getValorMaximo()
     {
         return $this->valorMaximo;
     }
 
-    /**
-     * FormInputFloat::setValorMinimo()
-     *
-     * @return
-     */
     public function setValorMinimo($valorMinimo)
     {
         if($this->numero->isFloat($valorMinimo) === true){
@@ -171,24 +124,14 @@ class FormInputFloat extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputFloat::getValorMinimo()
-     *
-     * @return
-     */
     public function getValorMinimo()
     {
         return $this->valorMinimo;
     }
 
-    /**
-     * FormInputFloat::setPrefixo()
-     *
-     * @return
-     */
     public function setPrefixo($prefixo)
     {
-        if(!is_null($prefixo)){
+        if(!\is_null($prefixo)){
             $this->prefixo = $prefixo;
             return $this;
         } else {
@@ -196,24 +139,14 @@ class FormInputFloat extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputFloat::getPrefixo()
-     *
-     * @return
-     */
     public function getPrefixo()
     {
         return $this->prefixo;
     }
 
-    /**
-     * FormInputFloat::setObrigarorio()
-     *
-     * @return
-     */
     public function setObrigarorio($obrigatorio)
     {
-        if (is_bool($obrigatorio)) {
+        if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
@@ -221,21 +154,11 @@ class FormInputFloat extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputFloat::getObrigatorio()
-     *
-     * @return
-     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
-    /**
-     * FormInputFloat::setPlaceHolder()
-     *
-     * @return
-     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -246,25 +169,14 @@ class FormInputFloat extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputFloat::getPlaceHolder()
-     *
-     * @return
-     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
-    /**
-     * FormInputFloat::setAliasSql()
-     *
-     * @param string $aliasSql
-     *
-     */
     public function setAliasSql($aliasSql)
     {
-        if (!is_null($aliasSql)) {
+        if (!\is_null($aliasSql)) {
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
@@ -272,11 +184,6 @@ class FormInputFloat extends FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputFloat::getAliasSql()
-     *
-     * @return string
-     */
     public function getAliasSql(){
         return $this->aliasSql;
     }
@@ -285,44 +192,24 @@ class FormInputFloat extends FormBasico implements FilterableInput
      * Sobrecarga de Metodos Básicos
      */
 
-    /**
-     * FormInputFloat::setId()
-     *
-     * @return
-     */
     public function setId($id)
     {
         parent::setId($id);
         return $this;
     }
 
-    /**
-     * FormInputFloat::setNome()
-     *
-     * @return
-     */
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
 
-    /**
-     * FormInputFloat::setIdentifica()
-     *
-     * @return
-     */
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
 
-    /**
-     * FormInputFloat::setValor()
-     *
-     * @return
-     */
     public function setValor($valor)
     {
         parent::setValor($valor);
@@ -336,55 +223,30 @@ class FormInputFloat extends FormBasico implements FilterableInput
         return $valor ? $this->numero->floatCliente($valor) : $valor;
     }
 
-    /**
-     * FormInputFloat::setValorPadrao()
-     *
-     * @return
-     */
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
 
-    /**
-     * FormInputFloat::setDisabled()
-     *
-     * @return
-     */
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
 
-    /**
-     * FormInputFloat::setComplemento()
-     *
-     * @return
-     */
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
         return $this;
     }
 
-    /**
-     * FormInputFloat::setAtributos()
-     *
-     * @return
-     */
     public function setAtributos($atributos)
     {
         parent::setAtributos($atributos);
         return $this;
     }
 
-    /**
-     * FormInputFloat::setClassCss()
-     *
-     * @return
-     */
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
@@ -397,11 +259,6 @@ class FormInputFloat extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
     public function setCategoriaFiltro($tipo)
     {
         $this->categoriaFiltro = $tipo;
@@ -409,13 +266,20 @@ class FormInputFloat extends FormBasico implements FilterableInput
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
     public function getCategoriaFiltro()
     {
         return $this->categoriaFiltro;
+    }
+    
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        $this->filtroPadrao = $filtroPadrao;
+
+        return $this;
+    }
+
+    public function getFiltroPadrao()
+    {
+        return $this->filtroPadrao;
     }
 }

@@ -100,6 +100,12 @@ class FormInputTexto extends FormInputTextoZion
         return $this;
     }
 
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        parent::setFiltroPadrao($filtroPadrao);
+        return $this;
+    }
+
     public function setPrefixo($prefixo)
     {
         $this->prefixo = $prefixo;

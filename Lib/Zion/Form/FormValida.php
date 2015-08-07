@@ -28,22 +28,11 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
-/**
- * \Zion\Form\FormValida
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 25/09/2014
- * @version 1.0
- * @copyright 2014
- * 
- * Validação automatizada dos formulários
- *
- */
 
 namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 use \Zion\Form\Exception\FormInvalidArgumentException as FormInvalidArgumeException;
-
 use Zion\Validacao\Valida;
 
 class FormValida
@@ -73,7 +62,7 @@ class FormValida
      * @var object $instances
      */
     private $instances = [];
-    
+
     /**
      * FormValida::__construct()
      * Construtor
@@ -105,15 +94,15 @@ class FormValida
         }
 
         $className = \get_class($formInput);
-        
-        $vendorName = \substr($className, 0, \strpos($className, '\\'));        
+
+        $vendorName = \substr($className, 0, \strpos($className, '\\'));
 
         $this->setInstances([\addslashes($className),
-                             \preg_replace('/[' . $vendorName . ']{' . \strlen($vendorName) . '}/', 'Zion', \addslashes($className)),
-                             \addslashes(\get_parent_class($formInput)),
-                             \addslashes("Zion\Form\FormBasico"),
-                             '\W'
-                            ]);
+            \preg_replace('/[' . $vendorName . ']{' . \strlen($vendorName) . '}/', 'Zion', \addslashes($className)),
+            \addslashes(\get_parent_class($formInput)),
+            \addslashes("Zion\Form\FormBasico"),
+            '\W'
+        ]);
 
         return $this;
     }
@@ -134,14 +123,14 @@ class FormValida
             return true;
         }
 
-        $userValue      = $formInput->getValor();
-        $identifica     = $formInput->getIdentifica();
-        $obrigatorio    = (\in_array('obrigatorio', $attrs) ? $formInput->getObrigatorio() : false);
-        $disabled       = (\in_array('disabled', $attrs) ? $formInput->getDisabled() : false);
-        
+        $userValue = $formInput->getValor();
+        $identifica = $formInput->getIdentifica();
+        $obrigatorio = (\in_array('obrigatorio', $attrs) ? $formInput->getObrigatorio() : false);
+        $disabled = (\in_array('disabled', $attrs) ? $formInput->getDisabled() : false);
+
         $acao = \strtoupper($formInput->getAcao());
-        
-        if($disabled === true){
+
+        if ($disabled === true) {
             return true;
         }
 
@@ -335,9 +324,9 @@ class FormValida
     protected function getAtributos($formInput)
     {
         $this->configuraInstances($formInput);
-        
-        $instances =  \array_map(function($val){
-            return '/'. $val .'/';
+
+        $instances = \array_map(function($val) {
+            return '/' . $val . '/';
         }, $this->instances);
 
         $attrs = array();
@@ -351,20 +340,19 @@ class FormValida
         return $attrs;
     }
 
-    protected function getInstances() 
+    protected function getInstances()
     {
         return $this->instances;
     }
 
-    protected function setInstances($instance) 
+    protected function setInstances($instance)
     {
-        if(\is_array($instance)){
+        if (\is_array($instance)) {
             $this->instances = $instance;
         } else {
             \array_push($this->instances, $instance);
         }
         return $this;
     }
-
 
 }

@@ -1,47 +1,42 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-*
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
 /**
- * \Zion\Form\FormInputNumber()
  *
- * @author The Sappiens Team
- * @copyright 2014
- * @version 2014
- * @access public
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
+ *
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
  */
 
 namespace Zion\Form;
-use \Zion\Form\Exception\FormException as FormException;
 
-class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
+use \Zion\Form\Exception\FormException as FormException;
+use Zion\Form\FormBasico;
+
+class FormInputNumber extends FormBasico implements FilterableInput
 {
+
     private $tipoBase;
     private $acao;
     private $largura;
@@ -53,12 +48,8 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
     private $placeHolder;
     private $aliasSql;
     private $categoriaFiltro;
+    private $filtroPadrao;
 
-    /**
-     * FormInputNumber::__construct()
-     *
-     * @return
-     */
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         $this->tipoBase = 'number';
@@ -67,37 +58,23 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         $this->setId($nome);
         $this->setIdentifica($identifica);
         $this->setObrigarorio($obrigatorio);
+        $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::EQUAL;
     }
 
-    /**
-     * FormInputNumber::getTipoBase()
-     *
-     * @return
-     */
     public function getTipoBase()
     {
         return $this->tipoBase;
     }
 
-    /**
-     * FormInputNumber::getAcao()
-     *
-     * @return
-     */
     public function getAcao()
     {
         return $this->acao;
     }
 
-    /**
-     * FormInputNumber::setLargura()
-     *
-     * @return
-     */
     public function setLargura($largura)
     {
-        if (preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
+        if (\preg_match('/^[0-9]{1,}[%]{1}$|^[0-9]{1,}[px]{2}$|^[0-9]{1,}$/', $largura)) {
             $this->largura = $largura;
             return $this;
         } else {
@@ -105,54 +82,33 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputNumber::getLargura()
-     *
-     * @return
-     */
     public function getLargura()
     {
         return $this->largura;
     }
 
-    /**
-     * FormInputNumber::setMaximoCaracteres()
-     *
-     * @return
-     */
     public function setMaximoCaracteres($maximoCaracteres)
     {
-        if (is_numeric($maximoCaracteres)) {
+        if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
                 throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
-
         } else {
             throw new FormException("maximoCaracteres: Valor não numérico.");
         }
     }
 
-    /**
-     * FormInputNumber::getMaximoCaracteres()
-     *
-     * @return
-     */
     public function getMaximoCaracteres()
     {
         return $this->maximoCaracteres;
     }
 
-    /**
-     * FormInputNumber::setMinimoCaracteres()
-     *
-     * @return
-     */
     public function setMinimoCaracteres($minimoCaracteres)
     {
-        if (is_numeric($minimoCaracteres)) {
+        if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
                 throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
@@ -165,26 +121,16 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputNumber::getMinimoCaracteres()
-     *
-     * @return
-     */
     public function getMinimoCaracteres()
     {
         return $this->minimoCaracteres;
     }
 
-    /**
-     * FormInputNumber::setValorMinimo()
-     *
-     * @return
-     */
     public function setValorMinimo($valorMinimo)
     {
-        if(is_numeric($valorMinimo)){
+        if (\is_numeric($valorMinimo)) {
 
-            if(isset($this->valorMaximo) and ($valorMinimo > $this->valorMaximo)) {
+            if (isset($this->valorMaximo) and ( $valorMinimo > $this->valorMaximo)) {
                 throw new FormException("valorMinimo não pode ser maior que valorMaximo.");
             }
 
@@ -195,26 +141,16 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputNumber::getValorMinimo()
-     *
-     * @return
-     */
     public function getValorMinimo()
     {
         return $this->valorMinimo;
     }
 
-    /**
-     * FormInputNumber::setValorMaximo()
-     *
-     * @return
-     */
     public function setValorMaximo($valorMaximo)
     {
-        if(is_numeric($valorMaximo)){
+        if (\is_numeric($valorMaximo)) {
 
-            if(isset($this->valorMinimo) and ($valorMaximo < $this->valorMinimo)) {
+            if (isset($this->valorMinimo) and ( $valorMaximo < $this->valorMinimo)) {
                 throw new FormException("valorMaximo não pode ser menor que valorMinimo.");
             }
 
@@ -225,24 +161,14 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputNumber::getValorMaximo()
-     *
-     * @return
-     */
     public function getValorMaximo()
     {
         return $this->valorMaximo;
     }
 
-    /**
-     * FormInputNumber::setObrigarorio()
-     *
-     * @return
-     */
     public function setObrigarorio($obrigatorio)
     {
-        if (is_bool($obrigatorio)) {
+        if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
@@ -250,21 +176,11 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputNumber::getObrigatorio()
-     *
-     * @return
-     */
     public function getObrigatorio()
     {
         return $this->obrigatorio;
     }
 
-    /**
-     * FormInputNumber::setPlaceHolder()
-     *
-     * @return
-     */
     public function setPlaceHolder($placeHolder)
     {
         if (!empty($placeHolder)) {
@@ -275,25 +191,14 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputNumber::getPlaceHolder()
-     *
-     * @return
-     */
     public function getPlaceHolder()
     {
         return $this->placeHolder;
     }
 
-    /**
-     * FormInputNumber::setAliasSql()
-     *
-     * @param string $aliasSql
-     *
-     */
     public function setAliasSql($aliasSql)
     {
-        if (!is_null($aliasSql)) {
+        if (!\is_null($aliasSql)) {
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
@@ -301,12 +206,8 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
         }
     }
 
-    /**
-     * FormInputNumber::getAliasSql()
-     *
-     * @return string
-     */
-    public function getAliasSql(){
+    public function getAliasSql()
+    {
         return $this->aliasSql;
     }
 
@@ -440,4 +341,17 @@ class FormInputNumber extends \Zion\Form\FormBasico implements FilterableInput
     {
         return $this->categoriaFiltro;
     }
+
+    public function setFiltroPadrao($filtroPadrao)
+    {
+        $this->filtroPadrao = $filtroPadrao;
+
+        return $this;
+    }
+
+    public function getFiltroPadrao()
+    {
+        return $this->filtroPadrao;
+    }
+
 }
