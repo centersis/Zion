@@ -46,10 +46,12 @@ class FormTag
     private $classCss;
     private $header;
     private $acaoSubmit;
+    private $validacaoJS;
 
     public function setId($id)
     {
         $this->id = $id;
+        $this->validacaoJS = true;
         return $this;
     }
 
@@ -177,6 +179,17 @@ class FormTag
     public function getAcaoSubmit()
     {
         return $this->acaoSubmit;
+    }
+    
+    public function setValidacaoJS($validacaoJS)
+    {
+        $this->validacaoJS = $validacaoJS;
+        return $this;
+    }
+
+    public function getValidacaoJS()
+    {
+        return $this->validacaoJS;
     }
 
 }
