@@ -447,7 +447,7 @@ class Form extends FormZion
             }
         }
 
-        $buffer['javascript'] = $this->formConfig->getValidacaoJS() ? $this->javaScript()->getLoad(true): '';
+        $buffer['javascript'] = $this->javaScript()->getLoad(true);
 
         return $buffer;
     }
