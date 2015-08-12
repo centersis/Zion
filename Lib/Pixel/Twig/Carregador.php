@@ -42,9 +42,9 @@ class Carregador
     private $conf;
     protected $dir;
 
-    public function __construct($namespace = '')
+    public function __construct($namespace = '', $paths = [])
     {
-        $this->caminhos = [];
+        $this->caminhos = $paths;
         $this->dir = new ManipulaDiretorio();
 
         if ($namespace) {
@@ -184,4 +184,8 @@ class Carregador
         }));
     }
 
+    public function getCaminhos()
+    {
+        return $this->caminhos;
+    }
 }
