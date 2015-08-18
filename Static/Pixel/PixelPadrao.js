@@ -1155,3 +1155,54 @@ function sisRemoverFiltroSalvo(usuarioFiltroCod, urlBase, moduloCod){
 
 /* REMOVER FILTROS SALVOS */
 
+/* RELATORIOS INTERNOS */
+function sisRelatorioInterno(acao, cod, temView, acaoView)
+{
+    if(!cod || !acao){
+        
+        alert('Dados insuficientes para a geração do relatório!');
+        
+        return;
+    }
+    
+    if(temView && acaoView){
+
+        $.ajax({
+            type: "get", 
+            url: '?acao='+acao, 
+            data: {
+                'c': cod
+            }, 
+            dataType: "json"
+        }).done(function (data) {
+             
+            if(data.sucesso === 'true'){
+                
+                $('#sisRelICod').val(cod);
+                $('#sisRelIAcao').val(acaoView);
+
+                $('#sisRelatorioInternoConteudo').html(data.retorno);
+                
+                $('#sisRelatorioInterno').modal('show');
+            }
+            else{
+                alert('Houve um erro e o relatório não pode ser carregado.\n'+data.retorno);
+            }
+        
+        });
+    }
+    else{        
+        
+        window.open('?acao='+acao, 'sisRelInterno');
+    }
+}
+
+function sisSubmitRelatorioInterno()
+{
+    var sisRelICod = $('#sisRelICod').val();
+    var sisRelIAcao = $('#sisRelIAcao').val();    
+    
+    window.open('?acao='+sisRelIAcao+'&cod='+sisRelICod+'&'+$.param($("#sisRelatorioInternoForm").serializeArray()), 'sisRelInterno');
+    
+    $('#sisRelatorioInterno').modal('hide');
+}

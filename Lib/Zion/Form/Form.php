@@ -32,27 +32,7 @@
 namespace Zion\Form;
 
 use Zion\Form\Exception\FormException;
-use Zion\Form\FormLayout;
-use Zion\Form\FormHtml;
-use Zion\Form\FormTag;
-use Zion\Form\FormInputHidden;
-use Zion\Form\FormInputTexto;
-use Zion\Form\FormInputData;
-use Zion\Form\FormInputHora;
-use Zion\Form\FormInputSenha;
-use Zion\Form\FormInputNumber;
-use Zion\Form\FormInputFloat;
-use Zion\Form\FormInputCpf;
-use Zion\Form\FormInputCnpj;
-use Zion\Form\FormInputCep;
-use Zion\Form\FormInputTelefone;
-use Zion\Form\FormInputEmail;
-use Zion\Form\FormEscolha;
-use Zion\Form\FormInputTextArea;
-use Zion\Form\FormUpload;
-use Zion\Form\FormInputButton;
 use Zion\Tratamento\Tratamento;
-use Zion\Form\FormValida;
 
 class Form
 {

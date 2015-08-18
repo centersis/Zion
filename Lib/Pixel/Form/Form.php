@@ -34,28 +34,8 @@ namespace Pixel\Form;
 use Zion\Form\Form as FormZion;
 use Pixel\Form\FormHtml;
 use Zion\Layout\Html;
-use Pixel\Form\FormInputTexto;
-use Pixel\Form\FormInputSuggest;
-use Pixel\Form\FormInputData;
-use Pixel\Form\FormInputHora;
-use Pixel\Form\FormInputDataHora;
-use Pixel\Form\FormInputSenha;
-use Pixel\Form\FormInputNumber;
-use Pixel\Form\FormInputFloat;
-use Pixel\Form\FormInputCpf;
-use Pixel\Form\FormInputCnpj;
-use Pixel\Form\FormInputCep;
-use Pixel\Form\FormInputTelefone;
-use Pixel\Form\FormInputEmail;
-use Pixel\Form\FormEscolha;
-use Pixel\Form\FormChosen;
-use Pixel\Form\FormInputTextArea;
-use Pixel\Form\FormUpload;
 use Zion\Form\FormInputButton;
-use Pixel\Form\FormColor;
 use Pixel\Form\MasterDetail\FormMasterDetail;
-use Pixel\Form\FormPixelJavaScript;
-use Pixel\Form\FormJavaScript;
 
 class Form extends FormZion
 {
@@ -196,7 +176,7 @@ class Form extends FormZion
 
         return $botaoDescartar;
     }
-    
+
     public function botaoDescartarAbas()
     {
         $botaoDescartarAbas = new FormInputButton('button', 'sisDescartaAbas', 'Descartar');
@@ -305,7 +285,7 @@ class Form extends FormZion
                     break;
                 case 'masterDetail':
                     $htmlCampos[$idCampo] = $this->formPixel->montaMasterDetail($objCampos, $this->formConfig->getNome());
-                    break;                
+                    break;
                 case 'telefone' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaTelefone($objCampos);
                     break;
@@ -366,6 +346,8 @@ class Form extends FormZion
 
     public function montaForm($disabled = false)
     {
+        $relatorio = new FormRelatorio();
+
         $buffer = [];
 
         if ($disabled) {
@@ -392,6 +374,11 @@ class Form extends FormZion
         $buffer['formConfig']['complemento'] = $this->formConfig->getComplemento();
         $buffer['formConfig']['classCss'] = $this->formConfig->getClassCss();
         $buffer['formConfig']['header'] = $this->formConfig->getHeader();
+
+        //Relatório
+        if ($this->get('cod')) {
+            $buffer['formRelatorio'] = $relatorio->relatorioInterno($this->get('cod'));
+        }
 
         foreach ($campos as $nome => $textoHtml) {
 

@@ -30,7 +30,9 @@
 
 namespace Pixel\Form;
 
-class FormChosen extends \Zion\Form\FormEscolha
+use Zion\Form\FormEscolha as FormEscolhaZion;
+
+class FormChosen extends FormEscolhaZion
 {
 
     private $toolTipMsg;
