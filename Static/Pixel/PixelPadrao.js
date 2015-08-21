@@ -487,43 +487,6 @@ function sisRemoverMasterDetail(container, id) {
     }
 }
 
-/*MASTER VINCULO*/
-
-function sisAddMasterVinculo(container) {
-
-    var conf = $.parseJSON($("#sisMasterVinculoConf" + container).val().replace(/'/g, '"'));
-
-    var atual = $("#sisMasterVinculo" + container + " div[id^='sisMasterVinculoIten" + container + "']").length - 1; //Ignorando o campo modelo
-
-    if (atual >= conf.addMax) {
-        sisSetAlert('', 'Não foi possível adicionar, pois este grupo permite no máximo ' + conf.addMax + ' itens');
-    }
-    else {
-        var novoCoringa = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
-
-        var modeloHtml = converteModelo($("#sisMasterVinculoModeloHtml" + container).html(), String(conf.coringa), novoCoringa);
-        var modeloJs = converteModelo($("#sisMasterVinculoModeloJS" + container).html(), String(conf.coringa), novoCoringa);
-        $("#sisMasterVinculoAppend" + container).append(modeloHtml);
-
-        var novoModelo = modeloJs.replace(/&amp;/g, '&');
-        eval(novoModelo);
-    }
-}
-
-function sisRemoverMasterVinculo(container, id) {
-
-    var conf = $.parseJSON($("#sisMasterVinculoConf" + container).val().replace(/'/g, '"'));
-
-    var atual = $("#sisMasterVinculo" + container + " div[id^='sisMasterVinculoIten" + container + "']").length - 1; //Ignorando o campo modelo
-
-    if (atual <= conf.addMin) {
-        sisSetAlert('', 'Não foi possível remover, pois este grupo requer no mínimo ' + conf.addMin + ' itens');
-    }
-    else {
-        $("#sisMasterVinculoIten" + container + id).remove();
-    }
-}
-
 // DIALOG
 function sisSetDialog(msg, actionTrue)
 {
