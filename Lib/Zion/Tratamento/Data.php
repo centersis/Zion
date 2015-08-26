@@ -460,8 +460,6 @@ class Data
 
         if (empty($dataInicial)) {
             $dataInicial = \date('Y-m-d');
-        } else {
-            $dataInicial = \substr($dataInicial, 0, 4);
         }
 
         $arrayData = $this->getDataParse($dataInicial, 'Y-m-d');
