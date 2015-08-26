@@ -99,10 +99,15 @@ class Carregador
             return \SIS_URL_BASE_SITE . $url;
         });
 
+        $urlBaseStorage = new \Twig_SimpleFunction('urlBaseStorage', function ($url) {
+            return \SIS_URL_BASE_STORAGE . $url;
+        });        
+        
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
         $this->twig->addFunction($urlFramework);
         $this->twig->addFunction($urlBaseSite);
+        $this->twig->addFunction($urlBaseStorage);
         $this->trataLegenda();
 
     }

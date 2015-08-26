@@ -540,13 +540,13 @@ class Data
 
         if ($showAnos) {
             if ($years > 0 && $years > 1) {
-                if($showComplementos === true) {
+                if ($showComplementos === true) {
                     \array_push($diff, $years . ' anos');
                 } else {
                     \array_push($diff, $years);
                 }
             } else if ($years == 1) {
-                if($showComplementos === true) {
+                if ($showComplementos === true) {
                     \array_push($diff, ' 1 ano');
                 } else {
                     \array_push($diff, ' 1');
@@ -590,30 +590,34 @@ class Data
         $data1 = $this->getDataParse($data1, 'Y-m-d');
         $data2 = empty($data2) ? \date('Y-m-d') : $data2;
         $data2 = $this->getDataParse($data2, 'Y-m-d');
-        
-        if($oper === 'MaiorOuIgual') {
-            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) >= \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
-        } elseif($oper === 'MenorOuIgual') {
-            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) <= \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
-        } elseif($oper === 'Maior') {
-            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) > \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
-        } elseif($oper === 'Menor') {
-            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) < \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
-        } elseif($oper === 'Igual') {
-            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) == \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;            
-        }
 
+        if ($oper === 'MaiorOuIgual') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) >= \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
+        } elseif ($oper === 'MenorOuIgual') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) <= \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
+        } elseif ($oper === 'Maior') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) > \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
+        } elseif ($oper === 'Menor') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) < \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
+        } elseif ($oper === 'Igual') {
+            return(\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) == \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year'])) ? true : false;
+        }
     }
 
-    public function getIntervaloDatasParaDias($data1, $data2 = '', $oper = '-')
-    {
+    public function getIntervaloDatasParaDias($dataInicio, $dataFim = '')
+    {        
+        list($diaI, $mesI, $anoI) = \split('[/.-]', $dataInicio);
+        list($diaF, $mesF, $anoF) = \split('[/.-]', ($dataFim ? $dataFim : \date('d/m/Y')));        
 
-        $data1 = $this->getDataParse($data1, 'Y-m-d');
-        $data2 = empty($data2) ? \date('Y-m-d') : $data2;
-        $data2 = $this->getDataParse($data2, 'Y-m-d');
-        //print_r($data1);                
-        $diff = (\mktime(0, 0, 0, $data1['month'], $data1['day'], $data1['year']) - \mktime(0, 0, 0, $data2['month'], $data2['day'], $data2['year']));
-        return \floor($diff / (3600 * 24));
+        $mkTimeInicio = \mktime(0, 0, 0, $mesI, $diaI, $anoI);
+        $mkTimeFim = \mktime(0, 0, 0, $mesF, $diaF, $anoF);
+
+        if (($mkTimeFim - $mkTimeInicio) >= 0) {
+            return \round(($mkTimeFim - $mkTimeInicio) / 86400);
+        } else {
+            return false;
+            //throw new \Exception("Data::getIntervaloDatasParaDias - Data Inicial Maior Que a Data Final");
+        }
     }
 
 }
