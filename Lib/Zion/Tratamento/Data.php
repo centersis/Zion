@@ -617,7 +617,8 @@ class Data
         if (($mkTimeFim - $mkTimeInicio) >= 0) {
             return \round(($mkTimeFim - $mkTimeInicio) / 86400);
         } else {
-            throw new \Exception("Data::getIntervaloDatasParaDias - Data Inicial Maior Que a Data Final");
+            return false;
+            //throw new \Exception("Data::getIntervaloDatasParaDias - Data Inicial Maior Que a Data Final");
         }
     }
 
