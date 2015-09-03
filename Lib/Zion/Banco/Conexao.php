@@ -172,7 +172,7 @@ class Conexao
      * em caso de SELECT ou o número de linhas afetadas em caso de Insert
      * Update e Delete 
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
-     * @return ResultSet
+     * @return \Doctrine\DBAL\Driver\Statement
      * @throws \Exception
      */
     public function executar($sql)
