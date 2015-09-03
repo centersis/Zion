@@ -345,6 +345,10 @@ class Texto
                     
                     $tratados[$k][$key] = $this->trata->data()->getIntervaloExtenso($val);
 
+                } elseif(isset($tratamentos['TRATA']['TIMEAGO']) and \in_array($key, $tratamentos['TRATA']['TIMEAGO'])) {
+                    
+                    $tratados[$k][$key] = $this->trata->data()->getTimeAgo($val);
+
                 }
             }
         }
