@@ -101,15 +101,14 @@ class Carregador
 
         $urlBaseStorage = new \Twig_SimpleFunction('urlBaseStorage', function ($url) {
             return \SIS_URL_BASE_STORAGE . $url;
-        });        
-        
+        });
+
         $this->twig->addFunction($urlBase);
         $this->twig->addFunction($urlBaseTema);
         $this->twig->addFunction($urlFramework);
         $this->twig->addFunction($urlBaseSite);
         $this->twig->addFunction($urlBaseStorage);
         $this->trataLegenda();
-
     }
 
     /**
@@ -228,7 +227,7 @@ class Carregador
      */
     public function setConf($conf)
     {
-        if(\is_array($conf)){
+        if (\is_array($conf)) {
             $key = \key($conf);
             $this->conf[$key] = $conf[$key];
         }
@@ -243,18 +242,18 @@ class Carregador
     private function trataLegenda()
     {
         $this->twig()->addFunction(new \Twig_SimpleFunction('trataLegenda', function ($legenda) {
-            if(\strlen($legenda) > 10){
+            if (\strlen($legenda) > 10) {
                 return \preg_replace([
-                    '/class="table-footer"/',
-                    '/<div class="col-sm-1">/',
-                    '|</div>|',
-                    '/btn-block/'
-                ], [
-                    '',
-                    '',
-                    '',
-                    ''
-                ], $legenda) .'</div></div>';
+                            '/class="table-footer"/',
+                            '/<div class="col-sm-1">/',
+                            '|</div>|',
+                            '/btn-block/'
+                                ], [
+                            '',
+                            '',
+                            '',
+                            ''
+                                ], $legenda) . '</div></div>';
             } else {
                 return NULL;
             }
@@ -270,4 +269,5 @@ class Carregador
     {
         return $this->caminhos;
     }
+
 }

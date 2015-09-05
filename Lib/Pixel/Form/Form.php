@@ -36,6 +36,7 @@ use Pixel\Form\FormHtml;
 use Zion\Layout\Html;
 use Zion\Form\FormInputButton;
 use Pixel\Form\MasterDetail\FormMasterDetail;
+use App\Sistema\Ajuda\AjudaView;
 
 class Form extends FormZion
 {
@@ -378,6 +379,12 @@ class Form extends FormZion
         //Relatório
         if ($this->get('cod')) {
             $buffer['formRelatorio'] = $relatorio->relatorioInterno($this->get('cod'));
+        }
+        
+        if($this->getAcao())
+        {
+            $ajudaViewClass = new AjudaView();
+            $buffer['ajuda'] = $ajudaViewClass->getAjuda(\MODULO, $this->getAcao());
         }
 
         foreach ($campos as $nome => $textoHtml) {
