@@ -380,11 +380,14 @@ class Form extends FormZion
         if ($this->get('cod')) {
             $buffer['formRelatorio'] = $relatorio->relatorioInterno($this->get('cod'));
         }
-        
-        if($this->getAcao())
-        {
-            $ajudaViewClass = new AjudaView();
-            $buffer['ajuda'] = $ajudaViewClass->getAjuda(\MODULO, $this->getAcao());
+
+        if ($this->getAcao()) {
+            try {
+                $ajudaViewClass = new AjudaView();
+                $buffer['ajuda'] = $ajudaViewClass->getAjuda(\MODULO, $this->getAcao());
+            } catch (\Exception $e) {
+                // noop
+            }
         }
 
         foreach ($campos as $nome => $textoHtml) {
