@@ -32,6 +32,7 @@
 namespace Pixel\Form;
 
 use Zion\Form\FormEscolha as FormEscolhaZion;
+use Pixel\Form\FormSetPixel;
 
 class FormEscolha extends FormEscolhaZion
 {
@@ -48,6 +49,7 @@ class FormEscolha extends FormEscolhaZion
     private $metodoDependencia;
     private $classeDependencia;
     private $parametros;
+    private $hashAjuda;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -55,7 +57,7 @@ class FormEscolha extends FormEscolhaZion
 
         $this->inLine = true;
         $this->tipoFiltro = 'ValorFixo';
-        $this->formSetPixel = new \Pixel\Form\FormSetPixel();
+        $this->formSetPixel = new FormSetPixel();
     }
 
     public function setObrigarorio($obrigatorio)
@@ -214,6 +216,17 @@ class FormEscolha extends FormEscolhaZion
         return $this->complementoExterno;
     }
 
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
+    }
+    
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);

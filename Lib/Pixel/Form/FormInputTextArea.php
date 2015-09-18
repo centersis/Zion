@@ -44,6 +44,7 @@ class FormInputTextArea extends FormInputTextAreaZion
     private $offsetColuna;
     private $processarJS;
     private $complementoExterno;
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -213,6 +214,17 @@ class FormInputTextArea extends FormInputTextAreaZion
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
+    }
+    
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
     }
 
     /**

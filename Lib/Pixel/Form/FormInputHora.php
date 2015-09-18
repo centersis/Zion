@@ -44,6 +44,7 @@ class FormInputHora extends FormInputHoraZion
     private $processarJS;
     private $complementoExterno;
     private $tipoFiltro;
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -155,6 +156,17 @@ class FormInputHora extends FormInputHoraZion
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
+    }
+    
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
     }
     
     public function setTipoFiltro($tipoFiltro)

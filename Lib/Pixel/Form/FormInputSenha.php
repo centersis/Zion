@@ -42,7 +42,7 @@ class FormInputSenha extends FormInputSenhaZion
     private $processarJS;
     private $complementoExterno;
     private $tipoFiltro;
-    
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -150,6 +150,17 @@ class FormInputSenha extends FormInputSenhaZion
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
+    }
+    
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
     }
     
     public function getTipoFiltro()
