@@ -10,6 +10,7 @@
     "require": {
         "twig/twig": "~1.0",
         "doctrine/dbal": ">=2.3.5",
-		"nette/mail": "2.3.0"
+		"nette/mail": "2.3.0",
+		"facebook/php-sdk-v4" : "~5.0"
     } 
 }

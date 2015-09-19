@@ -232,8 +232,7 @@ class PDF
             $mpdf->setFooter('{PAGENO}/{nbpg}');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html, 2);
-//            $mpdf->Output($titulo, 'D');
-print('<style type="text/css">'. $stylesheet .'</style>'. $html);
+            $mpdf->Output($titulo, 'D');
         } catch (Exception $e) {
             return false;
         }
