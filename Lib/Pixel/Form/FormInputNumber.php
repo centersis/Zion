@@ -44,6 +44,7 @@ class FormInputNumber extends FormInputNumberZion
     private $processarJS;
     private $complementoExterno;
     private $tipoFiltro;
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -167,6 +168,17 @@ class FormInputNumber extends FormInputNumberZion
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
+    }
+    
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
     }
     
     public function setTipoFiltro($tipoFiltro)

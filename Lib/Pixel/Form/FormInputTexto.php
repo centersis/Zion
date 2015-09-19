@@ -48,6 +48,7 @@ class FormInputTexto extends FormInputTextoZion
     private $processarJS;
     private $complementoExterno;
     private $tipoFiltro;
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -258,6 +259,17 @@ class FormInputTexto extends FormInputTextoZion
         return $this;
     }
 
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
+    }
+    
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;

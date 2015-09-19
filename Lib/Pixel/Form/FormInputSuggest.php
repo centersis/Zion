@@ -69,6 +69,7 @@ class FormInputSuggest extends FormBasico
     private $processarJS;
     private $complementoExterno;
     private $tipoFiltro;
+    private $hashAjuda;
     private $formSetPixel;
     private $method;
 
@@ -545,6 +546,17 @@ class FormInputSuggest extends FormBasico
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
+    }
+    
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
     }
 
     public function setMethod($method)

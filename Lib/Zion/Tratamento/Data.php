@@ -380,17 +380,17 @@ class Data
         if ($completo === NULL) {
 
             if ($diff['y'] > 0) {
-                $textAgo = $diff['y'] . ($diff['y'] > 1 ? ' Anos' : ' Ano');
+                $textAgo = $diff['y'] . ($diff['y'] > 1 ? ' anos' : ' ano');
             } elseif ($diff['y'] == 0 and $diff['m'] > 0) {
-                $textAgo = $diff['m'] . ($diff['m'] > 1 ? ' Meses' : ' Mês');
+                $textAgo = $diff['m'] . ($diff['m'] > 1 ? ' meses' : ' mês');
             } elseif ($diff['m'] == 0 and $diff['d'] > 0) {
-                $textAgo = $diff['d'] . ($diff['d'] > 1 ? ' Dias' : ' Dia');
+                $textAgo = $diff['d'] . ($diff['d'] > 1 ? ' dias' : ' dia');
             } elseif ($diff['d'] == 0 and $diff['h'] > 0) {
-                $textAgo = $diff['h'] . ($diff['h'] > 1 ? ' Horas' : ' Hora');
+                $textAgo = $diff['h'] . ($diff['h'] > 1 ? ' horas' : ' hora');
             } elseif ($diff['h'] == 0 and $diff['i'] > 0) {
-                $textAgo = $diff['i'] . ($diff['i'] > 1 ? ' Minutos' : ' Minuto');
+                $textAgo = $diff['i'] . ($diff['i'] > 1 ? ' minutos' : ' minuto');
             } elseif ($diff['i'] == 0 and $diff['s'] > 0) {
-                $textAgo = $diff['s'] . ($diff['s'] > 1 ? ' Segundos' : ' Segundo');
+                $textAgo = $diff['s'] . ($diff['s'] > 1 ? ' segundos' : ' segundo');
             } elseif ($diff['h'] == 0 and $diff['m'] == 0 and $diff['s'] == 0) {
                 $textAgo = 'Agora mesmo';
             } else {

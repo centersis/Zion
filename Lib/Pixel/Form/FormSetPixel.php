@@ -202,5 +202,22 @@ class FormSetPixel
             throw new FormException("complementoExterno: valor informado é inválido, use null ou uma string");
         }
     }
+    
+    /**
+     * String que corresponde ao hash de ajuda previamente cadastrado no 
+     * sistema
+     * Ex: 'x7f5s18'
+     * @param string | null $hashAjuda
+     * @return string | null
+     * @throws FormException
+     */
+    public function setHashAjuda($hashAjuda)
+    {
+        if (\is_null($hashAjuda) or \is_string($hashAjuda)) {
+            return $hashAjuda;
+        } else {
+            throw new FormException("hashAjuda: valor informado é inválido, use null ou uma string");
+        }
+    }
 
 }

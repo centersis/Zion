@@ -43,6 +43,7 @@ class FormColor extends FormBasico
     private $offsetColuna;
     private $processarJS;
     private $complementoExterno;
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -124,6 +125,17 @@ class FormColor extends FormBasico
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
+    }
+    
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
     }
 
     /**

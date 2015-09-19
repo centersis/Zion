@@ -51,6 +51,7 @@ class FormUpload extends FormUploadZion
     private $minimoArquivos;
     private $maximoArquivos;
     private $nomeCampo;
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $tratarComo)
@@ -293,6 +294,17 @@ class FormUpload extends FormUploadZion
         return $this;
     }
 
+    public function setHashAjuda($hashAjuda)
+    {
+        $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
+        return $this;
+    }
+    
+    public function getHashAjuda()
+    {
+        return $this->hashAjuda;
+    }
+    
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;

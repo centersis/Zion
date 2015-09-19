@@ -155,8 +155,8 @@ class MasterDetailHtml
 
         $nomeOriginal = '';
 
-        foreach ($campos as $nomeOriginal => $configuracao) {
-
+        foreach ($campos as $nomeOriginal => $configuracao) {            
+            
             $arCampos = [];
 
             $novoNomeId = $nomeOriginal . $coringa;
@@ -220,6 +220,10 @@ class MasterDetailHtml
 
             if (\method_exists($configuracao, 'getIconFA') and $configuracao->getIconFA()) {
                 $this->buffer['iconFA'][$nomeOriginal] = 'fa ' . $configuracao->getIconFA() . ' form-control-feedback';
+            }
+            
+            if (\method_exists($configuracao, 'getComplementoExterno') and $configuracao->getComplementoExterno()) {
+                $this->buffer['complementoExterno'][$nomeOriginal] = $configuracao->getComplementoExterno();
             }
 
             $js = $pixelJs->getJsExtraObjeto($arCampos, $nomeForm);
