@@ -312,6 +312,11 @@ class FormPixelJavaScript
 
             $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").tooltip();';
         }
+        
+        if (\method_exists($config, 'getMascara') and $config->getMascara()) {
+
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("'.$config->getMascara().'");';
+        }
 
         if ($config->getAcao() == 'senha' and $config->getNome() == 'validaSenhaUser') {
             $this->extra[] = '$(".fa-lock").attr("id", "iconFA").attr("title", "Informe sua senha para homologação destas alterações."); $("#' . $formNome . ' #' . $config->getId() . '").keyup(function($e){validaSenhaUser(this, "' . \SIS_URL_BASE . 'Ext/Remoto/ValidaSenha/' . '");});';
