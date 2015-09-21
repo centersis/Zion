@@ -36,6 +36,7 @@ use Zion\Banco\Conexao;
 use Pixel\Form\Form;
 use Pixel\Form\FormPixelJavaScript;
 use Pixel\Twig\Carregador;
+use App\Sistema\Ajuda\AjudaView;
 
 class MasterDetailHtml
 {
@@ -154,6 +155,7 @@ class MasterDetailHtml
         $campos = $config->getCampos();
 
         $nomeOriginal = '';
+        $ajudaViewClass = null;
 
         foreach ($campos as $nomeOriginal => $configuracao) {            
             
@@ -198,6 +200,18 @@ class MasterDetailHtml
 
             $this->buffer['tipos'][$nomeOriginal] = $configuracao->getTipoBase();
 
+            if (\method_exists($configuracao, 'getHashAjuda') and $configuracao->getHashAjuda()) {
+
+                try {
+                    $ajudaViewClass = (\is_object($ajudaViewClass)) ? $ajudaViewClass : new AjudaView();
+
+                     $this->buffer['ajudaHash'][$nomeOriginal] = $ajudaViewClass->getAjudaHash($configuracao->getHashAjuda());
+                } catch (\Exception $e) {
+                    // noop
+                }
+            }
+            
+            
             if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
                 $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
 

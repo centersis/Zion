@@ -381,6 +381,8 @@ class Form extends FormZion
             $buffer['formRelatorio'] = $relatorio->relatorioInterno($this->get('cod'));
         }
 
+        $ajudaViewClass = null;
+
         if ($this->getAcao()) {
             try {
                 $ajudaViewClass = new AjudaView();
@@ -404,6 +406,17 @@ class Form extends FormZion
 
             if (\method_exists($this->objetos[$nome], 'getLabelAntes') and $this->objetos[$nome]->getLabelAntes()) {
                 $buffer['labelAntes'][$nome] = $this->objetos[$nome]->getLabelAntes();
+            }
+
+            if (\method_exists($this->objetos[$nome], 'getHashAjuda') and $this->objetos[$nome]->getHashAjuda()) {
+
+                try {
+                    $ajudaViewClass = (\is_object($ajudaViewClass)) ? $ajudaViewClass : new AjudaView();
+
+                    $buffer['ajudaHash'][$nome] = $ajudaViewClass->getAjudaHash($this->objetos[$nome]->getHashAjuda());
+                } catch (\Exception $e) {
+                    // noop
+                }
             }
 
             if (\method_exists($this->objetos[$nome], 'getLabelAntes') and $this->objetos[$nome]->getLabelDepois()) {
