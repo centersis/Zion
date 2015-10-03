@@ -249,6 +249,8 @@ class Form
                     case 'datahora': case 'datetime':
                         $this->objetos[$nome] = new FormInputDataHora('dateTime', $nome, '-', false);
                         break;
+                    case 'hidden':
+                        $this->objetos[$nome] = new FormInputHidden('hidden', $nome);
                     default :
                         $this->objetos[$nome] = new FormInputTexto('texto', $nome, '-', false);
                 }
