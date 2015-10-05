@@ -251,6 +251,7 @@ class Form
                         break;
                     case 'hidden':
                         $this->objetos[$nome] = new FormInputHidden('hidden', $nome);
+                        break;
                     default :
                         $this->objetos[$nome] = new FormInputTexto('texto', $nome, '-', false);
                 }
