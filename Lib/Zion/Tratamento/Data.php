@@ -489,7 +489,12 @@ class Data
     }
 
     public function getIntervaloExtenso(
-    $dataInicial, $dataFinal = '', $showAnos = true, $showMeses = true, $showDias = true, $showComplementos = true)
+            $dataInicial, 
+            $dataFinal = '', 
+            $showAnos = true, 
+            $showMeses = true, 
+            $showDias = true, 
+            $showComplementos = true)
     {
 
         require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
@@ -606,9 +611,11 @@ class Data
 
     public function getIntervaloDatasParaDias($dataInicio, $dataFim = '')
     {        
-        list($diaI, $mesI, $anoI) = \split('[/.-]', $dataInicio);
-        list($diaF, $mesF, $anoF) = \split('[/.-]', ($dataFim ? $dataFim : \date('d/m/Y')));        
+        list($anoI, $mesI, $diaI) = \split('[/.-]', $dataInicio);
+        list($anoF, $mesF, $diaF) = \split('[/.-]', ($dataFim ? $dataFim : \date('d/m/Y')));        
 
+        //echo $anoF;
+        
         $mkTimeInicio = \mktime(0, 0, 0, $mesI, $diaI, $anoI);
         $mkTimeFim = \mktime(0, 0, 0, $mesF, $diaF, $anoF);
 
