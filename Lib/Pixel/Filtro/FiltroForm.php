@@ -99,7 +99,7 @@ class FiltroForm
                 'campoObjeto' => $objCampo,
                 'campoJs' => $objForm->processarJSObjeto($objCampo),
                 'tipoFiltro' => $tipoFiltro,
-                'filtroPadrao' => $objCampo->getFiltroPadrao()
+                'filtroPadrao' => \method_exists($objCampo, 'getFiltroPadrao') ? $objCampo->getFiltroPadrao() : null
             ]);
         }
 
@@ -135,7 +135,7 @@ class FiltroForm
             'campoObjeto' => $objCampo,
             'campoJs' => $objForm->processarJSObjeto($objCampo),
             'tipoFiltro' => $tipoFiltro,
-            'filtroPadrao' => $objCampo->getFiltroPadrao()
+            'filtroPadrao' => \method_exists($objCampo, 'getFiltroPadrao') ? $objCampo->getFiltroPadrao() : null
         );
     }
 
