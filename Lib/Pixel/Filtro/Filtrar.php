@@ -110,7 +110,7 @@ class Filtrar
                 if ($valor <> '') {
 
                     $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp01' . $rand))
-                            ->setParameter('camp01' . $rand, $queryBuilder->expr()->literal($valor), \PDO::PARAM_STR);
+                        ->setParameter('camp01' . $rand, $queryBuilder->expr()->literal($valor), \PDO::PARAM_STR);
                     return;
                 }
 
@@ -209,13 +209,6 @@ class Filtrar
             } else {
                 $this->condicoes($campoBanco, $operadorA, $valorA, $acaoA, $queryBuilder);
             }
-        } elseif ($clausula == 'o') {
-            if ($valorB <> '') {
-                $sql = " AND (($campoBanco $operadorA $valorA) OR ($campoBanco $operadorB $valorB)) ";
-            } else {
-                //$sql = " AND $campoBanco $operadorA $valorA ";
-                $this->condicoes($campoBanco, $operadorA, $valorA, $acaoA, $queryBuilder);
-            }
         }
     }
 
@@ -245,46 +238,50 @@ class Filtrar
                         $valor = $tratar->data()->converteData($valor);
                     }
 
+                    if ($acao == 'float') {
+                        $valor = $tratar->numero()->floatBanco($valor);
+                    }
+
                     switch ($operador) {
                         case '=':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '>':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->gt($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '<':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->lt($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '>=':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->gte($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '<=':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->lte($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '<>':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->neq($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
                     }

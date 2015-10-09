@@ -52,6 +52,7 @@ class FiltroForm
     public function montaFiltro($objForm)
     {
         $moduloCod = 0;
+
         if (\defined('MODULO')) {
 
             $con = Conexao::conectar();
@@ -59,16 +60,21 @@ class FiltroForm
             $qbModulo = $con->qb();
 
             $qbModulo->select('moduloCod')
-                    ->from('_modulo', '')
-                    ->where($qbModulo->expr()->eq('moduloNome', $qbModulo->expr()->literal(\MODULO)));
+                ->from('_modulo', '')
+                ->where($qbModulo->expr()->eq('moduloNome', $qbModulo->expr()->literal(\MODULO)));
 
             $moduloCod = $con->execRLinha($qbModulo);
         }
 
-        return array('normal' => $this->getFiltroNormal($objForm),
-            //'operacaoE' => $this->getFiltroDuplo($objForm, 'e'),
+        $FiltrosE = [];
+        if (\method_exists($objForm, 'getOperacaoE')) {
+            $FiltrosE = $objForm->getOperacaoE();
+        }
+
+        return ['normal' => $this->getFiltroNormal($objForm),
+            'operacaoE' => $this->getFiltroDuplo($objForm, 'e', $FiltrosE),
             'moduloCod' => $moduloCod
-        );
+        ];
     }
 
     private function getFiltroNormal($objForm)
@@ -92,19 +98,24 @@ class FiltroForm
                 'campoHtml' => $objForm->getFormHtml($nomeObjeto),
                 'campoObjeto' => $objCampo,
                 'campoJs' => $objForm->processarJSObjeto($objCampo),
-                'tipoFiltro' => $tipoFiltro
+                'tipoFiltro' => $tipoFiltro,
+                'filtroPadrao' => $objCampo->getFiltroPadrao()
             ]);
         }
 
         return $objeto;
     }
 
-    private function getFiltroDuplo($objForm, $prefixo)
+    private function getFiltroDuplo($objForm, $prefixo, $selecionados)
     {
         $objetos = $objForm->getObjetos();
         $objeto = [];
 
         foreach ($objetos as $nomeObjeto => $objCampo) {
+
+            if (!\in_array($nomeObjeto, $selecionados)) {
+                continue;
+            }
 
             \array_push($objeto, $this->getCampoDuplo($objForm, $nomeObjeto, $objCampo, $prefixo, 'A'));
             \array_push($objeto, $this->getCampoDuplo($objForm, $nomeObjeto, $objCampo, $prefixo, 'B'));
@@ -124,6 +135,7 @@ class FiltroForm
             'campoObjeto' => $objCampo,
             'campoJs' => $objForm->processarJSObjeto($objCampo),
             'tipoFiltro' => $tipoFiltro,
+            'filtroPadrao' => $objCampo->getFiltroPadrao()
         );
     }
 

@@ -638,17 +638,29 @@ function parametrosFiltro(origem)
 
     $.each(campos, function (pos, campo) {
 
-        var nome = $('#' + campo.name).attr('name');
-        var valor = $('#' + campo.name).val();
-        var p = nome.substr(0, 1);
-        var h = nome.substr(0, 4);
+        if(campo.value !== '' && $('#' + campo.name).attr('type') != 'hidden'){            
+            var nome = $('#' + campo.name).attr('name');
+            var valor = $('#' + campo.name).val();
+            var p = nome.substr(0, 1);
+            var h = nome.substr(0, 4);
 
-        if (valor !== '') {
-            if (p === origem || h === 'sho' + origem || h === 'sha' + origem) {
-                par.push({
-                    name: campo.name,
-                    value: campo.value
-                });
+            if (valor !== '') {
+                if (p === origem || h === 'sho' + origem || h === 'sha' + origem) {
+                    par.push({
+                        name: campo.name,
+                        value: campo.value
+                    });
+                    
+                    par.push({
+                        name: 'sho'+campo.name,
+                        value: $('#sho' + campo.name).val()
+                    });
+                    
+                    par.push({
+                        name: 'sha'+campo.name,
+                        value: $('#sha' + campo.name).val()
+                    });
+                }
             }
         }
     });

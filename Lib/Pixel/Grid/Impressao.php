@@ -28,17 +28,6 @@
 *
 */
 
-/**
- * 
- * @author Feliphe Bueno - feliphezion@gmail.com
- * @since 9/1/2015
- * @version 1.0
- * @copyright 2015
- * 
- * 
- * 
- */
-
 namespace Pixel\Grid;
 
 class Impressao
