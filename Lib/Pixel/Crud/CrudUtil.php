@@ -454,7 +454,7 @@ class CrudUtil
                 }
 
                 $qb->andWhere($qb->expr()->eq($campo, '?'))
-                        ->setParameter($pos, $valor, $tipo);
+                    ->setParameter($pos, $valor, $tipo);
             }
 
             $linhasAfetadas = $this->con->executar($qb);
@@ -486,11 +486,11 @@ class CrudUtil
                     case 'upload':
 
                         $upload = new ArquivoUpload();
-                        
+
                         if (!$objeto->getCodigoReferencia()) {
                             $objeto->setCodigoReferencia($codigo);
                         }
-                        
+
                         $upload->sisUpload($objeto);
                         break;
 
@@ -527,7 +527,7 @@ class CrudUtil
             }
 
             $qb->andWhere($qb->expr()->eq($campo, '?'))
-                    ->setParameter($pos, $valor, $tipo);
+                ->setParameter($pos, $valor, $tipo);
         }
 
         return $this->con->executar($qb);
@@ -692,8 +692,8 @@ class CrudUtil
             $qbModulo = $this->con->qb();
 
             $qbModulo->select('moduloCod')
-                    ->from('_modulo', '')
-                    ->where($qbModulo->expr()->eq('moduloNome', $qbModulo->expr()->literal(\MODULO)));
+                ->from('_modulo', '')
+                ->where($qbModulo->expr()->eq('moduloNome', $qbModulo->expr()->literal(\MODULO)));
 
             $moduloCod = $this->con->execRLinha($qbModulo);
 
@@ -704,21 +704,21 @@ class CrudUtil
             if (is_numeric($ufc)) {
 
                 $qb->select('usuarioFiltroColunas')
-                        ->from('_usuario_filtro', '')
-                        ->andWhere($qb->expr()->eq('usuarioFiltroCod', ':usuarioFiltroCod'))
-                        ->setParameter('usuarioFiltroCod', $ufc);
+                    ->from('_usuario_filtro', '')
+                    ->andWhere($qb->expr()->eq('usuarioFiltroCod', ':usuarioFiltroCod'))
+                    ->setParameter('usuarioFiltroCod', $ufc);
             } else {
 
                 $qb->select('usuarioGridColunas')
-                        ->from('_usuario_grid', '');
+                    ->from('_usuario_grid', '');
             }
 
             $qb->andWhere($qb->expr()->eq('usuarioCod', ':usuarioCod'))
-                    ->andWhere($qb->expr()->eq('moduloCod', ':moduloCod'))
-                    ->andWhere($qb->expr()->eq('organogramaCod', ':organogramaCod'))
-                    ->setParameter('usuarioCod', $_SESSION['usuarioCod'])
-                    ->setParameter('moduloCod', $moduloCod)
-                    ->setParameter('organogramaCod', $_SESSION['organogramaCod']);
+                ->andWhere($qb->expr()->eq('moduloCod', ':moduloCod'))
+                ->andWhere($qb->expr()->eq('organogramaCod', ':organogramaCod'))
+                ->setParameter('usuarioCod', $_SESSION['usuarioCod'])
+                ->setParameter('moduloCod', $moduloCod)
+                ->setParameter('organogramaCod', $_SESSION['organogramaCod']);
 
             $usuarioGridColunas = $this->con->execRLinha($qb);
         }
@@ -787,6 +787,13 @@ class CrudUtil
 
     public function colunasNecessarias($colunasDinamicas, $necessarias)
     {
+        foreach ($colunasDinamicas as $chave => $valor) {
+            
+            if ($valor == '') {
+                unset($colunasDinamicas[$chave]);
+            }
+        }
+
         if (!\is_array($necessarias) or empty($necessarias)) {
             return $colunasDinamicas;
         }

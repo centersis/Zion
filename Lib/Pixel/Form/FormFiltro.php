@@ -49,15 +49,34 @@ use Pixel\Form\FormChosen;
 class FormFiltro extends Form
 {
 
+    private $operacaoE;
+
     public function __construct()
     {
         parent::__construct();
+
+        $this->operacaoE = [];
+    }
+
+    public function setOperacaoE($operacaoE)
+    {
+        if (\is_array($operacaoE) or \is_null($operacaoE)) {
+            $this->operacaoE = $operacaoE;
+        } else {
+            throw new \Exception('Configuração de Filtros: $operacaoE deve ser um array ou null');
+        }
+    }
+
+    public function getOperacaoE()
+    {
+        return $this->operacaoE;
     }
 
     public function texto($nome, $identifica, $aliasSql)
     {
         $obj = new FormInputTexto('texto', $nome, $identifica, false);
 
+        $obj->setFiltroPadrao('*');
         $obj->setAliasSql($aliasSql);
 
         return $obj;
