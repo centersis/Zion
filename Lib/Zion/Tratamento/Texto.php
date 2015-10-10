@@ -311,6 +311,8 @@ class Texto
                             break;
                         case "MOEDA" : $formatados[$key] = $this->trata->numero()->moedaCliente($value);
                             break;
+                        case "TIMEAGO" : $formatados[$key] = $this->trata->data()->getTimeAgo($value);
+                            break;
                     }
                 }
             }
