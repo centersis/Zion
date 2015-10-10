@@ -585,7 +585,7 @@ class Data
             $d = $this->getDataParse($data, 'd/m/Y');
             $v[] = $d['year'] . '-' . \str_pad($d['month'], 2, '0', \STR_PAD_LEFT) . '-' . \str_pad($d['day'], 2, '0', \STR_PAD_LEFT);
         }
-        $r = ($acao == 'max') ? \max($v) : \min($v);
+        $r = ($acao === 'max') ? \max($v) : \min($v);
         return $this->converteData($r);
     }
 
