@@ -169,7 +169,7 @@ class PDF
         return ($files . $css);
     }
 
-    public function imprimeRelatorioPDF($html, $cssFile, $cssPath, $tituloRelatorio, $legenda = false, $orientacao = "P")
+    public function imprimeRelatorioPDF($html, $cssFile = NULL, $cssPath = NULL, $tituloRelatorio = NULL, $legenda = false, $orientacao = "P")
     {
         $texto = \Zion\Tratamento\Texto::instancia();
 
@@ -189,8 +189,10 @@ class PDF
 
             include_once(SIS_FM_BASE . 'Lib/mPDF/mpdf.php');
             
-            $stylesheet = $this->loadCss($cssFile, $cssPath);
-            
+            if($cssPath !== NULL and $cssFile !== NULL){
+                $stylesheet = $this->loadCss($cssFile, $cssPath);
+            }
+
             $mpdf = new \mPDF('c', 'A4-'. \strtoupper($orientacao));
 
             $mpdf->allow_charset_conversion = true;
