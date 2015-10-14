@@ -1,73 +1,55 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
 /**
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 11/09/2014
- * @version 1.0
- * @copyright 2014
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
  * 
- * Tratamento de texto para manipulação e inserção no Banco de Dados.
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
  */
 
 namespace Zion\Tratamento;
+
 use Zion\Tratamento\Tratamento;
 
 class Texto
 {
 
-    /** 
+    /**
      * @var array $keyWords Keywords do MySql a serem encontradas
      */
     public $keyWords = array("/SELECT/", "/INSERT/", "/UPDATE/", "/DELETE/", "/DROP/", "/ALTER/", "/ADD/", "/TABLE/", "/IF/", "/AND/", "/WHERE/", "/GROUP/", "/LIMIT/",
         "/JOIN/", "/IN/", "/INTO/", "/PROCEDURE/", "/WHILE/", "/WHEN/", "/THEN/", "/CASE/", "/LIKE/", "/KILL/", "/INSTR/");
 
-    /** 
+    /**
      * @var array $safekeyWords Keywords do MySql a serem utilizadas
      */
     public $safekeyWords = array("\SELECT", "\INSERT", "\UPDATE", "\DELETE", "\DROP", "\ALTER", "\ADD", "\TABLE", "\IF", "\AND", "\WHERE", "\GROUP", "\LIMIT",
         "\JOIN", "\IN", "\INTO", "\PROCEDURE", "\WHILE", "\WHEN", "\THEN", "\CASE", "\LIKE", "\KILL", "\INSTR");
-
-    /** 
-     * @var object $instancia Instância da classe singleton
-     */
     private static $instancia;
-
     private $trata;
-    
-    /**
-     * Texto::__construct()
-     * Construtor, tão tosco quanto necessário para a implementação singleton.
-     * 
-     * @return void
-     */
+
     private function __construct()
     {
         
@@ -81,7 +63,7 @@ class Texto
      */
     public static function instancia()
     {
-        if(!isset(self::$instancia)){
+        if (!isset(self::$instancia)) {
             self::$instancia = new self;
         }
 
@@ -98,7 +80,7 @@ class Texto
     public function converterTextoHtml($texto)
     {
 
-        return htmlspecialchars($texto, ENT_QUOTES);
+        return \htmlspecialchars($texto, \ENT_QUOTES);
     }
 
     /**
@@ -110,7 +92,7 @@ class Texto
      */
     public function converterHtmlTexto($texto)
     {
-        return htmlspecialchars_decode($texto, ENT_QUOTES);
+        return $this->converterTextoHtml($texto);
     }
 
     /**
@@ -124,7 +106,7 @@ class Texto
      */
     public function limitaTexto($texto, $start = false, $length = false)
     {
-        return substr($texto, $start, $length);
+        return \substr($texto, $start, $length);
     }
 
     /**
@@ -143,12 +125,12 @@ class Texto
         $keys = array();
         $values = array();
 
-        preg_match_all('/./u', $especiais, $keys);
-        preg_match_all('/./u', $normais, $values);
+        \preg_match_all('/./u', $especiais, $keys);
+        \preg_match_all('/./u', $normais, $values);
 
-        $mapping = array_combine($keys[0], $values[0]);
+        $mapping = \array_combine($keys[0], $values[0]);
 
-        return strtr($texto, $mapping);
+        return \strtr($texto, $mapping);
     }
 
     /**
@@ -160,7 +142,7 @@ class Texto
      */
     public function converterIsoUtf8($texto)
     {
-        return utf8_encode($texto);
+        return \utf8_encode($texto);
     }
 
     /**
@@ -172,7 +154,7 @@ class Texto
      */
     public function converterUtf8Iso($texto)
     {
-        return utf8_decode($texto);
+        return \utf8_decode($texto);
     }
 
     /**
@@ -184,7 +166,7 @@ class Texto
      */
     public function removeFormatacao($texto)
     {
-        return preg_replace('/[\t\n\r\f\v]/', '', $texto);
+        return \preg_replace('/[\t\n\r\f\v]/', '', $texto);
     }
 
     /**
@@ -196,7 +178,7 @@ class Texto
      */
     public function removerEspacos($texto)
     {
-        return preg_replace('/[\s\t]/', '', $texto);
+        return \preg_replace('/[\s\t]/', '', $texto);
     }
 
     /**
@@ -211,11 +193,11 @@ class Texto
 
         $textoTratado = $texto;
 
-        if (preg_match('/["\']/', $texto)) {
+        if (\preg_match('/["\']/', $texto)) {
             $textoTratado = $this->escapaAspas($texto);
         }
 
-        return preg_replace($this->keyWords, $this->safekeyWords, $textoTratado);
+        return \preg_replace($this->keyWords, $this->safekeyWords, $textoTratado);
     }
 
     /**
@@ -227,8 +209,7 @@ class Texto
      */
     public function desTrata($texto)
     {
-
-        return stripslashes($texto);
+        return \stripslashes($texto);
     }
 
     /**
@@ -240,7 +221,7 @@ class Texto
      */
     public function removeAspas($texto)
     {
-        return preg_replace('/[\'"]/', '', $texto);
+        return \preg_replace('/[\'"]/', '', $texto);
     }
 
     /**
@@ -252,32 +233,31 @@ class Texto
      */
     public function escapaAspas($texto)
     {
-        return addslashes($texto);
+        return \addslashes($texto);
     }
-    
+
     /**
      * Texto::parteString()
      * Retorna um array com as posições inicial e final de uma string.
      * 
      * @param String $texto Texto a ser tratado.
      * @return Array com as posiçoes start e end;
-     */    
+     */
     public function parteString($texto, $explode = ' ')
     {
-        
+
         $str = \explode($explode, $texto);
-        $t = \count($str) -1;
+        $t = \count($str) - 1;
         return ['start' => $str[0], 'end' => $str[$t]];
-        
     }
-    
+
     public function substituaPor($subs, $dados)
     {
         $substituidos = $dados;
 
-        foreach($dados as $key => $value) {
-        
-            if(\is_array($subs) and \array_key_exists($key, $subs)) {
+        foreach ($dados as $key => $value) {
+
+            if (\is_array($subs) and \array_key_exists($key, $subs)) {
 
                 if (\array_key_exists($value, $subs[$key])) {
                     $substituidos[$key] = $subs[$key][$value];
@@ -290,14 +270,14 @@ class Texto
         }
         return $substituidos;
     }
-    
+
     public function tratarComo($formatos, $dados)
     {
         $formatados = $dados;
         $this->trata = Tratamento::instancia();
 
-        if(\is_array($formatos)) {
-            foreach($dados as $key => $value) {
+        if (\is_array($formatos)) {
+            foreach ($dados as $key => $value) {
                 if (\array_key_exists($key, $formatos)) {
 
                     $como = \strtoupper($formatos[$key]);
@@ -317,7 +297,7 @@ class Texto
                 }
             }
         }
-        
+
         return $formatados;
     }
 
@@ -327,34 +307,29 @@ class Texto
         $tratados = $dados;
         $this->trata = Tratamento::instancia();
 
-        foreach($dados as $k => $linha){
-            
-            foreach($linha as $key => $val) {
+        foreach ($dados as $k => $linha) {
 
-                if(isset($tratamentos['SUBSTITUA']) and \array_key_exists($key, $tratamentos['SUBSTITUA'])){
+            foreach ($linha as $key => $val) {
+
+                if (isset($tratamentos['SUBSTITUA']) and \array_key_exists($key, $tratamentos['SUBSTITUA'])) {
 
                     $tratados[$k] = $this->substituaPor($tratamentos['SUBSTITUA'], $tratados[$k]);
-
-                } elseif(isset($tratamentos['TRATA']['DATA']) and \in_array($key, $tratamentos['TRATA']['DATA'])){
+                } elseif (isset($tratamentos['TRATA']['DATA']) and \in_array($key, $tratamentos['TRATA']['DATA'])) {
 
                     $tratados[$k] = $this->tratarComo([$key => 'DATA'], $tratados[$k]);
-
-                } elseif(isset($tratamentos['TRATA']['DATAHORA']) and \in_array($key, $tratamentos['TRATA']['DATAHORA'])){
+                } elseif (isset($tratamentos['TRATA']['DATAHORA']) and \in_array($key, $tratamentos['TRATA']['DATAHORA'])) {
 
                     $tratados[$k] = $this->tratarComo([$key => 'DATAHORA'], $tratados[$k]);
+                } elseif (isset($tratamentos['TRATA']['DATAEXT']) and \in_array($key, $tratamentos['TRATA']['DATAEXT'])) {
 
-                } elseif(isset($tratamentos['TRATA']['DATAEXT']) and \in_array($key, $tratamentos['TRATA']['DATAEXT'])) {
-                    
                     $tratados[$k][$key] = $this->trata->data()->getIntervaloExtenso($val);
+                } elseif (isset($tratamentos['TRATA']['TIMEAGO']) and \in_array($key, $tratamentos['TRATA']['TIMEAGO'])) {
 
-                } elseif(isset($tratamentos['TRATA']['TIMEAGO']) and \in_array($key, $tratamentos['TRATA']['TIMEAGO'])) {
-                    
                     $tratados[$k][$key] = $this->trata->data()->getTimeAgo($val);
-
                 }
             }
         }
-        
+
         return $tratados;
     }
 

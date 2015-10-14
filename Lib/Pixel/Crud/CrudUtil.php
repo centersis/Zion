@@ -126,19 +126,18 @@ class CrudUtil
      */
     public function getSqlFiltro($fil, $objForm, array $filtroDinamico, $queryBuilder, $modoBusca = 'LIKE')
     {
-        //Recuperando Array de Campos
-        $arrayForm = $objForm->getObjetos();
+        if (\is_object($objForm)) {
+            $arrayForm = $objForm->getObjetos();
 
-        //Intercepta busca geral
-        //Monta Sql de Retotno
-        if (\is_array($arrayForm)) {
-            foreach ($arrayForm as $cFG) {
-                if (\method_exists($cFG, 'getAliasSql')) {
-                    $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
-                } else {
-                    $alias = '';
+            if (\is_array($arrayForm)) {
+                foreach ($arrayForm as $cFG) {
+                    if (\method_exists($cFG, 'getAliasSql')) {
+                        $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
+                    } else {
+                        $alias = '';
+                    }
+                    $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $queryBuilder);
                 }
-                $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $queryBuilder);
             }
         }
 
@@ -788,7 +787,7 @@ class CrudUtil
     public function colunasNecessarias($colunasDinamicas, $necessarias)
     {
         foreach ($colunasDinamicas as $chave => $valor) {
-            
+
             if ($valor == '') {
                 unset($colunasDinamicas[$chave]);
             }

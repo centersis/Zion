@@ -1,51 +1,41 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
 /**
- * Geral
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 20/10/2014
- * @version 1.0
- * @copyright 2014
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
  * 
- * Tratamento de inputs específicamente Brasileiros.
- * 
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
  */
+
 namespace Zion\Tratamento;
+
+use Zion\Validacao\Geral as ValidacaoGeral;
 
 class Geral
 {
 
-    /** 
-     * @var object $instancia Instância da classe singleton
-     */
     private static $instancia;
 
     /**
@@ -54,7 +44,8 @@ class Geral
      * 
      * @return void
      */
-    private function __construct(){
+    private function __construct()
+    {
         
     }
 
@@ -64,15 +55,16 @@ class Geral
      * 
      * @return Geral
      */
-    public static function instancia(){
-        
-        if(!isset(self::$instancia)){
+    public static function instancia()
+    {
+
+        if (!isset(self::$instancia)) {
             self::$instancia = new self;
         }
 
         return self::$instancia;
     }
-  
+
     /**
      * Geral::formataCPF()
      * 
@@ -83,19 +75,19 @@ class Geral
     {
 
         $cpfFormatado = NULL;
-        
-        if(preg_match('/^\d{3}.\d{3}.\d{3}-\d{2}$/', $cpf)) return(\Zion\Validacao\Geral::validaCPF($cpf) === true ? $cpf : false);
-        
-        if(\Zion\Validacao\Geral::validaCPF($cpf)){
 
-            $cpfFormatado = substr($cpf, 0, 3) .'.'. substr($cpf, 3, 3) .'.'. substr($cpf, 6, 3) .'-'. substr($cpf, -2);
+        if (\preg_match('/^\d{3}.\d{3}.\d{3}-\d{2}$/', $cpf)) {
+            return(ValidacaoGeral::validaCPF($cpf) === true ? $cpf : false);
+        }
 
+        if (ValidacaoGeral::validaCPF($cpf)) {
+
+            $cpfFormatado = \substr($cpf, 0, 3) . '.' . \substr($cpf, 3, 3) . '.' . \substr($cpf, 6, 3) . '-' . \substr($cpf, -2);
         } else {
 
             $cpfFormatado = false;
-
         }
-        
+
         return $cpfFormatado;
     }
 
@@ -110,34 +102,32 @@ class Geral
 
         $cnpjFormatado = NULL;
 
-        if(preg_match('/^\d{2}\.\d{3}.\d{3}\/\d{4}-\d{2}$/', $cnpj)) return(\Zion\Validacao\Geral::validaCNPJ($cnpj) === true ? $cnpj : false);
+        if (\preg_match('/^\d{2}\.\d{3}.\d{3}\/\d{4}-\d{2}$/', $cnpj)) {
+            return(ValidacaoGeral::validaCNPJ($cnpj) === true ? $cnpj : false);
+        }
 
-        if(\Zion\Validacao\Geral::validaCNPJ($cnpj)){
+        if (ValidacaoGeral::validaCNPJ($cnpj)) {
 
-            $cnpjFormatado = substr($cnpj, 0, 2) .'.'. substr($cnpj, 2, 3) .'.'. substr($cnpj, 5, 3) .'/'. substr($cnpj, 8, 4) .'-'. substr($cnpj, -2);
-
+            $cnpjFormatado = \substr($cnpj, 0, 2) . '.' . \substr($cnpj, 2, 3) . '.' . \substr($cnpj, 5, 3) . '/' . \substr($cnpj, 8, 4) . '-' . \substr($cnpj, -2);
         } else {
 
             $cnpjFormatado = false;
-
         }
-        
+
         return $cnpjFormatado;
     }
-    
+
     /**
      * Geral::limpaCPF_CNPJ()
      * 
      * @param mixed $str
      * @return
-     */    
+     */
     public function limpaCPF_CNPJ($str)
     {
-        
-        return \preg_replace('/[^0-9]/', '', $str);
-        
-    }
 
+        return \preg_replace('/[^0-9]/', '', $str);
+    }
 
     /**
      * Geral::formataCEP()
@@ -149,18 +139,18 @@ class Geral
     {
         $cepFormatado = NULL;
 
-        if(preg_match('/^\d{2}\.\d{3}[-|\s]?[0-9]{3}$/', $cep)) return(\Zion\Validacao\Geral::validaCEP($cep) === true ? $cep : false);
+        if (\preg_match('/^\d{2}\.\d{3}[-|\s]?[0-9]{3}$/', $cep)) {
+            return(ValidacaoGeral::validaCEP($cep) === true ? $cep : false);
+        }
 
-        $cep = preg_replace('/[^0-9]/', '', $cep);
+        $cep = \preg_replace('/[^0-9]/', '', $cep);
 
-        if(\Zion\Validacao\Geral::validaCEP($cep)){
+        if (ValidacaoGeral::validaCEP($cep)) {
 
-            $cepFormatado = substr($cep, 0, 2) .'.'. substr($cep, 2, 3) .'-'. substr($cep, -3);
-
+            $cepFormatado = \substr($cep, 0, 2) . '.' . \substr($cep, 2, 3) . '-' . \substr($cep, -3);
         } else {
 
             $cepFormatado = false;
-
         }
 
         return $cepFormatado;
@@ -174,10 +164,9 @@ class Geral
      */
     public function destrataCEP($cep)
     {
-        return preg_replace('/[^0-9]/', '', $cep);
+        return \preg_replace('/[^0-9]/', '', $cep);
     }
 
-    
     /**
      * Geral::formataTelefone()
      * 
@@ -188,16 +177,16 @@ class Geral
     {
         throw new RuntimeException("Metoto ainda nao implementado.");
     }
-    
+
     /**
      * Geral::ordenaArray()
      * 
      * @param array $array
      * @param mixed $on
      * @param mixed $order
-     * @return
-     */    
-    public function ordenaArray($array, $on, $order=SORT_ASC)
+     * @return array
+     */
+    public function ordenaArray($array, $on, $order = \SORT_ASC)
     {
         $new_array = array();
         $sortable_array = array();
@@ -218,10 +207,10 @@ class Geral
             switch ($order) {
                 case \SORT_ASC:
                     \asort($sortable_array);
-                break;
+                    break;
                 case \SORT_DESC:
                     \arsort($sortable_array);
-                break;
+                    break;
             }
 
             foreach ($sortable_array as $k => $v) {
@@ -230,6 +219,6 @@ class Geral
         }
 
         return $new_array;
-    }      
+    }
 
 }

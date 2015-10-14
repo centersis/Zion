@@ -28,19 +28,12 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
-/**
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 10/09/2014
- * @version 1.0
- * @copyright 2014
- * 
- * Tratamento de Data e Hora.
- * 
- */
 
 namespace Zion\Validacao;
 
-class Data extends \Zion\Tratamento\Data
+use Zion\Tratamento\Data as TratamentoData;
+
+class Data extends TratamentoData
 {
 
     private static $instancia;
@@ -56,7 +49,6 @@ class Data extends \Zion\Tratamento\Data
      */
     public static function instancia()
     {
-
         if (!isset(self::$instancia)) {
             self::$instancia = new self;
         }
@@ -74,12 +66,12 @@ class Data extends \Zion\Tratamento\Data
      */
     public function validaData($data)
     {
-        if(empty($data)){
+        if (empty($data)) {
             return false;
         }
-        
+
         $dataLimpa = \str_replace(['/', '-'], '', $data);
-        
+
         if ($dataLimpa === '00000000') {
             return false;
         }
@@ -127,8 +119,9 @@ class Data extends \Zion\Tratamento\Data
      */
     public function verificaDiferencaDataHora($dataI, $dataF)
     {
-        if ($this->validaDataHora($dataI) === false or $this->validaDataHora($dataF) === false)
+        if ($this->validaDataHora($dataI) === false or $this->validaDataHora($dataF) === false) {
             return false;
+        }
 
         $dI = \DateTime::createFromFormat($this->getFormatoDataHora($dataI), $dataI);
         $dF = \DateTime::createFromFormat($this->getFormatoDataHora($dataF), $dataF);
@@ -136,15 +129,15 @@ class Data extends \Zion\Tratamento\Data
         $diff = $dI->diff($dF);
 
         $padrao = array('y' => NULL, 'm' => NULL, 'd' => NULL, 'h' => NULL, 'i' => NULL, 's' => NULL);
-        $diferenca = array_sum(array_intersect_key((array) $diff, $padrao));
+        $diferenca = \array_sum(\array_intersect_key((array) $diff, $padrao));
 
-        if ($diferenca == 0)
+        if ($diferenca == 0) {
             return 0;
+        }
 
         if ($diff->invert == 1) {
             return -1;
-        }
-        else {
+        } else {
             return 1;
         }
     }
@@ -155,20 +148,20 @@ class Data extends \Zion\Tratamento\Data
      * 
      * @param String $data Data a ser verificada.
      * @param String $dataInicial Data Inicial do intervalo.
-     * @param String $DataFinal Data Final do do intervalo.
+     * @param String $dataFinal Data Final do do intervalo.
      * @return bool
      * @example TRUE se a data estiver no intervalo, FALSE otherwise.
      */
     public function verificaDataIntervalo($data, $dataInicial, $dataFinal)
     {
 
-        if (preg_match('[/]', $data)) {
+        if (\preg_match('[/]', $data)) {
             $data = $this->converteData($data);
         }
-        if (preg_match('[/]', $dataInicial)) {
+        if (\preg_match('[/]', $dataInicial)) {
             $dataInicial = $this->converteData($dataInicial);
         }
-        if (preg_match('[/]', $dataFinal)) {
+        if (\preg_match('[/]', $dataFinal)) {
             $dataFinal = $this->converteData($dataFinal);
         }
 
@@ -177,14 +170,9 @@ class Data extends \Zion\Tratamento\Data
             if ($data >= $dataInicial and $data <= $dataFinal) {
                 return true;
             }
-            else {
-                return false;
-            }
         }
-        else {
 
-            return false;
-        }
+        return false;
     }
 
 }

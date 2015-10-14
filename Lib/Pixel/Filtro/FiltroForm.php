@@ -51,6 +51,13 @@ class FiltroForm
 
     public function montaFiltro($objForm)
     {
+        if (!is_object($objForm)) {
+            return ['normal' => null,
+                'operacaoE' => null,
+                'moduloCod' => null
+            ];
+        }
+
         $moduloCod = 0;
 
         if (\defined('MODULO')) {

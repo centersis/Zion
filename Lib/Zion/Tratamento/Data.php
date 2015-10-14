@@ -28,33 +28,16 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
-/**
- * Data
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 10/09/2014
- * @version 1.0
- * @copyright 2014
- * 
- * Tratamento de Data e Hora.
- * 
- */
 
 namespace Zion\Tratamento;
+
+use Zion\Validacao\Data as ValidacaoData;
 
 class Data
 {
 
-    /**
-     * @var object $instancia Instância da classe singleton
-     */
     private static $instancia;
 
-    /**
-     * Data::__construct()
-     * Construtor, tão tosco quanto necessário para a implementação singleton.
-     * 
-     * @return void
-     */
     private function __construct()
     {
         
@@ -83,7 +66,7 @@ class Data
      */
     public function dataHora()
     {
-        return date("d/m/Y H:i:s");
+        return \date("d/m/Y H:i:s");
     }
 
     /** Data::dataAtual()
@@ -106,17 +89,17 @@ class Data
      */
     public function getFormatoDataHora($dataHora)
     {
-        if (preg_match('/^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}$|^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+        if (\preg_match('/^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}$|^[0-9]{2}[\/|-][0-9]{2}[\/|-][0-9]{4}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
             $f = "d/m/Y";
-        } elseif (preg_match('/^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}$|^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+        } elseif (\preg_match('/^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}$|^[0-9]{4}[-|\/][0-9]{2}[-|\/][0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
             $f = "Y-m-d";
-        } elseif (preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+        } elseif (\preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
             $f = "H:i:s";
         } else {
             return false;
         }
 
-        if (preg_match('/\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
+        if (\preg_match('/\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $dataHora)) {
             $f .= " H:i:s";
         }
 
@@ -138,7 +121,7 @@ class Data
             return '';
         }
 
-        $validaData = \Zion\Validacao\Data::instancia();
+        $validaData = ValidacaoData::instancia();
 
         //Se for data e Hora recupera apenas a data
         if (\substr_count($data, ' ') > 0) {
@@ -149,32 +132,32 @@ class Data
             return '';
         }
 
-        if (preg_match('[-]', $data)) {
+        if (\preg_match('[-]', $data)) {
 
-            $dExt = explode('-', $data);
+            $dExt = \explode('-', $data);
 
-            if (strlen($dExt[0]) == 4 and strlen($dExt[2]) > 2) {
+            if (\strlen($dExt[0]) == 4 and \strlen($dExt[2]) > 2) {
 
-                $dTimeExt = explode(' ', $dExt[2]);
+                $dTimeExt = \explode(' ', $dExt[2]);
 
                 return $dTimeExt[0] . '/' . $dExt[1] . '/' . $dExt[0] . ' ' . $dTimeExt[1];
-            } elseif (strlen($dExt[0]) == 4 and strlen($dExt[2]) <= 2) {
+            } elseif (\strlen($dExt[0]) == 4 and \strlen($dExt[2]) <= 2) {
 
                 return $dExt[2] . '/' . $dExt[1] . '/' . $dExt[0];
             } else {
-                trigger_error(var_export($dExt, true), E_USER_NOTICE);
+                \trigger_error(\var_export($dExt, true), \E_USER_NOTICE);
                 return $dExt[2] . '-' . $dExt[1] . '-' . $dExt[0];
             }
         } else {
 
-            $dExt = explode('/', $data);
+            $dExt = \explode('/', $data);
 
-            if (strlen($dExt[0]) == 4 and strlen($dExt[2]) > 2) {
+            if (\strlen($dExt[0]) == 4 and \strlen($dExt[2]) > 2) {
 
-                $dTimeExt = explode(' ', $dExt[2]);
+                $dTimeExt = \explode(' ', $dExt[2]);
 
                 return $dTimeExt[0] . '/' . $dExt[1] . '/' . $dExt[0] . ' ' . $dTimeExt[1];
-            } elseif (strlen($dExt[0]) == 4 and strlen($dExt[2]) <= 2) {
+            } elseif (\strlen($dExt[0]) == 4 and \strlen($dExt[2]) <= 2) {
 
                 return $dExt[2] . '/' . $dExt[1] . '/' . $dExt[0];
             } else {
@@ -193,7 +176,7 @@ class Data
     {
         $pattern = \preg_split('/\s| /', $dataHora);
 
-        if (is_array($pattern) and count($pattern) >= 2) {
+        if (\is_array($pattern) and \count($pattern) >= 2) {
             list($data, $hora) = $pattern;
         } else {
             $data = $pattern[0];
@@ -213,9 +196,9 @@ class Data
     public function trocaSeparador($data)
     {
         if ($this->getSeparador($data) == "/") {
-            return preg_replace('[/]', '-', $data);
+            return \preg_replace('[/]', '-', $data);
         } else {
-            return preg_replace('[-]', '/', $data);
+            return \preg_replace('[-]', '/', $data);
         }
     }
 
@@ -242,21 +225,17 @@ class Data
             $dataB = $this->converteData($dataB);
         }
 
-        list($anoA, $mesA, $diaA) = explode($delim, $dataA);
-        list($anoB, $mesB, $diaB) = explode($delim, $dataB);
+        list($anoA, $mesA, $diaA) = \explode($delim, $dataA);
+        list($anoB, $mesB, $diaB) = \explode($delim, $dataB);
 
-        return date('d/m/Y', mktime(0, 0, 0, ($mesA + $mesB), ($diaA + $diaB), ($anoA + ($anoB <= 15 ? $anoB : 0))));
+        return \date('d/m/Y', \mktime(0, 0, 0, ($mesA + $mesB), ($diaA + $diaB), ($anoA + ($anoB <= 15 ? $anoB : 0))));
     }
 
     public function atribuiData($data, $dias, $meses, $anos, $separador, $operacao)
     {
-        //Verifica a Integridade da data
-        //if (!$this->verificaData($data))
-        //    throw new Exception("Data informada para atribui��o Inv�lida! - 001");
-        //Valores da data
         list($dia, $mes, $ano) = \explode($separador, $data);
 
-        return($operacao == "-") ? \date('d' . $separador . 'm' . $separador . 'Y', @\mktime(0, 0, 0, $mes - $meses, $dia - $dias, $ano - $anos)) : \date('d' . $separador . 'm' . $separador . 'Y', @\mktime(0, 0, 0, $mes + $meses, $dia + $dias, $ano + $anos));
+        return($operacao == "-") ? \date('d' . $separador . 'm' . $separador . 'Y', \mktime(0, 0, 0, $mes - $meses, $dia - $dias, $ano - $anos)) : \date('d' . $separador . 'm' . $separador . 'Y', \mktime(0, 0, 0, $mes + $meses, $dia + $dias, $ano + $anos));
     }
 
     /**
@@ -291,10 +270,10 @@ class Data
             $dataX = $dataA;
         }
 
-        list($anoA, $mesA, $diaA) = explode($delim, $dataY);
-        list($anoB, $mesB, $diaB) = explode($delim, $dataX);
+        list($anoA, $mesA, $diaA) = \explode($delim, $dataY);
+        list($anoB, $mesB, $diaB) = \explode($delim, $dataX);
 
-        return date('d/m/Y', mktime(0, 0, 0, ($mesA - $mesB), ($diaA - $diaB), ($anoA - ($anoB <= 60 ? $anoB : 0))));
+        return date('d/m/Y', \mktime(0, 0, 0, ($mesA - $mesB), ($diaA - $diaB), ($anoA - ($anoB <= 60 ? $anoB : 0))));
     }
 
     /**
@@ -309,10 +288,10 @@ class Data
     public function somaHora($horaA, $horaB)
     {
 
-        list($hora, $min, $sec) = explode(":", $horaA);
-        list($horaB, $minB, $secB) = explode(":", $horaB);
+        list($hora, $min, $sec) = \explode(":", $horaA);
+        list($horaB, $minB, $secB) = \explode(":", $horaB);
 
-        return date('H:i:s', mktime(($hora + $horaB), ($min + $minB), ($sec + $secB)));
+        return \date('H:i:s', \mktime(($hora + $horaB), ($min + $minB), ($sec + $secB)));
     }
 
     /**
@@ -336,10 +315,10 @@ class Data
             $horaX = $horaA;
         }
 
-        list($hora, $min, $sec) = explode(":", $horaY);
-        list($horaB, $minB, $secB) = explode(":", $horaX);
+        list($hora, $min, $sec) = \explode(":", $horaY);
+        list($horaB, $minB, $secB) = \explode(":", $horaX);
 
-        return date('H:i:s', mktime(($hora - $horaB), ($min - $minB), ($sec - $secB)));
+        return \date('H:i:s', \mktime(($hora - $horaB), ($min - $minB), ($sec - $secB)));
     }
 
     /**
@@ -352,7 +331,7 @@ class Data
      */
     private function getSeparador($data)
     {
-        return(preg_match('[/]', $data) ? '/' : '-');
+        return(\preg_match('[/]', $data) ? '/' : '-');
     }
 
     /**
@@ -368,7 +347,7 @@ class Data
     public function getTimeAgo($dataHora, $completo = NULL, $dataHoraAtual = NULL)
     {
         $formato = $this->getFormatoDataHora($dataHora);
-        $dataHoraAtual = (is_null($dataHoraAtual) ? date($formato) : $dataHoraAtual);
+        $dataHoraAtual = (\is_null($dataHoraAtual) ? \date($formato) : $dataHoraAtual);
 
         $dI = \DateTime::createFromFormat($formato, $dataHora);
         $dF = \DateTime::createFromFormat($formato, $dataHoraAtual);
@@ -488,13 +467,7 @@ class Data
         return $preData->format('d/m/Y');
     }
 
-    public function getIntervaloExtenso(
-            $dataInicial, 
-            $dataFinal = '', 
-            $showAnos = true, 
-            $showMeses = true, 
-            $showDias = true, 
-            $showComplementos = true)
+    public function getIntervaloExtenso($dataInicial, $dataFinal = '', $showAnos = true, $showMeses = true, $showDias = true, $showComplementos = true)
     {
 
         require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
@@ -502,8 +475,10 @@ class Data
         if (\is_numeric($dataInicial)) {
 
             $totalDias = $dataInicial;
-            if ($totalDias <= 0)
+            if ($totalDias <= 0) {
                 return 'Nenhum dia';
+            }
+
             $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;
             $dI = $this->getDataParse(\date('Y-m-d'), 'Y-m-d');
             $dF = $this->getDataParse($dataFinal, 'Y-m-d');
@@ -610,12 +585,10 @@ class Data
     }
 
     public function getIntervaloDatasParaDias($dataInicio, $dataFim = '')
-    {        
+    {
         list($anoI, $mesI, $diaI) = \split('[/.-]', $dataInicio);
-        list($anoF, $mesF, $diaF) = \split('[/.-]', ($dataFim ? $dataFim : \date('d/m/Y')));        
+        list($anoF, $mesF, $diaF) = \split('[/.-]', ($dataFim ? $dataFim : \date('d/m/Y')));
 
-        //echo $anoF;
-        
         $mkTimeInicio = \mktime(0, 0, 0, $mesI, $diaI, $anoI);
         $mkTimeFim = \mktime(0, 0, 0, $mesF, $diaF, $anoF);
 
@@ -623,7 +596,6 @@ class Data
             return \round(($mkTimeFim - $mkTimeInicio) / 86400);
         } else {
             return false;
-            //throw new \Exception("Data::getIntervaloDatasParaDias - Data Inicial Maior Que a Data Final");
         }
     }
 

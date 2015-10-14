@@ -1,59 +1,45 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
 /**
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 12/09/2014
- * @version 1.0
- * @copyright 2014
+ *
+ *    Sappiens Framework
+ *    Copyright (C) 2014, BRA Consultoria
+ *
+ *    Website do autor: www.braconsultoria.com.br/sappiens
+ *    Email do autor: sappiens@braconsultoria.com.br
+ *
+ *    Website do projeto, equipe e documentação: www.sappiens.com.br
+ *   
+ *    Este programa é software livre; você pode redistribuí-lo e/ou
+ *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+ *    publicada pela Free Software Foundation, versão 2.
+ *
+ *    Este programa é distribuído na expectativa de ser útil, mas SEM
+ *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
+ *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+ *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+ *    detalhes.
  * 
- * Validação de números (float) para manipulação e inserção no Banco de Dados.
+ *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *    junto com este programa; se não, escreva para a Free Software
+ *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *    02111-1307, USA.
+ *
+ *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
+ *
  */
 
 namespace Zion\Validacao;
 
-class Numero extends \Zion\Tratamento\Numero
+use Zion\Tratamento\Numero as TratamentoNumero;
+
+class Numero extends TratamentoNumero
 {
 
-    /** 
-     * @var object $instancia Instância da classe singleton
-     */
     private static $instancia;
-    
-    /**
-     * Numero::__construct()
-     * Construtor, tão tosco quanto necessário para a implementação singleton.
-     * 
-     * @return void
-     */
-    private function __construct(){
+
+    private function __construct()
+    {
         
     }
 
@@ -61,11 +47,12 @@ class Numero extends \Zion\Tratamento\Numero
      * Numero::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
      * 
-     * @return Numero
+     * @return \Zion\Validacao\Numero
      */
-    public static function instancia(){
-        
-        if(!isset(self::$instancia)){
+    public static function instancia()
+    {
+
+        if (!isset(self::$instancia)) {
             self::$instancia = new self;
         }
 
@@ -74,7 +61,7 @@ class Numero extends \Zion\Tratamento\Numero
 
     /**
      * Numero::intervalo()
-     * Verifica se um determinado valor está dentro de um intervalo. DR15R22YTHNK5JCXWUNT8TGLESERQXED6
+     * Verifica se um determinado valor está dentro de um intervalo
      *  
      * @param float $numero Valor a ser verificado. 
      * @param float $min Valor minimo desejado. 
@@ -83,20 +70,11 @@ class Numero extends \Zion\Tratamento\Numero
      */
     public function intervalo($numero, $min, $max)
     {
-        if (preg_match('/[\.|,]/', $numero)) {
-            $numero = $this->floatBoleto($numero);
-        }
-        if (preg_match('/[\.|,]/', $min)) {
-            $min = $this->floatBoleto($min);
-        }
-        if (preg_match('/[\.|,]/', $max)) {
-            $max = $this->floatBoleto($max);
-        }
-        if ($numero >= $min and $numero <= $max) {
-            return true;
-        } else {
-            return false;
-        }
+        $numeroT = $this->floatBanco($numero);
+        $minT = $this->floatBanco($min);
+        $maxT = $this->floatBanco($max);
+
+        return ($numeroT >= $minT and $numeroT <= $maxT) ? true : false;
     }
 
     /**
@@ -109,11 +87,7 @@ class Numero extends \Zion\Tratamento\Numero
      */
     public function isFloat($numero)
     {
-        if (\preg_match('/[^0-9\.\,]/', $numero)) {
-            return false;
-        } else {
-            return true;
-        }
+        return (\preg_match('/[^0-9\.\,]/', $numero)) ? false : true;
     }
 
     /**
@@ -131,10 +105,10 @@ class Numero extends \Zion\Tratamento\Numero
     }
 
     /**
-     * Numero::verificaValorMinimo()
+     * Numero::verificaValorMaximo()
      * Verifica se um número informado pelo usuário é igual ou menor que máximo aceito.
      * 
-     * @param mixed $min Valor máximo aceito
+     * @param mixed $max Valor máximo aceito
      * @param mixed $val Valor informado pelo usuário
      * @return bool
      * @example True se $val for menor ou igual a $max, FALSE otherwise.
@@ -143,4 +117,5 @@ class Numero extends \Zion\Tratamento\Numero
     {
         return($val <= $max ? true : false);
     }
+
 }

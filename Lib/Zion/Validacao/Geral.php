@@ -29,32 +29,15 @@
 
  */
 
-/**
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 24/9/2014
- * @version 1.0
- * @copyright 2014
- * 
- * Validação de inputs específicamente Brasileiros.
- * 
- */
-
 namespace Zion\Validacao;
 
-class Geral extends \Zion\Tratamento\Geral
+use Zion\Tratamento\Geral as TratamentoGeral;
+
+class Geral extends TratamentoGeral
 {
 
-    /**
-     * @var object $instancia Instância da classe singleton
-     */
     private static $instancia;
 
-    /**
-     * Geral::__construct()
-     * Construtor, tão tosco quanto necessário para a implementação singleton.
-     * 
-     * @return void
-     */
     private function __construct()
     {
         
@@ -80,7 +63,7 @@ class Geral extends \Zion\Tratamento\Geral
      * Geral::validaCPF()
      * 
      * @param mixed $cpf
-     * @return
+     * @return boolean
      */
     public function validaCPF($cpf)
     {
@@ -145,25 +128,24 @@ class Geral extends \Zion\Tratamento\Geral
      * Geral::validaCNPJ()
      * 
      * @param mixed $cnpj
-     * @return
+     * @return boolena
      */
     public function validaCNPJ($cnpj)
     {
-
         $j = 0;
         $num = [];
-        for ($i = 0; $i < (strlen($cnpj)); $i++) {
-            if (is_numeric($cnpj[$i])) {
+        for ($i = 0; $i < (\strlen($cnpj)); $i++) {
+            if (\is_numeric($cnpj[$i])) {
                 $num[$j] = $cnpj[$i];
                 $j++;
             }
         }
 
-        if (count($num) != 14) {
+        if (\count($num) != 14) {
             $isCnpjValid = false;
         }
 
-        if (array_sum($num) == 0) {
+        if (\array_sum($num) == 0) {
             $isCnpjValid = false;
         } else {
             $j = 5;
@@ -171,13 +153,13 @@ class Geral extends \Zion\Tratamento\Geral
                 $multiplica[$i] = $num[$i] * $j;
                 $j--;
             }
-            $soma = array_sum($multiplica);
+            $soma = \array_sum($multiplica);
             $j = 9;
             for ($i = 4; $i < 12; $i++) {
                 $multiplica[$i] = $num[$i] * $j;
                 $j--;
             }
-            $soma = array_sum($multiplica);
+            $soma = \array_sum($multiplica);
             $resto = $soma % 11;
             if ($resto < 2) {
                 $dg = 0;
@@ -227,21 +209,20 @@ class Geral extends \Zion\Tratamento\Geral
      */
     public function validaCEP($cep)
     {
-        if (preg_match('/^\d{2}.\d{3}|\d{5}[-|\s]?[0-9]{3}$|^[0-9]{8}$/', $cep, $matches, PREG_OFFSET_CAPTURE)) {
+        if (\preg_match('/^\d{2}.\d{3}|\d{5}[-|\s]?[0-9]{3}$|^[0-9]{8}$/', $cep, $matches, \PREG_OFFSET_CAPTURE)) {
 
-            $cepValido = (int) preg_replace('/[^0-9]/', '', $cep);
+            $cepValido = (int) \preg_replace('/[^0-9]/', '', $cep);
             return($cepValido > 0 ? true : false);
         }
     }
-    
+
     public function verificaTelefoneFixo($telefone)
     {
-        if(preg_match('/\)[8-9]{1}|\)\s[8-9]{1}|[8-9]{1}|\)\s[8-9]{1}/', $telefone)){
+        if (\preg_match('/\)[8-9]{1}|\)\s[8-9]{1}|[8-9]{1}|\)\s[8-9]{1}/', $telefone)) {
             return false;
         } else {
             return true;
         }
-        
     }
 
     /**
@@ -261,9 +242,10 @@ class Geral extends \Zion\Tratamento\Geral
         \json_decode($string);
         return (\json_last_error() == \JSON_ERROR_NONE);
     }
-    
+
     public function validaEmail($email)
     {
         return (\preg_match("/[a-z0-9]{1,}@[a-z0-9]{1,}\.[a-z0-9]{1,}/", $email) ? true : false);
     }
+
 }

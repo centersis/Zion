@@ -28,31 +28,13 @@
 *
 */
 
-/**
- * @author Feliphe "O Retaliador" Bueno - feliphezion@gmail.com
- * @since 20/10/2014
- * @version 1.0
- * @copyright 2014
- * 
- * Tratamento de números (float).
- */
-
 namespace Zion\Tratamento;
 
 class Numero
 {
 
-    /**
-     * @var object $instancia Instância da classe singleton
-     */
     private static $instancia;
 
-    /**
-     * Numero::__construct()
-     * Construtor, tão tosco quanto necessário para a implementação singleton.
-     * 
-     * @return void
-     */
     private function __construct()
     {
         
@@ -103,15 +85,14 @@ class Numero
                 return (float) $numero;
             }
 
-            $valorA = str_replace(".", "", $numero);
-            $valorB = str_replace(",", ".", $valorA);
+            $valorA = \str_replace('.', '', $numero);
+            $valorB = \str_replace(',', '.', $valorA);
             return (float) $valorB;
         }
 
         return 0;
     }
 
-    //Retorna o valor formatado em reais
     public function moedaCliente($valor)
     {
         //Valor da Saida em Moeda
