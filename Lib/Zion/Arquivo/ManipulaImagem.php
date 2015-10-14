@@ -84,13 +84,21 @@ class ManipulaImagem extends ManipulaArquivo
 
     /**
      * Retorna um array com a altura e a largura da imagem
+     * ['L' => 00, 'A' => 00]
+     * 
+     * Esta função verifica se o arquivo existe, se não existir retorna como
+     * resultado um array de de proporções Zero para Altura e Largura
      * @param link $imagem
      * @return array
      */
     public function dimensaoImagem($imagem)
     {
-        $imgSize = \getimagesize($imagem);
-        return ["L" => $imgSize[0], "A" => $imgSize[1]];
+        if ($this->arquivoExiste($imagem)) {
+            $imgSize = \getimagesize($imagem);
+            return ["L" => $imgSize[0], "A" => $imgSize[1]];
+        }
+
+        return ["L" => 0, "A" => 0];
     }
 
     /**
@@ -101,7 +109,7 @@ class ManipulaImagem extends ManipulaArquivo
      * @return array
      * @throws \Exception
      */
-    public function proporcoesImagem($tamanho, $por, $originais)
+    public function proporcoesImagem($tamanho, $por, $originais, $arredondarCasas = 0)
     {
         if ($originais['A'] == 0 or $originais['L'] == 0) {
             throw new \Exception("Proporções do arquivo invalidas, certifique-se que o arquivo é mesmo uma imagem!");
@@ -110,12 +118,13 @@ class ManipulaImagem extends ManipulaArquivo
         switch ($por) {
             case "A":
                 $calcula = ($tamanho * 100) / $originais['A'];
-                $largura = ($originais['L'] * $calcula) / 100;
+                $largura = \round(($originais['L'] * $calcula) / 100, $arredondarCasas);
+
                 return ["L" => $largura, "A" => $tamanho];
 
             case "L":
                 $calcula = ($tamanho * 100) / $originais['L'];
-                $altura = ($originais['A'] * $calcula) / 100;
+                $altura = \round(($originais['A'] * $calcula) / 100, $arredondarCasas);
                 return ["L" => $tamanho, "A" => $altura];
         }
     }
@@ -154,8 +163,8 @@ class ManipulaImagem extends ManipulaArquivo
                 throw new \Exception("Este arquivo já existe e você não tem permissão para substituí-lo.");
             }
         }
-        
-        if($qualidade > 100 or $qualidade < 0){
+
+        if ($qualidade > 100 or $qualidade < 0) {
             throw new \Exception("Qualidade deve ser um número inteiro entre 1 e 100");
         }
 
