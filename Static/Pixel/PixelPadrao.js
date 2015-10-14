@@ -186,6 +186,12 @@ function sisDescartarAbas()
 
 /* FILTRO */
 function sisFiltrarPadrao(p) {
+    
+    if(!p){
+        $('#sisBuscaGridA').tagsinput('removeAll');
+        $('#sisBuscaGridB').tagsinput('removeAll');
+    }
+    
     $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
         if(ret.sucesso === "true"){
             $("#sisContainerGrid").html(ret.retorno);
