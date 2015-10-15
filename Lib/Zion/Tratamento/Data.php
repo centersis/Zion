@@ -587,7 +587,7 @@ class Data
     public function getIntervaloDatasParaDias($dataInicio, $dataFim = '')
     {
         list($anoI, $mesI, $diaI) = \split('[/.-]', $dataInicio);
-        list($anoF, $mesF, $diaF) = \split('[/.-]', ($dataFim ? $dataFim : \date('d/m/Y')));
+        list($anoF, $mesF, $diaF) = \split('[/.-]', ($dataFim ? $dataFim : \date('Y/m/d')));
 
         $mkTimeInicio = \mktime(0, 0, 0, $mesI, $diaI, $anoI);
         $mkTimeFim = \mktime(0, 0, 0, $mesF, $diaF, $anoF);
