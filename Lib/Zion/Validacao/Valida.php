@@ -28,7 +28,6 @@
  *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
  *
  */
-
 use Zion\Validacao\Texto;
 use Zion\Validacao\Data;
 use Zion\Validacao\Numero;
@@ -99,4 +98,5 @@ class Valida
     {
         return Geral::instancia();
     }
+
 }
