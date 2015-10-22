@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fa25d863f764315954a86c5409bc4fd2",
+    "hash": "b3b9eb7171ea52106267ae1cf73f1e5f",
+    "content-hash": "d9e513940941c7ce790b80461a2f762c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -477,16 +478,16 @@
         },
         {
             "name": "facebook/php-sdk-v4",
-            "version": "5.0.0",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-php-sdk-v4.git",
-                "reference": "b5d7e5c8b85419f9031b08a161e9030dca35f5a1"
+                "reference": "cc551f793492fa92ca107d596a6f1e3a62fb894c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/b5d7e5c8b85419f9031b08a161e9030dca35f5a1",
-                "reference": "b5d7e5c8b85419f9031b08a161e9030dca35f5a1",
+                "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/cc551f793492fa92ca107d596a6f1e3a62fb894c",
+                "reference": "cc551f793492fa92ca107d596a6f1e3a62fb894c",
                 "shasum": ""
             },
             "require": {
@@ -528,7 +529,7 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2015-07-08 19:08:57"
+            "time": "2015-10-13 22:11:58"
         },
         {
             "name": "nette/mail",
@@ -592,16 +593,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v2.3.5",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "298e955ad903c212dc766aa3f9f8ca840b6936eb"
+                "reference": "c9dfaec788eb65d5ef10cefed0ae63bc76febaa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/298e955ad903c212dc766aa3f9f8ca840b6936eb",
-                "reference": "298e955ad903c212dc766aa3f9f8ca840b6936eb",
+                "url": "https://api.github.com/repos/nette/utils/zipball/c9dfaec788eb65d5ef10cefed0ae63bc76febaa8",
+                "reference": "c9dfaec788eb65d5ef10cefed0ae63bc76febaa8",
                 "shasum": ""
             },
             "require": {
@@ -634,29 +635,29 @@
             "authors": [
                 {
                     "name": "David Grudl",
-                    "homepage": "http://davidgrudl.com"
+                    "homepage": "https://davidgrudl.com"
                 },
                 {
                     "name": "Nette Community",
-                    "homepage": "http://nette.org/contributors"
+                    "homepage": "https://nette.org/contributors"
                 }
             ],
             "description": "Nette Utility Classes",
-            "homepage": "http://nette.org",
-            "time": "2015-09-09 00:59:33"
+            "homepage": "https://nette.org",
+            "time": "2015-10-05 12:18:24"
         },
         {
             "name": "twig/twig",
-            "version": "v1.22.1",
+            "version": "v1.22.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "b7fc2469fa009897871fb95b68237286fc54a5ad"
+                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b7fc2469fa009897871fb95b68237286fc54a5ad",
-                "reference": "b7fc2469fa009897871fb95b68237286fc54a5ad",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ebfc36b7e77b0c1175afe30459cf943010245540",
+                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540",
                 "shasum": ""
             },
             "require": {
@@ -704,7 +705,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-09-15 06:50:16"
+            "time": "2015-10-13 07:07:02"
         }
     ],
     "packages-dev": [],
