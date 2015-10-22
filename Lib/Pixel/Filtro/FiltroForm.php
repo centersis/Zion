@@ -49,7 +49,7 @@ class FiltroForm
         $this->idOriginal = [];
     }
 
-    public function montaFiltro($objForm)
+    public function montaFiltro($objForm = null)
     {
         if (!is_object($objForm)) {
             return ['normal' => null,
