@@ -133,7 +133,7 @@ class Conexao
         }
 
         if (!isset(self::$logHash)) {
-            self::$logHash = \bin2hex(\openssl_random_pseudo_bytes(25));
+            self::$logHash = \bin2hex(\openssl_random_pseudo_bytes(10));
         }
 
         return self::$instancia[$bancoMaiusculo];

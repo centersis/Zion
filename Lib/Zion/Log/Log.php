@@ -51,7 +51,7 @@ class Log extends LogSql
             'id' => $logId,
             'acao' => $logAcao,
             'tab' => $logTab
-            ], $this->getSqlCompleta($logSql), ($logHash ? : \bin2hex(\openssl_random_pseudo_bytes(6))));
+            ], $this->getSqlCompleta($logSql), ($logHash ? : \bin2hex(\openssl_random_pseudo_bytes(10))));
     }
 
     /**
