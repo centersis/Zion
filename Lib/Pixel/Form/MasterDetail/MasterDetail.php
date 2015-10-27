@@ -95,7 +95,9 @@ class MasterDetail
                     $ativos[] = $coringa;
                     $coringasMaster[] = $coringa;
 
-                    $this->update($config, $coringa);
+                    if (\filter_input(\INPUT_POST, 'sisMA' . $coringa, \FILTER_DEFAULT) !== 'N') {
+                        $this->update($config, $coringa);
+                    }
                 } else {
                     $coringasMaster[] = $this->insert($config, $coringa);
                 }
@@ -280,9 +282,9 @@ class MasterDetail
 
         $qb = $con->qb();
         $qb->select($codigo)
-                ->from($tabela, '')
-                ->where($qb->expr()->eq($campoReferencia, ':cod'))
-                ->setParameter(':cod', $codigoReferencia);
+            ->from($tabela, '')
+            ->where($qb->expr()->eq($campoReferencia, ':cod'))
+            ->setParameter(':cod', $codigoReferencia);
         $rs = $con->executar($qb);
 
         while ($dados = $rs->fetch()) {
