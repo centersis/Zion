@@ -734,6 +734,12 @@ function sisImprimir()
     window.open("?acao=imprimir&sisModoImpressao=1"+ queryString, 'imprimir');
 }
 
+function sisSalvarCSV()
+{
+    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&'+ $('#sisQueryString').val() : '');
+    window.open("?acao=salvarCSV&sisModoImpressao=1"+ queryString, 'imprimircsv');
+}
+
 function sisSetOrientacaoPDF()
 {
     $('#sisModalPDF').modal();
