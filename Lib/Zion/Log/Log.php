@@ -54,6 +54,31 @@ class Log extends LogSql
             ], $this->getSqlCompleta($logSql), ($logHash ? : \bin2hex(\openssl_random_pseudo_bytes(10))));
     }
 
+    public function registrarAcaoLogado($acao, $descricao)
+    {
+        $modulo = \defined('MODULO') ? \MODULO : null;
+        $usuarioCod = isset($_SESSION['usuarioCod']) ? $_SESSION['usuarioCod'] : null;
+
+        $this->salvarlLog(['usuarioCod' => $usuarioCod,
+            'moduloCod' => $this->getDadosModulo($modulo)['modulocod'],
+            'id' => null,
+            'acao' => $acao,
+            'logDescricao' => $descricao
+            ], null, \bin2hex(\openssl_random_pseudo_bytes(10)));
+    }
+
+    public function registrarAcessoLogado()
+    {
+        $modulo = \defined('MODULO') ? \MODULO : null;
+        $usuarioCod = isset($_SESSION['usuarioCod']) ? $_SESSION['usuarioCod'] : null;
+
+        $this->salvarlLog(['usuarioCod' => $usuarioCod,
+            'moduloCod' => $this->getDadosModulo($modulo)['modulocod'],
+            'id' => null,
+            'acao' => 'Acessou'
+            ], null, \bin2hex(\openssl_random_pseudo_bytes(10)));
+    }
+
     /**
      * 
      * @param \Doctrine\DBAL\Query\QueryBuilder $sql
@@ -163,7 +188,13 @@ class Log extends LogSql
 
     protected function getDadosModulo($moduloNome)
     {
-        return $this->con->execLinha(parent::getDadosModuloSql($moduloNome));
+        if ($moduloNome) {
+            $dados = $this->con->execLinha(parent::getDadosModuloSql($moduloNome));
+            
+            return \count($dados) ? $dados : ['modulocod' => null];
+        }
+
+        return ['modulocod' => null];
     }
 
     protected function salvarlLog($actParams, $sqlCompleta, $logHash)
