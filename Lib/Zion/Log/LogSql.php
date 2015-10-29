@@ -53,10 +53,10 @@ class LogSql
         $this->con = Conexao::conectar($idBanco);
     }
 
-    protected function getDadosModuloSql($moduloNome)
+    protected function getDadosModuloSql($con, $moduloNome)
     {
-        $qb = $this->con->qb();
-
+        $qb = $con->qb();
+        
         $qb->select('*')
             ->from('_modulo', 'a')
             ->where('a.moduloNome = :moduloNome')

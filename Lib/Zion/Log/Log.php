@@ -31,6 +31,8 @@
 
 namespace Zion\Log;
 
+use Zion\Banco\Conexao;
+
 class Log extends LogSql
 {
 
@@ -190,8 +192,10 @@ class Log extends LogSql
 
     protected function getDadosModulo($moduloNome)
     {
+        $con = Conexao::conectar();
+        
         if ($moduloNome) {
-            $dados = $this->con->execLinha(parent::getDadosModuloSql($moduloNome));
+            $dados = $con->execLinha(parent::getDadosModuloSql($con, $moduloNome));
             
             return \count($dados) ? $dados : ['modulocod' => null];
         }
