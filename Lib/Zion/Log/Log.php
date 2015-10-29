@@ -103,7 +103,9 @@ class Log extends LogSql
 
     private function getActionParams()
     {
-        $modulo = $this->getDadosModulo(\MODULO);
+        $modulox = \defined('MODULO') ? \MODULO : null;
+        
+        $modulo = $this->getDadosModulo($modulox);
         $id = \filter_input(\INPUT_POST, 'cod');
         $tab = \filter_input(\INPUT_POST, 'n');
         $acao = \filter_input(\INPUT_GET, 'acao');
