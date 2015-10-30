@@ -529,4 +529,32 @@ class Conexao
         return ($status === 0) ? true : false;
     }
 
+    /**
+     * 
+     * @param \Doctrine\DBAL\Query\QueryBuilder $qb
+     * @return type
+     */
+    public function debugQuery($qb)
+    {
+        if(\is_object($qb) and \get_class($qb) === 'Doctrine\DBAL\Query\QueryBuilder') {
+
+            $params = $qb->getParameters();
+
+            $paramTypes = \array_map(function($param) {
+                return (\is_numeric($param) ? 1 : 2);
+            }, $params);
+
+            $sqlCompleta = $qb->getSQL();
+
+            foreach ($paramTypes as $param => $type) {
+                $replacement = ($type == 1 ? $params[$param] : "'" . $params[$param] . "'");
+                $sqlCompleta = \preg_replace(['/:' . $param . '/', '/\?/'], $replacement, $sqlCompleta, 1);
+            }
+
+            return $sqlCompleta;
+
+        } else {
+            return "O objeto informado por parâmetro não é um objeto Query Builder.";
+        }
+    }
 }
