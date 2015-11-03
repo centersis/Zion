@@ -169,7 +169,7 @@ class PDF
         return ($files . $css);
     }
 
-    public function imprimeRelatorioPDF($html, $cssFile = NULL, $cssPath = NULL, $tituloRelatorio = NULL, $legenda = false, $orientacao = "P")
+    public function imprimeRelatorioPDF($html, $cssFile = NULL, $cssPath = NULL, $tituloRelatorio = NULL, $legenda = false, $orientacao = "P", $output = "D")
     {
         $texto = \Zion\Tratamento\Texto::instancia();
 
@@ -206,7 +206,7 @@ class PDF
             
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html, 2);
-            $mpdf->Output($nomeArquivo, 'D');
+            $mpdf->Output($nomeArquivo, $output);
             
             return false;
 
