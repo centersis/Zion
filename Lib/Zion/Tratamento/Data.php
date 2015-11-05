@@ -598,5 +598,18 @@ class Data
             return false;
         }
     }
+    
+    public function getDataParseManual($data, $format = 'dmY')
+    {
+        
+        if($format == 'dmY') {
+            list($dia, $mes, $ano) = \split('[/.-]', $data);        
+        } else {
+            list($ano, $mes, $dia) = \split('[/.-]', $data);        
+        }       
+        
+        return ['dia' => $dia, 'mes' => $mes, 'ano' => $ano];        
+        
+    }    
 
 }
