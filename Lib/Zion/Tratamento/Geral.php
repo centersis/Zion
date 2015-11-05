@@ -220,5 +220,18 @@ class Geral
 
         return $new_array;
     }
+    
+    public function ordenaArrayMulti($array, $on1, $order1 = \SORT_ASC, $on2, $order2 = \SORT_ASC)
+    {
+
+        foreach($array as $key => $value){
+            $a[$key] = $value[$on2];
+            $b[$key] = $value[$on1];
+        }
+       
+        \array_multisort($b, $order1, $a, $order2, $array);
+        return $array;
+        
+    }    
 
 }
