@@ -682,11 +682,11 @@ class CrudUtil
         return $campos;
     }
 
-    public function getColunasDinamicas($colunas)
+    public function getColunasDinamicas($colunas, $configuracaoPersonalizada)
     {
         $usuarioGridColunas = '';
 
-        if (\defined('MODULO')) {
+        if (\defined('MODULO') and $configuracaoPersonalizada) {
 
             $qbModulo = $this->con->qb();
 
