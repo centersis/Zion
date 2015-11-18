@@ -682,7 +682,7 @@ class CrudUtil
         return $campos;
     }
 
-    public function getColunasDinamicas($colunas, $configuracaoPersonalizada)
+    public function getColunasDinamicas($colunas, $configuracaoPersonalizada = true)
     {
         $usuarioGridColunas = '';
 
