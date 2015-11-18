@@ -186,7 +186,11 @@ class Conexao
         if (\is_object($sql)) {
 
             if ($sql->getType() !== 0) {
-                (new Log())->registraLog($sql, self::$logHash);
+                try {
+                    (new Log())->registraLog($sql, self::$logHash);
+                } catch (\Exception $e) {
+                    
+                }
             }
 
             $resultSet = $sql->execute();
@@ -440,7 +444,7 @@ class Conexao
     {
         $qb = $this->qb();
         $qb->select($qb->expr()->max($idTabela))
-                ->from($tabela, '');
+            ->from($tabela, '');
 
         return $this->execRLinha($qb);
     }
@@ -460,14 +464,14 @@ class Conexao
         $qb = $this->qb();
 
         $qb->select($campo)
-                ->from($tabela, '');
+            ->from($tabela, '');
 
         if ($inteiro) {
             $qb->where($qb->expr()->eq($campo, $qb->expr()->eq($campo, '?')))
-                    ->setParameter(0, $valor, \PDO::PARAM_INT);
+                ->setParameter(0, $valor, \PDO::PARAM_INT);
         } else {
             $qb->where($qb->expr()->eq($campo, '?'))
-                    ->setParameter(0, $valor, \PDO::PARAM_STR);
+                ->setParameter(0, $valor, \PDO::PARAM_STR);
         }
 
         $qb->setMaxResults(1);
@@ -525,4 +529,32 @@ class Conexao
         return ($status === 0) ? true : false;
     }
 
+    /**
+     * 
+     * @param \Doctrine\DBAL\Query\QueryBuilder $qb
+     * @return type
+     */
+    public function debugQuery($qb)
+    {
+        if(\is_object($qb) and \get_class($qb) === 'Doctrine\DBAL\Query\QueryBuilder') {
+
+            $params = $qb->getParameters();
+
+            $paramTypes = \array_map(function($param) {
+                return (\is_numeric($param) ? 1 : 2);
+            }, $params);
+
+            $sqlCompleta = $qb->getSQL();
+
+            foreach ($paramTypes as $param => $type) {
+                $replacement = ($type == 1 ? $params[$param] : "'" . $params[$param] . "'");
+                $sqlCompleta = \preg_replace(['/:' . $param . '/', '/\?/'], $replacement, $sqlCompleta, 1);
+            }
+
+            return $sqlCompleta;
+
+        } else {
+            return "O objeto informado por parâmetro não é um objeto Query Builder.";
+        }
+    }
 }

@@ -53,10 +53,10 @@ class LogSql
         $this->con = Conexao::conectar($idBanco);
     }
 
-    protected function getDadosModuloSql($moduloNome)
+    protected function getDadosModuloSql($con, $moduloNome)
     {
-        $qb = $this->con->qb();
-
+        $qb = $con->qb();
+        
         $qb->select('*')
             ->from('_modulo', 'a')
             ->where('a.moduloNome = :moduloNome')
@@ -73,25 +73,31 @@ class LogSql
         $qb->insert('_log')
             ->values(['usuarioCod' => ':usuarioCod',
                 'moduloCod' => ':moduloCod',
+                'organogramaCod' => ':organogramaCod',
                 'logHash' => ':logHash',
                 'logId' => ':logId',
                 'logAcao' => ':logAcao',
+                'logDescricao' => ':logDescricao',
                 'logTab' => ':logTab',
                 'logSql' => ':logSql',
                 'logDataHora' => $qb->expr()->literal(date('Y-m-d H:i:s'))
             ])
             ->setParameters(['usuarioCod' => $actParams['usuarioCod'],
                 'moduloCod' => $actParams['moduloCod'],
+                'organogramaCod' => $_SESSION['organogramaCod'],
                 'logHash' => $logHash,
                 'logId' => $actParams['id'],
                 'logAcao' => $actParams['acao'],
-                'logTab' => $actParams['tab'],
+                'logDescricao' => \array_key_exists('logDescricao',$actParams) ? $actParams['logDescricao'] : null,
+                'logTab' => \array_key_exists('tab',$actParams) ? $actParams['tab'] : null,
                 'logSql' => $sqlCompleta
                 ], ['usuarioCod' => \PDO::PARAM_INT,
                 'moduloCod' => \PDO::PARAM_INT,
+                'organogramaCod' => \PDO::PARAM_INT,
                 'logHash' => \PDO::PARAM_STR,
                 'logId' => \PDO::PARAM_INT,
                 'logAcao' => \PDO::PARAM_STR,
+                'logDescricao' => \PDO::PARAM_STR,
                 'logTab' => \PDO::PARAM_STR,
                 'logSql' => \PDO::PARAM_STR
         ]);

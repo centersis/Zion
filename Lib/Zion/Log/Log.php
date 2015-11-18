@@ -31,6 +31,8 @@
 
 namespace Zion\Log;
 
+use Zion\Banco\Conexao;
+
 class Log extends LogSql
 {
 
@@ -52,6 +54,31 @@ class Log extends LogSql
             'acao' => $logAcao,
             'tab' => $logTab
             ], $this->getSqlCompleta($logSql), ($logHash ? : \bin2hex(\openssl_random_pseudo_bytes(10))));
+    }
+
+    public function registrarAcaoLogado($acao, $descricao)
+    {
+        $modulo = \defined('MODULO') ? \MODULO : null;
+        $usuarioCod = isset($_SESSION['usuarioCod']) ? $_SESSION['usuarioCod'] : null;
+
+        $this->salvarlLog(['usuarioCod' => $usuarioCod,
+            'moduloCod' => $this->getDadosModulo($modulo)['modulocod'],
+            'id' => null,
+            'acao' => $acao,
+            'logDescricao' => $descricao
+            ], null, \bin2hex(\openssl_random_pseudo_bytes(10)));
+    }
+
+    public function registrarAcessoLogado()
+    {
+        $modulo = \defined('MODULO') ? \MODULO : null;
+        $usuarioCod = isset($_SESSION['usuarioCod']) ? $_SESSION['usuarioCod'] : null;
+
+        $this->salvarlLog(['usuarioCod' => $usuarioCod,
+            'moduloCod' => $this->getDadosModulo($modulo)['modulocod'],
+            'id' => null,
+            'acao' => 'Acessou'
+            ], null, \bin2hex(\openssl_random_pseudo_bytes(10)));
     }
 
     /**
@@ -78,7 +105,9 @@ class Log extends LogSql
 
     private function getActionParams()
     {
-        $modulo = $this->getDadosModulo(\MODULO);
+        $modulox = \defined('MODULO') ? \MODULO : null;
+        
+        $modulo = $this->getDadosModulo($modulox);
         $id = \filter_input(\INPUT_POST, 'cod');
         $tab = \filter_input(\INPUT_POST, 'n');
         $acao = \filter_input(\INPUT_GET, 'acao');
@@ -163,7 +192,15 @@ class Log extends LogSql
 
     protected function getDadosModulo($moduloNome)
     {
-        return $this->con->execLinha(parent::getDadosModuloSql($moduloNome));
+        $con = Conexao::conectar();
+        
+        if ($moduloNome) {
+            $dados = $con->execLinha(parent::getDadosModuloSql($con, $moduloNome));
+            
+            return \count($dados) ? $dados : ['modulocod' => null];
+        }
+
+        return ['modulocod' => null];
     }
 
     protected function salvarlLog($actParams, $sqlCompleta, $logHash)
