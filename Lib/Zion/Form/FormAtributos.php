@@ -127,7 +127,11 @@ class FormAtributos
             $buffer .= '<div id="' . $config->getContainer() . '">';
         }
 
-        $buffer .= "<button " . \str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
+        if(!empty($config->getLabel())){
+            $buffer .= "<button " . \str_repeat('%s', $totalAtributos - 1) . ">". $config->getLabel() ." %s</button>";
+        } else {
+            $buffer .= "<button " . \str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
+        }
 
         if ($config->getContainer()) {
             $buffer .= '</div>';
