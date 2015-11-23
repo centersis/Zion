@@ -40,6 +40,7 @@ class FormInputButton extends FormBasico
     private $metodo;
     private $action;
     private $target;
+    private $label;
     
     public function __construct($acao, $nome, $identifica)
     {
@@ -106,6 +107,22 @@ class FormInputButton extends FormBasico
         return $this->target;
     }
 
+    public function setLabel($label)
+    {
+        if(!is_null($label)){
+            $this->label = $label;
+            return $this;
+        } else {
+            throw new FormException("label: Nenhum valor informado.");
+        }
+
+    }
+    
+    public function getLabel()
+    {
+        return $this->label;
+    }
+    
     /**
      * Sobrecarga de Metodos Básicos
      */    

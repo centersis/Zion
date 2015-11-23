@@ -188,6 +188,15 @@ class Form extends FormZion
         return $botaoDescartarAbas;
     }
 
+    /**
+     * @return \Zion\Form\FormInputButton
+     */
+    public function botaoLabeled($nome, $identifica)
+    {
+        return (new FormInputButton('button', $nome, $identifica))
+                ->setClassCss('btn btn-labeled');
+    }
+    
     public function botaoSimples($nome, $identifica)
     {
         return new FormInputButton('button', $nome, $identifica);
