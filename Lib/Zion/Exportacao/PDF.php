@@ -96,7 +96,7 @@ class PDF
             }
             
             $mpdf->WriteHTML($stylesheet, 1);
-            $mpdf->WriteHTML($html, 2);
+            $mpdf->WriteHTML($html);
 
             $mpdf->Output($pdfPath . uniqid() .'_relatorio_'. \strtolower(MODULO) .'_'. date('d-m-Y') .'.pdf', 'F');
             $mpdf->Output($nomeArquivo, 'D');
@@ -205,7 +205,7 @@ class PDF
             }
             
             $mpdf->WriteHTML($stylesheet, 1);
-            $mpdf->WriteHTML($html, 2);
+            $mpdf->WriteHTML($html);
             $mpdf->Output($nomeArquivo, $output);
             
             return false;
@@ -233,7 +233,7 @@ class PDF
 
             $mpdf->setFooter('{PAGENO}/{nbpg}');
             $mpdf->WriteHTML($stylesheet, 1);
-            $mpdf->WriteHTML($html, 2);
+            $mpdf->WriteHTML($html);
             $mpdf->Output($titulo, 'D');
         } catch (Exception $e) {
             return false;
