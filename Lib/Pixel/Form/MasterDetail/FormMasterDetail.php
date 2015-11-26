@@ -48,6 +48,7 @@ class FormMasterDetail
     private $codigo;
     private $campos;
     private $botaoRemover;
+    private $botaoAdd;
     private $totalItensInicio;
     private $valorItensDeInicio;
     private $objetoPai;
@@ -78,6 +79,7 @@ class FormMasterDetail
         $this->nome = $nome;
         $this->identifica = $identifica;
         $this->botaoRemover = true;
+        $this->botaoAdd = true;
         $this->addMax = 20;
         $this->addMin = 0;
         $this->addTexto = 'Novo Registro';
@@ -287,6 +289,27 @@ class FormMasterDetail
     public function getBotaoRemover()
     {
         return $this->botaoRemover;
+    }
+    
+    /**
+     * Indica se o botão Add deve existir
+     * @param boolean $botaoAdd
+     * @return \Pixel\Form\FormMasterDetail
+     * @throws FormException
+     */
+    public function setBotaoAdd($botaoAdd)
+    {
+        if (!\is_bool($botaoAdd)) {
+            throw new FormException('setBotaoAdd: Informe um valor booleano!');
+        }
+
+        $this->botaoRemover = $botaoAdd;
+        return $this;
+    }
+
+    public function getBotaoAdd()
+    {
+        return $this->botaoAdd;
     }
 
     /**

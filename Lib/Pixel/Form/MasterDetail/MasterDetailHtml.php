@@ -87,6 +87,10 @@ class MasterDetailHtml
         if ($config->getBotaoRemover()) {
             $this->buffer['botaoRemover'] = 'true';
         }
+        
+        if ($config->getBotaoAdd()) {
+            $this->buffer['mostrarBotaoAdd'] = 'true';
+        }
 
         if ($parametrosView) {
             foreach ($parametrosView as $pvChave => $pvValue) {
