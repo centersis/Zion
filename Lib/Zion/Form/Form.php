@@ -378,11 +378,22 @@ class Form
                 return $valor;
         }
     }
-
-    public function getObjetos($nome = null)
+    
+    /**
+     * 
+     * @param type $nome
+     * @param type $returnType, especifica o tipo de retorno esperado em caso de exceção
+     * @return type
+     * @throws \Exception
+     */
+    public function getObjetos($nome = null, $returnType = false)
     {
         if ($nome and ! \array_key_exists($nome, $this->objetos)) {
-            throw new \Exception('Objeto ' . $nome . ' não existe!');
+            if(!$returnType) {
+                throw new \Exception('Objeto ' . $nome . ' não existe!');
+            } elseif($returnType === 'bool') {
+                return false;
+            }
         }
 
         return $nome ? $this->objetos[$nome] : $this->objetos;
