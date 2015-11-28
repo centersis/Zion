@@ -77,13 +77,17 @@ class CrudUtil
         return ["pa", "qo", "to", "sisBuscaGeral"];
     }
 
-    public function setParametrosForm($objForm, $parametrosSql, $cod = 0)
+    public function setParametrosForm($objForm, $parametrosSql, $cod = 0, $cod1 = 0)
     {
         $arrayObjetos = $objForm->getObjetos();
 
         if ($cod and \array_key_exists('cod', $arrayObjetos)) {
             $arrayObjetos['cod']->setValor($cod);
         }
+        
+        if ($cod1 and \array_key_exists('cod1', $arrayObjetos)) {
+            $arrayObjetos['cod1']->setValor($cod1);
+        }        
 
         if (\is_array($arrayObjetos)) {
             foreach ($arrayObjetos as $nome => $objeto) {
