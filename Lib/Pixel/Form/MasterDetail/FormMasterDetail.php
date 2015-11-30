@@ -303,7 +303,7 @@ class FormMasterDetail
             throw new FormException('setBotaoAdd: Informe um valor booleano!');
         }
 
-        $this->botaoRemover = $botaoAdd;
+        $this->botaoAdd = $botaoAdd;
         return $this;
     }
 
