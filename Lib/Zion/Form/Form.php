@@ -9,7 +9,7 @@
  *    Email do autor: sappiens@braconsultoria.com.br
  *
  *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
+ *
  *    Este programa é software livre; você pode redistribuí-lo e/ou
  *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
  *    publicada pela Free Software Foundation, versão 2.
@@ -19,7 +19,7 @@
  *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
  *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
  *    detalhes.
- * 
+ *
  *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
  *    junto com este programa; se não, escreva para a Free Software
  *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -290,9 +290,7 @@ class Form
                 return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
 
             case 'number' : case 'numero' :
-
-                return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_INT;
-
+                return is_numeric($valor) ? \PDO::PARAM_INT : \PDO::PARAM_NULL;
             default:
 
                 if (\is_array($valor)) {
@@ -378,9 +376,9 @@ class Form
                 return $valor;
         }
     }
-    
+
     /**
-     * 
+     *
      * @param type $nome
      * @param type $returnType, especifica o tipo de retorno esperado em caso de exceção
      * @return type
