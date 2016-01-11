@@ -214,77 +214,40 @@ class PDF
             return $e->getMessage();
          }
     }
-
-    public function imprimePDF($html, $tituloArquivo = NULL, $orientacao = NULL) {
-
-        $titulo = (is_null($tituloArquivo) ? uniqid() . '_relatorio_' . date('d-m-Y-H:i:s') : $tituloArquivo) . '.pdf';
-        $orientacao = (is_null($orientacao) ? 'P' : $orientacao);
-
+    
+    public function salvaArquivoPDF($html, $cssFile = NULL, $cssPath = NULL, $filePathName = NULL, $legenda = false, $orientacao = "P")
+    {        
         try {
 
-            include_once(SIS_FM_BASE . 'Lib\mPDF\mpdf.php');
-            $mpdf = new \mPDF();
+            if(\count($html) < 1){
+                throw new \Exception('Nenhum dado a ser exibido!');
+            }
 
-            $mpdf->CurOrientation = $orientacao;
+            include_once(\SIS_FM_BASE . 'Lib/mPDF/mpdf.php');
+            
+            if($cssPath !== NULL and $cssFile !== NULL){
+                $stylesheet = $this->loadCss($cssFile, $cssPath);
+            }
+
+            $mpdf = new \mPDF('c', 'A4-'. \strtoupper($orientacao));
 
             $mpdf->allow_charset_conversion = true;
-            $mpdf->charset_in = 'UTF-8';
-            $stylesheet = $this->getEstiloRelatorio();
+            $mpdf->charset_in    = 'UTF-8';
 
-            $mpdf->setFooter('{PAGENO}/{nbpg}');
+            if($legenda !== false){
+                $mpdf->SetHTMLFooter($legenda);
+            } else {
+                $mpdf->SetFooter('{PAGENO}/{nbpg}');
+            }
+
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($html);
-            $mpdf->Output($titulo, 'D');
-        } catch (Exception $e) {
+            $mpdf->Output($filePathName, 'F');
+
             return false;
-        }
+
+         } catch(\Exception $e) {
+            return $e->getMessage();
+         }
     }
-
-    private function getEstiloRelatorio() {
-
-        $stylesheet = '
-            th {
-                font-family: Verdana, Arial, Helvetica, sans-serif;
-                background-color: #666666;
-                color:#FFFFFF;
-                font-size: 13px;
-                height:30px;
-            }
-			tbody{
-				margin-top:20px;
-				border:1px solid #666666;
-				border-bottom: none;
-			}
-			.table-bordered {
-				margin-bottom:20px;
-                width: 100%;
-			 }
-            .table-bordered tr{
-                border:1px solid #666666;
-                
-			}
-            td {
-                border:1px solid #666666;
-                font-family: Verdana, Arial, Helvetica, sans-serif;
-                font-size: 12px;
-				text-align:center;
-				height:25px;
-            }
-            .t12preto {
-                font-family: Verdana, Arial, Helvetica, sans-serif;            
-                font-size: 12px;
-                color: #000000;            
-                text-decoration: none;
-                border:none;
-            }
-            .table-footer{
-                font-family: Verdana, Arial, Helvetica, sans-serif;
-                font-size: 12px;
-                text-decoration: none;
-            }';
-
-        return $stylesheet;
-    }
-
-
 }
