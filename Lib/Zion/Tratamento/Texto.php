@@ -59,7 +59,7 @@ class Texto
      * Texto::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
      * 
-     * @return Texto
+     * @return object
      */
     public static function instancia()
     {

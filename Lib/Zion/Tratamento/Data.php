@@ -36,6 +36,9 @@ use Zion\Validacao\Data as ValidacaoData;
 class Data
 {
 
+    /** 
+     * @var object $instancia
+     */
     private static $instancia;
 
     private function __construct()
@@ -47,7 +50,7 @@ class Data
      * Data::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
      * 
-     * @return Data
+     * @return self
      */
     public static function instancia()
     {

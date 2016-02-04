@@ -39,6 +39,9 @@ use Zion\Tratamento\Geral;
 class Tratamento
 {
 
+    /**
+     * @var object $instancia Instância da classe singleton
+     */
     private static $instancia;
 
     public function __construct()
@@ -47,10 +50,10 @@ class Tratamento
     }
 
     /**
-     * Valida::instancia()
+     * Tratamento::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
      * 
-     * @return \Zion\Tratamento
+     * @return Tratamento
      */
     public static function instancia()
     {
@@ -66,7 +69,7 @@ class Tratamento
      * Tratamento::texto()
      * Retorna uma instância da classe de tratamento de Strings. Texto()
      * 
-     * @return Zion\Tratamento\Texto
+     * @return Texto
      */
     public function texto()
     {
@@ -77,7 +80,7 @@ class Tratamento
      * Tratamento::data()
      * Retorna uma instância da classe de tratamento de Datas. Data()
      * 
-     * @return Zion\Tratamento\Data
+     * @return Data
      */
     public function data()
     {
@@ -88,7 +91,7 @@ class Tratamento
      * Tratamento::numero()
      * Retorna uma instância da classe de tratamento de Float. Numero()
      * 
-     * @return Zion\Tratamento\Numero
+     * @return Numero
      */
     public function numero()
     {
@@ -99,7 +102,7 @@ class Tratamento
      * Tratamento::geral()
      * Retorna uma instância da classe de tratamento de inputs especias. Geral()
      * 
-     * @return \Zion\Tratamento\Geral
+     * @return Geral
      */
     public function geral()
     {
