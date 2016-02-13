@@ -9,7 +9,7 @@
  *    Email do autor: sappiens@braconsultoria.com.br
  *
  *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
+ *
  *    Este programa é software livre; você pode redistribuí-lo e/ou
  *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
  *    publicada pela Free Software Foundation, versão 2.
@@ -19,7 +19,7 @@
  *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
  *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
  *    detalhes.
- * 
+ *
  *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
  *    junto com este programa; se não, escreva para a Free Software
  *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -66,7 +66,7 @@ class FormValida
     /**
      * FormValida::__construct()
      * Construtor
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -82,7 +82,7 @@ class FormValida
     /**
      * FormValida::configuraInstances()
      * Detecta o tipo de input a ser validado, seta informações básicas necessárias para a validação.
-     * 
+     *
      * @param Zion\Form $form Instância de uma classe de formulário com as configurações do input a ser validado.
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\InvalidArgumeException se $form não for uma instância válida de uma das classes de formulário.
@@ -110,7 +110,7 @@ class FormValida
     /**
      * FormValida::validar()
      * Valida input do tipo Texto
-     * 
+     *
      * @param mixed $formInput Instância da classe \Zion\Form; ou \Pixel\Form; com as configurações do input a ser validado.
      * @return bool True, em caso de input válido, void otherwise.
      * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
@@ -217,7 +217,7 @@ class FormValida
                                 throw new FormException($identifica . ": A opção 'multiplo' está ativada, o valor submetido deve ser um array!");
                             }
 
-                            if (empty($userValue) and $formInput->getObrigatorio() === true) {
+                            if ($userValue == '' and $formInput->getObrigatorio() === true) {
                                 throw new FormException($identifica . ": selecione uma ou mais opções!");
                             }
 
@@ -317,7 +317,7 @@ class FormValida
     /**
      * FormValida::getAtributos()
      * Detecta todos os atributos da classe e seus respectivos valores.
-     * 
+     *
      * @param \Zion\Form $formInput Instância de uma das classes de formulário com as configurações do input a ser validado.
      * @return array()
      */
