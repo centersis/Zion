@@ -38,20 +38,17 @@ use Pixel\Form\FormPixelJavaScript;
 use Pixel\Twig\Carregador;
 use App\Sistema\Ajuda\AjudaView;
 
-class MasterDetailHtml
-{
+class MasterDetailHtml {
 
     private $buffer;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->buffer = [];
 
         $this->buffer['ativos'] = '';
     }
 
-    public function montaMasterDetail(FormMasterDetail $config, $nomeForm)
-    {
+    public function montaMasterDetail(FormMasterDetail $config, $nomeForm) {
         $totalInicio = $config->getTotalItensInicio();
         $objPai = $config->getObjetoPai();
         $valorItensDeInicio = $config->getValorItensDeInicio();
@@ -87,7 +84,7 @@ class MasterDetailHtml
         if ($config->getBotaoRemover()) {
             $this->buffer['botaoRemover'] = 'true';
         }
-        
+
         if ($config->getBotaoAdd()) {
             $this->buffer['mostrarBotaoAdd'] = 'true';
         }
@@ -103,8 +100,7 @@ class MasterDetailHtml
         return $carregador->render($config->getView(), $this->buffer);
     }
 
-    private function camposDoBanco(FormMasterDetail $config, $nomeForm)
-    {
+    private function camposDoBanco(FormMasterDetail $config, $nomeForm) {
         $con = Conexao::conectar();
 
         $ativos = [];
@@ -119,6 +115,11 @@ class MasterDetailHtml
         $nomeCampos = \array_keys($campos);
 
         foreach ($nomeCampos as $chave => $nome) {
+
+            if (\substr_count($nome, '[]') > 0) {
+                $nomeCampos[$chave] = \str_replace('[]', '', $nome);
+            }
+
             if ($campos[$nome]->getTipoBase() === 'upload') {
                 unset($nomeCampos[$chave]);
             }
@@ -151,8 +152,7 @@ class MasterDetailHtml
         $this->buffer['ativos'] = \implode(',', $ativos);
     }
 
-    private function montaGrupoDeCampos($config, $coringa, $nomeForm, array $valores = [], $limpar = false)
-    {
+    private function montaGrupoDeCampos($config, $coringa, $nomeForm, array $valores = [], $limpar = false) {
         $form = new Form();
         $pixelJs = new FormPixelJavaScript();
 
@@ -161,16 +161,29 @@ class MasterDetailHtml
         $nomeOriginal = '';
         $ajudaViewClass = null;
 
-        foreach ($campos as $nomeOriginal => $configuracao) {            
-            
+        foreach ($campos as $nomeOriginal => $configuracao) {
+
             $arCampos = [];
 
-            $novoNomeId = $nomeOriginal . $coringa;
+            $temColchetes = false;
+
+            if (\substr_count($nomeOriginal, '[]') > 0) {
+                $temColchetes = true;
+                $nomeOriginal = \str_replace('[]', '', $nomeOriginal);
+            }
+
+            $novoNomeId = $nomeOriginal . $coringa . ($temColchetes ? '[]' : '');
             $nomeOriginalMinusculo = \strtolower($nomeOriginal);
 
             if (!empty($valores) and \array_key_exists($nomeOriginalMinusculo, $valores)) {
 
-                $configuracao->setValor($valores[$nomeOriginalMinusculo]);
+                if ($temColchetes) {
+                    $v = \explode(',', $valores[$nomeOriginalMinusculo]);
+                } else {
+                    $v = $valores[$nomeOriginalMinusculo];
+                }
+
+                $configuracao->setValor($v);
             }
 
             if ($limpar) {
@@ -209,13 +222,13 @@ class MasterDetailHtml
                 try {
                     $ajudaViewClass = (\is_object($ajudaViewClass)) ? $ajudaViewClass : new AjudaView();
 
-                     $this->buffer['ajudaHash'][$nomeOriginal] = $ajudaViewClass->getAjudaHash($configuracao->getHashAjuda());
+                    $this->buffer['ajudaHash'][$nomeOriginal] = $ajudaViewClass->getAjudaHash($configuracao->getHashAjuda());
                 } catch (\Exception $e) {
                     // noop
                 }
             }
-            
-            
+
+
             if (\method_exists($configuracao, 'getEmColunaDeTamanho')) {
                 $this->buffer['emColunas'][$nomeOriginal] = $configuracao->getEmColunaDeTamanho();
 
@@ -239,7 +252,7 @@ class MasterDetailHtml
             if (\method_exists($configuracao, 'getIconFA') and $configuracao->getIconFA()) {
                 $this->buffer['iconFA'][$nomeOriginal] = 'fa ' . $configuracao->getIconFA() . ' form-control-feedback';
             }
-            
+
             if (\method_exists($configuracao, 'getComplementoExterno') and $configuracao->getComplementoExterno()) {
                 $this->buffer['complementoExterno'][$nomeOriginal] = $configuracao->getComplementoExterno();
             }
@@ -252,8 +265,7 @@ class MasterDetailHtml
         }
     }
 
-    private function botaoAdd(FormMasterDetail $config, $nomeForm, $ativos)
-    {
+    private function botaoAdd(FormMasterDetail $config, $nomeForm, $ativos) {
         $coringa = $this->coringa();
 
         $this->buffer['botaoAdd'] = $config->getAddTexto();
@@ -263,8 +275,7 @@ class MasterDetailHtml
         $this->buffer['config'] = ['addMax' => $config->getAddMax(), 'addMin' => $config->getAddMin(), 'botaoRemover' => $config->getBotaoRemover() ? 'true' : 'false', 'coringa' => $coringa, 'ativos' => $ativos];
     }
 
-    private function coringa()
-    {
+    private function coringa() {
         $letras = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return \substr(\str_shuffle($letras), 0, 5);
     }

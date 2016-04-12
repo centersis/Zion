@@ -37,20 +37,17 @@ use Zion\Banco\Conexao;
 use Zion\Validacao\Geral;
 use Pixel\Arquivo\ArquivoUpload;
 
-class MasterDetail
-{
+class MasterDetail {
 
     private $dados;
     private $contaRepeticao;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->dados = [];
         $this->contaRepeticao = [];
     }
 
-    public function gravar(FormMasterDetail $config)
-    {
+    public function gravar(FormMasterDetail $config) {
         $identifica = $config->getIdentifica();
 
         if ($config->getIUpload()) {
@@ -95,7 +92,7 @@ class MasterDetail
                     $ativos[] = $coringa;
                     $coringasMaster[] = $coringa;
 
-                    if (\filter_input(\INPUT_POST, 'sisMA'.$nome. $coringa, \FILTER_DEFAULT) !== 'N') {
+                    if (\filter_input(\INPUT_POST, 'sisMA' . $nome . $coringa, \FILTER_DEFAULT) !== 'N') {
                         $this->update($config, $coringa);
                     }
                 } else {
@@ -143,8 +140,7 @@ class MasterDetail
         }
     }
 
-    private function update($config, $coringa)
-    {
+    private function update($config, $coringa) {
         $crudUtil = new CrudUtil();
 
         $tabela = $config->getTabela();
@@ -197,8 +193,7 @@ class MasterDetail
         }
     }
 
-    private function insert($config, $coringa)
-    {
+    private function insert($config, $coringa) {
         $crudUtil = new CrudUtil();
 
         $tabela = $config->getTabela();
@@ -215,7 +210,13 @@ class MasterDetail
         foreach ($campos as $campo => $objForm) {
 
             $objForm->setNome($campo);
-            $valorCampo = $objPai->retornaValor($campo . $coringa);
+
+            if (\substr_count($campo, '[]') > 0) {
+                $valorCampo = (array) $objPai->retornaValor($campo . $coringa . '[]');
+            } else {
+                $valorCampo = $objPai->retornaValor($campo . $coringa);
+            }
+
             $objForm->setValor($valorCampo);
 
             if ($naoRepetir and \in_array($campo, $naoRepetir)) {
@@ -267,8 +268,7 @@ class MasterDetail
         }
     }
 
-    private function removeItens(FormMasterDetail $config, array $aRemover = [])
-    {
+    private function removeItens(FormMasterDetail $config, array $aRemover = []) {
         $con = Conexao::conectar();
 
         $crudUtil = new CrudUtil();
@@ -282,9 +282,9 @@ class MasterDetail
 
         $qb = $con->qb();
         $qb->select($codigo)
-            ->from($tabela, '')
-            ->where($qb->expr()->eq($campoReferencia, ':cod'))
-            ->setParameter(':cod', $codigoReferencia);
+                ->from($tabela, '')
+                ->where($qb->expr()->eq($campoReferencia, ':cod'))
+                ->setParameter(':cod', $codigoReferencia);
         $rs = $con->executar($qb);
 
         while ($dados = $rs->fetch()) {
@@ -302,8 +302,7 @@ class MasterDetail
         }
     }
 
-    private function validaDados(FormMasterDetail $config, $coringa)
-    {
+    private function validaDados(FormMasterDetail $config, $coringa) {
         $valida = Geral::instancia();
 
         $nome = $config->getNome();

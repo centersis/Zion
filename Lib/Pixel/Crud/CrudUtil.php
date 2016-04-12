@@ -147,6 +147,24 @@ class CrudUtil
 
         $this->sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca);
     }
+    
+    public function getSqlFiltroPorObjeto($fil, $objForm, $queryBuilder, $queryObject)
+    {
+        if (\is_object($objForm)) {
+            $arrayForm = $objForm->getObjetos();
+
+            if (\is_array($arrayForm)) {
+                foreach ($arrayForm as $cFG) {
+                    if (\method_exists($cFG, 'getAliasSql')) {
+                        $alias = ($cFG->getAliasSql() == '') ? '' : $cFG->getAliasSql() . '.';
+                    } else {
+                        $alias = '';
+                    }
+                    $fil->getStringSql($cFG->getNome(), $alias . $cFG->getNome(), $queryBuilder, $queryObject);
+                }
+            }
+        }
+    }
 
     private function modoBusca($modoBusca, $filtroDinamico)
     {
