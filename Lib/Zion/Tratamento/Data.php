@@ -657,5 +657,38 @@ class Data
         return ['dia' => $dia, 'mes' => $mes, 'ano' => $ano];        
         
     }    
+    
+    public function getDataSemSeparador($data)
+    {
+        
+        if(\strlen($data) === 8) {
+            
+            $d = \substr($data, 0, 2);
+            $m = \substr($data, 2, 2);
+            $a = \substr($data, 4, 4);
+            
+            if(\checkdate($m, $d, $a) and $a >= 1800) {
+                
+                return ['dia' => $d, 'mes' => $m, 'ano' => $a];
+                
+            } else {
+                
+                $a = \substr($data, 0, 4);
+                $m = \substr($data, 4, 2);
+                $d = \substr($data, 6, 2);                
+                
+                if(\checkdate($m, $d, $a)) {
+                    
+                    return ['dia' => $d, 'mes' => $m, 'ano' => $a];
+                    
+                } 
+                
+            }
+            
+            return false;
+            
+        }
+        
+    }
 
 }
