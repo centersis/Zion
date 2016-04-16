@@ -1,0 +1,21 @@
+{
+  "name": "sappiens/zion",
+  "description": "Módulos baseados em sappiens framework",
+  "authors": [
+    {
+      "name": "Sappiens",
+      "email": "team@sappiens.com.br"
+    }
+  ],
+  "require": {
+    "twig/twig": "~1.22",
+    "doctrine/dbal": ">=2.3.5",
+    "nette/mail": "2.3.0",
+    "facebook/php-sdk-v4" : "~5.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "": "Lib/"
+    }
+  }
+}
