@@ -658,7 +658,12 @@ class Data
         
     }    
     
-    public function getDataSemSeparador($data)
+    /*
+     * $data = a data recebida sem separadores
+     * $retorno = o formato esperado para o retorno podendo ser:
+     * dmY, d/m/Y, d-m-Y, Ymd, Y/m/d, Y-m-d ou vazio para retornar ['dia' => 01, 'mes' => 12, 'ano' => 2015]
+     */
+    public function getDataSemSeparador($data, $retorno = '')
     {
         
         if(\strlen($data) === 8) {
@@ -668,8 +673,8 @@ class Data
             $a = \substr($data, 4, 4);
             
             if(\checkdate($m, $d, $a) and $a >= 1800) {
-                
-                return ['dia' => $d, 'mes' => $m, 'ano' => $a];
+                                
+                $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
                 
             } else {
                 
@@ -679,15 +684,56 @@ class Data
                 
                 if(\checkdate($m, $d, $a)) {
                     
-                    return ['dia' => $d, 'mes' => $m, 'ano' => $a];
+                    $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
                     
-                } 
+                } else {
+                    
+                    return false;
+                    
+                }
                 
-            }
+            }           
+            
+        } else {
             
             return false;
             
         }
+        
+        switch ($retorno) {
+
+            case 'dmY':
+                $d = $d['dia'] . $d['mes'] . $d['ano'];
+                break;
+            
+            case 'd-m-Y':
+                $d = $d['dia'] . '-' . $d['mes'] . '-' . $d['ano'];
+                break;
+
+            case 'd/m/Y':                
+                $d = $d['dia'] . '/' . $d['mes'] . '/' . $d['ano'];
+                break;
+
+            case 'Ymd':                
+                $d = $d['ano'] . $d['mes'] . $d['dia'];
+                break;
+
+            case 'Y/m/d':                
+                $d = $d['ano'] . '/' . $d['mes'] . '/' . $d['dia'];
+                break;
+            
+            case 'Y-m-d':                
+                $d = $d['ano'] . '-' . $d['mes'] . '-' . $d['dia'];
+                break;            
+
+            default:                
+                
+                $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
+                break;
+
+        }
+        
+        return $d;
         
     }
 
