@@ -728,7 +728,7 @@ class Data
 
             default:                
                 
-                $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
+                $d = ['dia' => $d['dia'], 'mes' => $m, 'ano' => $a];
                 break;
 
         }
