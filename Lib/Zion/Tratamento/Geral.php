@@ -233,5 +233,25 @@ class Geral
         return $array;
         
     }    
+    
+    public function montaLoop($start, $end)
+    {
+        
+        if($start >= $end) {
+            
+            return false;
+            
+        }
+        
+        $length = \strlen($end);                   
+        for($a = $start; $a <= $end; $a++) {
+
+            $v[\str_pad($a, $length, '0', \STR_PAD_LEFT)] = \str_pad($a, $length, '0', \STR_PAD_LEFT);
+
+        }         
+        
+        return $v;
+        
+    }
 
 }
