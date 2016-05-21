@@ -9,7 +9,7 @@
  *    Email do autor: sappiens@braconsultoria.com.br
  *
  *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
+ *
  *    Este programa é software livre; você pode redistribuí-lo e/ou
  *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
  *    publicada pela Free Software Foundation, versão 2.
@@ -19,7 +19,7 @@
  *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
  *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
  *    detalhes.
- * 
+ *
  *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
  *    junto com este programa; se não, escreva para a Free Software
  *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -41,7 +41,7 @@ use App\Sistema\Ajuda\AjudaView;
 class Form extends FormZion
 {
 
-    private $formPixel;
+    protected $formPixel;
     private $html;
 
     public function __construct()
@@ -196,7 +196,7 @@ class Form extends FormZion
         return (new FormInputButton('button', $nome, $identifica))
                 ->setClassCss('btn btn-labeled');
     }
-    
+
     public function botaoSimples($nome, $identifica)
     {
         return new FormInputButton('button', $nome, $identifica);
@@ -313,7 +313,7 @@ class Form extends FormZion
     }
 
     /**
-     * 
+     *
      * @return FormJavaScript
      */
     public function javaScript($validacao = true, $javaScriptExtra = true)
