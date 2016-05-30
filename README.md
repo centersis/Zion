@@ -48,4 +48,3 @@ Instalando os vendors através do Composer
 2.1.2) "composer install" (sem aspas)
 
 3) O Composer irá criar um diretório /Zion/Lib/vendor e nele baixará e alocará todos os vendors utilizados pelo Sappiens Framework;
-
