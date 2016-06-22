@@ -9,7 +9,7 @@
  *    Email do autor: sappiens@braconsultoria.com.br
  *
  *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
+ *
  *    Este programa é software livre; você pode redistribuí-lo e/ou
  *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
  *    publicada pela Free Software Foundation, versão 2.
@@ -19,7 +19,7 @@
  *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
  *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
  *    detalhes.
- * 
+ *
  *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
  *    junto com este programa; se não, escreva para a Free Software
  *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -36,20 +36,20 @@ use Zion\Validacao\Data as ValidacaoData;
 class Data
 {
 
-    /** 
+    /**
      * @var object $instancia
      */
     private static $instancia;
 
     private function __construct()
     {
-        
+
     }
 
     /**
      * Data::instancia()
      * Retorna sempre a mesma instância da classe, de acordo com o Singleton pattern.
-     * 
+     *
      * @return self
      */
     public static function instancia()
@@ -64,7 +64,7 @@ class Data
 
     /** Data::dataHora()
      * 	Retorna a Data e Hora Atual do Server no padrão Brasileiro.
-     * 
+     *
      * 	@return String
      */
     public function dataHora()
@@ -74,7 +74,7 @@ class Data
 
     /** Data::dataAtual()
      * 	Retorna a Data Atual do Server no padrão Brasileiro.
-     * 
+     *
      * 	@return String
      */
     public function dataAtual()
@@ -85,7 +85,7 @@ class Data
     /**
      * Data::getFormatoDataHora()
      * Detecta o formato de uma data/hora, independente do formato.
-     * 
+     *
      * @param mixed $dataHora Data/Hora a ser verificada.
      * @return String
      * @example formato encontrado, FALSE otherwise.
@@ -112,7 +112,7 @@ class Data
     /**
      * Data::convertData()
      * Converte data/hora do formato Brasileiro para o Americano e vice-versa, se está for válida. Detecta o formato atual e converte para o outro. Não altera o formato da hora.
-     * 
+     *
      * @param $data Data/Hora a ser convertida
      * @return String
      * @example Data convertida, bool FALSE se a data não for válida.
@@ -191,7 +191,7 @@ class Data
     /**
      * Data::trocaSeparador()
      * Detecta o separador automaticamente o substitui pelo inverso, seja [/] ou [-]. Idependente do formato.
-     * 
+     *
      * @param String $data Data que terá os separadores trocados. Qualquer formato.
      * @return String
      * @example Data com os sepradores trocados.
@@ -208,7 +208,7 @@ class Data
     /**
      * Data::somaData()
      * Soma duas datas, considerando dias, meses e anos. Independente do formato.
-     * 
+     *
      * @param String $dataA Uma das datas a serem somadas. Em qualquer formato.
      * @param String $dataB Outra das datas a serem somadas. Em qualquer formato.
      * @return String
@@ -244,7 +244,7 @@ class Data
     /**
      * Data::subtraiData()
      * Subtrai duas datas, considerando dias, meses e anos. Independente do formato.
-     * 
+     *
      * @param String $dataA Uma das datas a serem subtraídas. Em qualquer formato.
      * @param String $dataB Outra das datas a serem subtraídas. Em qualquer formato.
      * @return String
@@ -282,7 +282,7 @@ class Data
     /**
      * Data::somaHora()
      * Soma horas distintas, considerando Horas, Minutos e Segundos.
-     * 
+     *
      * @param mixed $horaA Uma das horas a serem somadas. No formato H:i:s
      * @param mixed $horaB Outra das horas a serem somadas. No formato H:i:s
      * @return String
@@ -300,10 +300,10 @@ class Data
     /**
      * Data::subtraiHora()
      * Subtrai horas distintas, considerando Horas, Minutos e Segundos.
-     * 
+     *
      * @param mixed $horaA Uma das horas a serem subtraídas. No formato H:i:s
      * @param mixed $horaB Outra das horas a serem subtraídas. No formato H:i:s
-     * @return String 
+     * @return String
      * @example Resultado da subtração das horas. No Formato H:i:s
      */
     public function subtraiHora($horaA, $horaB)
@@ -327,7 +327,7 @@ class Data
     /**
      * Data::getSeparador()
      * Detecta automaticamente o separador de uma data. Independente do formato.
-     * 
+     *
      * @param mixed $data Data a ser verificada. Em qualquer formato.
      * @return String
      * @example Separador encontrado.
@@ -340,7 +340,7 @@ class Data
     /**
      * Data::getTimeAgo()
      * Retorna o tempo passado deste $dataHora até $dataHoraAtual.
-     * 
+     *
      * @param String $dataHora data/hora inicial para contagem.
      * @param String $completo NULL para retornar o intervalo de tempo maior encontrado, NOT NULL para retornar todos os intervalos de anos a segundos.
      * @param String $dataHoraAtual data/hora final para contagem, se for igual a NULL ou omitido, será substituído pela data/hora atual.
@@ -401,7 +401,7 @@ class Data
     /**
      * Data::getMesExt()
      * Retorna o equivalente por extenso de um mês númerico.
-     * 
+     *
      * @param String $mes Mês a ser convertido.
      * @return String
      * @example Mês por extenso.
@@ -449,7 +449,7 @@ class Data
                 $m = 'Mês não informado';
                 break;
         }
-        
+
         return $m;
 
     }
@@ -457,7 +457,7 @@ class Data
     /**
      * Data::getDataExt()
      * Retorna o equivalente por extenso de uma data númerica.
-     * 
+     *
      * @param String $data Data a ser convertido.
      * @return String Mês por extenso.
      * @example Ano por extenso.
@@ -632,8 +632,8 @@ class Data
 
     public function getIntervaloDatasParaDias($dataInicio, $dataFim = '')
     {
-        list($anoI, $mesI, $diaI) = \split('[/.-]', $dataInicio);
-        list($anoF, $mesF, $diaF) = \split('[/.-]', ($dataFim ? $dataFim : \date('Y/m/d')));
+        list($anoI, $mesI, $diaI) = preg_split('/[\/.-]/', $dataInicio);
+        list($anoF, $mesF, $diaF) = preg_split('/[\/.-]/', ($dataFim ? $dataFim : \date('Y/m/d')));
 
         $mkTimeInicio = \mktime(0, 0, 0, $mesI, $diaI, $anoI);
         $mkTimeFim = \mktime(0, 0, 0, $mesF, $diaF, $anoF);
@@ -644,20 +644,20 @@ class Data
             return false;
         }
     }
-    
+
     public function getDataParseManual($data, $format = 'dmY')
     {
-        
+
         if($format == 'dmY') {
-            list($dia, $mes, $ano) = \split('[/.-]', $data);        
+            list($dia, $mes, $ano) = \split('[/.-]', $data);
         } else {
-            list($ano, $mes, $dia) = \split('[/.-]', $data);        
-        }       
-        
-        return ['dia' => $dia, 'mes' => $mes, 'ano' => $ano];        
-        
-    }    
-    
+            list($ano, $mes, $dia) = \split('[/.-]', $data);
+        }
+
+        return ['dia' => $dia, 'mes' => $mes, 'ano' => $ano];
+
+    }
+
     /*
      * $data = a data recebida sem separadores
      * $retorno = o formato esperado para o retorno podendo ser:
@@ -665,76 +665,76 @@ class Data
      */
     public function getDataSemSeparador($data, $retorno = '')
     {
-        
+
         if(\strlen($data) === 8) {
-            
+
             $d = \substr($data, 0, 2);
             $m = \substr($data, 2, 2);
             $a = \substr($data, 4, 4);
-            
+
             if(\checkdate($m, $d, $a) and $a >= 1800) {
-                                
+
                 $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
-                
+
             } else {
-                
+
                 $a = \substr($data, 0, 4);
                 $m = \substr($data, 4, 2);
-                $d = \substr($data, 6, 2);                
-                
+                $d = \substr($data, 6, 2);
+
                 if(\checkdate($m, $d, $a)) {
-                    
+
                     $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
-                    
+
                 } else {
-                    
+
                     return false;
-                    
+
                 }
-                
-            }           
-            
+
+            }
+
         } else {
-            
+
             return false;
-            
+
         }
-        
+
         switch ($retorno) {
 
             case 'dmY':
                 $d = $d['dia'] . $d['mes'] . $d['ano'];
                 break;
-            
+
             case 'd-m-Y':
                 $d = $d['dia'] . '-' . $d['mes'] . '-' . $d['ano'];
                 break;
 
-            case 'd/m/Y':                
+            case 'd/m/Y':
                 $d = $d['dia'] . '/' . $d['mes'] . '/' . $d['ano'];
                 break;
 
-            case 'Ymd':                
+            case 'Ymd':
                 $d = $d['ano'] . $d['mes'] . $d['dia'];
                 break;
 
-            case 'Y/m/d':                
+            case 'Y/m/d':
                 $d = $d['ano'] . '/' . $d['mes'] . '/' . $d['dia'];
                 break;
-            
-            case 'Y-m-d':                
-                $d = $d['ano'] . '-' . $d['mes'] . '-' . $d['dia'];
-                break;            
 
-            default:                
-                
+            case 'Y-m-d':
+                $d = $d['ano'] . '-' . $d['mes'] . '-' . $d['dia'];
+                break;
+
+            default:
+
                 $d = ['dia' => $d['dia'], 'mes' => $m, 'ano' => $a];
                 break;
 
         }
-        
+
         return $d;
-        
+
     }
 
 }
