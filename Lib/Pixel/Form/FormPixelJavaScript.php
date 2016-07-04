@@ -301,7 +301,7 @@ class FormPixelJavaScript
 
         if ($config->getAcao() == 'telefone') {
 
-            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("(99) 9999-9999?9");';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").mask("(99) ?99999-9999");';
         }
 
         if ($config->getAcao() == 'suggest') {
