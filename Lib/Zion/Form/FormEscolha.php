@@ -70,7 +70,7 @@ class FormEscolha extends FormBasico implements FilterableInput
         $this->setNome($nome);
         $this->setId($nome);
         $this->setIdentifica($identifica);
-        $this->setObrigarorio($obrigatorio);
+        $this->setObrigatorio($obrigatorio);
         $this->expandido = false;
         $this->multiplo = false;
         $this->chosen = false;
@@ -90,7 +90,7 @@ class FormEscolha extends FormBasico implements FilterableInput
         return $this->acao;
     }
 
-    public function setObrigarorio($obrigatorio)
+    public function setObrigatorio($obrigatorio)
     {
         if (is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;

@@ -57,7 +57,7 @@ class FormInputTextArea extends FormBasico implements FilterableInput
         $this->setNome($nome);
         $this->setId($nome);
         $this->setIdentifica($identifica);
-        $this->setObrigarorio($obrigatorio);
+        $this->setObrigatorio($obrigatorio);
         $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::LIKE;
     }
@@ -112,7 +112,7 @@ class FormInputTextArea extends FormBasico implements FilterableInput
         return $this->minimoCaracteres;
     }
 
-    public function setObrigarorio($obrigatorio)
+    public function setObrigatorio($obrigatorio)
     {
         if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;

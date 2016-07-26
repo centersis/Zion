@@ -52,7 +52,7 @@ class FormInputCep extends FormBasico implements FilterableInput
         $this->setNome($nome);
         $this->setId($nome);
         $this->setIdentifica($identifica);
-        $this->setObrigarorio($obrigatorio);
+        $this->setObrigatorio($obrigatorio);
         $this->setMaximoCaracteres(10);
         $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::EQUAL;
@@ -110,7 +110,7 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this->minimoCaracteres;
     }
 
-    public function setObrigarorio($obrigatorio)
+    public function setObrigatorio($obrigatorio)
     {
         if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;

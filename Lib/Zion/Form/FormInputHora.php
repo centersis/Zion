@@ -59,7 +59,7 @@ class FormInputHora extends FormBasico implements FilterableInput
         $this->setNome($nome);
         $this->setId($nome);
         $this->setIdentifica($identifica);
-        $this->setObrigarorio($obrigatorio);
+        $this->setObrigatorio($obrigatorio);
         $this->filtroPadrao = '=';
         $this->categoriaFiltro = FilterableInput::GREATER_THAN;
 
@@ -133,7 +133,7 @@ class FormInputHora extends FormBasico implements FilterableInput
         return $this->placeHolder;
     }
 
-    public function setObrigarorio($obrigatorio)
+    public function setObrigatorio($obrigatorio)
     {
         if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;

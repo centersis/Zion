@@ -129,9 +129,9 @@ class FormInputTexto extends FormInputTextoZion
         return $this->mascara;
     }
 
-    public function setObrigarorio($obrigatorio)
+    public function setObrigatorio($obrigatorio)
     {
-        parent::setObrigarorio($obrigatorio);
+        parent::setObrigatorio($obrigatorio);
         return $this;
     }
 

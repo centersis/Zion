@@ -74,9 +74,9 @@ class FormInputDataHora extends FormInputDataHoraZion
         return $this;
     }
 
-    public function setObrigarorio($obrigatorio)
+    public function setObrigatorio($obrigatorio)
     {
-        parent::setObrigarorio($obrigatorio);
+        parent::setObrigatorio($obrigatorio);
         return $this;
     }
 
