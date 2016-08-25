@@ -198,6 +198,10 @@ class FormValida
                         $valoresReais = $fv->dadosCampo($formInput);
                         $dependencia = $formInput->getCampoDependencia();
 
+                        if ($formInput->getMultiplo() === true and !\is_array($userValue)){
+                            $userValue = [];
+                        }
+                        
                         if (\is_array($userValue)) {
 
                             if (\count($userValue) < 1 and $formInput->getObrigatorio() === true) {
@@ -212,10 +216,6 @@ class FormValida
                                 }
                             }
                         } else {
-
-                            if ($formInput->getMultiplo() === true) {
-                                throw new FormException($identifica . ": A opção 'multiplo' está ativada, o valor submetido deve ser um array!");
-                            }
 
                             if ($userValue == '' and $formInput->getObrigatorio() === true) {
                                 throw new FormException($identifica . ": selecione uma ou mais opções!");
