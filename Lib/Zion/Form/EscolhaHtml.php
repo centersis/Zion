@@ -1,42 +1,5 @@
 <?php
 
-/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- * 
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-/**
- * \Zion\Form\EscolhaHtml()
- * 
- * @author The Sappiens Team
- * @copyright Sappiens 2014
- * @version 2014
- * @access public
- */
-
 namespace Zion\Form;
 
 class EscolhaHtml
@@ -50,12 +13,12 @@ class EscolhaHtml
     }
 
     /**
-     * EscolhaHtml::montaEscolha()
      * 
-     * @param mixed $config
-     * @return
+     * @param \Zion\Form\FormEscolha $config
+     * @param type $retornarArray
+     * @return string
      */
-    public function montaEscolha(FormEscolha $config, $retornarArray = false)
+    public function montaEscolha($config, $retornarArray = false)
     {
         $tipoApresentacao = $this->getTipoApresentacao($config);
 
@@ -68,7 +31,12 @@ class EscolhaHtml
         }
     }
 
-    public function dadosCampo(FormEscolha $config)
+    /**
+     * 
+     * @param \Zion\Form\FormEscolha $config
+     * @return array
+     */
+    public function dadosCampo($config)
     {
         $ordena = $config->getOrdena();
 
@@ -211,7 +179,15 @@ class EscolhaHtml
         }
     }
 
-    private function montaCheckRadio($tipo, FormEscolha $config, $array, $retornarArray)
+    /**
+     * 
+     * @param type $tipo
+     * @param \Zion\Form\FormEscolha $config
+     * @param type $array
+     * @param type $retornarArray
+     * @return string
+     */
+    private function montaCheckRadio($tipo, $config, $array, $retornarArray)
     {
         $retorno = '';
 
@@ -323,13 +299,14 @@ class EscolhaHtml
         return $retorno;
     }
 
+
     /**
-     * EscolhaHtml::montaSelect()
      * 
-     * @param mixed $config
-     * @return
+     * @param \Zion\Form\FormEscolha $config
+     * @param type $array
+     * @return string
      */
-    private function montaSelect(FormEscolha $config, $array)
+    private function montaSelect($config, $array)
     {
         $inicio = $config->getInicio();
         $name = 'name="' . $config->getNome() . '"';
