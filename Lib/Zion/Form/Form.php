@@ -90,9 +90,9 @@ class Form
         return new FormInputEmail('email', $nome, $identifica, $obrigatorio);
     }
 
-    public function escolha()
+    public function escolha($nome, $identifica, $obrigatorio = false)
     {
-        return new FormEscolha('escolha');
+        return new FormEscolha($nome, $identifica, $obrigatorio);
     }
 
     public function textArea($nome, $identifica, $obrigatorio = false)
@@ -100,9 +100,9 @@ class Form
         return new FormInputTextArea('textarea', $nome, $identifica, $obrigatorio);
     }
 
-    public function upload($nome, $identifica, $obrigatorio = false)
+    public function upload($nome, $identifica, $tratarComo)
     {
-        return new FormUpload('upload', $nome, $identifica, $obrigatorio);
+        return new FormUpload('upload', $nome, $identifica, $tratarComo);
     }
 
     public function botaoSubmit($nome, $identifica)

@@ -43,7 +43,7 @@ class FormFiltro extends Form
         return $this->operacaoE;
     }
 
-    public function texto($nome, $identifica, $aliasSql)
+    public function texto($nome, $identifica, $aliasSql = false)
     {
         $obj = new FormInputTexto('texto', $nome, $identifica, false);
 
@@ -53,7 +53,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function suggest($nome, $identifica, $aliasSql)
+    public function suggest($nome, $identifica, $aliasSql = false)
     {
         $obj = new FormInputSuggest('suggest', $nome, $identifica, false);
 
@@ -62,7 +62,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function data($nome, $identifica, $aliasSql)
+    public function data($nome, $identifica, $aliasSql = false)
     {
         $obj = new FormInputData('date', $nome, $identifica, false);
 
@@ -71,7 +71,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function hora($nome, $identifica, $aliasSql)
+    public function hora($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputHora('time', $nome, $identifica, false);
 
@@ -80,7 +80,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function numero($nome, $identifica, $aliasSql)
+    public function numero($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputNumber('number', $nome, $identifica, false);
 
@@ -89,7 +89,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function float($nome, $identifica, $aliasSql)
+    public function float($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputFloat('float', $nome, $identifica, false);
 
@@ -98,7 +98,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function cpf($nome, $identifica, $aliasSql)
+    public function cpf($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputCpf('cpf', $nome, $identifica, false);
 
@@ -107,7 +107,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function cnpj($nome, $identifica, $aliasSql)
+    public function cnpj($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputCnpj('cnpj', $nome, $identifica, false);
 
@@ -116,7 +116,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function cep($nome, $identifica, $aliasSql)
+    public function cep($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputCep('cep', $nome, $identifica, false);
 
@@ -125,7 +125,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function telefone($nome, $identifica, $aliasSql)
+    public function telefone($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputTelefone('telefone', $nome, $identifica, false);
 
@@ -134,7 +134,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function email($nome, $identifica, $aliasSql)
+    public function email($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputEmail('email', $nome, $identifica, false);
 
@@ -143,7 +143,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function escolha($nome, $identifica, $aliasSql)
+    public function escolha($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormEscolha('escolha', $nome, $identifica, false);
 
@@ -152,7 +152,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function chosen($nome, $identifica, $aliasSql)
+    public function chosen($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormChosen('chosen', $nome, $identifica, false);
 
@@ -161,32 +161,32 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function senha()
+    public function senha($nome, $identifica, $aliasSql  =  false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function textArea()
+    public function textArea($nome, $identifica, $aliasSql  =  false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function editor()
+    public function editor($nome, $identifica, $aliasSql = false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function upload()
+    public function upload($nome, $identifica, $aliasSql  =  false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoSubmit()
+    public function botaoSubmit($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoSalvarPadrao()
+    public function botaoSalvarPadrao($identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
@@ -201,17 +201,17 @@ class FormFiltro extends Form
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoSimples()
+    public function botaoSimples($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoReset()
+    public function botaoReset($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function masterDetail()
+    public function masterDetail($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
