@@ -96,7 +96,7 @@ class FormEscolha extends FormEscolhaZion
         return $this;
     }
 
-    public function setInstrucoes($instrucoes)
+    public function setInstrucoes(array $instrucoes)
     {
         parent::setInstrucoes($instrucoes);
         return $this;
