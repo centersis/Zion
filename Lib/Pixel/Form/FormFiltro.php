@@ -186,7 +186,7 @@ class FormFiltro extends Form
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoSalvarPadrao($identifica)
+    public function botaoSalvarPadrao($identifica = 'Salvar')
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
