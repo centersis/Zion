@@ -26,7 +26,7 @@ class FormHtml extends FormAtributos
 
     public function opcoesBasicas($config, $ignore = [])
     {
-        $valor = $config->getValor() ? $config->getValor() : $config->getValorPadrao();
+        $valor = ($config->getValor() === NULL or $config->getValor() === '') ? $config->getValorPadrao().'' : $config->getValor().'';
 
         $ret = [];
 
