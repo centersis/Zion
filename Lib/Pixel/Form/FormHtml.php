@@ -1,34 +1,5 @@
 <?php
 
-/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- * 
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-
 namespace Pixel\Form;
 
 use Zion\Form\FormHtml as FormHtmlZion;
@@ -49,7 +20,12 @@ class FormHtml extends FormHtmlZion
         parent::__construct();
     }
 
-    public function montaSuggest(FormInputSuggest $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputSuggest $config
+     * @return string
+     */
+    public function montaSuggest($config)
     {
         $this->preConfig($config);
 
@@ -113,7 +89,12 @@ class FormHtml extends FormHtmlZion
         return parent::montaSenhaHtml($config);
     }
 
-    public function montaTextArea(FormInputTextArea $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputTextArea $config
+     * @return string
+     */
+    public function montaTextArea($config)
     {
         $this->preConfig($config);
 
@@ -140,56 +121,96 @@ class FormHtml extends FormHtmlZion
         return parent::montaTextAreaHtml($config) . $jsFinal;
     }
 
-    public function montaData(FormInputData $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputData $config
+     * @return string
+     */
+    public function montaData($config)
     {
         $this->preConfig($config);
 
         return parent::montaDataHtml($config);
     }
 
-    public function montaHora(FormInputHora $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputHora $config
+     * @return string
+     */
+    public function montaHora($config)
     {
         $this->preConfig($config);
 
         return parent::montaHoraHtml($config);
     }
 
-    public function montaDataHora(FormInputDataHora $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputDataHora $config
+     * @return string
+     */
+    public function montaDataHora($config)
     {
         $this->preConfig($config);
 
         return parent::montaDataHoraHtml($config);
     }
 
-    public function montaCpf(FormInputCpf $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputCpf $config
+     * @return string
+     */
+    public function montaCpf($config)
     {
         $this->preConfig($config);
 
         return parent::montaCpfHtml($config);
     }
 
-    public function montaCnpj(FormInputCnpj $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputCnpj $config
+     * @return string
+     */
+    public function montaCnpj($config)
     {
         $this->preConfig($config);
 
         return parent::montaCnpjHtml($config);
     }
 
-    public function montaCep(FormInputCep $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputCep $config
+     * @return string
+     */
+    public function montaCep($config)
     {
         $this->preConfig($config);
 
         return parent::montaCepHtml($config);
     }
 
-    public function montaNumber(FormInputNumber $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputNumber $config
+     * @return string
+     */
+    public function montaNumber($config)
     {
         $this->preConfig($config);
 
         return parent::montaNumberHtml($config);
     }
 
-    public function montaFloat(FormInputFloat $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputFloat $config
+     * @return string
+     */
+    public function montaFloat($config)
     {
         $this->preConfig($config);
 
@@ -262,14 +283,24 @@ class FormHtml extends FormHtmlZion
         }
     }
 
-    public function montaTelefone(FormInputTelefone $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputTelefone $config
+     * @return string
+     */
+    public function montaTelefone($config)
     {
         $this->preConfig($config);
 
         return parent::montaTelefoneHtml($config);
     }
 
-    public function montaEmail(FormInputEmail $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormInputEmail $config
+     * @return string
+     */
+    public function montaEmail($config)
     {
         $this->preConfig($config);
 
@@ -283,22 +314,16 @@ class FormHtml extends FormHtmlZion
         return parent::montaCorHtml($config);
     }
 
-    /**
-     * 
-     * @param \Pixel\Form\FormMasterDetail $config
-     */
-    public function montaMasterDetail(FormMasterDetail $config, $nomeForm)
-    {
-        return (new MasterDetailHtml())->montaMasterDetail($config, $nomeForm);
-    }
 
     /**
      * 
-     * @param \Pixel\Form\FormMasterVinculo $config
+     * @param \Pixel\Form\FormMasterDetail $config
+     * @param type $nomeForm
+     * @return type
      */
-    public function montaMasterVinculo(FormMasterVinculo $config, $nomeForm)
+    public function montaMasterDetail($config, $nomeForm)
     {
-        return (new MasterVinculoHtml())->montaMasterVinculo($config, $nomeForm);
+        return (new MasterDetailHtml())->montaMasterDetail($config, $nomeForm);
     }
 
     private function montaCheckRadioPixel($tipo, $arrayCampos, $config)
@@ -317,7 +342,12 @@ class FormHtml extends FormHtmlZion
         return $retorno;
     }
 
-    public function montaUpload(FormUpload $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormUpload $config
+     * @return string
+     */
+    public function montaUpload($config)
     {
         $arquivoUpload = new ArquivoUpload();
 
@@ -339,7 +369,12 @@ class FormHtml extends FormHtmlZion
         return parent::montaButtonHtml($config);
     }
 
-    public function montaLayout(FormLayout $config)
+    /**
+     * 
+     * @param \Pixel\Form\FormLayout $config
+     * @return string
+     */
+    public function montaLayout($config)
     {
         return $config->getConteudo();
     }

@@ -1,34 +1,5 @@
 <?php
 
-/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- * 
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-
 namespace Pixel\Form;
 
 use Pixel\Form\Form;
@@ -72,7 +43,7 @@ class FormFiltro extends Form
         return $this->operacaoE;
     }
 
-    public function texto($nome, $identifica, $aliasSql)
+    public function texto($nome, $identifica, $aliasSql = false)
     {
         $obj = new FormInputTexto('texto', $nome, $identifica, false);
 
@@ -82,7 +53,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function suggest($nome, $identifica, $aliasSql)
+    public function suggest($nome, $identifica, $aliasSql = false)
     {
         $obj = new FormInputSuggest('suggest', $nome, $identifica, false);
 
@@ -91,7 +62,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function data($nome, $identifica, $aliasSql)
+    public function data($nome, $identifica, $aliasSql = false)
     {
         $obj = new FormInputData('date', $nome, $identifica, false);
 
@@ -100,7 +71,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function hora($nome, $identifica, $aliasSql)
+    public function hora($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputHora('time', $nome, $identifica, false);
 
@@ -109,7 +80,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function numero($nome, $identifica, $aliasSql)
+    public function numero($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputNumber('number', $nome, $identifica, false);
 
@@ -118,7 +89,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function float($nome, $identifica, $aliasSql)
+    public function float($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputFloat('float', $nome, $identifica, false);
 
@@ -127,7 +98,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function cpf($nome, $identifica, $aliasSql)
+    public function cpf($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputCpf('cpf', $nome, $identifica, false);
 
@@ -136,7 +107,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function cnpj($nome, $identifica, $aliasSql)
+    public function cnpj($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputCnpj('cnpj', $nome, $identifica, false);
 
@@ -145,7 +116,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function cep($nome, $identifica, $aliasSql)
+    public function cep($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputCep('cep', $nome, $identifica, false);
 
@@ -154,7 +125,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function telefone($nome, $identifica, $aliasSql)
+    public function telefone($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputTelefone('telefone', $nome, $identifica, false);
 
@@ -163,7 +134,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function email($nome, $identifica, $aliasSql)
+    public function email($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormInputEmail('email', $nome, $identifica, false);
 
@@ -172,7 +143,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function escolha($nome, $identifica, $aliasSql)
+    public function escolha($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormEscolha('escolha', $nome, $identifica, false);
 
@@ -181,7 +152,7 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function chosen($nome, $identifica, $aliasSql)
+    public function chosen($nome, $identifica, $aliasSql  =  false)
     {
         $obj = new FormChosen('chosen', $nome, $identifica, false);
 
@@ -190,32 +161,32 @@ class FormFiltro extends Form
         return $obj;
     }
 
-    public function senha()
+    public function senha($nome, $identifica, $aliasSql  =  false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function textArea()
+    public function textArea($nome, $identifica, $aliasSql  =  false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function editor()
+    public function editor($nome, $identifica, $aliasSql = false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function upload()
+    public function upload($nome, $identifica, $aliasSql  =  false)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoSubmit()
+    public function botaoSubmit($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoSalvarPadrao()
+    public function botaoSalvarPadrao($identifica = 'Salvar')
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
@@ -230,17 +201,17 @@ class FormFiltro extends Form
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoSimples()
+    public function botaoSimples($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function botaoReset()
+    public function botaoReset($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
-    public function masterDetail()
+    public function masterDetail($nome, $identifica)
     {
         throw new \Exception('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
