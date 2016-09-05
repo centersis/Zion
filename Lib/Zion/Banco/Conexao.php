@@ -17,6 +17,7 @@ class Conexao
     private $arrayExcecoes = [];
     private $linhasAfetadas;
     private static $logHash;
+    private static $log;
 
     /**
      * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
@@ -38,13 +39,16 @@ class Conexao
         $this->arrayExcecoes[3] = "Conexão: A query SQL esta vazia.";
         $this->arrayExcecoes[4] = "Conexão: Array de querys inválido.";
 
+        $this->log = true;
+
         if ($host) {
             $cHost = $host;
             $cUsuario = $usuario;
             $cSenha = $senha;
             $cBanco = $banco;
             $cDriver = $driver;
-        } else {
+        }
+        else {
 
             $namespace = '\\' . \SIS_ID_NAMESPACE_PROJETO . '\\Config';
 
@@ -185,10 +189,11 @@ class Conexao
 
         if (\is_object($sql)) {
 
-            if ($sql->getType() !== 0) {
+            if ($this->log and $sql->getType() !== 0) {
                 try {
                     (new Log())->registraLog($sql, self::$logHash);
-                } catch (\Exception $e) {
+                }
+                catch (\Exception $e) {
                     
                 }
             }
@@ -197,7 +202,8 @@ class Conexao
 
             if ($sql->getType() === 0) { //0 = SELECT                
                 $this->linhasAfetadas = $this->nLinhas($resultSet);
-            } else {
+            }
+            else {
                 $this->linhasAfetadas = $resultSet;
             }
 
@@ -217,6 +223,11 @@ class Conexao
     public function ultimoId($campo = null)
     {
         return $this->dbal()->lastInsertId($campo);
+    }
+
+    public function setLog($log)
+    {
+        $this->log = $log;
     }
 
     /**
@@ -268,7 +279,8 @@ class Conexao
         if ($nLinhas > 0) {
             $linhas = $resultSet->fetchAll($estilo);
             return \array_map("trim", $linhas[0]);
-        } else {
+        }
+        else {
             return [];
         }
     }
@@ -330,7 +342,8 @@ class Conexao
 
         if (\key_exists($posicao, $array)) {
             return $array[$posicao];
-        } else {
+        }
+        else {
             if (empty($array)) {
                 return \NULL;
             }
@@ -355,7 +368,8 @@ class Conexao
     {
         if (\is_object($sql)) {
             $ret = $this->executar($sql);
-        } else {
+        }
+        else {
             $ret = $this->executar($sql);
         }
 
@@ -369,7 +383,8 @@ class Conexao
                 if (empty($posicao)) {
                     if (empty($indice)) {
                         $rows[] = $row;
-                    } else {
+                    }
+                    else {
 
                         if (!\key_exists($indice, $row)) {
                             throw new \Exception("Conexão: Indice $indice não encontrado!");
@@ -377,13 +392,15 @@ class Conexao
 
                         $rows[$row[$indice]] = $row;
                     }
-                } else {
+                }
+                else {
                     if (empty($indice)) {
                         if (!\key_exists($posicao, $row)) {
                             throw new \Exception("Conexão: Posição $posicao não encontrada!");
                         }
                         $rows[] = $row[$posicao];
-                    } else {
+                    }
+                    else {
 
                         if (!\key_exists($indice, $row)) {
                             throw new \Exception("Conexão: Indice $indice não encontrado!");
@@ -394,7 +411,8 @@ class Conexao
                 }
             }
             return $rows;
-        } else {
+        }
+        else {
 
             return [];
         }
@@ -469,7 +487,8 @@ class Conexao
         if ($inteiro) {
             $qb->where($qb->expr()->eq($campo, $qb->expr()->eq($campo, '?')))
                 ->setParameter(0, $valor, \PDO::PARAM_INT);
-        } else {
+        }
+        else {
             $qb->where($qb->expr()->eq($campo, '?'))
                 ->setParameter(0, $valor, \PDO::PARAM_STR);
         }
@@ -487,7 +506,8 @@ class Conexao
         if (!\array_key_exists($this->banco, self::$transaction)) {
             self::$link[$this->banco]->beginTransaction();
             self::$transaction[$this->banco] = 1;
-        } else {
+        }
+        else {
             self::$transaction[$this->banco] += 1;
         }
     }
@@ -509,13 +529,15 @@ class Conexao
                 self::$transaction[$this->banco] -= 1;
                 unset(self::$transaction[$this->banco]);
                 return false;
-            } else {
+            }
+            else {
                 self::$link[$this->banco]->commit();
                 self::$transaction[$this->banco] -= 1;
                 unset(self::$transaction[$this->banco]);
                 return true;
             }
-        } else {
+        }
+        else {
             self::$transaction[$this->banco] -= 1;
         }
     }
@@ -536,7 +558,7 @@ class Conexao
      */
     public function debugQuery($qb)
     {
-        if(\is_object($qb) and \get_class($qb) === 'Doctrine\DBAL\Query\QueryBuilder') {
+        if (\is_object($qb) and \get_class($qb) === 'Doctrine\DBAL\Query\QueryBuilder') {
 
             $params = $qb->getParameters();
 
@@ -552,9 +574,10 @@ class Conexao
             }
 
             return $sqlCompleta;
-
-        } else {
+        }
+        else {
             return "O objeto informado por parâmetro não é um objeto Query Builder.";
         }
     }
+
 }
