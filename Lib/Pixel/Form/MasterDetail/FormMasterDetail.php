@@ -37,6 +37,7 @@ class FormMasterDetail
     private $naoRepetir;
     private $sqlBusca;
     private $complementoExterno;
+    private $permitirIgnorar;
 
     /**
      * Construtor
@@ -59,7 +60,8 @@ class FormMasterDetail
         $this->dados = [];
         $this->gravar = true;
         $this->naoRepetir = [];
-        
+        $this->permitirIgnorar = true;
+
         $this->formSetPixel = new FormSetPixel();
     }
 
@@ -261,7 +263,7 @@ class FormMasterDetail
     {
         return $this->botaoRemover;
     }
-    
+
     /**
      * Indica se o botão Add deve existir
      * @param boolean $botaoAdd
@@ -550,16 +552,27 @@ class FormMasterDetail
     {
         return $this->sqlBusca;
     }
-    
+
     public function setComplementoExterno($complementoExterno)
     {
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
+    }
+
+    public function setPermitirIgnorar($permitirIgnorar)
+    {
+        $this->permitirIgnorar = $permitirIgnorar;
+        return $this;
+    }
+
+    public function getPermitirIgnorar()
+    {
+        return $this->permitirIgnorar;
     }
 
 }

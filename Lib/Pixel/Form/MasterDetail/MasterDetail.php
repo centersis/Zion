@@ -68,7 +68,7 @@ class MasterDetail {
                     $ativos[] = $coringa;
                     $coringasMaster[] = $coringa;
 
-                    if (\filter_input(\INPUT_POST, 'sisMA' . $nome . $coringa, \FILTER_DEFAULT) !== 'N') {
+                    if ($config->getPermitirIgnorar() === false or \filter_input(\INPUT_POST, 'sisMA' . $nome . $coringa, \FILTER_DEFAULT) !== 'N') {
                         $this->update($config, $coringa);
                     }
                 } else {
