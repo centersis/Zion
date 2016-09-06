@@ -17,7 +17,8 @@ class Conexao
     private $arrayExcecoes = [];
     private $linhasAfetadas;
     private static $logHash;
-    private static $log;
+
+    private $log;
 
     /**
      * Inicia uma conexão com o banco de dados, se os parametros opcionais não 
