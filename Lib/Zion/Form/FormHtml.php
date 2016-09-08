@@ -233,9 +233,7 @@ class FormHtml extends FormAtributos
     {
         $attr = \array_merge($this->opcoesBasicas($config), [
             $this->attr('type', 'text'),
-            $this->attr('placeholder', $config->getPlaceHolder()),
-            $this->attr('max', $config->getDataMaxima()),
-            $this->attr('min', $config->getDataMinima())]);
+            $this->attr('placeholder', $config->getPlaceHolder())]);
 
         return \vsprintf($this->prepareInput(\count($attr), $config), $attr);
     }
