@@ -160,11 +160,11 @@ class FiltroForm
 
             $objCampos->setNome($prefixo . $this->nomeOriginal[$nomeObjeto] . $sufixo);
             $objCampos->setId($prefixo . $this->idOriginal[$nomeObjeto] . $sufixo);
-            $objCampos->setComplemento($this->complementoOriginal[$nomeObjeto] . ' onChange="sisChangeFil(\'' . $prefixo . '\')"');
+            //$objCampos->setComplemento($this->complementoOriginal[$nomeObjeto] . ' onChange="sisChangeFil(\'' . $prefixo . '\')"');
 
             if ($tipoBase == 'suggest') {
                 $this->onSelectOriginal[$nomeObjeto] = $objCampos->getOnSelect();
-                $objCampos->setOnSelect($this->onSelectOriginal[$nomeObjeto] . ' sisChangeFil(\'' . $prefixo . '\');');
+                //$objCampos->setOnSelect($this->onSelectOriginal[$nomeObjeto] . ' sisChangeFil(\'' . $prefixo . '\');');
             }
         }
     }
@@ -175,10 +175,10 @@ class FiltroForm
 
         $objCampo->setNome($prefixo . $this->nomeOriginal[$nomeObjeto] . $sufixo);
         $objCampo->setId($prefixo . $this->idOriginal[$nomeObjeto] . $sufixo);
-        $objCampo->setComplemento($this->complementoOriginal[$nomeObjeto] . ' onChange="sisChangeFil(\'' . $prefixo . '\')"');
+        //$objCampo->setComplemento($this->complementoOriginal[$nomeObjeto] . ' onChange="sisChangeFil(\'' . $prefixo . '\')"');
 
         if ($tipoBase == 'suggest') {
-            $objCampo->setOnSelect($this->onSelectOriginal[$nomeObjeto] . ' sisChangeFil(\'' . $prefixo . '\');');
+            //$objCampo->setOnSelect($this->onSelectOriginal[$nomeObjeto] . ' sisChangeFil(\'' . $prefixo . '\');');
         }
     }
 
