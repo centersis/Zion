@@ -786,7 +786,7 @@ class CrudUtil
 
         foreach ($necessarias as $coluna) {
             if (!in_array($coluna, $colunasDinamicas)) {
-                \array_push($colunasDinamicas, $coluna);
+                \array_unshift($colunasDinamicas, $coluna);
             }
         }
 
