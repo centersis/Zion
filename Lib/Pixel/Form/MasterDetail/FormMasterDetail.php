@@ -363,11 +363,7 @@ class FormMasterDetail
             return $this;
         }
 
-        if (\is_numeric($codigoReferencia)) {
-            $this->codigoReferencia = $codigoReferencia;
-        } else {
-            throw new FormException("codigoReferencia: Valor não numérico.");
-        }
+        $this->codigoReferencia = $codigoReferencia;
 
         return $this;
     }

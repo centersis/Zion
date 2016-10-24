@@ -8,12 +8,14 @@ use Zion\Banco\Conexao;
 use Zion\Validacao\Geral;
 use Pixel\Arquivo\ArquivoUpload;
 
-class MasterDetail {
+class MasterDetail
+{
 
     private $dados;
     private $contaRepeticao;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->dados = [];
         $this->contaRepeticao = [];
     }
@@ -23,7 +25,8 @@ class MasterDetail {
      * @param FormMasterDetail $config
      * @throws \Exception
      */
-    public function gravar($config) {
+    public function gravar($config)
+    {
         $identifica = $config->getIdentifica();
 
         if ($config->getIUpload()) {
@@ -116,7 +119,8 @@ class MasterDetail {
         }
     }
 
-    private function update($config, $coringa) {
+    private function update($config, $coringa)
+    {
         $crudUtil = new CrudUtil();
 
         $tabela = $config->getTabela();
@@ -169,7 +173,8 @@ class MasterDetail {
         }
     }
 
-    private function insert($config, $coringa) {
+    private function insert($config, $coringa)
+    {
         $crudUtil = new CrudUtil();
 
         $tabela = $config->getTabela();
@@ -235,7 +240,7 @@ class MasterDetail {
         }
 
         $colunasCrud[] = $campoReferencia;
-        $objPai->set($campoReferencia, $codigoReferencia, 'numero');
+        $objPai->set($campoReferencia, $codigoReferencia, 'texto');
 
         if ($config->getGravar()) {
             $codGravado = $crudUtil->insert($tabela, $colunasCrud, $objPai, ['upload']);
@@ -249,7 +254,8 @@ class MasterDetail {
      * @param FormMasterDetail $config
      * @param array $aRemover
      */
-    private function removeItens($config, array $aRemover = []) {
+    private function removeItens($config, array $aRemover = [])
+    {
         $con = Conexao::conectar();
 
         $crudUtil = new CrudUtil();
@@ -263,9 +269,9 @@ class MasterDetail {
 
         $qb = $con->qb();
         $qb->select($codigo)
-                ->from($tabela, '')
-                ->where($qb->expr()->eq($campoReferencia, ':cod'))
-                ->setParameter(':cod', $codigoReferencia);
+            ->from($tabela, '')
+            ->where($qb->expr()->eq($campoReferencia, ':cod'))
+            ->setParameter(':cod', $codigoReferencia, PDO::PARAM_STR);
         $rs = $con->executar($qb);
 
         while ($dados = $rs->fetch()) {
@@ -289,7 +295,8 @@ class MasterDetail {
      * @param type $coringa
      * @throws \Exception
      */
-    private function validaDados($config, $coringa) {
+    private function validaDados($config, $coringa)
+    {
         $valida = Geral::instancia();
 
         $nome = $config->getNome();
