@@ -119,7 +119,7 @@ class MasterDetailHtml {
             $qb->select(\implode(',', $nomeCampos))
                     ->from($tabela, '')
                     ->where($qb->expr()->eq($campoReferencia, ':cod'))
-                    ->setParameter(':cod', $codigoReferencia, PDO::PARAM_STR);
+                    ->setParameter(':cod', $codigoReferencia, 2);
         }
 
         $rs = $con->executar($qb);
