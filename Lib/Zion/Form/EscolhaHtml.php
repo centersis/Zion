@@ -288,9 +288,12 @@ class EscolhaHtml
             }
 
             if ($retornarArray === true) {
-                $retorno[] = [
-                    'html' => $buffer,
-                    'label' => $vale];
+                return [
+                    [
+                        'html' => $buffer,
+                        'label' => $vale
+                    ]
+                ];
             } else {
                 $retorno .= $buffer;
             }
