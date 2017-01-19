@@ -2,6 +2,7 @@
 
 namespace Pixel\Filtro;
 
+use Illuminate\Database\Eloquent\Builder;
 use Zion\Tratamento\Tratamento;
 
 /**
@@ -50,33 +51,114 @@ class Filtrar {
         }
     }
 
-    private function normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject = null) {
+    private function normalSqlEloquent(Builder $queryBuilder, $nomeCampo, $campoBanco, $operador, $acao, $valor)
+    {
+        $valor = strtoupper($valor);
+        if ($valor === 'SISNOTNULL') {
 
-        if ($queryObject) {
-
-            $operador = null;
-            $acao = null;
-            $valor = null;
-
-            if (isset($queryObject->{'sho' . 'n' . $nomeCampo})) {
-                $operador = $queryObject->{'sho' . 'n' . $nomeCampo};
+            if ($operador === '<>') {
+                $queryBuilder->where($campoBanco, 'IS NULL');
+            } else {
+                $queryBuilder->where($campoBanco, 'IS NOT NULL');
             }
-
-            if (isset($queryObject->{'sha' . 'n' . $nomeCampo})) {
-                $acao = \strtolower($queryObject->{'sha' . 'n' . $nomeCampo});
-            }
-
-            if (isset($queryObject->{'n' . $nomeCampo})) {
-                $valor = $queryObject->{'n' . $nomeCampo};
+        } else if (\strtoupper($valor) === 'SISNULL') {
+            if ($operador === '<>') {
+                $queryBuilder->where($campoBanco, 'IS NOT NULL');
+            } else {
+                $queryBuilder->where($campoBanco, 'IS NULL');
             }
         } else {
-            $operador = \filter_input(\INPUT_GET, 'sho' . 'n' . $nomeCampo);
-            $acao = \strtolower(\filter_input(\INPUT_GET, 'sha' . 'n' . $nomeCampo));
-            $valor = \filter_input(\INPUT_GET, 'n' . $nomeCampo);
+
+            //Valida Informações
+            if ($operador == '' || $acao == '') {
+                if ($valor != '') {
+
+                    $queryBuilder->where($campoBanco, '=', $valor);
+                    return;
+                }
+
+                return;
+            }
+
+            if ("$valor" <> "") {
+                if (!in_array($operador, $this->operadores)) {
+                    throw new \RuntimeException("Operador invalido: {$operador}");
+                }
+
+                $operacoesSimples = ['<>', '=', '>', '<', '>=', '<='];
+
+                if (in_array($operador, $operacoesSimples)) {
+                    $queryBuilder->where($campoBanco, $operador, $valor);
+                    return;
+                }
+
+                $operacoesCompostas = [
+                    '*A' => function ($valor) {
+                        return "%{$valor}";
+                    },
+                    'A*' => function ($valor) {
+                        return "{$valor}%";
+                    },
+                    "*" => function ($valor) {
+                        return "%{$valor}%";
+                    }
+                ];
+
+                $queryBuilder->where($campoBanco, 'LIKE', $operacoesCompostas[$operador]($valor));
+            }
         }
+    }
+
+    private function getOperador($queryObject, $nomeCampo)
+    {
+        $existeNaQuery = isset($queryObject->{'sho' . 'n' . $nomeCampo});
+        if ($queryObject && $existeNaQuery) {
+            return $queryObject->{'sho' . 'n' . $nomeCampo};
+        } elseif ($queryObject && !$existeNaQuery) {
+            return null;
+        }
+
+        return filter_input(INPUT_GET, 'sho' . 'n' . $nomeCampo);
+    }
+
+    private function getValor($queryObject, $nomeCampo)
+    {
+        $existeNaQuery = isset($queryObject->{'n' . $nomeCampo});
+        if ($queryObject && $existeNaQuery) {
+            return $queryObject->{'n' . $nomeCampo};
+        } elseif ($queryObject && !$existeNaQuery) {
+            return null;
+        }
+
+        return filter_input(INPUT_GET, 'n' . $nomeCampo);
+    }
+
+    private function getAcao($queryObject, $nomeCampo)
+    {
+        $existeNaQuery = isset($queryObject->{'sha' . 'n' . $nomeCampo});
+        if ($queryObject && $existeNaQuery) {
+            return $queryObject->{'sha' . 'n' . $nomeCampo};
+        } elseif ($queryObject && !$existeNaQuery) {
+            return null;
+        }
+
+        return strtolower(filter_input(INPUT_GET, 'sha' . 'n' . $nomeCampo));
+    }
+
+    private function normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject = null)
+    {
+
+        $operador = $this->getOperador($queryObject, $nomeCampo);
+        $acao = $this->getAcao($queryObject, $nomeCampo);
+        $valor = $this->getValor($queryObject, $nomeCampo);
 
         if (\array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];
+        }
+
+        if ($queryBuilder instanceof Builder) {
+            $this->normalSqlEloquent($queryBuilder, $nomeCampo, $campoBanco, $operador, $acao, $valor);
+            return;
         }
 
         if (\strtoupper($valor) === 'SISNOTNULL') {

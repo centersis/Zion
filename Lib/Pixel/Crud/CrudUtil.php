@@ -2,6 +2,7 @@
 
 namespace Pixel\Crud;
 
+use Illuminate\Database\Eloquent\Builder;
 use Zion\Banco\Conexao;
 use Pixel\Filtro\Filtrar;
 use Pixel\Arquivo\ArquivoUpload;
@@ -249,13 +250,22 @@ class CrudUtil
 
     private function sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca)
     {
-
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
 
         if ($buscaGeral) {
 
-            $sql = $this->modoBusca($modoBusca, $filtroDinamico);
-            $queryBuilder->andWhere($sql);
+            if ($queryBuilder instanceof Builder) {
+                $termos = explode(',', $buscaGeral);
+                foreach ($filtroDinamico as $nome => $alias) {
+                    $alias = $alias != '' ? $alias . '.' : '';
+                    foreach ($termos as $termo) {
+                        $queryBuilder->orWhere("{$alias}{$nome}", 'LIKE', "%{$termo}%");
+                    }
+                }
+            } else {
+                $sql = $this->modoBusca($modoBusca, $filtroDinamico);
+                $queryBuilder->andWhere($sql);
+            }
         }
     }
 
