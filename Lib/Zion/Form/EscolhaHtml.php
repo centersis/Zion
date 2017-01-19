@@ -13,7 +13,7 @@ class EscolhaHtml
     }
 
     /**
-     * 
+     *
      * @param \Zion\Form\FormEscolha $config
      * @param type $retornarArray
      * @return string
@@ -32,7 +32,7 @@ class EscolhaHtml
     }
 
     /**
-     * 
+     *
      * @param \Zion\Form\FormEscolha $config
      * @return array
      */
@@ -180,7 +180,7 @@ class EscolhaHtml
     }
 
     /**
-     * 
+     *
      * @param type $tipo
      * @param \Zion\Form\FormEscolha $config
      * @param type $array
@@ -288,12 +288,9 @@ class EscolhaHtml
             }
 
             if ($retornarArray === true) {
-                return [
-                    [
+                $retorno[] = [
                         'html' => $buffer,
-                        'label' => $vale
-                    ]
-                ];
+                        'label' => $vale];
             } else {
                 $retorno .= $buffer;
             }
@@ -304,7 +301,7 @@ class EscolhaHtml
 
 
     /**
-     * 
+     *
      * @param \Zion\Form\FormEscolha $config
      * @param type $array
      * @return string
