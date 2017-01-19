@@ -11,8 +11,7 @@
     "twig/twig": "~1.22",
     "doctrine/dbal": ">=2.3.5",
     "nette/mail": "2.3.0",
-    "facebook/php-sdk-v4" : "~5.0",
-    "illuminate/database": "^5.3",
+    "illuminate/database": "^5.3"
   },
   "autoload": {
     "psr-0": {
