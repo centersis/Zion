@@ -189,7 +189,8 @@ class EscolhaHtml
      */
     private function montaCheckRadio($tipo, $config, $array, $retornarArray)
     {
-        $retorno = '';
+        $retornoTxt = '';
+        $retornoArr = [];
 
         $type = $tipo === 'radio' ? 'type="radio"' : 'type="checkbox"';
 
@@ -288,15 +289,15 @@ class EscolhaHtml
             }
 
             if ($retornarArray === true) {
-                $retorno[] = [
+                $retornoArr[] = [
                         'html' => $buffer,
                         'label' => $vale];
             } else {
-                $retorno .= $buffer;
+                $retornoTxt .= $buffer;
             }
         }
 
-        return $retorno;
+        return  (empty($retornoArr)) ? $retornoTxt : $retornoArr;
     }
 
 
