@@ -69,16 +69,16 @@ class MasterDetail
                 if (\in_array($coringa, $doBanco)) {
 
                     $ativos[] = $coringa;
-                    $coringasMaster[] = $coringa;
+                    if ($config->getPermitirIgnorar() === false or \filter_input(\INPUT_POST, 'sisMA' . $nome . $coringa, \FILTER_DEFAULT) !== 'N') {                        
+                        $coringasMaster[] = $coringa;
+                        $coringas[] = $coringa;
 
-                    if ($config->getPermitirIgnorar() === false or \filter_input(\INPUT_POST, 'sisMA' . $nome . $coringa, \FILTER_DEFAULT) !== 'N') {
                         $this->update($config, $coringa);
                     }
                 } else {
                     $coringasMaster[] = $this->insert($config, $coringa);
+                    $coringas[] = $coringa;
                 }
-
-                $coringas[] = $coringa;
             }
         } catch (\Exception $ex) {
             throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
