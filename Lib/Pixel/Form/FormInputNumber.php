@@ -135,23 +135,23 @@ class FormInputNumber extends FormInputNumberZion
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
     }
-    
+
     public function setHashAjuda($hashAjuda)
     {
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
@@ -168,7 +168,7 @@ class FormInputNumber extends FormInputNumberZion
         parent::setFiltroPadrao($filtroPadrao);
         return $this;
     }
-    
+
     /**
      * Sobrecarga de Metodos Básicos
      */

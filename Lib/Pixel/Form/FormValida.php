@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixel\Form;
 
 use Zion\Validacao\Valida;

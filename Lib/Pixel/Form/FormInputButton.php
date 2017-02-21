@@ -13,7 +13,6 @@ class FormInputButton extends FormInputButtonZion
     private $emColunaDeTamanho;
     private $offsetColuna;
     private $complementoExterno;
-    
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica)
@@ -21,19 +20,19 @@ class FormInputButton extends FormInputButtonZion
         parent::__construct($acao, $nome, $identifica);
         $this->formSetPixel = new FormSetPixel();
     }
- 
+
     public function setMetodo($metodo)
     {
         parent::setMetodo($metodo);
         return $this;
     }
-    
+
     public function setAction($action)
     {
         parent::setAction($action);
         return $this;
     }
-   
+
     public function setTarget($target)
     {
         parent::setTarget($target);
@@ -50,7 +49,7 @@ class FormInputButton extends FormInputButtonZion
     {
         return $this->iconFA;
     }
-    
+
     public function setToolTipMsg($toolTipMsg)
     {
         $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);
@@ -61,9 +60,9 @@ class FormInputButton extends FormInputButtonZion
     {
         return $this->toolTipMsg;
     }
-    
+
     public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
+    {
         $this->emColunaDeTamanho = $this->formSetPixel->setEmColunaDeTamanho($emColunaDeTamanho);
         return $this;
     }
@@ -72,7 +71,7 @@ class FormInputButton extends FormInputButtonZion
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
-    
+
     public function setOffsetColuna($offsetColuna)
     {
         $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
@@ -83,13 +82,13 @@ class FormInputButton extends FormInputButtonZion
     {
         return $this->offsetColuna ? $this->offsetColuna : 3;
     }
-    
+
     public function setComplementoExterno($complementoExterno)
     {
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
@@ -97,43 +96,43 @@ class FormInputButton extends FormInputButtonZion
 
     /**
      * Sobrecarga de Metodos Básicos
-     */    
+     */
     public function setId($id)
     {
-        parent::setId($id);        
+        parent::setId($id);
         return $this;
     }
-    
+
     public function setNome($nome)
     {
         parent::setNome($nome);
         return $this;
     }
-    
+
     public function setIdentifica($identifica)
     {
         parent::setIdentifica($identifica);
         return $this;
     }
-    
+
     public function setValor($valor)
-    {              
+    {
         parent::setValor($valor);
         return $this;
     }
-    
+
     public function setValorPadrao($valorPadrao)
     {
         parent::setValorPadrao($valorPadrao);
         return $this;
     }
-    
+
     public function setDisabled($disabled)
     {
         parent::setDisabled($disabled);
         return $this;
     }
-    
+
     public function setComplemento($complemento)
     {
         parent::setComplemento($complemento);
@@ -145,16 +144,17 @@ class FormInputButton extends FormInputButtonZion
         parent::setAtributos($atributos);
         return $this;
     }
-    
+
     public function setClassCss($classCss)
     {
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);
         return $this;
     }
+
 }

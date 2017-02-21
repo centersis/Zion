@@ -235,12 +235,12 @@ class FormInputTexto extends FormInputTextoZion
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
     }
-    
+
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;

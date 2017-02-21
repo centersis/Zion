@@ -1,39 +1,11 @@
 <?php
 
-/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- * 
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-
 namespace Zion\Core;
 
 use Zion\Validacao\Valida;
 use Pixel\Layout\Tab;
 use Pixel\Twig\Carregador;
+use Zion\Exception\CoreException;
 
 class Controller
 {
@@ -50,7 +22,7 @@ class Controller
      * paremetro $acao
      * @param string $acao
      * @return string json
-     * @throws \Exception
+     * @throws CoreException
      */
     public function controle($acao = '')
     {
@@ -62,11 +34,11 @@ class Controller
 
         try {
             if (!\method_exists($this, $acao)) {
-                throw new \Exception("Opção inválida!");
+                throw new CoreException("Opção inválida!");
             }
 
             return $this->{$acao}();
-        } catch (\Exception $e) {
+        } catch (CoreException $e) {
             return $this->jsonErro($e->getMessage());
         }
     }
@@ -123,7 +95,7 @@ class Controller
         }
 
         if (empty($selecionados) or ! \is_array($selecionados)) {
-            throw new \Exception("Oops! Nenhum registro selecionado!");
+            throw new CoreException("Oops! Nenhum registro selecionado!");
         }
 
         return $selecionados;

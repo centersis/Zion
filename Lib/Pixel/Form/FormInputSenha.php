@@ -47,7 +47,8 @@ class FormInputSenha extends FormInputSenhaZion
         return $this;
     }
 
-    public function setAliasSql($aliasSql){
+    public function setAliasSql($aliasSql)
+    {
         parent::setAliasSql($aliasSql);
         return $this;
     }
@@ -62,7 +63,7 @@ class FormInputSenha extends FormInputSenhaZion
     {
         return $this->iconFA;
     }
-    
+
     public function setToolTipMsg($toolTipMsg)
     {
         $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);
@@ -73,9 +74,9 @@ class FormInputSenha extends FormInputSenhaZion
     {
         return $this->toolTipMsg;
     }
-    
+
     public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
+    {
         $this->emColunaDeTamanho = $this->formSetPixel->setEmColunaDeTamanho($emColunaDeTamanho);
         return $this;
     }
@@ -84,7 +85,7 @@ class FormInputSenha extends FormInputSenhaZion
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
-    
+
     public function setOffsetColuna($offsetColuna)
     {
         $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
@@ -95,46 +96,46 @@ class FormInputSenha extends FormInputSenhaZion
     {
         return $this->offsetColuna ? $this->offsetColuna : 3;
     }
-    
-        public function setProcessarJS($processarJS)
+
+    public function setProcessarJS($processarJS)
     {
         $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
         return $this;
     }
-    
+
     public function getProcessarJS()
     {
         return $this->processarJS;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;
     }
-    
+
     public function setComplementoExterno($complementoExterno)
     {
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
     }
-    
+
     public function setHashAjuda($hashAjuda)
     {
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
     }
-    
+
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
@@ -196,7 +197,7 @@ class FormInputSenha extends FormInputSenhaZion
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);

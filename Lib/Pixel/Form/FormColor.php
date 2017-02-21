@@ -97,13 +97,13 @@ class FormColor extends FormBasico
     {
         return $this->complementoExterno;
     }
-    
+
     public function setHashAjuda($hashAjuda)
     {
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;

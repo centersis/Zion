@@ -139,12 +139,12 @@ class FormInputFloat extends FormInputFloatZion
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);

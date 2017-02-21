@@ -9,13 +9,15 @@ use Zion\Tratamento\Tratamento;
  * sho foi usado para substituir hidden_sis_filtro
  * sha foi usado para substituir hiddent_sis_filtro
  */
-class Filtrar {
+class Filtrar
+{
 
     private $objForm;
     private $operadores = [];
     private $interpretarComo = [];
 
-    public function __construct($objForm = null) {
+    public function __construct($objForm = null)
+    {
         if (\is_object($objForm)) {
             $this->objForm = $objForm;
         }
@@ -32,7 +34,8 @@ class Filtrar {
             '*' => '*'];
     }
 
-    public function getStringSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject = null) {
+    public function getStringSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject = null)
+    {
 
         $origem = \strtolower(\filter_input(\INPUT_GET, 'sisOrigem'));
 
@@ -182,7 +185,7 @@ class Filtrar {
                 if ($valor <> '') {
 
                     $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp01' . $rand))
-                            ->setParameter('camp01' . $rand, $queryBuilder->expr()->literal($valor), \PDO::PARAM_STR);
+                        ->setParameter('camp01' . $rand, $queryBuilder->expr()->literal($valor), \PDO::PARAM_STR);
                     return;
                 }
 
@@ -198,7 +201,8 @@ class Filtrar {
     }
 
     //Para clausulas E e OR
-    private function eOrSql($campoBanco, $nomeCampo, $origem, $queryBuilder) {
+    private function eOrSql($campoBanco, $nomeCampo, $origem, $queryBuilder)
+    {
         if (\array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];
         }
@@ -283,7 +287,8 @@ class Filtrar {
         }
     }
 
-    private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder) {
+    private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
+    {
         if (\array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];
         }
@@ -316,42 +321,42 @@ class Filtrar {
                         case '=':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->eq($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '>':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->gt($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '<':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->lt($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '>=':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->gte($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '<=':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->lte($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
 
                         case '<>':
 
                             $queryBuilder->andWhere($queryBuilder->expr()->neq($campoBanco, ':camp02' . $rand))
-                                    ->setParameter('camp02' . $rand, $valor, $tipoParametro);
+                                ->setParameter('camp02' . $rand, $valor, $tipoParametro);
 
                             break;
                     }
@@ -382,7 +387,8 @@ class Filtrar {
         }
     }
 
-    function getHiddenParametros($arrayParametros) {
+    function getHiddenParametros($arrayParametros)
+    {
         $retorno = [];
 
         if (\is_array($arrayParametros) and ! empty($arrayParametros)) {
@@ -408,7 +414,8 @@ class Filtrar {
         }
     }
 
-    public function interpretarComo($campo, $traducao) {
+    public function interpretarComo($campo, $traducao)
+    {
         $this->interpretarComo[$campo] = $traducao;
     }
 

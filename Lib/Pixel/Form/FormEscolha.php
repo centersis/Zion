@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixel\Form;
 
 use Zion\Form\FormEscolha as FormEscolhaZion;
@@ -191,12 +192,12 @@ class FormEscolha extends FormEscolhaZion
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
@@ -207,7 +208,7 @@ class FormEscolha extends FormEscolhaZion
     {
         return $this->tipoFiltro;
     }
-    
+
     public function setFiltroPadrao($filtroPadrao)
     {
         parent::setFiltroPadrao($filtroPadrao);

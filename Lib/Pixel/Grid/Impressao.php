@@ -1,9 +1,12 @@
 <?php
+
 namespace Pixel\Grid;
+
+use PixelGridException\GridException;
 
 class Impressao
 {
-    
+
     private $logo;
 
     public function __construct()
@@ -17,7 +20,7 @@ class Impressao
 
         $orientacao = ($this->getNumeroColunas($html) > 5 ? 'L' : 'P');
 
-        if($pdf->imprimePDF($this->trataHTML($html), NULL, $orientacao) === false){
+        if ($pdf->imprimePDF($this->trataHTML($html), NULL, $orientacao) === false) {
             return false;
         } else {
             return true;
@@ -75,17 +78,17 @@ class Impressao
 
         //Remove a coluna dos checkboxes, no futuro haverá uma solução mais elegante. =D
         $i = 0;
-        while($i <= count($matches[0])){
+        while ($i <= count($matches[0])) {
 
             $i++;
 
-            $abreTd     = strpos($html, '<td class="l45px"');
-            $fechaTd    = strpos($html, '</td>', $abreTd) + 5;
+            $abreTd = strpos($html, '<td class="l45px"');
+            $fechaTd = strpos($html, '</td>', $abreTd) + 5;
 
-            if($abreTd) {
-                $start      = substr($html, 0, $abreTd);
-                $end        = substr($html, $fechaTd);
-                $html       = $start . $end;
+            if ($abreTd) {
+                $start = substr($html, 0, $abreTd);
+                $end = substr($html, $fechaTd);
+                $html = $start . $end;
                 continue;
             } else {
                 break;
@@ -96,19 +99,19 @@ class Impressao
 
         return $this->montaCabecalho() . $html;
     }
-    
+
     public function montaCabecalho()
     {
         $html = '
             <table width="100%">
                 <tr>
-                    <td class="t12preto" colspan="2"><div align="left"><img src="'. $this->getLogo() .'"/></div></td>
+                    <td class="t12preto" colspan="2"><div align="left"><img src="' . $this->getLogo() . '"/></div></td>
                 </tr>
                 <tr>
                     <td colspan="2" height="15" class="t12preto" align="center">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td colspan="2" height="25" class="t12preto" align="center"><strong>Impressão dos registros do módulo '. ucfirst(MODULO) .'.</strong></td>
+                    <td colspan="2" height="25" class="t12preto" align="center"><strong>Impressão dos registros do módulo ' . ucfirst(MODULO) . '.</strong></td>
                 </tr>
                 <tr>
                     <td colspan="2" height="10" class="t12preto" align="center">&nbsp;</td>
@@ -117,31 +120,31 @@ class Impressao
 
         return $html;
     }
-    
+
     public function setLogo($logo)
     {
-        if(!empty($logo)){
+        if (!empty($logo)) {
             $this->logo = $logo;
             return $this;
         } else {
-            throw new \Exception("A URL informada não é de uma logo válida.");
+            throw new GridException("A URL informada não é de uma logo válida.");
         }
     }
-    
+
     public function getLogo()
     {
         return $this->logo;
     }
-    
+
     public function getNumeroColunas($html)
     {
         preg_match_all('/<i class="fa fa-sort recD5px" >/', $html, $matches);
 
-        if(is_array($matches[0])){
+        if (is_array($matches[0])) {
             return count($matches[0]);
         } else {
             return 5;
         }
-
     }
+
 }

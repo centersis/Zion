@@ -501,7 +501,7 @@ class FormInputSuggest extends FormBasico
     {
         return $this->tipoFiltro;
     }
-    
+
     public function setFiltroPadrao($filtroPadrao)
     {
         parent::setFiltroPadrao($filtroPadrao);
@@ -518,13 +518,13 @@ class FormInputSuggest extends FormBasico
     {
         return $this->complementoExterno;
     }
-    
+
     public function setHashAjuda($hashAjuda)
     {
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;

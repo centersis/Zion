@@ -117,24 +117,24 @@ class FormInputCpf extends FormInputCpfZion
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;
     }
-    
+
     public function setHashAjuda($hashAjuda)
     {
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
@@ -150,7 +150,7 @@ class FormInputCpf extends FormInputCpfZion
         parent::setFiltroPadrao($filtroPadrao);
         return $this;
     }
-    
+
     /**
      * Sobrecarga de Metodos Básicos
      */

@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixel\Form;
 
 use Zion\Form\FormInputHora as FormInputHoraZion;
@@ -122,23 +123,23 @@ class FormInputHora extends FormInputHoraZion
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
     }
-    
+
     public function setHashAjuda($hashAjuda)
     {
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
@@ -149,7 +150,7 @@ class FormInputHora extends FormInputHoraZion
     {
         return $this->tipoFiltro;
     }
-    
+
     public function setFiltroPadrao($filtroPadrao)
     {
         parent::setFiltroPadrao($filtroPadrao);

@@ -7,7 +7,7 @@ use Pixel\Form\FormSetPixel;
 
 class FormInputHidden extends FormInputHiddenZion
 {
-  
+
     private $formSetPixel;
 
     public function __construct($acao, $nome)
@@ -16,7 +16,6 @@ class FormInputHidden extends FormInputHiddenZion
 
         $this->formSetPixel = new FormSetPixel();
     }
-
 
     /**
      * Sobrecarga de Metodos Básicos
@@ -74,8 +73,9 @@ class FormInputHidden extends FormInputHiddenZion
         parent::setClassCss($classCss);
         return $this;
     }
-    
-    public function setAliasSql($aliasSql){
+
+    public function setAliasSql($aliasSql)
+    {
         parent::setAliasSql($aliasSql);
         return $this;
     }

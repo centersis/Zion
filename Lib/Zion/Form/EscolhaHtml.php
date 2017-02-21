@@ -62,7 +62,7 @@ class EscolhaHtml
                 $sql = $con->qb();
 
                 $sql->select($campoCod, $campoDesc)
-                        ->from($tabela, '');
+                    ->from($tabela, '');
 
                 if ($instucoes) {
                     $this->processarInstrucoes($instucoes, $sql);
@@ -118,12 +118,12 @@ class EscolhaHtml
             switch ($comparacao) {
                 case 'IGUAL':
                     $sql->andWhere($sql->expr()->eq($campoTabela, ':' . $campoTabela))
-                            ->setParameter($campoTabela, $valor, $tipoPDO);
+                        ->setParameter($campoTabela, $valor, $tipoPDO);
                     break;
 
                 case 'DIFERENTE':
                     $sql->andWhere($sql->expr()->neq($campoTabela, ':' . $campoTabela))
-                            ->setParameter($campoTabela, $valor, $tipoPDO);
+                        ->setParameter($campoTabela, $valor, $tipoPDO);
                     break;
 
                 case 'ISNULL':
@@ -290,16 +290,15 @@ class EscolhaHtml
 
             if ($retornarArray === true) {
                 $retornoArr[] = [
-                        'html' => $buffer,
-                        'label' => $vale];
+                    'html' => $buffer,
+                    'label' => $vale];
             } else {
                 $retornoTxt .= $buffer;
             }
         }
 
-        return  (empty($retornoArr)) ? $retornoTxt : $retornoArr;
+        return (empty($retornoArr)) ? $retornoTxt : $retornoArr;
     }
-
 
     /**
      *

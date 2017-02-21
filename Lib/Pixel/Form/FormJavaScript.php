@@ -8,7 +8,6 @@ class FormJavaScript extends JavaScript
 {
 
     public static $instancia;
-    
     private $src;
     private $load;
     private $functions;
@@ -32,7 +31,7 @@ class FormJavaScript extends JavaScript
 
         return self::$instancia;
     }
-    
+
     public function setSrc($url)
     {
         $this->src[] = $url;
@@ -55,33 +54,33 @@ class FormJavaScript extends JavaScript
         $this->load[] = $codigo;
         return $this;
     }
-    
+
     public function resetLoad()
     {
         $this->load = [];
     }
-    
+
     public function getLoad($entreJs = false)
     {
         $buffer = '';
 
-        if ($this->load) {            
+        if ($this->load) {
             $buffer = parent::abreLoadJQuery() . implode("\n", $this->load) . parent::fechaLoadJQuery();
-            
-            if($entreJs === true){
+
+            if ($entreJs === true) {
                 $buffer = parent::entreJS($buffer);
             }
         }
 
         return $buffer;
     }
-    
+
     public function setFunctions($codigoFonte)
     {
         $this->functions[] = $codigoFonte;
         return $this;
     }
-    
+
     public function getFunctions()
     {
         $buffer = '';
@@ -92,15 +91,15 @@ class FormJavaScript extends JavaScript
 
         return $buffer;
     }
-    
+
     public function sisCadastrar($codigoJS)
     {
-        return 'function sisCadastrar(){ '.$codigoJS.' } ';
+        return 'function sisCadastrar(){ ' . $codigoJS . ' } ';
     }
-    
+
     public function sisAlterar($codigoJS)
     {
-        return 'function sisAlterar(){ '.$codigoJS.' } ';
-    }    
+        return 'function sisAlterar(){ ' . $codigoJS . ' } ';
+    }
 
 }

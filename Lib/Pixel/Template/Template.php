@@ -1,34 +1,5 @@
 <?php
 
-/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- * 
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-
 namespace Pixel\Template;
 
 class Template extends \Zion\Layout\Padrao
@@ -193,7 +164,6 @@ class Template extends \Zion\Layout\Padrao
             default:
 
                 $buffer = '';
-                //$buffer .= $this->getEstatisticas('starts');
                 $buffer .= $this->getCabecalho();
                 $buffer .= $this->getInicioCorpo();
                 $buffer .= $this->getInicioContainer();
@@ -203,7 +173,6 @@ class Template extends \Zion\Layout\Padrao
                 $buffer .= $this->getFimContainer();
                 $buffer .= $this->getFimCorpo();
                 $buffer .= $this->getRodape();
-                //$buffer .= $this->getEstatisticas('ends');
 
                 return $buffer;
         }
@@ -222,11 +191,9 @@ class Template extends \Zion\Layout\Padrao
         $classCss = (!empty($this->conteudoBody)) ? $this->conteudoBody : 'theme-default main-menu-animated';
 
         $buffer = '';
-        //$buffer .= $this->html->abreComentario() . 'Zion Framework: starting body app' . $this->html->fechaComentario();
         $buffer .= $this->html->abreTagAberta('body', array('class' => $classCss));
         $buffer .= $this->html->entreTags('script', 'var init = [];');
         $buffer .= $this->html->abreTagAberta('script', array('src' => SIS_URL_BASE_STATIC . SIS_URL_BASE_TEMPLATE . 'assets/demo/demo.js')) . $this->html->fechaTag('script');
-        //$buffer .= $this->html->abreTagAberta('div', array('id' => 'main-wrapper'));        
 
         return $buffer;
     }
@@ -240,14 +207,13 @@ class Template extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('div', array('id' => $idContainer));
         return $buffer;
     }
-    
+
     public function getOrganogramaForm()
     {
-        
+
         $formPesquisar = new \Pixel\Template\BarraSuperior\PesquisarOrganograma\PesquisarOrganogramaForm();
         return $formPesquisar->getForm();
-        
-    }    
+    }
 
     private function getBarraSuperior()
     {
@@ -364,14 +330,11 @@ class Template extends \Zion\Layout\Padrao
     private function getMain()
     {
 
-        $breadCrumb = new \Pixel\Template\Main\BreadCrumb();
         $modal = new \Pixel\Template\Main\Modal();
 
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('id' => 'content-wrapper'));
-        //$buffer .= $breadCrumb->getBreadCrumb();
         $buffer .= $this->getPageHeader();
-        //$buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerFiltros', 'class' => 'clearfix']) . $this->getFiltros() .  $this->fechaTag('div');
 
         $buffer .= $this->abreTagAberta('div', ['id' => 'sisContainerManu']) . $this->fechaTag('div');
         $buffer .= $this->conteudoBotoes;
@@ -391,8 +354,6 @@ class Template extends \Zion\Layout\Padrao
     private function getFiltros()
     {
 
-        //return $this->conteudoFiltros;
-        //return $this->getPanel('box-filters', 'Filtros especiais', $this->conteudoFiltros, ['startVisible' => false, 'titleVisible' => false, 'iconTitle' => 'fa fa-filter']);
     }
 
     private function getContainerLogin()
@@ -414,9 +375,9 @@ class Template extends \Zion\Layout\Padrao
             $qb = $con->qb();
 
             $qb->select('moduloclass', 'modulodesc')
-                    ->from('_modulo', '')
-                    ->where('moduloNome = :moduloNome')
-                    ->setParameter('moduloNome', \MODULO);
+                ->from('_modulo', '')
+                ->where('moduloNome = :moduloNome')
+                ->setParameter('moduloNome', \MODULO);
 
             $dadosModulo = $con->execLinha($qb);
 
@@ -427,7 +388,6 @@ class Template extends \Zion\Layout\Padrao
         $buffer = '';
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'page-header'));
         $buffer .= $this->html->abreTagAberta('div', array('class' => 'row'));
-        //$buffer .= $this->getSpark();
 
         $buffer .= $this->html->abreTagAberta('h1', array('class' => 'col-xs-12 col-sm-4 text-center text-left-sm'));
         $buffer .= $this->html->abreTagAberta('i', array('class' => $icone . ' page-header-icon')) . $this->html->fechaTag('i') . '&nbsp;&nbsp;' . $nomeModulo;
@@ -498,8 +458,6 @@ class Template extends \Zion\Layout\Padrao
 
         $buffer = '';
         // end: main-wrapper
-        //$buffer .= $this->html->fechaTag('div');
-        //$buffer .= $this->html->abreComentario() . 'Zion Framework: ending body app' . $this->html->fechaComentario();
 
         return $buffer;
     }
@@ -508,13 +466,7 @@ class Template extends \Zion\Layout\Padrao
     {
 
         $buffer = '';
-        //$buffer .= $this->html->abreComentario() . 'Zion Framework: starting runtime dynamic form scripts block' . $this->html->fechaComentario();
-        //$buffer .= $this->html->abreTagAberta('script', array('type' => 'text/javascript'));
         $buffer .= $this->conteudoScripts;
-        //$buffer .= $this->html->fechaTag('script');
-        //$buffer .= $this->html->abreComentario() . 'Zion Framework: ending runtime dynamic form scripts block' . $this->html->fechaComentario();
-        //$buffer .= $this->conteudoScripts;
-
         return $buffer;
     }
 
@@ -586,9 +538,6 @@ class Template extends \Zion\Layout\Padrao
                 list($usec, $sec) = explode(' ', microtime());
                 $_SESSION['script_start'] = (float) $sec + (float) $usec;
 
-                //$buffer .= $this->html->abreComentario() . 'Zion Framework starting at [' . $_SESSION['script_start'] . '] miliseconds' . $this->html->fechaComentario();
-                //$buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
-
                 break;
 
             case 'ends':
@@ -596,9 +545,6 @@ class Template extends \Zion\Layout\Padrao
                 list($usec, $sec) = explode(' ', microtime());
                 $script_end = (float) $sec + (float) $usec;
                 $elapsed_time = round($script_end - $_SESSION['script_start'], 5);
-
-                //$buffer .= $this->html->abreComentario() . 'Zion Framework ending at [' . $elapsed_time . '] miliseconds' . $this->html->fechaComentario();
-                //$buffer .= $this->html->abreComentario() . 'Zion Framework memory peak usage [' . round(((memory_get_peak_usage(true) / 1024) / 1024), 2) . '] Mb ' . $this->html->fechaComentario();
 
                 break;
         }

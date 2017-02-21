@@ -18,7 +18,7 @@ class FormChosen extends FormEscolhaZion
     private $metodoDependencia;
     private $classeDependencia;
     private $parametros;
-    private $hashAjuda;   
+    private $hashAjuda;
     private $formSetPixel;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
@@ -35,19 +35,19 @@ class FormChosen extends FormEscolhaZion
         parent::setObrigatorio($obrigatorio);
         return $this;
     }
-    
+
     public function setSelecaoMaxima($selecaoMaxima)
     {
         parent::setSelecaoMaxima($selecaoMaxima);
         return $this;
     }
-    
+
     public function setSelecaoMinima($selecaoMinima)
     {
         parent::setSelecaoMinima($selecaoMinima);
         return $this;
     }
-    
+
     public function setMultiplo($multiplo)
     {
         parent::setMultiplo($multiplo);
@@ -89,7 +89,7 @@ class FormChosen extends FormEscolhaZion
         parent::setCampoDesc($campoDesc);
         return $this;
     }
-    
+
     public function setInstrucoes(array $instrucoes)
     {
         parent::setInstrucoes($instrucoes);
@@ -113,19 +113,19 @@ class FormChosen extends FormEscolhaZion
         parent::setIdConexao($idConexao);
         return $this;
     }
-    
+
     public function setIgnoreCod($ignoreCod)
     {
         parent::setIgnoreCod($ignoreCod);
         return $this;
     }
-    
+
     public function setCallback($callback)
     {
         parent::setCallback($callback);
         return $this;
     }
-    
+
     public function setToolTipMsg($toolTipMsg)
     {
         $this->toolTipMsg = $this->formSetPixel->setToolTipMsg($toolTipMsg);
@@ -136,9 +136,9 @@ class FormChosen extends FormEscolhaZion
     {
         return $this->toolTipMsg;
     }
-    
+
     public function setEmColunaDeTamanho($emColunaDeTamanho)
-    {        
+    {
         $this->emColunaDeTamanho = $this->formSetPixel->setEmColunaDeTamanho($emColunaDeTamanho);
         return $this;
     }
@@ -147,7 +147,7 @@ class FormChosen extends FormEscolhaZion
     {
         return $this->emColunaDeTamanho ? $this->emColunaDeTamanho : 12;
     }
-    
+
     public function setOffsetColuna($offsetColuna)
     {
         $this->offsetColuna = $this->formSetPixel->setOffsetColuna($offsetColuna);
@@ -158,46 +158,46 @@ class FormChosen extends FormEscolhaZion
     {
         return $this->offsetColuna ? $this->offsetColuna : 3;
     }
-    
+
     public function setProcessarJS($processarJS)
     {
         $this->processarJS = $this->formSetPixel->setProcessarJS($processarJS);
         return $this;
     }
-    
+
     public function getProcessarJS()
     {
         return $this->processarJS;
     }
-    
+
     public function setComplementoExterno($complementoExterno)
     {
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
         return $this;
     }
-    
+
     public function getTipoFiltro()
     {
         return $this->tipoFiltro;
     }
-    
+
     public function setHashAjuda($hashAjuda)
     {
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
@@ -208,17 +208,18 @@ class FormChosen extends FormEscolhaZion
         parent::setFiltroPadrao($filtroPadrao);
         return $this;
     }
-    
-    public function setAliasSql($aliasSql){
+
+    public function setAliasSql($aliasSql)
+    {
         parent::setAliasSql($aliasSql);
         return $this;
     }
-    
+
     public function setDependencia($campoDependencia, $metodoDependencia, $classeDependencia, $parametros = [])
     {
         $this->campoDependencia = $campoDependencia;
         $this->metodoDependencia = $metodoDependencia;
-        $this->classeDependencia = \str_replace('\\', '/', $classeDependencia);        
+        $this->classeDependencia = \str_replace('\\', '/', $classeDependencia);
         $this->parametros = $parametros;
 
         return $this;
@@ -233,12 +234,12 @@ class FormChosen extends FormEscolhaZion
     {
         return $this->metodoDependencia;
     }
-    
+
     public function getClasseDependencia()
     {
         return $this->classeDependencia;
     }
-    
+
     public function getParametros()
     {
         return $this->parametros;
@@ -300,7 +301,7 @@ class FormChosen extends FormEscolhaZion
         parent::setClassCss($classCss);
         return $this;
     }
-    
+
     public function setContainer($container)
     {
         parent::setContainer($container);

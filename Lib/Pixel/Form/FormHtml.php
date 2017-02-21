@@ -6,10 +6,7 @@ use Zion\Form\FormHtml as FormHtmlZion;
 use Zion\Form\FormInputHidden;
 use Zion\Layout\JavaScript;
 use Zion\Banco\Conexao;
-use Pixel\Form\MasterDetail\FormMasterDetail;
 use Pixel\Form\MasterDetail\MasterDetailHtml;
-use Pixel\Form\MasterVinculo\FormMasterVinculo;
-use Pixel\Form\MasterVinculo\MasterVinculoHtml;
 use Pixel\Arquivo\ArquivoUpload;
 
 class FormHtml extends FormHtmlZion
@@ -44,11 +41,11 @@ class FormHtml extends FormHtmlZion
                 } else {
                     $qb = $con->qb();
                     $qb->select($config->getCampoDesc())
-                            ->from($config->getTabela(), '');
+                        ->from($config->getTabela(), '');
                 }
 
                 $qb->where($qb->expr()->eq($config->getCampoCod(), ':campoCod'))
-                        ->setParameter('campoCod', $valorOriginal, \PDO::PARAM_INT);
+                    ->setParameter('campoCod', $valorOriginal, \PDO::PARAM_INT);
 
                 $valorTexto = $con->execRLinha($qb);
                 $config->setValor($valorTexto);
@@ -313,7 +310,6 @@ class FormHtml extends FormHtmlZion
 
         return parent::montaCorHtml($config);
     }
-
 
     /**
      * 

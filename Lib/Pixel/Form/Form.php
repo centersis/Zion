@@ -8,6 +8,7 @@ use Zion\Layout\Html;
 use Zion\Form\FormInputButton;
 use Pixel\Form\MasterDetail\FormMasterDetail;
 use App\Sistema\Ajuda\AjudaView;
+use \Zion\Form\Exception\FormException;
 
 class Form extends FormZion
 {
@@ -276,7 +277,7 @@ class Form extends FormZion
                 case 'cor' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaCor($objCampos);
                     break;
-                default : throw new \Exception('Tipo Base não encontrado! ' . $idCampo);
+                default : throw new FormException('Tipo Base não encontrado! ' . $idCampo);
             }
         }
 
@@ -367,7 +368,7 @@ class Form extends FormZion
             try {
                 $ajudaViewClass = new AjudaView();
                 $buffer['ajuda'] = $ajudaViewClass->getAjuda(\MODULO, $this->getAcao());
-            } catch (\Exception $e) {
+            } catch (FormException $e) {
                 // noop
             }
         }
@@ -394,7 +395,7 @@ class Form extends FormZion
                     $ajudaViewClass = (\is_object($ajudaViewClass)) ? $ajudaViewClass : new AjudaView();
 
                     $buffer['ajudaHash'][$nome] = $ajudaViewClass->getAjudaHash($this->objetos[$nome]->getHashAjuda());
-                } catch (\Exception $e) {
+                } catch (FormException $e) {
                     // noop
                 }
             }

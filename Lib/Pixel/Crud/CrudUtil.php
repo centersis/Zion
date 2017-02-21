@@ -8,6 +8,7 @@ use Pixel\Filtro\Filtrar;
 use Pixel\Arquivo\ArquivoUpload;
 use Pixel\Form\MasterDetail\MasterDetail;
 use Zion\Form\Form;
+use Pixel\Exception\CrudException;
 
 class CrudUtil
 {
@@ -290,7 +291,7 @@ class CrudUtil
             if (\is_array($objForm)) {
                 $arrayForm = $objForm;
             } else {
-                throw new \Exception('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
+                throw new CrudException('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
             }
         }
 
@@ -378,7 +379,7 @@ class CrudUtil
             if (\is_array($objForm)) {
                 $arrayForm = $objForm;
             } else {
-                throw new \Exception('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
+                throw new CrudException('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
             }
         }
 

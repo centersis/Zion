@@ -1,44 +1,7 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
-
-/**
- * \Pixel\Remoto\Complete()
- * 
- * @package The Sappiens Team
- * @author 2014
- * @copyright 2014
- * @version 1.0
- * @access public
- */
 
 namespace Pixel\Remoto;
+use Pixel\Exception\RemotoException;
 
 class Complete
 {
@@ -70,13 +33,13 @@ class Complete
 
             $ccod = $campoCod ? $campoCod : "'' as ";
             $cdes = $campoDesc ? $campoDesc : "''";
-            $cbus = $campoBusca ? $campoBusca : $campoDesc;            
+            $cbus = $campoBusca ? $campoBusca : $campoDesc;
 
             $qb = $con->qb();
-            $sql = $qb->select($ccod . ' cod', $cdes.' dsc')
-                    ->from($tabela,'')                    
-                    ->where($qb->expr()->like($cbus, $qb->expr()->literal('%'.$termoBusca.'%')))
-                    ->setMaxResults($limite);
+            $sql = $qb->select($ccod . ' cod', $cdes . ' dsc')
+                ->from($tabela, '')
+                ->where($qb->expr()->like($cbus, $qb->expr()->literal('%' . $termoBusca . '%')))
+                ->setMaxResults($limite);
 
             $rs = $con->executar($sql);
 
@@ -86,7 +49,7 @@ class Complete
             }
 
             return \json_encode($ret);
-        } catch (\Exception $e) {
+        } catch (RemotoException $e) {
             return \json_encode(array(array('id' => '0', 'value' => 'erro', 'label' => $e->getMessage())));
         }
     }

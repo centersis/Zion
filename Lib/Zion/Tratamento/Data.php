@@ -1,34 +1,5 @@
 <?php
 
-/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- *
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-
 namespace Zion\Tratamento;
 
 use Zion\Validacao\Data as ValidacaoData;
@@ -43,7 +14,7 @@ class Data
 
     private function __construct()
     {
-
+        
     }
 
     /**
@@ -451,7 +422,6 @@ class Data
         }
 
         return $m;
-
     }
 
     /**
@@ -648,14 +618,13 @@ class Data
     public function getDataParseManual($data, $format = 'dmY')
     {
 
-        if($format == 'dmY') {
+        if ($format == 'dmY') {
             list($dia, $mes, $ano) = \split('[/.-]', $data);
         } else {
             list($ano, $mes, $dia) = \split('[/.-]', $data);
         }
 
         return ['dia' => $dia, 'mes' => $mes, 'ano' => $ano];
-
     }
 
     /*
@@ -663,41 +632,36 @@ class Data
      * $retorno = o formato esperado para o retorno podendo ser:
      * dmY, d/m/Y, d-m-Y, Ymd, Y/m/d, Y-m-d ou vazio para retornar ['dia' => 01, 'mes' => 12, 'ano' => 2015]
      */
+
     public function getDataSemSeparador($data, $retorno = '')
     {
 
-        if(\strlen($data) === 8) {
+        if (\strlen($data) === 8) {
 
             $d = \substr($data, 0, 2);
             $m = \substr($data, 2, 2);
             $a = \substr($data, 4, 4);
 
-            if(\checkdate($m, $d, $a) and $a >= 1800) {
+            if (\checkdate($m, $d, $a) and $a >= 1800) {
 
                 $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
-
             } else {
 
                 $a = \substr($data, 0, 4);
                 $m = \substr($data, 4, 2);
                 $d = \substr($data, 6, 2);
 
-                if(\checkdate($m, $d, $a)) {
+                if (\checkdate($m, $d, $a)) {
 
                     $d = ['dia' => $d, 'mes' => $m, 'ano' => $a];
-
                 } else {
 
                     return false;
-
                 }
-
             }
-
         } else {
 
             return false;
-
         }
 
         switch ($retorno) {
@@ -730,11 +694,9 @@ class Data
 
                 $d = ['dia' => $d['dia'], 'mes' => $m, 'ano' => $a];
                 break;
-
         }
 
         return $d;
-
     }
 
 }

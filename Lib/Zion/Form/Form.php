@@ -352,7 +352,7 @@ class Form
     {
         if ($nome and ! \array_key_exists($nome, $this->objetos)) {
             if(!$returnType) {
-                throw new \Exception('Objeto ' . $nome . ' não existe!');
+                throw new FormException('Objeto ' . $nome . ' não existe!');
             } elseif($returnType === 'bool') {
                 return false;
             }

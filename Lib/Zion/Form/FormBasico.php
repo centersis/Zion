@@ -4,7 +4,8 @@ namespace Zion\Form;
 
 use \Zion\Form\Exception\FormException as FormException;
 
-abstract class FormBasico {
+abstract class FormBasico
+{
 
     private $id;
     private $nome;
@@ -18,7 +19,8 @@ abstract class FormBasico {
     private $container;
     private $nomeForm;
 
-    public function setId($id) {
+    public function setId($id)
+    {
         if (!empty($id)) {
             $this->id = \str_replace('[]', '', $id);
             return $this;
@@ -27,11 +29,13 @@ abstract class FormBasico {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         if (!empty($nome)) {
             $this->nome = $nome;
             return $this;
@@ -40,11 +44,13 @@ abstract class FormBasico {
         }
     }
 
-    public function getNome() {
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function setIdentifica($identifica) {
+    public function setIdentifica($identifica)
+    {
         if (!empty($identifica)) {
             $this->identifica = $identifica;
             return $this;
@@ -53,20 +59,24 @@ abstract class FormBasico {
         }
     }
 
-    public function getIdentifica() {
+    public function getIdentifica()
+    {
         return $this->identifica;
     }
 
-    public function setValor($valor) {
+    public function setValor($valor)
+    {
         $this->valor = $valor;
         return $this;
     }
 
-    public function getValor() {
+    public function getValor()
+    {
         return $this->valor;
     }
 
-    public function setValorPadrao($valorPadrao) {
+    public function setValorPadrao($valorPadrao)
+    {
         if ($valorPadrao === null or $valorPadrao === '') {
             $this->valorPadrao = null;
         } else {
@@ -76,11 +86,13 @@ abstract class FormBasico {
         return $this;
     }
 
-    public function getValorPadrao() {
+    public function getValorPadrao()
+    {
         return $this->valorPadrao;
     }
 
-    public function setDisabled($disabled) {
+    public function setDisabled($disabled)
+    {
         if ($disabled === true) {
             $this->disabled = $disabled;
         } else {
@@ -88,11 +100,13 @@ abstract class FormBasico {
         }
     }
 
-    public function getDisabled() {
+    public function getDisabled()
+    {
         return $this->disabled;
     }
 
-    public function setComplemento($complemento) {
+    public function setComplemento($complemento)
+    {
         if (!empty($complemento)) {
             $this->complemento = $complemento;
             return $this;
@@ -101,11 +115,13 @@ abstract class FormBasico {
         }
     }
 
-    public function getComplemento() {
+    public function getComplemento()
+    {
         return $this->complemento;
     }
 
-    public function setAtributos($atributos) {
+    public function setAtributos($atributos)
+    {
         if (!empty($atributos)) {
             $this->atributos = $atributos;
             return $this;
@@ -114,11 +130,13 @@ abstract class FormBasico {
         }
     }
 
-    public function getAtributos() {
+    public function getAtributos()
+    {
         return $this->atributos;
     }
 
-    public function setClassCss($classCss) {
+    public function setClassCss($classCss)
+    {
         $class = \trim($classCss);
 
         if (!empty($class)) {
@@ -129,24 +147,29 @@ abstract class FormBasico {
         }
     }
 
-    public function getClassCss() {
+    public function getClassCss()
+    {
         return \implode(' ', $this->classCss);
     }
 
-    public function getContainer() {
+    public function getContainer()
+    {
         return $this->container;
     }
 
-    public function setContainer($container) {
+    public function setContainer($container)
+    {
         $this->container = $container;
         return $this;
     }
 
-    public function getNomeForm() {
+    public function getNomeForm()
+    {
         return $this->nomeForm;
     }
 
-    public function setNomeForm($nomeForm) {
+    public function setNomeForm($nomeForm)
+    {
         $this->nomeForm = $nomeForm;
         return $this;
     }

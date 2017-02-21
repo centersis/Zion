@@ -56,7 +56,7 @@ class FormAtributos
                 $ret = 'multiple';
                 break;
             case 'caixa':
-                
+
                 $ret = \strtoupper($valor) == 'ALTA' ? 'uppercase' : 'lowercase';
                 break;
             case 'autocomplete':
@@ -98,8 +98,8 @@ class FormAtributos
             $buffer .= '<div id="' . $config->getContainer() . '">';
         }
 
-        if(!empty($config->getLabel())){
-            $buffer .= "<button " . \str_repeat('%s', $totalAtributos - 1) . ">". $config->getLabel() ." %s</button>";
+        if (!empty($config->getLabel())) {
+            $buffer .= "<button " . \str_repeat('%s', $totalAtributos - 1) . ">" . $config->getLabel() . " %s</button>";
         } else {
             $buffer .= "<button " . \str_repeat('%s', $totalAtributos - 1) . ">%s</button>";
         }

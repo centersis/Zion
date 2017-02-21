@@ -6,6 +6,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Portability\Connection;
 use Doctrine\DBAL\DriverManager;
 use Zion\Log\Log;
+use Zion\Exception\BancoException;
 
 class Conexao
 {
@@ -17,7 +18,6 @@ class Conexao
     private $arrayExcecoes = [];
     private $linhasAfetadas;
     private static $logHash;
-
     private $log;
 
     /**
@@ -48,8 +48,7 @@ class Conexao
             $cSenha = $senha;
             $cBanco = $banco;
             $cDriver = $driver;
-        }
-        else {
+        } else {
 
             $namespace = '\\' . \SIS_ID_NAMESPACE_PROJETO . '\\Config';
 
@@ -80,8 +79,6 @@ class Conexao
                 1002 => 'SET NAMES utf8']
         ];
 
-
-        //$config->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         self::$link[$banco] = DriverManager::getConnection($connectionParams, $config);
     }
 
@@ -178,12 +175,12 @@ class Conexao
      * Update e Delete 
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return \Doctrine\DBAL\Driver\Statement
-     * @throws \Exception
+     * @throws BancoException
      */
     public function executar($sql)
     {
         if (empty($sql)) {
-            throw new \Exception($this->getExcecao(3));
+            throw new BancoException($this->getExcecao(3));
         }
 
         $this->linhasAfetadas = 0;
@@ -193,8 +190,7 @@ class Conexao
             if ($this->log and $sql->getType() !== 0) {
                 try {
                     (new Log())->registraLog($sql, self::$logHash);
-                }
-                catch (\Exception $e) {
+                } catch (BancoException $e) {
                     
                 }
             }
@@ -203,8 +199,7 @@ class Conexao
 
             if ($sql->getType() === 0) { //0 = SELECT                
                 $this->linhasAfetadas = $this->nLinhas($resultSet);
-            }
-            else {
+            } else {
                 $this->linhasAfetadas = $resultSet;
             }
 
@@ -241,7 +236,7 @@ class Conexao
     public function executarArray($arraySql, $transaction = true)
     {
         if (!\is_array($arraySql)) {
-            throw new \Exception($this->getExcecao(4));
+            throw new BancoException($this->getExcecao(4));
         }
 
         if ($transaction == true) {
@@ -267,12 +262,12 @@ class Conexao
      * @param object $resultSet
      * @param string $estilo
      * @return array
-     * @throws \Exception
+     * @throws BancoException
      */
     public function linha($resultSet, $estilo = 4)
     {
         if (!\is_object($resultSet)) {
-            throw new \Exception($this->getExcecao(2));
+            throw new BancoException($this->getExcecao(2));
         }
 
         $nLinhas = $this->nLinhas($resultSet);
@@ -280,8 +275,7 @@ class Conexao
         if ($nLinhas > 0) {
             $linhas = $resultSet->fetchAll($estilo);
             return \array_map("trim", $linhas[0]);
-        }
-        else {
+        } else {
             return [];
         }
     }
@@ -329,7 +323,7 @@ class Conexao
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string|int $posicao
      * @return string
-     * @throws \Exception
+     * @throws BancoException
      */
     public function execRLinha($sql, $posicao = 0)
     {
@@ -343,13 +337,12 @@ class Conexao
 
         if (\key_exists($posicao, $array)) {
             return $array[$posicao];
-        }
-        else {
+        } else {
             if (empty($array)) {
                 return \NULL;
             }
 
-            throw new \Exception('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
+            throw new BancoException('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
         }
 
         return \current($array);
@@ -363,14 +356,13 @@ class Conexao
      * @param string $posicao
      * @param string $indice
      * @return array
-     * @throws \Exception
+     * @throws BancoException
      */
     public function paraArray($sql, $posicao = null, $indice = null)
     {
         if (\is_object($sql)) {
             $ret = $this->executar($sql);
-        }
-        else {
+        } else {
             $ret = $this->executar($sql);
         }
 
@@ -384,27 +376,24 @@ class Conexao
                 if (empty($posicao)) {
                     if (empty($indice)) {
                         $rows[] = $row;
-                    }
-                    else {
+                    } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Conexão: Indice $indice não encontrado!");
+                            throw new BancoException("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row;
                     }
-                }
-                else {
+                } else {
                     if (empty($indice)) {
                         if (!\key_exists($posicao, $row)) {
-                            throw new \Exception("Conexão: Posição $posicao não encontrada!");
+                            throw new BancoException("Conexão: Posição $posicao não encontrada!");
                         }
                         $rows[] = $row[$posicao];
-                    }
-                    else {
+                    } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new \Exception("Conexão: Indice $indice não encontrado!");
+                            throw new BancoException("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row[$posicao];
@@ -412,8 +401,7 @@ class Conexao
                 }
             }
             return $rows;
-        }
-        else {
+        } else {
 
             return [];
         }
@@ -423,12 +411,12 @@ class Conexao
      * Retornando o número de resultados de um ResultSet
      * @param \Doctrine\DBAL\Driver\Statement $resultSet
      * @return int
-     * @throws \Exception
+     * @throws BancoException
      */
     public function nLinhas($resultSet)
     {
         if (!\is_object($resultSet)) {
-            throw new \Exception($this->getExcecao(2));
+            throw new BancoException($this->getExcecao(2));
         }
 
         return (int) $resultSet->rowCount();
@@ -488,8 +476,7 @@ class Conexao
         if ($inteiro) {
             $qb->where($qb->expr()->eq($campo, $qb->expr()->eq($campo, '?')))
                 ->setParameter(0, $valor, \PDO::PARAM_INT);
-        }
-        else {
+        } else {
             $qb->where($qb->expr()->eq($campo, '?'))
                 ->setParameter(0, $valor, \PDO::PARAM_STR);
         }
@@ -507,8 +494,7 @@ class Conexao
         if (!\array_key_exists($this->banco, self::$transaction)) {
             self::$link[$this->banco]->beginTransaction();
             self::$transaction[$this->banco] = 1;
-        }
-        else {
+        } else {
             self::$transaction[$this->banco] += 1;
         }
     }
@@ -530,15 +516,13 @@ class Conexao
                 self::$transaction[$this->banco] -= 1;
                 unset(self::$transaction[$this->banco]);
                 return false;
-            }
-            else {
+            } else {
                 self::$link[$this->banco]->commit();
                 self::$transaction[$this->banco] -= 1;
                 unset(self::$transaction[$this->banco]);
                 return true;
             }
-        }
-        else {
+        } else {
             self::$transaction[$this->banco] -= 1;
         }
     }
@@ -575,8 +559,7 @@ class Conexao
             }
 
             return $sqlCompleta;
-        }
-        else {
+        } else {
             return "O objeto informado por parâmetro não é um objeto Query Builder.";
         }
     }

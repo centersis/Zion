@@ -1,32 +1,4 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
 namespace Pixel\Template\BarraEsquerda;
 
@@ -36,7 +8,7 @@ class Menu extends \Zion\Layout\Padrao
     public function getMenu()
     {
 
-        $buffer  = '';
+        $buffer = '';
         $buffer .= $this->html->abreTagAberta('ul', array('class' => 'navigation'));
         $buffer .= $this->html->abreTagAberta('li', array('class' => 'active'));
         $buffer .= $this->html->abreTagAberta('a', array('href' => SIS_URL_BASE . 'Dashboard/'));
@@ -48,7 +20,6 @@ class Menu extends \Zion\Layout\Padrao
         $buffer .= $this->html->fechaTag('ul');
 
         return $buffer;
-
     }
 
     private function geraMenu()
@@ -65,24 +36,22 @@ class Menu extends \Zion\Layout\Padrao
 
             foreach ($obj['retorno'] as $valor) {
 
-                if(!empty($valor['grupo'])){
+                if (!empty($valor['grupo'])) {
 
                     $buffer .= $this->abreGrupoMenu();
                     $buffer .= $this->populaGrupoMenu($valor);
                     $buffer .= $this->abreConjuntoSubMenu();
 
-                    foreach($valor['modulosGrupo'] as $modulo){
+                    foreach ($valor['modulosGrupo'] as $modulo) {
 
-                        if(is_array($modulo['subs'])){
+                        if (is_array($modulo['subs'])) {
                             $buffer .= $this->populaSubs($modulo);
                         } else {
                             $buffer .= $this->populaSubMenu($modulo);
                         }
-
                     }
-
                 }
-                
+
                 $buffer .= $this->fechaConjuntoSubMenu();
                 $buffer .= $this->fechaGrupoMenu();
             }
@@ -98,13 +67,14 @@ class Menu extends \Zion\Layout\Padrao
     {
         $buffer .= $this->abreSubsHtml($menu, true);
 
-        foreach($menu['subs'] as $sub) {
+        foreach ($menu['subs'] as $sub) {
 
-            if(is_array($sub['subs'])){
+            if (is_array($sub['subs'])) {
                 $buffer = $this->populaSubs($sub, $buffer);
                 continue;
             } else {
-                if(empty($sub['menu'])) continue;
+                if (empty($sub['menu']))
+                    continue;
                 $buffer .= $this->populaSubMenu($sub);
             }
         }
@@ -113,20 +83,20 @@ class Menu extends \Zion\Layout\Padrao
 
         return $buffer;
     }
-    
+
     private function abreSubsHtml($subs, $main = false)
     {
         $buffer = '';
-        if($main === false){
-            foreach($subs as $sub){
+        if ($main === false) {
+            foreach ($subs as $sub) {
 
-                if(is_array($sub['subs'])){
+                if (is_array($sub['subs'])) {
                     $buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
                     $buffer .= $this->html->abreTagAberta('a', array('href' => "#", 'tabindex' => '-1'));
                     $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $sub['moduloClass'] . '')) . $this->html->fechaTag('i');
                     $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $sub['menu'] . $this->html->fechaTag('span');
                     $buffer .= $this->html->fechaTag('a');
-                    $buffer .= $this->html->abreTagAberta('ul');        
+                    $buffer .= $this->html->abreTagAberta('ul');
                 }
             }
         } else {
@@ -136,19 +106,19 @@ class Menu extends \Zion\Layout\Padrao
             $buffer .= $this->html->abreTagAberta('i', array('class' => '' . $subs['moduloClass'] . '')) . $this->html->fechaTag('i');
             $buffer .= $this->html->abreTagAberta('span', array('class' => 'mm-text')) . $subs['menu'] . $this->html->fechaTag('span');
             $buffer .= $this->html->fechaTag('a');
-            $buffer .= $this->html->abreTagAberta('ul');        
+            $buffer .= $this->html->abreTagAberta('ul');
         }
 
         return $buffer;
     }
-    
+
     private function fechaSubsHtml()
     {
         $buffer = $this->html->fechaTag('ul');
         $buffer .= $this->html->fechaTag('li');
         return $buffer;
     }
-    
+
     private function abreGrupoMenu()
     {
         $buffer = '';
@@ -162,6 +132,7 @@ class Menu extends \Zion\Layout\Padrao
         $buffer .= $this->html->abreTagAberta('li', array('class' => 'mm-dropdown'));
         return $buffer;
     }
+
     private function fechaGrupoMenu()
     {
         $buffer = '';

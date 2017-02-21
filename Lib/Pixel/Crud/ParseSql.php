@@ -1,32 +1,4 @@
 <?php
-/**
-*
-*    Sappiens Framework
-*    Copyright (C) 2014, BRA Consultoria
-*
-*    Website do autor: www.braconsultoria.com.br/sappiens
-*    Email do autor: sappiens@braconsultoria.com.br
-*
-*    Website do projeto, equipe e documentação: www.sappiens.com.br
-*   
-*    Este programa é software livre; você pode redistribuí-lo e/ou
-*    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-*    publicada pela Free Software Foundation, versão 2.
-*
-*    Este programa é distribuído na expectativa de ser útil, mas SEM
-*    QUALQUER GARANTIA; sem mesmo a garantia implícita de
-*    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-*    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
-*    detalhes.
-* 
-*    Você deve ter recebido uma cópia da Licença Pública Geral GNU
-*    junto com este programa; se não, escreva para a Free Software
-*    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*    02111-1307, USA.
-*
-*    Cópias da licença disponíveis em /Sappiens/_doc/licenca
-*
-*/
 
 namespace Pixel\Crud;
 
@@ -149,13 +121,13 @@ class ParseSql
         $charPassado = "";
 
         for ($i = 0; $i < strlen($parteSql); $i++) {
-            
+
             $charAtual = $parteSql{$i};
-            
-            if ($i > 0){
+
+            if ($i > 0) {
                 $charPassado = $parteSql{$i - 1};
             }
-            
+
             $charDuplo = $charPassado . $charAtual;
 
             //Com Aspas
@@ -191,9 +163,9 @@ class ParseSql
         $array = array();
 
         foreach ($vetor as $limpando) {
-            
+
             $limpando = trim($limpando);
-            
+
             if (!empty($limpando)) {
                 $array[] = $limpando;
             }
@@ -275,7 +247,7 @@ class ParseSql
         foreach ($valores as $chave => $valor) {
             $valor = trim($valor);
 
-            if ($valor == "%s"){
+            if ($valor == "%s") {
                 $arrayAtributos[] = $chave;
             }
         }
@@ -295,7 +267,7 @@ class ParseSql
         $numero = 0;
         $posicaoS = 0;
         $posicaoW = 0;
-        
+
         foreach ($vetor as $aux) {
             if (strcasecmp('set', $aux) == 0 and $posicaoS == 0) {
                 $posicaoS = $numero;
@@ -305,11 +277,11 @@ class ParseSql
             }
             $numero++;
         }
-        
+
         $array = array();
         $rSA = explode($vetor[$posicaoS], $sql);
         $array[0] = trim($rSA[0]);
-        
+
         $rSB = explode($vetor[$posicaoW], $rSA[1]);
         $array[1] = trim($rSB[0]);
         $array[2] = trim($rSB[1]);
@@ -381,7 +353,7 @@ class ParseSql
             }
         }
         $string .= ")";
-        
+
         return str_replace('""', '"', $string);
     }
 
@@ -396,7 +368,7 @@ class ParseSql
         $numero = 0;
         $posicaoF = 0;
         $posicaoW = 0;
-        
+
         foreach ($vetor as $aux) {
             if (strcasecmp('from', $aux) == 0 and $posicaoF == 0) {
                 $posicaoF = $numero;
@@ -406,10 +378,10 @@ class ParseSql
             }
             $numero++;
         }
-        
+
         $rSA = explode($vetor[$posicaoF], $sql);
         $arrayUpdate['operacao'] = trim($rSA[0]);
-        
+
         $rSB = explode($vetor[$posicaoW], $rSA[1]);
         $arrayUpdate['tabela'] = $this->primeiraTabela(\trim($rSB[0]));
         $arrayUpdate['comparacao'] = trim($rSB[1]);

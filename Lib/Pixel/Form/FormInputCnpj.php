@@ -111,13 +111,13 @@ class FormInputCnpj extends FormInputCnpjZion
     {
         return $this->processarJS;
     }
-    
+
     public function setComplementoExterno($complementoExterno)
     {
         $this->complementoExterno = $this->formSetPixel->setComplementoExterno($complementoExterno);
         return $this;
     }
-    
+
     public function getComplementoExterno()
     {
         return $this->complementoExterno;
@@ -128,12 +128,12 @@ class FormInputCnpj extends FormInputCnpjZion
         $this->hashAjuda = $this->formSetPixel->setHashAjuda($hashAjuda);
         return $this;
     }
-    
+
     public function getHashAjuda()
     {
         return $this->hashAjuda;
     }
-    
+
     public function setTipoFiltro($tipoFiltro)
     {
         $this->tipoFiltro = $this->formSetPixel->setTipoFiltro($tipoFiltro);
@@ -150,7 +150,7 @@ class FormInputCnpj extends FormInputCnpjZion
         parent::setFiltroPadrao($filtroPadrao);
         return $this;
     }
-    
+
     /**
      * Sobrecarga de Metodos Básicos
      */

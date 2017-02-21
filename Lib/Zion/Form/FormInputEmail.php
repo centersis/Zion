@@ -109,7 +109,8 @@ class FormInputEmail extends FormBasico implements FilterableInput
         return $this->placeHolder;
     }
 
-    public function getAliasSql(){
+    public function getAliasSql()
+    {
         return $this->aliasSql;
     }
 
@@ -197,7 +198,7 @@ class FormInputEmail extends FormBasico implements FilterableInput
     {
         return $this->categoriaFiltro;
     }
-    
+
     public function setFiltroPadrao($filtroPadrao)
     {
         $this->filtroPadrao = $filtroPadrao;
@@ -209,4 +210,5 @@ class FormInputEmail extends FormBasico implements FilterableInput
     {
         return $this->filtroPadrao;
     }
+
 }

@@ -109,7 +109,8 @@ class FormInputCep extends FormBasico implements FilterableInput
         return $this;
     }
 
-    public function getAliasSql(){
+    public function getAliasSql()
+    {
         return $this->aliasSql;
     }
 
@@ -137,7 +138,7 @@ class FormInputCep extends FormBasico implements FilterableInput
         parent::setId($id);
         return $this;
     }
-    
+
     public function setNome($nome)
     {
         parent::setNome($nome);
@@ -203,7 +204,7 @@ class FormInputCep extends FormBasico implements FilterableInput
     {
         return $this->categoriaFiltro;
     }
-    
+
     public function setFiltroPadrao($filtroPadrao)
     {
         $this->filtroPadrao = $filtroPadrao;
@@ -215,4 +216,5 @@ class FormInputCep extends FormBasico implements FilterableInput
     {
         return $this->filtroPadrao;
     }
+
 }
