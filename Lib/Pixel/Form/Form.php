@@ -367,7 +367,7 @@ class Form extends FormZion
         if ($this->getAcao()) {
             try {
                 $ajudaViewClass = new AjudaView();
-                $buffer['ajuda'] = $ajudaViewClass->getAjuda(\MODULO, $this->getAcao());
+                #$buffer['ajuda'] = $ajudaViewClass->getAjuda(\MODULO, $this->getAcao());
             } catch (FormException $e) {
                 // noop
             }
