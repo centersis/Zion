@@ -43,7 +43,7 @@ class MasterDetail
 
         try {
             $this->validaDados($config, $confHidden->coringa);
-        } catch (FormException $ex) {
+        } catch (\Exception $ex) {
             throw new FormException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
@@ -81,7 +81,7 @@ class MasterDetail
                     $coringas[] = $coringa;
                 }
             }
-        } catch (FormException $ex) {
+        } catch (\Exception $ex) {
             throw new FormException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
@@ -115,7 +115,7 @@ class MasterDetail
 
         try {
             $this->removeItens($config, $aRemover);
-        } catch (FormException $ex) {
+        } catch (\Exception $ex) {
             throw new FormException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
     }

@@ -368,7 +368,7 @@ class Form extends FormZion
             try {
                 $ajudaViewClass = new AjudaView();
                 #$buffer['ajuda'] = $ajudaViewClass->getAjuda(\MODULO, $this->getAcao());
-            } catch (FormException $e) {
+            } catch (\Exception $e) {
                 // noop
             }
         }
@@ -395,7 +395,7 @@ class Form extends FormZion
                     $ajudaViewClass = (\is_object($ajudaViewClass)) ? $ajudaViewClass : new AjudaView();
 
                     $buffer['ajudaHash'][$nome] = $ajudaViewClass->getAjudaHash($this->objetos[$nome]->getHashAjuda());
-                } catch (FormException $e) {
+                } catch (\Exception $e) {
                     // noop
                 }
             }

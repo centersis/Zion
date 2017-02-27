@@ -37,7 +37,7 @@ class Dependencia
             $campo .= $form->javaScript(false, true)->getLoad(true);
 
             return \json_encode(array('sucesso' => 'true', 'retorno' => $campo));
-        } catch (RemotoException $e) {
+        } catch (\Exception $e) {
             $tratar = Tratamento::instancia();
             return \json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($e->getMessage())));
         }

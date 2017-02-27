@@ -55,7 +55,7 @@ $SqlArquivo = "SELECT Nome, Hash, Extensao FROM " . $Tabela . " WHERE ArquivoCod
 
 try {
     $DadosArquivo = $Con->execLinha($SqlArquivo);
-} catch (Exception $E) {
+} catch (\Exception $E) {
     exit($E->getMessage());
 }
 
@@ -81,7 +81,7 @@ if ($Modo == 'Ver') { //Visualizar icone do arquivo, se for imagem mostrar ela m
     //Atualiza Numero de Dowloads
     try {
         $Con->executar("UPDATE " . $Tabela . " SET Downloads = (Downloads +1) WHERE ArquivoCod = $ArquivoCod");
-    } catch (Exception $E) {
+    } catch (\Exception $E) {
         
     }
 

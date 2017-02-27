@@ -38,7 +38,7 @@ class Controller
             }
 
             return $this->{$acao}();
-        } catch (CoreException $e) {
+        } catch (\Exception $e) {
             return $this->jsonErro($e->getMessage());
         } catch (\Exception $e) {
             return $this->jsonErro($e->getMessage());

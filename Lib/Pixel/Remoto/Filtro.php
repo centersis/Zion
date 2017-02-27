@@ -38,7 +38,7 @@ class Filtro
             }
 
             return \json_encode(array('sucesso' => 'true', 'retorno' => $retorno));
-        } catch (RemotoException $e) {
+        } catch (\Exception $e) {
             return \json_encode(array('sucesso' => 'false', 'retorno' => $e->getMessage()));
         }
     }
@@ -64,7 +64,7 @@ class Filtro
                 ->execute();
 
             return \json_encode(array('sucesso' => 'true'));
-        } catch (RemotoException $e) {
+        } catch (\Exception $e) {
             return \json_encode(array('sucesso' => 'false', 'retorno' => $e->getMessage()));
         }
     }
@@ -114,7 +114,7 @@ class Filtro
                 ->execute();
 
             return \json_encode(array('sucesso' => 'true'));
-        } catch (RemotoException $e) {
+        } catch (\Exception $e) {
             return \json_encode(array('sucesso' => 'false', 'retorno' => $e->getMessage()));
         }
     }
