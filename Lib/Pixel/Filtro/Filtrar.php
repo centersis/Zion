@@ -3,6 +3,7 @@
 namespace Pixel\Filtro;
 
 use Illuminate\Database\Eloquent\Builder;
+use Zion\Exception\RuntimeException;
 use Zion\Tratamento\Tratamento;
 
 /**
@@ -85,7 +86,7 @@ class Filtrar
 
             if ("$valor" <> "") {
                 if (!in_array($operador, $this->operadores)) {
-                    throw new \RuntimeException("Operador invalido: {$operador}");
+                    throw new RuntimeException("Operador invalido: {$operador}");
                 }
 
                 $operacoesSimples = ['<>', '=', '>', '<', '>=', '<='];

@@ -2,6 +2,7 @@
 
 namespace Zion\Validacao;
 
+use Zion\Exception\RuntimeException;
 use Zion\Tratamento\Geral as TratamentoGeral;
 
 class Geral extends TratamentoGeral
@@ -200,8 +201,7 @@ class Geral extends TratamentoGeral
      * Geral::validaTelefone()
      * 
      * @param string $telefone
-     * @return void
-     * @throws RuntimeException Método ainda não implementado.
+     * @return void     
      */
     public function validaTelefone($telefone)
     {

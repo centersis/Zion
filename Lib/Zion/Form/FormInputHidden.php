@@ -2,7 +2,7 @@
  
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 
 use Zion\Form\FormBasico;
 
@@ -38,7 +38,7 @@ class FormInputHidden extends FormBasico
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new RuntimeException("aliasSql: Nenhum valor informado");
         }
     }
 
@@ -52,7 +52,7 @@ class FormInputHidden extends FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Nenhum valor informado");
+            throw new RuntimeException("obrigatorio: Nenhum valor informado");
         }
     }    
 

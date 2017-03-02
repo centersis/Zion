@@ -1,7 +1,7 @@
 <?php
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 
 class FormUpload extends FormBasico
 {
@@ -45,7 +45,7 @@ class FormUpload extends FormBasico
             $this->multiple = $multiple;
             return $this;
         } else {
-            throw new FormException("multiple: Valor não booleano.");
+            throw new RuntimeException("multiple: Valor não booleano.");
         }
     }
     
@@ -60,7 +60,7 @@ class FormUpload extends FormBasico
             $this->form = $form;
             return $this;
         } else {
-            throw new FormException("form: Nenhum valor informado");
+            throw new RuntimeException("form: Nenhum valor informado");
         }
     }
     
@@ -75,7 +75,7 @@ class FormUpload extends FormBasico
             $this->tratarComo = $tratarComo;
             return $this;
         } else {
-            throw new FormException("tratarComo: Valor desconhecido. Para utilizar recursos de imagem, informe 'IMAGEM' para este atributo.");
+            throw new RuntimeException("tratarComo: Valor desconhecido. Para utilizar recursos de imagem, informe 'IMAGEM' para este atributo.");
         }
     }
     

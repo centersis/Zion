@@ -1,7 +1,7 @@
 <?php
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 
 class FormInputCpf extends FormBasico implements FilterableInput
 {
@@ -45,7 +45,7 @@ class FormInputCpf extends FormBasico implements FilterableInput
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor não booleano");
+            throw new RuntimeException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -59,13 +59,13 @@ class FormInputCpf extends FormBasico implements FilterableInput
         if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
+                throw new RuntimeException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
 
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
-            throw new FormException("maximoCaracteres: Valor não numérico.");
+            throw new RuntimeException("maximoCaracteres: Valor não numérico.");
         }
     }
 
@@ -79,13 +79,13 @@ class FormInputCpf extends FormBasico implements FilterableInput
         if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
+                throw new RuntimeException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
-            throw new FormException("minimoCaracteres: Valor não numérico.");
+            throw new RuntimeException("minimoCaracteres: Valor não numérico.");
         }
     }
 
@@ -100,7 +100,7 @@ class FormInputCpf extends FormBasico implements FilterableInput
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new FormException("placeHolder: Nenhum valor informado");
+            throw new RuntimeException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -119,7 +119,7 @@ class FormInputCpf extends FormBasico implements FilterableInput
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new RuntimeException("aliasSql: Nenhum valor informado");
         }
     }
 

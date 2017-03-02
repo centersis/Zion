@@ -3,7 +3,7 @@
 namespace Pixel\Remoto;
 
 use Zion\Banco\Conexao;
-use Pixel\Exception\RemotoException;
+use Zion\Exception\RuntimeException;
 
 class LinhasGrid
 {
@@ -14,11 +14,11 @@ class LinhasGrid
             $con = Conexao::conectar();
 
             if ($nLinhas < 1 or $nLinhas > 200) {
-                throw new RemotoException('Número de linhas inválido!');
+                throw new RuntimeException('Número de linhas inválido!');
             }
 
             if (!\is_numeric($moduloCod)) {
-                throw new RemotoException('Módulo inválido!');
+                throw new RuntimeException('Módulo inválido!');
             }
 
             $qbAtual = $con->qb();

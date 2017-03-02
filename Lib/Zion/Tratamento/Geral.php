@@ -2,6 +2,7 @@
 
 namespace Zion\Tratamento;
 
+use Zion\Exception\RuntimeException;
 use Zion\Validacao\Geral as ValidacaoGeral;
 
 class Geral

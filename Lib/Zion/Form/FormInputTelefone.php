@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 
 class FormInputTelefone extends FormBasico implements FilterableInput
 {
@@ -44,13 +44,13 @@ class FormInputTelefone extends FormBasico implements FilterableInput
         if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
+                throw new RuntimeException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
 
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
-            throw new FormException("maximoCaracteres: Valor não numerico.");
+            throw new RuntimeException("maximoCaracteres: Valor não numerico.");
         }
     }
 
@@ -64,13 +64,13 @@ class FormInputTelefone extends FormBasico implements FilterableInput
         if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
+                throw new RuntimeException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
-            throw new FormException("minimoCaracteres: Valor não numerico.");
+            throw new RuntimeException("minimoCaracteres: Valor não numerico.");
         }
     }
 
@@ -85,7 +85,7 @@ class FormInputTelefone extends FormBasico implements FilterableInput
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor não booleano");
+            throw new RuntimeException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -100,7 +100,7 @@ class FormInputTelefone extends FormBasico implements FilterableInput
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new FormException("placeHolder: Nenhum valor informado");
+            throw new RuntimeException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -115,7 +115,7 @@ class FormInputTelefone extends FormBasico implements FilterableInput
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new RuntimeException("aliasSql: Nenhum valor informado");
         }
     }
 

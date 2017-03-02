@@ -3,7 +3,6 @@
 namespace Pixel\Remoto;
 
 use Zion\Tratamento\Tratamento;
-use Pixel\Exception\RemotoException;
 
 class Dependencia
 {

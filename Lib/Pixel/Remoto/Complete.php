@@ -1,7 +1,6 @@
 <?php
 
 namespace Pixel\Remoto;
-use Pixel\Exception\RemotoException;
 
 class Complete
 {

@@ -8,7 +8,6 @@ use Pixel\Form\Form;
 use Pixel\Form\FormPixelJavaScript;
 use Pixel\Twig\Carregador;
 use App\Sistema\Ajuda\AjudaView;
-use Zion\Form\Exception\FormException;
 
 class MasterDetailHtml {
 

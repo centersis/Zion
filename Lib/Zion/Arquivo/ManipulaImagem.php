@@ -2,7 +2,8 @@
 
 namespace Zion\Arquivo;
 
-use Zion\Exception\ArquivoException;
+use Zion\Exception\RuntimeException;
+use Zion\Exception\InvalidArgumentException;
 
 class ManipulaImagem extends ManipulaArquivo
 {
@@ -15,7 +16,6 @@ class ManipulaImagem extends ManipulaArquivo
     /**
      * Verifica se as funções nescessárias para manipulação básica de imagens 
      * estão disponíveis no servidor
-     * @throws ArquivoException
      */
     public function vericaFuncoesDeImagem()
     {
@@ -23,35 +23,35 @@ class ManipulaImagem extends ManipulaArquivo
         $tF = " não existe, entre em contato com o administrador do sistema."; //Texto Final
 
         if (!\function_exists('getimagesize')) {
-            throw new ArquivoException($tI . "getimagesize" . $tF);
+            throw new RuntimeException($tI . "getimagesize" . $tF);
         }
 
         if (!\function_exists('imagecreatefromjpeg')) {
-            throw new ArquivoException($tI . "imagecreatefromjpeg" . $tF);
+            throw new RuntimeException($tI . "imagecreatefromjpeg" . $tF);
         }
 
         if (!\function_exists('imagecreatetruecolor')) {
-            throw new ArquivoException($tI . "imagecreatetruecolor" . $tF);
+            throw new RuntimeException($tI . "imagecreatetruecolor" . $tF);
         }
 
         if (!\function_exists('imagecolorallocate')) {
-            throw new ArquivoException($tI . "imagecolorallocate" . $tF);
+            throw new RuntimeException($tI . "imagecolorallocate" . $tF);
         }
 
         if (!\function_exists('imagecopyresampled')) {
-            throw new ArquivoException($tI . "imagecopyresampled" . $tF);
+            throw new RuntimeException($tI . "imagecopyresampled" . $tF);
         }
 
         if (!\function_exists('imagesy')) {
-            throw new ArquivoException($tI . "imagesy" . $tF);
+            throw new RuntimeException($tI . "imagesy" . $tF);
         }
 
         if (!\function_exists('imagesx')) {
-            throw new ArquivoException($tI . "imagesx" . $tF);
+            throw new RuntimeException($tI . "imagesx" . $tF);
         }
 
         if (!\function_exists('imagejpeg')) {
-            throw new ArquivoException($tI . "imagejpeg" . $tF);
+            throw new RuntimeException($tI . "imagejpeg" . $tF);
         }
     }
 
@@ -79,13 +79,12 @@ class ManipulaImagem extends ManipulaArquivo
      * @param int $tamanho
      * @param string $por A -> Altura ou L -> Largura
      * @param array $originais Altura e Largura Originais
-     * @return array
-     * @throws ArquivoException
+     * @return array     
      */
     public function proporcoesImagem($tamanho, $por, $originais, $arredondarCasas = 0)
     {
         if ($originais['A'] == 0 or $originais['L'] == 0) {
-            throw new ArquivoException("Proporções do arquivo invalidas, certifique-se que o arquivo é mesmo uma imagem!");
+            throw new InvalidArgumentException("Proporções do arquivo invalidas, certifique-se que o arquivo é mesmo uma imagem!");
         }
 
         switch ($por) {
@@ -109,7 +108,6 @@ class ManipulaImagem extends ManipulaArquivo
      * @param link $destino - Caminho fisico onde será gravada a imagem
      * @param int $altura
      * @param int $largura
-     * @throws ArquivoException
      */
     public function uploadImagem($nomeImagem, $origem, $destino, $altura = 0, $largura = 0, $qualidade = 100)
     {
@@ -121,24 +119,24 @@ class ManipulaImagem extends ManipulaArquivo
 
         //Verifica a integridade do arquivo
         if (!$this->arquivoExiste($origem)) {
-            throw new ArquivoException("O Arquivo não foi carregado, certifique-se que o tamanho do arquivo não tenha ultrapassado " . $tMax . " pois, este tamanho é o maximo permitido pelo seu servidor.");
+            throw new InvalidArgumentException("O Arquivo não foi carregado, certifique-se que o tamanho do arquivo não tenha ultrapassado " . $tMax . " pois, este tamanho é o maximo permitido pelo seu servidor.");
         }
 
         //Verifica se a pasta permite gravação
         if (!$this->permiteEscrita(\dirname($destino))) {
-            throw new ArquivoException("A pasta onde você esta tentando gravar o arquivo não tem permissão de escrita, contate o administrador do sistema.$destino");
+            throw new RuntimeException("A pasta onde você esta tentando gravar o arquivo não tem permissão de escrita, contate o administrador do sistema.$destino");
         }
 
         //Verifica se o arquivo ja existe
         if ($this->arquivoExiste($destino)) {
             //Se sim verifica se tem permissão para substitui-lo
             if (!$this->permiteEscrita($destino)) {
-                throw new ArquivoException("Este arquivo já existe e você não tem permissão para substituí-lo.");
+                throw new InvalidArgumentException("Este arquivo já existe e você não tem permissão para substituí-lo.");
             }
         }
 
         if ($qualidade > 100 or $qualidade < 0) {
-            throw new ArquivoException("Qualidade deve ser um número inteiro entre 1 e 100");
+            throw new RuntimeException("Qualidade deve ser um número inteiro entre 1 e 100");
         }
 
         //Verifica a existencia das funãoes
@@ -173,11 +171,11 @@ class ManipulaImagem extends ManipulaArquivo
         } elseif ($extensao == 'png') {
             $origem = @\imagecreatefrompng($origem);
         } else {
-            throw new ArquivoException("Extensao inválida!");
+            throw new InvalidArgumentException("Extensao inválida!");
         }
 
         if (!$origem) {
-            throw new ArquivoException("Não foi possivel gerar o arquivo!");
+            throw new RuntimeException("Não foi possivel gerar o arquivo!");
         }
 
         $img = \imagecreatetruecolor($proporcao['L'], $proporcao['A']);
@@ -185,19 +183,19 @@ class ManipulaImagem extends ManipulaArquivo
         if (\imagecopyresampled($img, $origem, 0, 0, 0, 0, $proporcao['L'], $proporcao['A'], \imagesx($origem), \imagesy($origem))) {
             if ($extensao == 'jpg' or $extensao == 'jpeg') {
                 if (!(\imagejpeg($img, $destino, $qualidade))) {
-                    throw new ArquivoException("Não foi possivel criar o arquivo " . \basename($destino));
+                    throw new RuntimeException("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'gif') {
                 if (!(\imagegif($img, $destino))) {
-                    throw new ArquivoException("Não foi possivel criar o arquivo " . \basename($destino));
+                    throw new RuntimeException("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'png') {
                 if (!(\imagepng($img, $destino))) {
-                    throw new ArquivoException("Não foi possivel criar o arquivo " . \basename($destino));
+                    throw new RuntimeException("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             }
         } else {
-            throw new ArquivoException("Não foi possivel gerar o arquivo");
+            throw new RuntimeException("Não foi possivel gerar o arquivo");
         }
     }
 

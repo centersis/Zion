@@ -6,7 +6,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Portability\Connection;
 use Doctrine\DBAL\DriverManager;
 use Zion\Log\Log;
-use Zion\Exception\BancoException;
+use Zion\Exception\RuntimeException;
 
 class Conexao
 {
@@ -175,12 +175,11 @@ class Conexao
      * Update e Delete 
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @return \Doctrine\DBAL\Driver\Statement
-     * @throws BancoException
      */
     public function executar($sql)
     {
         if (empty($sql)) {
-            throw new BancoException($this->getExcecao(3));
+            throw new RuntimeException($this->getExcecao(3));
         }
 
         $this->linhasAfetadas = 0;
@@ -231,12 +230,11 @@ class Conexao
      * objeto query builder
      * @param array $arraySql
      * @param boolean $transaction
-     * @throws Exception
      */
     public function executarArray($arraySql, $transaction = true)
     {
         if (!\is_array($arraySql)) {
-            throw new BancoException($this->getExcecao(4));
+            throw new RuntimeException($this->getExcecao(4));
         }
 
         if ($transaction == true) {
@@ -262,12 +260,11 @@ class Conexao
      * @param object $resultSet
      * @param string $estilo
      * @return array
-     * @throws BancoException
      */
     public function linha($resultSet, $estilo = 4)
     {
         if (!\is_object($resultSet)) {
-            throw new BancoException($this->getExcecao(2));
+            throw new RuntimeException($this->getExcecao(2));
         }
 
         $nLinhas = $this->nLinhas($resultSet);
@@ -323,7 +320,6 @@ class Conexao
      * @param \Doctrine\DBAL\Query\QueryBuilder|string $sql
      * @param string|int $posicao
      * @return string
-     * @throws BancoException
      */
     public function execRLinha($sql, $posicao = 0)
     {
@@ -342,7 +338,7 @@ class Conexao
                 return \NULL;
             }
 
-            throw new BancoException('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
+            throw new RuntimeException('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
         }
 
         return \current($array);
@@ -356,7 +352,6 @@ class Conexao
      * @param string $posicao
      * @param string $indice
      * @return array
-     * @throws BancoException
      */
     public function paraArray($sql, $posicao = null, $indice = null)
     {
@@ -379,7 +374,7 @@ class Conexao
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new BancoException("Conexão: Indice $indice não encontrado!");
+                            throw new RuntimeException("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row;
@@ -387,13 +382,13 @@ class Conexao
                 } else {
                     if (empty($indice)) {
                         if (!\key_exists($posicao, $row)) {
-                            throw new BancoException("Conexão: Posição $posicao não encontrada!");
+                            throw new RuntimeException("Conexão: Posição $posicao não encontrada!");
                         }
                         $rows[] = $row[$posicao];
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new BancoException("Conexão: Indice $indice não encontrado!");
+                            throw new RuntimeException("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row[$posicao];
@@ -411,12 +406,11 @@ class Conexao
      * Retornando o número de resultados de um ResultSet
      * @param \Doctrine\DBAL\Driver\Statement $resultSet
      * @return int
-     * @throws BancoException
      */
     public function nLinhas($resultSet)
     {
         if (!\is_object($resultSet)) {
-            throw new BancoException($this->getExcecao(2));
+            throw new RuntimeException($this->getExcecao(2));
         }
 
         return (int) $resultSet->rowCount();

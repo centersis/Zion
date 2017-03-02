@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 
 abstract class FormBasico
 {
@@ -25,7 +25,7 @@ abstract class FormBasico
             $this->id = \str_replace('[]', '', $id);
             return $this;
         } else {
-            throw new FormException("id: Nenhum valor informado.");
+            throw new RuntimeException("id: Nenhum valor informado.");
         }
     }
 
@@ -40,7 +40,7 @@ abstract class FormBasico
             $this->nome = $nome;
             return $this;
         } else {
-            throw new FormException("nome: Nenhum valor informado.");
+            throw new RuntimeException("nome: Nenhum valor informado.");
         }
     }
 
@@ -55,7 +55,7 @@ abstract class FormBasico
             $this->identifica = $identifica;
             return $this;
         } else {
-            throw new FormException("identifica: Nenhum valor informado.");
+            throw new RuntimeException("identifica: Nenhum valor informado.");
         }
     }
 
@@ -111,7 +111,7 @@ abstract class FormBasico
             $this->complemento = $complemento;
             return $this;
         } else {
-            throw new FormException("complemento: Nenhum valor informado.");
+            throw new RuntimeException("complemento: Nenhum valor informado.");
         }
     }
 
@@ -126,7 +126,7 @@ abstract class FormBasico
             $this->atributos = $atributos;
             return $this;
         } else {
-            throw new FormException("atributos: Nenhum valor informado.");
+            throw new RuntimeException("atributos: Nenhum valor informado.");
         }
     }
 
@@ -143,7 +143,7 @@ abstract class FormBasico
             $this->classCss[$class] = $class;
             return $this;
         } else {
-            throw new FormException("classCss: Nenhum valor informado.");
+            throw new RuntimeException("classCss: Nenhum valor informado.");
         }
     }
 

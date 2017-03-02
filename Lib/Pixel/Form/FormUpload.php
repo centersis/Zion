@@ -2,7 +2,7 @@
 
 namespace Pixel\Form;
 
-use Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 use Zion\Form\FormUpload as FormUploadZion;
 use Pixel\Form\FormSetPixel;
 
@@ -110,7 +110,7 @@ class FormUpload extends FormUploadZion
     public function setCodigoReferencia($codigoReferencia)
     {
         if (!empty($codigoReferencia) and ! \is_numeric($codigoReferencia)) {
-            throw new FormException("codigoReferencia: Valor não numérico." . $codigoReferencia);
+            throw new RuntimeException("codigoReferencia: Valor não numérico." . $codigoReferencia);
         }
 
         $this->codigoReferencia = $codigoReferencia;
@@ -145,7 +145,7 @@ class FormUpload extends FormUploadZion
      * 
      * @param array $dimensoes
      * @return \Pixel\Form\FormUpload
-     * @throws FormException
+     * @throws RuntimeException
      */
     public function setDimensoes($dimensoes)
     {
@@ -153,7 +153,7 @@ class FormUpload extends FormUploadZion
 
             $this->dimensoes = $dimensoes;
         } else {
-            throw new FormException("dimensoes: Valor não numérico.");
+            throw new RuntimeException("dimensoes: Valor não numérico.");
         }
 
         return $this;
@@ -169,12 +169,12 @@ class FormUpload extends FormUploadZion
         if (is_array($extensoesPermitidas)) {
             $fails = @array_intersect($extensoesPermitidas, $this->extensoesNaoPermitidas);
             if (isset($this->extensoesNaoPermitidas) and @ count($fails) > 0) {
-                throw new FormException("extensoesPermitidas: A extensão " . $fails[0] . " está na lista de extensões não permitidas.");
+                throw new RuntimeException("extensoesPermitidas: A extensão " . $fails[0] . " está na lista de extensões não permitidas.");
             }
             $this->extensoesPermitidas = $extensoesPermitidas;
             return $this;
         } else {
-            throw new FormException("extensoesPermitidas: O valor informado deve ser um array.");
+            throw new RuntimeException("extensoesPermitidas: O valor informado deve ser um array.");
         }
     }
 
@@ -188,12 +188,12 @@ class FormUpload extends FormUploadZion
         if (is_array($extensoesNaoPermitidas)) {
             $fails = @array_intersect($extensoesNaoPermitidas, $this->extensoesPermitidas);
             if (isset($this->extensoesPermitidas) and @ count($fails) > 0) {
-                throw new FormException("extensoesNaoPermitidas: A extensão " . $fails[0] . " está na lista de extensões permitidas.");
+                throw new RuntimeException("extensoesNaoPermitidas: A extensão " . $fails[0] . " está na lista de extensões permitidas.");
             }
             $this->extensoesNaoPermitidas = $extensoesNaoPermitidas;
             return $this;
         } else {
-            throw new FormException("extensoesNaoPermitidas: O valor informado deve ser um array.");
+            throw new RuntimeException("extensoesNaoPermitidas: O valor informado deve ser um array.");
         }
     }
 
@@ -208,7 +208,7 @@ class FormUpload extends FormUploadZion
             $this->tamanhoMaximoEmBytes = $tamanhoMaximoEmBytes;
             return $this;
         } else {
-            throw new FormException("tamanhoMaximoEmBytes: Valor não numérico.");
+            throw new RuntimeException("tamanhoMaximoEmBytes: Valor não numérico.");
         }
     }
 
@@ -221,12 +221,12 @@ class FormUpload extends FormUploadZion
     {
         if (is_numeric($minimoArquivos)) {
             if (isset($this->minimoArquivos) and $this->minimoArquivos < $minimoArquivos) {
-                throw new FormException("minimoArquivos não pode ser maior que maximoArquivos.");
+                throw new RuntimeException("minimoArquivos não pode ser maior que maximoArquivos.");
             }
             $this->minimoArquivos = $minimoArquivos;
             return $this;
         } else {
-            throw new FormException("minimoArquivos: Valor não numérico.");
+            throw new RuntimeException("minimoArquivos: Valor não numérico.");
         }
     }
 
@@ -239,12 +239,12 @@ class FormUpload extends FormUploadZion
     {
         if (is_numeric($maximoArquivos)) {
             if (isset($this->maximoArquivos) and $this->maximoArquivos > $maximoArquivos) {
-                throw new FormException("maximoArquivos não pode ser menor que minimoArquivos.");
+                throw new RuntimeException("maximoArquivos não pode ser menor que minimoArquivos.");
             }
             $this->maximoArquivos = $maximoArquivos;
             return $this;
         } else {
-            throw new FormException("maximoArquivos: Valor não numérico.");
+            throw new RuntimeException("maximoArquivos: Valor não numérico.");
         }
     }
 

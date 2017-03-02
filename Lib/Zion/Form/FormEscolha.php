@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 use Zion\Form\FormBasico;
 
 
@@ -67,7 +67,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor não booleano");
+            throw new RuntimeException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -80,12 +80,12 @@ class FormEscolha extends FormBasico implements FilterableInput
     {
         if (is_numeric($selecaoMaxima)) {
             if (isset($this->selecaoMinima) and $selecaoMaxima < $this->selecaoMinima) {
-                throw new FormException("selecaoMaxima não pode ser menor que selecao mínima.");
+                throw new RuntimeException("selecaoMaxima não pode ser menor que selecao mínima.");
             }
             $this->selecaoMaxima = $selecaoMaxima;
             return $this;
         } else {
-            throw new FormException("selecaoMaxima: O valor informado deve ser do tipo numérico.");
+            throw new RuntimeException("selecaoMaxima: O valor informado deve ser do tipo numérico.");
         }
     }
 
@@ -98,12 +98,12 @@ class FormEscolha extends FormBasico implements FilterableInput
     {
         if (is_numeric($selecaoMinima)) {
             if (isset($this->selecaoMaxima) and $selecaoMinima > $this->selecaoMaxima) {
-                throw new FormException("selecaoMinima não pode ser maior que seleção máxima.");
+                throw new RuntimeException("selecaoMinima não pode ser maior que seleção máxima.");
             }
             $this->selecaoMinima = $selecaoMinima;
             return $this;
         } else {
-            throw new FormException("selecaoMinima: O valor informado deve ser do tipo numérico.");
+            throw new RuntimeException("selecaoMinima: O valor informado deve ser do tipo numérico.");
         }
     }
 
@@ -123,7 +123,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->multiplo = $multiplo;
             return $this;
         } else {
-            throw new FormException("multiplo: Valor não booleano");
+            throw new RuntimeException("multiplo: Valor não booleano");
         }
     }
 
@@ -138,7 +138,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->expandido = $expandido;
             return $this;
         } else {
-            throw new FormException("expandido: Valor não booleano");
+            throw new RuntimeException("expandido: Valor não booleano");
         }
     }
 
@@ -163,7 +163,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->ordena = $ordena;
             return $this;
         } else {
-            throw new FormException("ordena: Nenhum Valor foi informado.");
+            throw new RuntimeException("ordena: Nenhum Valor foi informado.");
         }
     }
 
@@ -178,7 +178,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->array = $array;
             return $this;
         } else {
-            throw new FormException("array: O valor informado não é um array.");
+            throw new RuntimeException("array: O valor informado não é um array.");
         }
     }
 
@@ -193,7 +193,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->inicio = $inicio;
             return $this;
         } else {
-            throw new FormException("inicio: Nenhum Valor foi informado.");
+            throw new RuntimeException("inicio: Nenhum Valor foi informado.");
         }
     }
 
@@ -208,7 +208,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->tabela = $tabela;
             return $this;
         } else {
-            throw new FormException("tabela: Nenhum Valor foi informado.");
+            throw new RuntimeException("tabela: Nenhum Valor foi informado.");
         }
     }
 
@@ -223,7 +223,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->campoCod = \strtolower($campoCod);
             return $this;
         } else {
-            throw new FormException("campoCod: Nenhum Valor foi informado.");
+            throw new RuntimeException("campoCod: Nenhum Valor foi informado.");
         }
     }
 
@@ -238,7 +238,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->campoDesc = \strtolower($campoDesc);
             return $this;
         } else {
-            throw new FormException("campoDesc: Nenhum Valor foi informado.");
+            throw new RuntimeException("campoDesc: Nenhum Valor foi informado.");
         }
     }
 
@@ -268,7 +268,7 @@ class FormEscolha extends FormBasico implements FilterableInput
                 $this->orderBy[] = $orderBy;
                 return $this;
             } else {
-                throw new FormException("setOrderBy: Se informado o valor deve ser um array.");
+                throw new RuntimeException("setOrderBy: Se informado o valor deve ser um array.");
             }
         }
     }
@@ -284,7 +284,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->sqlCompleto = $sqlCompleto;
             return $this;
         } else {
-            throw new FormException("sqlCompleto: Nenhum Valor foi informado.");
+            throw new RuntimeException("sqlCompleto: Nenhum Valor foi informado.");
         }
     }
 
@@ -299,7 +299,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->idConexao = $idConexao;
             return $this;
         } else {
-            throw new FormException("idConexao: Nenhum Valor foi informado.");
+            throw new RuntimeException("idConexao: Nenhum Valor foi informado.");
         }
     }
 
@@ -314,7 +314,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new RuntimeException("aliasSql: Nenhum valor informado");
         }
     }
 
@@ -324,7 +324,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->ignoreCod = $ignoreCod;
             return $this;
         } else {
-            throw new FormException("ignoreCod: O valor informado não é um array.");
+            throw new RuntimeException("ignoreCod: O valor informado não é um array.");
         }
     }
 
@@ -339,7 +339,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->callback = $callback;
             return $this;
         } else {
-            throw new FormException("callback: O valor informado não é uma string.");
+            throw new RuntimeException("callback: O valor informado não é uma string.");
         }
     }
 
@@ -354,7 +354,7 @@ class FormEscolha extends FormBasico implements FilterableInput
             $this->naoSelecionaveis = $naoSelecionaveis;
             return $this;
         } else {
-            throw new FormException("naoSelecionaveis: O valor informado não é um null ou array.");
+            throw new RuntimeException("naoSelecionaveis: O valor informado não é um null ou array.");
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace Pixel\Grid;
 
-use PixelGridException\GridException;
+use Zion\Exception\RuntimeException;
 
 class Impressao
 {
@@ -127,7 +127,7 @@ class Impressao
             $this->logo = $logo;
             return $this;
         } else {
-            throw new GridException("A URL informada não é de uma logo válida.");
+            throw new RuntimeException("A URL informada não é de uma logo válida.");
         }
     }
 

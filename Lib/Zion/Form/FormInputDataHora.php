@@ -1,7 +1,7 @@
 <?php
 
 namespace Zion\Form;
-use Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 use Zion\Validacao\Data;
 
 class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
@@ -49,14 +49,14 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         if($this->data->validaData($dataHoraMinima) === true){
 
             if(isset($this->dataHoraMaxima) and $this->data->verificaDiferencaDataHora($this->dataHoraMaxima, $dataHoraMinima) == 1) {
-                throw new FormException("dataHoraMinima não pode ser maior que dataHoraMaxima.");
+                throw new RuntimeException("dataHoraMinima não pode ser maior que dataHoraMaxima.");
             }
 
             $this->dataHoraMinima = $dataHoraMinima;
             return $this;
 
         } else {
-            throw new FormException("dataHoraMinima: O valor informado não é uma data/hora válida.");
+            throw new RuntimeException("dataHoraMinima: O valor informado não é uma data/hora válida.");
         }
     }
 
@@ -70,14 +70,14 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
         if($this->data->validaData($dataHoraMaxima)){
 
             if(isset($this->dataHoraMinima) and $this->data->verificaDiferencaDataHora($this->dataHoraMinima, $dataHoraMaxima) == -1) {
-                throw new FormException("dataHoraMinima não pode ser maior que dataHoraMaxima.");
+                throw new RuntimeException("dataHoraMinima não pode ser maior que dataHoraMaxima.");
             }
 
             $this->dataHoraMaxima = $dataHoraMaxima;
             return $this;
 
         } else {
-            throw new FormException("dataHoraMaxima: O valor informado não é uma data/hora válida.");
+            throw new RuntimeException("dataHoraMaxima: O valor informado não é uma data/hora válida.");
         }
     }
 
@@ -92,7 +92,7 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new FormException("placeHolder: Nenhum valor informado");
+            throw new RuntimeException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -107,7 +107,7 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor não booleano");
+            throw new RuntimeException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -126,7 +126,7 @@ class FormInputDataHora extends \Zion\Form\FormBasico implements FilterableInput
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new RuntimeException("aliasSql: Nenhum valor informado");
         }
     }
 

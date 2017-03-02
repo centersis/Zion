@@ -1,7 +1,7 @@
 <?php
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\RuntimeException;
 use Zion\Form\FormBasico;
 use Zion\Validacao\Data;
 
@@ -51,14 +51,14 @@ class FormInputHora extends FormBasico implements FilterableInput
         if($this->hora->validaHora($horaMinima) === true){
 
             if(isset($this->horaMaxima) and $this->hora->verificaDiferencaDataHora($this->horaMaxima, $horaMinima) == 1) {
-                throw new FormException("horaMinima não pode ser maior que horaMaxima.");
+                throw new RuntimeException("horaMinima não pode ser maior que horaMaxima.");
             }
 
             $this->horaMinima = $horaMinima;
             return $this;
 
         } else {
-            throw new FormException("horaMinima: O valor informado não é uma hora válida.");
+            throw new RuntimeException("horaMinima: O valor informado não é uma hora válida.");
         }
     }
 
@@ -72,14 +72,14 @@ class FormInputHora extends FormBasico implements FilterableInput
         if($this->hora->validaHora($horaMaxima)){
 
             if(isset($this->horaMinima) and $this->hora->verificaDiferencaDataHora($this->horaMinima, $horaMaxima) == -1) {
-                throw new FormException("horaMinima não pode ser maior que horaMaxima.");
+                throw new RuntimeException("horaMinima não pode ser maior que horaMaxima.");
             }
 
             $this->horaMaxima = $horaMaxima;
             return $this;
 
         } else {
-            throw new FormException("horaMaxima: O valor informado não é uma hora válida.");
+            throw new RuntimeException("horaMaxima: O valor informado não é uma hora válida.");
         }
     }
 
@@ -94,7 +94,7 @@ class FormInputHora extends FormBasico implements FilterableInput
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new FormException("placeHolder: Nenhum valor informado");
+            throw new RuntimeException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -109,7 +109,7 @@ class FormInputHora extends FormBasico implements FilterableInput
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor não booleano");
+            throw new RuntimeException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -124,7 +124,7 @@ class FormInputHora extends FormBasico implements FilterableInput
             $this->mostrarSegundos = $mostrarSegundos;
             return $this;
         } else {
-            throw new FormException("mostrarSegundos: Valor não booleano");
+            throw new RuntimeException("mostrarSegundos: Valor não booleano");
         }
     }
 
@@ -139,7 +139,7 @@ class FormInputHora extends FormBasico implements FilterableInput
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new RuntimeException("aliasSql: Nenhum valor informado");
         }
     }
 
