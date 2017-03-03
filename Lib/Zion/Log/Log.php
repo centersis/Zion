@@ -83,7 +83,13 @@ class Log extends LogSql
         $tab = \filter_input(\INPUT_POST, 'n');
         $acao = \filter_input(\INPUT_GET, 'acao');
 
-        return ['usuarioCod' => $_SESSION['usuarioCod'],
+        if (isset($_SESSION['usuarioCod'])) {
+            $usuarioCod = $_SESSION['usuarioCod'];
+        } else {
+            $usuarioCod = null;
+        }
+
+        return ['usuarioCod' => $usuarioCod,
             'moduloCod' => $modulo['modulocod'],
             'id' => $id,
             'acao' => $acao,
