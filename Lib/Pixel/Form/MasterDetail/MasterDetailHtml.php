@@ -206,7 +206,7 @@ class MasterDetailHtml {
                     $ajudaViewClass = (\is_object($ajudaViewClass)) ? $ajudaViewClass : new AjudaView();
 
                     $this->buffer['ajudaHash'][$nomeOriginal] = $ajudaViewClass->getAjudaHash($configuracao->getHashAjuda());
-                } catch (FormException $e) {
+                } catch (\Exception $e) {
                     // noop
                 }
             }

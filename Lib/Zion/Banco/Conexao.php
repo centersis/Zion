@@ -190,7 +190,7 @@ class Conexao
             if ($this->log and $sql->getType() !== 0) {
                 try {
                     (new Log())->registraLog($sql, self::$logHash);
-                } catch (BancoException $e) {
+                } catch (\Exception $e) {
                     
                 }
             }

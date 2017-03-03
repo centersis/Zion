@@ -49,7 +49,7 @@ class Complete
             }
 
             return \json_encode($ret);
-        } catch (RemotoException $e) {
+        } catch (\Exception $e) {
             return \json_encode(array(array('id' => '0', 'value' => 'erro', 'label' => $e->getMessage())));
         }
     }

@@ -68,7 +68,7 @@ class ColunasGrid
             }
 
             return \json_encode(array('sucesso' => 'true'));
-        } catch (RemotoException $e) {
+        } catch (\Exception $e) {
             return \json_encode(array('sucesso' => 'false', 'retorno' => $e->getMessage()));
         }
     }
