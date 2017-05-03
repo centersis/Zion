@@ -41,16 +41,14 @@ class Data extends TratamentoData
             return false;
         }
 
-        $dataLimpa = \str_replace(['/', '-'], '', $data);
+        list($d, $m, $y) = preg_split("/[-\.\/ ]/", $data);
 
-        if ($dataLimpa === '00000000') {
-            return false;
+        if (strlen($d) == 4) {
+            $d = $y;
+            $y = $d;
         }
-
-        $f = $this->getFormatoDataHora($data);
-        $date = \DateTime::createFromFormat($f, $data);
-
-        return ($date ? true : false);
+        
+        return checkdate((int) $m, (int) $d, (int) $y);
     }
 
     /**

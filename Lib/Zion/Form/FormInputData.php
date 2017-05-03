@@ -159,7 +159,15 @@ class FormInputData extends \Zion\Form\FormBasico implements FilterableInput
 
     public function getValor()
     {
-        $valor = $this->data->converteData(parent::getValor());
+        $valor = parent::getValor();
+
+        if (strlen($valor) == 10) {
+            $valorConvertido = $this->data->converteData($valor);
+            
+            if ($valorConvertido != '') {
+                $valor = $valorConvertido;
+            }
+        }
 
         return $valor;
     }

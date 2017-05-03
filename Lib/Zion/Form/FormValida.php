@@ -137,7 +137,7 @@ class FormValida
                                 }
                                 break;
 
-                            case 'DATA':
+                            case 'DATA': case 'DATE':
                                 if ($this->data->validaData($userValue) === false) {
                                     throw new FormException($identifica . ": O valor informado não é uma data válida!");
                                 }
