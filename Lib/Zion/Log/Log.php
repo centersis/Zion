@@ -76,12 +76,13 @@ class Log extends LogSql
 
     private function getActionParams()
     {
-        $modulox = \defined('MODULO') ? \MODULO : null;
+        $modulox = defined('MODULO') ? \MODULO : null;        
+        $modulox = defined('MODULO_SITE') ? MODULO_SITE : MODULO;
 
         $modulo = $this->getDadosModulo($modulox);
-        $id = \filter_input(\INPUT_POST, 'cod');
-        $tab = \filter_input(\INPUT_POST, 'n');
-        $acao = \filter_input(\INPUT_GET, 'acao');
+        $id = filter_input(INPUT_POST, 'cod');
+        $tab = filter_input(INPUT_POST, 'n');
+        $acao = filter_input(INPUT_GET, 'acao');
 
         if (isset($_SESSION['usuarioCod'])) {
             $usuarioCod = $_SESSION['usuarioCod'];
