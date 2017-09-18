@@ -5,7 +5,7 @@ namespace Zion\Core;
 use Zion\Validacao\Valida;
 use Pixel\Layout\Tab;
 use Pixel\Twig\Carregador;
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 
 class Controller
 {
@@ -22,7 +22,7 @@ class Controller
      * paremetro $acao
      * @param string $acao
      * @return string json
-     * @throws RuntimeException
+     * @throws ErrorException
      */
     public function controle($acao = '')
     {
@@ -34,7 +34,7 @@ class Controller
 
         try {
             if (!\method_exists($this, $acao)) {
-                throw new RuntimeException("Opção inválida!");
+                throw new ErrorException("Opção inválida!");
             }
 
             return $this->{$acao}();
@@ -97,7 +97,7 @@ class Controller
         }
 
         if (empty($selecionados) or ! \is_array($selecionados)) {
-            throw new RuntimeException("Oops! Nenhum registro selecionado!");
+            throw new ErrorException("Oops! Nenhum registro selecionado!");
         }
 
         return $selecionados;

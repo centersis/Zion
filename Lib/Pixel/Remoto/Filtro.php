@@ -5,7 +5,7 @@ namespace Pixel\Remoto;
 use Zion\Banco\Conexao;
 use App\Ext\Twig\Carregador;
 use Zion\Exception\RuntimeException;
-use Zion\Exception\InvalidArgumentException;
+use Zion\Exception\ValidationException;
 
 class Filtro
 {
@@ -76,15 +76,15 @@ class Filtro
             $con = Conexao::conectar();
 
             if (\strlen($usuarioFiltroNome) < 1 or \strlen($usuarioFiltroNome) > 100) {
-                throw new InvalidArgumentException('Informe o nome do filtro corretamente!');
+                throw new ValidationException('Informe o nome do filtro corretamente!');
             }
 
             if (\strlen($usuarioFiltroNomeRelatorio) > 100) {
-                throw new InvalidArgumentException('Informe o titulo para impressão corretamente!');
+                throw new ValidationException('Informe o titulo para impressão corretamente!');
             }
 
             if (\strlen($usuarioFiltroColunas) < 1 or \strlen($usuarioFiltroColunas) > 1000) {
-                throw new InvalidArgumentException('Nenhuma coluna encontrada!');
+                throw new ValidationException('Nenhuma coluna encontrada!');
             }
 
             if ($usuarioFiltroQueryString) {

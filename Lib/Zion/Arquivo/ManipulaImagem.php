@@ -2,7 +2,7 @@
 
 namespace Zion\Arquivo;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Exception\InvalidArgumentException;
 
 class ManipulaImagem extends ManipulaArquivo
@@ -23,35 +23,35 @@ class ManipulaImagem extends ManipulaArquivo
         $tF = " não existe, entre em contato com o administrador do sistema."; //Texto Final
 
         if (!\function_exists('getimagesize')) {
-            throw new RuntimeException($tI . "getimagesize" . $tF);
+            throw new ErrorException($tI . "getimagesize" . $tF);
         }
 
         if (!\function_exists('imagecreatefromjpeg')) {
-            throw new RuntimeException($tI . "imagecreatefromjpeg" . $tF);
+            throw new ErrorException($tI . "imagecreatefromjpeg" . $tF);
         }
 
         if (!\function_exists('imagecreatetruecolor')) {
-            throw new RuntimeException($tI . "imagecreatetruecolor" . $tF);
+            throw new ErrorException($tI . "imagecreatetruecolor" . $tF);
         }
 
         if (!\function_exists('imagecolorallocate')) {
-            throw new RuntimeException($tI . "imagecolorallocate" . $tF);
+            throw new ErrorException($tI . "imagecolorallocate" . $tF);
         }
 
         if (!\function_exists('imagecopyresampled')) {
-            throw new RuntimeException($tI . "imagecopyresampled" . $tF);
+            throw new ErrorException($tI . "imagecopyresampled" . $tF);
         }
 
         if (!\function_exists('imagesy')) {
-            throw new RuntimeException($tI . "imagesy" . $tF);
+            throw new ErrorException($tI . "imagesy" . $tF);
         }
 
         if (!\function_exists('imagesx')) {
-            throw new RuntimeException($tI . "imagesx" . $tF);
+            throw new ErrorException($tI . "imagesx" . $tF);
         }
 
         if (!\function_exists('imagejpeg')) {
-            throw new RuntimeException($tI . "imagejpeg" . $tF);
+            throw new ErrorException($tI . "imagejpeg" . $tF);
         }
     }
 
@@ -124,7 +124,7 @@ class ManipulaImagem extends ManipulaArquivo
 
         //Verifica se a pasta permite gravação
         if (!$this->permiteEscrita(\dirname($destino))) {
-            throw new RuntimeException("A pasta onde você esta tentando gravar o arquivo não tem permissão de escrita, contate o administrador do sistema.$destino");
+            throw new ErrorException("A pasta onde você esta tentando gravar o arquivo não tem permissão de escrita, contate o administrador do sistema.$destino");
         }
 
         //Verifica se o arquivo ja existe
@@ -136,7 +136,7 @@ class ManipulaImagem extends ManipulaArquivo
         }
 
         if ($qualidade > 100 or $qualidade < 0) {
-            throw new RuntimeException("Qualidade deve ser um número inteiro entre 1 e 100");
+            throw new ErrorException("Qualidade deve ser um número inteiro entre 1 e 100");
         }
 
         //Verifica a existencia das funãoes
@@ -175,7 +175,7 @@ class ManipulaImagem extends ManipulaArquivo
         }
 
         if (!$origem) {
-            throw new RuntimeException("Não foi possivel gerar o arquivo!");
+            throw new ErrorException("Não foi possivel gerar o arquivo!");
         }
 
         $img = \imagecreatetruecolor($proporcao['L'], $proporcao['A']);
@@ -183,19 +183,19 @@ class ManipulaImagem extends ManipulaArquivo
         if (\imagecopyresampled($img, $origem, 0, 0, 0, 0, $proporcao['L'], $proporcao['A'], \imagesx($origem), \imagesy($origem))) {
             if ($extensao == 'jpg' or $extensao == 'jpeg') {
                 if (!(\imagejpeg($img, $destino, $qualidade))) {
-                    throw new RuntimeException("Não foi possivel criar o arquivo " . \basename($destino));
+                    throw new ErrorException("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'gif') {
                 if (!(\imagegif($img, $destino))) {
-                    throw new RuntimeException("Não foi possivel criar o arquivo " . \basename($destino));
+                    throw new ErrorException("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             } elseif ($extensao == 'png') {
                 if (!(\imagepng($img, $destino))) {
-                    throw new RuntimeException("Não foi possivel criar o arquivo " . \basename($destino));
+                    throw new ErrorException("Não foi possivel criar o arquivo " . \basename($destino));
                 }
             }
         } else {
-            throw new RuntimeException("Não foi possivel gerar o arquivo");
+            throw new ErrorException("Não foi possivel gerar o arquivo");
         }
     }
 

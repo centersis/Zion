@@ -2,7 +2,7 @@
  
 namespace Zion\Form;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Form\FormBasico;
 
 class FormInputButton extends FormBasico
@@ -39,7 +39,7 @@ class FormInputButton extends FormBasico
             $this->metodo = $metodo;        
             return $this;
         } else {
-            throw new RuntimeException("metodo: Nenhum valor informado.");
+            throw new ErrorException("metodo: Nenhum valor informado.");
         }
     }
     
@@ -54,7 +54,7 @@ class FormInputButton extends FormBasico
             $this->action = $action;
             return $this;
         } else {
-            throw new RuntimeException("action: Nenhum valor informado.");
+            throw new ErrorException("action: Nenhum valor informado.");
         }
 
     }
@@ -70,7 +70,7 @@ class FormInputButton extends FormBasico
             $this->target = $target;
             return $this;
         } else {
-            throw new RuntimeException("target: Nenhum valor informado.");
+            throw new ErrorException("target: Nenhum valor informado.");
         }
     }
     
@@ -85,7 +85,7 @@ class FormInputButton extends FormBasico
             $this->label = $label;
             return $this;
         } else {
-            throw new RuntimeException("label: Nenhum valor informado.");
+            throw new ErrorException("label: Nenhum valor informado.");
         }
 
     }

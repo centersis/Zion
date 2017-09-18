@@ -2,7 +2,7 @@
 
 namespace Zion\Banco;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 
 class ConexaoMysql
 {
@@ -146,7 +146,7 @@ class ConexaoMysql
     public function executar($sql)
     {
         if (empty($sql)) {
-            throw new RuntimeException($this->getExcecao(3));
+            throw new ErrorException($this->getExcecao(3));
         }
 
         $this->linhasAfetadas = 0;
@@ -166,7 +166,7 @@ class ConexaoMysql
 
             return $executa;
         } else {
-            throw new RuntimeException($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
+            throw new ErrorException($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
         }
     }
 
@@ -178,7 +178,7 @@ class ConexaoMysql
     public function executarArray($arraySql, $transaction = true)
     {
         if (!is_array($arraySql)) {
-            throw new RuntimeException($this->getExcecao(4));
+            throw new ErrorException($this->getExcecao(4));
         }
 
         if ($transaction == true) {
@@ -196,7 +196,7 @@ class ConexaoMysql
                 if ($transaction == true) {
                     $this->stopTransaction($this->getExcecao(1));
                 }
-                throw new RuntimeException($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
+                throw new ErrorException($this->getExcecao(1) . "<br>$sql<br>" . mysqli_error(self::$link[$this->banco]));
             }
         }
 
@@ -214,7 +214,7 @@ class ConexaoMysql
     public function linha($resultSet, $estilo = MYSQLI_BOTH)
     {
         if (!is_object($resultSet)) {
-            throw new RuntimeException($this->getExcecao(2));
+            throw new ErrorException($this->getExcecao(2));
         }
 
         $nLinhas = $resultSet->num_rows;
@@ -305,7 +305,7 @@ class ConexaoMysql
     public function nLinhas($resultSet)
     {
         if (!is_object($resultSet)) {
-            throw new RuntimeException($this->getExcecao(2));
+            throw new ErrorException($this->getExcecao(2));
         }
 
         return (int) $resultSet->num_rows;

@@ -2,7 +2,7 @@
 
 namespace Zion\Validacao;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Tratamento\Geral as TratamentoGeral;
 
 class Geral extends TratamentoGeral
@@ -205,7 +205,7 @@ class Geral extends TratamentoGeral
      */
     public function validaTelefone($telefone)
     {
-        throw new RuntimeException("Metodo ainda nao implementado.");
+        throw new ErrorException("Metodo ainda nao implementado.");
     }
 
     public function validaJSON($string)

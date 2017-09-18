@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Exception\InvalidArgumentException;
 use Zion\Validacao\Valida;
 
@@ -60,7 +60,7 @@ class FormValida
     private function configuraInstances($formInput)
     {
         if (\is_object($formInput) === false) {
-            throw new RuntimeException('O argumento informado não é uma instância de uma classe válida!');
+            throw new ErrorException('O argumento informado não é uma instância de uma classe válida!');
         }
 
         $className = \get_class($formInput);

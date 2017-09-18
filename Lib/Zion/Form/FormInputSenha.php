@@ -2,7 +2,7 @@
  
 namespace Zion\Form;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 
 class FormInputSenha extends FormBasico
 {
@@ -40,13 +40,13 @@ class FormInputSenha extends FormBasico
         if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new RuntimeException("maximoCaracteres não pode ser menor que minimoCaracteres.");
+                throw new ErrorException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
 
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
-            throw new RuntimeException("maximoCaracteres: Valor não numerico.");
+            throw new ErrorException("maximoCaracteres: Valor não numerico.");
         }
     }
 
@@ -60,13 +60,13 @@ class FormInputSenha extends FormBasico
         if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new RuntimeException("minimoCaracteres não pode ser maior que maximoCaracteres.");
+                throw new ErrorException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
-            throw new RuntimeException("minimoCaracteres: Valor não numerico.");
+            throw new ErrorException("minimoCaracteres: Valor não numerico.");
         }
     }
 
@@ -81,7 +81,7 @@ class FormInputSenha extends FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new RuntimeException("obrigatorio: Valor não booleano");
+            throw new ErrorException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -96,7 +96,7 @@ class FormInputSenha extends FormBasico
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new RuntimeException("placeHolder: Nenhum valor informado");
+            throw new ErrorException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -111,7 +111,7 @@ class FormInputSenha extends FormBasico
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new RuntimeException("aliasSql: Nenhum valor informado");
+            throw new ErrorException("aliasSql: Nenhum valor informado");
         }
     }
 

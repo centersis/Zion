@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Validacao\Numero;
 use Zion\Form\FormBasico;
 
@@ -52,7 +52,7 @@ class FormInputFloat extends FormBasico implements FilterableInput
             $this->largura = $largura;
             return $this;
         } else {
-            throw new RuntimeException("largura: O valor não está nos formatos aceitos: 10%; 10px; ou 10");
+            throw new ErrorException("largura: O valor não está nos formatos aceitos: 10%; 10px; ou 10");
         }
     }
 
@@ -66,13 +66,13 @@ class FormInputFloat extends FormBasico implements FilterableInput
         if($this->numero->isFloat($valorMaximo) === true){
 
             if(isset($this->valorMinimo) and ($valorMaximo < $this->valorMinimo)) {
-                throw new RuntimeException("valorMaximo não pode ser menor que valorMinimo.");
+                throw new ErrorException("valorMaximo não pode ser menor que valorMinimo.");
             }
 
             $this->valorMaximo = $valorMaximo;
             return $this;
         } else {
-            throw new RuntimeException("valorMaximo: O valor informado não é float.");
+            throw new ErrorException("valorMaximo: O valor informado não é float.");
         }
     }
 
@@ -86,13 +86,13 @@ class FormInputFloat extends FormBasico implements FilterableInput
         if($this->numero->isFloat($valorMinimo) === true){
 
             if(isset($this->valorMaximo) and ($valorMinimo > $this->valorMaximo)) {
-                throw new RuntimeException("valorMinimo não pode ser maior que valorMaximo.");
+                throw new ErrorException("valorMinimo não pode ser maior que valorMaximo.");
             }
 
             $this->valorMinimo = $valorMinimo;
             return $this;
         } else {
-            throw new RuntimeException("valorMinimo: O valor informado não é float.");
+            throw new ErrorException("valorMinimo: O valor informado não é float.");
         }
     }
 
@@ -107,7 +107,7 @@ class FormInputFloat extends FormBasico implements FilterableInput
             $this->prefixo = $prefixo;
             return $this;
         } else {
-            throw new RuntimeException("prefixo: Nenhum valor informado.");
+            throw new ErrorException("prefixo: Nenhum valor informado.");
         }
     }
 
@@ -122,7 +122,7 @@ class FormInputFloat extends FormBasico implements FilterableInput
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new RuntimeException("obrigatorio: Valor não booleano");
+            throw new ErrorException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -137,7 +137,7 @@ class FormInputFloat extends FormBasico implements FilterableInput
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new RuntimeException("placeHolder: Nenhum valor informado");
+            throw new ErrorException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -152,7 +152,7 @@ class FormInputFloat extends FormBasico implements FilterableInput
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new RuntimeException("aliasSql: Nenhum valor informado");
+            throw new ErrorException("aliasSql: Nenhum valor informado");
         }
     }
 

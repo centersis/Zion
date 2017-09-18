@@ -6,7 +6,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Portability\Connection;
 use Doctrine\DBAL\DriverManager;
 use Zion\Log\Log;
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 
 class Conexao
 {
@@ -179,7 +179,7 @@ class Conexao
     public function executar($sql)
     {
         if (empty($sql)) {
-            throw new RuntimeException($this->getExcecao(3));
+            throw new ErrorException($this->getExcecao(3));
         }
 
         $this->linhasAfetadas = 0;
@@ -234,7 +234,7 @@ class Conexao
     public function executarArray($arraySql, $transaction = true)
     {
         if (!\is_array($arraySql)) {
-            throw new RuntimeException($this->getExcecao(4));
+            throw new ErrorException($this->getExcecao(4));
         }
 
         if ($transaction == true) {
@@ -264,7 +264,7 @@ class Conexao
     public function linha($resultSet, $estilo = 4)
     {
         if (!\is_object($resultSet)) {
-            throw new RuntimeException($this->getExcecao(2));
+            throw new ErrorException($this->getExcecao(2));
         }
 
         $nLinhas = $this->nLinhas($resultSet);
@@ -338,7 +338,7 @@ class Conexao
                 return \NULL;
             }
 
-            throw new RuntimeException('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
+            throw new ErrorException('Conexão: Posição ' . $posicao . ' informada não foi encontrada!');
         }
 
         return \current($array);
@@ -374,7 +374,7 @@ class Conexao
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new RuntimeException("Conexão: Indice $indice não encontrado!");
+                            throw new ErrorException("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row;
@@ -382,13 +382,13 @@ class Conexao
                 } else {
                     if (empty($indice)) {
                         if (!\key_exists($posicao, $row)) {
-                            throw new RuntimeException("Conexão: Posição $posicao não encontrada!");
+                            throw new ErrorException("Conexão: Posição $posicao não encontrada!");
                         }
                         $rows[] = $row[$posicao];
                     } else {
 
                         if (!\key_exists($indice, $row)) {
-                            throw new RuntimeException("Conexão: Indice $indice não encontrado!");
+                            throw new ErrorException("Conexão: Indice $indice não encontrado!");
                         }
 
                         $rows[$row[$indice]] = $row[$posicao];
@@ -410,7 +410,7 @@ class Conexao
     public function nLinhas($resultSet)
     {
         if (!\is_object($resultSet)) {
-            throw new RuntimeException($this->getExcecao(2));
+            throw new ErrorException($this->getExcecao(2));
         }
 
         return (int) $resultSet->rowCount();

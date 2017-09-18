@@ -2,7 +2,7 @@
 
 namespace Zion\Tratamento;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Validacao\Data as ValidacaoData;
 
 class Data
@@ -435,7 +435,7 @@ class Data
      */
     public function getDataExt($data)
     {
-        throw new RuntimeException("Método ainda não implementado.");
+        throw new ErrorException("Método ainda não implementado.");
     }
 
     public function getAnosBissextosIntervalo($a1, $a2)

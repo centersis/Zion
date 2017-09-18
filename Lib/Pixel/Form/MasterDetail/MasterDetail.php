@@ -8,7 +8,7 @@ use Zion\Banco\Conexao;
 use Zion\Validacao\Geral;
 use Pixel\Arquivo\ArquivoUpload;
 use Zion\Exception\RuntimeException;
-use Zion\Exception\InvalidArgumentException;
+use Zion\Exception\ValidationException;
 
 class MasterDetail
 {
@@ -46,8 +46,8 @@ class MasterDetail
             $this->validaDados($config, $confHidden->coringa);
         } catch (RuntimeException $ex) {
             throw new RuntimeException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
-        } catch (InvalidArgumentException $ex) {
-            throw new InvalidArgumentException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+        } catch (ValidationException $ex) {
+            throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (\Exception $ex) {
             throw new Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
@@ -122,8 +122,8 @@ class MasterDetail
             $this->removeItens($config, $aRemover);
         } catch (RuntimeException $ex) {
             throw new RuntimeException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
-        } catch (InvalidArgumentException $ex) {
-            throw new InvalidArgumentException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+        } catch (ValidationException $ex) {
+            throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (\Exception $ex) {
             throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
@@ -153,7 +153,7 @@ class MasterDetail
                 if (\array_key_exists($campo, $this->contaRepeticao)) {
 
                     if (\in_array($valorCampo, $this->contaRepeticao[$campo])) {
-                        throw new InvalidArgumentException($objForm->getIdentifica() . ' - não pode ser repetido!');
+                        throw new ValidationException($objForm->getIdentifica() . ' - não pode ser repetido!');
                     }
 
                     $this->contaRepeticao[$campo][] = $valorCampo;
@@ -215,7 +215,7 @@ class MasterDetail
                 if (\array_key_exists($campo, $this->contaRepeticao)) {
 
                     if (\in_array($valorCampo, $this->contaRepeticao[$campo])) {
-                        throw new InvalidArgumentException($objForm->getIdentifica() . ' - não pode ser repetido!');
+                        throw new ValidationException($objForm->getIdentifica() . ' - não pode ser repetido!');
                     }
 
                     $this->contaRepeticao[$campo][] = $valorCampo;
@@ -365,11 +365,11 @@ class MasterDetail
         }
 
         if ($addMax > 0 and $totalItens > $addMax) {
-            throw new InvalidArgumentException('O número máximo de itens foi ultrapassado, adicione no máximo ' . $addMax . ' itens!');
+            throw new ValidationException('O número máximo de itens foi ultrapassado, adicione no máximo ' . $addMax . ' itens!');
         }
 
         if ($addMin > 0 and $totalItens < $addMin) {
-            throw new InvalidArgumentException('O número mínimo de itens não foi alcançado, adicione no mínimo ' . $addMin . ' itens!');
+            throw new ValidationException('O número mínimo de itens não foi alcançado, adicione no mínimo ' . $addMin . ' itens!');
         }
     }
 
