@@ -3,7 +3,7 @@
 namespace Zion\Arquivo;
 
 use Zion\Exception\ErrorException;
-use Zion\Exception\InvalidArgumentException;
+use Zion\Exception\ValidationException;
 
 class ManipulaImagem extends ManipulaArquivo
 {
@@ -84,7 +84,7 @@ class ManipulaImagem extends ManipulaArquivo
     public function proporcoesImagem($tamanho, $por, $originais, $arredondarCasas = 0)
     {
         if ($originais['A'] == 0 or $originais['L'] == 0) {
-            throw new InvalidArgumentException("Proporções do arquivo invalidas, certifique-se que o arquivo é mesmo uma imagem!");
+            throw new ValidationException("Proporções do arquivo invalidas, certifique-se que o arquivo é mesmo uma imagem!");
         }
 
         switch ($por) {
@@ -119,7 +119,7 @@ class ManipulaImagem extends ManipulaArquivo
 
         //Verifica a integridade do arquivo
         if (!$this->arquivoExiste($origem)) {
-            throw new InvalidArgumentException("O Arquivo não foi carregado, certifique-se que o tamanho do arquivo não tenha ultrapassado " . $tMax . " pois, este tamanho é o maximo permitido pelo seu servidor.");
+            throw new ValidationException("O Arquivo não foi carregado, certifique-se que o tamanho do arquivo não tenha ultrapassado " . $tMax . " pois, este tamanho é o maximo permitido pelo seu servidor.");
         }
 
         //Verifica se a pasta permite gravação
@@ -131,7 +131,7 @@ class ManipulaImagem extends ManipulaArquivo
         if ($this->arquivoExiste($destino)) {
             //Se sim verifica se tem permissão para substitui-lo
             if (!$this->permiteEscrita($destino)) {
-                throw new InvalidArgumentException("Este arquivo já existe e você não tem permissão para substituí-lo.");
+                throw new ErrorException("Este arquivo já existe e você não tem permissão para substituí-lo.");
             }
         }
 
@@ -171,7 +171,7 @@ class ManipulaImagem extends ManipulaArquivo
         } elseif ($extensao == 'png') {
             $origem = @\imagecreatefrompng($origem);
         } else {
-            throw new InvalidArgumentException("Extensao inválida!");
+            throw new ValidationException("Extensao inválida!");
         }
 
         if (!$origem) {

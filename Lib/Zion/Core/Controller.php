@@ -6,6 +6,8 @@ use Zion\Validacao\Valida;
 use Pixel\Layout\Tab;
 use Pixel\Twig\Carregador;
 use Zion\Exception\ErrorException;
+use Zion\Exception\ValidationException;
+use Zion\Exception\AcessoException;
 
 class Controller
 {
@@ -38,11 +40,15 @@ class Controller
             }
 
             return $this->{$acao}();
-        } catch (\Exception $e) {
+        } catch (AcessoException $e) {
+            return $this->jsonErro($e->getMessage());
+        } catch (ValidationException $e) {
+            return $this->jsonErro($e->getMessage());
+        } catch (ErrorException $e) {
             return $this->jsonErro($e->getMessage());
         } catch (\Exception $e) {
             return $this->jsonErro($e->getMessage());
-        } 
+        }
     }
 
     public function layout()

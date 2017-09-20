@@ -8,7 +8,7 @@ use Pixel\Filtro\Filtrar;
 use Pixel\Arquivo\ArquivoUpload;
 use Pixel\Form\MasterDetail\MasterDetail;
 use Zion\Form\Form;
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 
 class CrudUtil
 {
@@ -51,10 +51,10 @@ class CrudUtil
         if ($cod and \array_key_exists('cod', $arrayObjetos)) {
             $arrayObjetos['cod']->setValor($cod);
         }
-        
+
         if ($cod1 and \array_key_exists('cod1', $arrayObjetos)) {
             $arrayObjetos['cod1']->setValor($cod1);
-        }        
+        }
 
         if (\is_array($arrayObjetos)) {
             foreach ($arrayObjetos as $nome => $objeto) {
@@ -114,7 +114,7 @@ class CrudUtil
 
         $this->sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca);
     }
-    
+
     public function getSqlFiltroPorObjeto($fil, $objForm, $queryBuilder, $queryObject)
     {
         if (\is_object($objForm)) {
@@ -291,7 +291,7 @@ class CrudUtil
             if (\is_array($objForm)) {
                 $arrayForm = $objForm;
             } else {
-                throw new RuntimeException('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
+                throw new ErrorException('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
             }
         }
 
@@ -379,7 +379,7 @@ class CrudUtil
             if (\is_array($objForm)) {
                 $arrayForm = $objForm;
             } else {
-                throw new RuntimeException('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
+                throw new ErrorException('Parâmetro inválido, $objForm deve ser um Objeto ou um Array de valores!');
             }
         }
 

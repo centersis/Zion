@@ -4,7 +4,7 @@ namespace Pixel\Form;
 
 use Pixel\Form\FormSetPixel;
 use Zion\Form\FormBasico;
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 
 class FormColor extends FormBasico
 {
@@ -46,7 +46,7 @@ class FormColor extends FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new RuntimeException("obrigatorio: Valor não booleano");
+            throw new ErrorException("obrigatorio: Valor não booleano");
         }
     }
 

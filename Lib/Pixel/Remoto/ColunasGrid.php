@@ -3,7 +3,7 @@
 namespace Pixel\Remoto;
 
 use Zion\Banco\Conexao;
-use Pixel\Exception\RuntimeException;
+use Pixel\Exception\ErrorException;
 
 class ColunasGrid
 {
@@ -16,11 +16,11 @@ class ColunasGrid
             $selecionados = \filter_input(\INPUT_GET, 'sisGridColunas', \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
             
             if (!\is_array($selecionados) or \count($selecionados) < 1) {
-                throw new RuntimeException('Nehuma coluna foi selecionada!');
+                throw new ErrorException('Nehuma coluna foi selecionada!');
             }
 
             if (!\is_numeric($moduloCod)) {
-                throw new RuntimeException('Módulo inválido!');
+                throw new ErrorException('Módulo inválido!');
             }
             
             $colunas = \implode(',', $selecionados);

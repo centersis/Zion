@@ -2,7 +2,7 @@
 
 namespace Pixel\Form;
 
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Form\FormBasico;
 use Pixel\Form\FormSetPixel;
 
@@ -76,7 +76,7 @@ class FormInputSuggest extends FormBasico
             $this->largura = $largura;
             return $this;
         } else {
-            throw new RuntimeException("largura: Nenhum valor informado.");
+            throw new ErrorException("largura: Nenhum valor informado.");
         }
     }
 
@@ -96,12 +96,12 @@ class FormInputSuggest extends FormBasico
         if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new RuntimeException("maximoCaracteres não pode ser menor que minimoCaracteres.");
+                throw new ErrorException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
-            throw new RuntimeException("maximoCaracteres: Valor não numerico.");
+            throw new ErrorException("maximoCaracteres: Valor não numerico.");
         }
     }
 
@@ -126,13 +126,13 @@ class FormInputSuggest extends FormBasico
         if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new RuntimeException("minimoCaracteres não pode ser maior que maximoCaracteres.");
+                throw new ErrorException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
-            throw new RuntimeException("minimoCaracteres: Valor não numérico.");
+            throw new ErrorException("minimoCaracteres: Valor não numérico.");
         }
     }
 
@@ -152,7 +152,7 @@ class FormInputSuggest extends FormBasico
             $this->caixa = $caixa;
             return $this;
         } else {
-            throw new RuntimeException("caixa: Valor desconhecido: " . $caixa);
+            throw new ErrorException("caixa: Valor desconhecido: " . $caixa);
         }
     }
 
@@ -162,7 +162,7 @@ class FormInputSuggest extends FormBasico
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new RuntimeException("obrigatorio: Valor não booleano");
+            throw new ErrorException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -182,7 +182,7 @@ class FormInputSuggest extends FormBasico
             $this->idConexao = $idConexao;
             return $this;
         } else {
-            throw new RuntimeException("idConexao: Nenhum Valor foi informado.");
+            throw new ErrorException("idConexao: Nenhum Valor foi informado.");
         }
     }
 
@@ -202,7 +202,7 @@ class FormInputSuggest extends FormBasico
             $this->tabela = $tabela;
             return $this;
         } else {
-            throw new RuntimeException("tabela: Nenhum valor informado.");
+            throw new ErrorException("tabela: Nenhum valor informado.");
         }
     }
 
@@ -217,7 +217,7 @@ class FormInputSuggest extends FormBasico
             $this->campoCod = $campoCod;
             return $this;
         } else {
-            throw new RuntimeException("campoCod: O valor informado não é um número valido.");
+            throw new ErrorException("campoCod: O valor informado não é um número valido.");
         }
     }
 
@@ -232,7 +232,7 @@ class FormInputSuggest extends FormBasico
             $this->campoDesc = $campoDesc;
             return $this;
         } else {
-            throw new RuntimeException("campoDesc: Nenhum valor informado.");
+            throw new ErrorException("campoDesc: Nenhum valor informado.");
         }
     }
 
@@ -247,7 +247,7 @@ class FormInputSuggest extends FormBasico
             $this->campoBusca = $campoBusca;
             return $this;
         } else {
-            throw new RuntimeException("campoBusca: Nenhum valor informado.");
+            throw new ErrorException("campoBusca: Nenhum valor informado.");
         }
     }
 
@@ -262,7 +262,7 @@ class FormInputSuggest extends FormBasico
             $this->limite = $limite;
             return $this;
         } else {
-            throw new RuntimeException("limite: O valor informado não é um número valido.");
+            throw new ErrorException("limite: O valor informado não é um número valido.");
         }
     }
 
@@ -283,7 +283,7 @@ class FormInputSuggest extends FormBasico
 
             $this->parametros = $query;
         } else {
-            throw new RuntimeException("parametros: O valor informado é inválido.");
+            throw new ErrorException("parametros: O valor informado é inválido.");
         }
 
         return $this;
@@ -300,7 +300,7 @@ class FormInputSuggest extends FormBasico
             $this->url = $url;
             return $this;
         } else {
-            throw new RuntimeException("url: Nenhum valor informado.");
+            throw new ErrorException("url: Nenhum valor informado.");
         }
     }
 
@@ -315,7 +315,7 @@ class FormInputSuggest extends FormBasico
             $this->espera = $espera;
             return $this;
         } else {
-            throw new RuntimeException("espera: Nenhum valor informado.");
+            throw new ErrorException("espera: Nenhum valor informado.");
         }
     }
 
@@ -330,7 +330,7 @@ class FormInputSuggest extends FormBasico
             $this->tamanhoMinimo = $tamanhoMinimo;
             return $this;
         } else {
-            throw new RuntimeException("tamanhoMinimo: Nenhum valor informado.");
+            throw new ErrorException("tamanhoMinimo: Nenhum valor informado.");
         }
     }
 
@@ -345,7 +345,7 @@ class FormInputSuggest extends FormBasico
             $this->hidden = $hidden;
             return $this;
         } else {
-            throw new RuntimeException("hidden: Nenhum valor informado.");
+            throw new ErrorException("hidden: Nenhum valor informado.");
         }
     }
 
@@ -372,7 +372,7 @@ class FormInputSuggest extends FormBasico
             $this->onSelect = $onSelect;
             return $this;
         } else {
-            throw new RuntimeException("onSelect: Nenhum valor informado.");
+            throw new ErrorException("onSelect: Nenhum valor informado.");
         }
     }
 
@@ -382,7 +382,7 @@ class FormInputSuggest extends FormBasico
             $this->converterHtml = $converterHtml;
             return $this;
         } else {
-            throw new RuntimeException("converterHtml: Valor não booleano");
+            throw new ErrorException("converterHtml: Valor não booleano");
         }
     }
 
@@ -397,7 +397,7 @@ class FormInputSuggest extends FormBasico
             $this->autoTrim = $autoTrim;
             return $this;
         } else {
-            throw new RuntimeException("autoTrim: Valor não booleano");
+            throw new ErrorException("autoTrim: Valor não booleano");
         }
     }
 
@@ -412,7 +412,7 @@ class FormInputSuggest extends FormBasico
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new RuntimeException("placeHolder: Nenhum valor informado");
+            throw new ErrorException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -471,7 +471,7 @@ class FormInputSuggest extends FormBasico
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new RuntimeException("aliasSql: Nenhum valor informado");
+            throw new ErrorException("aliasSql: Nenhum valor informado");
         }
     }
 

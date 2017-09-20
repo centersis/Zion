@@ -7,7 +7,7 @@ use Pixel\Crud\CrudUtil;
 use Zion\Banco\Conexao;
 use Zion\Validacao\Geral;
 use Pixel\Arquivo\ArquivoUpload;
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Exception\ValidationException;
 
 class MasterDetail
@@ -25,7 +25,7 @@ class MasterDetail
     /**
      * 
      * @param FormMasterDetail $config
-     * @throws RuntimeException
+     * @throws ErrorException
      */
     public function gravar($config)
     {
@@ -44,10 +44,10 @@ class MasterDetail
 
         try {
             $this->validaDados($config, $confHidden->coringa);
-        } catch (RuntimeException $ex) {
-            throw new RuntimeException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (ValidationException $ex) {
             throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+        } catch (ErrorException $ex) {
+            throw new ErrorException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (\Exception $ex) {
             throw new Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
@@ -87,7 +87,7 @@ class MasterDetail
                 }
             }
         } catch (\Exception $ex) {
-            throw new RuntimeException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+            throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
 
@@ -120,7 +120,7 @@ class MasterDetail
 
         try {
             $this->removeItens($config, $aRemover);
-        } catch (RuntimeException $ex) {
+        } catch (ErrorException $ex) {
             throw new RuntimeException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (ValidationException $ex) {
             throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
@@ -303,7 +303,7 @@ class MasterDetail
      * 
      * @param FormMasterDetail $config
      * @param type $coringa
-     * @throws RuntimeException
+     * @throws ErrorException
      */
     private function validaDados($config, $coringa)
     {
@@ -321,32 +321,32 @@ class MasterDetail
         $metodoRemover = $config->getMetodoRemover();
 
         if (empty($tabela)) {
-            throw new RuntimeException('Tabela não informada!');
+            throw new ErrorException('Tabela não informada!');
         }
 
         if (empty($codigo)) {
-            throw new RuntimeException('Código da Tabela não informado!');
+            throw new ErrorException('Código da Tabela não informado!');
         }
 
         if (\count($campos) < 1) {
-            throw new RuntimeException('Nenhum campo foi encontrado!');
+            throw new ErrorException('Nenhum campo foi encontrado!');
         }
 
         if (empty($campoReferencia)) {
-            throw new RuntimeException('Campo de referência deve ser informado!');
+            throw new ErrorException('Campo de referência deve ser informado!');
         }
 
         if (empty($codigoReferencia)) {
-            throw new RuntimeException('Código de referência deve ser informado!');
+            throw new ErrorException('Código de referência deve ser informado!');
         }
 
         if (!empty($objetoRemover)) {
             if (\is_object($objetoRemover)) {
                 if (!\method_exists($objetoRemover, $metodoRemover)) {
-                    throw new RuntimeException("MetodoRemover informado não foi encontrado no objeto (ObjetoRemover)!");
+                    throw new ErrorException("MetodoRemover informado não foi encontrado no objeto (ObjetoRemover)!");
                 }
             } else {
-                throw new RuntimeException("ObjetoRemover informado não é um objeto válido!");
+                throw new ErrorException("ObjetoRemover informado não é um objeto válido!");
             }
         }
 
@@ -361,7 +361,7 @@ class MasterDetail
         }
 
         if (!$valida->validaJSON(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)))) {
-            throw new RuntimeException('O sistema não conseguiu recuperar o array de configuração corretamente!');
+            throw new ErrorException('O sistema não conseguiu recuperar o array de configuração corretamente!');
         }
 
         if ($addMax > 0 and $totalItens > $addMax) {

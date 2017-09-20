@@ -4,7 +4,7 @@ namespace Pixel\Remoto;
 
 use Zion\Banco\Conexao;
 use App\Ext\Twig\Carregador;
-use Zion\Exception\RuntimeException;
+use Zion\Exception\ErrorException;
 use Zion\Exception\ValidationException;
 
 class Filtro
@@ -50,7 +50,7 @@ class Filtro
             $con = Conexao::conectar();
 
             if (!\is_numeric($usuarioFiltroCod)) {
-                throw new RuntimeException('Código de referência inválido!');
+                throw new ErrorException('Código de referência inválido!');
             }
 
             $qbDelete = $con->qb();
@@ -92,7 +92,7 @@ class Filtro
             }
 
             if (!\is_numeric($moduloCod)) {
-                throw new RuntimeException('Módulo inválido!');
+                throw new ErrorException('Módulo inválido!');
             }
 
             $qbInsert = $con->qb();
