@@ -1,34 +1,3 @@
-﻿/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- * 
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-
-var notificadas = new Array();
-
 sisRedirAlterar();
 
 function sisSpa(p) {
@@ -86,10 +55,6 @@ $(document).ready(function () {
         if(!$(".showHidden").hasClass('hidden')){
             $(".showHidden").addClass("hidden");
         } 
-    });
-
-    $("#notificationsMain").click(function (event) {
-        sisAtualizaNotificacoes();
     });
 
 });
@@ -881,106 +846,6 @@ function validaSenhaUser(campo, url)
     return true;
 }
 
-function sisAddNotificacao(notificacoes) {
-
-    var notificationsNumber = $("#notificationsNumber");
-    var atual = parseInt(notificationsNumber.html());
-    var n = null;
-
-    if (isNaN(atual)) {
-        n = notificacoes;
-    } else {
-        n = (notificacoes + atual);
-    }
-
-    notificacoesNaoLidas = n;
-    notificationsNumber.html(n);
-
-    var obj = $('title');
-    var title = obj.html();
-
-    if (title.search(/\([0-9]{1,}\)/) !== -1) {
-        obj.html(title.replace(/\([0-9]{1,}\)/, "(" + n + ")"));
-    } else {
-        obj.prepend("(" + n + ") ");
-    }
-
-    return true;
-}
-
-function limpaNotificacoes() {
-
-    var obj = $('title');
-    var title = obj.html();
-
-    if (title.search(/\s\([0-9]{1,}\)/) !== -1) {
-        obj.html(title.replace(/\s\([0-9]{1,}\)/, ""));
-    }
-
-    $("#notificationsNumber").html('');
-
-    return true;
-}
-
-function sisAtualizaNotificacoes() {
-
-    var notificationDiv = $("#main-navbar-notifications");
-
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {'target': 'notificationBar'}, dataType: "json", beforeSend: function () {
-
-            notificationDiv.html("");
-
-        }}).done(function (data) {
-        if (data.sucesso === "true") {
-            limpaNotificacoes();
-            notificationDiv.html(data.retorno);
-        } else {
-            sisSetAlert('false', "Falha ao carregar suas notificações.");
-        }
-    });
-}
-
-function acessaNotificacao(id, url) {
-
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'limpaNotificacao', id: id}, dataType: "json"}).done(function (data) {
-        document.location.href = url;
-    });
-
-}
-
-function getNotificacoesAlternativo() {
-
-    console.log("Using standard xhr polling to request notifications.");
-
-    getNotificacoesAjax();
-
-    setInterval(function () {
-        getNotificacoesAjax();
-    }, 60000);
-
-}
-
-function getNotificacoesAjax() {
-
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'getNumeroNotificacoes'}, dataType: "json"}).done(function (ret) {
-
-        if (ret.sucesso === 'true') {
-
-            var notificar = array_diff(notificadas, ret.retorno).length;
-
-            if (notificar > 0) {
-
-                notificadas = (ret.retorno);
-                sisAddNotificacao(notificar);
-            }
-        }
-
-    }).fail(function (event) {
-        console.log(event);
-    });
-
-
-}
 function array_diff(array1, array2) {
 
     var diff = [];
@@ -1141,55 +1006,3 @@ function sisRemoverFiltroSalvo(usuarioFiltroCod, urlBase, moduloCod){
 }
 
 /* REMOVER FILTROS SALVOS */
-
-/* RELATORIOS INTERNOS */
-function sisRelatorioInterno(acao, cod, temView, acaoView)
-{
-    if(!cod || !acao){
-        
-        alert('Dados insuficientes para a geração do relatório!');
-        
-        return;
-    }
-    
-    if(temView && acaoView){
-
-        $.ajax({
-            type: "get", 
-            url: '?acao='+acao, 
-            data: {
-                'c': cod
-            }, 
-            dataType: "json"
-        }).done(function (data) {
-             
-            if(data.sucesso === 'true'){
-                
-                $('#sisRelICod').val(cod);
-                $('#sisRelIAcao').val(acaoView);
-
-                $('#sisRelatorioInternoConteudo').html(data.retorno);
-                
-                $('#sisRelatorioInterno').modal('show');
-            }
-            else{
-                alert('Houve um erro e o relatório não pode ser carregado.\n'+data.retorno);
-            }
-        
-        });
-    }
-    else{        
-        
-        window.open('?acao='+acao, 'sisRelInterno');
-    }
-}
-
-function sisSubmitRelatorioInterno()
-{
-    var sisRelICod = $('#sisRelICod').val();
-    var sisRelIAcao = $('#sisRelIAcao').val();    
-    
-    window.open('?acao='+sisRelIAcao+'&cod='+sisRelICod+'&'+$.param($("#sisRelatorioInternoForm").serializeArray()), 'sisRelInterno');
-    
-    $('#sisRelatorioInterno').modal('hide');
-}
