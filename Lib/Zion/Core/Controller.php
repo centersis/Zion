@@ -14,6 +14,11 @@ class Controller
 
     protected $acao;
 
+    public function __construct()
+    {
+        
+    }
+
     /**
      * Instancia de controler que intancia o metodo que lhe foi informado no
      * paremetro $acao
