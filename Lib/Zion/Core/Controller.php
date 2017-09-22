@@ -12,11 +12,6 @@ use Zion\Exception\AcessoException;
 class Controller
 {
 
-    public function __construct()
-    {
-        
-    }
-
     protected $acao;
 
     /**
@@ -71,11 +66,11 @@ class Controller
      * @param string $erro
      * @return string json
      */
-    public function jsonErro($erro)
+    public function jsonErro($erro, $tipo = 1)
     {
         $tratar = Valida::instancia();
 
-        return \json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
+        return \json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro), 'tipo_erro' => $tipo));
     }
 
     /**
