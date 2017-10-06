@@ -2,6 +2,7 @@
 
 namespace Zion\Tratamento;
 
+use Zion\Exception\ErrorException;
 use Zion\Validacao\Geral as ValidacaoGeral;
 
 class Geral
@@ -146,7 +147,7 @@ class Geral
      */
     public function formataTelefone($telefone)
     {
-        throw new RuntimeException("Metoto ainda nao implementado.");
+        throw new ErrorException("Metoto ainda nao implementado.");
     }
 
     /**

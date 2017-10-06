@@ -2,7 +2,7 @@
 
 namespace Pixel\Form\MasterDetail;
 
-use \Zion\Form\Exception\FormException;
+use Zion\Exception\ErrorException;
 use Pixel\Form\FormSetPixel;
 
 class FormMasterDetail
@@ -79,12 +79,12 @@ class FormMasterDetail
      * Nome do componente
      * @param string $nome
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setNome($nome)
     {
         if (!\is_string($nome) or empty($nome)) {
-            throw new FormException('setNome: Informe o nome do componente corretamente!');
+            throw new ErrorException('setNome: Informe o nome do componente corretamente!');
         }
 
         $this->nome = $nome;
@@ -100,12 +100,12 @@ class FormMasterDetail
      * Identificador do componente
      * @param string $identifica
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setIdentifica($identifica)
     {
         if (!\is_string($identifica) or empty($identifica)) {
-            throw new FormException('setIdentifica: Informe o identificador do componente corretamente!');
+            throw new ErrorException('setIdentifica: Informe o identificador do componente corretamente!');
         }
 
         $this->identifica = $identifica;
@@ -123,12 +123,12 @@ class FormMasterDetail
      * entender que podem ser adicionados infinitos itens.
      * @param int $addMax
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setAddMax($addMax)
     {
         if (!\is_numeric($addMax) or $addMax < 0) {
-            throw new FormException('setAddMax: Informe o identificador do componente corretamente!');
+            throw new ErrorException('setAddMax: Informe o identificador do componente corretamente!');
         }
 
         $this->addMax = $addMax;
@@ -145,12 +145,12 @@ class FormMasterDetail
      * inicial deste atributo é 0, oque siguinifica que ele aceita 0 (Zero) ou
      * mais itens.
      * @param int $addMin
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setAddMin($addMin)
     {
         if (!\is_numeric($addMin) or $addMin < 0) {
-            throw new FormException('setAddMin: Informe o identificador do componente corretamente!');
+            throw new ErrorException('setAddMin: Informe o identificador do componente corretamente!');
         }
 
         $this->addMin = $addMin;
@@ -166,12 +166,12 @@ class FormMasterDetail
      * Texto do botão de adicionar itens, aceita HTML
      * @param string $addTexto
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setAddTexto($addTexto)
     {
         if (!\is_string($addTexto) or empty($addTexto)) {
-            throw new FormException('setAddTexto: Informe o texto de botão de adição corretamente!');
+            throw new ErrorException('setAddTexto: Informe o texto de botão de adição corretamente!');
         }
 
         $this->addTexto = $addTexto;
@@ -187,12 +187,12 @@ class FormMasterDetail
      * Tabela do banco de dados
      * @param string $tabela
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setTabela($tabela)
     {
         if (!\is_string($tabela) or empty($tabela)) {
-            throw new FormException('setTabela: Informe a tabela de referencia corretamente!');
+            throw new ErrorException('setTabela: Informe a tabela de referencia corretamente!');
         }
 
         $this->tabela = $tabela;
@@ -207,7 +207,7 @@ class FormMasterDetail
     public function setCodigo($codigo)
     {
         if (!\is_string($codigo) or empty($codigo)) {
-            throw new FormException('setCodigo: Informe o código da tabela corretamente!');
+            throw new ErrorException('setCodigo: Informe o código da tabela corretamente!');
         }
 
         $this->codigo = $codigo;
@@ -226,12 +226,12 @@ class FormMasterDetail
      * com as nescessidades
      * @param array $campos
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setCampos($campos)
     {
         if (!\is_array($campos) or empty($campos)) {
-            throw new FormException('setCampos: Informe a configuração de campos corretamente!');
+            throw new ErrorException('setCampos: Informe a configuração de campos corretamente!');
         }
 
         $this->campos = $campos;
@@ -247,12 +247,12 @@ class FormMasterDetail
      * Indica se o botão remover deve existir
      * @param boolean $botaoRemover
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setBotaoRemover($botaoRemover)
     {
         if (!\is_bool($botaoRemover)) {
-            throw new FormException('setBotaoRemover: Informe um valor booleano!');
+            throw new ErrorException('setBotaoRemover: Informe um valor booleano!');
         }
 
         $this->botaoRemover = $botaoRemover;
@@ -268,12 +268,12 @@ class FormMasterDetail
      * Indica se o botão Add deve existir
      * @param boolean $botaoAdd
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setBotaoAdd($botaoAdd)
     {
         if (!\is_bool($botaoAdd)) {
-            throw new FormException('setBotaoAdd: Informe um valor booleano!');
+            throw new ErrorException('setBotaoAdd: Informe um valor booleano!');
         }
 
         $this->botaoAdd = $botaoAdd;
@@ -289,12 +289,12 @@ class FormMasterDetail
      * Indica o número de itens que devem existir inicialemnte
      * @param int $totalItensInicio
      * @return \Pixel\Form\FormMasterDetail
-     * @throws FormException
+     * @throws ErrorException
      */
     public function setTotalItensInicio($totalItensInicio)
     {
         if (!\is_numeric($totalItensInicio) or $totalItensInicio < 0) {
-            throw new FormException('setTotalItensInicio: Informe um valor numérico maior que zero!');
+            throw new ErrorException('setTotalItensInicio: Informe um valor numérico maior que zero!');
         }
 
         $this->totalItensInicio = $totalItensInicio;
@@ -311,7 +311,7 @@ class FormMasterDetail
         if (!empty($valorItensDeInicio)) {
 
             if (!\is_array($valorItensDeInicio)) {
-                throw new FormException('setValorItensDeInicio: Informe um array!');
+                throw new ErrorException('setValorItensDeInicio: Informe um array!');
             }
 
             $this->valorItensDeInicio = $valorItensDeInicio;
@@ -330,7 +330,7 @@ class FormMasterDetail
         if (\is_object($objetoPai)) {
             $this->objetoPai = $objetoPai;
         } else {
-            throw new FormException("objetoPai: Valor não é um objeto válido.");
+            throw new ErrorException("objetoPai: Valor não é um objeto válido.");
         }
 
         return $this;
@@ -346,7 +346,7 @@ class FormMasterDetail
         if (!empty($campoReferencia) and \is_string($campoReferencia)) {
             $this->campoReferencia = $campoReferencia;
         } else {
-            throw new FormException("campoReferencia: Valor não é válido.");
+            throw new ErrorException("campoReferencia: Valor não é válido.");
         }
 
         return $this;
@@ -378,7 +378,7 @@ class FormMasterDetail
         if (\is_object($objetoRemover)) {
             $this->objetoRemover = $objetoRemover;
         } else {
-            throw new FormException("objetoRemover: Valor não é um objeto válido.");
+            throw new ErrorException("objetoRemover: Valor não é um objeto válido.");
         }
 
         $this->setMetodoRemover($metodoRemover);
@@ -396,7 +396,7 @@ class FormMasterDetail
         if (!empty($metodoRemover) and \is_string($metodoRemover)) {
             $this->metodoRemover = $metodoRemover;
         } else {
-            throw new FormException("objetoRemover -> metodoRemover: Valor não é válido.");
+            throw new ErrorException("objetoRemover -> metodoRemover: Valor não é válido.");
         }
 
         return $this;
@@ -506,7 +506,7 @@ class FormMasterDetail
         if (\is_null($gravar) or \is_bool($gravar)) {
             $this->gravar = $gravar;
         } else {
-            throw new FormException("gravar: valor informado é inválido, use null, true ou false");
+            throw new ErrorException("gravar: valor informado é inválido, use null, true ou false");
         }
 
         return $this;
@@ -522,7 +522,7 @@ class FormMasterDetail
         if (\is_null($naoRepetir) or \is_array($naoRepetir)) {
             $this->naoRepetir = $naoRepetir;
         } else {
-            throw new FormException("naoRepetir: valor informado é inválido, use null ou array");
+            throw new ErrorException("naoRepetir: valor informado é inválido, use null ou array");
         }
 
         return $this;
@@ -538,7 +538,7 @@ class FormMasterDetail
         if (\is_null($sqlBusca) or \is_object($sqlBusca)) {
             $this->sqlBusca = $sqlBusca;
         } else {
-            throw new FormException("sqlBusca: valor informado é inválido, use null ou array");
+            throw new ErrorException("sqlBusca: valor informado é inválido, use null ou array");
         }
 
         return $this;

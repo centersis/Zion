@@ -4,6 +4,7 @@ namespace Pixel\Filtro;
 
 use Illuminate\Database\Eloquent\Builder;
 use Zion\Tratamento\Tratamento;
+use Zion\Exception\ErrorException;
 
 /**
  * sho foi usado para substituir hidden_sis_filtro
@@ -85,7 +86,7 @@ class Filtrar
 
             if ("$valor" <> "") {
                 if (!in_array($operador, $this->operadores)) {
-                    throw new \RuntimeException("Operador invalido: {$operador}");
+                    throw new ErrorException("Operador invalido: {$operador}");
                 }
 
                 $operacoesSimples = ['<>', '=', '>', '<', '>=', '<='];

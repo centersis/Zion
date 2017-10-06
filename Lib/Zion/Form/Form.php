@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use Zion\Form\Exception\FormException;
+use Zion\Exception\ErrorException;
 use Zion\Tratamento\Tratamento;
 
 class Form
@@ -229,7 +229,7 @@ class Form
                 $this->objetos[$nome]->setValor($valor);
             }
         } else {
-            throw new FormException("set: Falta um argumento.");
+            throw new ErrorException("set: Falta um argumento.");
         }
     }
 
@@ -352,7 +352,7 @@ class Form
     {
         if ($nome and ! \array_key_exists($nome, $this->objetos)) {
             if(!$returnType) {
-                throw new FormException('Objeto ' . $nome . ' não existe!');
+                throw new ErrorException('Objeto ' . $nome . ' não existe!');
             } elseif($returnType === 'bool') {
                 return false;
             }
@@ -408,7 +408,7 @@ class Form
                 case 'layout':
                     $htmlCampos[$idCampo] = $this->formHtml->montaLayout($objCampos);
                     break;
-                default : throw new FormException('Tipo Base não encontrado!');
+                default : throw new ErrorException('Tipo Base não encontrado!');
             }
         }
 

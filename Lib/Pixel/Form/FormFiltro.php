@@ -16,7 +16,7 @@ use Pixel\Form\FormInputTelefone;
 use Pixel\Form\FormInputEmail;
 use Pixel\Form\FormEscolha;
 use Pixel\Form\FormChosen;
-use Zion\Form\Exception\FormException;
+use Zion\Exception\ErrorException;
 
 class FormFiltro extends Form
 {
@@ -35,7 +35,7 @@ class FormFiltro extends Form
         if (\is_array($operacaoE) or \is_null($operacaoE)) {
             $this->operacaoE = $operacaoE;
         } else {
-            throw new FormException('Configuração de Filtros: $operacaoE deve ser um array ou null');
+            throw new ErrorException('Configuração de Filtros: $operacaoE deve ser um array ou null');
         }
     }
 
@@ -164,57 +164,57 @@ class FormFiltro extends Form
 
     public function senha($nome, $identifica, $aliasSql  =  false)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function textArea($nome, $identifica, $aliasSql  =  false)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function editor($nome, $identifica, $aliasSql = false)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function upload($nome, $identifica, $aliasSql  =  false)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSubmit($nome, $identifica)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSalvarPadrao($identifica = 'Salvar')
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSalvarEContinuar()
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoDescartarPadrao()
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoSimples($nome, $identifica)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function botaoReset($nome, $identifica)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
     public function masterDetail($nome, $identifica)
     {
-        throw new FormException('Não pode usar ' . __METHOD__ . ' como filtro!');
+        throw new ErrorException('Não pode usar ' . __METHOD__ . ' como filtro!');
     }
 
 }

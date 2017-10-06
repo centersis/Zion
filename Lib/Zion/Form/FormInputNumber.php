@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\ErrorException;
 use Zion\Form\FormBasico;
 
 class FormInputNumber extends FormBasico implements FilterableInput
@@ -49,7 +49,7 @@ class FormInputNumber extends FormBasico implements FilterableInput
             $this->largura = $largura;
             return $this;
         } else {
-            throw new FormException("largura: O valor não está nos formatos aceitos: 10%; 10px; ou 10");
+            throw new ErrorException("largura: O valor não está nos formatos aceitos: 10%; 10px; ou 10");
         }
     }
 
@@ -63,12 +63,12 @@ class FormInputNumber extends FormBasico implements FilterableInput
         if (\is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
+                throw new ErrorException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
             $this->maximoCaracteres = $maximoCaracteres;
             return $this;
         } else {
-            throw new FormException("maximoCaracteres: Valor não numérico.");
+            throw new ErrorException("maximoCaracteres: Valor não numérico.");
         }
     }
 
@@ -82,13 +82,13 @@ class FormInputNumber extends FormBasico implements FilterableInput
         if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
+                throw new ErrorException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
             return $this;
         } else {
-            throw new FormException("minimoCaracteres: Valor não numérico.");
+            throw new ErrorException("minimoCaracteres: Valor não numérico.");
         }
     }
 
@@ -102,13 +102,13 @@ class FormInputNumber extends FormBasico implements FilterableInput
         if (\is_numeric($valorMinimo)) {
 
             if (isset($this->valorMaximo) and ( $valorMinimo > $this->valorMaximo)) {
-                throw new FormException("valorMinimo não pode ser maior que valorMaximo.");
+                throw new ErrorException("valorMinimo não pode ser maior que valorMaximo.");
             }
 
             $this->valorMinimo = $valorMinimo;
             return $this;
         } else {
-            throw new FormException("valorMinimo: Valor não numérico");
+            throw new ErrorException("valorMinimo: Valor não numérico");
         }
     }
 
@@ -122,13 +122,13 @@ class FormInputNumber extends FormBasico implements FilterableInput
         if (\is_numeric($valorMaximo)) {
 
             if (isset($this->valorMinimo) and ( $valorMaximo < $this->valorMinimo)) {
-                throw new FormException("valorMaximo não pode ser menor que valorMinimo.");
+                throw new ErrorException("valorMaximo não pode ser menor que valorMinimo.");
             }
 
             $this->valorMaximo = $valorMaximo;
             return $this;
         } else {
-            throw new FormException("valorMaximo: Valor não numérico");
+            throw new ErrorException("valorMaximo: Valor não numérico");
         }
     }
 
@@ -143,7 +143,7 @@ class FormInputNumber extends FormBasico implements FilterableInput
             $this->obrigatorio = $obrigatorio;
             return $this;
         } else {
-            throw new FormException("obrigatorio: Valor não booleano");
+            throw new ErrorException("obrigatorio: Valor não booleano");
         }
     }
 
@@ -158,7 +158,7 @@ class FormInputNumber extends FormBasico implements FilterableInput
             $this->placeHolder = $placeHolder;
             return $this;
         } else {
-            throw new FormException("placeHolder: Nenhum valor informado");
+            throw new ErrorException("placeHolder: Nenhum valor informado");
         }
     }
 
@@ -173,7 +173,7 @@ class FormInputNumber extends FormBasico implements FilterableInput
             $this->aliasSql = $aliasSql;
             return $this;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new ErrorException("aliasSql: Nenhum valor informado");
         }
     }
 

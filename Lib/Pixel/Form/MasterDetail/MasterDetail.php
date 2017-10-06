@@ -7,7 +7,8 @@ use Pixel\Crud\CrudUtil;
 use Zion\Banco\Conexao;
 use Zion\Validacao\Geral;
 use Pixel\Arquivo\ArquivoUpload;
-use Zion\Form\Exception\FormException;
+use Zion\Exception\ErrorException;
+use Zion\Exception\ValidationException;
 
 class MasterDetail
 {
@@ -24,7 +25,7 @@ class MasterDetail
     /**
      * 
      * @param FormMasterDetail $config
-     * @throws FormException
+     * @throws ErrorException
      */
     public function gravar($config)
     {
@@ -43,8 +44,12 @@ class MasterDetail
 
         try {
             $this->validaDados($config, $confHidden->coringa);
+        } catch (ValidationException $ex) {
+            throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+        } catch (ErrorException $ex) {
+            throw new ErrorException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (\Exception $ex) {
-            throw new FormException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+            throw new Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
         if ($confHidden) {
@@ -70,7 +75,7 @@ class MasterDetail
                 if (\in_array($coringa, $doBanco)) {
 
                     $ativos[] = $coringa;
-                    if ($config->getPermitirIgnorar() === false or \filter_input(\INPUT_POST, 'sisMA' . $nome . $coringa, \FILTER_DEFAULT) !== 'N') {                        
+                    if ($config->getPermitirIgnorar() === false or \filter_input(\INPUT_POST, 'sisMA' . $nome . $coringa, \FILTER_DEFAULT) !== 'N') {
                         $coringasMaster[] = $coringa;
                         $coringas[] = $coringa;
 
@@ -82,7 +87,7 @@ class MasterDetail
                 }
             }
         } catch (\Exception $ex) {
-            throw new FormException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+            throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
 
@@ -115,8 +120,12 @@ class MasterDetail
 
         try {
             $this->removeItens($config, $aRemover);
+        } catch (ErrorException $ex) {
+            throw new RuntimeException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+        } catch (ValidationException $ex) {
+            throw new ValidationException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (\Exception $ex) {
-            throw new FormException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+            throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
     }
 
@@ -144,7 +153,7 @@ class MasterDetail
                 if (\array_key_exists($campo, $this->contaRepeticao)) {
 
                     if (\in_array($valorCampo, $this->contaRepeticao[$campo])) {
-                        throw new FormException($objForm->getIdentifica() . ' - não pode ser repetido!');
+                        throw new ValidationException($objForm->getIdentifica() . ' - não pode ser repetido!');
                     }
 
                     $this->contaRepeticao[$campo][] = $valorCampo;
@@ -206,7 +215,7 @@ class MasterDetail
                 if (\array_key_exists($campo, $this->contaRepeticao)) {
 
                     if (\in_array($valorCampo, $this->contaRepeticao[$campo])) {
-                        throw new FormException($objForm->getIdentifica() . ' - não pode ser repetido!');
+                        throw new ValidationException($objForm->getIdentifica() . ' - não pode ser repetido!');
                     }
 
                     $this->contaRepeticao[$campo][] = $valorCampo;
@@ -294,7 +303,7 @@ class MasterDetail
      * 
      * @param FormMasterDetail $config
      * @param type $coringa
-     * @throws FormException
+     * @throws ErrorException
      */
     private function validaDados($config, $coringa)
     {
@@ -312,32 +321,32 @@ class MasterDetail
         $metodoRemover = $config->getMetodoRemover();
 
         if (empty($tabela)) {
-            throw new FormException('Tabela não informada!');
+            throw new ErrorException('Tabela não informada!');
         }
 
         if (empty($codigo)) {
-            throw new FormException('Código da Tabela não informado!');
+            throw new ErrorException('Código da Tabela não informado!');
         }
 
         if (\count($campos) < 1) {
-            throw new FormException('Nenhum campo foi encontrado!');
+            throw new ErrorException('Nenhum campo foi encontrado!');
         }
 
         if (empty($campoReferencia)) {
-            throw new FormException('Campo de referência deve ser informado!');
+            throw new ErrorException('Campo de referência deve ser informado!');
         }
 
         if (empty($codigoReferencia)) {
-            throw new FormException('Código de referência deve ser informado!');
+            throw new ErrorException('Código de referência deve ser informado!');
         }
 
         if (!empty($objetoRemover)) {
             if (\is_object($objetoRemover)) {
                 if (!\method_exists($objetoRemover, $metodoRemover)) {
-                    throw new FormException("MetodoRemover informado não foi encontrado no objeto (ObjetoRemover)!");
+                    throw new ErrorException("MetodoRemover informado não foi encontrado no objeto (ObjetoRemover)!");
                 }
             } else {
-                throw new FormException("ObjetoRemover informado não é um objeto válido!");
+                throw new ErrorException("ObjetoRemover informado não é um objeto válido!");
             }
         }
 
@@ -352,15 +361,15 @@ class MasterDetail
         }
 
         if (!$valida->validaJSON(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)))) {
-            throw new FormException('O sistema não conseguiu recuperar o array de configuração corretamente!');
+            throw new ErrorException('O sistema não conseguiu recuperar o array de configuração corretamente!');
         }
 
         if ($addMax > 0 and $totalItens > $addMax) {
-            throw new FormException('O número máximo de itens foi ultrapassado, adicione no máximo ' . $addMax . ' itens!');
+            throw new ValidationException('O número máximo de itens foi ultrapassado, adicione no máximo ' . $addMax . ' itens!');
         }
 
         if ($addMin > 0 and $totalItens < $addMin) {
-            throw new FormException('O número mínimo de itens não foi alcançado, adicione no mínimo ' . $addMin . ' itens!');
+            throw new ValidationException('O número mínimo de itens não foi alcançado, adicione no mínimo ' . $addMin . ' itens!');
         }
     }
 

@@ -34,7 +34,6 @@ class FormValida extends FormValidaZion
      * 
      * @param Zion\Form $form Instância de uma classe de formulário com as configurações do input a ser validado.
      * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\InvalidArgumeException se $form não for uma instância válida de uma das classes de formulário.
      */
     public function validar($form)
     {
@@ -49,7 +48,6 @@ class FormValida extends FormValidaZion
      * 
      * @param \Zion\Form\FormInputTexto $input Instância da classe \Zion\Form\FormInputTexto com as configurações do input a ser validado.
      * @return bool True, em caso de input válido, void otherwise.
-     * @throws \Zion\Form\Exception\FormException se algum erro for encontrado na validação do input.
      */
     protected function validaFormInput($input)
     {

@@ -2,6 +2,7 @@
 
 namespace Zion\Tratamento;
 
+use Zion\Exception\ErrorException;
 use Zion\Validacao\Data as ValidacaoData;
 
 class Data
@@ -434,7 +435,7 @@ class Data
      */
     public function getDataExt($data)
     {
-        throw new \RuntimeException("Método ainda não implementado.");
+        throw new ErrorException("Método ainda não implementado.");
     }
 
     public function getAnosBissextosIntervalo($a1, $a2)
@@ -486,87 +487,7 @@ class Data
     public function getIntervaloExtenso($dataInicial, $dataFinal = '', $showAnos = true, $showMeses = true, $showDias = true, $showComplementos = true)
     {
 
-        require_once \SIS_NAMESPACE_FRAMEWORK . '/ADOdb/ADOdb_time/adodb-time.inc.php';
-
-        if (\is_numeric($dataInicial)) {
-
-            $totalDias = $dataInicial;
-            if ($totalDias <= 0) {
-                return 'Nenhum dia';
-            }
-
-            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;
-            $dI = $this->getDataParse(\date('Y-m-d'), 'Y-m-d');
-            $dF = $this->getDataParse($dataFinal, 'Y-m-d');
-
-            $difftime = (@\adodb_mktime(0, 0, 0, $dF['month'], $dF['day'], $dF['year']) - @\adodb_mktime(0, 0, 0, $dI['month'], ($dI['day'] - $totalDias), $dI['year']));
-        } else {
-
-            $dataFinal = empty($dataFinal) ? \date('Y-m-d') : $dataFinal;
-            $dI = $this->getDataParse($dataInicial, 'Y-m-d');
-            $dF = $this->getDataParse($dataFinal, 'Y-m-d');
-
-            $difftime = (@\adodb_mktime(0, 0, 0, $dF['month'], $dF['day'], $dF['year']) - @\adodb_mktime(0, 0, 0, $dI['month'], $dI['day'], $dI['year']));
-        }
-
-        $bissextFix = 0;
-        $bissextyears = 0;
-
-        for ($i = ($dF['year'] - $bissextFix); $i < $dF['year']; $i++) {
-            $x = 0 + ($i / 4);
-            if (($x - floor($x)) == 0) {
-                $bissextyears ++;
-            }
-        }
-
-        $years = '';
-        $months = '';
-        $days = '';
-
-        $years = \floor($difftime / (3600 * 24 * (365 + $bissextyears)));
-        $difftime = $difftime % (3600 * 24 * (365 + $bissextyears));
-
-        $months = \floor($difftime / (3600 * 24 * ((365 + $bissextyears) / 12)));
-        $difftime = $difftime % (3600 * 24 * ((365 + $bissextyears) / 12));
-
-        $days = \floor($difftime / (3600 * 24));
-        $difftime = $difftime % (3600 * 24);
-
-        $diff = [];
-
-        if ($showAnos) {
-            if ($years > 0 && $years > 1) {
-                if ($showComplementos === true) {
-                    \array_push($diff, $years . ' anos');
-                } else {
-                    \array_push($diff, $years);
-                }
-            } else if ($years == 1) {
-                if ($showComplementos === true) {
-                    \array_push($diff, ' 1 ano');
-                } else {
-                    \array_push($diff, ' 1');
-                }
-            }
-        }
-
-        if ($showMeses) {
-            if ($months > 0 && $months > 1) {
-                \array_push($diff, $months . ' meses');
-            } else if ($months == 1) {
-                \array_push($diff, $months . ' mes');
-            }
-        }
-
-        if ($showDias or ( !$months and ! $years)) {
-            if ($days > 0 && $days > 1) {
-                \array_push($diff, $days . ' dias');
-            } else if ($days == 1) {
-                \array_push($diff, '1 dia');
-            }
-        }
-
-        return \implode(', ', $diff);
+        return 'dia-mes-ano';
     }
 
     public function getDatasMinMax($arrayDatas, $acao = 'max')

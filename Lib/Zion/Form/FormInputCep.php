@@ -2,7 +2,7 @@
 
 namespace Zion\Form;
 
-use \Zion\Form\Exception\FormException as FormException;
+use Zion\Exception\ErrorException;
 
 class FormInputCep extends FormBasico implements FilterableInput
 {
@@ -45,12 +45,12 @@ class FormInputCep extends FormBasico implements FilterableInput
         if (is_numeric($maximoCaracteres)) {
 
             if (isset($this->minimoCaracteres) and ( $maximoCaracteres < $this->minimoCaracteres)) {
-                throw new FormException("maximoCaracteres não pode ser menor que minimoCaracteres.");
+                throw new ErrorException("maximoCaracteres não pode ser menor que minimoCaracteres.");
             }
 
             $this->maximoCaracteres = $maximoCaracteres;
         } else {
-            throw new FormException("maximoCaracteres: Valor não numerico.");
+            throw new ErrorException("maximoCaracteres: Valor não numerico.");
         }
 
         return $this;
@@ -66,12 +66,12 @@ class FormInputCep extends FormBasico implements FilterableInput
         if (\is_numeric($minimoCaracteres)) {
 
             if (isset($this->maximoCaracteres) and ( $minimoCaracteres > $this->maximoCaracteres)) {
-                throw new FormException("minimoCaracteres não pode ser maior que maximoCaracteres.");
+                throw new ErrorException("minimoCaracteres não pode ser maior que maximoCaracteres.");
             }
 
             $this->minimoCaracteres = $minimoCaracteres;
         } else {
-            throw new FormException("minimoCaracteres: Valor não numerico.");
+            throw new ErrorException("minimoCaracteres: Valor não numerico.");
         }
 
         return $this;
@@ -87,7 +87,7 @@ class FormInputCep extends FormBasico implements FilterableInput
         if (\is_bool($obrigatorio)) {
             $this->obrigatorio = $obrigatorio;
         } else {
-            throw new FormException("obrigatorio: Valor não booleano");
+            throw new ErrorException("obrigatorio: Valor não booleano");
         }
 
         return $this;
@@ -103,7 +103,7 @@ class FormInputCep extends FormBasico implements FilterableInput
         if (!empty($placeHolder)) {
             $this->placeHolder = $placeHolder;
         } else {
-            throw new FormException("placeHolder: Nenhum valor informado");
+            throw new ErrorException("placeHolder: Nenhum valor informado");
         }
 
         return $this;
@@ -119,7 +119,7 @@ class FormInputCep extends FormBasico implements FilterableInput
         if (!\is_null($aliasSql)) {
             $this->aliasSql = $aliasSql;
         } else {
-            throw new FormException("aliasSql: Nenhum valor informado");
+            throw new ErrorException("aliasSql: Nenhum valor informado");
         }
 
         return $this;

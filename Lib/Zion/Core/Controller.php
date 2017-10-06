@@ -5,24 +5,26 @@ namespace Zion\Core;
 use Zion\Validacao\Valida;
 use Pixel\Layout\Tab;
 use Pixel\Twig\Carregador;
-use Zion\Exception\CoreException;
+use Zion\Exception\ErrorException;
+use Zion\Exception\ValidationException;
+use Zion\Exception\AcessoException;
 
 class Controller
 {
+
+    protected $acao;
 
     public function __construct()
     {
         
     }
 
-    protected $acao;
-
     /**
      * Instancia de controler que intancia o metodo que lhe foi informado no
      * paremetro $acao
      * @param string $acao
      * @return string json
-     * @throws CoreException
+     * @throws ErrorException
      */
     public function controle($acao = '')
     {
@@ -34,15 +36,19 @@ class Controller
 
         try {
             if (!\method_exists($this, $acao)) {
-                throw new CoreException("Opção inválida!");
+                throw new ErrorException("Opção inválida!");
             }
 
             return $this->{$acao}();
-        } catch (\Exception $e) {
+        } catch (AcessoException $e) {
+            return $this->jsonErro($e->getMessage());
+        } catch (ValidationException $e) {
+            return $this->jsonErro($e->getMessage());
+        } catch (ErrorException $e) {
             return $this->jsonErro($e->getMessage());
         } catch (\Exception $e) {
             return $this->jsonErro($e->getMessage());
-        } 
+        }
     }
 
     public function layout()
@@ -65,11 +71,11 @@ class Controller
      * @param string $erro
      * @return string json
      */
-    public function jsonErro($erro)
+    public function jsonErro($erro, $tipo = 1)
     {
         $tratar = Valida::instancia();
 
-        return \json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro)));
+        return \json_encode(array('sucesso' => 'false', 'retorno' => $tratar->texto()->trata($erro), 'tipo_erro' => $tipo));
     }
 
     /**
@@ -97,7 +103,7 @@ class Controller
         }
 
         if (empty($selecionados) or ! \is_array($selecionados)) {
-            throw new CoreException("Oops! Nenhum registro selecionado!");
+            throw new ErrorException("Oops! Nenhum registro selecionado!");
         }
 
         return $selecionados;

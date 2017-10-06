@@ -3,7 +3,7 @@
 namespace Pixel\Grid;
 
 use Zion\Acesso\Acesso;
-use PixelGridException\GridException;
+use Zion\Exception\ErrorException;
 
 class GridBotoes
 {
@@ -30,7 +30,7 @@ class GridBotoes
 
         if (!\defined('MODULO')) {
 
-            throw new GridException("O módulo não foi definido!");
+            throw new ErrorException("O módulo não foi definido!");
         }
 
         $arrayAcesso = $acesso->permissoesModulo();

@@ -1,8 +1,8 @@
 <?php
-
 namespace Zion\Exception;
 
-class AcessoException extends \RuntimeException
+class AcessoException extends \ErrorException
 {
 
+    
 }

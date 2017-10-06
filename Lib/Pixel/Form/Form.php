@@ -8,7 +8,7 @@ use Zion\Layout\Html;
 use Zion\Form\FormInputButton;
 use Pixel\Form\MasterDetail\FormMasterDetail;
 use App\Sistema\Ajuda\AjudaView;
-use \Zion\Form\Exception\FormException;
+use Zion\Exception\ErrorException;
 
 class Form extends FormZion
 {
@@ -277,7 +277,7 @@ class Form extends FormZion
                 case 'cor' :
                     $htmlCampos[$idCampo] = $this->formPixel->montaCor($objCampos);
                     break;
-                default : throw new FormException('Tipo Base não encontrado! ' . $idCampo);
+                default : throw new ErrorException('Tipo Base não encontrado! ' . $idCampo);
             }
         }
 

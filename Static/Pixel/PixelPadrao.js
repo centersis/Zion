@@ -1,34 +1,3 @@
-﻿/**
- *
- *    Sappiens Framework
- *    Copyright (C) 2014, BRA Consultoria
- *
- *    Website do autor: www.braconsultoria.com.br/sappiens
- *    Email do autor: sappiens@braconsultoria.com.br
- *
- *    Website do projeto, equipe e documentação: www.sappiens.com.br
- *   
- *    Este programa é software livre; você pode redistribuí-lo e/ou
- *    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
- *    publicada pela Free Software Foundation, versão 2.
- *
- *    Este programa é distribuído na expectativa de ser útil, mas SEM
- *    QUALQUER GARANTIA; sem mesmo a garantia implícita de
- *    COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
- *    PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
- *    detalhes.
- * 
- *    Você deve ter recebido uma cópia da Licença Pública Geral GNU
- *    junto com este programa; se não, escreva para a Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *    02111-1307, USA.
- *
- *    Cópias da licença disponíveis em /Sappiens/_doc/licenca
- *
- */
-
-var notificadas = new Array();
-
 sisRedirAlterar();
 
 function sisSpa(p) {
@@ -60,10 +29,10 @@ function showHiddenFilters() {
         $("#caretFilter").addClass('fa fa-caret-down');
     else
         return false;
-    
-    if($(".showHidden").hasClass('hidden')){
+
+    if ($(".showHidden").hasClass('hidden')) {
         $(".showHidden").removeClass("hidden");
-    }else{
+    } else {
         $(".showHidden").addClass("hidden");
     }
 //    $(".showHidden").slideToggle();
@@ -74,22 +43,18 @@ $(document).ready(function () {
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemRemoved', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
-        
-        if(!$(".showHidden").hasClass('hidden')){
+
+        if (!$(".showHidden").hasClass('hidden')) {
             $(".showHidden").addClass("hidden");
-        }        
+        }
     });
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
         sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
-        
-        if(!$(".showHidden").hasClass('hidden')){
-            $(".showHidden").addClass("hidden");
-        } 
-    });
 
-    $("#notificationsMain").click(function (event) {
-        sisAtualizaNotificacoes();
+        if (!$(".showHidden").hasClass('hidden')) {
+            $(".showHidden").addClass("hidden");
+        }
     });
 
 });
@@ -121,8 +86,7 @@ function cKupdate() {
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
         }
-    }
-    catch (e)
+    } catch (e)
     {
     }
 }
@@ -143,7 +107,7 @@ function sisSerializeUpload(container)
 /* FUNÇÔES DEFAULT */
 function sisMsgFailPadrao()
 {
-    sisSetCrashAlert('Erro', 'Houve um erro ao enviar sua solicitação!<br>Tente novamente mais tarde.');
+    sisSetCrashAlert('Ops, encontramos problemas com a sua solicitação', 'Houve um erro ao enviar sua solicitação!<br>Tente novamente mais tarde.<br><br>Se o problema persistir entre em contato com os administradores do sistema!', 1);
 }
 
 function sisContaCheck()
@@ -186,17 +150,17 @@ function sisDescartarAbas()
 
 /* FILTRO */
 function sisFiltrarPadrao(p) {
-    
-    if(!p){
+
+    if (!p) {
         $('#sisBuscaGridA').tagsinput('removeAll');
         $('#sisBuscaGridB').tagsinput('removeAll');
     }
-    
+
     $.ajax({type: "get", url: "?acao=filtrar", data: p, dataType: "json"}).done(function (ret) {
-        if(ret.sucesso === "true"){
+        if (ret.sucesso === "true") {
             $("#sisContainerGrid").html(ret.retorno);
         } else {
-            sisSetCrashAlert('Erro', ret.retorno);
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
     }).fail(function ()
     {
@@ -208,8 +172,7 @@ function sisMarcarTodos()
 {
     if ($("#sisContainerGrid").find(':checkbox').length < 1) {
         sisSetAlert('false', 'nenhum resultado encontrado na grid!');
-    }
-    else {
+    } else {
         $("#sisContainerGrid").find(':checkbox').prop('checked', true);
     }
 }
@@ -218,8 +181,7 @@ function sisDesmarcarTodos()
 {
     if ($("#sisContainerGrid").find(':checkbox').length < 1) {
         sisSetAlert('false', 'nenhum resultado encontrado na grid!');
-    }
-    else {
+    } else {
         $("#sisContainerGrid").find(':checkbox').prop('checked', false);
     }
 }
@@ -238,7 +200,12 @@ function sisCadastrarLayoutPadrao(param) {
         param = {};
     }
     $.ajax({type: "get", url: "?acao=cadastrar", data: param, dataType: "json"}).done(function (ret) {
-        $("#sisContainerManu").html(ret.retorno);
+
+        if (ret.retorno == 'sessaoexpirada') {
+            sisNovaSessao();
+        } else {
+            $("#sisContainerManu").html(ret.retorno);
+        }
     }).fail(function ()
     {
         sisMsgFailPadrao();
@@ -253,8 +220,7 @@ function sisCadastrarPadrao(nomeForm, upload) {
 
     if (upload === true) {
         var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
-    }
-    else {
+    } else {
         var config = {type: "post", url: "?acao=cadastrar", dataType: "json", data: sisSerialize("#" + nomeForm)};
     }
 
@@ -271,10 +237,9 @@ function sisCadastrarPadrao(nomeForm, upload) {
             }
 
             sisFiltrarPadrao('');
-        }
-        else {
+        } else {
             botoesPadrao(nomeForm, false);
-            sisSetCrashAlert('Erro', ret.retorno);
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
     }).fail(function ()
     {
@@ -301,7 +266,12 @@ function sisAlterarLayoutPadrao(param) {
     } else {
 
         $.ajax({type: "get", url: "?acao=alterar" + param, data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
-            $("#sisContainerManu").html(ret.retorno);
+
+            if (ret.retorno == 'sessaoexpirada') {
+                sisNovaSessao();
+            } else {
+                $("#sisContainerManu").html(ret.retorno);
+            }
         }).fail(function ()
         {
             sisMsgFailPadrao();
@@ -316,8 +286,7 @@ function sisAlterarPadrao(nomeForm, upload) {
 
     if (upload === true) {
         var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerializeUpload("#" + nomeForm), processData: false, contentType: false};
-    }
-    else {
+    } else {
         var config = {type: "post", url: "?acao=alterar", dataType: "json", data: sisSerialize("#" + nomeForm)};
     }
 
@@ -333,10 +302,9 @@ function sisAlterarPadrao(nomeForm, upload) {
             }
 
             sisFiltrarPadrao('');
-        }
-        else {
+        } else {
             botoesPadrao(nomeForm, false);
-            sisSetCrashAlert('Erro', ret.retorno);
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
     }).fail(function ()
     {
@@ -366,31 +334,36 @@ function sisRemovePadrao() {
 
     $.ajax({type: "get", url: "?acao=remover", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
 
-        var se = parseInt(ret.selecionados);
-        var ap = parseInt(ret.apagados);
-        var ms = ret.retorno;
-        var possivelMensagem = (ms !== '' && ms !== 'undefined' && ms !== undefined) ? " Motivo:\n" + ms : ms;
-
-        if (ap > 0) {
-
-            if (ap !== se) {
-
-                var msgPlural = (ap === 1) ? 'apenas foi removido com sucesso' : 'foram removidos com sucesso';
-                var msgRemovidos = "Entre os " + se + " registros selecionados " + ap + " " + msgPlural + ".\n\n";
-                var msg = "Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem;
-                sisSetCrashAlert('Erro', msg);
-                sisFiltrarPadrao('');
-            } else {
-
-                var plural = (ap === 1) ? '' : 's';
-                var msg = 'Registro' + plural + ' removido' + plural + ' com sucesso!';
-                sisSetAlert('true', msg);
-                sisFiltrarPadrao('');
-            }
+        if (ret.retorno == 'sessaoexpirada') {
+            sisNovaSessao();
         } else {
 
-            var msg = "Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
-            sisSetCrashAlert('Erro', msg);
+            var se = parseInt(ret.selecionados);
+            var ap = parseInt(ret.apagados);
+            var ms = ret.retorno;
+            var possivelMensagem = (ms !== '' && ms !== 'undefined' && ms !== undefined) ? " Motivo:\n" + ms : ms;
+
+            if (ap > 0) {
+
+                if (ap !== se) {
+
+                    var msgPlural = (ap === 1) ? 'apenas foi removido com sucesso' : 'foram removidos com sucesso';
+                    var msgRemovidos = "Entre os " + se + " registros selecionados " + ap + " " + msgPlural + ".\n\n";
+                    var msg = "Atenção, nem todos os registros puderam ser removidos!\n\n" + msgRemovidos + possivelMensagem;
+                    sisSetCrashAlert('Erro', msg, ret.tipo_erro);
+                    sisFiltrarPadrao('');
+                } else {
+
+                    var plural = (ap === 1) ? '' : 's';
+                    var msg = 'Registro' + plural + ' removido' + plural + ' com sucesso!';
+                    sisSetAlert('true', msg, ret.tipo_erro);
+                    sisFiltrarPadrao('');
+                }
+            } else {
+
+                var msg = "Atenção nenhum registro selecionado pode ser removido!\n\n" + possivelMensagem;
+                sisSetCrashAlert('Erro', msg, ret.tipo_erro);
+            }
         }
 
     }).fail(function ()
@@ -410,7 +383,13 @@ function sisVisualizarPadrao()
     } else {
 
         $.ajax({type: "get", url: "?acao=visualizar", data: sisSerialize("#formGrid"), dataType: "json"}).done(function (ret) {
-            $("#sisContainerManu").html(ret.retorno);
+
+            if (ret.retorno == 'sessaoexpirada') {
+                sisNovaSessao();
+            } else {
+
+                $("#sisContainerManu").html(ret.retorno);
+            }
         }).fail(function ()
         {
             sisMsgFailPadrao();
@@ -438,8 +417,7 @@ function sisUploadMultiplo(id) {
                 }
             }
         }
-    }
-    else {
+    } else {
         if (obj.value === "") {
             html = "Nenhum arquivo selecionado!";
         } else {
@@ -460,8 +438,7 @@ function sisAddMasterDetail(container) {
 
     if (conf.addMax !== 0 && atual >= conf.addMax) {
         sisSetAlert('', 'Não foi possível adicionar, pois este grupo permite no máximo ' + conf.addMax + ' itens');
-    }
-    else {
+    } else {
         var novoCoringa = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
 
         var modeloHtml = converteModelo($("#sisMasterDetailModeloHtml" + container).html(), String(conf.coringa), novoCoringa);
@@ -487,8 +464,7 @@ function sisRemoverMasterDetail(container, id) {
 
     if (atual <= conf.addMin) {
         sisSetAlert('', 'Não foi possível remover, pois este grupo requer no mínimo ' + conf.addMin + ' itens');
-    }
-    else {
+    } else {
         $("#sisMasterDetailIten" + container + id).remove();
     }
 }
@@ -538,12 +514,34 @@ function sisSetAlert(a, b, c)
 
 }
 
-function sisSetCrashAlert(a, b)
+function sisSetCrashAlert(a, b, cod)
 {
-    $('#modal-titulo').html(a);
-    $('#modal-descricao').html(b);
-    $('#modal-msg').modal();
+    $('#modal-msg').removeClass('modal-danger');
+    $('#modal-msg').removeClass('modal-warning');
 
+    if (b == 'sessaoexpirada') {
+        sisNovaSessao();
+    } else {
+        if (cod == 2) {
+
+            if (a == 'Erro') {
+                a = 'Validação';
+            }
+
+            $('#modal-msg').addClass('modal-warning');
+        } else {
+            $('#modal-msg').addClass('modal-danger');
+        }
+
+        $('#modal-titulo').html(a);
+        $('#modal-descricao').html(b);
+        $('#modal-msg').modal();
+    }
+
+}
+
+function sisNovaSessao() {    
+    $('#sis-modal-login').modal();
 }
 
 /* FILTROS */
@@ -579,14 +577,12 @@ function sisChangeFil(origem)
         $('#sisBadgeN').removeClass('tachado');
         $('#sisBadgeE').addClass('tachado');
         $('#sisBadgeO').addClass('tachado');
-    }
-    else if (origem === 'e')
+    } else if (origem === 'e')
     {
         $('#sisBadgeN').addClass('tachado');
         $('#sisBadgeE').removeClass('tachado');
         $('#sisBadgeO').addClass('tachado');
-    }
-    else if (origem === 'o')
+    } else if (origem === 'o')
     {
         $('#sisBadgeN').addClass('tachado');
         $('#sisBadgeE').addClass('tachado');
@@ -595,27 +591,24 @@ function sisChangeFil(origem)
 
     if (contN > 0) {
         $('#sisBadgeN').html(contN).removeClass('hidden');
-    }
-    else {
+    } else {
         $('#sisBadgeN').html(contN).addClass('hidden');
     }
 
     if (contE > 0) {
         $('#sisBadgeE').html(contE).removeClass('hidden');
-    }
-    else {
+    } else {
         $('#sisBadgeE').html(contE).addClass('hidden');
     }
 
     if (contO > 0) {
         $('#sisBadgeO').html(contO).removeClass('hidden');
-    }
-    else {
+    } else {
         $('#sisBadgeO').html(contO).addClass('hidden');
     }
 
     sisFiltrarPadrao(parametrosFiltro(origem));
-    
+
     $('#sisBuscaGridA').tagsinput('removeAll');
     $('#sisBuscaGridB').tagsinput('removeAll');
 }
@@ -644,7 +637,7 @@ function parametrosFiltro(origem)
 
     $.each(campos, function (pos, campo) {
 
-        if(campo.value !== '' && $('#' + campo.name).attr('type') != 'hidden'){            
+        if (campo.value !== '' && $('#' + campo.name).attr('type') != 'hidden') {
             var nome = $('#' + campo.name).attr('name');
             var valor = $('#' + campo.name).val();
             var p = nome.substr(0, 1);
@@ -656,14 +649,14 @@ function parametrosFiltro(origem)
                         name: campo.name,
                         value: campo.value
                     });
-                    
+
                     par.push({
-                        name: 'sho'+campo.name,
+                        name: 'sho' + campo.name,
                         value: $('#sho' + campo.name).val()
                     });
-                    
+
                     par.push({
-                        name: 'sha'+campo.name,
+                        name: 'sha' + campo.name,
                         value: $('#sha' + campo.name).val()
                     });
                 }
@@ -691,9 +684,8 @@ function sisCarregaDependencia(ur, fo, co, id, me, cl, nc, fc)
 
         if (ret.sucesso === 'true') {
             $("#" + fo + " #" + co + "").html(ret.retorno);
-        }
-        else {
-            sisSetCrashAlert('Erro', ret.retorno);
+        } else {
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
     }).fail(function ()
     {
@@ -730,14 +722,14 @@ function chChosen(a, b, c)
 
 function sisImprimir()
 {
-    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&'+ $('#sisQueryString').val() : '');
-    window.open("?acao=imprimir&sisModoImpressao=1"+ queryString, 'imprimir');
+    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
+    window.open("?acao=imprimir&sisModoImpressao=1" + queryString, 'imprimir');
 }
 
 function sisSalvarCSV()
 {
-    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&'+ $('#sisQueryString').val() : '');
-    window.open("?acao=salvarCSV&sisModoImpressao=1"+ queryString, 'imprimircsv');
+    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
+    window.open("?acao=salvarCSV&sisModoImpressao=1" + queryString, 'imprimircsv');
 }
 
 function sisSetOrientacaoPDF()
@@ -747,25 +739,25 @@ function sisSetOrientacaoPDF()
 
 function sisSalvarPDF(orientacao) {
 
-    if(typeof orientacao === 'undefined') {
+    if (typeof orientacao === 'undefined') {
         sisSetOrientacaoPDF();
     } else {
-        
+
         $('#closePDF').click();
-        
-        var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&'+ $('#sisQueryString').val() : '');
+
+        var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
 
         var ifr = $('<iframe/>', {
             id: 'iframeDownload',
             name: 'iframeDownload',
-            src: '?acao=salvarPDF&sisModoImpressao=1&orientacao='+ orientacao + queryString,
+            src: '?acao=salvarPDF&sisModoImpressao=1&orientacao=' + orientacao + queryString,
             style: 'display:none',
             load: function () {
 
                 var conteudo = $('#iframeDownload').contents().find('body').html();
-                
+
                 try {
-                    if(conteudo.length > 0){
+                    if (conteudo.length > 0) {
                         var ret = Array();
                         ret['sucesso'] = 'false';
                     } else {
@@ -781,12 +773,10 @@ function sisSalvarPDF(orientacao) {
                 if (ret['sucesso'] === 'false')
                 {
                     sisSetAlert('false', ret['retorno']);
-                }
-                else if(ret['sucesso'] === 'true')
+                } else if (ret['sucesso'] === 'true')
                 {
                     sisSetAlert('true', ret['retorno']);
-                }
-                else
+                } else
                 {
                     sisSetAlert('false', ret['retorno']);
                 }
@@ -813,7 +803,7 @@ function getPDF(url) {
             var conteudo = $('#iframeDownload').contents().find('body').html();
 
             try {
-                if(conteudo.length > 0){
+                if (conteudo.length > 0) {
                     var ret = Array();
                     ret['sucesso'] = 'false';
                 } else {
@@ -829,12 +819,10 @@ function getPDF(url) {
             if (ret['sucesso'] === 'false')
             {
                 sisSetAlert('false', ret['retorno']);
-            }
-            else if(ret['sucesso'] === 'true')
+            } else if (ret['sucesso'] === 'true')
             {
                 sisSetAlert('true', ret['retorno']);
-            }
-            else
+            } else
             {
                 sisSetAlert('false', ret['retorno']);
             }
@@ -881,106 +869,6 @@ function validaSenhaUser(campo, url)
     return true;
 }
 
-function sisAddNotificacao(notificacoes) {
-
-    var notificationsNumber = $("#notificationsNumber");
-    var atual = parseInt(notificationsNumber.html());
-    var n = null;
-
-    if (isNaN(atual)) {
-        n = notificacoes;
-    } else {
-        n = (notificacoes + atual);
-    }
-
-    notificacoesNaoLidas = n;
-    notificationsNumber.html(n);
-
-    var obj = $('title');
-    var title = obj.html();
-
-    if (title.search(/\([0-9]{1,}\)/) !== -1) {
-        obj.html(title.replace(/\([0-9]{1,}\)/, "(" + n + ")"));
-    } else {
-        obj.prepend("(" + n + ") ");
-    }
-
-    return true;
-}
-
-function limpaNotificacoes() {
-
-    var obj = $('title');
-    var title = obj.html();
-
-    if (title.search(/\s\([0-9]{1,}\)/) !== -1) {
-        obj.html(title.replace(/\s\([0-9]{1,}\)/, ""));
-    }
-
-    $("#notificationsNumber").html('');
-
-    return true;
-}
-
-function sisAtualizaNotificacoes() {
-
-    var notificationDiv = $("#main-navbar-notifications");
-
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {'target': 'notificationBar'}, dataType: "json", beforeSend: function () {
-
-            notificationDiv.html("");
-
-        }}).done(function (data) {
-        if (data.sucesso === "true") {
-            limpaNotificacoes();
-            notificationDiv.html(data.retorno);
-        } else {
-            sisSetAlert('false', "Falha ao carregar suas notificações.");
-        }
-    });
-}
-
-function acessaNotificacao(id, url) {
-
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'limpaNotificacao', id: id}, dataType: "json"}).done(function (data) {
-        document.location.href = url;
-    });
-
-}
-
-function getNotificacoesAlternativo() {
-
-    console.log("Using standard xhr polling to request notifications.");
-
-    getNotificacoesAjax();
-
-    setInterval(function () {
-        getNotificacoesAjax();
-    }, 60000);
-
-}
-
-function getNotificacoesAjax() {
-
-    $.ajax({type: "post", url: "?acao=getNotificacoes", data: {acao: 'getNumeroNotificacoes'}, dataType: "json"}).done(function (ret) {
-
-        if (ret.sucesso === 'true') {
-
-            var notificar = array_diff(notificadas, ret.retorno).length;
-
-            if (notificar > 0) {
-
-                notificadas = (ret.retorno);
-                sisAddNotificacao(notificar);
-            }
-        }
-
-    }).fail(function (event) {
-        console.log(event);
-    });
-
-
-}
 function array_diff(array1, array2) {
 
     var diff = [];
@@ -994,19 +882,18 @@ function array_diff(array1, array2) {
 /* CONFIGURAÇÃO DE COLUNAS DA GRID */
 function sisSalvarColunasDinamicas(urlBase, moduloCod)
 {
-    var config = {type: "get", url: urlBase+'Ext/Remoto/colunas_grid/?moduloCod='+moduloCod, dataType: "json", 
-        data: $("#formGrid").serialize() };    
+    var config = {type: "get", url: urlBase + 'Ext/Remoto/colunas_grid/?moduloCod=' + moduloCod, dataType: "json",
+        data: $("#formGrid").serialize()};
 
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
 
-            sisSetAlert('true', 'Configuração de colunas da grid aletarda com sucesso!');         
+            sisSetAlert('true', 'Configuração de colunas da grid aletarda com sucesso!');
 
             sisFiltrarPadrao('');
-        }
-        else {
-            sisSetCrashAlert('Erro', ret.retorno);
+        } else {
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
     }).fail(function ()
     {
@@ -1020,20 +907,19 @@ function sisSalvarColunasDinamicas(urlBase, moduloCod)
 function sisAlterarLinhas(urlBase, moduloCod)
 {
     var linhas = $("#sisAlteraLinhas").val();
-    
-    var config = {type: "get", url: urlBase+'Ext/Remoto/linhas_grid/', dataType: "json", 
-        data: {'qLinhas':linhas, 'moduloCod':moduloCod}};    
+
+    var config = {type: "get", url: urlBase + 'Ext/Remoto/linhas_grid/', dataType: "json",
+        data: {'qLinhas': linhas, 'moduloCod': moduloCod}};
 
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
 
-            sisSetAlert('true', 'Número de linhas da grid aletardo com sucesso!');         
+            sisSetAlert('true', 'Número de linhas da grid aletardo com sucesso!');
 
             sisFiltrarPadrao('');
-        }
-        else {
-            sisSetCrashAlert('Erro', ret.retorno);
+        } else {
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
     }).fail(function ()
     {
@@ -1049,65 +935,63 @@ function sisSalvarFiltro(urlBase, moduloCod)
     var titulo = $("#sisSalvarFiltroTitulo").val();
     var colunas = $("#sisGridListaColunas").val();
     var queryString = $("#sisQueryString").val();
-    
-    if(nome === ''){
+
+    if (nome === '') {
         alert('O campo "nome do filtro" deve ser informado corretamente!"');
         return;
     }
-    
-    var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?moduloCod='+moduloCod, dataType: "json", 
-        data: {'nome':nome,'titulo':titulo,'colunas':colunas,'qs':queryString} };    
+
+    var config = {type: "get", url: urlBase + 'Ext/Remoto/filtro/?moduloCod=' + moduloCod, dataType: "json",
+        data: {'nome': nome, 'titulo': titulo, 'colunas': colunas, 'qs': queryString}};
 
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
 
-            sisSetAlert('true', 'Filtro salvo com sucesso!'); 
-            
-            $("#sisFiltroSalvo").attr('carregado','N');
+            sisSetAlert('true', 'Filtro salvo com sucesso!');
+
+            $("#sisFiltroSalvo").attr('carregado', 'N');
             sisCarregaFiltrosSalvos(urlBase, moduloCod);
-            
+
             $("#sisSalvarFiltroNome").val('');
             $("#sisSalvarFiltroTitulo").val('');
+        } else {
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
-        else {
-            sisSetCrashAlert('Erro', ret.retorno);
-        }
-        }).fail(function ()
-        {
-            sisMsgFailPadrao();
-        });
-    
-    $('#sisModalSalvarFiltro').modal('hide'); 
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
+
+    $('#sisModalSalvarFiltro').modal('hide');
 }
 
 /* CONFIGURAÇÃO PARA SALVAMENTO DO FILTRO DA GRID */
 
 
 /* FILTROS SALVOS */
-function sisCarregaFiltrosSalvos(urlBase, moduloCod){
-    
+function sisCarregaFiltrosSalvos(urlBase, moduloCod) {
+
     var carregado = $("#sisFiltroSalvo").attr('carregado');
-    
-    if(carregado === 'N'){
-        
-        var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?acao=carregar&moduloCod='+moduloCod, dataType: "json" };    
 
-    $.ajax(config).done(function (ret) {
+    if (carregado === 'N') {
 
-        if (ret.sucesso === 'true') {
+        var config = {type: "get", url: urlBase + 'Ext/Remoto/filtro/?acao=carregar&moduloCod=' + moduloCod, dataType: "json"};
 
-           $("#bs-tabdrop-tab3").html(ret.retorno);
-           $("#sisFiltroSalvo").attr('carregado','S');
-        }
-        else {
-            sisSetCrashAlert('Erro', ret.retorno);
-        }
-    }).fail(function ()
-    {
-        sisMsgFailPadrao();
-    });
-        
+        $.ajax(config).done(function (ret) {
+
+            if (ret.sucesso === 'true') {
+
+                $("#bs-tabdrop-tab3").html(ret.retorno);
+                $("#sisFiltroSalvo").attr('carregado', 'S');
+            } else {
+                sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
+            }
+        }).fail(function ()
+        {
+            sisMsgFailPadrao();
+        });
+
     }
 }
 
@@ -1115,81 +999,28 @@ function sisCarregaFiltrosSalvos(urlBase, moduloCod){
 
 /* REMOVER FILTROS SALVOS */
 
-function sisRemoverFiltroSalvo(usuarioFiltroCod, urlBase, moduloCod){
+function sisRemoverFiltroSalvo(usuarioFiltroCod, urlBase, moduloCod) {
 
-    if(!confirm('Tem certeza que desja remover este filtro?')){
+    if (!confirm('Tem certeza que desja remover este filtro?')) {
         return;
     }
-    
-    var config = {type: "get", url: urlBase+'Ext/Remoto/filtro/?acao=remover', dataType: "json", data:{'cod':usuarioFiltroCod}};    
+
+    var config = {type: "get", url: urlBase + 'Ext/Remoto/filtro/?acao=remover', dataType: "json", data: {'cod': usuarioFiltroCod}};
 
     $.ajax(config).done(function (ret) {
 
         if (ret.sucesso === 'true') {
 
             sisSetAlert('true', 'Filtro removido com sucesso!');
-            $("#sisFiltroSalvo").attr('carregado','N');
+            $("#sisFiltroSalvo").attr('carregado', 'N');
             sisCarregaFiltrosSalvos(urlBase, moduloCod);
-        }
-        else {
-            sisSetCrashAlert('Erro', ret.retorno);
+        } else {
+            sisSetCrashAlert('Erro', ret.retorno, ret.tipo_erro);
         }
     }).fail(function ()
     {
         sisMsgFailPadrao();
-    });        
+    });
 }
 
 /* REMOVER FILTROS SALVOS */
-
-/* RELATORIOS INTERNOS */
-function sisRelatorioInterno(acao, cod, temView, acaoView)
-{
-    if(!cod || !acao){
-        
-        alert('Dados insuficientes para a geração do relatório!');
-        
-        return;
-    }
-    
-    if(temView && acaoView){
-
-        $.ajax({
-            type: "get", 
-            url: '?acao='+acao, 
-            data: {
-                'c': cod
-            }, 
-            dataType: "json"
-        }).done(function (data) {
-             
-            if(data.sucesso === 'true'){
-                
-                $('#sisRelICod').val(cod);
-                $('#sisRelIAcao').val(acaoView);
-
-                $('#sisRelatorioInternoConteudo').html(data.retorno);
-                
-                $('#sisRelatorioInterno').modal('show');
-            }
-            else{
-                alert('Houve um erro e o relatório não pode ser carregado.\n'+data.retorno);
-            }
-        
-        });
-    }
-    else{        
-        
-        window.open('?acao='+acao, 'sisRelInterno');
-    }
-}
-
-function sisSubmitRelatorioInterno()
-{
-    var sisRelICod = $('#sisRelICod').val();
-    var sisRelIAcao = $('#sisRelIAcao').val();    
-    
-    window.open('?acao='+sisRelIAcao+'&cod='+sisRelICod+'&'+$.param($("#sisRelatorioInternoForm").serializeArray()), 'sisRelInterno');
-    
-    $('#sisRelatorioInterno').modal('hide');
-}
