@@ -540,8 +540,43 @@ function sisSetCrashAlert(a, b, cod)
 
 }
 
-function sisNovaSessao() {    
-    $('#sis-modal-login').modal();
+function sisNovaSessao() {
+    $('#sis-login-alert').hide();
+    $('#sis-modal-login').modal('show');
+}
+
+function sis_login_interno(urlBase, oh) {
+
+    $('#sis-login-alert').html('');
+
+    var user = $('#sis-login-nome').val();
+    var pass = $('#sis-login-senha').val();
+
+    if (user == '') {
+        alert('Informe o usuário corretamente!');
+        return;
+    }
+
+    if (pass == '') {
+        alert('Informe a senha corretamente!');
+        return;
+    }
+
+    $.ajax({type: "post", url: urlBase + "Accounts/Login/?acao=loginSistema", data: {'u': user, 'p': pass, 'oh': oh}, dataType: "json"}).done(function (ret) {
+
+        if (ret.sucesso === 'true') {
+            $('#sis-modal-login').modal('hide');
+            $('#sis-login-nome').val('');
+            $('#sis-login-senha').val('');
+
+            sisSetAlert('true', 'Login efetuado com sucesso, repita a sua última operação!');
+        } else {
+            $('#sis-login-alert').html('Oops! Dados incorretos...').show();
+        }
+    }).fail(function ()
+    {
+        sisMsgFailPadrao();
+    });
 }
 
 /* FILTROS */
