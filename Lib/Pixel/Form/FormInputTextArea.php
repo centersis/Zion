@@ -41,7 +41,7 @@ class FormInputTextArea extends FormInputTextAreaZion
                 case 'PADRAO': case 'COMPLETO':
                     return null;
 
-                case 'BASICA':
+                case 'BASICA': //'base64image', '-', 
 
                     return "{
                     toolbar: [
@@ -53,7 +53,7 @@ class FormInputTextArea extends FormInputTextAreaZion
                     '/',
                     {'name':'styles','groups':['styles']},
                     { name: 'basicstyles', items: 
-                        ['base64image', '-', 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],
+                        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],
                     },
                         ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
                         ['NumberedList', 'BulletedList'], 
