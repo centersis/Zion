@@ -103,7 +103,7 @@ class Controller
         }
 
         if (empty($selecionados) or ! \is_array($selecionados)) {
-            throw new ErrorException("Oops! Nenhum registro selecionado!");
+            throw new ValidationException("Oops! Nenhum registro selecionado!");
         }
 
         return $selecionados;
