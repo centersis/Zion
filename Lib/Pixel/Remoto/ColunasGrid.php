@@ -3,7 +3,7 @@
 namespace Pixel\Remoto;
 
 use Zion\Banco\Conexao;
-use Pixel\Exception\ErrorException;
+use Zion\Exception\ErrorException;
 
 class ColunasGrid
 {
