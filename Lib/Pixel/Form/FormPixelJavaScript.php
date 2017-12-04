@@ -197,7 +197,7 @@ class FormPixelJavaScript
         }
 
         if ($config->getAcao() == 'float') {
-            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:false, thousands:".", decimal:",", affixesStay: false});';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").maskMoney({prefix:"' . $config->getPrefixo() . '", allowZero:"' . $config->getZeroInicial() . '", thousands:".", decimal:",", affixesStay: false});';
         }
 
         if ($config->getAcao() == 'date') {

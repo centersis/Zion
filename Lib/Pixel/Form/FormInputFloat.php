@@ -17,14 +17,16 @@ class FormInputFloat extends FormInputFloatZion
     private $tipoFiltro;
     private $hashAjuda;
     private $formSetPixel;
-
+    private $zeroInicial;
+               
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
         parent::__construct($acao, $nome, $identifica, $obrigatorio);
 
         $this->formSetPixel = new FormSetPixel();
         $this->tipoFiltro = 'ValorVariavel';
-        $this->setIconFA('fa-calculator');
+        $this->setIconFA('fa-calculator');        
+        $this->setZeroInicial('true');
     }
 
     public function setLargura($largura)
@@ -159,6 +161,17 @@ class FormInputFloat extends FormInputFloatZion
     public function setFiltroPadrao($filtroPadrao)
     {
         parent::setFiltroPadrao($filtroPadrao);
+        return $this;
+    }    
+    
+    public function getZeroInicial()
+    {
+        return $this->zeroInicial;
+    }
+
+    public function setZeroInicial($valor)
+    {
+        $this->zeroInicial = $valor;
         return $this;
     }
 
