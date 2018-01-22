@@ -249,6 +249,12 @@ class CrudUtil
         }
     }
 
+    /**
+     * 
+     * @param type $filtroDinamico
+     * @param Doctrine\DBAL\Query\QueryBuilder $queryBuilder
+     * @param type $modoBusca
+     */
     private function sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca)
     {
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
@@ -260,7 +266,7 @@ class CrudUtil
                 foreach ($filtroDinamico as $nome => $alias) {
                     $alias = $alias != '' ? $alias . '.' : '';
                     foreach ($termos as $termo) {
-                        $queryBuilder->orWhere("{$alias}{$nome}", 'LIKE', "%{$termo}%");
+                        $queryBuilder->orWhere("{$alias}{$nome}", 'LIKE', "%{$queryBuilder->expr()->literal($termo)}%");
                     }
                 }
             } else {
