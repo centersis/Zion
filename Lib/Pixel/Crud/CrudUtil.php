@@ -188,6 +188,8 @@ class CrudUtil
 
         if ($buscaGeral) {
 
+            $qb = $this->con->qb();
+            
             $sql = ' (';
 
             $campos = \explode(',', $buscaGeral);
@@ -205,7 +207,7 @@ class CrudUtil
                 foreach ($campos as $valorCampo) {
                     $cont2++;
 
-                    $sql.= $alias . $coluna . " LIKE '%" . $valorCampo . "%'";
+                    $sql.= $alias . $coluna . " LIKE '%" . $qb->expr()->literal($valorCampo) . "%'";
 
                     $sql.= $totalCampos == $cont2 ? '' : ' OR ';
                 }
