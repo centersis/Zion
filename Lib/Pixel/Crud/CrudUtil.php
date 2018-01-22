@@ -207,7 +207,7 @@ class CrudUtil
                 foreach ($campos as $valorCampo) {
                     $cont2++;
 
-                    $sql.= $alias . $coluna . " LIKE '%" . $qb->expr()->literal($valorCampo) . "%'";
+                    $sql.= $alias . $coluna . " LIKE " . $qb->expr()->literal('%'.$valorCampo.'%') ;
 
                     $sql.= $totalCampos == $cont2 ? '' : ' OR ';
                 }
@@ -268,7 +268,7 @@ class CrudUtil
                 foreach ($filtroDinamico as $nome => $alias) {
                     $alias = $alias != '' ? $alias . '.' : '';
                     foreach ($termos as $termo) {
-                        $queryBuilder->orWhere("{$alias}{$nome}", 'LIKE', "%{$queryBuilder->expr()->literal($termo)}%");
+                        $queryBuilder->orWhere("{$alias}{$nome}", 'LIKE', "{$queryBuilder->expr()->literal('%'.$termo.'%')}");
                     }
                 }
             } else {
