@@ -292,7 +292,16 @@ class Form
         switch (\strtolower($tipoBase)) {
             case 'data' : case 'date' :
 
-                return empty($valor) ? NULL : $valor;
+                if (empty($valor)) {
+                    return NULL;
+                } else {
+                    
+                    if (is_numeric(substr($valor, 0, 4))) {
+                        return $valor;
+                    }
+
+                    return $tratar->data()->converteData($valor);
+                }
 
             case 'datahora' : case 'datetime' :
 
