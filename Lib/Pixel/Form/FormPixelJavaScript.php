@@ -201,11 +201,11 @@ class FormPixelJavaScript
         }
 
         if ($config->getAcao() == 'date') {
-            $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999").datepicker({ dateFormat: "dd/mm/yy" }); ';
+            $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999").datepicker({ dateFormat: "dd/mm/yyyy" }); ';
         }
 
         if ($config->getAcao() == 'dateTime') {
-            $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999 99:99").datetimepicker({ dateFormat: "dd/mm/yy" }); ';
+            $this->extra[] = ' $("#' . $formNome . ' #' . $config->getId() . '").mask("99/99/9999 99:99").datetimepicker({ dateFormat: "dd/mm/yyyy" }); ';
         }
 
         if ($config->getAcao() === 'chosen' or $config->getAcao() === 'escolha') {
