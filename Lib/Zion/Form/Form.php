@@ -3,6 +3,7 @@
 namespace Zion\Form;
 
 use Zion\Exception\ErrorException;
+use Zion\Exception\ValidationException;
 use Zion\Tratamento\Tratamento;
 
 class Form
@@ -427,6 +428,10 @@ class Form
     public function validar($nome = null)
     {
         $valida = new FormValida();
+
+        if ($this->formConfig->getMethod() == 'POST' and !$_POST) {
+            throw new ValidationException("O tamanho dos arquivos anexados ultrapassam o limite aceito pelo servidor, o tamanho máximo de todos os arquivos anexados não deve ultrapassar 10 Megabytes! Tente reduzir o tamanho dos arquivos e repita o procedimento.");
+        }
 
         $obj = $nome ? array($this->objetos[$nome]) : $this->objetos;
 
