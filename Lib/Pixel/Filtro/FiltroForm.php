@@ -20,7 +20,7 @@ class FiltroForm
         $this->idOriginal = [];
     }
 
-    public function montaFiltro($objForm = null)
+    public function montaFiltro($objForm = null, $container = '')
     {
         if (!is_object($objForm)) {
             return ['normal' => null,
@@ -51,7 +51,8 @@ class FiltroForm
 
         return ['normal' => $this->getFiltroNormal($objForm),
             'operacaoE' => $this->getFiltroDuplo($objForm, 'e', $FiltrosE),
-            'moduloCod' => $moduloCod
+            'moduloCod' => $moduloCod,
+            'container' => $container
         ];
     }
 
