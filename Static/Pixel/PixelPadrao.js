@@ -1059,3 +1059,8 @@ function sisRemoverFiltroSalvo(usuarioFiltroCod, urlBase, moduloCod) {
 }
 
 /* REMOVER FILTROS SALVOS */
+
+function sisPopUp(url, nome)
+{
+    window.open(url, nome, "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=no,width=900,height=450");
+}
