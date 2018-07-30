@@ -24,7 +24,7 @@ class Log extends LogSql
             'id' => $logId,
             'acao' => $logAcao,
             'tab' => $logTab
-            ], $this->getSqlCompleta($logSql), ($logHash ? : \bin2hex(\openssl_random_pseudo_bytes(10))));
+            ], $this->getSqlCompleta($logSql), ($logHash ?: \bin2hex(\openssl_random_pseudo_bytes(10))));
     }
 
     public function registrarAcaoLogado($acao, $descricao)
@@ -76,7 +76,7 @@ class Log extends LogSql
 
     private function getActionParams()
     {
-        $modulox = defined('MODULO') ? \MODULO : null;        
+        $modulox = defined('MODULO') ? \MODULO : null;
         $modulox = defined('MODULO_SITE') ? MODULO_SITE : MODULO;
 
         $modulo = $this->getDadosModulo($modulox);
@@ -119,6 +119,14 @@ class Log extends LogSql
             $param = \preg_replace('/\s/', '', \explode('=', $v)[0]);
             $matches = [];
             \preg_match('/' . $param . '\s=\s[0-9]{1,}/', $sqlCompleta, $matches);
+
+            if (!isset($matches[0])) {
+                continue;
+            }
+
+            if (strpos($matches[0], '=') === false) {
+                continue;
+            }
 
             $valParam = (int) \explode('=', $matches[0])[1];
 
