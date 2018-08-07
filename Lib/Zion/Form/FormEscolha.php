@@ -33,6 +33,7 @@ class FormEscolha extends FormBasico implements FilterableInput
     private $naoSelecionaveis;
     private $categoriaFiltro;
     private $filtroPadrao;
+    private $labelDoValor;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -448,5 +449,17 @@ class FormEscolha extends FormBasico implements FilterableInput
     public function getFiltroPadrao()
     {
         return $this->filtroPadrao;
+    }
+    
+    public function setLabelValor($labelDoValor)
+    {
+        $this->labelDoValor = $labelDoValor;
+
+        return $this;
+    }
+
+    public function getLabelValor()
+    {
+        return $this->labelDoValor;
     }
 }
