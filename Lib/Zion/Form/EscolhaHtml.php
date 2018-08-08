@@ -103,10 +103,12 @@ class EscolhaHtml
             }
         }
 
-        if(isset($array[$config->getValor()])){
+        $valor = $config->getValor();
+
+        if (!is_array($valor) and isset($array[$valor])) {
             $config->setLabelValor($array[$config->getValor()]);
         }
-        
+
         return $array;
     }
 
