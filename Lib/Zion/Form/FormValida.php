@@ -210,7 +210,7 @@ class FormValida
                 case 'selecaoMaxima':
                     $val = $formInput->getSelecaoMaxima();
                     if (!empty($val) and ( \is_array($userValue) or $obrigatorio === true)) {
-                        if (\count($userValue) > $val) {
+                        if (\count(\is_array($userValue) ? $userValue : []) > $val) {
                             throw new ValidationException($identifica . ": Você deve selecionar no máximo " . $val . " opções!");
                         }
                     }
