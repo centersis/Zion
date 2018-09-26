@@ -642,7 +642,7 @@ function sisChangeFil(origem, tab)
         $('#sisBadgeO').html(contO).addClass('hidden');
     }
 
-    sisFiltrarPadrao(parametrosFiltro(origem), tab);
+    sisFiltrarPadrao(parametrosFiltro(origem, tab));
 
     $('#sisBuscaGridA').tagsinput('removeAll');
     $('#sisBuscaGridB').tagsinput('removeAll');
