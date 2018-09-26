@@ -580,7 +580,7 @@ function sis_login_interno(urlBase, oh) {
 }
 
 /* FILTROS */
-function sisChangeFil(origem)
+function sisChangeFil(origem, tab)
 {
     var campos = $('#sisFormFiltro').serializeArray();
     var contN = 0;
@@ -642,7 +642,7 @@ function sisChangeFil(origem)
         $('#sisBadgeO').html(contO).addClass('hidden');
     }
 
-    sisFiltrarPadrao(parametrosFiltro(origem));
+    sisFiltrarPadrao(parametrosFiltro(origem), tab);
 
     $('#sisBuscaGridA').tagsinput('removeAll');
     $('#sisBuscaGridB').tagsinput('removeAll');
@@ -659,7 +659,7 @@ function sisOpFiltro(nomeCampo, tipo, origem)
     }
 }
 
-function parametrosFiltro(origem)
+function parametrosFiltro(origem, tab)
 {
     var campos = $('#sisFormFiltro').serializeArray();
 
@@ -698,6 +698,13 @@ function parametrosFiltro(origem)
             }
         }
     });
+
+    if (tab) {
+        par.push({
+            name: 'tab',
+            value: tab
+        });
+    }
 
     return par;
 }
