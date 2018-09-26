@@ -1071,3 +1071,7 @@ function sisPopUp(url, nome)
 {
     window.open(url, nome, "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=no,width=900,height=450");
 }
+
+/* REMOVER FILTROS SALVOS */
+
+/* FINAL DO ARQUIVO */
