@@ -42,7 +42,7 @@ function showHiddenFilters() {
 $(document).ready(function () {
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemRemoved', function (event) {
-        sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
+        sisFiltrarPadrao('sisBuscaGeral=' + $(this).val() + '&tab=' + $('#sis_tab').val());
 
         if (!$(".showHidden").hasClass('hidden')) {
             $(".showHidden").addClass("hidden");
@@ -50,7 +50,7 @@ $(document).ready(function () {
     });
 
     $('#sisBuscaGridA, #sisBuscaGridB').on('itemAdded', function (event) {
-        sisFiltrarPadrao('sisBuscaGeral=' + $(this).val());
+        sisFiltrarPadrao('sisBuscaGeral=' + $(this).val() + '&tab=' + $('#sis_tab').val());
 
         if (!$(".showHidden").hasClass('hidden')) {
             $(".showHidden").addClass("hidden");
