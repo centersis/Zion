@@ -38,6 +38,13 @@ class LogSql
 
     protected function salvarLogSql($actParams, $sqlCompleta, $logHash)
     {
+
+        if (isset($_SESSION['organogramaCod'])) {
+            $organogramaCod = $_SESSION['organogramaCod'];
+        } else {
+            $organogramaCod = 1;
+        }
+
         /* @var $qb \Doctrine\DBAL\Query\QueryBuilder */
         $qb = $this->con->qb();
 
@@ -55,7 +62,7 @@ class LogSql
             ])
             ->setParameters(['usuarioCod' => $actParams['usuarioCod'],
                 'moduloCod' => $actParams['moduloCod'],
-                'organogramaCod' => $_SESSION['organogramaCod'],
+                'organogramaCod' => $organogramaCod,
                 'logHash' => $logHash,
                 'logId' => $actParams['id'],
                 'logAcao' => $actParams['acao'],
