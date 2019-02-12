@@ -130,13 +130,15 @@ class FormAtributos
 
     protected function prepareTextArea($totalAtributos, $config)
     {
+        $valor = ($config->getValor() === NULL or $config->getValor() === '') ? $config->getValorPadrao().'' : '%s';
+        
         $buffer = '';
 
         if ($config->getContainer()) {
             $buffer .= '<div id="' . $config->getContainer() . '">';
         }
 
-        $buffer .= "<textarea " . \str_repeat('%s', $totalAtributos - 1) . ">%s</textarea>";
+        $buffer .= "<textarea " . \str_repeat('%s', $totalAtributos - 1) . ">".$valor."</textarea>";
 
         if ($config->getContainer()) {
             $buffer .= '</div>';
