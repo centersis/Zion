@@ -26,12 +26,15 @@ class FormUpload extends FormUploadZion
     private $hashAjuda;
     private $formSetPixel;
     private $organogramaCod;
+    private $crop;
 
     public function __construct($acao, $nome, $identifica, $tratarComo)
     {
         parent::__construct($acao, $nome, $identifica, $tratarComo);
 
         $this->formSetPixel = new FormSetPixel();
+
+        $this->crop = false;
 
         $this->setIconFA('fa-file');
     }
@@ -290,6 +293,18 @@ class FormUpload extends FormUploadZion
     public function setOrganogramaCod($organogramaCod)
     {
         $this->organogramaCod = $organogramaCod;
+
+        return $this;
+    }
+    
+    public function getCrop()
+    {
+        return $this->crop;
+    }
+
+    public function setCrop($crop)
+    {
+        $this->crop = $crop;
 
         return $this;
     }

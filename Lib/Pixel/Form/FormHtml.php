@@ -349,13 +349,31 @@ class FormHtml extends FormHtmlZion
 
         $this->preConfig($config);
 
-        //$complemento = $config->getComplemento() . 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
-        $complemento = 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
-        $config->setComplemento($complemento);
+        $crop = $config->getCrop();
 
         $nomeTratado = \str_replace('[]', '', $config->getNome());
 
         $htmlAlterar = $arquivoUpload->visualizarArquivos($nomeTratado, $config->getCodigoReferencia(), $config->getModulo());
+
+        if ($crop) {
+
+            $js = new JavaScript();
+
+            $jsFinal = $js->entreJS('
+                $("#' . $config->getId() . '").change(function(e){$imagem=$("#sis_demo_crop_' . $config->getId() . '");$imagem.show();var a=new FileReader;a.onload=function(e){var a=new Image;a.onload=function(){var e=a.width,t=a.height;e>t?e>500&&(t*=500/e,e=500):t>500&&(e*=500/t,t=500);var r=document.createElement("canvas");r.width=e,r.height=t,r.getContext("2d").drawImage(this,0,0,e,t),this.src=r.toDataURL()},a.src=e.target.result,document.getElementById("sis_demo_crop_' . $config->getId() . '").src=e.target.result,$imagem.rcrop({minSize:[10,10],preserveAspectRatio:!1,preview:{display:!0,size:["100%",250],wrapper:""}}),$imagem.on("rcrop-changed",function(){var e=$(this).rcrop("getDataURL",250,250);$("#sis_base64_crop_' . $config->getId() . '").val(e)})},a.readAsDataURL(e.target.files[0]),$imagem.rcrop("destroy"),$("canvas").remove()});'
+            );
+
+            return '
+            <div align="center">                
+                ' . parent::montaUploadHtml($config) .
+                '<input type="hidden" id="sis_base64_crop_' . $config->getId() . '" value="" />' .
+                '<img id="sis_demo_crop_' . $config->getId() . '" height="300" src="" style="display:none" />' .
+                $htmlAlterar . '                
+            </div>' . $jsFinal;
+        }
+
+        $complemento = 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
+        $config->setComplemento($complemento);
 
         return \sprintf('%s<div id="sisUploadMultiploLista' . $config->getId() . '"></div>', parent::montaUploadHtml($config) . $htmlAlterar);
     }
