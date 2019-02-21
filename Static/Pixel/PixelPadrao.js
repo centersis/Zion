@@ -189,9 +189,24 @@ function sisDesmarcarTodos()
 /*BOTOES*/
 function botoesPadrao(nomeForm, acao)
 {
-    $("#" + nomeForm + " #sisSalvarEContinuar").prop('disabled', acao);
-    $("#" + nomeForm + " #sisSalvar").prop('disabled', acao);
-    $("#" + nomeForm + " #sisDescartar").prop('disabled', acao);
+    var bs = $("#" + nomeForm + " #sisSalvar");
+    var bd = $("#" + nomeForm + " #sisDescartar");
+
+    var txtBs = '';
+    
+    if(!bs.attr('aux')){
+        bs.attr('aux',bs.html());
+    }
+    
+    if(acao == true){
+        txtBs = '<i class="fa fa-spinner fa-spin"></i> aguarde processando...';
+    }
+    else{
+        txtBs = bs.attr('aux');
+    }
+
+    bs.prop('disabled', acao).html(txtBs);
+    bd.prop('disabled', acao);
 }
 
 /* CADASTRO */
