@@ -1,17 +1,15 @@
 {
   "name": "centersis/zion",
-  "description": "Módulos baseados em sappiens framework",
+  "description": "Framework da CenterSis",
   "authors": [
     {
-      "name": "Sappiens",
-      "email": "team@sappiens.com.br"
+      "name": "CenterSis",
+      "email": "centersis@centersis.com.br"
     }
   ],
   "require": {
     "twig/twig": "~1.22",
-    "doctrine/dbal": ">=2.3.5",
-    "nette/mail": "2.3.0",
-    "illuminate/database": "^5.3"
+    "doctrine/dbal": ">=2.3.5"
   },
   "autoload": {
     "psr-0": {
