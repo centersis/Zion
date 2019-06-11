@@ -320,16 +320,20 @@ class FormPixelJavaScript
             }
 
             $txtSize = 'minSize:[' . $cCrop['cropLarguraMinima'] . ',' . $cCrop['cropAlturaMinima'] . ']';
+            $txtArquivo = $cCrop['arquivoLargura'] . ',' . $cCrop['arquivoAltura'];
+            $txtPreview = $cCrop['previewLargura'] . '%",' . $cCrop['previewAltura'];
 
             if ($cCrop['cropLarguraFixa'] or $cCrop['cropAlturaFixa']) {
                 $txtSize = 'minSize:[' . $cCrop['cropLarguraFixa'] . ',' . $cCrop['cropAlturaFixa'] . '], maxSize:[' . $cCrop['cropLarguraFixa'] . ',' . $cCrop['cropAlturaFixa'] . ']';
+                $txtArquivo = $cCrop['cropLarguraFixa'] . ',' . $cCrop['cropAlturaFixa'];
+                $txtPreview = $cCrop['previewLargura'] . '%",' . $cCrop['cropAlturaFixa'];
             } elseif ($cCrop['cropLarguraMaxima'] or $cCrop['cropAlturaMaxima']) {
                 $txtSize = 'minSize:[' . $cCrop['cropLarguraMinima'] . ',' . $cCrop['cropAlturaMinima'] . '], maxSize:[' . $cCrop['cropLarguraMaxima'] . ',' . $cCrop['cropAlturaMaxima'] . ']';
             }
 
             //$this->extra[] = 'imagemQS=document.querySelector("#' . $formNome . ' #sis_demo_crop_' . $config->getId() . '"); if(imagemQS.naturalWidth < '.$cCrop['imagemLarguraMinima'].' || imagemQS.naturalHeight < '.$cCrop['imagemAlturaMinima'].') { sisSetAlert("false", "A imagem deve ter dimensões mínimas de '.$cCrop['imagemAlturaMinima'].' pixels de altura por '.$cCrop['imagemLarguraMinima'].' pixels de largura!"); };';
 
-            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").change(function(e){$imagem=$("#' . $formNome . ' #sis_demo_crop_' . $config->getId() . '");$imagem.show();var a=new FileReader;a.onload=function(e){var a=new Image;a.onload=function(){var e=a.width,t=a.height;e>t?e>500&&(t*=500/e,e=500):t>500&&(e*=500/t,t=500);var r=document.createElement("canvas");r.width=e,r.height=t,r.getContext("2d").drawImage(this,0,0,e,t),this.src=r.toDataURL()},a.src=e.target.result,$("#' . $formNome . ' #sis_demo_crop_' . $config->getId() . '").attr("src",e.target.result),$imagem.rcrop({' . $txtSize . ', preserveAspectRatio:!1,preview:{display:!0,size:["' . $cCrop['previewLargura'] . '",' . $cCrop['previewAltura'] . '],wrapper:""}}),$imagem.on("rcrop-changed rcrop-ready",function(){var e=$(this).rcrop("getDataURL",' . $cCrop['arquivoLargura'] . ',' . $cCrop['arquivoAltura'] . ');$("#' . $formNome . ' #sis_base64_crop_' . $config->getId() . '").val(e)})},a.readAsDataURL(e.target.files[0]),$imagem.rcrop("destroy"),$("canvas").remove()});';
+            $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").change(function(e){$imagem=$("#' . $formNome . ' #sis_demo_crop_' . $config->getId() . '");$imagem.show();var a=new FileReader;a.onload=function(e){var a=new Image;a.onload=function(){var e=a.width,t=a.height;e>t?e>500&&(t*=500/e,e=500):t>500&&(e*=500/t,t=500);var r=document.createElement("canvas");r.width=e,r.height=t,r.getContext("2d").drawImage(this,0,0,e,t),this.src=r.toDataURL()},a.src=e.target.result,$("#' . $formNome . ' #sis_demo_crop_' . $config->getId() . '").attr("src",e.target.result),$imagem.rcrop({' . $txtSize . ', preserveAspectRatio:!1,preview:{display:!0,size:["' . $txtPreview . '],wrapper:""}}),$imagem.on("rcrop-changed rcrop-ready",function(){var e=$(this).rcrop("getDataURL",' . $txtArquivo . ');$("#' . $formNome . ' #sis_base64_crop_' . $config->getId() . '").val(e)})},a.readAsDataURL(e.target.files[0]),$imagem.rcrop("destroy"),$("canvas").remove()});';
         }
     }
 
