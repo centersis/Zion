@@ -312,22 +312,18 @@ class FormPixelJavaScript
                 'arquivoAltura' => '100',
             ];
 
-            foreach ($defaultCrop as $chave => $valor) {
-
-                if (isset($configCrop[$chave]) and $configCrop[$chave] != '') {
-                    $cCrop[$chave] = $configCrop[$chave];
-                } else {
-                    $cCrop[$chave] = $valor;
-                }
-            }
-
             $cCrop = [];
+            
+            foreach ($defaultCrop as $chave => $valor) {
+                
+               $cCrop[$chave] = $configCrop[$chave] ?? $valor;
+            }            
 
             $txtSize = 'minSize:[' . $cCrop['cropLarguraMinima'] . ',' . $cCrop['cropAlturaMinima'] . ']';
 
-            if ($cCrop['cropLaguraFixa'] or $cCrop['cropAlturaFixa']) {
+            if ($cCrop['cropLarguraFixa'] or $cCrop['cropAlturaFixa']) {
                 $txtSize = 'minSize:[' . $cCrop['cropLarguraFixa'] . ',' . $cCrop['cropAlturaFixa'] . '], maxSize:[' . $cCrop['cropLarguraFixa'] . ',' . $cCrop['cropAlturaFixa'] . ']';
-            } elseif ($cCrop['cropLaguraMaxima'] or $cCrop['cropAlturaMaxima']) {
+            } elseif ($cCrop['cropLarguraMaxima'] or $cCrop['cropAlturaMaxima']) {
                 $txtSize = 'minSize:[' . $cCrop['cropLarguraMinima'] . ',' . $cCrop['cropAlturaMinima'] . '], maxSize:[' . $cCrop['cropLarguraMaxima'] . ',' . $cCrop['cropAlturaMaxima'] . ']';
             }
 
