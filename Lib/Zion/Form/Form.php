@@ -259,7 +259,7 @@ class Form
 
             case 'float' : case 'double' :
 
-                return $valor == '' ? \PDO::PARAM_NULL : \PDO::PARAM_STR;
+                return is_numeric($valor) ? \PDO::PARAM_INT : \PDO::PARAM_NULL;
 
             case 'number' : case 'numero' :
                 return is_numeric($valor) ? \PDO::PARAM_INT : \PDO::PARAM_NULL;
