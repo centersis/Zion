@@ -44,8 +44,11 @@ class Data extends TratamentoData
         list($d, $m, $y) = preg_split("/[-\.\/ ]/", $data);
 
         if (strlen($d) == 4) {
-            $d = $y;
-            $y = $d;
+            $dAux = $d;
+            $yAux = $y;
+            
+            $d = $yAux;
+            $y = $dAux;
         }
         
         return checkdate((int) $m, (int) $d, (int) $y);
