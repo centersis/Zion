@@ -58,7 +58,7 @@ class FormInputTextArea extends FormInputTextAreaZion
                         ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
                         ['NumberedList', 'BulletedList'], 
                         ['Outdent', 'Indent', '-', 'HorizontalRule', '-', 'Blockquote'],
-                        [ 'Find', 'Replace' ]                        
+                        [ 'Find', 'Replace','Image' ]                        
                     ]
                     }";
 
