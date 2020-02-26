@@ -105,9 +105,7 @@ class Log extends LogSql
      * @return type
      */
     private function getIdRegistroSql($sql, $sqlCompleta)
-    {
-        return null;
-        
+    {      
         $parts = $this->getAtributosPrivados($sql->getQueryPart('where'));
 
         if (!isset($parts['parts'])) {

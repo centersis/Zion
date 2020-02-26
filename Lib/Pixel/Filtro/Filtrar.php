@@ -3,7 +3,6 @@
 namespace Pixel\Filtro;
 
 use Zion\Tratamento\Tratamento;
-use Zion\Exception\ErrorException;
 
 class Filtrar
 {
@@ -32,9 +31,9 @@ class Filtrar
             '**' => '**'];
     }
 
-    public function getStringSql($nomeCampo, $campoBanco, $queryBuilder)
+    public function getStringSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject = null)
     {
-        $this->normalSql($nomeCampo, $campoBanco, $queryBuilder);
+        $this->normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject);
     }
 
     private function getOperador($queryObject, $nomeCampo)
@@ -49,7 +48,7 @@ class Filtrar
         return filter_input(INPUT_GET, 'sho' . 'n' . $nomeCampo);
     }
 
-    private function getValor($queryObject, $nomeCampo)
+    private function getValor($queryObject, $nomeCampo, $operador)
     {
         $existeNaQuery = isset($queryObject->{'n' . $nomeCampo});
         if ($queryObject && $existeNaQuery) {
@@ -58,7 +57,19 @@ class Filtrar
             return null;
         }
 
-        return filter_input(INPUT_GET, 'n' . $nomeCampo);
+        if ($operador == 'E') {
+
+            $a = filter_input(INPUT_GET, 'n' . $nomeCampo . 'A');
+            $b = filter_input(INPUT_GET, 'n' . $nomeCampo . 'B');
+
+            if ($a === '' or $b === '') {
+                return '';
+            }
+
+            return $a . '--+--' . $b;
+        } else {
+            return filter_input(INPUT_GET, 'n' . $nomeCampo);
+        }
     }
 
     private function getAcao($queryObject, $nomeCampo)
@@ -73,11 +84,11 @@ class Filtrar
         return strtolower(filter_input(INPUT_GET, 'sha' . 'n' . $nomeCampo));
     }
 
-    private function normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject = null)
+    private function normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject)
     {
         $operador = $this->getOperador($queryObject, $nomeCampo);
         $acao = $this->getAcao($queryObject, $nomeCampo);
-        $valor = $this->getValor($queryObject, $nomeCampo);
+        $valor = $this->getValor($queryObject, $nomeCampo, $operador);
 
         if (array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];
@@ -229,13 +240,38 @@ class Filtrar
 
                 case 'E':
 
-                    $pedacos = explode(',', $valor);
+                    $tipoParametro = \PDO::PARAM_STR;
 
-                    $queryBuilder->andWhere($queryBuilder->expr()->gte($campoBanco, ':campe' . $rand))
-                        ->setParameter('campe' . $rand, $pedacos[0], $tipoParametro)
-                        ->andWhere($queryBuilder->expr()->lte($campoBanco, ':campe' . $rand))
-                        ->setParameter('campe' . $rand, $pedacos[1], $tipoParametro);
+                    $pedacos = explode('--+--', $valor);
+                    
+                    if (count($pedacos) <> 2) {
+                        return;
+                    }
 
+                    $valorA = $pedacos[0];
+                    $valorB = $pedacos[1];
+
+                    if ($acao == 'number') {
+                        $tipoParametro = \PDO::PARAM_INT;
+                    }
+
+                    if ($acao == 'date') {
+                        $valorA = $tratar->data()->converteData($valorA);
+                        $valorB = $tratar->data()->converteData($valorB);
+                    }
+
+                    if ($acao == 'float') {
+                        $valorA = $tratar->numero()->floatBanco($valorA);
+                        $valorB = $tratar->numero()->floatBanco($valorB);
+                    }
+
+                    if ($valorA > $valorB) {
+                        return;
+                    }                   
+
+                    $queryBuilder->andWhere($campoBanco . ' BETWEEN :campeA' . $rand . ' AND :campeB' . $rand)
+                        ->setParameter(':campeA' . $rand, $valorA, $tipoParametro)
+                        ->setParameter(':campeB' . $rand, $valorB, $tipoParametro);
 
                     break;
             }

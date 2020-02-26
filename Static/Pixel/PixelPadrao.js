@@ -599,45 +599,17 @@ function sisChangeFil(origem, tab)
 {
     var campos = $('#sisFormFiltro').serializeArray();
     var contN = 0;
-    var contE = 0;
-    var contO = 0;
 
     $.each(campos, function (pos, campo) {
 
         if ($('#' + campo.name).attr('type') !== 'hidden' && campo.value !== '') {
             var valor = $('#' + campo.name).val();
-            var tipo = $('#' + campo.name).attr('name').substr(0, 1);
 
-            if (tipo === 'n' && valor !== '') {
+            if (valor !== '') {
                 contN++;
-            }
-
-            if (tipo === 'e' && valor !== '') {
-                contE++;
-            }
-
-            if (tipo === 'o' && valor !== '') {
-                contO++;
             }
         }
     });
-
-    //Corrige Badges
-    if (origem === 'n') {
-        $('#sisBadgeN').removeClass('tachado');
-        $('#sisBadgeE').addClass('tachado');
-        $('#sisBadgeO').addClass('tachado');
-    } else if (origem === 'e')
-    {
-        $('#sisBadgeN').addClass('tachado');
-        $('#sisBadgeE').removeClass('tachado');
-        $('#sisBadgeO').addClass('tachado');
-    } else if (origem === 'o')
-    {
-        $('#sisBadgeN').addClass('tachado');
-        $('#sisBadgeE').addClass('tachado');
-        $('#sisBadgeO').removeClass('tachado');
-    }
 
     if (contN > 0) {
         $('#sisBadgeN').html(contN).removeClass('hidden');
@@ -645,19 +617,7 @@ function sisChangeFil(origem, tab)
         $('#sisBadgeN').html(contN).addClass('hidden');
     }
 
-    if (contE > 0) {
-        $('#sisBadgeE').html(contE).removeClass('hidden');
-    } else {
-        $('#sisBadgeE').html(contE).addClass('hidden');
-    }
-
-    if (contO > 0) {
-        $('#sisBadgeO').html(contO).removeClass('hidden');
-    } else {
-        $('#sisBadgeO').html(contO).addClass('hidden');
-    }
-
-    sisFiltrarPadrao(parametrosFiltro(origem, tab));
+    sisFiltrarPadrao($('#sisFormFiltro').serializeArray());
 
     $('#sisBuscaGridA').tagsinput('removeAll');
     $('#sisBuscaGridB').tagsinput('removeAll');
@@ -665,13 +625,54 @@ function sisChangeFil(origem, tab)
 
 function sisOpFiltro(nomeCampo, tipo, origem)
 {
+    var tipoCampo = $("#sha" + nomeCampo).val();
+    var tipoFiltroAnterior = $("#sho" + nomeCampo).val();
+
     $("#sho" + nomeCampo).val(tipo);
 
     $("#sisIcFil" + nomeCampo).html('&nbsp;&nbsp;' + tipo);
 
-    if ($("#" + nomeCampo).val()) {
-        sisFiltrarPadrao(parametrosFiltro(origem));
+    if (tipo !== 'E' && tipoFiltroAnterior === 'E') {
+        $('#g' + nomeCampo).remove();
+
+        if (tipoCampo === 'number') {
+            $("#sho" + nomeCampo).before('<input name="' + nomeCampo + '" id="' + nomeCampo + '" value="" class="form-control" type="number">');
+        } else {
+            $("#sho" + nomeCampo).before('<input name="' + nomeCampo + '" id="' + nomeCampo + '" value="" class="form-control" type="text">');
+        }
+
+        if (tipoCampo === 'date') {
+            $("#sisFormFiltro #" + nomeCampo).mask("99/99/9999").datepicker({dateFormat: "dd/mm/yy"});
+        }
+
+        if (tipoCampo === 'float') {
+            $("#sisFormFiltro #" + nomeCampo).maskMoney({prefix: "", allowZero: "true", thousands: ".", decimal: ",", affixesStay: false});
+        }
+
     }
+
+    if (tipo === 'E' && tipoFiltroAnterior !== 'E') {
+
+        if (tipoCampo === 'number') {
+            $("#sho" + nomeCampo).before('<div class="row" id="g' + nomeCampo + '"><div class="col-sm-6"><input name="' + nomeCampo + 'A" id="' + nomeCampo + 'A" placeholder="maior igual que" value="" class="form-control" type="number"></div><div class="col-sm-6"><input name="' + nomeCampo + 'B" id="' + nomeCampo + 'B" placeholder="menor igual que" value="" class="form-control" type="number"></div></div>');
+        } else {
+            $("#sho" + nomeCampo).before('<div class="row" id="g' + nomeCampo + '"><div class="col-sm-6"><input name="' + nomeCampo + 'A" id="' + nomeCampo + 'A" placeholder="maior igual que" value="" class="form-control" type="text"></div><div class="col-sm-6"><input name="' + nomeCampo + 'B" id="' + nomeCampo + 'B" placeholder="menor igual que"value="" class="form-control" type="text"></div></div>');
+        }
+
+        $('#' + nomeCampo).remove();
+
+        if (tipoCampo === 'date') {
+            $("#sisFormFiltro #" + nomeCampo + 'A').mask("99/99/9999").datepicker({dateFormat: "dd/mm/yy"});
+            $("#sisFormFiltro #" + nomeCampo + 'B').mask("99/99/9999").datepicker({dateFormat: "dd/mm/yy"});
+        }
+
+        if (tipoCampo === 'float') {
+            $("#sisFormFiltro #" + nomeCampo + 'A').maskMoney({prefix: "", allowZero: "true", thousands: ".", decimal: ",", affixesStay: false});
+            $("#sisFormFiltro #" + nomeCampo + 'B').maskMoney({prefix: "", allowZero: "true", thousands: ".", decimal: ",", affixesStay: false});
+        }
+
+    }
+
 }
 
 function parametrosFiltro(origem, tab)
