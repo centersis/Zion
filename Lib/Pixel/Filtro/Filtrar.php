@@ -223,7 +223,7 @@ class Filtrar
                         $sql[] = $queryBuilder->expr()->like($campoBanco, $queryBuilder->expr()->literal('%' . $valorPedaco . '%'));
                     }
 
-                    $queryBuilder->andWhere(implode(' OR ', $sql));
+                    $queryBuilder->andWhere(implode(' AND ', $sql));
 
                     break;
 
