@@ -107,7 +107,7 @@ class FiltroForm
         $maior = ['>' => 'Maior que'];
         $maiorIgual = ['>=' => 'Maior ou igual que'];
         $coringa = ['*' => 'Coringa'];
-        $coringaDuplo = ['*' => 'Coringa duplo'];
+        $coringaTodos = ['**' => 'Coringa todos'];
         $coringaAntes = ['*A' => 'Coringa antes'];
         $coringaDepois = ['A*' => 'Coringa após'];
         $entreValores = ['E' => 'Entre valores'];
@@ -117,7 +117,7 @@ class FiltroForm
                 return array_merge($igual, $diferente, $menor, $menorIgual, $maior, $maiorIgual, $entreValores);
 
             case "texto":
-                return array_merge($igual, $diferente, $coringa, $coringaDuplo, $coringaAntes, $coringaDepois);
+                return array_merge($igual, $diferente, $coringa, $coringaTodos, $coringaAntes, $coringaDepois);
 
             case "valorfixo":
                 return array_merge($igual, $diferente);
