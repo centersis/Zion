@@ -8,8 +8,8 @@
     }
   ],
   "require": {
-    "twig/twig": "~1.22",
-    "doctrine/dbal": ">=2.3.5"
+    "twig/twig": "v1.35.3",
+    "doctrine/dbal": "v2.7.1"
   },
   "autoload": {
     "psr-0": {
