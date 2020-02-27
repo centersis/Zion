@@ -617,7 +617,13 @@ function sisChangeFil(origem, tab)
         $('#sisBadgeN').html(contN).addClass('hidden');
     }
 
-    sisFiltrarPadrao($('#sisFormFiltro').serializeArray());
+    var filtros = $('#sisFormFiltro').serializeArray();       
+    
+    if(tab){
+        filtros[filtros.length] = { name:'tab', value:tab };
+    }
+
+    sisFiltrarPadrao(filtros);
 
     $('#sisBuscaGridA').tagsinput('removeAll');
     $('#sisBuscaGridB').tagsinput('removeAll');
