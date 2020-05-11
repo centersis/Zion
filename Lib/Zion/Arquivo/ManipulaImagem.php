@@ -152,7 +152,7 @@ class ManipulaImagem extends ManipulaArquivo
         if (empty($altura) and empty($largura)) {
 
             $proporcao = ["L" => $tArquivo['L'], "A" => $tArquivo['A']];
-        } elseif (!empty($altura) and ! empty($largura)) {
+        } elseif (!empty($altura) and!empty($largura)) {
 
             $proporcao = ["L" => $largura, "A" => $altura];
         } elseif (!empty($altura)) {
@@ -169,7 +169,16 @@ class ManipulaImagem extends ManipulaArquivo
         } elseif ($extensao == 'gif') {
             $origem = @\imagecreatefromgif($origem);
         } elseif ($extensao == 'png') {
-            $origem = @\imagecreatefrompng($origem);
+
+            $origem = imagecreatefrompng($origem);
+
+            imagesavealpha($origem, true);
+            $img = imagecreatetruecolor($proporcao['L'], $proporcao['A']);
+
+            $background = imagecolorallocatealpha($img, 255, 255, 255, 127);
+            imagecolortransparent($img, $background);
+            imagealphablending($img, false);
+            imagesavealpha($img, true);
         } else {
             throw new ValidationException("Extensao inválida!");
         }
@@ -178,7 +187,9 @@ class ManipulaImagem extends ManipulaArquivo
             throw new ErrorException("Não foi possivel gerar o arquivo!");
         }
 
-        $img = \imagecreatetruecolor($proporcao['L'], $proporcao['A']);
+        if ($extensao != 'png') {
+            $img = \imagecreatetruecolor($proporcao['L'], $proporcao['A']);
+        }
 
         if (\imagecopyresampled($img, $origem, 0, 0, 0, 0, $proporcao['L'], $proporcao['A'], \imagesx($origem), \imagesy($origem))) {
             if ($extensao == 'jpg' or $extensao == 'jpeg') {
