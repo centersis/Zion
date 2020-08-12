@@ -14,7 +14,7 @@ class Form extends FormZion
 {
 
     protected $formPixel;
-    private $html;
+    protected $html;
 
     public function __construct()
     {

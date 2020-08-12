@@ -13,7 +13,7 @@ use Zion\Exception\ErrorException;
 class CrudUtil
 {
 
-    private $con;
+    protected $con;
 
     public function __construct($banco = '')
     {
@@ -133,7 +133,7 @@ class CrudUtil
         }
     }
 
-    private function modoBusca($modoBusca, $filtroDinamico)
+    protected function modoBusca($modoBusca, $filtroDinamico)
     {
 
         switch ($modoBusca) {
@@ -152,7 +152,7 @@ class CrudUtil
         }
     }
 
-    private function modoBuscaREGEXP($filtroDinamico)
+    protected function modoBuscaREGEXP($filtroDinamico)
     {
 
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
@@ -181,7 +181,7 @@ class CrudUtil
         }
     }
 
-    private function modoBuscaLIKE($filtroDinamico)
+    protected function modoBuscaLIKE($filtroDinamico)
     {
 
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
@@ -221,7 +221,7 @@ class CrudUtil
         }
     }
 
-    private function modoBuscaFULLTEXT($filtroDinamico)
+    protected function modoBuscaFULLTEXT($filtroDinamico)
     {
 
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
@@ -257,7 +257,7 @@ class CrudUtil
      * @param Doctrine\DBAL\Query\QueryBuilder $queryBuilder
      * @param type $modoBusca
      */
-    private function sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca)
+    protected function sqlBuscaGeral($filtroDinamico, $queryBuilder, $modoBusca)
     {
         $buscaGeral = \filter_input(\INPUT_GET, 'sisBuscaGeral');
 
@@ -474,7 +474,7 @@ class CrudUtil
         return $linhasAfetadas;
     }
 
-    private function tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos)
+    protected function tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos)
     {
         if ($objeto) {
 
@@ -676,7 +676,7 @@ class CrudUtil
         $this->con->stopTransaction($erro);
     }
 
-    private function removeColchetes($campos)
+    protected function removeColchetes($campos)
     {
         if (\is_array($campos)) {
             foreach ($campos as $chave => $campo) {

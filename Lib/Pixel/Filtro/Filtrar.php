@@ -7,9 +7,9 @@ use Zion\Tratamento\Tratamento;
 class Filtrar
 {
 
-    private $objForm;
-    private $operadores = [];
-    private $interpretarComo = [];
+    protected $objForm;
+    protected $operadores = [];
+    protected $interpretarComo = [];
 
     public function __construct($objForm = null)
     {
@@ -36,7 +36,7 @@ class Filtrar
         $this->normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject);
     }
 
-    private function getOperador($queryObject, $nomeCampo)
+    protected function getOperador($queryObject, $nomeCampo)
     {
         $existeNaQuery = isset($queryObject->{'sho' . 'n' . $nomeCampo});
         if ($queryObject && $existeNaQuery) {
@@ -48,7 +48,7 @@ class Filtrar
         return filter_input(INPUT_GET, 'sho' . 'n' . $nomeCampo);
     }
 
-    private function getValor($queryObject, $nomeCampo, $operador)
+    protected function getValor($queryObject, $nomeCampo, $operador)
     {
         $existeNaQuery = isset($queryObject->{'n' . $nomeCampo});
         if ($queryObject && $existeNaQuery) {
@@ -72,7 +72,7 @@ class Filtrar
         }
     }
 
-    private function getAcao($queryObject, $nomeCampo)
+    protected function getAcao($queryObject, $nomeCampo)
     {
         $existeNaQuery = isset($queryObject->{'sha' . 'n' . $nomeCampo});
         if ($queryObject && $existeNaQuery) {
@@ -84,7 +84,7 @@ class Filtrar
         return strtolower(filter_input(INPUT_GET, 'sha' . 'n' . $nomeCampo));
     }
 
-    private function normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject)
+    protected function normalSql($nomeCampo, $campoBanco, $queryBuilder, $queryObject)
     {
         $operador = $this->getOperador($queryObject, $nomeCampo);
         $acao = $this->getAcao($queryObject, $nomeCampo);
@@ -130,7 +130,7 @@ class Filtrar
         }
     }
 
-    private function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
+    protected function condicoes($campoBanco, $operador, $valor, $acao, $queryBuilder)
     {
         if (array_key_exists($campoBanco, $this->interpretarComo)) {
             $campoBanco = $this->interpretarComo[$campoBanco];

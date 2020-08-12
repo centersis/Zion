@@ -46,11 +46,11 @@ class Data extends TratamentoData
         if (strlen($d) == 4) {
             $dAux = $d;
             $yAux = $y;
-            
+
             $d = $yAux;
             $y = $dAux;
         }
-        
+
         return checkdate((int) $m, (int) $d, (int) $y);
     }
 
@@ -64,8 +64,47 @@ class Data extends TratamentoData
      */
     public function validaHora($hora)
     {
-        $time = \DateTime::createFromFormat('H:i:s', $hora);
-        return ($time ? true : false);
+        $doisPontos = substr_count($hora, ':');
+
+        if ($doisPontos == 1) {
+            
+            list($h, $m) = explode(':', $hora);
+            
+            if(strlen($h) <> 2 or strlen($m) <> 2){
+                return false;
+            }
+            
+            if ($h > 23 or $h < 0) {
+                return false;
+            }
+
+            if ($m > 59 or $m < 0) {
+                return false;
+            }
+        } else if ($doisPontos == 2) {
+
+            list($h, $m, $s) = explode(':', $hora);
+
+            if(strlen($h) <> 2 or strlen($m) <> 2 or strlen($s) <> 2){
+                return false;
+            }
+            
+            if ($h > 23 or $h < 0) {
+                return false;
+            }
+
+            if ($m > 59 or $m < 0) {
+                return false;
+            }
+            
+            if ($s > 59 or $s < 0) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
     }
 
     /**

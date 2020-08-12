@@ -7,10 +7,10 @@ use Zion\Banco\Conexao;
 class FiltroForm
 {
 
-    private $complementoOriginal;
-    private $onSelectOriginal;
-    private $nomeOriginal;
-    private $idOriginal;
+    protected $complementoOriginal;
+    protected $onSelectOriginal;
+    protected $nomeOriginal;
+    protected $idOriginal;
 
     public function __construct()
     {
@@ -49,7 +49,7 @@ class FiltroForm
         ];
     }
 
-    private function getFiltroNormal($objForm)
+    protected function getFiltroNormal($objForm)
     {
         $objetos = $objForm->getObjetos();
 
@@ -77,7 +77,7 @@ class FiltroForm
         return $objeto;
     }
 
-    private function atualizaCampos($objForm, $prefixo = '', $sufixo = '')
+    protected function atualizaCampos($objForm, $prefixo = '', $sufixo = '')
     {
         $obj = $objForm->getObjetos();
 
@@ -98,7 +98,7 @@ class FiltroForm
         }
     }
 
-    private function getTipoFiltro($tipoFiltro)
+    protected function getTipoFiltro($tipoFiltro)
     {
         $igual = ['=' => 'Igual a'];
         $diferente = ['<>' => 'Diferente de'];

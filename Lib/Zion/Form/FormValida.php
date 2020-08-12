@@ -141,7 +141,7 @@ class FormValida
                                 }
                                 break;
 
-                            case 'HORA':
+                            case 'HORA': case 'TIME':
                                 if ($this->data->validaHora($userValue) === false) {
                                     throw new ValidationException($identifica . ": O valor informado não é uma hora válida!");
                                 }
