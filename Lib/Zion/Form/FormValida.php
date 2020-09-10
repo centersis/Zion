@@ -111,6 +111,13 @@ class FormValida
 
                     if (!empty($userValue) or $obrigatorio === true) {
                         switch ($acao) {
+
+                            case 'TEXTO': case 'TEXTAREA':
+                                if (strlen($userValue) < 1) {
+                                    throw new ValidationException($identifica . ": deve ser prenchido!");
+                                }
+                                break;
+
                             case 'CPF':
                                 if ($this->geral->validaCPF($userValue) === false) {
                                     throw new ValidationException($identifica . ": O valor informado não é um CPF válido!");
@@ -167,10 +174,10 @@ class FormValida
                         $valoresReais = $fv->dadosCampo($formInput);
                         $dependencia = $formInput->getCampoDependencia();
 
-                        if ($formInput->getMultiplo() === true and !\is_array($userValue)){
+                        if ($formInput->getMultiplo() === true and!\is_array($userValue)) {
                             $userValue = [];
                         }
-                        
+
                         if (\is_array($userValue)) {
 
                             if (\count($userValue) < 1 and $formInput->getObrigatorio() === true) {
@@ -190,7 +197,7 @@ class FormValida
                                 throw new ValidationException($identifica . ": selecione uma ou mais opções!");
                             }
 
-                            if (!$dependencia and $userValue and ! \array_key_exists($userValue, $valoresReais)) {
+                            if (!$dependencia and $userValue and!\array_key_exists($userValue, $valoresReais)) {
                                 throw new ValidationException($identifica . ": O valor recuperado não corresponde a um valor válido!");
                             }
                         }
@@ -200,7 +207,7 @@ class FormValida
 
                 case 'selecaoMinima':
                     $val = $formInput->getSelecaoMinima();
-                    if (!empty($val) and ( !empty($userValue) or $obrigatorio === true)) {
+                    if (!empty($val) and (!empty($userValue) or $obrigatorio === true)) {
                         if (\count($userValue) < $val) {
                             throw new ValidationException($identifica . ": Você deve selecionar no mínimo " . $val . " # opções! ");
                         }
@@ -226,7 +233,7 @@ class FormValida
 
                 case 'minimoCaracteres':
                     $val = $formInput->getMinimoCaracteres();
-                    if (!empty($val) and ( !empty($userValue) or $obrigatorio === true)) {
+                    if (!empty($val) and (!empty($userValue) or $obrigatorio === true)) {
                         if ($this->texto->verificaMinimoCaracteres($val, $userValue) === false) {
                             throw new ValidationException($identifica . ": O valor informado é menor que o tamanho mínimo solicitado de " . $val . " caracteres!");
                         }
@@ -235,7 +242,7 @@ class FormValida
 
                 case 'maximoCaracteres':
                     $val = $formInput->getMaximoCaracteres();
-                    if (!empty($val) and ( !empty($userValue) or $obrigatorio === true)) {
+                    if (!empty($val) and (!empty($userValue) or $obrigatorio === true)) {
                         if ($this->texto->verificaMaximoCaracteres($val, $userValue) === false) {
                             throw new ValidationException($identifica . ": O valor informado excede o tamanho máximo permitido de " . $val . " caracteres!");
                         }
@@ -244,7 +251,7 @@ class FormValida
 
                 case 'valorMinimo':
                     $val = $formInput->getValorMinimo();
-                    if (\is_numeric($val) and ( !empty($userValue) or $obrigatorio === true)) {
+                    if (\is_numeric($val) and (!empty($userValue) or $obrigatorio === true)) {
                         if ($this->numero->verificaValorMinimo($val, $userValue) === false) {
                             throw new ValidationException($identifica . ": O valor informado não pode ser menor que " . $val . "!");
                         }
@@ -253,7 +260,7 @@ class FormValida
 
                 case 'valorMaximo':
                     $val = $formInput->getValorMaximo();
-                    if (\is_numeric($val) and ( !empty($userValue) or $obrigatorio === true)) {
+                    if (\is_numeric($val) and (!empty($userValue) or $obrigatorio === true)) {
                         if ($this->numero->verificaValorMaximo($val, $userValue) === false) {
                             throw new ValidationException($identifica . ": O valor informado não pode ser maior que " . $val . "!");
                         }
@@ -262,7 +269,7 @@ class FormValida
 
                 case 'dataMinima':
                     $val = $formInput->getDataMinima();
-                    if (isset($val) and ( !empty($userValue) or $obrigatorio === true)) {
+                    if (isset($val) and (!empty($userValue) or $obrigatorio === true)) {
                         if ($this->data->verificaDiferencaDataHora($userValue, $val) > 0) {
                             throw new ValidationException($identifica . ": O valor informado não pode ser menor que " . $val . "!");
                         }
@@ -271,7 +278,7 @@ class FormValida
 
                 case 'dataMaxima':
                     $val = $formInput->getDataMaxima();
-                    if (isset($val) and ( !empty($userValue) or $obrigatorio === true)) {
+                    if (isset($val) and (!empty($userValue) or $obrigatorio === true)) {
                         if ($this->data->verificaDiferencaDataHora($userValue, $val) < 0) {
                             throw new ValidationException($identifica . ": O valor informado não pode ser maior que " . $val . "!");
                         }
