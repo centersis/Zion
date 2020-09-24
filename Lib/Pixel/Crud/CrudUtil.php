@@ -84,7 +84,15 @@ class CrudUtil
         //Monta Array de Retotno
         if (\is_array($arrayForm)) {
             foreach ($arrayForm as $cfg) {
-                $arrayCampos[] = 'n' . $cfg->getNome();
+
+                if (filter_input(INPUT_GET, 'shon' . $cfg->getNome()) == 'E') {
+                    $arrayCampos[] = 'n' . $cfg->getNome() . 'A';
+                    $arrayCampos[] = 'n' . $cfg->getNome() . 'B';
+                    $arrayCampos[] = 'shon' . $cfg->getNome() . '';
+                    $arrayCampos[] = 'shan' . $cfg->getNome() . '';
+                } else {
+                    $arrayCampos[] = 'n' . $cfg->getNome();
+                }
             }
         }
 
@@ -171,8 +179,8 @@ class CrudUtil
                 $cont++;
                 $alias = $aliasSql ? $aliasSql . '.' : '';
 
-                $sql.= $alias . $coluna . " REGEXP '" . $campos . "'";
-                $sql.= $total == $cont ? '' : ' OR ';
+                $sql .= $alias . $coluna . " REGEXP '" . $campos . "'";
+                $sql .= $total == $cont ? '' : ' OR ';
             }
 
             $sql .= ') ';
@@ -189,7 +197,7 @@ class CrudUtil
         if ($buscaGeral) {
 
             $qb = $this->con->qb();
-            
+
             $sql = ' (';
 
             $campos = \explode(',', $buscaGeral);
@@ -207,12 +215,12 @@ class CrudUtil
                 foreach ($campos as $valorCampo) {
                     $cont2++;
 
-                    $sql.= $alias . $coluna . " LIKE " . $qb->expr()->literal('%'.$valorCampo.'%') ;
+                    $sql .= $alias . $coluna . " LIKE " . $qb->expr()->literal('%' . $valorCampo . '%');
 
-                    $sql.= $totalCampos == $cont2 ? '' : ' OR ';
+                    $sql .= $totalCampos == $cont2 ? '' : ' OR ';
                 }
 
-                $sql.= $total == $cont ? '' : ' OR ';
+                $sql .= $total == $cont ? '' : ' OR ';
             }
 
             $sql .= ') ';
@@ -268,7 +276,7 @@ class CrudUtil
                 foreach ($filtroDinamico as $nome => $alias) {
                     $alias = $alias != '' ? $alias . '.' : '';
                     foreach ($termos as $termo) {
-                        $queryBuilder->orWhere("{$alias}{$nome}", 'LIKE', "{$queryBuilder->expr()->literal('%'.$termo.'%')}");
+                        $queryBuilder->orWhere("{$alias}{$nome}", 'LIKE', "{$queryBuilder->expr()->literal('%' . $termo . '%')}");
                     }
                 }
             } else {
@@ -442,7 +450,7 @@ class CrudUtil
             $qb->set($coluna, '?');
         }
 
-        if (\is_array($arrayValores) and ! empty($arrayValores)) {
+        if (\is_array($arrayValores) and!empty($arrayValores)) {
 
             foreach ($arrayValores as $chave => $valor) {
 
