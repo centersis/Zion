@@ -21,7 +21,7 @@ class Form
         $this->formConfig = new FormTag();
 
         $this->formConfig->setNome('formManu')
-                ->setMethod('POST');
+            ->setMethod('POST');
 
         $this->objetos = [];
     }
@@ -202,7 +202,7 @@ class Form
 
     public function set($nome, $valor, $tipo = 'texto')
     {
-        if (!\is_null($nome) or ! \is_null($nome)) {
+        if (!\is_null($nome) or!\is_null($nome)) {
 
             if (\array_key_exists($nome, $this->objetos)) {
                 $this->objetos[$nome]->setValor($valor);
@@ -296,7 +296,7 @@ class Form
                 if (empty($valor)) {
                     return NULL;
                 } else {
-                    
+
                     if (is_numeric(substr($valor, 0, 4))) {
                         return $valor;
                     }
@@ -315,6 +315,11 @@ class Form
                 return empty($dataHoraConvertida) ? NULL : $dataHoraConvertida;
 
             case 'float' : case 'double' :
+
+                if ($valor === '') {
+                    return NULL;
+                }
+
                 $float = $tratar->numero()->floatBanco($valor);
 
                 return \is_numeric($float) ? $float : NULL;
@@ -360,10 +365,10 @@ class Form
 
     public function getObjetos($nome = null, $returnType = false)
     {
-        if ($nome and ! \array_key_exists($nome, $this->objetos)) {
-            if(!$returnType) {
+        if ($nome and!\array_key_exists($nome, $this->objetos)) {
+            if (!$returnType) {
                 throw new ErrorException('Objeto ' . $nome . ' não existe!');
-            } elseif($returnType === 'bool') {
+            } elseif ($returnType === 'bool') {
                 return false;
             }
         }
@@ -429,7 +434,7 @@ class Form
     {
         $valida = new FormValida();
 
-        if ($this->formConfig->getMethod() == 'POST' and !$_POST and !$_FILES) {
+        if ($this->formConfig->getMethod() == 'POST' and!$_POST and!$_FILES) {
             throw new ValidationException("O tamanho dos arquivos anexados ultrapassam o limite aceito pelo servidor, o tamanho máximo de todos os arquivos anexados não deve ultrapassar 15 Megabytes! Tente reduzir o tamanho dos arquivos e repita o procedimento.");
         }
 
