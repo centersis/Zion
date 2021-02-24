@@ -51,7 +51,6 @@ var CKBUILDER_CONFIG = {
 	plugins : {
 		'a11yhelp' : 1,
 		'about' : 1,
-		'autosave' : 1,
 		'base64image' : 1,
 		'basicstyles' : 1,
 		'bidi' : 1,
