@@ -33,37 +33,55 @@ class FormInputTextArea extends FormInputTextAreaZion
 
     public function getFerramentas()
     {
-        if (\is_array($this->ferramentas)) {
-            return \json_encode($this->ferramentas);
-        } else {
-            switch (\strtoupper($this->ferramentas)) {
+        switch (strtoupper($this->ferramentas)) {
 
-                case 'PADRAO': case 'COMPLETO':
-                    return null;
-
-                case 'BASICA': //'base64image', '-', 
-
-                    return "{
-                    toolbar: [
-                    { name: 'document', items: 
-                        ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'] 
-                    },
-                        ['Undo', 'Redo'],
-                        [ 'Link', 'Unlink','-','SpecialChar', '-', 'Source'],                        
-                    '/',
-                    {'name':'styles','groups':['styles']},
+            case 'PADRAO': case 'COMPLETO': case 'COMPLETA':
+                return "{
+                    toolbar: [                    
                     { name: 'basicstyles', items: 
-                        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ],
+                        ['NewPage','-','Undo','Redo','-','Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ],
                     },
                         ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                        [ 'TextColor', 'BGColor' ],
+                        [ 'FontSize','-','Font' ],
+                        ['base64image','-','Link', 'Unlink'],
                         ['NumberedList', 'BulletedList'], 
-                        ['Outdent', 'Indent', '-', 'HorizontalRule', '-', 'Blockquote'],
-                        [ 'Find', 'Replace','Image' ]                        
+                        ['HorizontalRule', '-', 'Blockquote','-','Table', 'PasteText', 'PasteFromWord'],                                                                                             
+                        ['-','Source','-','Maximize' ]
                     ]
                     }";
 
-                default : return null;
-            }
+            case 'BASICA': 
+
+                return "{
+                    toolbar: [                    
+                    { name: 'basicstyles', items: 
+                        ['NewPage','-','Undo','Redo','-','Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ],
+                    },
+                        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                        ['base64image','-','Link', 'Unlink'],
+                        ['-','Source','-','Maximize' ]
+                    ]
+                    }";
+
+            case 'EMAIL': 
+
+                return "{
+                    toolbar: [                    
+                    { name: 'basicstyles', items: 
+                        ['NewPage','-','Undo','Redo','-','Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ],
+                    },
+                        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                        [ 'TextColor', 'BGColor' ],
+                        [ 'FontSize','-','Font' ],
+                        ['Image','-','Link', 'Unlink'],
+                        ['NumberedList', 'BulletedList'], 
+                        ['HorizontalRule', '-', 'Blockquote','-','Table', 'PasteText', 'PasteFromWord'],                                                                                             
+                        ['-','Source','-','Maximize' ]
+                    ]
+                    }";
+
+            default : return null;
         }
     }
 
