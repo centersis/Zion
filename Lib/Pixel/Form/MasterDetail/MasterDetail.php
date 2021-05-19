@@ -49,7 +49,7 @@ class MasterDetail
         } catch (ErrorException $ex) {
             throw new ErrorException('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         } catch (\Exception $ex) {
-            throw new Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
+            throw new \Exception('MasterDetail: ' . $identifica . ' - ' . $ex->getMessage());
         }
 
         if ($confHidden) {

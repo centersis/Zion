@@ -45,12 +45,7 @@ class Carregador
 
         $this->loader = new \Twig_Loader_Filesystem($this->caminhos);
 
-        if (\SIS_RELEASE === 'Developer') {
-            $this->conf['debug'] = true;
-        } else {
-            $this->conf['debug'] = false;
-            $this->conf['cache'] = \SIS_DIR_BASE . 'Tema/Vendor/' . \SIS_VENDOR_TEMPLATE . '/cache';
-        }
+        $this->conf['debug'] = true;
 
         $this->twig = new \Twig_Environment($this->loader, $this->conf);
 
