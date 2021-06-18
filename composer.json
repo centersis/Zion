@@ -7,10 +7,6 @@
       "email": "centersis@centersis.com.br"
     }
   ],
-  "require": {
-    "twig/twig": "v1.35.3",
-    "doctrine/dbal": "v2.9.1"
-  },
   "autoload": {
     "psr-0": {
       "": "Lib/"
