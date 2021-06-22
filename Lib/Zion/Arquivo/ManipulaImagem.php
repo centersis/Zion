@@ -165,10 +165,24 @@ class ManipulaImagem extends ManipulaArquivo
 
         //Executando a criaãão da nova imagem
         if ($extensao == 'jpg' or $extensao == 'jpeg') {
-            $origem = @\imagecreatefromjpeg($origem);
+
+            if (mime_content_type($origem) <> 'image/jpeg') {
+                throw new ValidationException("A imagem não é válida, aparentemente o seu formato não é compativel com a sua extensão!");
+            }
+
+            $origem = imagecreatefromjpeg($origem);
         } elseif ($extensao == 'gif') {
-            $origem = @\imagecreatefromgif($origem);
+
+            if (mime_content_type($origem) <> 'image/gif') {
+                throw new ValidationException("A imagem não é válida, aparentemente o seu formato não é compativel com a sua extensão!");
+            }
+
+            $origem = imagecreatefromgif($origem);
         } elseif ($extensao == 'png') {
+
+            if (mime_content_type($origem) <> 'image/png') {
+                throw new ValidationException("A imagem não é válida, aparentemente o seu formato não é compativel com a sua extensão!");
+            }
 
             $origem = imagecreatefrompng($origem);
 
