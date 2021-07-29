@@ -1,15 +1,21 @@
 {
-  "name": "centersis/zion",
-  "description": "Framework da CenterSis",
-  "authors": [
-    {
-      "name": "CenterSis",
-      "email": "centersis@centersis.com.br"
-    }
-  ],
-  "autoload": {
-    "psr-0": {
-      "": "Lib/"
-    }
-  }
+    "name": "centersis/zion",
+    "description": "Framework Centersis",
+    "authors": [
+        {
+            "name": "CenterSis",
+            "email": "centersis@centersis.com.br"
+        }
+    ],
+    "type": "library",
+    "keywords": [
+        "centersis",
+        "framework"
+    ],
+    "homepage": "http://centersis.com.br/",    
+    "autoload": {
+        "psr-4": {
+            "Centersis\\Zion\\": "Src/Centersis/Zion/"
+        }
+    } 
 }
