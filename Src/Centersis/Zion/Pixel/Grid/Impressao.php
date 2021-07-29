@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Grid;
 
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ErrorException;
 
 class Impressao
 {

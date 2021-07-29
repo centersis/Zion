@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Boleto\BoletoPHP;
 
-use Zion\Tratamento\Tratamento;
+use Centersis\Zion\Tratamento\Tratamento;
 
 class BancoobClass
 {

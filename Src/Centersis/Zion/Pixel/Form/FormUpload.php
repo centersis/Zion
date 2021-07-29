@@ -2,10 +2,10 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Exception\ErrorException;
-use Zion\Form\FormUpload as FormUploadZion;
-use Zion\Pixel\Form\FormSetPixel;
-use Zion\Banco\Conexao;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Form\FormUpload as FormUploadZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Banco\Conexao;
 
 class FormUpload extends FormUploadZion
 {

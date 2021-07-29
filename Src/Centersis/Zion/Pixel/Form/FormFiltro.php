@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ErrorException;
 
 class FormFiltro extends Form
 {

@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Tratamento;
 
-use Zion\Exception\ErrorException;
-use Zion\Validacao\Data as ValidacaoData;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Validacao\Data as ValidacaoData;
 
 class Data
 {

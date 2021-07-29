@@ -2,9 +2,9 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Pixel\Form\FormSetPixel;
-use Zion\Form\FormBasico;
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormBasico;
+use Centersis\Zion\Exception\ErrorException;
 
 class FormColor extends FormBasico
 {

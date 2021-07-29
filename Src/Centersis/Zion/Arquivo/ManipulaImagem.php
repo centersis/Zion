@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Arquivo;
 
-use Zion\Exception\ErrorException;
-use Zion\Exception\ValidationException;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ValidationException;
 
 class ManipulaImagem extends ManipulaArquivo {
 

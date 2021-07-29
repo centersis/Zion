@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputButton as FormInputButtonZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputButton as FormInputButtonZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputButton extends FormInputButtonZion
 {

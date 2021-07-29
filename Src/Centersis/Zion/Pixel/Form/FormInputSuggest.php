@@ -2,9 +2,9 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Exception\ErrorException;
-use Zion\Form\FormBasico;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Form\FormBasico;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputSuggest extends FormBasico
 {

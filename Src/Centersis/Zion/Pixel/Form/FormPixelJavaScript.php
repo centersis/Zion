@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Paginacao\Parametros;
-use Zion\Pixel\Form\FormJavaScript;
+use Centersis\Zion\Paginacao\Parametros;
+use Centersis\Zion\Pixel\Form\FormJavaScript;
 
 class FormPixelJavaScript
 {

@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Validacao;
 
-use Zion\Tratamento\Data as TratamentoData;
+use Centersis\Zion\Tratamento\Data as TratamentoData;
 
 class Data extends TratamentoData
 {

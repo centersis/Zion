@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Banco;
 
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ErrorException;
 
 class ConexaoMysql
 {

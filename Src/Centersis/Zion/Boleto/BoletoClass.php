@@ -2,23 +2,23 @@
 
 namespace Centersis\Zion\Boleto;
 
-use Zion\Tratamento\Tratamento;
-use Zion\Boleto\BoletoPHP\BB18Class;
-use Zion\Boleto\BoletoPHP\BancoobClass;
-use Zion\Boleto\BoletoPHP\SicrediClass;
-use Zion\Boleto\BoletoPHP\BanrisulClass;
-use Zion\Boleto\BoletoPHP\CecredClass;
-use Zion\Boleto\BoletoPHP\SafraClass;
-use Zion\Boleto\BoletoPHP\CaixaClass;
-use Zion\Boleto\BoletoPHP\SantanderClass;
-use Zion\Boleto\BoletoPHP\BradescoClass;
-use Zion\Boleto\BoletoPHP\ItauClass;
-use Zion\Boleto\BoletoPHP\UnicredClass;
+use Centersis\Zion\Tratamento\Tratamento;
+use Centersis\Zion\Boleto\BoletoPHP\BB18Class;
+use Centersis\Zion\Boleto\BoletoPHP\BancoobClass;
+use Centersis\Zion\Boleto\BoletoPHP\SicrediClass;
+use Centersis\Zion\Boleto\BoletoPHP\BanrisulClass;
+use Centersis\Zion\Boleto\BoletoPHP\CecredClass;
+use Centersis\Zion\Boleto\BoletoPHP\SafraClass;
+use Centersis\Zion\Boleto\BoletoPHP\CaixaClass;
+use Centersis\Zion\Boleto\BoletoPHP\SantanderClass;
+use Centersis\Zion\Boleto\BoletoPHP\BradescoClass;
+use Centersis\Zion\Boleto\BoletoPHP\ItauClass;
+use Centersis\Zion\Boleto\BoletoPHP\UnicredClass;
 use App\Financeiro\Movimentacao\Sistema\ContaClassFactory;
 use App\Financeiro\Movimentacao\Sistema\MovimentacaoClassFactory;
 use App\Financeiro\Movimentacao\Sistema\ParcelaClassFactory;
 use App\Financeiro\Parametrizacao\Sistema\ParametrizacaoClassFactory;
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ErrorException;
 
 abstract class BoletoClass implements IBoletoClass
 {

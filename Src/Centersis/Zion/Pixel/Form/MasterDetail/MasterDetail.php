@@ -2,12 +2,12 @@
 
 namespace Centersis\Zion\Pixel\Form\MasterDetail;
 
-use Zion\Pixel\Form\MasterDetail\FormMasterDetail;
+use Centersis\Zion\Pixel\Form\MasterDetail\FormMasterDetail;
 use App\Ext\Crud\CrudUtil;
-use Zion\Validacao\Geral;
+use Centersis\Zion\Validacao\Geral;
 use App\Ext\Arquivo\ArquivoUpload;
-use Zion\Exception\ErrorException;
-use Zion\Exception\ValidationException;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ValidationException;
 
 class MasterDetail
 {

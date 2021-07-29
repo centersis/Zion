@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Boleto\BoletoPHP;
 
-use centersis\zion\lib\base\tratamento\Tratamento;
+use Centersis\Zion\\lib\base\tratamento\Tratamento;
 
 class UnicredClass
 {

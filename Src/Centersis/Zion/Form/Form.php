@@ -2,9 +2,9 @@
 
 namespace Centersis\Zion\Form;
 
-use Zion\Exception\ErrorException;
-use Zion\Exception\ValidationException;
-use Zion\Tratamento\Tratamento;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ValidationException;
+use Centersis\Zion\Tratamento\Tratamento;
 
 class Form {
 

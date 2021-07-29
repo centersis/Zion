@@ -2,9 +2,9 @@
 
 namespace Centersis\Zion\Form;
 
-use Zion\Exception\ErrorException;
-use Zion\Validacao\Numero;
-use Zion\Form\FormBasico;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Validacao\Numero;
+use Centersis\Zion\Form\FormBasico;
 
 class FormInputFloat extends FormBasico
 {

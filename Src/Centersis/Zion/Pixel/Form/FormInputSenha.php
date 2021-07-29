@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputSenha as FormInputSenhaZion;
+use Centersis\Zion\Form\FormInputSenha as FormInputSenhaZion;
 
 class FormInputSenha extends FormInputSenhaZion {
 

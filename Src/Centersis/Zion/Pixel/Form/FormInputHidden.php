@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputHidden as FormInputHiddenZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputHidden as FormInputHiddenZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputHidden extends FormInputHiddenZion
 {

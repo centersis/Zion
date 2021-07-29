@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Validacao\Valida;
-use Zion\Form\FormValida as FormValidaZion;
+use Centersis\Zion\Validacao\Valida;
+use Centersis\Zion\Form\FormValida as FormValidaZion;
 
 class FormValida extends FormValidaZion
 {

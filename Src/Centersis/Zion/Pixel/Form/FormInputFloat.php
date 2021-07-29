@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputFloat as FormInputFloatZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputFloat as FormInputFloatZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputFloat extends FormInputFloatZion
 {

@@ -2,9 +2,9 @@
  
 namespace Centersis\Zion\Form;
 
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ErrorException;
 
-use Zion\Form\FormBasico;
+use Centersis\Zion\Form\FormBasico;
 
 class FormInputHidden extends FormBasico
 {

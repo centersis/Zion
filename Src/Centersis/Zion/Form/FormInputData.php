@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Form;
 
-use Zion\Exception\ErrorException;
-use Zion\Validacao\Data;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Validacao\Data;
 
 class FormInputData extends \Zion\Form\FormBasico
 {

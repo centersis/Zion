@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputEmail as FormInputEmailZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputEmail as FormInputEmailZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputEmail extends FormInputEmailZion
 {

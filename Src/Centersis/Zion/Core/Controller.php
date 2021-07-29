@@ -2,11 +2,11 @@
 
 namespace Centersis\Zion\Core;
 
-use Zion\Pixel\Layout\Tab;
-use Zion\Pixel\Twig\Carregador;
-use Zion\Exception\ErrorException;
-use Zion\Exception\ValidationException;
-use Zion\Exception\AcessoException;
+use Centersis\Zion\Pixel\Layout\Tab;
+use Centersis\Zion\Pixel\Twig\Carregador;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ValidationException;
+use Centersis\Zion\Exception\AcessoException;
 
 class Controller
 {

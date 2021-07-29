@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Validacao;
 
-use Zion\Tratamento\Texto as TratamentoTexto;
+use Centersis\Zion\Tratamento\Texto as TratamentoTexto;
 
 class Texto extends TratamentoTexto
 {

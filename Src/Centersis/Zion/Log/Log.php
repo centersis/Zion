@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Log;
 
-use Zion\Banco\Conexao;
+use Centersis\Zion\Banco\Conexao;
 
 class Log extends LogSql
 {

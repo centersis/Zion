@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Grid;
 
-use Zion\Acesso\Acesso;
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Acesso\Acesso;
+use Centersis\Zion\Exception\ErrorException;
 
 class GridBotoes
 {

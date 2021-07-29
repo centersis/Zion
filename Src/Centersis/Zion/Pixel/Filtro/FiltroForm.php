@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Filtro;
 
-use Zion\Banco\Conexao;
+use Centersis\Zion\Banco\Conexao;
 
 class FiltroForm {
 

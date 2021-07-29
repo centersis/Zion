@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\Exception\ErrorException;
+use Centersis\Zion\Form\Exception\ErrorException;
 
 class FormSetPixel
 {

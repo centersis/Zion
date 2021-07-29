@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Remoto;
 
-use Zion\Banco\Conexao;
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Banco\Conexao;
+use Centersis\Zion\Exception\ErrorException;
 
 class ColunasGrid
 {

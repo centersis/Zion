@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Validacao;
 
-use Zion\Exception\ErrorException;
-use Zion\Tratamento\Geral as TratamentoGeral;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Tratamento\Geral as TratamentoGeral;
 
 class Geral extends TratamentoGeral
 {

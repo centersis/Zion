@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputHora as FormInputHoraZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputHora as FormInputHoraZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputHora extends FormInputHoraZion
 {

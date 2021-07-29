@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Twig;
 
-use Zion\Arquivo\ManipulaDiretorio;
+use Centersis\Zion\Arquivo\ManipulaDiretorio;
 
 class Carregador {
 

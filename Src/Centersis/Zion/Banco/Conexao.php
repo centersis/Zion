@@ -3,8 +3,8 @@
 namespace Centersis\Zion\Banco;
 
 use Doctrine\DBAL\DriverManager;
-use Zion\Log\Log;
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Log\Log;
+use Centersis\Zion\Exception\ErrorException;
 
 class Conexao {
 

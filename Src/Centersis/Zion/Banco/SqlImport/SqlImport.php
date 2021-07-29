@@ -9,7 +9,7 @@
 
 namespace Centersis\Zion\Banco\SqlImport;
 
-use Zion\Banco\Conexao;
+use Centersis\Zion\Banco\Conexao;
 
 class SqlImport
 {

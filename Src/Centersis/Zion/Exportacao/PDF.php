@@ -2,10 +2,10 @@
 
 namespace Centersis\Zion\Exportacao;
 
-use Zion\Tratamento\Texto;
-use Zion\Banco\Conexao;
+use Centersis\Zion\Tratamento\Texto;
+use Centersis\Zion\Banco\Conexao;
 use App\Sistema\Modulo\ModuloClass;
-use Zion\Exception\ErrorException;
+use Centersis\Zion\Exception\ErrorException;
 use Mpdf\Mpdf;
 
 class PDF {

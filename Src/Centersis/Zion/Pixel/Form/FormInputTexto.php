@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputTexto as FormInputTextoZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputTexto as FormInputTextoZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputTexto extends FormInputTextoZion
 {

@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputTelefone as FormInputTelefoneZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputTelefone as FormInputTelefoneZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputTelefone extends FormInputTelefoneZion
 {

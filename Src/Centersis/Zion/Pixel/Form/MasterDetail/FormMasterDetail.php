@@ -2,9 +2,9 @@
 
 namespace Centersis\Zion\Pixel\Form\MasterDetail;
 
-use Zion\Exception\ErrorException;
-use Zion\Pixel\Form\FormSetPixel;
-use Zion\Banco\Conexao;
+use Centersis\Zion\Exception\ErrorException;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Banco\Conexao;
 
 class FormMasterDetail {
 

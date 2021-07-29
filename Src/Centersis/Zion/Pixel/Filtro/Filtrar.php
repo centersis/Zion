@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Filtro;
 
-use Zion\Tratamento\Tratamento;
+use Centersis\Zion\Tratamento\Tratamento;
 
 class Filtrar {
 

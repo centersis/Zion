@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Pixel\Form\FormSetPixel;
-use Zion\Form\FormInputTextArea as FormInputTextAreaZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputTextArea as FormInputTextAreaZion;
 
 class FormInputTextArea extends FormInputTextAreaZion
 {

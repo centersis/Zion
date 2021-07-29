@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Remoto;
 
-use Zion\Tratamento\Tratamento;
-use Zion\Banco\Conexao;
+use Centersis\Zion\Tratamento\Tratamento;
+use Centersis\Zion\Banco\Conexao;
 
 class Dependencia
 {

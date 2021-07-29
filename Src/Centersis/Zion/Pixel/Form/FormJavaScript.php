@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Layout\JavaScript;
+use Centersis\Zion\Layout\JavaScript;
 
 class FormJavaScript extends JavaScript
 {

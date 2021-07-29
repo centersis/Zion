@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputNumber as FormInputNumberZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputNumber as FormInputNumberZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputNumber extends FormInputNumberZion
 {

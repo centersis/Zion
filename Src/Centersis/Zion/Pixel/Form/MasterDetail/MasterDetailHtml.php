@@ -2,10 +2,10 @@
 
 namespace Centersis\Zion\Pixel\Form\MasterDetail;
 
-use Zion\Pixel\Form\MasterDetail\FormMasterDetail;
+use Centersis\Zion\Pixel\Form\MasterDetail\FormMasterDetail;
 use App\Ext\Form\Form;
-use Zion\Pixel\Form\FormPixelJavaScript;
-use Zion\Pixel\Twig\Carregador;
+use Centersis\Zion\Pixel\Form\FormPixelJavaScript;
+use Centersis\Zion\Pixel\Twig\Carregador;
 use App\Sistema\Ajuda\AjudaView;
 
 class MasterDetailHtml {

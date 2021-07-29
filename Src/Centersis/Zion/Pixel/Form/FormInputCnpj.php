@@ -2,8 +2,8 @@
 
 namespace Centersis\Zion\Pixel\Form;
 
-use Zion\Form\FormInputCnpj as FormInputCnpjZion;
-use Zion\Pixel\Form\FormSetPixel;
+use Centersis\Zion\Form\FormInputCnpj as FormInputCnpjZion;
+use Centersis\Zion\Pixel\Form\FormSetPixel;
 
 class FormInputCnpj extends FormInputCnpjZion
 {

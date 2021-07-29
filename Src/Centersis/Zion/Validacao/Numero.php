@@ -2,7 +2,7 @@
 
 namespace Centersis\Zion\Validacao;
 
-use Zion\Tratamento\Numero as TratamentoNumero;
+use Centersis\Zion\Tratamento\Numero as TratamentoNumero;
 
 class Numero extends TratamentoNumero
 {
