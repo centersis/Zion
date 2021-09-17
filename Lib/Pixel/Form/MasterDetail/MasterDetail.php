@@ -361,7 +361,7 @@ class MasterDetail
         }
 
         if (!$valida->validaJSON(\str_replace('\'', '"', \filter_input(\INPUT_POST, 'sisMasterDetailConf' . $nome, \FILTER_DEFAULT)))) {
-            throw new ErrorException('O sistema não conseguiu recuperar o array de configuração corretamente!');
+            throw new ValidationException('O sistema não conseguiu recuperar o array de configuração corretamente!');
         }
 
         if ($addMax > 0 and $totalItens > $addMax) {
