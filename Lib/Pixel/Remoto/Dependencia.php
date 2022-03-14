@@ -3,9 +3,11 @@
 namespace Pixel\Remoto;
 
 use Zion\Tratamento\Tratamento;
+use Zion\Banco\Conexao;
 
 class Dependencia
 {
+
     public function montaDependencia($metodo, $classe, $cod, $nomeCampo)
     {
         $novoNamespace = \str_replace('/', '\\', $classe);
@@ -14,8 +16,22 @@ class Dependencia
 
         try {
 
-            $i = new $instancia();
+            $ref = new \ReflectionClass($instancia);
+            $constructor = $ref->getConstructor();
 
+            $params = [];
+
+            if ($constructor) {
+
+                $params = $constructor->getParameters();
+            }
+
+            if (count($params) > 0) {
+                $i = new $instancia($_SESSION['organogramaCod'], Conexao::conectar());
+            } else {
+                $i = new $instancia();
+            }
+            
             $form = $i->{$metodo}($cod);
 
             $objetos = $form->getObjetos();
