@@ -248,7 +248,21 @@ class FormHtml extends FormHtmlZion
                         $dCod = 0;
                     }
 
-                    $i = new $instancia();
+                    $ref = new \ReflectionClass($instancia);
+                    $constructor = $ref->getConstructor();
+
+                    $params = [];
+
+                    if ($constructor) {
+
+                        $params = $constructor->getParameters();
+                    }
+
+                    if (count($params) > 0) {
+                        $i = new $instancia($_SESSION['organogramaCod'], Conexao::conectar());
+                    } else {
+                        $i = new $instancia();
+                    }
 
                     $formE = $i->{$dMetodo}($dCod, $config->getParametros());
 
@@ -362,9 +376,9 @@ class FormHtml extends FormHtmlZion
                 ' . parent::montaUploadHtml($config) .
                 '<input type="hidden" name="sis_base64_crop_' . $config->getId() . '" id="sis_base64_crop_' . $config->getId() . '" value="" />' .
                 '<img id="sis_demo_crop_' . $config->getId() . '" height="300" src="" style="display:none" />' .
-                '<hr><h1>Imagem Atual</h1>'.
+                '<hr><h1>Imagem Atual</h1>' .
                 $htmlAlterar . '                
-            </div>' ;
+            </div>';
         }
 
         $complemento = 'onchange="sisUploadMultiplo(\'' . $config->getId() . '\');"';
