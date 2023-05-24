@@ -173,32 +173,35 @@ class FormValida
                         $fv = new EscolhaHtml();
                         $valoresReais = $fv->dadosCampo($formInput);
                         $dependencia = $formInput->getCampoDependencia();
+                        $validar = $formInput->getValidar();
 
-                        if ($formInput->getMultiplo() === true and!\is_array($userValue)) {
+                        if ($formInput->getMultiplo() === true and!is_array($userValue)) {
                             $userValue = [];
                         }
 
-                        if (\is_array($userValue)) {
+                        if ($validar) {
+                            if (is_array($userValue)) {
 
-                            if (\count($userValue) < 1 and $formInput->getObrigatorio() === true) {
-                                throw new ValidationException($identifica . ": Você deve selecionar uma ou mais opções!");
-                            }
+                                if (count($userValue) < 1 and $formInput->getObrigatorio() === true) {
+                                    throw new ValidationException($identifica . ": Você deve selecionar uma ou mais opções!");
+                                }
 
-                            if (!$dependencia) {
-                                foreach ($userValue as $valorSelecionado) {
-                                    if (!\array_key_exists($valorSelecionado, $valoresReais)) {
-                                        throw new ValidationException($identifica . ": O valor recuperado não corresponde a um valor válido!");
+                                if (!$dependencia) {
+                                    foreach ($userValue as $valorSelecionado) {
+                                        if (!\array_key_exists($valorSelecionado, $valoresReais)) {
+                                            throw new ValidationException($identifica . ": O valor recuperado não corresponde a um valor válido!");
+                                        }
                                     }
                                 }
-                            }
-                        } else {
+                            } else {
 
-                            if ($userValue == '' and $formInput->getObrigatorio() === true) {
-                                throw new ValidationException($identifica . ": selecione uma ou mais opções!");
-                            }
+                                if ($userValue == '' and $formInput->getObrigatorio() === true) {
+                                    throw new ValidationException($identifica . ": selecione uma ou mais opções!");
+                                }
 
-                            if (!$dependencia and $userValue and!\array_key_exists($userValue, $valoresReais)) {
-                                throw new ValidationException($identifica . ": O valor recuperado não corresponde a um valor válido!");
+                                if (!$dependencia and $userValue and!\array_key_exists($userValue, $valoresReais)) {
+                                    throw new ValidationException($identifica . ": O valor recuperado não corresponde a um valor válido!");
+                                }
                             }
                         }
                     }

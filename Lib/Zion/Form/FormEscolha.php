@@ -5,7 +5,6 @@ namespace Zion\Form;
 use Zion\Exception\ErrorException;
 use Zion\Form\FormBasico;
 
-
 class FormEscolha extends FormBasico implements FilterableInput
 {
 
@@ -34,6 +33,7 @@ class FormEscolha extends FormBasico implements FilterableInput
     private $categoriaFiltro;
     private $filtroPadrao;
     private $labelDoValor;
+    private $validar;
 
     public function __construct($acao, $nome, $identifica, $obrigatorio)
     {
@@ -50,6 +50,7 @@ class FormEscolha extends FormBasico implements FilterableInput
         $this->inicio = 'Selecione...';
         $this->instrucoes = [];
         $this->categoriaFiltro = FilterableInput::EQUAL;
+        $this->validar = true;
     }
 
     public function getTipoBase()
@@ -438,8 +439,8 @@ class FormEscolha extends FormBasico implements FilterableInput
     {
         return $this->categoriaFiltro;
     }
-    
-        public function setFiltroPadrao($filtroPadrao)
+
+    public function setFiltroPadrao($filtroPadrao)
     {
         $this->filtroPadrao = $filtroPadrao;
 
@@ -450,7 +451,7 @@ class FormEscolha extends FormBasico implements FilterableInput
     {
         return $this->filtroPadrao;
     }
-    
+
     public function setLabelValor($labelDoValor)
     {
         $this->labelDoValor = $labelDoValor;
@@ -462,4 +463,17 @@ class FormEscolha extends FormBasico implements FilterableInput
     {
         return $this->labelDoValor;
     }
+
+    public function setValidar($validar)
+    {
+        $this->validar = $validar;
+
+        return $this;
+    }
+
+    public function getValidar()
+    {
+        return $this->validar;
+    }
+
 }
