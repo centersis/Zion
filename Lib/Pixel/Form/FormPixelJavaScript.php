@@ -200,6 +200,13 @@ class FormPixelJavaScript
             return;
         }
 
+        if (method_exists($config, 'getProcessarJS')) {
+
+            if ($config->getProcessarJS() === false) {
+                return;
+            }
+        }
+        
         if ($config->getAcao() == 'cor') {
             $this->extra[] = '$("#' . $formNome . ' #' . $config->getId() . '").minicolors({ theme: "bootstrap" });';
         }
