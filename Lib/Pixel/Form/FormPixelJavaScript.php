@@ -80,6 +80,13 @@ class FormPixelJavaScript
             return;
         }
 
+        if (method_exists($config, 'getProcessarJS')) {
+
+            if ($config->getProcessarJS() === false) {
+                return;
+            }
+        }
+
         if ($config->getAcao() == 'upload') {
             $this->upload = true;
         }
