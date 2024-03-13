@@ -352,8 +352,6 @@ class CrudUtil
 
         $camposVistoriados = $this->removeColchetes($arrayParametros);
 
-        $this->con->startTransaction();
-
         $qb = $this->con->qb();
 
         $qb->insert($tabela);
@@ -372,8 +370,6 @@ class CrudUtil
         $codigo = $this->con->ultimoId();
 
         $this->tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos);
-
-        $this->con->stopTransaction();
 
         return $codigo;
     }
@@ -440,8 +436,6 @@ class CrudUtil
 
         $camposVistoriados = $this->removeColchetes($arrayParametros);
 
-        $this->con->startTransaction();
-
         $qb = $this->con->qb();
 
         $qb->update($tabela);
@@ -476,8 +470,6 @@ class CrudUtil
         $codigo = \current($criterio);
 
         $this->tiposEspeciais($objeto, $arrayForm, $codigo, $ignorarObjetos);
-
-        $this->con->stopTransaction();
 
         return $linhasAfetadas;
     }
