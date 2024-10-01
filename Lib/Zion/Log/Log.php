@@ -78,11 +78,16 @@ class Log extends LogSql
     {
         $modulox = defined('MODULO') ? \MODULO : null;
         $modulox = defined('MODULO_SITE') ? MODULO_SITE : MODULO;
+        $moduloParametro = $_GET['modulo'] ?? null;
+
+        if ($moduloParametro) {
+            $modulox = $moduloParametro;
+        }
 
         $modulo = $this->getDadosModulo($modulox);
-        $id = filter_input(INPUT_POST, 'cod');
-        $tab = filter_input(INPUT_POST, 'n');
-        $acao = filter_input(INPUT_GET, 'acao');
+        $id = $_POST['cod'] ?? null;
+        $tab = $_POST['n'] ?? null;
+        $acao = $_GET['acao'] ?? null;
 
         if (isset($_SESSION['usuarioCod'])) {
             $usuarioCod = $_SESSION['usuarioCod'];
@@ -144,7 +149,7 @@ class Log extends LogSql
         $attrs = array();
         foreach (((array) $input) as $key => $val) {
 
-            $key = \ preg_replace(array('/' . \addslashes('Doctrine\DBAL\Query\Expression\CompositeExpression') . '/', '/\W/'), '', $key);
+            $key = preg_replace(array('/' . \addslashes('Doctrine\DBAL\Query\Expression\CompositeExpression') . '/', '/\W/'), '', $key);
             $attrs[$key] = $val;
         }
 
