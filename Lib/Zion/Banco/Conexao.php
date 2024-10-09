@@ -57,6 +57,7 @@ class Conexao
             $cSenha = $namespace::$SIS_CFG['bases'][$banco]['senha'];
             $cBanco = $namespace::$SIS_CFG['bases'][$banco]['banco'];
             $cDriver = $namespace::$SIS_CFG['bases'][$banco]['driver'];
+            $charset = $namespace::$SIS_CFG['bases'][$banco]['charset'];
         }
 
         $config = new Configuration();
@@ -64,21 +65,23 @@ class Conexao
         if ($cSenha === 'NULL') {
             $cSenha = NULL;
         }
-
+        
         $connectionParams = [
             'dbname' => $cBanco,
             'user' => $cUsuario,
             'password' => $cSenha,
             'host' => $cHost,
             'driver' => $cDriver,
-            'charset' => 'utf8mb4',
+            'charset' => $charset,
             'wrapperClass' => 'Doctrine\DBAL\Portability\Connection',
             'portability' => Connection::PORTABILITY_ALL,
             'fetch_case' => \PDO::CASE_LOWER,
             'driverOptions' => [
-                1002 => 'SET NAMES utf8mb4']
+                1002 => 'SET NAMES ' . $charset
+            ]
         ];
 
+    
         self::$link[$banco] = DriverManager::getConnection($connectionParams, $config);
     }
 
@@ -190,7 +193,6 @@ class Conexao
                 try {
                     (new Log())->registraLog($sql, self::$logHash);
                 } catch (\Exception $e) {
-                    
                 }
             }
 
@@ -541,7 +543,7 @@ class Conexao
 
             $params = $qb->getParameters();
 
-            $paramTypes = \array_map(function($param) {
+            $paramTypes = \array_map(function ($param) {
                 return (\is_numeric($param) ? 1 : 2);
             }, $params);
 
@@ -557,5 +559,4 @@ class Conexao
             return "O objeto informado por parâmetro não é um objeto Query Builder.";
         }
     }
-
 }
