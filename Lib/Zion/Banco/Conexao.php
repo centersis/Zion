@@ -71,12 +71,12 @@ class Conexao
             'password' => $cSenha,
             'host' => $cHost,
             'driver' => $cDriver,
-            'charset' => 'utf8',
+            'charset' => 'utf8mb4',
             'wrapperClass' => 'Doctrine\DBAL\Portability\Connection',
             'portability' => Connection::PORTABILITY_ALL,
             'fetch_case' => \PDO::CASE_LOWER,
             'driverOptions' => [
-                1002 => 'SET NAMES utf8']
+                1002 => 'SET NAMES utf8mb4']
         ];
 
         self::$link[$banco] = DriverManager::getConnection($connectionParams, $config);
