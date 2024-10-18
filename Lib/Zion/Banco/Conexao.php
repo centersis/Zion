@@ -57,7 +57,7 @@ class Conexao
             $cSenha = $namespace::$SIS_CFG['bases'][$banco]['senha'];
             $cBanco = $namespace::$SIS_CFG['bases'][$banco]['banco'];
             $cDriver = $namespace::$SIS_CFG['bases'][$banco]['driver'];
-            $charset = $namespace::$SIS_CFG['bases'][$banco]['charset'] ?? 'utf-8';
+            $charset = $namespace::$SIS_CFG['bases'][$banco]['charset'] ?? 'utf8';
         }
 
         $config = new Configuration();
