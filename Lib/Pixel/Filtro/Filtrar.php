@@ -258,6 +258,10 @@ class Filtrar
                     if ($acao == 'date') {
                         $valorA = $tratar->data()->converteData($valorA);
                         $valorB = $tratar->data()->converteData($valorB);
+                        
+                        if(!$valorA or !$valorB){
+                            return;
+                        }
                     }
 
                     if ($acao == 'float') {
