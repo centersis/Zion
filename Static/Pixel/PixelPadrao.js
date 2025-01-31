@@ -786,14 +786,27 @@ function chChosen(a, b, c)
 
 function sisImprimir()
 {
-    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
-    window.open("?acao=imprimir&sisModoImpressao=1" + queryString, 'imprimir');
+    var tr = $('#sisNumeroRegistrosTotaisGrid').val();
+
+    if (tr && tr > 24000) {
+        alert('O numero máximo de registros permitidos é de 24 mil, utilize o filtro e tente novamente!');
+    } else {
+        var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
+        window.open("?acao=imprimir&sisModoImpressao=1" + queryString, 'imprimir');
+    }
 }
 
 function sisSalvarCSV()
 {
-    var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
-    window.open("?acao=salvarCSV&sisModoImpressao=1" + queryString, 'imprimircsv');
+    var tr = $('#sisNumeroRegistrosTotaisGrid').val();
+
+    if (tr && tr > 24000) {
+        alert('O numero máximo de registros permitidos é de 24 mil, utilize o filtro e tente novamente!');
+    } else {
+
+        var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
+        window.open("?acao=salvarCSV&sisModoImpressao=1" + queryString, 'imprimircsv');
+    }
 }
 
 function sisSetOrientacaoPDF()
@@ -802,56 +815,61 @@ function sisSetOrientacaoPDF()
 }
 
 function sisSalvarPDF(orientacao) {
+    var tr = $('#sisNumeroRegistrosTotaisGrid').val();
 
-    if (typeof orientacao === 'undefined') {
-        sisSetOrientacaoPDF();
+    if (tr && tr > 24000) {
+        alert('O numero máximo de registros permitidos é de 24 mil, utilize o filtro e tente novamente!');
     } else {
+        if (typeof orientacao === 'undefined') {
+            sisSetOrientacaoPDF();
+        } else {
 
-        $('#closePDF').click();
+            $('#closePDF').click();
 
-        var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
+            var queryString = ($('#sisQueryString').val() ? '&sisOrigem=n&' + $('#sisQueryString').val() : '');
 
-        var ifr = $('<iframe/>', {
-            id: 'iframeDownload',
-            name: 'iframeDownload',
-            src: '?acao=salvarPDF&sisModoImpressao=1&orientacao=' + orientacao + queryString,
-            style: 'display:none',
-            load: function () {
+            var ifr = $('<iframe/>', {
+                id: 'iframeDownload',
+                name: 'iframeDownload',
+                src: '?acao=salvarPDF&sisModoImpressao=1&orientacao=' + orientacao + queryString,
+                style: 'display:none',
+                load: function () {
 
-                var conteudo = $('#iframeDownload').contents().find('body').html();
+                    var conteudo = $('#iframeDownload').contents().find('body').html();
 
-                try {
-                    if (conteudo.length > 0) {
+                    try {
+                        if (conteudo.length > 0) {
+                            var ret = Array();
+                            ret['sucesso'] = 'false';
+                        } else {
+                            var ret = Array();
+                            ret['sucesso'] = 'true';
+                            ret['retorno'] = 'PDF gerado com sucesso!'
+                        }
+                    } catch (fail) {
                         var ret = Array();
                         ret['sucesso'] = 'false';
-                    } else {
-                        var ret = Array();
-                        ret['sucesso'] = 'true';
-                        ret['retorno'] = 'PDF gerado com sucesso!'
                     }
-                } catch (fail) {
-                    var ret = Array();
-                    ret['sucesso'] = 'false';
-                }
 
-                if (ret['sucesso'] === 'false')
-                {
-                    sisSetAlert('false', ret['retorno']);
-                } else if (ret['sucesso'] === 'true')
-                {
-                    sisSetAlert('true', ret['retorno']);
-                } else
-                {
-                    sisSetAlert('false', ret['retorno']);
+                    if (ret['sucesso'] === 'false')
+                    {
+                        sisSetAlert('false', ret['retorno']);
+                    } else if (ret['sucesso'] === 'true')
+                    {
+                        sisSetAlert('true', ret['retorno']);
+                    } else
+                    {
+                        sisSetAlert('false', ret['retorno']);
+                    }
                 }
+            });
+
+            if ($('body').attr('name') !== "iframeDownload") {
+                $('body').append(ifr);
+            } else {
+                $('#iframeDownload').remove();
+                $('body').append(ifr);
             }
-        });
-
-        if ($('body').attr('name') !== "iframeDownload") {
-            $('body').append(ifr);
-        } else {
-            $('#iframeDownload').remove();
-            $('body').append(ifr);
         }
     }
 }
