@@ -134,8 +134,15 @@ class Data extends TratamentoData
             return false;
         }
 
-        $dI = \DateTime::createFromFormat($this->getFormatoDataHora($dataI), $dataI);
-        $dF = \DateTime::createFromFormat($this->getFormatoDataHora($dataF), $dataF);
+        $df1 = $this->getFormatoDataHora($dataI);
+        $df2 = $this->getFormatoDataHora($dataF);
+        
+        if ($df1 === false or $df2 === false) {
+            return false;
+        }
+        
+        $dI = \DateTime::createFromFormat($df1, $dataI);
+        $dF = \DateTime::createFromFormat($df2, $dataF);
 
         $diff = $dI->diff($dF);
 
