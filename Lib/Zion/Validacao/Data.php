@@ -51,7 +51,14 @@ class Data extends TratamentoData
             $y = $dAux;
         }
 
-        return checkdate((int) $m, (int) $d, (int) $y);
+        $ano = (int) $y;
+        
+        // Verifica se o ano está no intervalo válido (1000-9999)
+        if ($ano < 1000 || $ano > 9999) {
+            return false;
+        }
+
+        return checkdate((int) $m, (int) $d, $ano);
     }
 
     /**
