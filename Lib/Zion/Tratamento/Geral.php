@@ -176,14 +176,14 @@ class Geral
                 }
             }
 
-            switch ($order) {
-                case \SORT_ASC:
-                    \asort($sortable_array);
-                    break;
-                case \SORT_DESC:
-                    \arsort($sortable_array);
-                    break;
-            }
+            \uasort($sortable_array, function($a, $b) use ($order) {
+                $a_normalized = $this->removeAcentos($a);
+                $b_normalized = $this->removeAcentos($b);
+                
+                $comparison = \strcasecmp($a_normalized, $b_normalized);
+                
+                return ($order === \SORT_DESC) ? -$comparison : $comparison;
+            });
 
             foreach ($sortable_array as $k => $v) {
                 $new_array[$k] = $array[$k];
@@ -191,6 +191,16 @@ class Geral
         }
 
         return $new_array;
+    }
+    
+    private function removeAcentos($string)
+    {
+        $string = \strval($string);
+        
+        $comAcentos = ['à','á','â','ã','ä','å','ç','è','é','ê','ë','ì','í','î','ï','ñ','ò','ó','ô','õ','ö','ù','ú','û','ü','ý','ÿ','À','Á','Â','Ã','Ä','Å','Ç','È','É','Ê','Ë','Ì','Í','Î','Ï','Ñ','Ò','Ó','Ô','Õ','Ö','Ù','Ú','Û','Ü','Ý'];
+        $semAcentos = ['a','a','a','a','a','a','c','e','e','e','e','i','i','i','i','n','o','o','o','o','o','u','u','u','u','y','y','A','A','A','A','A','A','C','E','E','E','E','I','I','I','I','N','O','O','O','O','O','U','U','U','U','Y'];
+        
+        return \str_replace($comAcentos, $semAcentos, $string);
     }
     
     public function ordenaArrayMulti($array, $on1, $order1 = \SORT_ASC, $on2, $order2 = \SORT_ASC)
@@ -201,7 +211,7 @@ class Geral
             $b[$key] = $value[$on1];
         }
        
-        \array_multisort($b, $order1, $a, $order2, $array);
+        \array_multisort($b, $order1, \SORT_NATURAL | \SORT_FLAG_CASE, $a, $order2, \SORT_NATURAL | \SORT_FLAG_CASE, $array);
         return $array;
         
     }    
