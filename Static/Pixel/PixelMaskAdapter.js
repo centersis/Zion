@@ -13,6 +13,10 @@
 (function($) {
     'use strict';
 
+    // Detectar se é dispositivo mobile
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   (window.innerWidth <= 768 && 'ontouchstart' in window);
+
     // Armazenar instâncias do IMask para cada elemento
     var maskInstances = new WeakMap();
 
@@ -29,8 +33,14 @@
 
         return {
             mask: imaskPattern,
-            lazy: false,
-            placeholderChar: '_'
+            lazy: true, // Sempre lazy inicialmente para não mostrar placeholders quando vazio
+            placeholderChar: '', // Sem placeholder char para não mostrar caracteres quando vazio
+            autofix: true, // Corrige valores automaticamente
+            overwrite: true, // Sobrescreve caracteres ao digitar
+            prepare: function (str) {
+                // Remove caracteres não numéricos para máscaras numéricas
+                return str.replace(/[^\d]/g, '');
+            }
         };
     }
 
@@ -43,59 +53,71 @@
         var configs = {
             // CPF: 999.999.999-99
             '999.999.999-99': {
-                mask: '000.000.000-00'
+                mask: '000.000.000-00',
+                lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
+                autofix: true,
+                overwrite: true,
+                placeholderChar: '', // Sem placeholder char
+                prepare: function (str) {
+                    return str.replace(/[^\d]/g, '');
+                }
             },
             // CNPJ: 99.999.999/9999-99
             '99.999.999/9999-99': {
-                mask: '00.000.000/0000-00'
+                mask: '00.000.000/0000-00',
+                lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
+                autofix: true,
+                overwrite: true,
+                placeholderChar: '', // Sem placeholder char
+                prepare: function (str) {
+                    return str.replace(/[^\d]/g, '');
+                }
             },
             // CEP: 99.999-999
             '99.999-999': {
-                mask: '00.000-000'
+                mask: '00.000-000',
+                lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
+                autofix: true,
+                overwrite: true,
+                placeholderChar: '', // Sem placeholder char
+                prepare: function (str) {
+                    return str.replace(/[^\d]/g, '');
+                }
             },
             // Telefone com 9º dígito opcional: (99) ?99999-9999
             '(99) ?99999-9999': {
                 mask: [
-                    { mask: '(00) 0000-0000' },
-                    { mask: '(00) 00000-0000' }
+                    { 
+                        mask: '(00) 0000-0000',
+                        lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
+                        autofix: true,
+                        overwrite: true,
+                        placeholderChar: '', // Sem placeholder char
+                        prepare: function (str) {
+                            return str.replace(/[^\d]/g, '');
+                        }
+                    },
+                    { 
+                        mask: '(00) 00000-0000',
+                        lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
+                        autofix: true,
+                        overwrite: true,
+                        placeholderChar: '', // Sem placeholder char
+                        prepare: function (str) {
+                            return str.replace(/[^\d]/g, '');
+                        }
+                    }
                 ]
             },
-            // Data: 99/99/9999
+            // Data: 99/99/9999 (simplificado para evitar problemas com IMask.MaskedRange)
             '99/99/9999': {
-                mask: Date,
-                pattern: 'd{/}`m{/}`Y',
-                blocks: {
-                    d: {
-                        mask: IMask.MaskedRange,
-                        from: 1,
-                        to: 31,
-                        maxLength: 2
-                    },
-                    m: {
-                        mask: IMask.MaskedRange,
-                        from: 1,
-                        to: 12,
-                        maxLength: 2
-                    },
-                    Y: {
-                        mask: IMask.MaskedRange,
-                        from: 1900,
-                        to: 2999
-                    }
-                },
-                format: function (date) {
-                    var day = date.getDate();
-                    var month = date.getMonth() + 1;
-                    var year = date.getFullYear();
-                    return [
-                        ('0' + day).slice(-2),
-                        ('0' + month).slice(-2),
-                        year
-                    ].join('/');
-                },
-                parse: function (str) {
-                    var parts = str.split('/');
-                    return new Date(parts[2], parts[1] - 1, parts[0]);
+                mask: '00/00/0000',
+                lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
+                autofix: true,
+                overwrite: true,
+                placeholderChar: '', // Sem placeholder char
+                prepare: function (str) {
+                    return str.replace(/[^\d]/g, '');
                 }
             },
             // DateTime: 99/99/9999 99:99
@@ -121,6 +143,12 @@
      */
     $.fn.mask = function(pattern, options) {
         options = options || {};
+        
+        // Verifica se IMask está disponível
+        if (typeof IMask === 'undefined') {
+            console.error('PixelMaskAdapter: IMask.js não foi carregado! Não é possível aplicar a máscara.');
+            return this;
+        }
 
         return this.each(function() {
             var element = this;
@@ -131,6 +159,10 @@
                 maskInstances.get(element).destroy();
             }
 
+            // Salva valor original antes de qualquer alteração
+            var valorOriginal = element.value || '';
+            var isPlaceholder = valorOriginal && (valorOriginal.includes('__') || valorOriginal.match(/^[_\s\-\(\)\/\.]+$/));
+
             // Tenta usar configuração otimizada
             var maskConfig = getOptimizedMaskConfig(pattern);
             
@@ -139,15 +171,130 @@
                 maskConfig = convertPatternToIMask(pattern);
             }
 
+            // Valida se maskConfig é válido
+            if (!maskConfig || typeof maskConfig !== 'object') {
+                console.error('Configuração de máscara inválida para pattern:', pattern);
+                return;
+            }
+            
+            // Valida se mask está presente (pode ser string ou array)
+            if (!maskConfig.mask || (typeof maskConfig.mask !== 'string' && !Array.isArray(maskConfig.mask))) {
+                console.error('Configuração de máscara sem propriedade mask válida para pattern:', pattern, 'mask:', maskConfig.mask);
+                return;
+            }
+
             // Mescla opções customizadas
             if (options.reverse) {
                 maskConfig.reverse = true;
             }
 
-            // Cria instância do IMask
+            // Configurações adicionais para mobile (não sobrescreve se já definido)
+            if (isMobile) {
+                if (maskConfig.lazy === undefined) {
+                    maskConfig.lazy = true;
+                }
+                if (maskConfig.autofix === undefined) {
+                    maskConfig.autofix = true;
+                }
+                if (maskConfig.overwrite === undefined) {
+                    maskConfig.overwrite = true;
+                }
+            } else {
+                // Desktop: lazy false para formatação em tempo real
+                if (maskConfig.lazy === undefined) {
+                    maskConfig.lazy = false;
+                }
+            }
+
+            // Adiciona atributos mobile-friendly ao input
+            if (isMobile && pattern.match(/^\d+[\d\.\-\/\(\)\s]+$/)) {
+                // Se for máscara numérica, adiciona inputmode
+                element.setAttribute('inputmode', 'numeric');
+                if (element.type === 'text') {
+                    element.type = 'tel'; // type="tel" abre teclado numérico em mobile
+                }
+            }
+
+            // Configura para não mostrar placeholders quando campo está vazio
+            // Isso evita que apareçam caracteres como "___" ou "__/__/____" quando o campo está vazio
+            if (!maskConfig.lazy && (!valorOriginal || valorOriginal.trim() === '' || isPlaceholder)) {
+                // Se campo está vazio, força lazy para não mostrar placeholders
+                maskConfig.lazy = true;
+            }
+            
+            // Garante que placeholderChar está vazio para não mostrar caracteres de placeholder
+            if (maskConfig.placeholderChar === undefined || maskConfig.placeholderChar === '_') {
+                maskConfig.placeholderChar = '';
+            }
+            
+            // Cria instância do IMask ANTES de alterar qualquer valor
             try {
                 var maskInstance = IMask(element, maskConfig);
+                
+                if (!maskInstance) {
+                    console.error('Falha ao criar instância IMask para:', element.id || element.name, 'Pattern:', pattern);
+                    return;
+                }
+                
                 maskInstances.set(element, maskInstance);
+                
+                // Agora sincroniza o valor: limpa placeholder ou restaura valor válido
+                if (isPlaceholder || !valorOriginal || valorOriginal.trim() === '') {
+                    // Limpa campo vazio ou com placeholder - não mostra placeholders
+                    element.value = '';
+                    maskInstance.value = '';
+                    // Mantém lazy ativo para não mostrar placeholders
+                    maskInstance.lazy = true;
+                } else if (valorOriginal && valorOriginal.trim() !== '') {
+                    // Restaura valor válido e formata
+                    element.value = valorOriginal;
+                    // Desativa lazy para mostrar formatação quando há valor
+                    maskInstance.lazy = false;
+                    maskInstance.updateValue();
+                }
+                
+                // Sincroniza em eventos que podem alterar o valor externamente
+                // Isso resolve o warning "Element value was changed outside of mask"
+                var syncMask = function() {
+                    if (maskInstances.has(element)) {
+                        try {
+                            maskInstance.updateValue();
+                        } catch (e) {
+                            // Ignora erros de sincronização
+                        }
+                    }
+                };
+                
+                // Sincroniza quando o campo ganha foco (principal causa do warning)
+                element.addEventListener('focus', function() {
+                    // Quando ganha foco, desativa lazy para mostrar formatação
+                    if (maskInstance.lazy) {
+                        maskInstance.lazy = false;
+                        // Se campo está vazio, mostra placeholder ao focar
+                        if (!element.value || element.value.trim() === '') {
+                            maskInstance.updateValue();
+                        }
+                    }
+                    syncMask();
+                }, true);
+                
+                // Sincroniza quando o campo perde foco
+                element.addEventListener('blur', function() {
+                    syncMask();
+                    // Se campo ficou vazio após perder foco, remove placeholders
+                    if (!element.value || element.value.trim() === '' || element.value.match(/^[_\s\-\(\)\/\.]+$/)) {
+                        element.value = '';
+                        maskInstance.value = '';
+                        // Reativa lazy para não mostrar placeholders quando vazio
+                        maskInstance.lazy = true;
+                    }
+                }, true);
+                
+                // Sincroniza após qualquer mudança no valor (usando input event)
+                element.addEventListener('input', function() {
+                    // Atualiza após um pequeno delay para garantir que o valor foi processado
+                    setTimeout(syncMask, 0);
+                }, true);
 
                 // Mantém compatibilidade com eventos
                 if (options.onChange || options.onKeyPress || options.onComplete) {
@@ -165,7 +312,7 @@
                 }
             } catch (e) {
                 console.error('Erro ao aplicar máscara IMask:', e);
-                console.log('Pattern:', pattern, 'Config:', maskConfig);
+                console.log('Pattern:', pattern, 'Config:', maskConfig, 'Element:', element.id || element.name);
             }
         });
     };
@@ -236,17 +383,55 @@
                 };
             }
 
+            // Adiciona atributos mobile-friendly para valores monetários
+            if (isMobile) {
+                element.setAttribute('inputmode', 'decimal');
+            }
+
+            // Verifica se IMask está disponível
+            if (typeof IMask === 'undefined') {
+                console.error('IMask.js não foi carregado! Verifique a ordem dos scripts.');
+                return;
+            }
+
+            // Limpa valor placeholder antes de aplicar máscara
+            var valorOriginal = element.value;
+            if (valorOriginal && (valorOriginal.includes('__') || valorOriginal.match(/^[_\s\-\(\)\/\.]+$/))) {
+                element.value = '';
+            }
+
             // Cria instância do IMask
             try {
                 var maskInstance = IMask(element, maskConfig);
+                if (!maskInstance) {
+                    console.error('Falha ao criar instância IMask para:', element.id || element.name, 'Pattern:', pattern);
+                    return;
+                }
                 maskInstances.set(element, maskInstance);
+                
+                // Se havia valor original válido (não placeholder), restaura e formata
+                if (valorOriginal && valorOriginal.trim() !== '' && !valorOriginal.match(/^[_\s\-\(\)\/\.]+$/)) {
+                    element.value = valorOriginal;
+                    maskInstance.updateValue();
+                }
 
                 // Configura valor inicial se houver
                 if ($element.val()) {
                     maskInstance.value = $element.val();
                 }
+
+                // Força atualização em mobile após foco
+                if (isMobile) {
+                    element.addEventListener('focus', function() {
+                        maskInstance.updateValue();
+                    });
+                    element.addEventListener('blur', function() {
+                        maskInstance.updateValue();
+                    });
+                }
             } catch (e) {
                 console.error('Erro ao aplicar maskMoney:', e);
+                console.error('Config:', maskConfig);
             }
         });
     };
@@ -275,9 +460,149 @@
         return this.val();
     };
 
+    // Garantir que o adapter seja aplicado mesmo se bibliotecas antigas carregarem depois
+    // Sobrescreve novamente após um pequeno delay para garantir precedência
+    var adapterMask = $.fn.mask;
+    var adapterMaskMoney = $.fn.maskMoney;
+    
+    var protectAdapter = function() {
+        // Verifica periodicamente se as funções foram sobrescritas
+        setInterval(function() {
+            // Se as funções foram sobrescritas, restaura o adapter
+            if ($.fn.mask !== adapterMask) {
+                console.warn('PixelMaskAdapter: $.fn.mask foi sobrescrito, restaurando...');
+                $.fn.mask = adapterMask;
+            }
+            if ($.fn.maskMoney !== adapterMaskMoney) {
+                console.warn('PixelMaskAdapter: $.fn.maskMoney foi sobrescrito, restaurando...');
+                $.fn.maskMoney = adapterMaskMoney;
+            }
+        }, 300);
+    };
+    
+    // Inicia proteção imediatamente e após delays
+    protectAdapter();
+    setTimeout(protectAdapter, 100);
+    setTimeout(protectAdapter, 500);
+    setTimeout(protectAdapter, 1000);
+    
+    // Intercepta eval para garantir que máscaras sejam aplicadas após execução
+    // Isso é necessário porque o MasterDetail usa eval() para executar JavaScript inline
+    if (typeof window.eval === 'function' && window.eval.toString().indexOf('[native code]') !== -1) {
+        var originalEval = window.eval;
+        window.eval = function(code) {
+            var result = originalEval.call(this, code);
+            // Após eval, aguarda um pouco e reaplica máscaras se necessário
+            // Isso garante que máscaras aplicadas via JavaScript inline sejam processadas
+            setTimeout(function() {
+                if (typeof window.reapplyMasks === 'function') {
+                    window.reapplyMasks();
+                }
+            }, 100);
+            return result;
+        };
+    }
+
+    // Aplicar máscaras em elementos que já existem no DOM
+    $(document).ready(function() {
+        // Reaplica máscaras em elementos que podem ter sido criados antes do adapter
+        $('[data-mask]').each(function() {
+            var pattern = $(this).data('mask');
+            if (pattern) {
+                $(this).mask(pattern);
+            }
+        });
+    });
+
+    // Função para reaplicar máscaras em elementos recém-adicionados
+    function reapplyMasksInContainer(container) {
+        if (!container) return;
+        
+        var $container = $(container);
+        
+        // Aguarda um pequeno delay para garantir que scripts inline foram executados
+        setTimeout(function() {
+            // Procura por inputs que podem precisar de máscara
+            $container.find('input, textarea').each(function() {
+                var $element = $(this);
+                var element = this;
+                
+                // Se já tem instância de máscara, ignora
+                if (maskInstances.has(element)) {
+                    return;
+                }
+                
+                // Verifica se há atributo data-mask
+                var dataMask = $element.data('mask');
+                if (dataMask) {
+                    $element.mask(dataMask);
+                    return;
+                }
+                
+                // Verifica se o elemento tem ID que sugere máscara (telefone, cpf, cnpj, cep, data)
+                var elementId = element.id || '';
+                var elementName = element.name || '';
+                var idOrName = (elementId + ' ' + elementName).toLowerCase();
+                
+                if (idOrName.match(/telefone|phone|celular/)) {
+                    $element.mask('(99) ?99999-9999');
+                } else if (idOrName.match(/cpf/)) {
+                    $element.mask('999.999.999-99');
+                } else if (idOrName.match(/cnpj/)) {
+                    $element.mask('99.999.999/9999-99');
+                } else if (idOrName.match(/cep/)) {
+                    $element.mask('99.999-999');
+                } else if (idOrName.match(/data|date/) && !idOrName.match(/hora|time/)) {
+                    $element.mask('99/99/9999');
+                }
+            });
+        }, 150);
+    }
+
+    // Observer para detectar quando novos elementos são adicionados ao DOM (via AJAX)
+    var maskObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) { // Element node
+                        reapplyMasksInContainer(node);
+                    }
+                });
+            }
+        });
+    });
+
+    // Inicia observação quando o DOM estiver pronto
+    $(document).ready(function() {
+        maskObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+    
+    // Expõe função global para reaplicar máscaras manualmente após AJAX
+    window.reapplyMasks = function(container) {
+        reapplyMasksInContainer(container || document.body);
+    };
+
     // Log de inicialização
     if (typeof console !== 'undefined' && console.log) {
-        console.log('PixelMaskAdapter inicializado com IMask.js');
+        var imaskLoaded = typeof IMask !== 'undefined';
+        var jqueryLoaded = typeof $ !== 'undefined';
+        
+        console.log('PixelMaskAdapter inicializado', {
+            mobile: isMobile,
+            imaskLoaded: imaskLoaded,
+            jqueryLoaded: jqueryLoaded,
+            status: (imaskLoaded && jqueryLoaded) ? 'OK' : 'ERRO'
+        });
+        
+        if (!imaskLoaded) {
+            console.error('ERRO: IMask.js não foi carregado! Verifique se o script está incluído antes do adapter.');
+        }
+        if (!jqueryLoaded) {
+            console.error('ERRO: jQuery não foi carregado!');
+        }
     }
 
 })(jQuery);
