@@ -1,9 +1,11 @@
 /**
  * PixelMaskAdapter.js
- * Adapter para IMask.js mantendo compatibilidade com jquery.mask e jquery.maskMoney
+ * Adapter para IMask.js mantendo compatibilidade com jquery.mask
  * 
  * Este adapter permite que o código existente continue funcionando sem alterações,
  * convertendo as chamadas antigas para a nova biblioteca IMask.js
+ * 
+ * Nota: jquery.maskMoney continua usando a biblioteca original (não é convertida)
  * 
  * @version 1.0.0
  * @requires IMask.js v7.x
@@ -312,129 +314,12 @@
                 }
             } catch (e) {
                 console.error('Erro ao aplicar máscara IMask:', e);
-                console.log('Pattern:', pattern, 'Config:', maskConfig, 'Element:', element.id || element.name);
             }
         });
     };
 
-    /**
-     * Plugin jQuery para máscara monetária usando IMask
-     * Mantém compatibilidade com $.fn.maskMoney()
-     */
-    $.fn.maskMoney = function(options) {
-        options = options || {};
-
-        var defaults = {
-            prefix: 'R$ ',
-            suffix: '',
-            thousands: '.',
-            decimal: ',',
-            precision: 2,
-            allowZero: true,
-            allowNegative: false,
-            allowEmpty: false,
-            affixesStay: true
-        };
-
-        var settings = $.extend({}, defaults, options);
-
-        return this.each(function() {
-            var element = this;
-            var $element = $(element);
-
-            // Remove máscara anterior se existir
-            if (maskInstances.has(element)) {
-                maskInstances.get(element).destroy();
-            }
-
-            // Configuração IMask para valores monetários
-            var maskConfig = {
-                mask: Number,
-                scale: settings.precision,
-                thousandsSeparator: settings.thousands,
-                radix: settings.decimal,
-                mapToRadix: ['.'],
-                min: settings.allowNegative ? undefined : 0,
-                normalizeZeros: true,
-                padFractionalZeros: true
-            };
-
-            // Adiciona prefixo/sufixo se configurado
-            if (settings.prefix || settings.suffix) {
-                var maskPattern = '';
-                if (settings.prefix) maskPattern += settings.prefix;
-                maskPattern += 'num';
-                if (settings.suffix) maskPattern += settings.suffix;
-
-                maskConfig = {
-                    mask: maskPattern,
-                    blocks: {
-                        num: {
-                            mask: Number,
-                            scale: settings.precision,
-                            thousandsSeparator: settings.thousands,
-                            radix: settings.decimal,
-                            mapToRadix: ['.'],
-                            min: settings.allowNegative ? undefined : 0,
-                            normalizeZeros: true,
-                            padFractionalZeros: true
-                        }
-                    }
-                };
-            }
-
-            // Adiciona atributos mobile-friendly para valores monetários
-            if (isMobile) {
-                element.setAttribute('inputmode', 'decimal');
-            }
-
-            // Verifica se IMask está disponível
-            if (typeof IMask === 'undefined') {
-                console.error('IMask.js não foi carregado! Verifique a ordem dos scripts.');
-                return;
-            }
-
-            // Limpa valor placeholder antes de aplicar máscara
-            var valorOriginal = element.value;
-            if (valorOriginal && (valorOriginal.includes('__') || valorOriginal.match(/^[_\s\-\(\)\/\.]+$/))) {
-                element.value = '';
-            }
-
-            // Cria instância do IMask
-            try {
-                var maskInstance = IMask(element, maskConfig);
-                if (!maskInstance) {
-                    console.error('Falha ao criar instância IMask para:', element.id || element.name, 'Pattern:', pattern);
-                    return;
-                }
-                maskInstances.set(element, maskInstance);
-                
-                // Se havia valor original válido (não placeholder), restaura e formata
-                if (valorOriginal && valorOriginal.trim() !== '' && !valorOriginal.match(/^[_\s\-\(\)\/\.]+$/)) {
-                    element.value = valorOriginal;
-                    maskInstance.updateValue();
-                }
-
-                // Configura valor inicial se houver
-                if ($element.val()) {
-                    maskInstance.value = $element.val();
-                }
-
-                // Força atualização em mobile após foco
-                if (isMobile) {
-                    element.addEventListener('focus', function() {
-                        maskInstance.updateValue();
-                    });
-                    element.addEventListener('blur', function() {
-                        maskInstance.updateValue();
-                    });
-                }
-            } catch (e) {
-                console.error('Erro ao aplicar maskMoney:', e);
-                console.error('Config:', maskConfig);
-            }
-        });
-    };
+    // maskMoney não é convertido - continua usando a biblioteca original jquery.maskMoney
+    // A biblioteca original será carregada antes deste adapter e não será sobrescrita
 
     /**
      * Método para remover máscara
@@ -463,20 +348,15 @@
     // Garantir que o adapter seja aplicado mesmo se bibliotecas antigas carregarem depois
     // Sobrescreve novamente após um pequeno delay para garantir precedência
     var adapterMask = $.fn.mask;
-    var adapterMaskMoney = $.fn.maskMoney;
     
     var protectAdapter = function() {
-        // Verifica periodicamente se as funções foram sobrescritas
+        // Verifica periodicamente se a função foi sobrescrita
         setInterval(function() {
-            // Se as funções foram sobrescritas, restaura o adapter
+            // Se a função foi sobrescrita, restaura o adapter
             if ($.fn.mask !== adapterMask) {
-                console.warn('PixelMaskAdapter: $.fn.mask foi sobrescrito, restaurando...');
                 $.fn.mask = adapterMask;
             }
-            if ($.fn.maskMoney !== adapterMaskMoney) {
-                console.warn('PixelMaskAdapter: $.fn.maskMoney foi sobrescrito, restaurando...');
-                $.fn.maskMoney = adapterMaskMoney;
-            }
+            // maskMoney não é protegido - usa a biblioteca original
         }, 300);
     };
     
@@ -584,26 +464,6 @@
     window.reapplyMasks = function(container) {
         reapplyMasksInContainer(container || document.body);
     };
-
-    // Log de inicialização
-    if (typeof console !== 'undefined' && console.log) {
-        var imaskLoaded = typeof IMask !== 'undefined';
-        var jqueryLoaded = typeof $ !== 'undefined';
-        
-        console.log('PixelMaskAdapter inicializado', {
-            mobile: isMobile,
-            imaskLoaded: imaskLoaded,
-            jqueryLoaded: jqueryLoaded,
-            status: (imaskLoaded && jqueryLoaded) ? 'OK' : 'ERRO'
-        });
-        
-        if (!imaskLoaded) {
-            console.error('ERRO: IMask.js não foi carregado! Verifique se o script está incluído antes do adapter.');
-        }
-        if (!jqueryLoaded) {
-            console.error('ERRO: jQuery não foi carregado!');
-        }
-    }
 
 })(jQuery);
 
