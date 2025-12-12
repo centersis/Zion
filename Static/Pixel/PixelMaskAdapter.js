@@ -23,6 +23,19 @@
     var maskInstances = new WeakMap();
 
     /**
+     * Verifica se o elemento é um campo de upload (file input)
+     * Campos de upload não podem ter máscara aplicada
+     * @param {HTMLElement} element - Elemento a verificar
+     * @returns {boolean} - true se for campo de upload
+     */
+    function isFileInput(element) {
+        if (!element || element.tagName !== 'INPUT') {
+            return false;
+        }
+        return element.type === 'file' || element.type === 'FILE';
+    }
+
+    /**
      * Converte padrão jquery.mask para IMask
      * @param {string} pattern - Padrão no formato jquery.mask (ex: "999.999.999-99")
      * @returns {object} - Configuração IMask
@@ -155,6 +168,11 @@
         return this.each(function() {
             var element = this;
             var $element = $(element);
+
+            // Não aplica máscara em campos de upload (file input)
+            if (isFileInput(element)) {
+                return;
+            }
 
             // Remove máscara anterior se existir
             if (maskInstances.has(element)) {
@@ -387,6 +405,10 @@
     $(document).ready(function() {
         // Reaplica máscaras em elementos que podem ter sido criados antes do adapter
         $('[data-mask]').each(function() {
+            // Não aplica máscara em campos de upload
+            if (isFileInput(this)) {
+                return;
+            }
             var pattern = $(this).data('mask');
             if (pattern) {
                 $(this).mask(pattern);
@@ -406,6 +428,11 @@
             $container.find('input, textarea').each(function() {
                 var $element = $(this);
                 var element = this;
+                
+                // Não aplica máscara em campos de upload
+                if (isFileInput(element)) {
+                    return;
+                }
                 
                 // Se já tem instância de máscara, ignora
                 if (maskInstances.has(element)) {
