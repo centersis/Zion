@@ -7,7 +7,7 @@
  * 
  * Nota: jquery.maskMoney continua usando a biblioteca original (não é convertida)
  * 
- * @version 1.2.0
+ * @version 1.3.0
  * @requires IMask.js v7.x
  * @requires jQuery
  */
@@ -124,16 +124,6 @@
             '(99) ?99999-9999': {
                 mask: [
                     { 
-                        mask: '(00) 0000-0000',
-                        lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
-                        autofix: true,
-                        overwrite: true,
-                        placeholderChar: '', // Sem placeholder char
-                        prepare: function (str) {
-                            return str.replace(/[^\d]/g, '');
-                        }
-                    },
-                    { 
                         mask: '(00) 00000-0000',
                         lazy: true, // Sempre lazy inicialmente para não mostrar placeholders
                         autofix: true,
@@ -142,7 +132,7 @@
                         prepare: function (str) {
                             return str.replace(/[^\d]/g, '');
                         }
-                    }
+                    }                    
                 ]
             },
             // Data: 99/99/9999 (simplificado para evitar problemas com IMask.MaskedRange)
