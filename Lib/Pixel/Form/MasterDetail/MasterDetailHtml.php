@@ -217,6 +217,7 @@ class MasterDetailHtml {
                 $offsetColunaA = $configuracao->getOffsetColuna();
                 $this->buffer['offsetColunaA'][$nomeOriginal] = $offsetColunaA;
                 $this->buffer['offsetColunaB'][$nomeOriginal] = (12 - $offsetColunaA);
+                $this->buffer['semDescricao'][$nomeOriginal] = ($offsetColunaA === 0);
             }
 
             if (\method_exists($configuracao, 'getIdentifica')) {

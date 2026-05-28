@@ -431,6 +431,7 @@ class Form extends FormZion
                 $buffer['colunas'][$nome] = $colunas;
                 $buffer['offsetColunaA'][$nome] = $offsetColunaA;
                 $buffer['offsetColunaB'][$nome] = (12 - $offsetColunaA);
+                $buffer['semDescricao'][$nome] = ($offsetColunaA === 0);
 
                 if (\method_exists($this->objetos[$nome], 'getIdentifica')) {
                     $buffer['identifica'][$nome] = $this->objetos[$nome]->getIdentifica();

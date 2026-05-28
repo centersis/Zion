@@ -56,18 +56,19 @@ class FormSetPixel
     }
 
     /**
-     * Seta o número de colunas que a descrição do campo deve ter 
-     * os valores válidos são de 1 a 11
+     * Seta o número de colunas que a descrição do campo deve ter
+     * os valores válidos são de 0 a 11. Quando 0 é informado, a coluna
+     * da descrição é omitida e o campo ocupa toda a linha.
      * @param int | null $offsetColuna
      * @return int | null
      * @throws ErrorException
      */
     public function setOffsetColuna($offsetColuna)
     {
-        if (\is_null($offsetColuna) or \in_array($offsetColuna, \range(1, 11))) {
+        if (\is_null($offsetColuna) or \in_array($offsetColuna, \range(0, 11), true)) {
             return $offsetColuna;
         } else {
-            throw new ErrorException("offsetColuna: Use variação de 1 a 11");
+            throw new ErrorException("offsetColuna: Use variação de 0 a 11");
         }
     }
 

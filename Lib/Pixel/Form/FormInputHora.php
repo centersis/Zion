@@ -104,7 +104,7 @@ class FormInputHora extends FormInputHoraZion
 
     public function getOffsetColuna()
     {
-        return $this->offsetColuna ? $this->offsetColuna : 3;
+        return \is_null($this->offsetColuna) ? 3 : $this->offsetColuna;
     }
 
     public function setProcessarJS($processarJS)
