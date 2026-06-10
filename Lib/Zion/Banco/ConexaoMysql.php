@@ -29,6 +29,9 @@ class ConexaoMysql
         $this->arrayExcecoes[3] = "A query SQL esta vazia.";
         $this->arrayExcecoes[4] = "Array de querys inválido.";
 
+        $charset = 'utf8mb4';
+        $collation = 'utf8mb4_general_ci';
+
         if ($host) {
             $cHost = $host;
             $cUsuario = $usuario;
@@ -41,10 +44,16 @@ class ConexaoMysql
             $cUsuario = $namespace::$SIS_CFG['bases'][$banco]['usuario'];
             $cSenha = $namespace::$SIS_CFG['bases'][$banco]['senha'];
             $cBanco = $namespace::$SIS_CFG['bases'][$banco]['banco'];
+            $charset = $namespace::$SIS_CFG['bases'][$banco]['charset'] ?? 'utf8mb4';
+            $collation = $namespace::$SIS_CFG['bases'][$banco]['collation'] ?? 'utf8mb4_general_ci';
         }
 
         self::$link[$banco] = new \mysqli($cHost, $cUsuario, $cSenha, $cBanco);
-        self::$link[$banco]->set_charset("utf8");
+        self::$link[$banco]->set_charset($charset);
+
+        if ($collation && \preg_match('/^[a-zA-Z0-9_]+$/', $collation)) {
+            self::$link[$banco]->query('SET collation_connection = \'' . $collation . '\'');
+        }
     }
 
     private function getExcecao($cod)

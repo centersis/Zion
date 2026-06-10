@@ -42,6 +42,9 @@ class Conexao
 
         $this->log = true;
 
+        $charset = 'utf8mb4';
+        $collation = 'utf8mb4_general_ci';
+
         if ($host) {
             $cHost = $host;
             $cUsuario = $usuario;
@@ -57,7 +60,8 @@ class Conexao
             $cSenha = $namespace::$SIS_CFG['bases'][$banco]['senha'];
             $cBanco = $namespace::$SIS_CFG['bases'][$banco]['banco'];
             $cDriver = $namespace::$SIS_CFG['bases'][$banco]['driver'];
-            $charset = $namespace::$SIS_CFG['bases'][$banco]['charset'] ?? 'utf8';
+            $charset = $namespace::$SIS_CFG['bases'][$banco]['charset'] ?? 'utf8mb4';
+            $collation = $namespace::$SIS_CFG['bases'][$banco]['collation'] ?? 'utf8mb4_general_ci';
         }
 
         $config = new Configuration();
@@ -77,12 +81,29 @@ class Conexao
             'portability' => Connection::PORTABILITY_ALL,
             'fetch_case' => \PDO::CASE_LOWER,
             'driverOptions' => [
-                1002 => 'SET NAMES ' . $charset
+                1002 => self::montarSetNames($charset, $collation)
             ]
         ];
 
     
         self::$link[$banco] = DriverManager::getConnection($connectionParams, $config);
+    }
+
+    /**
+     * Monta o comando SET NAMES com charset e collation opcional.
+     * MariaDB 11+ usa utf8mb4_uca1400_ai_ci por padrão; sem COLLATE explícito
+     * literais do PHP podem divergir da collation das colunas (erro 1267).
+     */
+    private static function montarSetNames($charset, $collation = null)
+    {
+        $charset = \preg_replace('/[^a-zA-Z0-9_]/', '', $charset);
+        $setNames = 'SET NAMES ' . $charset;
+
+        if ($collation && \preg_match('/^[a-zA-Z0-9_]+$/', $collation)) {
+            $setNames .= ' COLLATE ' . $collation;
+        }
+
+        return $setNames;
     }
 
     /**
